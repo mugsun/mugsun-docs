@@ -12,9 +12,6 @@ hero:
       text: Get started
       link: /en/guide/getting-started
     - theme: alt
-      text: Install Track
-      link: /en/track/install
-    - theme: alt
       text: GitHub
       link: https://github.com/mugsun
 features:
