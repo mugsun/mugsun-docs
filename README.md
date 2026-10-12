@@ -1,3 +1,5 @@
+![mugsun-docs](https://raw.githubusercontent.com/mugsun/mugsun-docs/main/public/brand/banners/repos/mugsun-docs.png)
+
 # mugsun-docs
 
 [![Site](https://img.shields.io/badge/docs-docs.mugsun.com-3e63dd)](https://docs.mugsun.com/)
