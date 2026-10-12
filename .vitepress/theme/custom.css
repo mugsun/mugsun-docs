@@ -50,3 +50,99 @@
 .VPHome .vp-doc table {
   margin-top: 0.5rem;
 }
+
+/* TMUI-style fixed phone frame for ms-ui component demos */
+.ms-demo-phone {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  width: 375px;
+  max-width: calc(100vw - 32px);
+  font-family: var(--vp-font-family-base);
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-elv);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 18px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+
+.ms-demo-phone--collapsed {
+  width: auto;
+  min-width: 160px;
+}
+
+.ms-demo-phone__chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+}
+
+.ms-demo-phone__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+}
+
+.ms-demo-phone__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ms-demo-phone__open,
+.ms-demo-phone__toggle {
+  appearance: none;
+  border: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ms-demo-phone__open:hover,
+.ms-demo-phone__toggle:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+}
+
+.ms-demo-phone__bezel {
+  width: 375px;
+  height: 667px;
+  max-height: min(667px, calc(100vh - 120px));
+  background: #000;
+}
+
+.ms-demo-phone__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--vp-c-bg);
+}
+
+@media (max-width: 1280px) {
+  .ms-demo-phone {
+    right: 12px;
+    bottom: 12px;
+    transform: scale(0.92);
+    transform-origin: bottom right;
+  }
+}
+
+@media (max-width: 960px) {
+  /* Keep reading space on tablets/phones; open via ↗ if needed */
+  .ms-demo-phone {
+    display: none;
+  }
+}
+

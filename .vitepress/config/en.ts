@@ -10,6 +10,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'Admin', link: '/en/pc/', activeMatch: '/en/pc/' },
       { text: 'Track', link: '/en/track/', activeMatch: '/en/track/' },
       { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
+      { text: 'ms-ui', link: '/uniappx/', activeMatch: '/uniappx/' },
       { text: 'Demo', link: '/en/demo' },
       { text: 'Changelog', link: '/en/changelog' },
     ],
@@ -63,7 +64,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       ],
     },
     footer: {
-      message: 'Open source: boot · core · pc · track. cloud / uniappx-ui are planned.',
+      message: 'Open source: boot · core · pc · track. ms-ui component docs (Chinese first).',
       copyright: 'Copyright © 2026 mugsun',
     },
   },
