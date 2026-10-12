@@ -3,8 +3,8 @@
 **Q：有没有在线演示？**  
 A：暂无。请按 [快速开始](/guide/getting-started) 本地启动。见 [演示](/demo)。
 
-**Q：和若依 / Jeecg 什么关系？**  
-A：定位不同。mugsun 强调嵌入式埋点竖切与可选 GIS/AI，不做功能墙低代码。禁止宣传「兼容 / 替代某某商业套件」。
+**Q：mugsun 的定位是什么？**  
+A：全栈平台，强调嵌入式埋点竖切与可选 GIS/AI，不做功能墙低代码。禁止宣传「兼容 / 替代某某商业套件」。
 
 **Q：cloud / uniappx-ui / ms-ui 怎么装？**  
 A：cloud（微服务）仍规划中，尚未开放安装。**ms-ui** 是 uni-app x 跨端组件库（不是 PC 管理台），文档见 [ms-ui](/uniappx/)；源码仓 `mugsun-uniappx-ui` 目前为私有。
