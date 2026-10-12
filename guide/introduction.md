@@ -8,12 +8,13 @@ mugsun 是面向中小团队的**可私有化**中后台底座：多租户、国
 - 管理台 [mugsun-pc](https://github.com/mugsun/mugsun-pc)：Vue 3 + TypeScript + Element Plus
 - 埋点 [mugsun-track](https://github.com/mugsun/mugsun-track)：插件化 Web SDK（核心体积目标 gzip ≤ 8KB）
 - 底座 [mugsun-core](https://github.com/mugsun/mugsun-core)：BOM 与 starter
+- 跨端 UI **ms-ui**（uni-app x）：组件文档见 [ms-ui](/uniappx/)；源码仓 `mugsun-uniappx-ui` 目前为私有
 
 ## 不是什么
 
 - 不是大而全低代码平台（不对标「模块墙」式后台）
 - 不是公有云埋点 SaaS（分析能力随私有化部署带走）
-- 微服务版 cloud、uniappx-ui 组件库仍为**规划中**，本站不提供安装教程装成已交付
+- 微服务版 **cloud** 仍为**规划中**，本站不提供安装教程装成已交付
 
 ## 和常见开源后台的差异
 

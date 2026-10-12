@@ -147,7 +147,7 @@
 | [Drag 拖拽](/uniappx/components/drag) | `ms-drag` |
 | [Drag Item 拖拽项](/uniappx/components/drag-item) | `ms-drag-item` |
 | [Finger 手势](/uniappx/components/finger) | `ms-finger` |
-| [View Tofull 全屏](/uniappx/components/view-tofull) | `ms-view-tofull` |
+| [View To Full 全屏](/uniappx/components/view-tofull) | `ms-view-tofull` |
 
 ## 可选插件
 
@@ -158,7 +158,7 @@
 | [Chart 图表](/uniappx/components/chart) | `ms-chart` · 可选插件 |
 | [Editor 编辑](/uniappx/components/editor) | `ms-editor` · 可选插件 |
 | [Graph 关系图](/uniappx/components/graph) | `ms-graph` · 可选插件 |
-| [Markdown Markdown](/uniappx/components/markdown) | `ms-markdown` · 可选插件 |
+| [Markdown](/uniappx/components/markdown) | `ms-markdown` · 可选插件 |
 | [Svg 矢量](/uniappx/components/svg) | `ms-svg` · 可选插件 |
 | [Webview 网页](/uniappx/components/webview) | `ms-webview` · 可选插件 |
 

@@ -1,13 +1,17 @@
-# 演示
+# 演示说明
 
-## 在线演示
+本页说明「什么已上线、什么还没有」，避免和顶栏入口误解成整站可点演示。
 
-**暂未上线。** 本页不放置失效外链，也不假装已有公网地址。
+## 管理台 / 埋点全链路
 
-## 本地替代
+**暂无公网可点演示。** 请按 [快速开始](/guide/getting-started) 本地拉起 boot（及可选 pc），账号以 [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 为准，**首次登录请改密**。
 
-1. 按 [快速开始](/guide/getting-started) 启动 boot（及可选 pc）。
-2. 使用 [mugsun-boot README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 中的演示账号登录，**并立即改密**。
-3. 对外展示时，自行部署只读环境，使用非生产密钥。
+## ms-ui · uni-app x 组件 H5
 
-下一步：[快速开始](/guide/getting-started) · [安全清单](/boot/security-checklist)
+组件文档页右下角有手机框，嵌入本站托管的 H5 预览（`/demo/index.html`）。例如打开 [Button](/uniappx/components/button)，即可在框内切换组件演示。
+
+也可直接访问完整 H5 入口：[打开 ms-ui 演示](/demo/index.html)（新标签页）。
+
+## 对外展示
+
+自行部署只读环境，使用非生产密钥。下一步：[快速开始](/guide/getting-started) · [安全清单](/boot/security-checklist) · [ms-ui](/uniappx/)

@@ -9,8 +9,6 @@ type Orientation = 'portrait' | 'landscape'
 const collapsed = ref(false)
 const closed = ref(false)
 const orientation = ref<Orientation>('portrait')
-const qrOpen = ref(false)
-
 const demoPath = computed(() => {
   const raw = frontmatter.value.demo
   if (typeof raw !== 'string' || !raw.trim()) return ''
@@ -25,29 +23,12 @@ const iframeSrc = computed(() => {
   return `${withBase('/demo/index.html')}#/${demoPath.value}`
 })
 
-const absoluteDemoUrl = computed(() => {
-  if (typeof window === 'undefined' || !iframeSrc.value) return iframeSrc.value
-  try {
-    return new URL(iframeSrc.value, window.location.origin).href
-  } catch {
-    return iframeSrc.value
-  }
-})
-
-const qrStubUrl = computed(() => {
-  // Optional stub: third-party QR image of absolute demo URL (no real scanner flow yet)
-  const target = absoluteDemoUrl.value || iframeSrc.value
-  if (!target) return ''
-  return `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(target)}`
-})
-
 watch(
   () => page.value.relativePath,
   () => {
     collapsed.value = false
     closed.value = false
     orientation.value = 'portrait'
-    qrOpen.value = false
   },
 )
 
@@ -57,7 +38,6 @@ function toggleOrientation() {
 
 function collapse() {
   collapsed.value = true
-  qrOpen.value = false
 }
 
 function expand() {
@@ -68,7 +48,6 @@ function expand() {
 function closePanel() {
   closed.value = true
   collapsed.value = false
-  qrOpen.value = false
 }
 
 /** Same-origin /demo/ — hide scrollbars visually, keep overflow scroll. */
@@ -152,15 +131,6 @@ watch(iframeSrc, () => {
           >
             {{ orientation === 'portrait' ? '⇄' : '⇅' }}
           </button>
-          <button
-            type="button"
-            class="ms-demo-phone__tool"
-            title="扫码预览（占位）"
-            :aria-expanded="qrOpen.toString()"
-            @click="qrOpen = !qrOpen"
-          >
-            ▦
-          </button>
           <a
             class="ms-demo-phone__tool"
             :href="iframeSrc"
@@ -185,19 +155,6 @@ watch(iframeSrc, () => {
             ×
           </button>
         </div>
-      </div>
-
-      <div v-if="qrOpen" class="ms-demo-phone__qr">
-        <img
-          v-if="qrStubUrl"
-          class="ms-demo-phone__qr-img"
-          :src="qrStubUrl"
-          alt="演示页二维码（占位）"
-          width="160"
-          height="160"
-        />
-        <p class="ms-demo-phone__qr-tip">手机扫码打开当前演示（占位 QR）</p>
-        <code class="ms-demo-phone__qr-url">{{ absoluteDemoUrl }}</code>
       </div>
 
       <div class="ms-demo-phone__bezel">

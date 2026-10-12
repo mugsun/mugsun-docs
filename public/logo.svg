@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2049" height="800" viewBox="0 0 2049 800">
-<rect width="2049" height="800" fill="#FFFFFF"/><svg x="260" y="180.0" width="440" height="440" viewBox="0 0 1024 1024"><defs>
+<svg x="260" y="180.0" width="440" height="440" viewBox="0 0 1024 1024"><defs>
 <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161616"/><stop offset="0.55" stop-color="#0B0B0B"/><stop offset="1" stop-color="#060606"/></linearGradient>
 <radialGradient id="glow" cx="512" cy="716.5100994552038" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 716.5100994552038) scale(520 177.8) translate(-512 -716.5100994552038)">
 <stop offset="0" stop-color="#FFC27A" stop-opacity="0.95"/><stop offset="0.3" stop-color="#F2A35C" stop-opacity="0.38"/><stop offset="0.65" stop-color="#C9803F" stop-opacity="0.09"/><stop offset="1" stop-color="#E8A86A" stop-opacity="0"/></radialGradient>

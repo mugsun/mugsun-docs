@@ -38,11 +38,12 @@ features:
 | --- | --- | --- |
 | [boot](/boot/) | Spring Boot 3.5 模块化后端 | 免费开源 |
 | [pc](/pc/) | Vue3 + Element Plus 管理台 | 免费开源 |
-| [track](/track/) | 轻量 Web 埋点 SDK + 服务端 + 看板 | 免费开源（招牌） |
+| [track](/track/) | 轻量 Web 埋点 SDK + 服务端 + 看板 | 免费开源 |
 | [core](/core/) | BOM 与 starter | 免费开源 |
 | cloud | 微服务版 | <span class="soon">规划中</span> |
 | [ms-ui](/uniappx/) | uni-app x 跨端组件库（非 PC 管理台） | 文档已开放 |
 
 ## 演示
 
-当前**没有**公网可点演示。请按 [快速开始](/guide/getting-started) 本地拉起；演示账号与口令以 boot README 为准，**首次登录请改密**。说明见 [演示](/demo)。
+- **管理台 / 埋点**：暂无公网可点演示，请按 [快速开始](/guide/getting-started) 本地拉起；账号以 boot README 为准，**首次登录请改密**。
+- **ms-ui 组件**：文档页右下角手机框可预览 H5；说明见 [演示说明](/demo)。

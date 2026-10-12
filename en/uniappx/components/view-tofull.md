@@ -5,7 +5,7 @@ demo: pages/demo/media/view-tofull
 
 # View To Full
 
-`ms-view-tofull` — View Tofull for uni-app x.
+`ms-view-tofull` — fullscreen container helper for uni-app x.
 
 Part of **ms-ui · uni-app x** (not the PC admin UI).
 

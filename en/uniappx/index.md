@@ -147,7 +147,7 @@ Component pages can show an H5 phone preview when a demo route exists.
 | [Drag](/en/uniappx/components/drag) | `ms-drag` |
 | [Drag Item](/en/uniappx/components/drag-item) | `ms-drag-item` |
 | [Finger](/en/uniappx/components/finger) | `ms-finger` |
-| [View Tofull](/en/uniappx/components/view-tofull) | `ms-view-tofull` |
+| [View To Full](/en/uniappx/components/view-tofull) | `ms-view-tofull` |
 
 ## Optional plugins
 
