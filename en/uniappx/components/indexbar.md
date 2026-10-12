@@ -7,6 +7,8 @@ demo: pages/demo/nav/indexbar
 
 `ms-indexbar` — Indexbar for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-indexbar`).
 Demo route: `#/pages/demo/nav/indexbar`.
 

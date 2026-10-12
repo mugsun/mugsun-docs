@@ -7,6 +7,8 @@ demo: pages/demo/basic/image
 
 `ms-image` — Image for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image`).
 Demo route: `#/pages/demo/basic/image`.
 

@@ -7,6 +7,8 @@ demo: pages/demo/form/checkbox
 
 `ms-checkbox-group` — Checkbox Group for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-checkbox-group`).
 Demo route: `#/pages/demo/form/checkbox`.
 

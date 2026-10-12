@@ -7,6 +7,8 @@ demo: pages/demo/nav/tabs
 
 `ms-tabs`：选项卡：line / tag / card；均分或横向滚动；徽标；内容区。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-tabs`）。
 演示路由：`#/pages/demo/nav/tabs`。
 

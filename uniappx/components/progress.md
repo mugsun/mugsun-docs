@@ -7,6 +7,8 @@ demo: pages/demo/display/progress
 
 `ms-progress`：进度条：线形 / 内显 / 环形；`percentage` + `status` + 可选 `label`。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-progress`）。
 演示路由：`#/pages/demo/display/progress`。
 

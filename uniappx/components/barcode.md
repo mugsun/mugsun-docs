@@ -7,6 +7,8 @@ demo: pages/demo/display/barcode
 
 `ms-barcode`：文本 → 一维条码（标准码表自写 + view 竖条）。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-barcode`）。
 演示路由：`#/pages/demo/display/barcode`。
 

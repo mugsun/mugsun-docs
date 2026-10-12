@@ -7,6 +7,8 @@ demo: pages/demo/form/form
 
 `ms-form-item` — Form Item for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-form-item`).
 Demo route: `#/pages/demo/form/form`.
 

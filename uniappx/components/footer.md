@@ -7,6 +7,8 @@ demo: pages/demo/nav/footer
 
 `ms-footer`：页脚：版权 / 链接 / 品牌；默认插槽自定义内容。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-footer`）。
 演示路由：`#/pages/demo/nav/footer`。
 

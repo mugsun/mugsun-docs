@@ -7,6 +7,8 @@ demo: pages/demo/basic/tag
 
 `ms-tag`：类目/状态标签。`theme` / `variant` / `size` / `shape` / `closable` / `disabled` / `icon` / `checkable` / `maxWidth`。按压用 opacity（禁 scale）。嵌套 ms-icon 须 `pressable=false`。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-tag`）。
 演示路由：`#/pages/demo/basic/tag`。
 

@@ -7,6 +7,8 @@ demo: pages/demo/display/avatar
 
 `ms-avatar`：单头像：图片 / 字符 / 图标。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-avatar`）。
 演示路由：`#/pages/demo/display/avatar`。
 

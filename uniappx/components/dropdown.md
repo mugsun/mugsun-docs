@@ -7,6 +7,8 @@ demo: pages/demo/nav/dropdown
 
 `ms-dropdown`：下拉筛选菜单。`menus`（菜单栏）+ 扁平 `options`（用 `menu` 下标关联）驱动，单组件无子组件注册。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-dropdown`）。
 演示路由：`#/pages/demo/nav/dropdown`。
 

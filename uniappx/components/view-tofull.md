@@ -7,6 +7,8 @@ demo: pages/demo/media/view-tofull
 
 `ms-view-tofull`：点击区域展开至全屏，关闭回落原位。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-view-tofull`）。
 演示路由：`#/pages/demo/media/view-tofull`。
 

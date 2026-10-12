@@ -7,6 +7,8 @@ demo: pages/demo/feedback/upload
 
 `ms-upload`：图片宫格上传。规格卡 `reference/specs/p1-ms-upload.md`，审计规格 `reference/specs/component-audits/p1-ms-upload.json`。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-upload`）。
 演示路由：`#/pages/demo/feedback/upload`。
 

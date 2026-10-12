@@ -7,6 +7,8 @@ demo: pages/demo/display/tree-select
 
 `ms-tree-select`：多列树形选择：按 `options` 实际深度渲染 2~3 列（最多 3 列），左栏导航 + 中间列下钻 + 末列单选/多选。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-tree-select`）。
 演示路由：`#/pages/demo/display/tree-select`。
 

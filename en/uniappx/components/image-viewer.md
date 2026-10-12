@@ -7,6 +7,8 @@ demo: pages/demo/display/image-viewer
 
 `ms-image-viewer` — Image Viewer for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image-viewer`).
 Demo route: `#/pages/demo/display/image-viewer`.
 

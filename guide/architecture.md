@@ -23,6 +23,6 @@ mugsun-pc (管理台：系统 / 埋点看板 / GIS / AI …)
 - `MUGSUN_TRACK_ENABLED=false`
 - `MUGSUN_AI_ENABLED=false`
 
-cloud（微服务）与 uniappx-ui（移动组件）**规划中**，不在当前免费交付边界内。
+cloud（微服务）仍**规划中**。**ms-ui**（uni-app x 跨端组件，非 PC 管理台）文档已开放，见 [ms-ui](/uniappx/)。
 
 下一步：[快速开始](/guide/getting-started) · [Boot 配置](/boot/configuration) · [第一个事件](/track/first-event)

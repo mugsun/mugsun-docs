@@ -7,6 +7,8 @@ demo: pages/demo/media/blur
 
 `ms-blur`: Frosted overlay: translucent tint (light/dark) for functional masks on sheets, toolbars, and image captions (not decorative glassmorphism).
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-blur/components/ms-blur`).
 Optional plugin: install `uni_modules/ms-blur` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/blur`.

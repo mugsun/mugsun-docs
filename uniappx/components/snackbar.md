@@ -7,6 +7,8 @@ demo: pages/demo/feedback/snackbar
 
 `ms-snackbar`：顶部/底部消息条：浅色语义底 + 图标 + 文案，可带关闭或操作按钮，到时自动关。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-snackbar`）。
 演示路由：`#/pages/demo/feedback/snackbar`。
 

@@ -7,6 +7,8 @@ demo: pages/demo/media/barrage
 
 `ms-barrage`：弹幕层，叠在默认 slot 内容上。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-barrage`）。
 演示路由：`#/pages/demo/media/barrage`。
 

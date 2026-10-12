@@ -7,6 +7,8 @@ demo: pages/demo/form/radio
 
 `ms-radio`：单选项：填充 / 描边 / 圆点三种选框形态，选框可放左或右。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-radio`）。
 演示路由：`#/pages/demo/form/radio`。
 

@@ -7,6 +7,8 @@ demo: pages/demo/basic/loading
 
 `ms-loading`：加载：原生 `<loading>` + 文案；横/竖布局；tone；默认插槽优先于 text。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-loading`）。
 演示路由：`#/pages/demo/basic/loading`。
 

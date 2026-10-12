@@ -7,6 +7,8 @@ demo: pages/demo/feedback/notice-bar
 
 `ms-notice-bar` — Notice Bar for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-notice-bar`).
 Demo route: `#/pages/demo/feedback/notice-bar`.
 

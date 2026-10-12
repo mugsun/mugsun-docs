@@ -7,6 +7,8 @@ demo: pages/demo/feedback/toast
 
 `ms-toast` — Toast for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-toast`).
 Demo route: `#/pages/demo/feedback/toast`.
 

@@ -7,6 +7,8 @@ demo: pages/demo/display/card
 
 `ms-card` — Card for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-card`).
 Demo route: `#/pages/demo/display/card`.
 

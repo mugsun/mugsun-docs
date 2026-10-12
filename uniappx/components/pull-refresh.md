@@ -7,6 +7,8 @@ demo: pages/demo/feedback/pull-refresh
 
 `ms-pull-refresh`：包装 `scroll-view` 内置 `refresher-*`，不手搓 touch —— TDesign 那套 `translate3d` 位移在蒸汽下违红线，且 `refresher-max-drag-distance` 在 Web/微信都不支持，手搓等于必须自己写位移。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-pull-refresh`）。
 演示路由：`#/pages/demo/feedback/pull-refresh`。
 

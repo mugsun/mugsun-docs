@@ -7,6 +7,8 @@ demo: pages/demo/display/watermark
 
 `ms-watermark`：区域文字水印（view 平铺，无 canvas）。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-watermark`）。
 演示路由：`#/pages/demo/display/watermark`。
 

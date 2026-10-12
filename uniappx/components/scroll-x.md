@@ -7,6 +7,8 @@ demo: pages/demo/display/scroll-x
 
 `ms-scroll-x`：横向滚动容器（`scroll-view direction="horizontal"`）+ 底部进度指示条。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-scroll-x`）。
 演示路由：`#/pages/demo/display/scroll-x`。
 

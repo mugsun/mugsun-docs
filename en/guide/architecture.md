@@ -23,6 +23,6 @@ Runtime flags (classes may still be on the classpath):
 - `MUGSUN_TRACK_ENABLED=false`
 - `MUGSUN_AI_ENABLED=false`
 
-cloud and uniappx-ui are **planned**, outside the current free delivery boundary.
+cloud remains **planned**. **ms-ui** (uni-app x cross-platform UI, not the PC admin) docs are live — see [ms-ui](/en/uniappx/).
 
 Next: [Getting started](/en/guide/getting-started) · [Boot configuration](/en/boot/configuration) · [First event](/en/track/first-event)

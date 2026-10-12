@@ -7,6 +7,8 @@ demo: pages/demo/display/text-cloud
 
 `ms-text-cloud` — Text Cloud for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-text-cloud`).
 Demo route: `#/pages/demo/display/text-cloud`.
 

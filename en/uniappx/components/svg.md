@@ -7,6 +7,8 @@ demo: pages/demo/media/svg
 
 `ms-svg`: SVG display: fixed-size container + official `<image>`; supports inline source and recoloring.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-svg/components/ms-svg`).
 Optional plugin: install `uni_modules/ms-svg` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/svg`.

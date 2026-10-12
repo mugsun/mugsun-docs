@@ -7,6 +7,8 @@ demo: pages/demo/form/code-input
 
 `ms-code-input` — Code Input for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-code-input`).
 Demo route: `#/pages/demo/form/code-input`.
 

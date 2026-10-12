@@ -10,14 +10,14 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'Admin', link: '/en/pc/', activeMatch: '/en/pc/' },
       { text: 'Track', link: '/en/track/', activeMatch: '/en/track/' },
       { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
-      { text: 'ms-ui', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
+      { text: 'ms-ui · uni-app x', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
       { text: 'Demo', link: '/en/demo' },
       { text: 'Changelog', link: '/en/changelog' },
     ],
     sidebar: {
       '/en/uniappx/': [
         {
-          text: 'ms-ui',
+          text: 'ms-ui · uni-app x',
           items: [
             { text: 'Overview', link: '/en/uniappx/' },
           ],
@@ -233,7 +233,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       ],
     },
     footer: {
-      message: 'Open source: boot · core · pc · track. ms-ui component docs available in English and Chinese.',
+      message: 'Open source: boot · core · pc · track. ms-ui (uni-app x) component docs available in English and Chinese.',
       copyright: 'Copyright © 2026 mugsun',
     },
   },

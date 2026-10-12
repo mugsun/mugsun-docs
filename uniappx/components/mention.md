@@ -7,6 +7,8 @@ demo: pages/demo/form/mention
 
 `ms-mention`：输入触发符（默认 `@`）弹候选面板，选中插入 `@名字 `；退格一次整词删掉一个提及。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-mention`）。
 演示路由：`#/pages/demo/form/mention`。
 
