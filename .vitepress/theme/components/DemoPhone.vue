@@ -70,6 +70,48 @@ function closePanel() {
   collapsed.value = false
   qrOpen.value = false
 }
+
+/** Same-origin /demo/ — hide scrollbars visually, keep overflow scroll. */
+const iframeRef = ref<HTMLIFrameElement | null>(null)
+
+const HIDE_SCROLLBAR_CSS = `
+html, body, #app,
+uni-app, uni-page, uni-page-wrapper, uni-page-body,
+.uni-scroll-view, .uni-scroll-view-content {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
+}
+`
+
+function hideIframeScrollbars() {
+  const iframe = iframeRef.value
+  if (!iframe) return
+  try {
+    const doc = iframe.contentDocument
+    if (!doc?.documentElement) return
+    let style = doc.getElementById('ms-demo-hide-scrollbar') as HTMLStyleElement | null
+    if (!style) {
+      style = doc.createElement('style')
+      style.id = 'ms-demo-hide-scrollbar'
+      ;(doc.head || doc.documentElement).appendChild(style)
+    }
+    style.textContent = HIDE_SCROLLBAR_CSS
+  } catch {
+    // cross-origin or not ready — ignore
+  }
+}
+
+watch(iframeSrc, () => {
+  // hash-only navigations may not re-fire load; re-apply after a tick
+  if (typeof window === 'undefined') return
+  requestAnimationFrame(() => hideIframeScrollbars())
+})
 </script>
 
 <template>
@@ -161,11 +203,13 @@ function closePanel() {
       <div class="ms-demo-phone__bezel">
         <div class="ms-demo-phone__notch" aria-hidden="true" />
         <iframe
+          ref="iframeRef"
           class="ms-demo-phone__frame"
           :src="iframeSrc"
           :title="`演示 ${demoPath}`"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
+          @load="hideIframeScrollbars"
         />
       </div>
     </aside>

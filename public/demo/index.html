@@ -16,8 +16,22 @@
 		<!--app-context-->
 		<script type="module" crossorigin src="/demo/assets/index-B8v9Vt6a.js"></script>
 		<link rel="stylesheet" crossorigin href="/demo/assets/index-CdhYKdai.css">
+		<style id="ms-demo-hide-scrollbar">
+			html, body, #app,
+			uni-app, uni-page, uni-page-wrapper, uni-page-body,
+			.uni-scroll-view, .uni-scroll-view-content {
+				scrollbar-width: none !important;
+				-ms-overflow-style: none !important;
+			}
+			*::-webkit-scrollbar {
+				width: 0 !important;
+				height: 0 !important;
+				display: none !important;
+				background: transparent !important;
+			}
+		</style>
 	</head>
 	<body>
-		<div id="app"><!--app-html--></div>
+		<div id="app"><!--app-html--></div>
 	</body>
 </html>
