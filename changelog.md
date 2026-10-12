@@ -11,7 +11,7 @@
 | [mugsun-docs](https://github.com/mugsun/mugsun-docs/releases) | 本站 |
 
 ::: tip
-各仓正在补齐 Keep a Changelog 与首个 tag。有正式版本后，重要变更会摘要到本页。在此之前，请直接查看各仓 commit 与 Releases。
+各仓根目录已提供中文 `CHANGELOG.md`（Keep a Changelog）。正式 GitHub Release / tag 择时补打；重要变更会继续摘要到本页。贡献与安全披露见 [mugsun/.github](https://github.com/mugsun/.github)。
 :::
 
 相关：[介绍](/guide/introduction) · [快速开始](/guide/getting-started)
