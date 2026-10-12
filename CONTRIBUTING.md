@@ -9,8 +9,8 @@
 ## 本仓要点
 
 - 默认分支：`main`
-- 提交信息：Conventional Commits，主题中文；详见 [`.github/COMMIT_CONVENTION.md`](./.github/COMMIT_CONVENTION.md)（若存在）
-- 变更记录：见 [CHANGELOG.md](./CHANGELOG.md)
+- 提交信息：Conventional Commits，主题中文；详见 [`.github/COMMIT_CONVENTION.md`](https://github.com/mugsun/mugsun-docs/blob/main/.github/COMMIT_CONVENTION.md)
+- 变更记录：见 [CHANGELOG.md](https://github.com/mugsun/mugsun-docs/blob/main/CHANGELOG.md)
 - 文档：[docs.mugsun.com](https://docs.mugsun.com/)
 - 文档站源码（VitePress），站点：https://docs.mugsun.com/
 - 内容变更直接推 `main`；GitHub Pages 自动部署
