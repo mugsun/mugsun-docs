@@ -12,9 +12,6 @@ hero:
       text: 快速开始
       link: /guide/getting-started
     - theme: alt
-      text: 接入埋点
-      link: /track/install
-    - theme: alt
       text: GitHub
       link: https://github.com/mugsun
 features:

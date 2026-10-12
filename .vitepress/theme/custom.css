@@ -19,8 +19,9 @@
 }
 
 .VPNavBarTitle .logo {
-  height: 28px;
-  /* no siteTitle text beside logo */
+  height: 64px;
+  width: auto;
+  /* match VPNavBar (~64px); no siteTitle text beside logo */
   margin-right: 0;
 }
 
