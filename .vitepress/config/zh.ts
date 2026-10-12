@@ -70,7 +70,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     darkModeSwitchTitle: '切换到深色',
     footer: {
       message: '免费开源：boot · core · pc · track。cloud / uniappx-ui 为规划中。',
-      copyright: 'Copyright © 2026 北京定旭晨信息科技工作室 · mugsun',
+      copyright: 'Copyright © 2026 mugsun',
     },
   },
 }
