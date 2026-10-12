@@ -28,14 +28,16 @@ pnpm docs:preview
 推送 `main` 后由 Actions 自动构建并发布。
 
 - 临时地址：<https://mugsun.github.io/mugsun-docs/>
-- 构建：`npm ci` → `DOCS_BASE=/mugsun-docs/ npm run docs:build`
+- 构建：`npm ci` → `DOCS_BASE=/ npm run docs:build`
 - 产物：`.vitepress/dist`
 - 工作流：`.github/workflows/deploy-docs.yml`
 
-本地若要模拟项目页路径：
+本地预览：
 
 ```bash
-DOCS_BASE=/mugsun-docs/ npm run docs:build && npm run docs:preview
+npm run docs:dev
+# 或
+DOCS_BASE=/ npm run docs:build && npm run docs:preview
 ```
 
 ### 自定义域 docs.mugsun.com
@@ -47,7 +49,7 @@ DOCS_BASE=/mugsun-docs/ npm run docs:build && npm run docs:preview
 | CNAME | `docs` | `mugsun.github.io` |
 
 并在仓库 Settings → Pages → Custom domain 填入 `docs.mugsun.com`，按 GitHub 提示加 TXT 校验。  
-若自定义域指向站点根路径，把工作流里的 `DOCS_BASE` 改为 `/` 后重新部署。
+当前工作流已使用 `DOCS_BASE=/`。若改回 `username.github.io/mugsun-docs/` 子路径，再设 `DOCS_BASE=/mugsun-docs/`。
 
 ### Cloudflare Pages（备选）
 
