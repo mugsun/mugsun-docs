@@ -26,13 +26,13 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| scrollTop | `number` | `0` | 滚动位置 |
-| visibilityHeight | `number` | `200` | visibilityHeight 数值 |
-| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | 主题 |
+| scrollTop | `number` | `0` | 页面滚动距离（px） |
+| visibilityHeight | `number` | `200` | 滚动超过该距离才显示（px） |
+| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | 主题色 |
 | text | `string` | `''` | 展示文案 |
 | icon | `string` | `'skip-up-fill'` | 图标名（icons.uts） |
 | fixed | `boolean` | `true` | 是否固定定位 |
-| local | `boolean` | `false` | 是否本地/内联 |
+| local | `boolean` | `false` | 是否相对父级定位（非 fixed） |
 
 ## 事件
 

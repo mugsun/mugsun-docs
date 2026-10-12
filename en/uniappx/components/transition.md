@@ -30,7 +30,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | name | `\| 'fade'` | `'fade'` | Name / field name |
 | duration | `number` | `300` | Duration (ms) |
 | appear | `boolean` | `false` | Whether to animate on appear |
-| destroyOnHide | `boolean` | `false` | Destroy when hidden |
+| destroyOnHide | `boolean` | `false` | Whether to destroy when hidden |
 
 ## Events
 

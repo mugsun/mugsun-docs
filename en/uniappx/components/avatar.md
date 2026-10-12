@@ -26,12 +26,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | Resource URL |
-| text | `string` | `''` | Display text |
-| icon | `string` | `''` | Icon name (icons.uts) |
-| shape | `'circle' \| 'round'` | `'circle'` | Shape |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| mode | `string` | `'aspectFill'` | Mode |
+| src | `string` | `''` | Avatar image URL |
+| text | `string` | `''` | Text when there is no image |
+| icon | `string` | `''` | Icon when there is no image and no text |
+| shape | `'circle' \| 'round'` | `'circle'` | Shape: circle / round / square |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size tier |
+| mode | `string` | `'aspectFill'` | Image mode (e.g. aspectFill) |
 
 ## Events
 

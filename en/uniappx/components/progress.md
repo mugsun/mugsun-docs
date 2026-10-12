@@ -26,10 +26,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| percentage | `number` | `0` | percentage number |
-| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | Variant |
+| percentage | `number` | `0` | Progress percent 0–100 |
+| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | Style variant |
 | status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | Status |
-| strokeWidth | `number` | `6` | strokeWidth number |
+| strokeWidth | `number` | `6` | Track thickness (px) |
 | label | `boolean \| string` | `true` | Label text |
 | size | `'xs' \| 'md'` | `'md'` | Size |
 

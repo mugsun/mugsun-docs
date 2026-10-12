@@ -27,18 +27,18 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `number` | `0` | Bound value (v-model) |
-| count | `number` | `5` | Count |
+| count | `number` | `5` | Total star count |
 | readonly | `boolean` | `false` | Whether read-only |
 | disabled | `boolean` | `false` | Whether disabled |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| activeIcon | `string` | `'star-fill'` | Active icon |
-| voidIcon | `string` | `'star-line'` | Inactive icon |
-| halfIcon | `string` | `'star-half-fill'` | Half-star icon |
-| showText | `boolean` | `false` | Whether to show Text |
+| activeIcon | `string` | `'star-fill'` | Active icon name |
+| voidIcon | `string` | `'star-line'` | Inactive icon name |
+| halfIcon | `string` | `'star-half-fill'` | Half-star icon name |
+| showText | `boolean` | `false` | Whether to show rating text |
 | showScore | `boolean` | `false` | Show numeric score |
 | allowHalf | `boolean` | `false` | Allow half stars |
 | clearable | `boolean` | `false` | Tapping the current value again clears it |
-| texts | `string[]` | `[]` | texts string value |
+| texts | `string[]` | `[]` | Per-level labels; empty uses built-in |
 | placement | `'top' \| 'bottom' \| ''` | `''` | Brief score popover position on tap. Empty hides it; top/bottom relative to the stars. |
 
 ## Events

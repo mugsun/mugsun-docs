@@ -29,7 +29,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | labelAlign | `'left' \| 'right' \| 'top'` | `'right'` | Label alignment |
 | labelWidth | `number` | `81` | Label width (px) |
 | colon | `boolean` | `false` | Whether to show a colon after the label |
-| showErrorMessage | `boolean` | `true` | Whether to show error message |
+| showErrorMessage | `boolean` | `true` | Whether to show validation errors |
 | disabled | `boolean` | `false` | Whether disabled |
 | validateTick | `number` | `0` | Increment to run a full validate (avoids holding a component ref) |
 | resetTick | `number` | `0` | Increment to clear all field errors |

@@ -30,16 +30,16 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | name | `string` | `''` | 名称 / 字段名 |
 | value | `string` | `''` | 参与校验的当前值（由宿主把表单数据传进来） |
 | required | `boolean` | `false` | 是否必填 |
-| requiredMark | `boolean` | `true` | 是否开启 requiredMark |
-| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | rule 数值 |
-| min | `number` | `-1` | 最小值 / 下限 |
-| max | `number` | `-1` | 最大值 / 上限 |
-| message | `string` | `''` | 校验消息 |
+| requiredMark | `boolean` | `true` | 必填时是否显示红色星号 |
+| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | 内置校验：none / phone / email / number |
+| min | `number` | `-1` | 最小值 |
+| max | `number` | `-1` | 最大值 |
+| message | `string` | `''` | 校验失败文案 |
 | help | `string` | `''` | 帮助文案 |
-| arrow | `boolean` | `false` | 是否显示箭头 |
+| arrow | `boolean` | `false` | 右侧是否显示箭头 |
 | labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | 标签对齐 |
 | labelWidth | `number` | `-1` | 标签宽度（px） |
-| bordered | `boolean` | `true` | 是否带边框 |
+| bordered | `boolean` | `true` | 是否显示边框 |
 
 ## 事件
 

@@ -27,18 +27,18 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `number` | `0` | 绑定值（v-model） |
-| count | `number` | `5` | 数量 |
+| count | `number` | `5` | 星星总数 |
 | readonly | `boolean` | `false` | 是否只读 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| activeIcon | `string` | `'star-fill'` | 激活态图标 |
-| voidIcon | `string` | `'star-line'` | 未激活图标 |
-| halfIcon | `string` | `'star-half-fill'` | 半星图标 |
-| showText | `boolean` | `false` | 是否显示Text |
+| activeIcon | `string` | `'star-fill'` | 激活态图标名 |
+| voidIcon | `string` | `'star-line'` | 未激活图标名 |
+| halfIcon | `string` | `'star-half-fill'` | 半星图标名 |
+| showText | `boolean` | `false` | 是否显示评分文案 |
 | showScore | `boolean` | `false` | 显示数字分值 |
 | allowHalf | `boolean` | `false` | 允许半星 |
 | clearable | `boolean` | `false` | 再点当前分值可清零 |
-| texts | `string[]` | `[]` | texts 文案/取值 |
+| texts | `string[]` | `[]` | 各分档文案；空则用内置 |
 | placement | `'top' \| 'bottom' \| ''` | `''` | 点选时短暂展示评分弹层位置。 空串不展示；top / bottom 相对星排。 |
 
 ## 事件

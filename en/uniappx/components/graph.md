@@ -27,11 +27,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| layout | `string` | `'tree'` | `tree` / `force` / `dagre` |
-| nodes | `UTSJSONObject[]` | `[]` | `id` + `label` |
-| edges | `UTSJSONObject[]` | `[]` | `source` + `target` |
-| height | `number` | `320` | Canvas height (px) |
-| fitView | `boolean` | `true` | Fit viewport after layout |
+| layout | `string` | `'tree'` | Layout |
+| nodes | `UTSJSONObject[]` | `[]` | Node list |
+| edges | `UTSJSONObject[]` | `[]` | Edge list |
+| height | `number` | `320` | Height (px) |
+| fitView | `boolean` | `true` | Whether to fit the viewport |
 
 ## Events
 

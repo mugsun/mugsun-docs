@@ -26,14 +26,14 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| steps | `UTSJSONObject[]` | `[]` | steps |
-| current | `number` | `-1` | Current index |
+| steps | `UTSJSONObject[]` | `[]` | Guide steps (title/content/targetId, etc.) |
+| current | `number` | `-1` | Current step index; -1 = not started |
 | mode | `'popover' \| 'dialog'` | `'popover'` | Mode |
-| showOverlay | `boolean` | `true` | Whether to show overlay |
-| highlightPadding | `number` | `8` | Highlight padding (px) |
-| hideSkip | `boolean` | `false` | Hide skip |
-| hideCounter | `boolean` | `false` | Hide counter |
-| hideBack | `boolean` | `false` | Hide back |
+| showOverlay | `boolean` | `true` | Whether to show the overlay |
+| highlightPadding | `number` | `8` | Highlight padding relative to the target (px) |
+| hideSkip | `boolean` | `false` | Whether to hide “Skip” |
+| hideCounter | `boolean` | `false` | Whether to hide the step counter |
+| hideBack | `boolean` | `false` | Whether to hide “Previous” |
 
 ## Events
 

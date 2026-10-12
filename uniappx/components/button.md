@@ -26,18 +26,18 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | 主题 |
-| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | 变体样式 |
-| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | 外形 |
-| block | `boolean` | `false` | 是否通栏 |
-| ghost | `boolean` | `false` | 幽灵样式（透明底） |
+| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | 主题色：default / primary / danger / success / warning / light |
+| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | 样式：solid / outline / dashed / text |
+| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸：xs / sm / md / lg |
+| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | 外形：rectangle / square / round / circle |
+| block | `boolean` | `false` | 是否通栏宽度 |
+| ghost | `boolean` | `false` | 幽灵按钮（透明底描边） |
 | disabled | `boolean` | `false` | 是否禁用 |
 | loading | `boolean` | `false` | 是否加载中 |
 | loadingText | `string` | `'加载中…'` | 加载态文案；空串则只显示转圈 |
-| icon | `string` | `''` | 图标名（icons.uts） |
-| iconOnly | `boolean` | `false` | 是否纯图标 |
-| formType | `'' \| 'submit' \| 'reset'` | `''` | 表单类型（submit/reset） |
+| icon | `string` | `''` | 左侧图标名；与文案并存 |
+| iconOnly | `boolean` | `false` | 仅图标（正方形触控区） |
+| formType | `'' \| 'submit' \| 'reset'` | `''` | 原生表单类型：submit / reset；空为普通按钮 |
 | haptic | `boolean` | `true` | App/小程序点击短震动；Web 无能力自动跳过。cite: api/vibrate.md |
 
 ## 事件

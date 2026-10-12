@@ -29,14 +29,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | modelValue | `number` | `0` | 绑定值（v-model） |
 | rangeValue | `number[]` | `[]` | 双游标时的受控区间 [low, high] |
 | range | `boolean` | `false` | 开启双游标区间模式 |
-| min | `number` | `0` | 最小值 / 下限 |
-| max | `number` | `100` | 最大值 / 上限 |
+| min | `number` | `0` | 最小值 |
+| max | `number` | `100` | 最大值 |
 | step | `number` | `1` | 步长 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | label | `boolean` | `false` | 标签文案 |
-| showExtremeValue | `boolean` | `false` | 是否显示ExtremeValue |
-| marks | `number[]` | `[]` | 刻度/标记 |
-| theme | `'default' \| 'capsule'` | `'default'` | 主题 |
+| showExtremeValue | `boolean` | `false` | 是否显示两端最值 |
+| marks | `number[]` | `[]` | 日期标记列表 |
+| theme | `'default' \| 'capsule'` | `'default'` | 主题色 |
 
 ## 事件
 

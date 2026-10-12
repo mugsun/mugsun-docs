@@ -30,8 +30,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | cropWidth | `number` | `240` | Crop width (px) |
 | cropHeight | `number` | `240` | Crop height (px) |
 | height | `number` | `320` | Height (px) |
-| quality | `number` | `1` | quality number |
-| hideFlip | `boolean` | `false` | Hide flip |
+| quality | `number` | `1` | Output image quality 0–1 |
+| hideFlip | `boolean` | `false` | Whether to hide flip |
 
 ## Events
 

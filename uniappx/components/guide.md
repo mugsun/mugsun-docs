@@ -26,14 +26,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| steps | `UTSJSONObject[]` | `[]` | steps |
-| current | `number` | `-1` | 当前索引 |
+| steps | `UTSJSONObject[]` | `[]` | 引导步骤（title/content/targetId 等） |
+| current | `number` | `-1` | 当前步索引；-1 表示未开始 |
 | mode | `'popover' \| 'dialog'` | `'popover'` | 模式 |
 | showOverlay | `boolean` | `true` | 是否显示遮罩 |
-| highlightPadding | `number` | `8` | 高亮内边距（px） |
-| hideSkip | `boolean` | `false` | 是否隐藏跳过 |
-| hideCounter | `boolean` | `false` | 是否隐藏计数 |
-| hideBack | `boolean` | `false` | 是否隐藏返回 |
+| highlightPadding | `number` | `8` | 高亮框相对目标的内边距（px） |
+| hideSkip | `boolean` | `false` | 是否隐藏「跳过」 |
+| hideCounter | `boolean` | `false` | 是否隐藏步数计数 |
+| hideBack | `boolean` | `false` | 是否隐藏「上一步」 |
 
 ## 事件
 

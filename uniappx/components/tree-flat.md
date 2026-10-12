@@ -26,12 +26,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | 树数据，每项 `title` +（可选）`children`、`opened` |
-| height | `number` | `320` | 组件高度 px |
-| direction | `string` | `'horizontal'` | `horizontal` / `vertical` |
-| lineType | `string` | `'straight'` | `straight` 折线 / `curve` 曲线 |
-| fontSize | `number` | `13` | 节点文字字号 px |
-| collapsible | `boolean` | `true` | 点父节点是否可展开收起 |
+| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| height | `number` | `320` | 高度（px） |
+| direction | `string` | `'horizontal'` | 方向 |
+| lineType | `string` | `'straight'` | 连线样式：straight / curve |
+| fontSize | `number` | `13` | 字号（px） |
+| collapsible | `boolean` | `true` | 是否可折叠 |
 
 ## 事件
 

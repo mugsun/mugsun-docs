@@ -29,18 +29,18 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | modelValue | `string` | `''` | Bound value (v-model) |
 | label | `string` | `''` | Label text |
 | placeholder | `string` | `''` | Placeholder |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status: default / success / warning / error |
 | tips | `string` | `''` | Tip text |
 | disabled | `boolean` | `false` | Whether disabled |
 | readonly | `boolean` | `false` | Whether read-only |
 | maxlength | `number` | `-1` | Max input length; -1 = unlimited |
-| indicator | `boolean` | `false` | Whether to show indicator |
+| indicator | `boolean` | `false` | Whether to show character count |
 | autoHeight | `boolean` | `false` | Whether height grows with content |
 | maxHeight | `number` | `0` | Max height (px) when autoHeight; 0 = no limit |
-| height | `'sm' \| 'md' \| 'lg'` | `'md'` | Height (px) |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
-| bordered | `boolean` | `true` | Whether bordered |
-| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | Keyboard confirm type |
+| height | `'sm' \| 'md' \| 'lg'` | `'md'` | Fixed height (px); minimum when autoHeight |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | Text alignment |
+| bordered | `boolean` | `true` | Whether to show border |
+| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | Keyboard confirm-key type |
 
 ## Events
 

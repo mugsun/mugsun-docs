@@ -26,7 +26,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| span | `number` | `24` | Column span |
+| span | `number` | `24` | Grid span |
 | offset | `number` | `0` | Offset |
 
 ## Events

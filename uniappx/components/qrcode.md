@@ -27,12 +27,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | value | `string` | `''` | 当前值 |
-| size | `string` | `'md'` | 'lg'` |
-| level | `string` | `'M'` | 'Q' \ |
-| logo | `string` | `''` | logo 文案/取值 |
-| status | `string` | `'active'` | 'loading' \ |
-| statusText | `string` | `''` | statusText 文案/取值 |
-| margin | `boolean` | `true` | 是否开启 margin |
+| size | `string` | `'md'` | 尺寸 |
+| level | `string` | `'M'` | 纠错级别 |
+| logo | `string` | `''` | 中心 Logo 图地址 |
+| status | `string` | `'active'` | 状态 |
+| statusText | `string` | `''` | 非 active 时覆盖层文案；空则用内置 |
+| margin | `boolean` | `true` | 是否保留静区（quiet zone） |
 
 ## 相关
 

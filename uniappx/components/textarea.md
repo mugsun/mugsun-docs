@@ -29,18 +29,18 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | modelValue | `string` | `''` | 绑定值（v-model） |
 | label | `string` | `''` | 标签文案 |
 | placeholder | `string` | `''` | 占位文案 |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态 |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态：default / success / warning / error |
 | tips | `string` | `''` | 提示文案 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | readonly | `boolean` | `false` | 是否只读 |
 | maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
-| indicator | `boolean` | `false` | 是否显示指示器 |
-| autoHeight | `boolean` | `false` | 是否自动增高 |
+| indicator | `boolean` | `false` | 是否显示字数统计 |
+| autoHeight | `boolean` | `false` | 是否随内容增高 |
 | maxHeight | `number` | `0` | autoHeight 时最大高度 px；0 不限制（对标 peer autosize.maxHeight） |
-| height | `'sm' \| 'md' \| 'lg'` | `'md'` | 高度（px） |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | 对齐方式 |
-| bordered | `boolean` | `true` | 是否带边框 |
-| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | 键盘确认类型 |
+| height | `'sm' \| 'md' \| 'lg'` | `'md'` | 固定高度（px）；autoHeight 时作最小高度 |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | 文本对齐 |
+| bordered | `boolean` | `true` | 是否显示边框 |
+| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | 键盘确认键类型 |
 
 ## 事件
 

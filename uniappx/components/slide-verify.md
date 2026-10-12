@@ -27,10 +27,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | tips | `string` | `'拖动滑块完成验证'` | 提示文案 |
-| successTips | `string` | `'验证成功'` | successTips 文案/取值 |
-| showTarget | `boolean` | `false` | 是否显示Target |
+| successTips | `string` | `'验证成功'` | 验证成功文案 |
+| showTarget | `boolean` | `false` | 是否显示目标缺口位置 |
 | targetPercent | `number` | `100` | 目标位置 0~100 |
-| tolerance | `number` | `8` | tolerance 数值 |
+| tolerance | `number` | `8` | 滑块与目标允许误差（px） |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件

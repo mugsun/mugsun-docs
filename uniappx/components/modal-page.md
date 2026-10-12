@@ -28,9 +28,9 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
 | title | `string` | `''` | 标题 |
-| showClose | `boolean` | `true` | 是否显示Close |
+| showClose | `boolean` | `true` | 是否显示关闭 |
 | closeOnOverlayClick | `boolean` | `false` | 点击遮罩是否关闭 |
-| zIndex | `number` | `1100` | 层级 |
+| zIndex | `number` | `1100` | 层级 z-index |
 
 ## 事件
 

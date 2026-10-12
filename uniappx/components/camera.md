@@ -27,12 +27,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| devicePosition | `string` | `'back'` | `back` / `front`，越界回落 `back` |
-| flash | `string` | `'auto'` | `auto` / `on` / `off` / `torch` |
-| resolution | `string` | `'medium'` | `low` / `medium` / `high` |
-| height | `number` | `220` | 取景框高度 px |
-| showToolbar | `boolean` | `true` | 显示拍照 / 翻转工具条 |
-| tip | `string` | `''` | 取景框下方提示文案 |
+| devicePosition | `string` | `'back'` | 摄像头朝向 |
+| flash | `string` | `'auto'` | 闪光灯模式 |
+| resolution | `string` | `'medium'` | 分辨率 |
+| height | `number` | `220` | 高度（px） |
+| showToolbar | `boolean` | `true` | 是否显示工具条 |
+| tip | `string` | `''` | 提示文案 |
 
 ## 事件
 

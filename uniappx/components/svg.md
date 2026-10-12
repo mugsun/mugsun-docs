@@ -27,13 +27,13 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | 图片路径（`/static/...` 或 http/https） |
-| source | `string` | `''` | 内联 SVG 源码，优先于 `src`，内部转 `data:image/svg+xml,` URI |
-| size | `number` | `24` | 边长 px |
-| width | `number` | `0` | >0 时覆盖宽 |
-| height | `number` | `0` | >0 时覆盖高 |
-| color | `string` | `''` | 把内联源码里的 `currentColor` 全部替换为该色 |
-| mode | `string` | `'aspectFit'` | 只接受 `scaleToFill` / `aspectFit` / `aspectFill`（保矢量三档），其它值回落 `aspectFit` |
+| src | `string` | `''` | 资源地址 |
+| source | `string` | `''` | 源码 / 内联内容 |
+| size | `number` | `24` | 尺寸 |
+| width | `number` | `0` | 宽度（px） |
+| height | `number` | `0` | 高度（px） |
+| color | `string` | `''` | 颜色 |
+| mode | `string` | `'aspectFit'` | 模式 |
 
 ## 事件
 

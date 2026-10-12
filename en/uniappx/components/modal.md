@@ -28,16 +28,16 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | title | `string` | `''` | Title |
-| content | `string` | `''` | Content text |
+| content | `string` | `''` | Body text; can also be overridden by slot |
 | confirmText | `string` | `'确定'` | Confirm button label |
 | cancelText | `string` | `'取消'` | Cancel button label |
 | showCancel | `boolean` | `false` | Whether to show cancel button |
-| buttonLayout | `'horizontal' \| 'vertical'` | `'horizontal'` | buttonLayout |
-| theme | `'default' \| 'danger'` | `'default'` | Theme |
-| closeBtn | `boolean` | `false` | Whether to show close button |
-| closeOnOverlayClick | `boolean` | `false` | Close when overlay is clicked |
-| closeOnConfirm | `boolean` | `true` | Close after confirm |
-| confirmLoading | `boolean` | `false` | Confirm button loading |
+| buttonLayout | `'horizontal' \| 'vertical'` | `'horizontal'` | Button layout: horizontal / vertical |
+| theme | `'default' \| 'danger'` | `'default'` | Theme color |
+| closeBtn | `boolean` | `false` | Whether to show the close button |
+| closeOnOverlayClick | `boolean` | `false` | Whether clicking the overlay closes |
+| closeOnConfirm | `boolean` | `true` | Whether to close after confirm |
+| confirmLoading | `boolean` | `false` | Whether the confirm button is loading |
 | zIndex | `number` | `1000` | z-index |
 
 ## Events

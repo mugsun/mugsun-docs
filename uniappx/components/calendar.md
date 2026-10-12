@@ -26,23 +26,23 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| type | `string` | `'single'` | 类型 |
-| value | `string` | `''` | 当前值 |
-| minDate | `string` | `''` | minDate 文案/取值 |
-| maxDate | `string` | `''` | maxDate 文案/取值 |
-| firstDayOfWeek | `number` | `0` | 一周起始日 |
-| disabledDates | `string[]` | `[]` | 禁用日期列表 |
-| marks | `UTSJSONObject[]` | `[]` | 刻度/标记 |
-| switchMode | `string` | `'none'` | switchMode 文案/取值 |
-| title | `string` | `''` | 标题 |
-| weekdays | `string[]` | `[]` | weekdays 文案/取值 |
+| type | `string` | `'single'` | 选择模式：single / multiple / range |
+| value | `string` | `''` | 选中值；多选/区间为逗号分隔日期 |
+| minDate | `string` | `''` | 可选最小日期（YYYY-MM-DD） |
+| maxDate | `string` | `''` | 可选最大日期（YYYY-MM-DD） |
+| firstDayOfWeek | `number` | `0` | 一周起始：0=周日 … 6=周六 |
+| disabledDates | `string[]` | `[]` | 禁用日期列表（YYYY-MM-DD） |
+| marks | `UTSJSONObject[]` | `[]` | 日期标记（含 date/text 等字段） |
+| switchMode | `string` | `'none'` | 头部切换：none 不切换；month 按月切换 |
+| title | `string` | `''` | 弹层标题；空则用当前年月 |
+| weekdays | `string[]` | `[]` | 星期栏文案；空则用默认日一二… |
 | readonly | `boolean` | `false` | 是否只读 |
-| allowSameDay | `boolean` | `false` | 是否允许同一天 |
-| showConfirm | `boolean` | `true` | 是否显示确认 |
+| allowSameDay | `boolean` | `false` | range 模式下是否允许起止同一天 |
+| showConfirm | `boolean` | `true` | 是否显示底部确认按钮 |
 | confirmText | `string` | `'确定'` | 确认按钮文案 |
-| visible | `boolean` | `false` | 是否显示 |
-| usePopup | `boolean` | `true` | 是否使用弹出层 |
-| autoClose | `boolean` | `true` | 是否自动关闭 |
+| visible | `boolean` | `false` | 弹层是否显示（usePopup 时） |
+| usePopup | `boolean` | `true` | 是否包在弹出层内展示 |
+| autoClose | `boolean` | `true` | 确认/选完后是否自动关闭弹层 |
 
 ## 事件
 

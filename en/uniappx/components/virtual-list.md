@@ -26,19 +26,19 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | Items list |
+| items | `UTSJSONObject[]` | `[]` | Entries |
 | itemHeight | `number` | `56` | Item height (px) |
-| visibleCount | `number` | `5` | visibleCount number |
-| buffer | `number` | `3` | Buffer size |
-| virtual | `boolean` | `true` | Whether virtualized |
-| titleKey | `string` | `'title'` | titleKey string value |
-| descKey | `string` | `'desc'` | Description field key |
-| keyField | `string` | `'id'` | Key field name |
+| visibleCount | `number` | `5` | Approximate visible item count |
+| buffer | `number` | `3` | Overscan item count outside the viewport |
+| virtual | `boolean` | `true` | Whether virtual list is enabled |
+| titleKey | `string` | `'title'` | Title field name |
+| descKey | `string` | `'desc'` | Description field name |
+| keyField | `string` | `'id'` | Primary key field name |
 | emptyText | `string` | `'暂无数据'` | Empty-state text |
 | loading | `boolean` | `false` | Loading more; when true shows footer and suppresses repeat scrolltolower |
 | finished | `boolean` | `false` | No more data; footer shows finishedText |
 | loadingText | `string` | `'加载中…'` | Loading text |
-| finishedText | `string` | `'没有更多了'` | Finished / no-more text |
+| finishedText | `string` | `'没有更多了'` | “No more” text |
 | lowerThreshold | `number` | `50` | Distance from bottom (px) to fire scrolltolower |
 | showLoadMore | `boolean` | `false` | Whether to render the bottom status bar |
 

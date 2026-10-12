@@ -27,13 +27,13 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | `number` | `0` | Current value |
-| start | `number` | `0` | Start |
+| start | `number` | `0` | Start value |
 | duration | `number` | `400` | Duration (ms) |
 | decimals | `number` | `-1` | Decimal places |
 | grouping | `boolean` | `false` | Whether grouped |
 | prefix | `string` | `''` | Prefix |
 | suffix | `string` | `''` | Suffix |
-| animated | `boolean` | `true` | Whether animated |
+| animated | `boolean` | `true` | Whether animation is enabled |
 | size | `'md' \| 'lg'` | `'md'` | Size |
 
 ## Events

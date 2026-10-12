@@ -26,11 +26,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | 选项/条目列表 |
+| items | `UTSJSONObject[]` | `[]` | 条目列表 |
 | column | `number` | `2` | 列数 |
-| balance | `boolean` | `true` | 是否两端对齐/均分 |
+| balance | `boolean` | `true` | 是否尽量均分列高 |
 | itemHeight | `number` | `120` | 单项高度（px） |
-| titleKey | `string` | `'title'` | titleKey 文案/取值 |
+| titleKey | `string` | `'title'` | 标题字段名 |
 | descKey | `string` | `'desc'` | 描述字段名 |
 | heightKey | `string` | `'height'` | 高度字段名 |
 | imageKey | `string` | `'image'` | 图片字段名 |

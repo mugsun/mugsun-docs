@@ -33,7 +33,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | image | `string` | `''` | Image URL |
 | actionText | `string` | `''` | Action text |
 | errorText | `string` | `'加载出错了'` | Error text |
-| moreText | `string` | `'没有更多了'` | “No more” text |
+| moreText | `string` | `'没有更多了'` | Label when variant is more |
 | loadingText | `string` | `'加载中…'` | Loading text |
 
 ## Events

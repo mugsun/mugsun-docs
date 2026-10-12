@@ -28,8 +28,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | title | `string` | `''` | Title |
-| showClose | `boolean` | `true` | Whether to show Close |
-| closeOnOverlayClick | `boolean` | `false` | Close when overlay is clicked |
+| showClose | `boolean` | `true` | Whether to show close |
+| closeOnOverlayClick | `boolean` | `false` | Whether clicking the overlay closes |
 | zIndex | `number` | `1100` | z-index |
 
 ## Events

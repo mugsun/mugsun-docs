@@ -30,10 +30,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | visible | `boolean` | `false` | Whether visible |
 | type | `string` | `'number'` | number / password / idcard / car |
 | title | `string` | `'安全键盘'` | Title |
-| maxLen | `number` | `0` | maxLen number |
-| max | `number` | `0` | Maximum / upper limit |
+| maxLen | `number` | `0` | Max input length; 0 uses built-in limit for mode |
+| max | `number` | `0` | Maximum |
 | digit | `boolean` | `true` | Digit / decimal-related |
-| hold | `boolean` | `false` | Whether hold is enabled |
+| hold | `boolean` | `false` | Whether long-press is supported |
 | confirmText | `string` | `'确认'` | Confirm button label |
 
 ## Events

@@ -26,9 +26,9 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| swipeThreshold | `number` | `40` | swipeThreshold 数值 |
-| doubleTapInterval | `number` | `280` | 双击间隔（ms） |
-| longPressDelay | `number` | `500` | longPressDelay 数值 |
+| swipeThreshold | `number` | `40` | 滑动手势触发阈值（px） |
+| doubleTapInterval | `number` | `280` | 双击判定间隔（ms） |
+| longPressDelay | `number` | `500` | 长按触发延迟（ms） |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件

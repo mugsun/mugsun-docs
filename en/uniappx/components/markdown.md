@@ -27,10 +27,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | Markdown source text |
-| fontSize | `number` | `14` | Body font size (px) |
-| showCodeLang | `boolean` | `true` | Whether code blocks show a language tag |
-| selectable | `boolean` | `false` | Whether body text is selectable |
+| value | `string` | `''` | Current value |
+| fontSize | `number` | `14` | Font size (px) |
+| showCodeLang | `boolean` | `true` | Whether to show code language tags |
+| selectable | `boolean` | `false` | Whether text is selectable |
 
 ## Events
 

@@ -27,13 +27,13 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
-| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | 弹出位置 |
+| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | 弹出/摆放位置 |
 | title | `string` | `''` | 标题 |
 | showOverlay | `boolean` | `true` | 是否显示遮罩 |
 | closeOnOverlayClick | `boolean` | `true` | 点击遮罩是否关闭 |
 | closeBtn | `boolean` | `false` | 是否显示关闭按钮 |
 | round | `boolean` | `true` | 是否圆角 |
-| zIndex | `number` | `1000` | 层级 |
+| zIndex | `number` | `1000` | 层级 z-index |
 
 ## 事件
 

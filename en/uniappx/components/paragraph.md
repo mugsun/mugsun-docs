@@ -27,8 +27,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | content | `string` | `''` | Content text |
-| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | `'default'` |
-| lines | `number` | `0` | Line count |
+| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | Text tone: default / secondary / success / warning / danger |
+| lines | `number` | `0` | Row count |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 
 ## Events

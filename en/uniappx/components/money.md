@@ -28,12 +28,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | value | `number` | `0` | Current value |
 | digit | `number` | `2` | Digit / decimal-related |
-| thousand | `boolean` | `false` | Whether thousand is enabled |
-| thousandLen | `number` | `3` | thousandLen number |
-| thousandUnit | `string` | `','` | thousandUnit string value |
-| symbol | `string` | `'¥'` | Symbol |
-| symbolPosition | `'left' \| 'right'` | `'left'` | symbolPosition |
-| showCn | `boolean` | `false` | Whether to show Cn |
+| thousand | `boolean` | `false` | Whether to use thousands separators |
+| thousandLen | `number` | `3` | Thousands grouping size |
+| thousandUnit | `string` | `','` | Thousands separator |
+| symbol | `string` | `'¥'` | Currency symbol |
+| symbolPosition | `'left' \| 'right'` | `'left'` | Symbol position: left / right |
+| showCn | `boolean` | `false` | Whether to show Chinese uppercase amount |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 | tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | Semantic color (income/expense, etc.) |
 

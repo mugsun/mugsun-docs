@@ -27,8 +27,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | content | `string` | `''` | Content text |
-| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | Level |
-| lines | `number` | `0` | Line count |
+| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | Level count |
+| lines | `number` | `0` | Row count |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
 
 ## Events

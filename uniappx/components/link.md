@@ -26,14 +26,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'warning' \| 'success'` | `'primary'` | 主题 |
+| theme | `'default' \| 'primary' \| 'danger' \| 'warning' \| 'success'` | `'primary'` | 主题色 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| underline | `boolean` | `false` | 是否开启 underline |
+| underline | `boolean` | `false` | 是否显示下划线 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | href | `string` | `''` | 链接地址 |
-| openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | openType |
+| openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | 跳转方式：navigate / redirect / switchTab / reLaunch |
 | icon | `string` | `''` | 图标名（icons.uts） |
-| suffixIcon | `string` | `''` | 后缀图标 |
+| suffixIcon | `string` | `''` | 后缀图标名 |
 | content | `string` | `''` | 文案；无默认插槽内容时使用 |
 
 ## 事件

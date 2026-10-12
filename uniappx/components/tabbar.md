@@ -28,14 +28,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | value | `number` | `0` | 选中项下标 |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled |
-| theme | `'normal' \| 'tag'` | `'normal'` | 主题 |
+| theme | `'normal' \| 'tag'` | `'normal'` | 主题色 |
 | shape | `'normal' \| 'round'` | `'normal'` | 外形 |
 | bordered | `boolean` | `true` | 顶部外边框 |
 | split | `boolean` | `false` | 项间分割线 |
 | fixed | `boolean` | `true` | 是否固定定位 |
 | placeholder | `boolean` | `false` | fixed 时在文档流占位，避免压住页面底部内容 |
-| safeAreaInsetBottom | `boolean` | `true` | 是否开启 safeAreaInsetBottom |
-| zIndex | `number` | `400` | 层级 |
+| safeAreaInsetBottom | `boolean` | `true` | 是否预留底部安全区 |
+| zIndex | `number` | `400` | 层级 z-index |
 
 ## 事件
 

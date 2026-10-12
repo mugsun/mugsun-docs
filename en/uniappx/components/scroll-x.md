@@ -26,11 +26,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| indicator | `boolean` | `true` | Bottom indicator bar |
-| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | Gap between child items |
-| inset | `boolean` | `false` | Leading/trailing padding |
-| showScrollbar | `boolean` | `false` | Native scrollbar |
-| scrollWithAnimation | `boolean` | `false` | Scroll animation |
+| indicator | `boolean` | `true` | Whether to show indicator |
+| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | Gap (px) |
+| inset | `boolean` | `false` | Whether inset style |
+| showScrollbar | `boolean` | `false` | Whether to show scrollbar |
+| scrollWithAnimation | `boolean` | `false` | Whether scrolling is animated |
 
 ## Events
 

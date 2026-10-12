@@ -27,14 +27,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
-| message | `string` | `''` | 校验消息 |
-| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | 主题 |
+| message | `string` | `''` | 消息文案 |
+| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | 主题色 |
 | icon | `string` | `''` | 自定义图标名（icons.uts 注册名）；theme 自带图标时可省 |
 | direction | `'horizontal' \| 'vertical'` | `'horizontal'` | 方向 |
-| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | 弹出位置 |
+| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | 弹出/摆放位置 |
 | duration | `number` | `2000` | 毫秒；0 表示不自动关闭 |
 | showOverlay | `boolean` | `false` | 显示遮罩挡住点击穿透 |
-| zIndex | `number` | `1100` | 层级 |
+| zIndex | `number` | `1100` | 层级 z-index |
 
 ## 事件
 

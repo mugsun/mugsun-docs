@@ -26,12 +26,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | 资源地址 |
-| text | `string` | `''` | 展示文案 |
-| icon | `string` | `''` | 图标名（icons.uts） |
-| shape | `'circle' \| 'round'` | `'circle'` | 外形 |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| mode | `string` | `'aspectFill'` | 模式 |
+| src | `string` | `''` | 头像图片地址 |
+| text | `string` | `''` | 无图时展示的文字 |
+| icon | `string` | `''` | 无图无文时的图标名 |
+| shape | `'circle' \| 'round'` | `'circle'` | 外形：circle / round / square |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸档位 |
+| mode | `string` | `'aspectFill'` | 图片 mode（如 aspectFill） |
 
 ## 事件
 

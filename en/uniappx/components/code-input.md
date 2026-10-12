@@ -27,10 +27,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | Bound value (v-model) |
-| length | `number` | `4` | length number |
-| skin | `'outline' \| 'fill'` | `'outline'` | skin |
-| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | placeShape |
-| password | `boolean` | `false` | Whether password |
+| length | `number` | `4` | Digit count |
+| skin | `'outline' \| 'fill'` | `'outline'` | Appearance: outline / fill |
+| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | Empty-slot placeholder: none / line / dot |
+| password | `boolean` | `false` | Whether password input |
 | disabled | `boolean` | `false` | Whether disabled |
 | autoFocus | `boolean` | `false` | Whether to auto-focus |
 

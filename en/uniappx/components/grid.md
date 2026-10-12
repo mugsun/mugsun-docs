@@ -28,7 +28,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | column | `3 \| 4 \| 5` | `4` | Column count |
 | border | `boolean` | `false` | Whether to show border |
-| theme | `'default' \| 'card'` | `'default'` | Theme |
+| theme | `'default' \| 'card'` | `'default'` | Theme color |
 
 ## Slots
 

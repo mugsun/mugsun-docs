@@ -28,8 +28,8 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | list | `UTSJSONObject[]` | `[]` | 数据列表 |
 | height | `number` | `180` | 高度（px） |
-| minFontSize | `number` | `12` | minFontSize 数值 |
-| maxFontSize | `number` | `30` | maxFontSize 数值 |
+| minFontSize | `number` | `12` | 词云最小字号（px） |
+| maxFontSize | `number` | `30` | 词云最大字号（px） |
 | gap | `number` | `2` | 间距（px） |
 
 ## 事件

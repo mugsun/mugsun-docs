@@ -33,7 +33,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | placeholder | `string` | `'输入 @ 提及成员'` | 占位文案 |
 | emptyText | `string` | `'无匹配成员'` | 空态文案 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| confirmType | `string` | `'send'` | 键盘确认类型 |
+| confirmType | `string` | `'send'` | 键盘确认键类型 |
 
 ## 事件
 

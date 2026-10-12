@@ -26,7 +26,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 'warning' \ |
+| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 主题色 |
 | title | `string` | `''` | 标题 |
 | description | `string` | `''` | 描述文案 |
 | icon | `string` | `''` | 覆盖主题默认图标；'none' 表示不显示图标 |

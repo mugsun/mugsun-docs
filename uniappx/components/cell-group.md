@@ -26,7 +26,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'card'` | `'default'` | 主题 |
+| theme | `'default' \| 'card'` | `'default'` | 主题色 |
 | title | `string` | `''` | 标题 |
 
 ## 插槽

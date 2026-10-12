@@ -26,7 +26,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'card'` | `'default'` | Theme |
+| theme | `'default' \| 'card'` | `'default'` | Theme color |
 | title | `string` | `''` | Title |
 
 ## Slots

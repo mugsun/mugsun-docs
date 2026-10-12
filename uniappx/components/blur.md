@@ -27,11 +27,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| blur | `number` | `12` | 模糊半径 px（Web / 小程序生效） |
-| tint | `string` | `'light'` | 底色档：`light` / `dark` |
-| opacity | `number` | `0.85` | 底色不透明度 0–1，越界自动夹取 |
-| radius | `number` | `0` | 圆角 px |
-| padding | `number` | `12` | 内边距 px |
+| blur | `number` | `12` | 模糊半径（px） |
+| tint | `string` | `'light'` | 底色档位 |
+| opacity | `number` | `0.85` | 不透明度 |
+| radius | `number` | `0` | 圆角（px） |
+| padding | `number` | `12` | 内边距（px） |
 
 ## 插槽
 

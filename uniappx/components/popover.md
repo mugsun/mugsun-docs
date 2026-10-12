@@ -28,11 +28,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
 | content | `string` | `''` | 纯文本内容；复杂内容用 content 插槽 |
-| placement | `\| 'top'` | `'top'` | 'top-right' \ |
-| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | 'brand' \ |
-| showArrow | `boolean` | `true` | 是否显示Arrow |
+| placement | `\| 'top'` | `'top'` | 弹出/摆放位置 |
+| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | 主题色 |
+| showArrow | `boolean` | `true` | 是否显示箭头 |
 | closeOnClickOutside | `boolean` | `true` | 点气泡外（透明遮罩）是否关闭 |
-| zIndex | `number` | `900` | 层级 |
+| zIndex | `number` | `900` | 层级 z-index |
 
 ## 事件
 

@@ -27,11 +27,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `number` | `0` | Bound value (v-model) |
-| min | `number` | `0` | Minimum / lower limit |
-| max | `number` | `100` | Maximum / upper limit |
+| min | `number` | `0` | Minimum |
+| max | `number` | `100` | Maximum |
 | step | `number` | `1` | Step |
 | precision | `number` | `0` | Precision |
-| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | Theme |
+| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | Theme color |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 | disabled | `boolean` | `false` | Whether disabled |
 | disableInput | `boolean` | `false` | Whether input is disabled |

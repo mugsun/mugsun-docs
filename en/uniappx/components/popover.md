@@ -28,9 +28,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | content | `string` | `''` | Plain text; use content slot for rich content |
-| placement | `\| 'top'` | `'top'` | 'top-right' \ |
-| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | 'brand' \ |
-| showArrow | `boolean` | `true` | Whether to show Arrow |
+| placement | `\| 'top'` | `'top'` | Popup / placement |
+| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | Theme color |
+| showArrow | `boolean` | `true` | Whether to show arrow |
 | closeOnClickOutside | `boolean` | `true` | Whether clicking outside (transparent overlay) closes |
 | zIndex | `number` | `900` | z-index |
 

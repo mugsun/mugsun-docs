@@ -28,16 +28,16 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
 | content | `string` | `''` | 内容文案 |
-| theme | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | 主题 |
+| theme | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | 主题色 |
 | showIcon | `boolean` | `true` | 是否显示主题默认图标 |
 | icon | `string` | `''` | 自定义图标名（icons.uts）；空串时用 theme 默认 |
 | closeBtn | `boolean` | `false` | 是否显示关闭按钮 |
 | actionText | `string` | `''` | 右侧操作文案；空串不显示 |
-| placement | `'top' \| 'bottom'` | `'top'` | 弹出位置 |
+| placement | `'top' \| 'bottom'` | `'top'` | 弹出/摆放位置 |
 | align | `'left' \| 'center'` | `'left'` | 文案对齐：left / center |
 | block | `boolean` | `false` | 通栏：去掉 max-width，横条贴边铺满 |
 | duration | `number` | `3000` | 毫秒；0 表示不自动关闭 |
-| zIndex | `number` | `1200` | 层级 |
+| zIndex | `number` | `1200` | 层级 z-index |
 
 ## 事件
 

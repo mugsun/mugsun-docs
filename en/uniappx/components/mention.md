@@ -33,7 +33,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | placeholder | `string` | `'输入 @ 提及成员'` | Placeholder |
 | emptyText | `string` | `'无匹配成员'` | Empty-state text |
 | disabled | `boolean` | `false` | Whether disabled |
-| confirmType | `string` | `'send'` | Keyboard confirm type |
+| confirmType | `string` | `'send'` | Keyboard confirm-key type |
 
 ## Events
 

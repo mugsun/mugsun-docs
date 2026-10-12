@@ -27,12 +27,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | Markdown source (`v-model`) |
-| height | `number` | `220` | Source area height (px) |
-| placeholder | `string` | `'输入 Markdown…'` | Empty-state placeholder |
-| readOnly | `boolean` | `false` | Read-only (hides toolbar) |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| height | `number` | `220` | Height (px) |
+| placeholder | `string` | `'输入 Markdown…'` | Placeholder |
+| readOnly | `boolean` | `false` | Whether read-only |
 | showPreview | `boolean` | `true` | Whether to show preview |
-| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | `bold` / `italic` / `strike` / `code` / `h2` / `quote` / `list` / `link` |
+| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | Toolbar config |
 | maxlength | `number` | `20000` | Max source length; -1 unlimited (still subject to platform textarea limits) |
 | showCount | `boolean` | `false` | Whether to show character count |
 

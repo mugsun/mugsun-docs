@@ -27,9 +27,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | text | `string` | `''` | Display text |
-| links | `UTSJSONObject[]` | `[]` | links |
-| logoTitle | `string` | `''` | logoTitle string value |
-| logoIcon | `string` | `''` | logoIcon string value |
+| links | `UTSJSONObject[]` | `[]` | Footer link list (name, etc.) |
+| logoTitle | `string` | `''` | Title next to the logo |
+| logoIcon | `string` | `''` | Logo icon name |
 | logoWithInfo | `boolean` | `false` | In logo mode, whether to still show links and copyright |
 
 ## Events

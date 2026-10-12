@@ -26,12 +26,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | Whether opened is enabled |
-| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | 'lg'` |
-| expandText | `string` | `'展开更多'` | Expand text |
-| collapseText | `string` | `'收起'` | Collapse text |
+| opened | `boolean` | `false` | Whether expanded |
+| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | Collapsed visible height tier: sm / md / lg |
+| expandText | `string` | `'展开更多'` | Expand label |
+| collapseText | `string` | `'收起'` | Collapse label |
 | disabled | `boolean` | `false` | Whether disabled |
-| showAction | `boolean` | `true` | Whether to show Action |
+| showAction | `boolean` | `true` | Whether to show expand/collapse actions |
 | showIcon | `boolean` | `true` | Whether to show expand/collapse arrow |
 
 ## Events

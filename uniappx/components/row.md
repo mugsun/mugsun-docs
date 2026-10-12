@@ -26,7 +26,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| gutter | `0 \| 8 \| 16 \| 24` | `0` | 间距（px） |
+| gutter | `0 \| 8 \| 16 \| 24` | `0` | 栅格间距（px） |
 | justify | `'start' \| 'end' \| 'center' \| 'space-between' \| 'space-around'` | `'start'` | 主轴对齐 |
 | align | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` | 对齐方式 |
 | wrap | `boolean` | `true` | 是否换行 |

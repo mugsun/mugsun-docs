@@ -26,13 +26,13 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| scrollTop | `number` | `0` | Scroll top |
-| visibilityHeight | `number` | `200` | visibilityHeight number |
-| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | Theme |
+| scrollTop | `number` | `0` | Page scroll distance (px) |
+| visibilityHeight | `number` | `200` | Show only after scrolling past this distance (px) |
+| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | Theme color |
 | text | `string` | `''` | Display text |
 | icon | `string` | `'skip-up-fill'` | Icon name (icons.uts) |
 | fixed | `boolean` | `true` | Whether fixed positioned |
-| local | `boolean` | `false` | Whether local/inline |
+| local | `boolean` | `false` | Whether positioned relative to parent (not fixed) |
 
 ## Events
 

@@ -29,7 +29,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | labelAlign | `'left' \| 'right' \| 'top'` | `'right'` | 标签对齐 |
 | labelWidth | `number` | `81` | 标签宽度（px） |
 | colon | `boolean` | `false` | 标签后是否显示冒号 |
-| showErrorMessage | `boolean` | `true` | 是否显示错误信息 |
+| showErrorMessage | `boolean` | `true` | 是否显示校验错误 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | validateTick | `number` | `0` | +1 触发一次全量校验（避免页面持有组件 ref 调方法） |
 | resetTick | `number` | `0` | +1 清空全部错误 |

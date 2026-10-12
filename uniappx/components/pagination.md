@@ -26,13 +26,13 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `1` | 当前值 |
+| value | `number` | `1` | 当前页码（从 1 起） |
 | total | `number` | `0` | 总条数 |
 | pageSize | `number` | `10` | 每页条数 |
-| maxButtons | `number` | `3` | maxButtons 数值 |
-| minButtons | `number` | `5` | minButtons 数值 |
-| simple | `boolean` | `false` | 是否开启 simple |
-| showTotal | `boolean` | `true` | 是否显示Total |
+| maxButtons | `number` | `3` | 省略号模式下中间最多页码按钮数 |
+| minButtons | `number` | `5` | 总页较少时全部展开的页码上限 |
+| simple | `boolean` | `false` | 简洁模式（仅上一页/下一页） |
+| showTotal | `boolean` | `true` | 是否显示总条数 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | showPrevNext | `boolean` | `false` | 完整模式两侧上一页/下一页 |
 | showJumper | `boolean` | `false` | 跳转到指定页 |

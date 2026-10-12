@@ -27,14 +27,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | title | `string` | `''` | 标题 |
-| subtitle | `string` | `''` | subtitle 文案/取值 |
+| subtitle | `string` | `''` | 副标题 |
 | content | `string` | `''` | 内容文案 |
 | image | `string` | `''` | 图片地址 |
-| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | imageHeight |
-| statusIcon | `string` | `''` | statusIcon 文案/取值 |
+| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | 封面图高度档：sm / md / lg |
+| statusIcon | `string` | `''` | 右上状态图标名 |
 | radius | `'md' \| 'lg'` | `'lg'` | 圆角（px） |
-| bordered | `boolean` | `false` | 是否带边框 |
-| shadow | `boolean` | `false` | 是否开启 shadow |
+| bordered | `boolean` | `false` | 是否显示边框 |
+| shadow | `boolean` | `false` | 是否投影 |
 
 ## 事件
 

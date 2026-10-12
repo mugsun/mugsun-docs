@@ -27,11 +27,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | title | `string` | `'调试面板'` | Title |
-| host | `string` | `''` | Request host; empty hides the field |
-| entries | `UTSJSONObject[]` | `[]` | `api` / `status` / `time` / `result` |
-| open | `boolean` | `false` | Open state (`v-model:open`) |
-| showEnv | `boolean` | `true` | Environment info section |
-| maxHeight | `number` | `220` | Log area max height (px) |
+| host | `string` | `''` | Host id |
+| entries | `UTSJSONObject[]` | `[]` | Entries |
+| open | `boolean` | `false` | Whether open |
+| showEnv | `boolean` | `true` | Whether to show environment meta |
+| maxHeight | `number` | `220` | Panel max height (px) |
 
 ## Events
 

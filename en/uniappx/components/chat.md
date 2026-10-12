@@ -26,16 +26,16 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| messages | `UTSJSONObject[]` | `[]` | See message field schema |
-| layout | `string` | `'both'` | `both` / `left` |
-| variant | `string` | `'base'` | `base` / `outline` / `text` |
-| reverse | `boolean` | `false` | Render in reverse order |
-| loadingText | `string` | `'正在思考…'` | Pending-state text |
-| errorText | `string` | `'生成失败，点击重试'` | Error-state text |
-| showActions | `boolean` | `true` | Assistant action bar |
-| actions | `string` | `'copy,retry,good,bad'` | Comma-separated |
-| height | `number` | `0` | `>0` enables inner scrolling |
-| autoScroll | `boolean` | `true` | Scroll to bottom when messages change |
+| messages | `UTSJSONObject[]` | `[]` | Message list |
+| layout | `string` | `'both'` | Popover layout |
+| variant | `string` | `'base'` | Style variant |
+| reverse | `boolean` | `false` | Whether to render in reverse (common when newest is at bottom) |
+| loadingText | `string` | `'正在思考…'` | Loading text |
+| errorText | `string` | `'生成失败，点击重试'` | Error text |
+| showActions | `boolean` | `true` | Whether to show message actions |
+| actions | `string` | `'copy,retry,good,bad'` | Action items |
+| height | `number` | `0` | Height (px) |
+| autoScroll | `boolean` | `true` | Whether to auto-scroll |
 
 ## Events
 

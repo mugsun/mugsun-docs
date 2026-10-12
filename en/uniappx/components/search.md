@@ -28,15 +28,15 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | Bound value (v-model) |
 | placeholder | `string` | `''` | Placeholder |
-| shape | `'square' \| 'round'` | `'square'` | Shape |
-| action | `string` | `''` | Action |
-| center | `boolean` | `false` | Whether vertically centered |
+| shape | `'square' \| 'round'` | `'square'` | Shape: square / round |
+| action | `string` | `''` | Right action label; empty hides it |
+| center | `boolean` | `false` | Whether content is centered when unfocused |
 | clearable | `boolean` | `true` | Whether clearable |
 | disabled | `boolean` | `false` | Whether disabled |
 | readonly | `boolean` | `false` | Whether read-only |
 | maxlength | `number` | `-1` | Max input length; -1 = unlimited |
-| leftIcon | `string` | `'search'` | Left icon |
-| confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | Keyboard confirm type |
+| leftIcon | `string` | `'search'` | Left icon name |
+| confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | Keyboard confirm-key type |
 
 ## Events
 

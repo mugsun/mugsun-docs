@@ -27,12 +27,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | Markdown 源码（`v-model`） |
-| height | `number` | `220` | 源码区高度 px |
-| placeholder | `string` | `'输入 Markdown…'` | 空态提示 |
-| readOnly | `boolean` | `false` | 只读（隐藏工具条） |
+| modelValue | `string` | `''` | 绑定值（v-model） |
+| height | `number` | `220` | 高度（px） |
+| placeholder | `string` | `'输入 Markdown…'` | 占位文案 |
+| readOnly | `boolean` | `false` | 是否只读 |
 | showPreview | `boolean` | `true` | 是否显示预览 |
-| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | `bold` / `italic` / `strike` / `code` / `h2` / `quote` / `list` / `link` |
+| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | 工具条配置 |
 | maxlength | `number` | `20000` | 源码最大长度；-1 不限制（仍受平台 textarea 上限约束） |
 | showCount | `boolean` | `false` | 是否显示字数统计 |
 

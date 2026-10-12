@@ -27,12 +27,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | `string` | `''` | Current value |
-| size | `string` | `'md'` | 'lg'` |
-| level | `string` | `'M'` | 'Q' \ |
-| logo | `string` | `''` | logo string value |
-| status | `string` | `'active'` | 'loading' \ |
-| statusText | `string` | `''` | statusText string value |
-| margin | `boolean` | `true` | Whether margin is enabled |
+| size | `string` | `'md'` | Size |
+| level | `string` | `'M'` | Error-correction level |
+| logo | `string` | `''` | Center logo image URL |
+| status | `string` | `'active'` | Status |
+| statusText | `string` | `''` | Overlay text when not active; empty uses built-in |
+| margin | `boolean` | `true` | Whether to keep a quiet zone |
 
 ## See also
 

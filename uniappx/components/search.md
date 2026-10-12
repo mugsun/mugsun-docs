@@ -28,15 +28,15 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | 绑定值（v-model） |
 | placeholder | `string` | `''` | 占位文案 |
-| shape | `'square' \| 'round'` | `'square'` | 外形 |
-| action | `string` | `''` | 操作 |
-| center | `boolean` | `false` | 是否垂直居中 |
+| shape | `'square' \| 'round'` | `'square'` | 外形：square / round |
+| action | `string` | `''` | 右侧操作文案；空则不显示 |
+| center | `boolean` | `false` | 未聚焦时内容是否居中展示 |
 | clearable | `boolean` | `true` | 是否可清空 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | readonly | `boolean` | `false` | 是否只读 |
 | maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
-| leftIcon | `string` | `'search'` | 左侧图标 |
-| confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | 键盘确认类型 |
+| leftIcon | `string` | `'search'` | 左侧图标名 |
+| confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | 键盘确认键类型 |
 
 ## 事件
 

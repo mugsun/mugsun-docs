@@ -27,13 +27,13 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| items | `UTSJSONObject[]` | `[]` | Each item: label / description / icon / tone('default'|'primary'|'danger') / disabled |
-| theme | `'list' \| 'grid'` | `'list'` | Theme |
+| items | `UTSJSONObject[]` | `[]` | Each item: label / description / icon / tone('default'\|'primary'\|'danger') / disabled | 'primary' | 'danger') / disabled |
+| theme | `'list' \| 'grid'` | `'list'` | Theme color |
 | align | `'center' \| 'left'` | `'center'` | Alignment |
 | description | `string` | `''` | Description text |
 | showCancel | `boolean` | `true` | Whether to show cancel button |
 | cancelText | `string` | `'取消'` | Cancel button label |
-| closeOnOverlayClick | `boolean` | `true` | Close when overlay is clicked |
+| closeOnOverlayClick | `boolean` | `true` | Whether clicking the overlay closes |
 | zIndex | `number` | `1000` | z-index |
 
 ## Events

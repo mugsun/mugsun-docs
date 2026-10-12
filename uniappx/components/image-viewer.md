@@ -29,7 +29,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | visible | `boolean` | `false` | 是否显示 |
 | images | `string[]` | `[]` | 图片地址列表 |
 | initialIndex | `number` | `0` | 初始索引 |
-| showIndex | `boolean` | `false` | 是否显示Index |
+| showIndex | `boolean` | `false` | 是否显示当前序号 |
 | closeBtn | `boolean` | `false` | 是否显示关闭按钮 |
 | deleteBtn | `boolean` | `false` | 是否显示删除按钮 |
 

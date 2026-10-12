@@ -29,8 +29,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | list | `string[]` | `[]` | Data list |
 | height | `number` | `120` | Height (px) |
 | speed | `number` | `80` | Speed |
-| rows | `number` | `3` | Rows |
-| paused | `boolean` | `false` | Whether paused is enabled |
+| rows | `number` | `3` | Row count |
+| paused | `boolean` | `false` | Whether barrage is paused |
 
 ## Events
 

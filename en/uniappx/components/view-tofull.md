@@ -27,8 +27,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | duration | `number` | `300` | Duration (ms) |
-| showClose | `boolean` | `true` | Whether to show Close |
-| opened | `boolean` | `false` | Whether opened is enabled |
+| showClose | `boolean` | `true` | Whether to show close when fullscreen |
+| opened | `boolean` | `false` | Whether to open fullscreen |
 
 ## Events
 

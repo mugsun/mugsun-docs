@@ -28,12 +28,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | content | `string` | `''` | Content text |
-| theme | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Theme |
+| theme | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Theme color |
 | showIcon | `boolean` | `true` | Whether to show the theme default icon |
 | icon | `string` | `''` | Custom icon name (icons.uts); empty uses theme default |
-| closeBtn | `boolean` | `false` | Whether to show close button |
+| closeBtn | `boolean` | `false` | Whether to show the close button |
 | actionText | `string` | `''` | Right action label; empty hides it |
-| placement | `'top' \| 'bottom'` | `'top'` | Placement |
+| placement | `'top' \| 'bottom'` | `'top'` | Popup / placement |
 | align | `'left' \| 'center'` | `'left'` | Text align: left / center |
 | block | `boolean` | `false` | Full bleed: drop max-width and stretch edge to edge |
 | duration | `number` | `3000` | Milliseconds; 0 = do not auto-close |

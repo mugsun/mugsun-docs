@@ -28,8 +28,8 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | loading | `boolean` | `true` | 是否加载中 |
 | delay | `number` | `0` | 延迟（ms） |
-| theme | `'avatar' \| 'image' \| 'text' \| 'paragraph' \| 'card'` | `'text'` | 主题 |
-| animation | `'none' \| 'flashed'` | `'none'` | animation |
+| theme | `'avatar' \| 'image' \| 'text' \| 'paragraph' \| 'card'` | `'text'` | 主题色 |
+| animation | `'none' \| 'flashed'` | `'none'` | 动画：none / flashed |
 | row | `number` | `0` | paragraph/text 行数（2–6） |
 
 ## 插槽

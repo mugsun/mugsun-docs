@@ -30,7 +30,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | cropWidth | `number` | `240` | 裁剪宽度（px） |
 | cropHeight | `number` | `240` | 裁剪高度（px） |
 | height | `number` | `320` | 高度（px） |
-| quality | `number` | `1` | quality 数值 |
+| quality | `number` | `1` | 输出图片质量 0–1 |
 | hideFlip | `boolean` | `false` | 是否隐藏翻转 |
 
 ## 事件

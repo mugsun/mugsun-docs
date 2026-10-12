@@ -27,15 +27,15 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | title | `string` | `''` | Title |
-| titleAlign | `'center' \| 'left'` | `'center'` | `'center'` |
+| titleAlign | `'center' \| 'left'` | `'center'` | Title align: center / left |
 | titleMaxLength | `number` | `0` | Max title length; overflow ends with …; 0 = no truncate |
-| leftArrow | `boolean` | `false` | Whether leftArrow is enabled |
+| leftArrow | `boolean` | `false` | Whether to show left back arrow |
 | leftText | `string` | `''` | Left back label; empty shows arrow only |
 | homeIcon | `boolean` | `false` | Show a home entry next to back |
-| theme | `'light' \| 'brand'` | `'light'` | `'light'` |
+| theme | `'light' \| 'brand'` | `'light'` | Theme color |
 | fixed | `boolean` | `true` | Whether fixed positioned |
 | placeholder | `boolean` | `false` | When fixed, whether to reserve flow space so content is not covered |
-| safeAreaInsetTop | `boolean` | `true` | Whether safeAreaInsetTop is enabled |
+| safeAreaInsetTop | `boolean` | `true` | Whether to reserve top safe area |
 | zIndex | `number` | `500` | z-index |
 
 ## Events

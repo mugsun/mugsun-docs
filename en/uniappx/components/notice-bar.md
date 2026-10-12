@@ -26,7 +26,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | Theme |
+| theme | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | Theme color |
 | direction | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction |
 | content | `string` | `''` | Content text |
 | list | `string[]` | `[]` | Data list |

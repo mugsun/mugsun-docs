@@ -29,7 +29,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | visible | `boolean` | `false` | 是否显示 |
 | name | `\| 'fade'` | `'fade'` | 名称 / 字段名 |
 | duration | `number` | `300` | 时长（ms） |
-| appear | `boolean` | `false` | 是否入场出现 |
+| appear | `boolean` | `false` | 是否入场动画 |
 | destroyOnHide | `boolean` | `false` | 隐藏时是否销毁 |
 
 ## 事件

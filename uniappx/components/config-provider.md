@@ -26,9 +26,9 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| themeVars | `UTSJSONObject \| null` | `null` | `null` |
-| theme | `string` | `'light'` | `light` / `dark` |
-| block | `boolean` | `true` | 是否撑满宽度 |
+| themeVars | `UTSJSONObject \| null` | `null` | 局部 CSS 变量（写到子树） |
+| theme | `string` | `'light'` | 主题色 |
+| block | `boolean` | `true` | 是否通栏 |
 
 ## 事件
 

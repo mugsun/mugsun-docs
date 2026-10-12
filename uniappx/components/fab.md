@@ -27,12 +27,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | icon | `string` | `'add-line'` | 图标名（icons.uts） |
-| text | `string` | `''` | 展示文案 |
+| text | `string` | `''` | 主按钮旁文案；空则仅图标 |
 | position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | 位置 |
 | inset | `'sm' \| 'md' \| 'lg'` | `'md'` | 是否内嵌样式 |
-| expandable | `boolean` | `false` | 是否可展开 |
+| expandable | `boolean` | `false` | 是否可展开子操作 |
 | expanded | `boolean` | `false` | 展开态（受控，配 update:expanded） |
-| local | `boolean` | `false` | 是否本地/内联 |
+| local | `boolean` | `false` | 相对父级定位；false 为 fixed 贴边 |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件

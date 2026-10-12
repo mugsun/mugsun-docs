@@ -29,12 +29,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | list | `UTSJSONObject[]` | `[]` | Data list |
 | value | `string[]` | `[]` | Current value |
 | folderIds | `string[]` | `[]` | Folder id list |
-| checkable | `boolean` | `true` | Whether checkable |
-| parentLink | `boolean` | `false` | Whether parentLink is enabled |
-| disabledParent | `boolean` | `false` | Disable parent linkage |
+| checkable | `boolean` | `true` | Whether selectable |
+| parentLink | `boolean` | `false` | Whether selecting parent links children; whether selecting child updates parent |
+| disabledParent | `boolean` | `false` | Whether to disable parent linkage |
 | disabled | `boolean` | `false` | Whether disabled |
-| idKey | `string` | `'id'` | Id field key |
-| labelKey | `string` | `'text'` | Label field key |
+| idKey | `string` | `'id'` | Id field name |
+| labelKey | `string` | `'text'` | Label field name |
 
 ## Events
 

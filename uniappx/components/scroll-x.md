@@ -26,11 +26,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| indicator | `boolean` | `true` | 底部指示条 |
-| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | 子项间距档 |
-| inset | `boolean` | `false` | 首尾留白 |
-| showScrollbar | `boolean` | `false` | 原生滚动条 |
-| scrollWithAnimation | `boolean` | `false` | 滚动动画 |
+| indicator | `boolean` | `true` | 是否显示指示器 |
+| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | 间距（px） |
+| inset | `boolean` | `false` | 是否内嵌样式 |
+| showScrollbar | `boolean` | `false` | 是否显示滚动条 |
+| scrollWithAnimation | `boolean` | `false` | 滚动是否带动画 |
 
 ## 事件
 
