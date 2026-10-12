@@ -7,6 +7,8 @@ demo: pages/demo/display/swiper
 
 `ms-swiper`：轮播：dots/fraction/controls；`v-model:current`。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-swiper`）。
 演示路由：`#/pages/demo/display/swiper`。
 

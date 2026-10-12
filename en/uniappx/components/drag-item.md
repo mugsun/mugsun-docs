@@ -7,6 +7,8 @@ demo: pages/demo/media/drag
 
 `ms-drag-item` — Drag Item for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drag-item`).
 Demo route: `#/pages/demo/media/drag`.
 

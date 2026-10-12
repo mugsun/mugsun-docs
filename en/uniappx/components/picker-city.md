@@ -7,6 +7,8 @@ demo: pages/demo/form/picker-city
 
 `ms-picker-city` — Picker City for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-city`).
 Demo route: `#/pages/demo/form/picker-city`.
 

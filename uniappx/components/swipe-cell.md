@@ -7,6 +7,8 @@ demo: pages/demo/feedback/swipe-cell
 
 `ms-swipe-cell`：动作面板绝对定位在左右两侧，内容层用 `left` 偏移露出 —— 不用 transform。右滑开左侧（`#left` + `openedLeft`），左滑开右侧（`#actions` + `opened`）。TMUI `x-switch-slider` 走的正是 `left` 路径，TDesign 用的是 `translate3d(±100%)`，那是 LESSONS-LEARNED L14 的踩坑形态，本仓不抄。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-swipe-cell`）。
 演示路由：`#/pages/demo/feedback/swipe-cell`。
 

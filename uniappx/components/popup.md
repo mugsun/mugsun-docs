@@ -7,6 +7,8 @@ demo: pages/demo/feedback/popup
 
 `ms-popup`：弹出层容器：`placement` 支持 `bottom/top/left/right/center`，可带标题栏与关闭按钮，`round` 按位置自动圆角。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-popup`）。
 演示路由：`#/pages/demo/feedback/popup`。
 

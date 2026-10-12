@@ -7,6 +7,8 @@ demo: pages/demo/form/checkbox
 
 `ms-checkbox`：多选框：单独 `v-model` 或放进 `ms-checkbox-group`。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-checkbox`）。
 演示路由：`#/pages/demo/form/checkbox`。
 

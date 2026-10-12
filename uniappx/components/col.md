@@ -7,6 +7,8 @@ demo: pages/demo/nav/col
 
 `ms-col`：栅格列：`span`/`offset` → BEM 宽与 margin；`gutter` 来自行 inject。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-col`）。
 演示路由：`#/pages/demo/nav/col`。
 

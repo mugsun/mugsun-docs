@@ -7,6 +7,8 @@ demo: pages/demo/media/finger
 
 `ms-finger`：手势识别容器：单击 / 双击 / 长按 / 滑动 / 捏合 / 旋转。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-finger`）。
 演示路由：`#/pages/demo/media/finger`。
 

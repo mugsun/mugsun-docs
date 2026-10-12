@@ -7,6 +7,8 @@ demo: pages/demo/form/switch
 
 `ms-switch`：开关：纯 view 轨道 + 滑块；支持文字/图标、loading、禁用、三档尺寸；深度演示含组合态（文案+大号、图标+加载、禁用+文案、小号+图标）。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-switch`）。
 演示路由：`#/pages/demo/form/switch`。
 

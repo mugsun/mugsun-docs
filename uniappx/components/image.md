@@ -7,6 +7,8 @@ demo: pages/demo/basic/image
 
 `ms-image`：封装原生 `<image>`，带加载/失败占位。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-image`）。
 演示路由：`#/pages/demo/basic/image`。
 

@@ -7,6 +7,8 @@ demo: pages/demo/display/scroll-x
 
 `ms-scroll-x-item` — Scroll-X Item for uni-app x.
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-scroll-x-item`).
 Demo route: `#/pages/demo/display/scroll-x`.
 

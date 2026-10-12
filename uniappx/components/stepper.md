@@ -7,6 +7,8 @@ demo: pages/demo/form/stepper
 
 `ms-stepper`：步进器：填充 / 描边 / 朴素三风格，三档尺寸，支持步长、上下限与小数位。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-stepper`）。
 演示路由：`#/pages/demo/form/stepper`。
 

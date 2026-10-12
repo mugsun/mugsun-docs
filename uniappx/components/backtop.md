@@ -7,6 +7,8 @@ demo: pages/demo/nav/backtop
 
 `ms-backtop`：回顶按钮：`scrollTop` ≥ `visibilityHeight` 才显示。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-backtop`）。
 演示路由：`#/pages/demo/nav/backtop`。
 

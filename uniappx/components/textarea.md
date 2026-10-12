@@ -7,6 +7,8 @@ demo: pages/demo/form/textarea
 
 `ms-textarea`：多行输入：标签 / autosize / 字数 / 状态 / 确认类型。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-textarea`）。
 演示路由：`#/pages/demo/form/textarea`。
 

@@ -7,6 +7,8 @@ demo: pages/demo/basic/text
 
 `ms-text`：语义化文字。`variant` / `size` / `bold` / `align` / `lines` / `selectable`。行高 1.7（对齐 x-text）。高亮/正则为二期。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-text`）。
 演示路由：`#/pages/demo/basic/text`。
 

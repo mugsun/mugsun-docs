@@ -9,7 +9,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: '管理台', link: '/pc/', activeMatch: '/pc/' },
       { text: '埋点', link: '/track/', activeMatch: '/track/' },
       { text: 'Core', link: '/core/', activeMatch: '/core/' },
-      { text: 'ms-ui', link: '/uniappx/', activeMatch: '/uniappx/' },
+      { text: 'ms-ui · uni-app x', link: '/uniappx/', activeMatch: '/uniappx/' },
       { text: '演示', link: '/demo' },
       { text: '更新日志', link: '/changelog' },
     ],
@@ -63,7 +63,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       ],
       '/uniappx/': [
         {
-          text: 'ms-ui',
+          text: 'ms-ui · uni-app x',
           items: [
             { text: '概述', link: '/uniappx/' },
           ],
@@ -240,7 +240,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     lightModeSwitchTitle: '切换到浅色',
     darkModeSwitchTitle: '切换到深色',
     footer: {
-      message: '免费开源：boot · core · pc · track。ms-ui 组件文档已开放。',
+      message: '免费开源：boot · core · pc · track。ms-ui（uni-app x）组件文档已开放。',
       copyright: 'Copyright © 2026 mugsun',
     },
   },

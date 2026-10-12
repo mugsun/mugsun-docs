@@ -7,6 +7,8 @@ demo: pages/demo/form/slider
 
 `ms-slider`：单游标 / 双游标滑块：`default` 细轨 / `capsule` 胶囊轨。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-slider`）。
 演示路由：`#/pages/demo/form/slider`。
 

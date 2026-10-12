@@ -7,6 +7,8 @@ demo: pages/demo/basic/cell
 
 `ms-cell-group`：单元格组容器。用 `theme`（default|card）、`title`；default 插槽放 ms-cell。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-cell-group`）。
 演示路由：`#/pages/demo/basic/cell`。
 

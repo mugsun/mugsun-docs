@@ -7,6 +7,8 @@ demo: pages/demo/feedback/alert
 
 `ms-alert`：页内警告条：主题 + 浅色/填充 + 可关闭。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-alert`）。
 演示路由：`#/pages/demo/feedback/alert`。
 

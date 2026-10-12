@@ -121,8 +121,8 @@ watch(iframeSrc, () => {
       v-if="demoPath && (collapsed || closed)"
       type="button"
       class="ms-demo-fab"
-      title="打开 H5 预览"
-      aria-label="打开 H5 预览"
+      title="打开 ms-ui · uni-app x 预览"
+      aria-label="打开 ms-ui · uni-app x 预览"
       @click="expand"
     >
       <span class="ms-demo-fab__icon" aria-hidden="true">▣</span>
@@ -135,11 +135,11 @@ watch(iframeSrc, () => {
       :class="[
         `ms-demo-phone--${orientation}`,
       ]"
-      aria-label="组件 H5 演示"
+      aria-label="ms-ui · uni-app x 组件演示"
     >
       <div class="ms-demo-phone__toolbar">
         <div class="ms-demo-phone__toolbar-left">
-          <span class="ms-demo-phone__brand">ms-ui</span>
+          <span class="ms-demo-phone__brand">ms-ui · uni-app x</span>
           <span class="ms-demo-phone__hint">H5</span>
         </div>
         <div class="ms-demo-phone__toolbar-right" role="toolbar" aria-label="预览工具栏">

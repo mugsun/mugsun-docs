@@ -1,6 +1,8 @@
 # ms-ui (uni-app x)
 
-Component library for **uni-app x**, package name **ms-ui**, easycom prefix `ms-`. Source: [mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (private).
+**ms-ui** is a cross-platform component library for **uni-app x** (App / mini programs / H5), easycom prefix `ms-`. It is **not** the PC admin console (see [Admin / pc](/en/pc/)).
+
+Source: [mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (private), module path `uni_modules/ms-ui`.
 
 Component pages can show an H5 phone preview when a demo route exists.
 

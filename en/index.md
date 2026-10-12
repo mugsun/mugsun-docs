@@ -41,7 +41,7 @@ features:
 | [track](/en/track/) | Lightweight web SDK + ingest + dashboards | Open source (flagship) |
 | [core](/en/core/) | BOM & starters | Open source |
 | cloud | Microservices edition | <span class="soon">Planned</span> |
-| uniappx-ui | uni-app x UI kit | <span class="soon">Planned</span> |
+| [ms-ui](/en/uniappx/) | uni-app x UI kit (not PC admin) | Docs live |
 
 ## Demo
 

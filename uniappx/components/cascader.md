@@ -7,6 +7,8 @@ demo: pages/demo/form/cascader
 
 `ms-cascader`：级联选择：扁平 `options`（value/label/parent）弹层逐级选。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-cascader`）。
 演示路由：`#/pages/demo/form/cascader`。
 

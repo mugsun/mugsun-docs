@@ -7,6 +7,8 @@ demo: pages/demo/form/picker-selected
 
 `ms-picker-selected`：弹层式搜索选择。本地过滤或宿主异步搜；支持多选/单选。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-picker-selected`）。
 演示路由：`#/pages/demo/form/picker-selected`。
 

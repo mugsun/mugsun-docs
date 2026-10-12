@@ -7,6 +7,8 @@ demo: pages/demo/media/markdown
 
 `ms-markdown`: Native Markdown subset renderer (no third-party deps, no webview).
 
+Part of **ms-ui · uni-app x** (not the PC admin UI).
+
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-markdown/components/ms-markdown`).
 Optional plugin: install `uni_modules/ms-markdown` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/markdown`.

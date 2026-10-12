@@ -6,8 +6,8 @@ Not yet. Use [Getting started](/en/guide/getting-started). See [Demo](/en/demo).
 **How does this relate to RuoYi / Jeecg?**  
 Different positioning: embedded analytics vertical + optional GIS/AI, not a feature-wall low-code suite. Do not market “compatible with / drop-in replacement for” commercial kits.
 
-**How do I install cloud / uniappx-ui?**  
-They are not open delivery artifacts yet. “Planned” means no install guide.
+**How do I install cloud / uniappx-ui / ms-ui?**  
+cloud remains planned (no install guide). **ms-ui** is the uni-app x cross-platform UI kit (not the PC admin); docs: [ms-ui](/en/uniappx/). The `mugsun-uniappx-ui` source repo is currently private.
 
 **Does replay capture on-screen text by default?**  
 The product goal is privacy-safe defaults (masking, redaction, DNT). See [Privacy](/en/track/privacy).

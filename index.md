@@ -41,7 +41,7 @@ features:
 | [track](/track/) | 轻量 Web 埋点 SDK + 服务端 + 看板 | 免费开源（招牌） |
 | [core](/core/) | BOM 与 starter | 免费开源 |
 | cloud | 微服务版 | <span class="soon">规划中</span> |
-| uniappx-ui | uni-app x 组件库 | <span class="soon">规划中</span> |
+| [ms-ui](/uniappx/) | uni-app x 跨端组件库（非 PC 管理台） | 文档已开放 |
 
 ## 演示
 

@@ -7,6 +7,8 @@ demo: pages/demo/display/card
 
 `ms-card`：结构化内容卡：头图 + 标题/副标题 + 正文 + 可选 statusIcon + footer 插槽。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-card`）。
 演示路由：`#/pages/demo/display/card`。
 

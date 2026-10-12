@@ -7,6 +7,8 @@ demo: pages/demo/display/tree-flat
 
 `ms-tree-flat`：平面树 / 思维导图：canvas 绘制节点与连线，点父节点展开收起。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-tree-flat`）。
 演示路由：`#/pages/demo/display/tree-flat`。
 

@@ -7,6 +7,8 @@ demo: pages/demo/form/picker-date
 
 `ms-picker-date`：日期时间选择器。`mode` 决定列深度：`year` → `month` → `date` → `hour` → `minute` → `second` 递进。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-picker-date`）。
 演示路由：`#/pages/demo/form/picker-date`。
 

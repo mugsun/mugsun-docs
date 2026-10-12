@@ -7,6 +7,8 @@ demo: pages/demo/nav/sticky
 
 `ms-sticky`：不是 CSS sticky。`reference/uni-app-x/docs/css/position.md` 明确 `position: sticky` 仅 Web 支持、App 全端 x，`css_diff_web.md` 有专节说明，本仓 `ms-uvue` 规则也直接禁用；官方 `sticky-header`/`sticky-section` 在 **微信小程序为 x** 且不可设 class/style，也不能当底座。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-sticky`）。
 演示路由：`#/pages/demo/nav/sticky`。
 

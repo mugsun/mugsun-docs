@@ -7,6 +7,8 @@ demo: pages/demo/display/image-group
 
 `ms-image-group`：评论/详情图集网格：多图排版、可选标签、超量遮罩、点击预览。
 
+属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-image-group`）。
 演示路由：`#/pages/demo/display/image-group`。
 
