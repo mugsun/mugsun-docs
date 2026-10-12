@@ -34,9 +34,9 @@ jobs:
 
       - name: Build
         env:
-          # Project site: https://mugsun.github.io/mugsun-docs/
-          # For docs.mugsun.com as site root later, set DOCS_BASE=/ in this workflow (or a separate job).
-          DOCS_BASE: /mugsun-docs/
+          # Custom domain: https://docs.mugsun.com/
+          # docs.mugsun.com custom domain serves at site root.
+          DOCS_BASE: /
         run: npm run docs:build
 
       - name: Upload artifact

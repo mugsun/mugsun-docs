@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
-/** Project Pages default; override with DOCS_BASE=/ for apex custom domains (e.g. docs.mugsun.com). */
-const base = process.env.DOCS_BASE ?? '/mugsun-docs/'
+/** Site root default for docs.mugsun.com; use DOCS_BASE=/mugsun-docs/ only for github.io project path. */
+const base = process.env.DOCS_BASE ?? '/'
 
 export const shared = defineConfig({
   title: 'mugsun',
