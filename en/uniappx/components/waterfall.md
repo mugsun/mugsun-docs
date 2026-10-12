@@ -5,9 +5,9 @@ demo: pages/demo/display/waterfall
 
 # Waterfall
 
-`ms-waterfall`: Waterfall. See Chinese docs for narrative detail; API tables below are from source.
+`ms-waterfall` — Waterfall for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-waterfall`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-waterfall`).
 Demo route: `#/pages/demo/display/waterfall`.
 
 ## Basic usage
@@ -20,30 +20,30 @@ Demo route: `#/pages/demo/display/waterfall`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | — |
-| column | `number` | `2` | — |
-| balance | `boolean` | `true` | — |
-| itemHeight | `number` | `120` | — |
-| titleKey | `string` | `'title'` | — |
-| descKey | `string` | `'desc'` | — |
-| heightKey | `string` | `'height'` | — |
-| imageKey | `string` | `'image'` | — |
-| coverHeightKey | `string` | `'coverHeight'` | — |
-| keyField | `string` | `'id'` | — |
-| emptyText | `string` | `'暂无数据'` | — |
-| coverHeight | `number` | `88` | 缺省封面高（有 image 时） |
+| items | `UTSJSONObject[]` | `[]` | Items list |
+| column | `number` | `2` | Column count |
+| balance | `boolean` | `true` | Whether balanced / justified |
+| itemHeight | `number` | `120` | Item height (px) |
+| titleKey | `string` | `'title'` | titleKey string value |
+| descKey | `string` | `'desc'` | Description field key |
+| heightKey | `string` | `'height'` | Height field key |
+| imageKey | `string` | `'image'` | Image field key |
+| coverHeightKey | `string` | `'coverHeight'` | Cover height field key |
+| keyField | `string` | `'id'` | Key field name |
+| emptyText | `string` | `'暂无数据'` | Empty-state text |
+| coverHeight | `number` | `88` | Default cover height when image is set |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
-| item-click | Menu item click |
+| item-click | Item click |
 
 ## See also
 

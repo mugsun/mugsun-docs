@@ -5,9 +5,9 @@ demo: pages/demo/display/countdown
 
 # Countdown
 
-倒计时：`time`（ms）+ `format` + theme/size；expose `start`/`pause`/`reset`/`getStatus`。
+`ms-countdown` — Countdown for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-countdown`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-countdown`).
 Demo route: `#/pages/demo/display/countdown`.
 
 ## Basic usage
@@ -20,19 +20,19 @@ Demo route: `#/pages/demo/display/countdown`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| time | `number` | `0` | — |
-| format | `string` | `'HH:mm:ss'` | — |
-| autoStart | `boolean` | `true` | — |
-| millisecond | `boolean` | `false` | — |
-| theme | `'default' \| 'round' \| 'square'` | `'default'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| splitWithUnit | `boolean` | `false` | — |
+| time | `number` | `0` | Time |
+| format | `string` | `'HH:mm:ss'` | Format |
+| autoStart | `boolean` | `true` | Whether to auto-start |
+| millisecond | `boolean` | `false` | Whether millisecond is enabled |
+| theme | `'default' \| 'round' \| 'square'` | `'default'` | Theme |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| splitWithUnit | `boolean` | `false` | Whether splitWithUnit is enabled |
 
 ## Events
 

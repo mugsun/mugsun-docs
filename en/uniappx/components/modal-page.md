@@ -5,9 +5,9 @@ demo: pages/demo/feedback/modal-page
 
 # Modal Page
 
-`ms-modal-page`: Modal Page. See Chinese docs for narrative detail; API tables below are from source.
+`ms-modal-page` — Modal Page for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-modal-page`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-modal-page`).
 Demo route: `#/pages/demo/feedback/modal-page`.
 
 ## Basic usage
@@ -20,17 +20,17 @@ Demo route: `#/pages/demo/feedback/modal-page`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| title | `string` | `''` | — |
-| showClose | `boolean` | `true` | — |
-| closeOnOverlayClick | `boolean` | `false` | — |
-| zIndex | `number` | `1100` | — |
+| visible | `boolean` | `false` | Whether visible |
+| title | `string` | `''` | Title |
+| showClose | `boolean` | `true` | Whether to show Close |
+| closeOnOverlayClick | `boolean` | `false` | Close when overlay is clicked |
+| zIndex | `number` | `1100` | z-index |
 
 ## Events
 

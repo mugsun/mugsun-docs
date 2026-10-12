@@ -20,17 +20,17 @@ demo: pages/demo/basic/transition
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| name | `\| 'fade'` | `'fade'` | — |
-| duration | `number` | `300` | — |
-| appear | `boolean` | `false` | — |
-| destroyOnHide | `boolean` | `false` | — |
+| visible | `boolean` | `false` | 是否显示 |
+| name | `\| 'fade'` | `'fade'` | 名称 / 字段名 |
+| duration | `number` | `300` | 时长（ms） |
+| appear | `boolean` | `false` | 是否入场出现 |
+| destroyOnHide | `boolean` | `false` | 隐藏时是否销毁 |
 
 ## 事件
 
@@ -49,5 +49,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-transition/`
-- 演示：`#/pages/demo/basic/transition`
+- 组件目录: `uni_modules/ms-ui/components/ms-transition/`
+- 演示: `#/pages/demo/basic/transition`

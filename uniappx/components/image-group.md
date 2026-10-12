@@ -14,25 +14,25 @@ demo: pages/demo/display/image-group
 
 ```vue
 <template>
-  <ms-image-group :disabled="true">
+  <ms-image-group>
     …
   </ms-image-group>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| columns | `number` | `3` | — |
-| mode | `string` | `'aspectFill'` | — |
-| labelMode | `string` | `'inset'` | — |
-| maxCount | `number` | `-1` | — |
-| preview | `boolean` | `true` | — |
-| disabled | `boolean` | `false` | — |
+| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| columns | `number` | `3` | `3` |
+| mode | `string` | `'aspectFill'` | 模式 |
+| labelMode | `string` | `'inset'` | `'inset'` |
+| maxCount | `number` | `-1` | 最大数量 |
+| preview | `boolean` | `true` | 是否可预览 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-image-group/`
-- 演示：`#/pages/demo/display/image-group`
+- 组件目录: `uni_modules/ms-ui/components/ms-image-group/`
+- 演示: `#/pages/demo/display/image-group`

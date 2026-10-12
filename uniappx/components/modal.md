@@ -20,25 +20,25 @@ demo: pages/demo/feedback/modal
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| title | `string` | `''` | — |
-| content | `string` | `''` | — |
-| confirmText | `string` | `'确定'` | — |
-| cancelText | `string` | `'取消'` | — |
-| showCancel | `boolean` | `false` | — |
-| buttonLayout | `'horizontal' \| 'vertical'` | `'horizontal'` | — |
-| theme | `'default' \| 'danger'` | `'default'` | — |
-| closeBtn | `boolean` | `false` | — |
-| closeOnOverlayClick | `boolean` | `false` | — |
-| closeOnConfirm | `boolean` | `true` | — |
-| confirmLoading | `boolean` | `false` | — |
-| zIndex | `number` | `1000` | — |
+| visible | `boolean` | `false` | 是否显示 |
+| title | `string` | `''` | 标题 |
+| content | `string` | `''` | 内容文案 |
+| confirmText | `string` | `'确定'` | 确认按钮文案 |
+| cancelText | `string` | `'取消'` | 取消按钮文案 |
+| showCancel | `boolean` | `false` | 是否显示取消按钮 |
+| buttonLayout | `'horizontal' \| 'vertical'` | `'horizontal'` | buttonLayout |
+| theme | `'default' \| 'danger'` | `'default'` | 主题 |
+| closeBtn | `boolean` | `false` | 是否显示关闭按钮 |
+| closeOnOverlayClick | `boolean` | `false` | 点击遮罩是否关闭 |
+| closeOnConfirm | `boolean` | `true` | 确认后是否关闭 |
+| confirmLoading | `boolean` | `false` | 确认按钮加载中 |
+| zIndex | `number` | `1000` | 层级 |
 
 ## 事件
 
@@ -57,5 +57,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-modal/`
-- 演示：`#/pages/demo/feedback/modal`
+- 组件目录: `uni_modules/ms-ui/components/ms-modal/`
+- 演示: `#/pages/demo/feedback/modal`

@@ -5,30 +5,30 @@ demo: pages/demo/form/sign-board
 
 # Sign Board
 
-`ms-sign-board`: Sign Board. See Chinese docs for narrative detail; API tables below are from source.
+`ms-sign-board` — Sign Board for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-sign-board`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-sign-board`).
 Demo route: `#/pages/demo/form/sign-board`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-sign-board :disabled="true">
+  <ms-sign-board>
     …
   </ms-sign-board>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | penType | `string` | `'default'` | default / pen / pencil |
-| strokeWidth | `number` | `8` | 基准笔宽 px |
-| disabled | `boolean` | `false` | — |
+| strokeWidth | `number` | `8` | Base stroke width (px) |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
@@ -36,7 +36,7 @@ With easycom scanning `uni_modules/ms-ui/components`, no manual registration is 
 | --- | --- |
 | start | Started |
 | end | end |
-| clear | clear |
+| clear | Clear |
 
 ## See also
 

@@ -5,35 +5,35 @@ demo: pages/demo/form/color-picker
 
 # Color Picker
 
-`ms-color-picker`: Color Picker. See Chinese docs for narrative detail; API tables below are from source.
+`ms-color-picker` — Color Picker for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-color-picker`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-color-picker`).
 Demo route: `#/pages/demo/form/color-picker`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-color-picker v-model="value" :disabled="true">
+  <ms-color-picker v-model="value" type="…">
     …
   </ms-color-picker>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `'#0579ff'` | 当前色值，hex / rgb / rgba 可入 |
-| type | `string` | `'multiple'` | base 仅色板；multiple 色板 + 滑块 |
-| format | `string` | `'hex'` | 输出格式：hex / rgb / hsl |
-| enableAlpha | `boolean` | `false` | 是否开透明度滑块 |
-| swatchColors | `string[]` | `[]` | 预设色，空则用内置 |
-| columns | `number` | `8` | 色板每行格数 |
-| showPreview | `boolean` | `true` | 是否显示预览块与色值 |
-| disabled | `boolean` | `false` | 禁用 |
+| modelValue | `string` | `'#0579ff'` | Current color (hex / rgb / rgba) |
+| type | `string` | `'multiple'` | base = swatch only; multiple = swatch + sliders |
+| format | `string` | `'hex'` | Output format: hex / rgb / hsl |
+| enableAlpha | `boolean` | `false` | Whether to show the opacity slider |
+| swatchColors | `string[]` | `[]` | Preset colors; empty uses built-in |
+| columns | `number` | `8` | Swatch columns per row |
+| showPreview | `boolean` | `true` | Whether to show the preview swatch and value |
+| disabled | `boolean` | `false` | Disabled |
 
 ## Events
 

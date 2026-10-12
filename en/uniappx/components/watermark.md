@@ -5,9 +5,9 @@ demo: pages/demo/display/watermark
 
 # Watermark
 
-`ms-watermark`: Watermark. See Chinese docs for narrative detail; API tables below are from source.
+`ms-watermark` — Watermark for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-watermark`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-watermark`).
 Demo route: `#/pages/demo/display/watermark`.
 
 ## Basic usage
@@ -20,15 +20,15 @@ Demo route: `#/pages/demo/display/watermark`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| content | `string` | `'Mugsun'` | — |
-| density | `string` | `'md'` | — |
-| layout | `string` | `'rectangular'` | — |
+| content | `string` | `'Mugsun'` | Content text |
+| density | `string` | `'md'` | 'lg'` |
+| layout | `string` | `'rectangular'` | `'rectangular'` |
 
 ## Slots
 

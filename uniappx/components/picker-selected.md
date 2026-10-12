@@ -20,27 +20,27 @@ demo: pages/demo/form/picker-selected
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| visible | `boolean` | `false` | — |
-| title | `string` | `'请选择'` | — |
-| cancelText | `string` | `'取消'` | — |
-| confirmText | `string` | `'确定'` | — |
-| placeholder | `string` | `'搜索'` | — |
-| emptyText | `string` | `'暂无数据'` | — |
-| valueKey | `string` | `'id'` | — |
-| labelKey | `string` | `'name'` | — |
-| filterKey | `string` | `''` | — |
-| localSearch | `boolean` | `true` | — |
-| multiple | `boolean` | `true` | — |
-| required | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
+| options | `UTSJSONObject[]` | `[]` | 选项列表 |
+| value | `string[]` | `[]` | 当前值 |
+| visible | `boolean` | `false` | 是否显示 |
+| title | `string` | `'请选择'` | 标题 |
+| cancelText | `string` | `'取消'` | 取消按钮文案 |
+| confirmText | `string` | `'确定'` | 确认按钮文案 |
+| placeholder | `string` | `'搜索'` | 占位文案 |
+| emptyText | `string` | `'暂无数据'` | 空态文案 |
+| valueKey | `string` | `'id'` | valueKey 文案/取值 |
+| labelKey | `string` | `'name'` | 标签字段名 |
+| filterKey | `string` | `''` | 筛选字段名 |
+| localSearch | `boolean` | `true` | 是否开启 localSearch |
+| multiple | `boolean` | `true` | 是否多选 |
+| required | `boolean` | `false` | 是否必填 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
@@ -63,5 +63,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-picker-selected/`
-- 演示：`#/pages/demo/form/picker-selected`
+- 组件目录: `uni_modules/ms-ui/components/ms-picker-selected/`
+- 演示: `#/pages/demo/form/picker-selected`

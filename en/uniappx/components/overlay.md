@@ -5,9 +5,9 @@ demo: pages/demo/basic/overlay
 
 # Overlay
 
-`ms-overlay`: Overlay. See Chinese docs for narrative detail; API tables below are from source.
+`ms-overlay` — Overlay for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-overlay`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-overlay`).
 Demo route: `#/pages/demo/basic/overlay`.
 
 ## Basic usage
@@ -20,16 +20,16 @@ Demo route: `#/pages/demo/basic/overlay`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| closable | `boolean` | `true` | — |
-| zIndex | `number` | `1000` | — |
-| dim | `'light' \| 'normal' \| 'heavy'` | `'normal'` | 遮罩浓度：浅 / 常规 / 深（语义档，非任意颜色字符串） |
+| visible | `boolean` | `false` | Whether visible |
+| closable | `boolean` | `true` | Whether closable |
+| zIndex | `number` | `1000` | z-index |
+| dim | `'light' \| 'normal' \| 'heavy'` | `'normal'` | Overlay strength: light / normal / deep (semantic; not an arbitrary color) |
 
 ## Events
 

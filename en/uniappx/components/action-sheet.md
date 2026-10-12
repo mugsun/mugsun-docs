@@ -5,9 +5,9 @@ demo: pages/demo/feedback/action-sheet
 
 # Action Sheet
 
-`ms-action-sheet`: Action Sheet. See Chinese docs for narrative detail; API tables below are from source.
+`ms-action-sheet` — Action Sheet for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-action-sheet`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-action-sheet`).
 Demo route: `#/pages/demo/feedback/action-sheet`.
 
 ## Basic usage
@@ -20,21 +20,21 @@ Demo route: `#/pages/demo/feedback/action-sheet`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 label / description / icon / tone('default'\|'primary'\|'danger') / disabled |
-| theme | `'list' \| 'grid'` | `'list'` | — |
-| align | `'center' \| 'left'` | `'center'` | — |
-| description | `string` | `''` | — |
-| showCancel | `boolean` | `true` | — |
-| cancelText | `string` | `'取消'` | — |
-| closeOnOverlayClick | `boolean` | `true` | — |
-| zIndex | `number` | `1000` | — |
+| visible | `boolean` | `false` | Whether visible |
+| items | `UTSJSONObject[]` | `[]` | Each item: label / description / icon / tone('default'|'primary'|'danger') / disabled |
+| theme | `'list' \| 'grid'` | `'list'` | Theme |
+| align | `'center' \| 'left'` | `'center'` | Alignment |
+| description | `string` | `''` | Description text |
+| showCancel | `boolean` | `true` | Whether to show cancel button |
+| cancelText | `string` | `'取消'` | Cancel button label |
+| closeOnOverlayClick | `boolean` | `true` | Close when overlay is clicked |
+| zIndex | `number` | `1000` | z-index |
 
 ## Events
 

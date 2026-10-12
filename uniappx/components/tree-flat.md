@@ -20,18 +20,18 @@ demo: pages/demo/display/tree-flat
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| height | `number` | `320` | — |
-| direction | `string` | `'horizontal'` | — |
-| lineType | `string` | `'straight'` | — |
-| fontSize | `number` | `13` | — |
-| collapsible | `boolean` | `true` | — |
+| list | `UTSJSONObject[]` | `[]` | 树数据，每项 `title` +（可选）`children`、`opened` |
+| height | `number` | `320` | 组件高度 px |
+| direction | `string` | `'horizontal'` | `horizontal` / `vertical` |
+| lineType | `string` | `'straight'` | `straight` 折线 / `curve` 曲线 |
+| fontSize | `number` | `13` | 节点文字字号 px |
+| collapsible | `boolean` | `true` | 点父节点是否可展开收起 |
 
 ## 事件
 
@@ -42,5 +42,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-tree-flat/`
-- 演示：`#/pages/demo/display/tree-flat`
+- 组件目录: `uni_modules/ms-ui/components/ms-tree-flat/`
+- 演示: `#/pages/demo/display/tree-flat`

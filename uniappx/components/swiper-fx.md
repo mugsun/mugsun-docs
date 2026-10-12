@@ -20,21 +20,21 @@ demo: pages/demo/display/swiper-fx
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| effect | `'fade' \| 'slide' \| 'zoom' \| 'scale-slide'` | `'fade'` | — |
-| current | `number` | `0` | — |
-| height | `number` | `160` | — |
-| autoplay | `boolean` | `true` | — |
-| interval | `number` | `3500` | — |
-| duration | `number` | `600` | — |
-| loop | `boolean` | `true` | — |
-| showDots | `boolean` | `true` | — |
+| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| effect | `'fade' \| 'slide' \| 'zoom' \| 'scale-slide'` | `'fade'` | effect |
+| current | `number` | `0` | 当前索引 |
+| height | `number` | `160` | 高度（px） |
+| autoplay | `boolean` | `true` | 是否自动播放 |
+| interval | `number` | `3500` | 间隔（ms） |
+| duration | `number` | `600` | 时长（ms） |
+| loop | `boolean` | `true` | 是否循环 |
+| showDots | `boolean` | `true` | 是否显示Dots |
 
 ## 事件
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-swiper-fx/`
-- 演示：`#/pages/demo/display/swiper-fx`
+- 组件目录: `uni_modules/ms-ui/components/ms-swiper-fx/`
+- 演示: `#/pages/demo/display/swiper-fx`

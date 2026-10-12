@@ -5,9 +5,9 @@ demo: pages/demo/basic/badge
 
 # Badge
 
-`ms-badge`: Badge. See Chinese docs for narrative detail; API tables below are from source.
+`ms-badge` — Badge for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-badge`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-badge`).
 Demo route: `#/pages/demo/basic/badge`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/basic/badge`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| count | `number` | `0` | — |
-| label | `string` | `''` | — |
-| dot | `boolean` | `false` | — |
-| max | `number` | `99` | — |
-| showZero | `boolean` | `false` | — |
-| theme | `'danger' \| 'primary' \| 'success' \| 'warning'` | `'danger'` | — |
-| shape | `'circle' \| 'square'` | `'circle'` | — |
-| size | `'sm' \| 'md'` | `'md'` | — |
-| offset | `number[]` | `[]` | — |
-| standalone | `boolean` | `false` | 独立展示徽标（不包裹锚点） |
+| count | `number` | `0` | Count |
+| label | `string` | `''` | Label text |
+| dot | `boolean` | `false` | Dot |
+| max | `number` | `99` | Maximum / upper limit |
+| showZero | `boolean` | `false` | Whether to show Zero |
+| theme | `'danger' \| 'primary' \| 'success' \| 'warning'` | `'danger'` | success \ |
+| shape | `'circle' \| 'square'` | `'circle'` | Shape |
+| size | `'sm' \| 'md'` | `'md'` | Size |
+| offset | `number[]` | `[]` | Offset |
+| standalone | `boolean` | `false` | Standalone badge (does not wrap an anchor) |
 
 ## Slots
 

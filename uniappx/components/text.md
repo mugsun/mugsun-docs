@@ -20,18 +20,18 @@ demo: pages/demo/basic/text
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| bold | `boolean` | `false` | — |
-| lines | `number` | `0` | — |
-| selectable | `boolean` | `false` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
+| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | 变体样式 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| bold | `boolean` | `false` | 是否加粗 |
+| lines | `number` | `0` | 行数 |
+| selectable | `boolean` | `false` | 是否可选中文本 |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | 对齐方式 |
 
 ## 事件
 
@@ -47,5 +47,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-text/`
-- 演示：`#/pages/demo/basic/text`
+- 组件目录: `uni_modules/ms-ui/components/ms-text/`
+- 演示: `#/pages/demo/basic/text`

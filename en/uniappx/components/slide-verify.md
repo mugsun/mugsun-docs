@@ -5,33 +5,33 @@ demo: pages/demo/form/slide-verify
 
 # Slide Verify
 
-`ms-slide-verify`: Slide Verify. See Chinese docs for narrative detail; API tables below are from source.
+`ms-slide-verify` — Slide Verify for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-slide-verify`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-slide-verify`).
 Demo route: `#/pages/demo/form/slide-verify`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-slide-verify :disabled="true">
+  <ms-slide-verify>
     …
   </ms-slide-verify>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| tips | `string` | `'拖动滑块完成验证'` | — |
-| successTips | `string` | `'验证成功'` | — |
-| showTarget | `boolean` | `false` | — |
-| targetPercent | `number` | `100` | 目标位置 0~100 |
-| tolerance | `number` | `8` | — |
-| disabled | `boolean` | `false` | — |
+| tips | `string` | `'拖动滑块完成验证'` | Tip text |
+| successTips | `string` | `'验证成功'` | Success tip text |
+| showTarget | `boolean` | `false` | Whether to show Target |
+| targetPercent | `number` | `100` | Target position 0–100 |
+| tolerance | `number` | `8` | tolerance number |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

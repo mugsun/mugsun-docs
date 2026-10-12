@@ -20,7 +20,7 @@ demo: pages/demo/nav/tabs
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
@@ -28,8 +28,8 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | --- | --- | --- | --- |
 | value | `number` | `0` | 选中项下标 |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled / content |
-| theme | `'line' \| 'tag' \| 'card'` | `'line'` | — |
-| size | `'md' \| 'lg'` | `'md'` | — |
+| theme | `'line' \| 'tag' \| 'card'` | `'line'` | 主题 |
+| size | `'md' \| 'lg'` | `'md'` | 尺寸 |
 | spaceEvenly | `boolean` | `true` | 头部是否均分；false 时按内容撑开并可横向滚动 |
 | showLine | `boolean` | `true` | line 主题是否显示底部激活条 |
 | showContent | `boolean` | `false` | 是否渲染内容区（items[].content 或默认插槽） |
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-tabs/`
-- 演示：`#/pages/demo/nav/tabs`
+- 组件目录: `uni_modules/ms-ui/components/ms-tabs/`
+- 演示: `#/pages/demo/nav/tabs`

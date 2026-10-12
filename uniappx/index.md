@@ -4,7 +4,7 @@
 
 本站组件页右下角手机框会 iframe 嵌入 H5 演示（`public/demo/`）。有独立演示路由的页面会自动打开对应 hash。
 
-当前已收录 **111** 个组件（自 `uni_modules/ms-ui/components` 生成；Props / 事件 / 插槽来自源码，不臆造 API）。
+当前已收录 **119** 个组件（含可选插件）；Props / 事件 / 插槽来自源码与 `LLM.md`，不臆造行为。
 
 ## 基础
 
@@ -146,4 +146,17 @@
 | [Drag Item 拖拽项](/uniappx/components/drag-item) | `ms-drag-item` |
 | [Finger 手势](/uniappx/components/finger) | `ms-finger` |
 | [View Tofull 全屏](/uniappx/components/view-tofull) | `ms-view-tofull` |
+
+## 可选插件
+
+| 组件 | 说明 |
+| --- | --- |
+| [Blur 磨砂](/uniappx/components/blur) | `ms-blur` · 可选插件 |
+| [Camera 相机](/uniappx/components/camera) | `ms-camera` · 可选插件 |
+| [Chart 图表](/uniappx/components/chart) | `ms-chart` · 可选插件 |
+| [Editor 编辑](/uniappx/components/editor) | `ms-editor` · 可选插件 |
+| [Graph 关系图](/uniappx/components/graph) | `ms-graph` · 可选插件 |
+| [Markdown Markdown](/uniappx/components/markdown) | `ms-markdown` · 可选插件 |
+| [Svg 矢量](/uniappx/components/svg) | `ms-svg` · 可选插件 |
+| [Webview 网页](/uniappx/components/webview) | `ms-webview` · 可选插件 |
 

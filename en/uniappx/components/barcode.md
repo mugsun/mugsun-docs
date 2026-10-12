@@ -5,31 +5,31 @@ demo: pages/demo/display/barcode
 
 # Barcode
 
-`ms-barcode`: Barcode. See Chinese docs for narrative detail; API tables below are from source.
+`ms-barcode` — Barcode for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-barcode`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-barcode`).
 Demo route: `#/pages/demo/display/barcode`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-barcode size="…">
+  <ms-barcode size="…" value="…">
     …
   </ms-barcode>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | — |
-| encode | `string` | `'ean13'` | — |
-| size | `string` | `'md'` | — |
-| showText | `boolean` | `true` | — |
+| value | `string` | `''` | Current value |
+| encode | `string` | `'ean13'` | 'upca' \ |
+| size | `string` | `'md'` | 'lg'` |
+| showText | `boolean` | `true` | Whether to show Text |
 
 ## See also
 

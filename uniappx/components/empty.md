@@ -20,7 +20,7 @@ demo: pages/demo/basic/empty
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
@@ -28,13 +28,13 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | --- | --- | --- | --- |
 | status | `'empty' \| 'loading' \| 'error' \| 'more'` | `'empty'` | 展示态：空 / 加载 / 错误 / 没有更多 |
 | title | `string` | `''` | 主标题（空/错误态可选） |
-| description | `string` | `''` | — |
-| icon | `string` | `'inbox-line'` | — |
-| image | `string` | `''` | — |
-| actionText | `string` | `''` | — |
-| errorText | `string` | `'加载出错了'` | — |
-| moreText | `string` | `'没有更多了'` | — |
-| loadingText | `string` | `'加载中…'` | — |
+| description | `string` | `''` | 描述文案 |
+| icon | `string` | `'inbox-line'` | 图标名（icons.uts） |
+| image | `string` | `''` | 图片地址 |
+| actionText | `string` | `''` | 操作文案 |
+| errorText | `string` | `'加载出错了'` | 错误文案 |
+| moreText | `string` | `'没有更多了'` | moreText 文案/取值 |
+| loadingText | `string` | `'加载中…'` | 加载文案 |
 
 ## 事件
 
@@ -52,5 +52,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-empty/`
-- 演示：`#/pages/demo/basic/empty`
+- 组件目录: `uni_modules/ms-ui/components/ms-empty/`
+- 演示: `#/pages/demo/basic/empty`

@@ -5,9 +5,9 @@ demo: pages/demo/feedback/toast
 
 # Toast
 
-`ms-toast`: Toast. See Chinese docs for narrative detail; API tables below are from source.
+`ms-toast` — Toast for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-toast`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-toast`).
 Demo route: `#/pages/demo/feedback/toast`.
 
 ## Basic usage
@@ -20,21 +20,21 @@ Demo route: `#/pages/demo/feedback/toast`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| message | `string` | `''` | — |
-| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | — |
-| icon | `string` | `''` | 自定义图标名（icons.uts 注册名）；theme 自带图标时可省 |
-| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | — |
-| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | — |
-| duration | `number` | `2000` | 毫秒；0 表示不自动关闭 |
-| showOverlay | `boolean` | `false` | 显示遮罩挡住点击穿透 |
-| zIndex | `number` | `1100` | — |
+| visible | `boolean` | `false` | Whether visible |
+| message | `string` | `''` | Validation message |
+| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | Theme |
+| icon | `string` | `''` | Custom icon name (icons.uts); optional when theme has a default |
+| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction |
+| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | Placement |
+| duration | `number` | `2000` | Milliseconds; 0 = do not auto-close |
+| showOverlay | `boolean` | `false` | Show overlay to block click-through |
+| zIndex | `number` | `1100` | z-index |
 
 ## Events
 

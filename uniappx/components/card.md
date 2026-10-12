@@ -20,21 +20,21 @@ demo: pages/demo/display/card
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| title | `string` | `''` | — |
-| subtitle | `string` | `''` | — |
-| content | `string` | `''` | — |
-| image | `string` | `''` | — |
-| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| statusIcon | `string` | `''` | — |
-| radius | `'md' \| 'lg'` | `'lg'` | — |
-| bordered | `boolean` | `false` | — |
-| shadow | `boolean` | `false` | — |
+| title | `string` | `''` | 标题 |
+| subtitle | `string` | `''` | subtitle 文案/取值 |
+| content | `string` | `''` | 内容文案 |
+| image | `string` | `''` | 图片地址 |
+| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | imageHeight |
+| statusIcon | `string` | `''` | statusIcon 文案/取值 |
+| radius | `'md' \| 'lg'` | `'lg'` | 圆角（px） |
+| bordered | `boolean` | `false` | 是否带边框 |
+| shadow | `boolean` | `false` | 是否开启 shadow |
 
 ## 事件
 
@@ -55,5 +55,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-card/`
-- 演示：`#/pages/demo/display/card`
+- 组件目录: `uni_modules/ms-ui/components/ms-card/`
+- 演示: `#/pages/demo/display/card`

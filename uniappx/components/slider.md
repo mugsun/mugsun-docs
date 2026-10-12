@@ -20,23 +20,23 @@ demo: pages/demo/form/slider
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `number` | `0` | — |
+| modelValue | `number` | `0` | 绑定值（v-model） |
 | rangeValue | `number[]` | `[]` | 双游标时的受控区间 [low, high] |
 | range | `boolean` | `false` | 开启双游标区间模式 |
-| min | `number` | `0` | — |
-| max | `number` | `100` | — |
-| step | `number` | `1` | — |
-| disabled | `boolean` | `false` | — |
-| label | `boolean` | `false` | — |
-| showExtremeValue | `boolean` | `false` | — |
-| marks | `number[]` | `[]` | — |
-| theme | `'default' \| 'capsule'` | `'default'` | — |
+| min | `number` | `0` | 最小值 / 下限 |
+| max | `number` | `100` | 最大值 / 上限 |
+| step | `number` | `1` | 步长 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| label | `boolean` | `false` | 标签文案 |
+| showExtremeValue | `boolean` | `false` | 是否显示ExtremeValue |
+| marks | `number[]` | `[]` | 刻度/标记 |
+| theme | `'default' \| 'capsule'` | `'default'` | 主题 |
 
 ## 事件
 
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-slider/`
-- 演示：`#/pages/demo/form/slider`
+- 组件目录: `uni_modules/ms-ui/components/ms-slider/`
+- 演示: `#/pages/demo/form/slider`

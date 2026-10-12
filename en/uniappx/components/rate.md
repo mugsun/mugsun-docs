@@ -5,9 +5,9 @@ demo: pages/demo/form/rate
 
 # Rate
 
-`ms-rate`: Rate. See Chinese docs for narrative detail; API tables below are from source.
+`ms-rate` — Rate for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-rate`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-rate`).
 Demo route: `#/pages/demo/form/rate`.
 
 ## Basic usage
@@ -20,26 +20,26 @@ Demo route: `#/pages/demo/form/rate`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `number` | `0` | — |
-| count | `number` | `5` | — |
-| readonly | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| activeIcon | `string` | `'star-fill'` | — |
-| voidIcon | `string` | `'star-line'` | — |
-| halfIcon | `string` | `'star-half-fill'` | — |
-| showText | `boolean` | `false` | — |
-| showScore | `boolean` | `false` | 显示数字分值 |
-| allowHalf | `boolean` | `false` | 允许半星 |
-| clearable | `boolean` | `false` | 再点当前分值可清零 |
-| texts | `string[]` | `[]` | — |
-| placement | `'top' \| 'bottom' \| ''` | `''` | 点选时短暂展示评分弹层位置。 空串不展示；top / bottom 相对星排。 |
+| modelValue | `number` | `0` | Bound value (v-model) |
+| count | `number` | `5` | Count |
+| readonly | `boolean` | `false` | Whether read-only |
+| disabled | `boolean` | `false` | Whether disabled |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| activeIcon | `string` | `'star-fill'` | Active icon |
+| voidIcon | `string` | `'star-line'` | Inactive icon |
+| halfIcon | `string` | `'star-half-fill'` | Half-star icon |
+| showText | `boolean` | `false` | Whether to show Text |
+| showScore | `boolean` | `false` | Show numeric score |
+| allowHalf | `boolean` | `false` | Allow half stars |
+| clearable | `boolean` | `false` | Tapping the current value again clears it |
+| texts | `string[]` | `[]` | texts string value |
+| placement | `'top' \| 'bottom' \| ''` | `''` | Brief score popover position on tap. Empty hides it; top/bottom relative to the stars. |
 
 ## Events
 

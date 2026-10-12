@@ -5,9 +5,9 @@ demo: pages/demo/form/calendar
 
 # Calendar
 
-月网格日历。`type`：`single` / `multiple` / `range`。`value` 为 `YYYY-MM-DD` 逗号串。`marks` 扁平上下标。`switchMode=month` 翻月；`none` 平铺。弹层 `ms-popup`；`usePopup=false` 内嵌。
+`ms-calendar` — Calendar for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-calendar`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-calendar`).
 Demo route: `#/pages/demo/form/calendar`.
 
 ## Basic usage
@@ -20,29 +20,29 @@ Demo route: `#/pages/demo/form/calendar`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| type | `string` | `'single'` | — |
-| value | `string` | `''` | — |
-| minDate | `string` | `''` | — |
-| maxDate | `string` | `''` | — |
-| firstDayOfWeek | `number` | `0` | — |
-| disabledDates | `string[]` | `[]` | — |
-| marks | `UTSJSONObject[]` | `[]` | — |
-| switchMode | `string` | `'none'` | — |
-| title | `string` | `''` | — |
-| weekdays | `string[]` | `[]` | — |
-| readonly | `boolean` | `false` | — |
-| allowSameDay | `boolean` | `false` | — |
-| showConfirm | `boolean` | `true` | — |
-| confirmText | `string` | `'确定'` | — |
-| visible | `boolean` | `false` | — |
-| usePopup | `boolean` | `true` | — |
-| autoClose | `boolean` | `true` | — |
+| type | `string` | `'single'` | Type |
+| value | `string` | `''` | Current value |
+| minDate | `string` | `''` | minDate string value |
+| maxDate | `string` | `''` | maxDate string value |
+| firstDayOfWeek | `number` | `0` | First day of week |
+| disabledDates | `string[]` | `[]` | Disabled dates |
+| marks | `UTSJSONObject[]` | `[]` | Marks |
+| switchMode | `string` | `'none'` | switchMode string value |
+| title | `string` | `''` | Title |
+| weekdays | `string[]` | `[]` | weekdays string value |
+| readonly | `boolean` | `false` | Whether read-only |
+| allowSameDay | `boolean` | `false` | Allow selecting the same day |
+| showConfirm | `boolean` | `true` | Whether to show confirm |
+| confirmText | `string` | `'确定'` | Confirm button label |
+| visible | `boolean` | `false` | Whether visible |
+| usePopup | `boolean` | `true` | Whether to use popup |
+| autoClose | `boolean` | `true` | Whether to auto-close |
 
 ## Events
 

@@ -20,7 +20,7 @@ demo: pages/demo/nav/tabbar
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
@@ -28,14 +28,14 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | --- | --- | --- | --- |
 | value | `number` | `0` | 选中项下标 |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled |
-| theme | `'normal' \| 'tag'` | `'normal'` | — |
-| shape | `'normal' \| 'round'` | `'normal'` | — |
+| theme | `'normal' \| 'tag'` | `'normal'` | 主题 |
+| shape | `'normal' \| 'round'` | `'normal'` | 外形 |
 | bordered | `boolean` | `true` | 顶部外边框 |
 | split | `boolean` | `false` | 项间分割线 |
-| fixed | `boolean` | `true` | — |
+| fixed | `boolean` | `true` | 是否固定定位 |
 | placeholder | `boolean` | `false` | fixed 时在文档流占位，避免压住页面底部内容 |
-| safeAreaInsetBottom | `boolean` | `true` | — |
-| zIndex | `number` | `400` | — |
+| safeAreaInsetBottom | `boolean` | `true` | 是否开启 safeAreaInsetBottom |
+| zIndex | `number` | `400` | 层级 |
 
 ## 事件
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-tabbar/`
-- 演示：`#/pages/demo/nav/tabbar`
+- 组件目录: `uni_modules/ms-ui/components/ms-tabbar/`
+- 演示: `#/pages/demo/nav/tabbar`

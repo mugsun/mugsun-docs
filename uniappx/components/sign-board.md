@@ -14,13 +14,13 @@ demo: pages/demo/form/sign-board
 
 ```vue
 <template>
-  <ms-sign-board :disabled="true">
+  <ms-sign-board>
     …
   </ms-sign-board>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
@@ -28,7 +28,7 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | --- | --- | --- | --- |
 | penType | `string` | `'default'` | default / pen / pencil |
 | strokeWidth | `number` | `8` | 基准笔宽 px |
-| disabled | `boolean` | `false` | — |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
@@ -36,9 +36,9 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | --- | --- |
 | start | 开始 |
 | end | end |
-| clear | clear |
+| clear | 清空 |
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-sign-board/`
-- 演示：`#/pages/demo/form/sign-board`
+- 组件目录: `uni_modules/ms-ui/components/ms-sign-board/`
+- 演示: `#/pages/demo/form/sign-board`

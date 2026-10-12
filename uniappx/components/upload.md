@@ -5,7 +5,7 @@ demo: pages/demo/feedback/upload
 
 # Upload 上传
 
-`ms-upload`：图片宫格上传。
+`ms-upload`：图片宫格上传。规格卡 `reference/specs/p1-ms-upload.md`，审计规格 `reference/specs/component-audits/p1-ms-upload.json`。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-upload`）。
 演示路由：`#/pages/demo/feedback/upload`。
@@ -14,13 +14,13 @@ demo: pages/demo/feedback/upload
 
 ```vue
 <template>
-  <ms-upload :disabled="true">
+  <ms-upload>
     …
   </ms-upload>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
@@ -33,7 +33,7 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | showName | `boolean` | `false` | 磁贴下显示文件名 |
 | addable | `boolean` | `true` | 显示添加磁贴 |
 | removable | `boolean` | `true` | 显示删除按钮 |
-| disabled | `boolean` | `false` | — |
+| disabled | `boolean` | `false` | 是否禁用 |
 | preview | `boolean` | `true` | 点击磁贴是否调用原生预览 |
 | sizeLimit | `number` | `0` | 单文件大小上限（字节），0 不限；超限 emit oversize 且不入列 |
 
@@ -49,5 +49,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-upload/`
-- 演示：`#/pages/demo/feedback/upload`
+- 组件目录: `uni_modules/ms-ui/components/ms-upload/`
+- 演示: `#/pages/demo/feedback/upload`

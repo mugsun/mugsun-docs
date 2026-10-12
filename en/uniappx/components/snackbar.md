@@ -5,9 +5,9 @@ demo: pages/demo/feedback/snackbar
 
 # Snackbar
 
-`ms-snackbar`: Snackbar. See Chinese docs for narrative detail; API tables below are from source.
+`ms-snackbar` — Snackbar for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-snackbar`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-snackbar`).
 Demo route: `#/pages/demo/feedback/snackbar`.
 
 ## Basic usage
@@ -20,24 +20,24 @@ Demo route: `#/pages/demo/feedback/snackbar`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| content | `string` | `''` | — |
-| theme | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | — |
-| showIcon | `boolean` | `true` | 是否显示主题默认图标 |
-| icon | `string` | `''` | 自定义图标名（icons.uts）；空串时用 theme 默认 |
-| closeBtn | `boolean` | `false` | — |
-| actionText | `string` | `''` | 右侧操作文案；空串不显示 |
-| placement | `'top' \| 'bottom'` | `'top'` | — |
-| align | `'left' \| 'center'` | `'left'` | 文案对齐：left / center |
-| block | `boolean` | `false` | 通栏：去掉 max-width，横条贴边铺满 |
-| duration | `number` | `3000` | 毫秒；0 表示不自动关闭 |
-| zIndex | `number` | `1200` | — |
+| visible | `boolean` | `false` | Whether visible |
+| content | `string` | `''` | Content text |
+| theme | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Theme |
+| showIcon | `boolean` | `true` | Whether to show the theme default icon |
+| icon | `string` | `''` | Custom icon name (icons.uts); empty uses theme default |
+| closeBtn | `boolean` | `false` | Whether to show close button |
+| actionText | `string` | `''` | Right action label; empty hides it |
+| placement | `'top' \| 'bottom'` | `'top'` | Placement |
+| align | `'left' \| 'center'` | `'left'` | Text align: left / center |
+| block | `boolean` | `false` | Full bleed: drop max-width and stretch edge to edge |
+| duration | `number` | `3000` | Milliseconds; 0 = do not auto-close |
+| zIndex | `number` | `1200` | z-index |
 
 ## Events
 

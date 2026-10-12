@@ -14,24 +14,24 @@ demo: pages/demo/form/slide-verify
 
 ```vue
 <template>
-  <ms-slide-verify :disabled="true">
+  <ms-slide-verify>
     …
   </ms-slide-verify>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| tips | `string` | `'拖动滑块完成验证'` | — |
-| successTips | `string` | `'验证成功'` | — |
-| showTarget | `boolean` | `false` | — |
+| tips | `string` | `'拖动滑块完成验证'` | 提示文案 |
+| successTips | `string` | `'验证成功'` | successTips 文案/取值 |
+| showTarget | `boolean` | `false` | 是否显示Target |
 | targetPercent | `number` | `100` | 目标位置 0~100 |
-| tolerance | `number` | `8` | — |
-| disabled | `boolean` | `false` | — |
+| tolerance | `number` | `8` | tolerance 数值 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
@@ -45,5 +45,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-slide-verify/`
-- 演示：`#/pages/demo/form/slide-verify`
+- 组件目录: `uni_modules/ms-ui/components/ms-slide-verify/`
+- 演示: `#/pages/demo/form/slide-verify`

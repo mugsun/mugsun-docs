@@ -20,24 +20,24 @@ demo: pages/demo/display/money
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `0` | — |
-| digit | `number` | `2` | — |
-| thousand | `boolean` | `false` | — |
-| thousandLen | `number` | `3` | — |
-| thousandUnit | `string` | `','` | — |
-| symbol | `string` | `'¥'` | — |
-| symbolPosition | `'left' \| 'right'` | `'left'` | — |
-| showCn | `boolean` | `false` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
+| value | `number` | `0` | 当前值 |
+| digit | `number` | `2` | 是否数字 / 小数位相关 |
+| thousand | `boolean` | `false` | 是否开启 thousand |
+| thousandLen | `number` | `3` | thousandLen 数值 |
+| thousandUnit | `string` | `','` | thousandUnit 文案/取值 |
+| symbol | `string` | `'¥'` | 符号 |
+| symbolPosition | `'left' \| 'right'` | `'left'` | symbolPosition |
+| showCn | `boolean` | `false` | 是否显示Cn |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 | tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | 语义色：收入/支出等 |
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-money/`
-- 演示：`#/pages/demo/display/money`
+- 组件目录: `uni_modules/ms-ui/components/ms-money/`
+- 演示: `#/pages/demo/display/money`

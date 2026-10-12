@@ -20,21 +20,21 @@ demo: pages/demo/basic/badge
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| count | `number` | `0` | — |
-| label | `string` | `''` | — |
-| dot | `boolean` | `false` | — |
-| max | `number` | `99` | — |
-| showZero | `boolean` | `false` | — |
-| theme | `'danger' \| 'primary' \| 'success' \| 'warning'` | `'danger'` | — |
-| shape | `'circle' \| 'square'` | `'circle'` | — |
-| size | `'sm' \| 'md'` | `'md'` | — |
-| offset | `number[]` | `[]` | — |
+| count | `number` | `0` | 数量 |
+| label | `string` | `''` | 标签文案 |
+| dot | `boolean` | `false` | 圆点 |
+| max | `number` | `99` | 最大值 / 上限 |
+| showZero | `boolean` | `false` | 是否显示Zero |
+| theme | `'danger' \| 'primary' \| 'success' \| 'warning'` | `'danger'` | success \ |
+| shape | `'circle' \| 'square'` | `'circle'` | 外形 |
+| size | `'sm' \| 'md'` | `'md'` | 尺寸 |
+| offset | `number[]` | `[]` | 偏移 |
 | standalone | `boolean` | `false` | 独立展示徽标（不包裹锚点） |
 
 ## 插槽
@@ -45,5 +45,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-badge/`
-- 演示：`#/pages/demo/basic/badge`
+- 组件目录: `uni_modules/ms-ui/components/ms-badge/`
+- 演示: `#/pages/demo/basic/badge`

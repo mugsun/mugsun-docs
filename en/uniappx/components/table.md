@@ -5,9 +5,9 @@ demo: pages/demo/display/table
 
 # Table
 
-`ms-table`: Table. See Chinese docs for narrative detail; API tables below are from source.
+`ms-table` — Table for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-table`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-table`).
 Demo route: `#/pages/demo/display/table`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/display/table`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| columns | `UTSJSONObject[]` | `[]` | — |
-| data | `UTSJSONObject[]` | `[]` | — |
-| rowKey | `string` | `'id'` | — |
-| stripe | `boolean` | `false` | — |
-| bordered | `boolean` | `false` | — |
-| showHeader | `boolean` | `true` | — |
-| emptyText | `string` | `'暂无数据'` | — |
-| selectable | `boolean` | `false` | 开启行勾选列 |
-| selectedKeys | `string[]` | `[]` | 受控选中行 key 列表 |
-| sortKey | `string` | `''` | 受控排序列；空串表示无排序 |
+| columns | `UTSJSONObject[]` | `[]` | Columns config / count |
+| data | `UTSJSONObject[]` | `[]` | Data source |
+| rowKey | `string` | `'id'` | rowKey string value |
+| stripe | `boolean` | `false` | Whether stripe is enabled |
+| bordered | `boolean` | `false` | Whether bordered |
+| showHeader | `boolean` | `true` | Whether to show header |
+| emptyText | `string` | `'暂无数据'` | Empty-state text |
+| selectable | `boolean` | `false` | Enable row selection column |
+| selectedKeys | `string[]` | `[]` | Controlled selected row keys |
+| sortKey | `string` | `''` | Controlled sort column; empty = unsorted |
 | sortOrder | `string` | `'none'` | none \| asc \| desc |
 
 ## Events

@@ -5,29 +5,29 @@ demo: pages/demo/media/drag
 
 # Drag Item
 
-`ms-drag-item`: Drag Item. See Chinese docs for narrative detail; API tables below are from source.
+`ms-drag-item` — Drag Item for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drag-item`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drag-item`).
 Demo route: `#/pages/demo/media/drag`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-drag-item :disabled="true">
+  <ms-drag-item>
     …
   </ms-drag-item>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| order | `number` | `0` | — |
-| disabled | `boolean` | `false` | — |
+| order | `number` | `0` | order number |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

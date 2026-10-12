@@ -5,31 +5,31 @@ demo: pages/demo/display/tree-select
 
 # Tree Select
 
-`ms-tree-select`: Tree Select. See Chinese docs for narrative detail; API tables below are from source.
+`ms-tree-select` — Tree Select for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tree-select`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tree-select`).
 Demo route: `#/pages/demo/display/tree-select`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-tree-select>
+  <ms-tree-select value="…">
     …
   </ms-tree-select>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| leafValues | `string[]` | `[]` | — |
-| multiple | `boolean` | `false` | — |
+| options | `UTSJSONObject[]` | `[]` | Tree data |
+| value | `string[]` | `[]` | Column path; in single-select the last entry is the leaf value |
+| leafValues | `string[]` | `[]` | Multi-select checked values on the last column; ignored in single-select |
+| multiple | `boolean` | `false` | Whether the last column allows multi-select |
 
 ## Events
 

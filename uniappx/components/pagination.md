@@ -14,26 +14,26 @@ demo: pages/demo/nav/pagination
 
 ```vue
 <template>
-  <ms-pagination :disabled="true">
+  <ms-pagination>
     …
   </ms-pagination>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `1` | — |
-| total | `number` | `0` | — |
-| pageSize | `number` | `10` | — |
-| maxButtons | `number` | `3` | — |
-| minButtons | `number` | `5` | — |
-| simple | `boolean` | `false` | — |
-| showTotal | `boolean` | `true` | — |
-| disabled | `boolean` | `false` | — |
+| value | `number` | `1` | 当前值 |
+| total | `number` | `0` | 总条数 |
+| pageSize | `number` | `10` | 每页条数 |
+| maxButtons | `number` | `3` | maxButtons 数值 |
+| minButtons | `number` | `5` | minButtons 数值 |
+| simple | `boolean` | `false` | 是否开启 simple |
+| showTotal | `boolean` | `true` | 是否显示Total |
+| disabled | `boolean` | `false` | 是否禁用 |
 | showPrevNext | `boolean` | `false` | 完整模式两侧上一页/下一页 |
 | showJumper | `boolean` | `false` | 跳转到指定页 |
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-pagination/`
-- 演示：`#/pages/demo/nav/pagination`
+- 组件目录: `uni_modules/ms-ui/components/ms-pagination/`
+- 演示: `#/pages/demo/nav/pagination`

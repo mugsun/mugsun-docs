@@ -5,9 +5,9 @@ demo: pages/demo/form/picker-date
 
 # Picker Date
 
-日期时间选择器。`mode` 决定列深度：`year` → `month` → `date` → `hour` → `minute` → `second` 递进。
+`ms-picker-date` — Picker Date for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-date`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-date`).
 Demo route: `#/pages/demo/form/picker-date`.
 
 ## Basic usage
@@ -20,25 +20,25 @@ Demo route: `#/pages/demo/form/picker-date`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | 选中值：'YYYY-MM-DD HH:mm:ss' 的前缀，按 mode 截断 |
+| value | `string` | `''` | Selected value as prefix of 'YYYY-MM-DD HH:mm:ss', truncated by mode |
 | mode | `string` | `'date'` | year / month / date / hour / minute / second |
-| startYear | `number` | `2020` | 起始年 |
-| endYear | `number` | `2030` | 结束年 |
-| minuteStep | `number` | `1` | 分钟步长 |
-| visible | `boolean` | `false` | 是否显示 |
-| title | `string` | `''` | 标题 |
-| cancelText | `string` | `'取消'` | 取消文案 |
-| confirmText | `string` | `'确定'` | 确定文案 |
-| header | `boolean` | `true` | 是否显示头部 |
-| itemHeight | `number` | `44` | 单项高度 px |
-| visibleItemCount | `number` | `5` | 可视项数 |
-| usePopup | `boolean` | `true` | 是否弹出层包裹 |
+| startYear | `number` | `2020` | Start year |
+| endYear | `number` | `2030` | End year |
+| minuteStep | `number` | `1` | Minute step |
+| visible | `boolean` | `false` | Whether visible |
+| title | `string` | `''` | Title |
+| cancelText | `string` | `'取消'` | Cancel label |
+| confirmText | `string` | `'确定'` | Confirm label |
+| header | `boolean` | `true` | Whether to show the header |
+| itemHeight | `number` | `44` | Item height (px) |
+| visibleItemCount | `number` | `5` | Visible item count |
+| usePopup | `boolean` | `true` | Whether wrapped in a popup |
 
 ## Events
 

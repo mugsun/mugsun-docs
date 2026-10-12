@@ -5,9 +5,9 @@ demo: pages/demo/basic/empty
 
 # Empty
 
-空态：icon / image / action；status loading|error|more；action 插槽。
+`ms-empty` — Empty for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-empty`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-empty`).
 Demo route: `#/pages/demo/basic/empty`.
 
 ## Basic usage
@@ -20,21 +20,21 @@ Demo route: `#/pages/demo/basic/empty`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| status | `'empty' \| 'loading' \| 'error' \| 'more'` | `'empty'` | 展示态：空 / 加载 / 错误 / 没有更多 |
-| title | `string` | `''` | 主标题（空/错误态可选） |
-| description | `string` | `''` | — |
-| icon | `string` | `'inbox-line'` | — |
-| image | `string` | `''` | — |
-| actionText | `string` | `''` | — |
-| errorText | `string` | `'加载出错了'` | — |
-| moreText | `string` | `'没有更多了'` | — |
-| loadingText | `string` | `'加载中…'` | — |
+| status | `'empty' \| 'loading' \| 'error' \| 'more'` | `'empty'` | Display status: empty / loading / error / no more |
+| title | `string` | `''` | Main title (optional for empty/error states) |
+| description | `string` | `''` | Description text |
+| icon | `string` | `'inbox-line'` | Icon name (icons.uts) |
+| image | `string` | `''` | Image URL |
+| actionText | `string` | `''` | Action text |
+| errorText | `string` | `'加载出错了'` | Error text |
+| moreText | `string` | `'没有更多了'` | “No more” text |
+| loadingText | `string` | `'加载中…'` | Loading text |
 
 ## Events
 

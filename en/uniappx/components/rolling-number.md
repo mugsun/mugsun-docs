@@ -5,9 +5,9 @@ demo: pages/demo/display/rolling-number
 
 # Rolling Number
 
-`ms-rolling-number`: Rolling Number. See Chinese docs for narrative detail; API tables below are from source.
+`ms-rolling-number` — Rolling Number for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-rolling-number`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-rolling-number`).
 Demo route: `#/pages/demo/display/rolling-number`.
 
 ## Basic usage
@@ -20,21 +20,21 @@ Demo route: `#/pages/demo/display/rolling-number`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | — |
-| start | `number` | `0` | — |
-| duration | `number` | `400` | — |
-| decimals | `number` | `-1` | — |
-| grouping | `boolean` | `false` | — |
-| prefix | `string` | `''` | — |
-| suffix | `string` | `''` | — |
-| animated | `boolean` | `true` | — |
-| size | `'md' \| 'lg'` | `'md'` | — |
+| value | `number` | `0` | Current value |
+| start | `number` | `0` | Start |
+| duration | `number` | `400` | Duration (ms) |
+| decimals | `number` | `-1` | Decimal places |
+| grouping | `boolean` | `false` | Whether grouped |
+| prefix | `string` | `''` | Prefix |
+| suffix | `string` | `''` | Suffix |
+| animated | `boolean` | `true` | Whether animated |
+| size | `'md' \| 'lg'` | `'md'` | Size |
 
 ## Events
 

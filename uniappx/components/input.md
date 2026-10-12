@@ -20,37 +20,37 @@ demo: pages/demo/form/input
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| label | `string` | `''` | — |
-| placeholder | `string` | `''` | — |
-| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | — |
-| tips | `string` | `''` | — |
-| prefixIcon | `string` | `''` | — |
-| suffixIcon | `string` | `''` | — |
-| clearable | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| readonly | `boolean` | `false` | — |
-| maxlength | `number` | `-1` | — |
+| modelValue | `string` | `''` | 绑定值（v-model） |
+| label | `string` | `''` | 标签文案 |
+| placeholder | `string` | `''` | 占位文案 |
+| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | 类型 |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | 对齐方式 |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态 |
+| tips | `string` | `''` | 提示文案 |
+| prefixIcon | `string` | `''` | 前缀图标 |
+| suffixIcon | `string` | `''` | 后缀图标 |
+| clearable | `boolean` | `false` | 是否可清空 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| readonly | `boolean` | `false` | 是否只读 |
+| maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
 | showCount | `boolean` | `false` | 显示字数统计（需 maxlength ≥ 0） |
-| bordered | `boolean` | `true` | — |
+| bordered | `boolean` | `true` | 是否带边框 |
 
 ## 事件
 
 | 事件 | 说明 |
 | --- | --- |
 | update:modelValue | v-model 更新 |
-| input | input |
-| focus | focus |
-| blur | blur |
-| clear | clear |
+| input | 输入 |
+| focus | 聚焦 |
+| blur | 失焦 |
+| clear | 清空 |
 | confirm | 确认 |
 
 ## 插槽
@@ -64,5 +64,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-input/`
-- 演示：`#/pages/demo/form/input`
+- 组件目录: `uni_modules/ms-ui/components/ms-input/`
+- 演示: `#/pages/demo/form/input`

@@ -5,34 +5,34 @@ demo: pages/demo/display/qrcode
 
 # Qrcode
 
-`ms-qrcode`: Qrcode. See Chinese docs for narrative detail; API tables below are from source.
+`ms-qrcode` — Qrcode for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-qrcode`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-qrcode`).
 Demo route: `#/pages/demo/display/qrcode`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-qrcode size="…">
+  <ms-qrcode size="…" value="…">
     …
   </ms-qrcode>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | — |
-| size | `string` | `'md'` | — |
-| level | `string` | `'M'` | — |
-| logo | `string` | `''` | — |
-| status | `string` | `'active'` | — |
-| statusText | `string` | `''` | — |
-| margin | `boolean` | `true` | — |
+| value | `string` | `''` | Current value |
+| size | `string` | `'md'` | 'lg'` |
+| level | `string` | `'M'` | 'Q' \ |
+| logo | `string` | `''` | logo string value |
+| status | `string` | `'active'` | 'loading' \ |
+| statusText | `string` | `''` | statusText string value |
+| margin | `boolean` | `true` | Whether margin is enabled |
 
 ## See also
 

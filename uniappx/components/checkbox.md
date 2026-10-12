@@ -20,22 +20,22 @@ demo: pages/demo/form/checkbox
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | — |
-| value | `string` | `''` | — |
-| label | `string` | `''` | — |
-| content | `string` | `''` | — |
-| contentDisabled | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| indeterminate | `boolean` | `false` | — |
-| icon | `'square' \| 'circle' \| 'line'` | `'square'` | — |
-| placement | `'left' \| 'right'` | `'left'` | — |
-| block | `boolean` | `false` | — |
+| modelValue | `boolean` | `false` | 绑定值（v-model） |
+| value | `string` | `''` | 当前值 |
+| label | `string` | `''` | 标签文案 |
+| content | `string` | `''` | 内容文案 |
+| contentDisabled | `boolean` | `false` | 内容区是否禁用 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| indeterminate | `boolean` | `false` | 半选态 |
+| icon | `'square' \| 'circle' \| 'line'` | `'square'` | 图标名（icons.uts） |
+| placement | `'left' \| 'right'` | `'left'` | 弹出位置 |
+| block | `boolean` | `false` | 是否通栏 |
 
 ## 事件
 
@@ -52,5 +52,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-checkbox/`
-- 演示：`#/pages/demo/form/checkbox`
+- 组件目录: `uni_modules/ms-ui/components/ms-checkbox/`
+- 演示: `#/pages/demo/form/checkbox`

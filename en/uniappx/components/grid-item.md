@@ -7,29 +7,29 @@ demo: pages/demo/nav/grid
 
 `ms-grid-item` — Grid Item for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-grid-item`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-grid-item`).
 Demo route: `#/pages/demo/nav/grid`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-grid-item text="…" :disabled="true">
+  <ms-grid-item text="…">
     …
   </ms-grid-item>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| icon | `string` | `'apps-line'` | — |
-| text | `string` | `''` | — |
-| description | `string` | `''` | 副文案（图标下方第二行） |
-| disabled | `boolean` | `false` | — |
+| icon | `string` | `'apps-line'` | Icon name (icons.uts) |
+| text | `string` | `''` | Display text |
+| description | `string` | `''` | Secondary text under the icon |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

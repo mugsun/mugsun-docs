@@ -20,14 +20,14 @@ demo: pages/demo/basic/cell
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'card'` | `'default'` | — |
-| title | `string` | `''` | — |
+| theme | `'default' \| 'card'` | `'default'` | 主题 |
+| title | `string` | `''` | 标题 |
 
 ## 插槽
 
@@ -37,5 +37,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-cell-group/`
-- 演示：`#/pages/demo/basic/cell`
+- 组件目录: `uni_modules/ms-ui/components/ms-cell-group/`
+- 演示: `#/pages/demo/basic/cell`

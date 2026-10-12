@@ -5,9 +5,9 @@ demo: pages/demo/basic/button
 
 # Button
 
-语义化按钮。`theme` + `variant` + `size` + `block` + `disabled` + `loading` + `loadingText` + `formType` + `ghost` + `icon` / `iconOnly` + `shape` + `haptic`。
+`ms-button` — Button for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-button`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-button`).
 Demo route: `#/pages/demo/basic/button`.
 
 ## Basic usage
@@ -20,25 +20,25 @@ Demo route: `#/pages/demo/basic/button`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | — |
-| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | — |
-| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | — |
-| block | `boolean` | `false` | — |
-| ghost | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| loading | `boolean` | `false` | — |
-| loadingText | `string` | `'加载中…'` | 加载态文案；空串则只显示转圈 |
-| icon | `string` | `''` | — |
-| iconOnly | `boolean` | `false` | — |
-| formType | `'' \| 'submit' \| 'reset'` | `''` | — |
-| haptic | `boolean` | `true` | App/小程序点击短震动；Web 无能力自动跳过。cite: api/vibrate.md |
+| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | Theme |
+| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | Variant |
+| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | Shape |
+| block | `boolean` | `false` | Whether block-level / full width |
+| ghost | `boolean` | `false` | Ghost style (transparent background) |
+| disabled | `boolean` | `false` | Whether disabled |
+| loading | `boolean` | `false` | Whether loading |
+| loadingText | `string` | `'加载中…'` | Loading text; empty string shows spinner only |
+| icon | `string` | `''` | Icon name (icons.uts) |
+| iconOnly | `boolean` | `false` | Icon-only |
+| formType | `'' \| 'submit' \| 'reset'` | `''` | Form type (submit/reset) |
+| haptic | `boolean` | `true` | Short haptic on App/MP click; skipped automatically on Web |
 
 ## Events
 

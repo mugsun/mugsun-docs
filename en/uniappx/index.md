@@ -2,9 +2,9 @@
 
 Component library for **uni-app x**, package name **ms-ui**, easycom prefix `ms-`. Source: [mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (private).
 
-Component pages can show an H5 phone preview (iframe under `public/demo/`) when a demo route exists.
+Component pages can show an H5 phone preview when a demo route exists.
 
-**111** components documented from `uni_modules/ms-ui/components` (props / events / slots parsed from source).
+**119** components documented (including optional plugins). Props / events / slots come from source and `LLM.md`.
 
 ## Basic
 
@@ -146,4 +146,17 @@ Component pages can show an H5 phone preview (iframe under `public/demo/`) when 
 | [Drag Item](/en/uniappx/components/drag-item) | `ms-drag-item` |
 | [Finger](/en/uniappx/components/finger) | `ms-finger` |
 | [View Tofull](/en/uniappx/components/view-tofull) | `ms-view-tofull` |
+
+## Optional plugins
+
+| Component | Tag |
+| --- | --- |
+| [Blur](/en/uniappx/components/blur) | `ms-blur` · optional plugin |
+| [Camera](/en/uniappx/components/camera) | `ms-camera` · optional plugin |
+| [Chart](/en/uniappx/components/chart) | `ms-chart` · optional plugin |
+| [Editor](/en/uniappx/components/editor) | `ms-editor` · optional plugin |
+| [Graph](/en/uniappx/components/graph) | `ms-graph` · optional plugin |
+| [Markdown](/en/uniappx/components/markdown) | `ms-markdown` · optional plugin |
+| [Svg](/en/uniappx/components/svg) | `ms-svg` · optional plugin |
+| [Webview](/en/uniappx/components/webview) | `ms-webview` · optional plugin |
 

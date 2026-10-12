@@ -5,9 +5,9 @@ demo: pages/demo/display/scroll-x
 
 # Scroll X
 
-横向滚动容器（`scroll-view direction="horizontal"`）+ 底部进度指示条。
+`ms-scroll-x` — Scroll X for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-scroll-x`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-scroll-x`).
 Demo route: `#/pages/demo/display/scroll-x`.
 
 ## Basic usage
@@ -20,25 +20,25 @@ Demo route: `#/pages/demo/display/scroll-x`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| indicator | `boolean` | `true` | — |
-| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| inset | `boolean` | `false` | — |
-| showScrollbar | `boolean` | `false` | — |
-| scrollWithAnimation | `boolean` | `false` | — |
+| indicator | `boolean` | `true` | Bottom indicator bar |
+| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | Gap between child items |
+| inset | `boolean` | `false` | Leading/trailing padding |
+| showScrollbar | `boolean` | `false` | Native scrollbar |
+| scrollWithAnimation | `boolean` | `false` | Scroll animation |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
-| scroll | scroll |
+| scroll | Scroll |
 | scrolltoupper | scrolltoupper |
-| scrolltolower | scrolltolower |
+| scrolltolower | Scrolled to lower |
 
 ## Slots
 

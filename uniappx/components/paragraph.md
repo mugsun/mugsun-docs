@@ -20,16 +20,16 @@ demo: pages/demo/display/paragraph
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| content | `string` | `''` | — |
-| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | — |
-| lines | `number` | `0` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
+| content | `string` | `''` | 内容文案 |
+| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | `'default'` |
+| lines | `number` | `0` | 行数 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 
 ## 事件
 
@@ -45,5 +45,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-paragraph/`
-- 演示：`#/pages/demo/display/paragraph`
+- 组件目录: `uni_modules/ms-ui/components/ms-paragraph/`
+- 演示: `#/pages/demo/display/paragraph`

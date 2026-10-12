@@ -5,34 +5,34 @@ demo: pages/demo/display/image-group
 
 # Image Group
 
-`ms-image-group`: Image Group. See Chinese docs for narrative detail; API tables below are from source.
+`ms-image-group` — Image Group for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image-group`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image-group`).
 Demo route: `#/pages/demo/display/image-group`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-image-group :disabled="true">
+  <ms-image-group>
     …
   </ms-image-group>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| columns | `number` | `3` | — |
-| mode | `string` | `'aspectFill'` | — |
-| labelMode | `string` | `'inset'` | — |
-| maxCount | `number` | `-1` | — |
-| preview | `boolean` | `true` | — |
-| disabled | `boolean` | `false` | — |
+| list | `UTSJSONObject[]` | `[]` | Data list |
+| columns | `number` | `3` | `3` |
+| mode | `string` | `'aspectFill'` | Mode |
+| labelMode | `string` | `'inset'` | `'inset'` |
+| maxCount | `number` | `-1` | Max count |
+| preview | `boolean` | `true` | Whether previewable |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

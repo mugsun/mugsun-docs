@@ -20,16 +20,16 @@ demo: pages/demo/feedback/alert
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | — |
-| variant | `'light' \| 'solid'` | `'light'` | — |
-| closable | `boolean` | `true` | — |
-| icon | `string` | `''` | — |
+| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | 主题 |
+| variant | `'light' \| 'solid'` | `'light'` | 变体样式 |
+| closable | `boolean` | `true` | 是否可关闭 |
+| icon | `string` | `''` | 图标名（icons.uts） |
 | showIcon | `boolean` | `true` | 不显示左侧图标 |
 | title | `string` | `''` | 标题（可选，与默认插槽正文并存） |
 | visible | `boolean` | `true` | 是否显示；配合 update:visible，关闭后可由宿主重开 |
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-alert/`
-- 演示：`#/pages/demo/feedback/alert`
+- 组件目录: `uni_modules/ms-ui/components/ms-alert/`
+- 演示: `#/pages/demo/feedback/alert`

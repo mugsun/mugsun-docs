@@ -5,34 +5,34 @@ demo: pages/demo/form/code-input
 
 # Code Input
 
-验证码格：透明 `input` 盖住整排格子拉键盘；`skin` / `placeShape` / `password` / `autoFocus`。
+`ms-code-input` — Code Input for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-code-input`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-code-input`).
 Demo route: `#/pages/demo/form/code-input`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-code-input v-model="value" :disabled="true">
+  <ms-code-input v-model="value">
     …
   </ms-code-input>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| length | `number` | `4` | — |
-| skin | `'outline' \| 'fill'` | `'outline'` | — |
-| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | — |
-| password | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| autoFocus | `boolean` | `false` | — |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| length | `number` | `4` | length number |
+| skin | `'outline' \| 'fill'` | `'outline'` | skin |
+| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | placeShape |
+| password | `boolean` | `false` | Whether password |
+| disabled | `boolean` | `false` | Whether disabled |
+| autoFocus | `boolean` | `false` | Whether to auto-focus |
 
 ## Events
 

@@ -20,15 +20,15 @@ demo: pages/demo/display/watermark
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| content | `string` | `'Mugsun'` | — |
-| density | `string` | `'md'` | — |
-| layout | `string` | `'rectangular'` | — |
+| content | `string` | `'Mugsun'` | 内容文案 |
+| density | `string` | `'md'` | 'lg'` |
+| layout | `string` | `'rectangular'` | `'rectangular'` |
 
 ## 插槽
 
@@ -38,5 +38,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-watermark/`
-- 演示：`#/pages/demo/display/watermark`
+- 组件目录: `uni_modules/ms-ui/components/ms-watermark/`
+- 演示: `#/pages/demo/display/watermark`

@@ -5,9 +5,9 @@ demo: pages/demo/display/image-viewer
 
 # Image Viewer
 
-`ms-image-viewer`: Image Viewer. See Chinese docs for narrative detail; API tables below are from source.
+`ms-image-viewer` — Image Viewer for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image-viewer`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image-viewer`).
 Demo route: `#/pages/demo/display/image-viewer`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/display/image-viewer`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| images | `string[]` | `[]` | — |
-| initialIndex | `number` | `0` | — |
-| showIndex | `boolean` | `false` | — |
-| closeBtn | `boolean` | `false` | — |
-| deleteBtn | `boolean` | `false` | — |
+| visible | `boolean` | `false` | Whether visible |
+| images | `string[]` | `[]` | Image URL list |
+| initialIndex | `number` | `0` | Initial index |
+| showIndex | `boolean` | `false` | Whether to show Index |
+| closeBtn | `boolean` | `false` | Whether to show close button |
+| deleteBtn | `boolean` | `false` | Whether to show delete button |
 
 ## Events
 

@@ -5,9 +5,9 @@ demo: pages/demo/display/money
 
 # Money
 
-`ms-money`: Money. See Chinese docs for narrative detail; API tables below are from source.
+`ms-money` — Money for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-money`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-money`).
 Demo route: `#/pages/demo/display/money`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/display/money`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | — |
-| digit | `number` | `2` | — |
-| thousand | `boolean` | `false` | — |
-| thousandLen | `number` | `3` | — |
-| thousandUnit | `string` | `','` | — |
-| symbol | `string` | `'¥'` | — |
-| symbolPosition | `'left' \| 'right'` | `'left'` | — |
-| showCn | `boolean` | `false` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | 语义色：收入/支出等 |
+| value | `number` | `0` | Current value |
+| digit | `number` | `2` | Digit / decimal-related |
+| thousand | `boolean` | `false` | Whether thousand is enabled |
+| thousandLen | `number` | `3` | thousandLen number |
+| thousandUnit | `string` | `','` | thousandUnit string value |
+| symbol | `string` | `'¥'` | Symbol |
+| symbolPosition | `'left' \| 'right'` | `'left'` | symbolPosition |
+| showCn | `boolean` | `false` | Whether to show Cn |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | Semantic color (income/expense, etc.) |
 
 ## See also
 

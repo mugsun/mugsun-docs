@@ -20,17 +20,17 @@ demo: pages/demo/feedback/animation
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| name | `\| 'fade-in'` | `'fade-in'` | — |
-| duration | `number` | `300` | — |
-| delay | `number` | `0` | — |
-| autoPlay | `boolean` | `false` | — |
-| playing | `boolean` | `false` | — |
+| name | `\| 'fade-in'` | `'fade-in'` | 名称 / 字段名 |
+| duration | `number` | `300` | 时长（ms） |
+| delay | `number` | `0` | 延迟（ms） |
+| autoPlay | `boolean` | `false` | 是否自动播放 |
+| playing | `boolean` | `false` | 是否开启 playing |
 
 ## 事件
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-animation/`
-- 演示：`#/pages/demo/feedback/animation`
+- 组件目录: `uni_modules/ms-ui/components/ms-animation/`
+- 演示: `#/pages/demo/feedback/animation`

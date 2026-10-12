@@ -5,9 +5,9 @@ demo: pages/demo/nav/dropdown
 
 # Dropdown
 
-`ms-dropdown`: Dropdown. See Chinese docs for narrative detail; API tables below are from source.
+`ms-dropdown` — Dropdown for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-dropdown`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-dropdown`).
 Demo route: `#/pages/demo/nav/dropdown`.
 
 ## Basic usage
@@ -20,17 +20,17 @@ Demo route: `#/pages/demo/nav/dropdown`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| menus | `UTSJSONObject[]` | `[]` | 菜单栏：label / multiple / columns(1-3) / disabled |
-| options | `UTSJSONObject[]` | `[]` | 扁平选项：menu(下标) / label / value / disabled / checked |
-| height | `number` | `320` | 组件占位总高（蒸汽禁百分比高度，遮罩铺满该区域） |
-| showOverlay | `boolean` | `true` | 是否显示遮罩 |
-| closeOnClickOverlay | `boolean` | `true` | 点遮罩是否关闭 |
+| menus | `UTSJSONObject[]` | `[]` | Menus: label / multiple / columns(1-3) / disabled |
+| options | `UTSJSONObject[]` | `[]` | Flat options: menu(index) / label / value / disabled / checked |
+| height | `number` | `320` | Component height (px; vapor forbids %; overlay fills this area) |
+| showOverlay | `boolean` | `true` | Whether to show the overlay |
+| closeOnClickOverlay | `boolean` | `true` | Whether clicking the overlay closes |
 
 ## Events
 

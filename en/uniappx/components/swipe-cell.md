@@ -5,32 +5,32 @@ demo: pages/demo/feedback/swipe-cell
 
 # Swipe Cell
 
-`ms-swipe-cell`: Swipe Cell. See Chinese docs for narrative detail; API tables below are from source.
+`ms-swipe-cell` — Swipe Cell for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-swipe-cell`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-swipe-cell`).
 Demo route: `#/pages/demo/feedback/swipe-cell`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-swipe-cell :disabled="true">
+  <ms-swipe-cell>
     …
   </ms-swipe-cell>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | 受控：右侧面板是否展开 |
-| openedLeft | `boolean` | `false` | 受控：左侧面板是否展开 |
-| disabled | `boolean` | `false` | 禁用手势 |
-| threshold | `number` | `20` | 位移阈值，超过才吸附到位 |
-| bordered | `boolean` | `true` | 底部分隔线 |
+| opened | `boolean` | `false` | Controlled: whether the right panel is open |
+| openedLeft | `boolean` | `false` | Controlled: whether the left panel is open |
+| disabled | `boolean` | `false` | Disable gestures |
+| threshold | `number` | `20` | Distance threshold before snapping into place |
+| bordered | `boolean` | `true` | Bottom divider |
 
 ## Events
 

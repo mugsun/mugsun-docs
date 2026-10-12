@@ -14,26 +14,26 @@ demo: pages/demo/feedback/fab
 
 ```vue
 <template>
-  <ms-fab text="…" :disabled="true">
+  <ms-fab text="…">
     …
   </ms-fab>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| icon | `string` | `'add-line'` | — |
-| text | `string` | `''` | — |
-| position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | — |
-| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| expandable | `boolean` | `false` | — |
+| icon | `string` | `'add-line'` | 图标名（icons.uts） |
+| text | `string` | `''` | 展示文案 |
+| position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | 位置 |
+| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | 是否内嵌样式 |
+| expandable | `boolean` | `false` | 是否可展开 |
 | expanded | `boolean` | `false` | 展开态（受控，配 update:expanded） |
-| local | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
+| local | `boolean` | `false` | 是否本地/内联 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
@@ -51,5 +51,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-fab/`
-- 演示：`#/pages/demo/feedback/fab`
+- 组件目录: `uni_modules/ms-ui/components/ms-fab/`
+- 演示: `#/pages/demo/feedback/fab`

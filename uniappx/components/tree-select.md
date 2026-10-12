@@ -14,22 +14,22 @@ demo: pages/demo/display/tree-select
 
 ```vue
 <template>
-  <ms-tree-select>
+  <ms-tree-select value="…">
     …
   </ms-tree-select>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| leafValues | `string[]` | `[]` | — |
-| multiple | `boolean` | `false` | — |
+| options | `UTSJSONObject[]` | `[]` | 树数据 |
+| value | `string[]` | `[]` | 列路径；单选时末位为末列选中值 |
+| leafValues | `string[]` | `[]` | 多选末列勾选值；单选忽略 |
+| multiple | `boolean` | `false` | 末列是否多选 |
 
 ## 事件
 
@@ -41,5 +41,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-tree-select/`
-- 演示：`#/pages/demo/display/tree-select`
+- 组件目录: `uni_modules/ms-ui/components/ms-tree-select/`
+- 演示: `#/pages/demo/display/tree-select`

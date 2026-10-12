@@ -5,33 +5,33 @@ demo: pages/demo/display/image-resizer
 
 # Image Resizer
 
-`ms-image-resizer`: Image Resizer. See Chinese docs for narrative detail; API tables below are from source.
+`ms-image-resizer` — Image Resizer for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image-resizer`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-image-resizer`).
 Demo route: `#/pages/demo/display/image-resizer`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-image-resizer>
+  <ms-image-resizer src="…">
     …
   </ms-image-resizer>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | — |
-| cropWidth | `number` | `240` | — |
-| cropHeight | `number` | `240` | — |
-| height | `number` | `320` | — |
-| quality | `number` | `1` | — |
-| hideFlip | `boolean` | `false` | — |
+| src | `string` | `''` | Resource URL |
+| cropWidth | `number` | `240` | Crop width (px) |
+| cropHeight | `number` | `240` | Crop height (px) |
+| height | `number` | `320` | Height (px) |
+| quality | `number` | `1` | quality number |
+| hideFlip | `boolean` | `false` | Hide flip |
 
 ## Events
 

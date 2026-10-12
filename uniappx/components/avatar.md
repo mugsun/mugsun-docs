@@ -20,18 +20,18 @@ demo: pages/demo/display/avatar
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | — |
-| text | `string` | `''` | — |
-| icon | `string` | `''` | — |
-| shape | `'circle' \| 'round'` | `'circle'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| mode | `string` | `'aspectFill'` | — |
+| src | `string` | `''` | 资源地址 |
+| text | `string` | `''` | 展示文案 |
+| icon | `string` | `''` | 图标名（icons.uts） |
+| shape | `'circle' \| 'round'` | `'circle'` | 外形 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| mode | `string` | `'aspectFill'` | 模式 |
 
 ## 事件
 
@@ -42,5 +42,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-avatar/`
-- 演示：`#/pages/demo/display/avatar`
+- 组件目录: `uni_modules/ms-ui/components/ms-avatar/`
+- 演示: `#/pages/demo/display/avatar`

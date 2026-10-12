@@ -14,26 +14,26 @@ demo: pages/demo/basic/sheet
 
 ```vue
 <template>
-  <ms-sheet variant="default" :loading="true">
+  <ms-sheet variant="default">
     …
   </ms-sheet>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | — |
-| radius | `'md' \| 'lg'` | `'lg'` | — |
-| padding | `'none' \| 'md' \| 'lg'` | `'md'` | — |
-| margin | `'none' \| 'page'` | `'none'` | — |
-| bordered | `boolean` | `false` | — |
-| shadow | `boolean` | `false` | — |
-| loading | `boolean` | `false` | — |
-| url | `string` | `''` | — |
+| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | 变体样式 |
+| radius | `'md' \| 'lg'` | `'lg'` | 圆角（px） |
+| padding | `'none' \| 'md' \| 'lg'` | `'md'` | 内边距（px） |
+| margin | `'none' \| 'page'` | `'none'` | margin |
+| bordered | `boolean` | `false` | 是否带边框 |
+| shadow | `boolean` | `false` | 是否开启 shadow |
+| loading | `boolean` | `false` | 是否加载中 |
+| url | `string` | `''` | 地址 |
 | pressable | `boolean` | `false` | 可点按压反馈；有 url 时默认视为可点 |
 
 ## 事件
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-sheet/`
-- 演示：`#/pages/demo/basic/sheet`
+- 组件目录: `uni_modules/ms-ui/components/ms-sheet/`
+- 演示: `#/pages/demo/basic/sheet`

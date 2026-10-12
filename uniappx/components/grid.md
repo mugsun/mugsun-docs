@@ -20,15 +20,15 @@ demo: pages/demo/nav/grid
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| column | `3 \| 4 \| 5` | `4` | — |
-| border | `boolean` | `false` | — |
-| theme | `'default' \| 'card'` | `'default'` | — |
+| column | `3 \| 4 \| 5` | `4` | 列数 |
+| border | `boolean` | `false` | 是否显示边框 |
+| theme | `'default' \| 'card'` | `'default'` | 主题 |
 
 ## 插槽
 
@@ -38,5 +38,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-grid/`
-- 演示：`#/pages/demo/nav/grid`
+- 组件目录: `uni_modules/ms-ui/components/ms-grid/`
+- 演示: `#/pages/demo/nav/grid`

@@ -5,9 +5,9 @@ demo: pages/demo/media/devtool
 
 # Devtool
 
-`ms-devtool`: Devtool. See Chinese docs for narrative detail; API tables below are from source.
+`ms-devtool` — Devtool for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-devtool`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-devtool`).
 Demo route: `#/pages/demo/media/devtool`.
 
 ## Basic usage
@@ -20,25 +20,25 @@ Demo route: `#/pages/demo/media/devtool`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| title | `string` | `'调试面板'` | — |
-| host | `string` | `''` | — |
-| entries | `UTSJSONObject[]` | `[]` | — |
-| open | `boolean` | `false` | — |
-| showEnv | `boolean` | `true` | — |
-| maxHeight | `number` | `220` | — |
+| title | `string` | `'调试面板'` | Title |
+| host | `string` | `''` | Request host; empty hides the field |
+| entries | `UTSJSONObject[]` | `[]` | `api` / `status` / `time` / `result` |
+| open | `boolean` | `false` | Open state (`v-model:open`) |
+| showEnv | `boolean` | `true` | Environment info section |
+| maxHeight | `number` | `220` | Log area max height (px) |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
 | update:open | update:open |
-| clear | clear |
+| clear | Clear |
 | entry-click | entry-click |
 
 ## See also

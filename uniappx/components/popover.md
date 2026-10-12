@@ -20,19 +20,19 @@ demo: pages/demo/feedback/popover
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
+| visible | `boolean` | `false` | 是否显示 |
 | content | `string` | `''` | 纯文本内容；复杂内容用 content 插槽 |
-| placement | `\| 'top'` | `'top'` | — |
-| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | — |
-| showArrow | `boolean` | `true` | — |
+| placement | `\| 'top'` | `'top'` | 'top-right' \ |
+| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | 'brand' \ |
+| showArrow | `boolean` | `true` | 是否显示Arrow |
 | closeOnClickOutside | `boolean` | `true` | 点气泡外（透明遮罩）是否关闭 |
-| zIndex | `number` | `900` | — |
+| zIndex | `number` | `900` | 层级 |
 
 ## 事件
 
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-popover/`
-- 演示：`#/pages/demo/feedback/popover`
+- 组件目录: `uni_modules/ms-ui/components/ms-popover/`
+- 演示: `#/pages/demo/feedback/popover`

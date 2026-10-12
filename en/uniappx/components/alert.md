@@ -5,9 +5,9 @@ demo: pages/demo/feedback/alert
 
 # Alert
 
-`ms-alert`: Alert. See Chinese docs for narrative detail; API tables below are from source.
+`ms-alert` — Alert for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-alert`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-alert`).
 Demo route: `#/pages/demo/feedback/alert`.
 
 ## Basic usage
@@ -20,19 +20,19 @@ Demo route: `#/pages/demo/feedback/alert`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | — |
-| variant | `'light' \| 'solid'` | `'light'` | — |
-| closable | `boolean` | `true` | — |
-| icon | `string` | `''` | — |
-| showIcon | `boolean` | `true` | 不显示左侧图标 |
-| title | `string` | `''` | 标题（可选，与默认插槽正文并存） |
-| visible | `boolean` | `true` | 是否显示；配合 update:visible，关闭后可由宿主重开 |
+| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | Theme |
+| variant | `'light' \| 'solid'` | `'light'` | Variant |
+| closable | `boolean` | `true` | Whether closable |
+| icon | `string` | `''` | Icon name (icons.uts) |
+| showIcon | `boolean` | `true` | Hide the left icon |
+| title | `string` | `''` | Title (optional; can coexist with default slot body) |
+| visible | `boolean` | `true` | Whether visible; pairs with update:visible so host can reopen |
 
 ## Events
 

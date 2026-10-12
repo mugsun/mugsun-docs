@@ -20,15 +20,15 @@ demo: pages/demo/basic/icon
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| name | `string` | `''` | — |
-| size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | — |
-| tone | `\| 'inherit'` | `'inherit'` | — |
+| name | `string` | `''` | 名称 / 字段名 |
+| size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 尺寸 |
+| tone | `\| 'inherit'` | `'inherit'` | tone |
 | spin | `boolean` | `false` | 旋转加载：App/Web 用 UniElement.animate；微信小程序用 text CSS animation |
 | spinDuration | `number` | `1500` | 一圈时长 ms（默认 1500） |
 | rotate | `number` | `0` | 静态旋转角度（与 spin 互斥，spin 优先） |
@@ -42,5 +42,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-icon/`
-- 演示：`#/pages/demo/basic/icon`
+- 组件目录: `uni_modules/ms-ui/components/ms-icon/`
+- 演示: `#/pages/demo/basic/icon`

@@ -14,22 +14,22 @@ demo: pages/demo/media/finger
 
 ```vue
 <template>
-  <ms-finger :disabled="true">
+  <ms-finger>
     …
   </ms-finger>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| swipeThreshold | `number` | `40` | — |
-| doubleTapInterval | `number` | `280` | — |
-| longPressDelay | `number` | `500` | — |
-| disabled | `boolean` | `false` | — |
+| swipeThreshold | `number` | `40` | swipeThreshold 数值 |
+| doubleTapInterval | `number` | `280` | 双击间隔（ms） |
+| longPressDelay | `number` | `500` | longPressDelay 数值 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
@@ -54,5 +54,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-finger/`
-- 演示：`#/pages/demo/media/finger`
+- 组件目录: `uni_modules/ms-ui/components/ms-finger/`
+- 演示: `#/pages/demo/media/finger`

@@ -5,37 +5,37 @@ demo: pages/demo/nav/pagination
 
 # Pagination
 
-页码：完整窗口 / 简易上一页下一页；`showPrevNext` / `showJumper`；`v-model:value`。
+`ms-pagination` — Pagination for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-pagination`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-pagination`).
 Demo route: `#/pages/demo/nav/pagination`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-pagination :disabled="true">
+  <ms-pagination>
     …
   </ms-pagination>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `1` | — |
-| total | `number` | `0` | — |
-| pageSize | `number` | `10` | — |
-| maxButtons | `number` | `3` | — |
-| minButtons | `number` | `5` | — |
-| simple | `boolean` | `false` | — |
-| showTotal | `boolean` | `true` | — |
-| disabled | `boolean` | `false` | — |
-| showPrevNext | `boolean` | `false` | 完整模式两侧上一页/下一页 |
-| showJumper | `boolean` | `false` | 跳转到指定页 |
+| value | `number` | `1` | Current value |
+| total | `number` | `0` | Total count |
+| pageSize | `number` | `10` | Page size |
+| maxButtons | `number` | `3` | maxButtons number |
+| minButtons | `number` | `5` | minButtons number |
+| simple | `boolean` | `false` | Whether simple is enabled |
+| showTotal | `boolean` | `true` | Whether to show Total |
+| disabled | `boolean` | `false` | Whether disabled |
+| showPrevNext | `boolean` | `false` | Full mode shows prev/next on both sides |
+| showJumper | `boolean` | `false` | Jump to a specific page |
 
 ## Events
 

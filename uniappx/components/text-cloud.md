@@ -20,17 +20,17 @@ demo: pages/demo/display/text-cloud
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| height | `number` | `180` | — |
-| minFontSize | `number` | `12` | — |
-| maxFontSize | `number` | `30` | — |
-| gap | `number` | `2` | — |
+| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| height | `number` | `180` | 高度（px） |
+| minFontSize | `number` | `12` | minFontSize 数值 |
+| maxFontSize | `number` | `30` | maxFontSize 数值 |
+| gap | `number` | `2` | 间距（px） |
 
 ## 事件
 
@@ -40,5 +40,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-text-cloud/`
-- 演示：`#/pages/demo/display/text-cloud`
+- 组件目录: `uni_modules/ms-ui/components/ms-text-cloud/`
+- 演示: `#/pages/demo/display/text-cloud`

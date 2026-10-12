@@ -20,18 +20,18 @@ demo: pages/demo/basic/loading
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| text | `string` | `'加载中…'` | — |
-| layout | `'horizontal' \| 'vertical'` | `'vertical'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | — |
-| indicator | `boolean` | `true` | — |
-| paused | `boolean` | `false` | — |
+| text | `string` | `'加载中…'` | 展示文案 |
+| layout | `'horizontal' \| 'vertical'` | `'vertical'` | 布局 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | tone |
+| indicator | `boolean` | `true` | 是否显示指示器 |
+| paused | `boolean` | `false` | 是否开启 paused |
 
 ## 插槽
 
@@ -41,5 +41,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-loading/`
-- 演示：`#/pages/demo/basic/loading`
+- 组件目录: `uni_modules/ms-ui/components/ms-loading/`
+- 演示: `#/pages/demo/basic/loading`

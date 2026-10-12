@@ -14,22 +14,22 @@ demo: pages/demo/form/checkbox
 
 ```vue
 <template>
-  <ms-checkbox-group v-model="value" :disabled="true">
+  <ms-checkbox-group v-model="value">
     …
   </ms-checkbox-group>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string[]` | `[]` | — |
-| disabled | `boolean` | `false` | — |
-| max | `number` | `-1` | — |
-| horizontal | `boolean` | `false` | — |
+| modelValue | `string[]` | `[]` | 绑定值（v-model） |
+| disabled | `boolean` | `false` | 是否禁用 |
+| max | `number` | `-1` | 最大值 / 上限 |
+| horizontal | `boolean` | `false` | 是否横向 |
 
 ## 事件
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-checkbox-group/`
-- 演示：`#/pages/demo/form/checkbox`
+- 组件目录: `uni_modules/ms-ui/components/ms-checkbox-group/`
+- 演示: `#/pages/demo/form/checkbox`

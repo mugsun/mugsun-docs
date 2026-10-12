@@ -5,9 +5,9 @@ demo: pages/demo/nav/grid
 
 # Grid
 
-宫格容器 + `ms-grid-item` 子项；`column`/`border`/`theme`；子项 `icon`+`text`/`description`/`disabled`。
+`ms-grid` — Grid for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-grid`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-grid`).
 Demo route: `#/pages/demo/nav/grid`.
 
 ## Basic usage
@@ -20,15 +20,15 @@ Demo route: `#/pages/demo/nav/grid`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| column | `3 \| 4 \| 5` | `4` | — |
-| border | `boolean` | `false` | — |
-| theme | `'default' \| 'card'` | `'default'` | — |
+| column | `3 \| 4 \| 5` | `4` | Column count |
+| border | `boolean` | `false` | Whether to show border |
+| theme | `'default' \| 'card'` | `'default'` | Theme |
 
 ## Slots
 

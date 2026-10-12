@@ -20,20 +20,20 @@ demo: pages/demo/display/progress
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| percentage | `number` | `0` | — |
-| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | — |
-| status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | — |
-| strokeWidth | `number` | `6` | — |
-| label | `boolean \| string` | `true` | — |
-| size | `'xs' \| 'md'` | `'md'` | — |
+| percentage | `number` | `0` | percentage 数值 |
+| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | 变体样式 |
+| status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | 状态 |
+| strokeWidth | `number` | `6` | strokeWidth 数值 |
+| label | `boolean \| string` | `true` | 标签文案 |
+| size | `'xs' \| 'md'` | `'md'` | 尺寸 |
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-progress/`
-- 演示：`#/pages/demo/display/progress`
+- 组件目录: `uni_modules/ms-ui/components/ms-progress/`
+- 演示: `#/pages/demo/display/progress`

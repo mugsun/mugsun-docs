@@ -5,9 +5,9 @@ demo: pages/demo/feedback/animation
 
 # Animation
 
-`ms-animation`: Animation. See Chinese docs for narrative detail; API tables below are from source.
+`ms-animation` — Animation for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-animation`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-animation`).
 Demo route: `#/pages/demo/feedback/animation`.
 
 ## Basic usage
@@ -20,17 +20,17 @@ Demo route: `#/pages/demo/feedback/animation`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| name | `\| 'fade-in'` | `'fade-in'` | — |
-| duration | `number` | `300` | — |
-| delay | `number` | `0` | — |
-| autoPlay | `boolean` | `false` | — |
-| playing | `boolean` | `false` | — |
+| name | `\| 'fade-in'` | `'fade-in'` | Name / field name |
+| duration | `number` | `300` | Duration (ms) |
+| delay | `number` | `0` | Delay (ms) |
+| autoPlay | `boolean` | `false` | Whether to autoplay |
+| playing | `boolean` | `false` | Whether playing is enabled |
 
 ## Events
 

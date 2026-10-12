@@ -20,18 +20,18 @@ demo: pages/demo/basic/divider
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| layout | `'horizontal' \| 'vertical'` | `'horizontal'` | — |
-| align | `'left' \| 'center' \| 'right'` | `'center'` | — |
-| dashed | `boolean` | `false` | — |
-| text | `string` | `''` | — |
+| layout | `'horizontal' \| 'vertical'` | `'horizontal'` | 布局 |
+| align | `'left' \| 'center' \| 'right'` | `'center'` | 对齐方式 |
+| dashed | `boolean` | `false` | 是否虚线 |
+| text | `string` | `''` | 展示文案 |
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-divider/`
-- 演示：`#/pages/demo/basic/divider`
+- 组件目录: `uni_modules/ms-ui/components/ms-divider/`
+- 演示: `#/pages/demo/basic/divider`

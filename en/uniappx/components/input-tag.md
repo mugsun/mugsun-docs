@@ -5,35 +5,35 @@ demo: pages/demo/form/input-tag
 
 # Input Tag
 
-`ms-input-tag`: Input Tag. See Chinese docs for narrative detail; API tables below are from source.
+`ms-input-tag` — Input Tag for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-input-tag`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-input-tag`).
 Demo route: `#/pages/demo/form/input-tag`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-input-tag v-model="value" :disabled="true">
+  <ms-input-tag v-model="value">
     …
   </ms-input-tag>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string[]` | `[]` | — |
-| placeholder | `string` | `'输入后回车添加'` | — |
-| position | `string` | `'outside'` | — |
-| showButton | `boolean` | `true` | — |
-| buttonText | `string` | `'添加'` | — |
-| maxCount | `number` | `-1` | — |
-| disabled | `boolean` | `false` | — |
-| confirmType | `string` | `'done'` | — |
+| modelValue | `string[]` | `[]` | Bound value (v-model) |
+| placeholder | `string` | `'输入后回车添加'` | Placeholder |
+| position | `string` | `'outside'` | Position |
+| showButton | `boolean` | `true` | Whether to show Button |
+| buttonText | `string` | `'添加'` | Button text |
+| maxCount | `number` | `-1` | Max count |
+| disabled | `boolean` | `false` | Whether disabled |
+| confirmType | `string` | `'done'` | Keyboard confirm type |
 
 ## Events
 

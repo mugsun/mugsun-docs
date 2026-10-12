@@ -5,9 +5,9 @@ demo: pages/demo/form/picker-city
 
 # Picker City
 
-`ms-picker-city`: Picker City. See Chinese docs for narrative detail; API tables below are from source.
+`ms-picker-city` — Picker City for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-city`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-city`).
 Demo route: `#/pages/demo/form/picker-city`.
 
 ## Basic usage
@@ -20,23 +20,23 @@ Demo route: `#/pages/demo/form/picker-city`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| level | `number` | `3` | — |
-| visible | `boolean` | `false` | — |
-| title | `string` | `'选择地区'` | — |
-| cancelText | `string` | `'取消'` | — |
-| confirmText | `string` | `'确定'` | — |
-| separator | `string` | `' / '` | — |
-| itemHeight | `number` | `44` | — |
-| visibleItemCount | `number` | `5` | — |
-| usePopup | `boolean` | `true` | — |
+| options | `UTSJSONObject[]` | `[]` | Options list |
+| value | `string[]` | `[]` | Current value |
+| level | `number` | `3` | Level |
+| visible | `boolean` | `false` | Whether visible |
+| title | `string` | `'选择地区'` | Title |
+| cancelText | `string` | `'取消'` | Cancel button label |
+| confirmText | `string` | `'确定'` | Confirm button label |
+| separator | `string` | `' / '` | Separator |
+| itemHeight | `number` | `44` | Item height (px) |
+| visibleItemCount | `number` | `5` | visibleItemCount number |
+| usePopup | `boolean` | `true` | Whether to use popup |
 
 ## Events
 

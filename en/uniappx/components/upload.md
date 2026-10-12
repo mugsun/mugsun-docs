@@ -5,37 +5,37 @@ demo: pages/demo/feedback/upload
 
 # Upload
 
-图片宫格上传。
+`ms-upload` — Upload for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-upload`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-upload`).
 Demo route: `#/pages/demo/feedback/upload`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-upload :disabled="true">
+  <ms-upload>
     …
   </ms-upload>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| fileList | `UTSJSONObject[]` | `[]` | 受控文件列表，唯一渲染真源；项字段 url / name / status / percent |
-| max | `number` | `9` | 数量上限，0 不限 |
-| column | `number` | `4` | 每行列数 |
+| fileList | `UTSJSONObject[]` | `[]` | Controlled file list (render source of truth); fields url/name/status/percent |
+| max | `number` | `9` | Max count; 0 = unlimited |
+| column | `number` | `4` | Columns per row |
 | source | `string` | `'both'` | album / camera / both |
-| showName | `boolean` | `false` | 磁贴下显示文件名 |
-| addable | `boolean` | `true` | 显示添加磁贴 |
-| removable | `boolean` | `true` | 显示删除按钮 |
-| disabled | `boolean` | `false` | — |
-| preview | `boolean` | `true` | 点击磁贴是否调用原生预览 |
-| sizeLimit | `number` | `0` | 单文件大小上限（字节），0 不限；超限 emit oversize 且不入列 |
+| showName | `boolean` | `false` | Show file name under the tile |
+| addable | `boolean` | `true` | Show the add tile |
+| removable | `boolean` | `true` | Show remove button |
+| disabled | `boolean` | `false` | Whether disabled |
+| preview | `boolean` | `true` | Whether tapping a tile opens native preview |
+| sizeLimit | `number` | `0` | Per-file size limit (bytes); 0 = none; oversize emits and skips |
 
 ## Events
 

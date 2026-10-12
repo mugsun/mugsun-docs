@@ -14,31 +14,31 @@ demo: pages/demo/display/virtual-list
 
 ```vue
 <template>
-  <ms-virtual-list :loading="true">
+  <ms-virtual-list>
     …
   </ms-virtual-list>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | — |
-| itemHeight | `number` | `56` | — |
-| visibleCount | `number` | `5` | — |
-| buffer | `number` | `3` | — |
-| virtual | `boolean` | `true` | — |
-| titleKey | `string` | `'title'` | — |
-| descKey | `string` | `'desc'` | — |
-| keyField | `string` | `'id'` | — |
-| emptyText | `string` | `'暂无数据'` | — |
+| items | `UTSJSONObject[]` | `[]` | 选项/条目列表 |
+| itemHeight | `number` | `56` | 单项高度（px） |
+| visibleCount | `number` | `5` | visibleCount 数值 |
+| buffer | `number` | `3` | 缓冲区大小 |
+| virtual | `boolean` | `true` | 是否虚拟列表 |
+| titleKey | `string` | `'title'` | titleKey 文案/取值 |
+| descKey | `string` | `'desc'` | 描述字段名 |
+| keyField | `string` | `'id'` | 主键字段名 |
+| emptyText | `string` | `'暂无数据'` | 空态文案 |
 | loading | `boolean` | `false` | 触底加载中；为 true 时展示底栏并抑制重复 scrolltolower |
 | finished | `boolean` | `false` | 已无更多；底栏展示 finishedText |
-| loadingText | `string` | `'加载中…'` | — |
-| finishedText | `string` | `'没有更多了'` | — |
+| loadingText | `string` | `'加载中…'` | 加载文案 |
+| finishedText | `string` | `'没有更多了'` | 完成/没有更多文案 |
 | lowerThreshold | `number` | `50` | 距底多少 px 触发 scrolltolower（对齐 scroll-view lower-threshold） |
 | showLoadMore | `boolean` | `false` | 是否渲染触底状态底栏 |
 
@@ -48,7 +48,7 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | --- | --- |
 | item-click | 点击菜单项 |
 | range-change | range-change |
-| scrolltolower | scrolltolower |
+| scrolltolower | 触底 |
 
 ## 插槽
 
@@ -60,5 +60,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-virtual-list/`
-- 演示：`#/pages/demo/display/virtual-list`
+- 组件目录: `uni_modules/ms-ui/components/ms-virtual-list/`
+- 演示: `#/pages/demo/display/virtual-list`

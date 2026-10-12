@@ -20,21 +20,21 @@ demo: pages/demo/basic/tag
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | — |
-| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| shape | `'square' \| 'round' \| 'mark'` | `'square'` | — |
-| closable | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| icon | `string` | `''` | — |
+| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | 主题 |
+| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | 变体样式 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| shape | `'square' \| 'round' \| 'mark'` | `'square'` | 外形 |
+| closable | `boolean` | `false` | 是否可关闭 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| icon | `string` | `''` | 图标名（icons.uts） |
 | checkable | `boolean` | `false` | 可选中（筛选标签） |
-| checked | `boolean` | `false` | — |
+| checked | `boolean` | `false` | 是否选中 |
 | maxWidth | `number` | `0` | 文案最大宽度（px）；0 不限制，超出省略 |
 
 ## 事件
@@ -54,5 +54,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-tag/`
-- 演示：`#/pages/demo/basic/tag`
+- 组件目录: `uni_modules/ms-ui/components/ms-tag/`
+- 演示: `#/pages/demo/basic/tag`
