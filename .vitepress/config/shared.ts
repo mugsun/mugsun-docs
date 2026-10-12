@@ -4,6 +4,8 @@ import { defineConfig } from 'vitepress'
 const base = process.env.DOCS_BASE ?? '/'
 
 export const shared = defineConfig({
+  // Browser tab / SEO title. Nav bar text is hidden via siteTitle: false
+  // because logo.svg already includes the MUGSUN wordmark.
   title: 'mugsun',
   base,
   cleanUrls: true,
@@ -31,6 +33,8 @@ export const shared = defineConfig({
     ],
   ],
   themeConfig: {
+    // Logo already ships MS mark + MUGSUN wordmark; hide duplicate <span>mugsun</span>
+    siteTitle: false,
     logo: {
       light: '/logo.svg',
       dark: '/logo-dark.svg',
