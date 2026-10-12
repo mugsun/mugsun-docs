@@ -29,18 +29,18 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | modelValue | `string` | `''` | 绑定值（v-model） |
 | label | `string` | `''` | 标签文案 |
 | placeholder | `string` | `''` | 占位文案 |
-| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | 类型 |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | 对齐方式 |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态 |
-| tips | `string` | `''` | 提示文案 |
-| prefixIcon | `string` | `''` | 前缀图标 |
-| suffixIcon | `string` | `''` | 后缀图标 |
+| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | 输入类型：text / number / idcard / digit / password 等 |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | 输入区对齐：left / center / right |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态：default / success / warning / error |
+| tips | `string` | `''` | 底部提示文案 |
+| prefixIcon | `string` | `''` | 前缀图标名 |
+| suffixIcon | `string` | `''` | 后缀图标名 |
 | clearable | `boolean` | `false` | 是否可清空 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | readonly | `boolean` | `false` | 是否只读 |
 | maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
 | showCount | `boolean` | `false` | 显示字数统计（需 maxlength ≥ 0） |
-| bordered | `boolean` | `true` | 是否带边框 |
+| bordered | `boolean` | `true` | 是否显示底边框 |
 
 ## 事件
 

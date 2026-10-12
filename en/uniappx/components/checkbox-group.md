@@ -28,7 +28,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | modelValue | `string[]` | `[]` | Bound value (v-model) |
 | disabled | `boolean` | `false` | Whether disabled |
-| max | `number` | `-1` | Maximum / upper limit |
+| max | `number` | `-1` | Maximum |
 | horizontal | `boolean` | `false` | Whether horizontal |
 
 ## Events

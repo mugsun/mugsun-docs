@@ -26,18 +26,18 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | Theme |
-| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | Variant |
-| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | Shape |
-| block | `boolean` | `false` | Whether block-level / full width |
-| ghost | `boolean` | `false` | Ghost style (transparent background) |
+| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | Theme: default / primary / danger / success / warning / light |
+| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | Variant: solid / outline / dashed / text |
+| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Size: xs / sm / md / lg |
+| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | Shape: rectangle / square / round / circle |
+| block | `boolean` | `false` | Whether full width |
+| ghost | `boolean` | `false` | Ghost button (transparent fill, outlined) |
 | disabled | `boolean` | `false` | Whether disabled |
 | loading | `boolean` | `false` | Whether loading |
 | loadingText | `string` | `'加载中…'` | Loading text; empty string shows spinner only |
-| icon | `string` | `''` | Icon name (icons.uts) |
-| iconOnly | `boolean` | `false` | Icon-only |
-| formType | `'' \| 'submit' \| 'reset'` | `''` | Form type (submit/reset) |
+| icon | `string` | `''` | Left icon name; can coexist with text |
+| iconOnly | `boolean` | `false` | Icon only (square hit area) |
+| formType | `'' \| 'submit' \| 'reset'` | `''` | Native form type: submit / reset; empty = normal button |
 | haptic | `boolean` | `true` | Short haptic on App/MP click; skipped automatically on Web |
 
 ## Events

@@ -27,11 +27,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| placement | `'left' \| 'right'` | `'right'` | Placement |
+| placement | `'left' \| 'right'` | `'right'` | Popup / placement |
 | title | `string` | `''` | Title |
 | items | `UTSJSONObject[]` | `[]` | Each item: title / icon / disabled |
-| showOverlay | `boolean` | `true` | Whether to show overlay |
-| closeOnOverlayClick | `boolean` | `true` | Close when overlay is clicked |
+| showOverlay | `boolean` | `true` | Whether to show the overlay |
+| closeOnOverlayClick | `boolean` | `true` | Whether clicking the overlay closes |
 | closeOnSelect | `boolean` | `true` | Whether selecting a menu item auto-closes |
 | zIndex | `number` | `1000` | z-index |
 

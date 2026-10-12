@@ -26,8 +26,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Theme |
-| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | Variant |
+| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Theme color |
+| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | Style variant |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 | shape | `'square' \| 'round' \| 'mark'` | `'square'` | Shape |
 | closable | `boolean` | `false` | Whether closable |

@@ -30,10 +30,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | visible | `boolean` | `false` | 是否显示 |
 | type | `string` | `'number'` | number / password / idcard / car |
 | title | `string` | `'安全键盘'` | 标题 |
-| maxLen | `number` | `0` | maxLen 数值 |
-| max | `number` | `0` | 最大值 / 上限 |
+| maxLen | `number` | `0` | 最大输入长度；0 则按 mode 用内置上限 |
+| max | `number` | `0` | 最大值 |
 | digit | `boolean` | `true` | 是否数字 / 小数位相关 |
-| hold | `boolean` | `false` | 是否长按保持 |
+| hold | `boolean` | `false` | 是否支持长按 |
 | confirmText | `string` | `'确认'` | 确认按钮文案 |
 
 ## 事件

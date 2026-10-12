@@ -27,11 +27,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `number` | `0` | 绑定值（v-model） |
-| min | `number` | `0` | 最小值 / 下限 |
-| max | `number` | `100` | 最大值 / 上限 |
+| min | `number` | `0` | 最小值 |
+| max | `number` | `100` | 最大值 |
 | step | `number` | `1` | 步长 |
 | precision | `number` | `0` | 精度 |
-| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | 主题 |
+| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | 主题色 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | disableInput | `boolean` | `false` | 是否禁用输入 |

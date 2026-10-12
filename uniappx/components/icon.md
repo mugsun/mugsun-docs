@@ -28,7 +28,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | name | `string` | `''` | 名称 / 字段名 |
 | size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 尺寸 |
-| tone | `\| 'inherit'` | `'inherit'` | tone |
+| tone | `\| 'inherit'` | `'inherit'` | 色调（inherit / primary / secondary / danger…） |
 | spin | `boolean` | `false` | 旋转加载：App/Web 用 UniElement.animate；微信小程序用 text CSS animation |
 | spinDuration | `number` | `1500` | 一圈时长 ms（默认 1500） |
 | rotate | `number` | `0` | 静态旋转角度（与 spin 互斥，spin 优先） |

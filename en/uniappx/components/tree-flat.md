@@ -26,12 +26,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | Tree data; each item `title` + optional `children`, `opened` |
-| height | `number` | `320` | Component height (px) |
-| direction | `string` | `'horizontal'` | `horizontal` / `vertical` |
-| lineType | `string` | `'straight'` | `straight` polyline / `curve` curve |
-| fontSize | `number` | `13` | Node label font size (px) |
-| collapsible | `boolean` | `true` | Whether tapping a parent expands/collapses |
+| list | `UTSJSONObject[]` | `[]` | Data list |
+| height | `number` | `320` | Height (px) |
+| direction | `string` | `'horizontal'` | Direction |
+| lineType | `string` | `'straight'` | Link style: straight / curve |
+| fontSize | `number` | `13` | Font size (px) |
+| collapsible | `boolean` | `true` | Whether collapsible |
 
 ## Events
 

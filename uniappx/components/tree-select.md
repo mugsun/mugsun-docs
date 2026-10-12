@@ -26,10 +26,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | 树数据 |
-| value | `string[]` | `[]` | 列路径；单选时末位为末列选中值 |
-| leafValues | `string[]` | `[]` | 多选末列勾选值；单选忽略 |
-| multiple | `boolean` | `false` | 末列是否多选 |
+| options | `UTSJSONObject[]` | `[]` | 选项列表 |
+| value | `string[]` | `[]` | 当前值 |
+| leafValues | `string[]` | `[]` | 已选叶子值列表（v-model:leafValues） |
+| multiple | `boolean` | `false` | 是否多选 |
 
 ## 事件
 

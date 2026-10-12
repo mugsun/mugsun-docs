@@ -30,16 +30,16 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | name | `string` | `''` | Name / field name |
 | value | `string` | `''` | Value under validation (host passes form data in) |
 | required | `boolean` | `false` | Whether required |
-| requiredMark | `boolean` | `true` | Whether requiredMark is enabled |
-| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | rule number |
-| min | `number` | `-1` | Minimum / lower limit |
-| max | `number` | `-1` | Maximum / upper limit |
-| message | `string` | `''` | Validation message |
+| requiredMark | `boolean` | `true` | Whether to show a red asterisk when required |
+| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | Built-in validation: none / phone / email / number |
+| min | `number` | `-1` | Minimum |
+| max | `number` | `-1` | Maximum |
+| message | `string` | `''` | Validation failure message |
 | help | `string` | `''` | Help text |
-| arrow | `boolean` | `false` | Whether to show arrow |
+| arrow | `boolean` | `false` | Whether to show a right arrow |
 | labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | Label alignment |
 | labelWidth | `number` | `-1` | Label width (px) |
-| bordered | `boolean` | `true` | Whether bordered |
+| bordered | `boolean` | `true` | Whether to show border |
 
 ## Events
 

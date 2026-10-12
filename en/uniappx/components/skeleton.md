@@ -28,8 +28,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | loading | `boolean` | `true` | Whether loading |
 | delay | `number` | `0` | Delay (ms) |
-| theme | `'avatar' \| 'image' \| 'text' \| 'paragraph' \| 'card'` | `'text'` | Theme |
-| animation | `'none' \| 'flashed'` | `'none'` | animation |
+| theme | `'avatar' \| 'image' \| 'text' \| 'paragraph' \| 'card'` | `'text'` | Theme color |
+| animation | `'none' \| 'flashed'` | `'none'` | Animation: none / flashed |
 | row | `number` | `0` | Paragraph/text line count (2–6) |
 
 ## Slots

@@ -27,14 +27,14 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | list | `UTSJSONObject[]` | `[]` | Data list |
-| effect | `'fade' \| 'slide' \| 'zoom' \| 'scale-slide'` | `'fade'` | effect |
+| effect | `'fade' \| 'slide' \| 'zoom' \| 'scale-slide'` | `'fade'` | Transition effect: fade / slide / zoom / scale-slide |
 | current | `number` | `0` | Current index |
 | height | `number` | `160` | Height (px) |
 | autoplay | `boolean` | `true` | Whether to autoplay |
 | interval | `number` | `3500` | Interval (ms) |
 | duration | `number` | `600` | Duration (ms) |
 | loop | `boolean` | `true` | Whether to loop |
-| showDots | `boolean` | `true` | Whether to show Dots |
+| showDots | `boolean` | `true` | Whether to show dots |
 
 ## Events
 

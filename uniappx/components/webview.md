@@ -27,10 +27,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | 网页地址；为空显示空态 |
-| height | `number` | `260` | 容器高度 px（蒸汽只吃 number/pixel，禁百分比） |
-| showToolbar | `boolean` | `true` | 显示导航工具条 |
-| showStatus | `boolean` | `true` | 显示状态行 |
+| src | `string` | `''` | 资源地址 |
+| height | `number` | `260` | 高度（px） |
+| showToolbar | `boolean` | `true` | 是否显示工具条 |
+| showStatus | `boolean` | `true` | 是否显示状态 |
 | loadingText | `string` | `'加载中…'` | 加载中文案 |
 
 ## 事件

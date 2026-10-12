@@ -29,10 +29,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | time | `number` | `0` | Time |
 | format | `string` | `'HH:mm:ss'` | Format |
 | autoStart | `boolean` | `true` | Whether to auto-start |
-| millisecond | `boolean` | `false` | Whether millisecond is enabled |
-| theme | `'default' \| 'round' \| 'square'` | `'default'` | Theme |
+| millisecond | `boolean` | `false` | Whether to refresh every 100ms (show milliseconds) |
+| theme | `'default' \| 'round' \| 'square'` | `'default'` | Theme color |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| splitWithUnit | `boolean` | `false` | Whether splitWithUnit is enabled |
+| splitWithUnit | `boolean` | `false` | Whether to show unit labels at separators (otherwise :) |
 
 ## Events
 

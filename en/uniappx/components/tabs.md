@@ -28,7 +28,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | value | `number` | `0` | Selected item index |
 | items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled / content |
-| theme | `'line' \| 'tag' \| 'card'` | `'line'` | Theme |
+| theme | `'line' \| 'tag' \| 'card'` | `'line'` | Theme color |
 | size | `'md' \| 'lg'` | `'md'` | Size |
 | spaceEvenly | `boolean` | `true` | Equal-width header; false = content width + horizontal scroll |
 | showLine | `boolean` | `true` | Whether the line theme shows the bottom active bar |

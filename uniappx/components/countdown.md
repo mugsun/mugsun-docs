@@ -29,10 +29,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | time | `number` | `0` | 时间 |
 | format | `string` | `'HH:mm:ss'` | 格式 |
 | autoStart | `boolean` | `true` | 是否自动开始 |
-| millisecond | `boolean` | `false` | 是否开启 millisecond |
-| theme | `'default' \| 'round' \| 'square'` | `'default'` | 主题 |
+| millisecond | `boolean` | `false` | 是否按 100ms 刷新（显示毫秒） |
+| theme | `'default' \| 'round' \| 'square'` | `'default'` | 主题色 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| splitWithUnit | `boolean` | `false` | 是否开启 splitWithUnit |
+| splitWithUnit | `boolean` | `false` | 分隔处是否显示单位字（否则用 :） |
 
 ## 事件
 

@@ -27,13 +27,13 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | Image path (`/static/...` or http/https) |
-| source | `string` | `''` | Inline SVG source (preferred over `src`); converted to data URI |
-| size | `number` | `24` | Side length (px) |
-| width | `number` | `0` | When >0, overrides width |
-| height | `number` | `0` | When >0, overrides height |
-| color | `string` | `''` | Replace all `currentColor` in inline source with this color |
-| mode | `string` | `'aspectFit'` | Only `scaleToFill` / `aspectFit` / `aspectFill`; others fall back to `aspectFit` |
+| src | `string` | `''` | Resource URL |
+| source | `string` | `''` | Source / inline content |
+| size | `number` | `24` | Size |
+| width | `number` | `0` | Width (px) |
+| height | `number` | `0` | Height (px) |
+| color | `string` | `''` | Color |
+| mode | `string` | `'aspectFit'` | Mode |
 
 ## Events
 

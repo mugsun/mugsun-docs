@@ -28,7 +28,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | value | `number` | `0` | 选中项下标 |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled / content |
-| theme | `'line' \| 'tag' \| 'card'` | `'line'` | 主题 |
+| theme | `'line' \| 'tag' \| 'card'` | `'line'` | 主题色 |
 | size | `'md' \| 'lg'` | `'md'` | 尺寸 |
 | spaceEvenly | `boolean` | `true` | 头部是否均分；false 时按内容撑开并可横向滚动 |
 | showLine | `boolean` | `true` | line 主题是否显示底部激活条 |

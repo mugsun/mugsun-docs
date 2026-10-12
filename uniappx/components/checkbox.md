@@ -27,14 +27,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `boolean` | `false` | 绑定值（v-model） |
-| value | `string` | `''` | 当前值 |
+| value | `string` | `''` | 在 checkbox-group 中的选项值 |
 | label | `string` | `''` | 标签文案 |
-| content | `string` | `''` | 内容文案 |
-| contentDisabled | `boolean` | `false` | 内容区是否禁用 |
+| content | `string` | `''` | 次要说明文案 |
+| contentDisabled | `boolean` | `false` | 点内容区不切换；仅点图标切换 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | indeterminate | `boolean` | `false` | 半选态 |
-| icon | `'square' \| 'circle' \| 'line'` | `'square'` | 图标名（icons.uts） |
-| placement | `'left' \| 'right'` | `'left'` | 弹出位置 |
+| icon | `'square' \| 'circle' \| 'line'` | `'square'` | 图标形状 |
+| placement | `'left' \| 'right'` | `'left'` | 图标相对文案位置 |
 | block | `boolean` | `false` | 是否通栏 |
 
 ## 事件

@@ -26,12 +26,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | 是否开启 opened |
-| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | 'lg'` |
+| opened | `boolean` | `false` | 是否已展开 |
+| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | 收起态可见高度档：sm / md / lg |
 | expandText | `string` | `'展开更多'` | 展开文案 |
 | collapseText | `string` | `'收起'` | 收起文案 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| showAction | `boolean` | `true` | 是否显示Action |
+| showAction | `boolean` | `true` | 是否显示展开/收起操作区 |
 | showIcon | `boolean` | `true` | 是否显示展开/收起箭头图标 |
 
 ## 事件

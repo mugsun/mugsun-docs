@@ -26,15 +26,15 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| title | `string` | `''` | Title |
-| description | `string` | `''` | Description text |
-| note | `string` | `''` | Note |
+| title | `string` | `''` | Main title |
+| description | `string` | `''` | Description below |
+| note | `string` | `''` | Right-side note |
 | icon | `string` | `''` | Icon name (icons.uts) |
 | image | `string` | `''` | Left image (preferred over icon) |
 | arrow | `boolean` | `false` | Whether to show arrow |
-| bordered | `boolean` | `true` | Whether bordered |
-| required | `boolean` | `false` | Whether required |
-| url | `string` | `''` | URL |
+| bordered | `boolean` | `true` | Whether to show border |
+| required | `boolean` | `false` | Whether to show required asterisk |
+| url | `string` | `''` | Tap navigation URL |
 | disabled | `boolean` | `false` | Whether disabled |
 | align | `'top' \| 'middle' \| 'bottom'` | `'middle'` | Vertical alignment of the right area |
 

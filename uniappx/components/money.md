@@ -28,12 +28,12 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | value | `number` | `0` | 当前值 |
 | digit | `number` | `2` | 是否数字 / 小数位相关 |
-| thousand | `boolean` | `false` | 是否开启 thousand |
-| thousandLen | `number` | `3` | thousandLen 数值 |
-| thousandUnit | `string` | `','` | thousandUnit 文案/取值 |
-| symbol | `string` | `'¥'` | 符号 |
-| symbolPosition | `'left' \| 'right'` | `'left'` | symbolPosition |
-| showCn | `boolean` | `false` | 是否显示Cn |
+| thousand | `boolean` | `false` | 是否千分位分隔 |
+| thousandLen | `number` | `3` | 千分位分组长度 |
+| thousandUnit | `string` | `','` | 千分位分隔符 |
+| symbol | `string` | `'¥'` | 货币符号 |
+| symbolPosition | `'left' \| 'right'` | `'left'` | 符号位置：left / right |
+| showCn | `boolean` | `false` | 是否显示中文大写金额 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 | tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | 语义色：收入/支出等 |
 

@@ -30,7 +30,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | duration | `number` | `300` | Duration (ms) |
 | delay | `number` | `0` | Delay (ms) |
 | autoPlay | `boolean` | `false` | Whether to autoplay |
-| playing | `boolean` | `false` | Whether playing is enabled |
+| playing | `boolean` | `false` | Whether playing (supports v-model:playing) |
 
 ## Events
 

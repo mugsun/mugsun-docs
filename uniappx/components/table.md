@@ -26,11 +26,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| columns | `UTSJSONObject[]` | `[]` | 列配置 / 列数 |
+| columns | `UTSJSONObject[]` | `[]` | 列配置 |
 | data | `UTSJSONObject[]` | `[]` | 数据源 |
-| rowKey | `string` | `'id'` | rowKey 文案/取值 |
-| stripe | `boolean` | `false` | 是否开启 stripe |
-| bordered | `boolean` | `false` | 是否带边框 |
+| rowKey | `string` | `'id'` | 行主键字段名 |
+| stripe | `boolean` | `false` | 是否斑马纹 |
+| bordered | `boolean` | `false` | 是否显示边框 |
 | showHeader | `boolean` | `true` | 是否显示头部 |
 | emptyText | `string` | `'暂无数据'` | 空态文案 |
 | selectable | `boolean` | `false` | 开启行勾选列 |

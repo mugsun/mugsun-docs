@@ -30,7 +30,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | height | `number` | `120` | 高度（px） |
 | speed | `number` | `80` | 速度 |
 | rows | `number` | `3` | 行数 |
-| paused | `boolean` | `false` | 是否开启 paused |
+| paused | `boolean` | `false` | 是否暂停弹幕 |
 
 ## 事件
 

@@ -26,10 +26,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Variant |
+| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Style variant |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 | bold | `boolean` | `false` | Whether bold |
-| lines | `number` | `0` | Line count |
+| lines | `number` | `0` | Row count |
 | selectable | `boolean` | `false` | Whether text is selectable |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
 

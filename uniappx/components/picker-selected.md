@@ -34,10 +34,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | confirmText | `string` | `'确定'` | 确认按钮文案 |
 | placeholder | `string` | `'搜索'` | 占位文案 |
 | emptyText | `string` | `'暂无数据'` | 空态文案 |
-| valueKey | `string` | `'id'` | valueKey 文案/取值 |
-| labelKey | `string` | `'name'` | 标签字段名 |
-| filterKey | `string` | `''` | 筛选字段名 |
-| localSearch | `boolean` | `true` | 是否开启 localSearch |
+| valueKey | `string` | `'id'` | 选项值字段名 |
+| labelKey | `string` | `'name'` | 选项文案字段名 |
+| filterKey | `string` | `''` | 搜索匹配字段名 |
+| localSearch | `boolean` | `true` | 是否在本地 options 内筛选 |
 | multiple | `boolean` | `true` | 是否多选 |
 | required | `boolean` | `false` | 是否必填 |
 | disabled | `boolean` | `false` | 是否禁用 |

@@ -29,11 +29,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | modelValue | `string[]` | `[]` | 绑定值（v-model） |
 | placeholder | `string` | `'输入后回车添加'` | 占位文案 |
 | position | `string` | `'outside'` | 位置 |
-| showButton | `boolean` | `true` | 是否显示Button |
+| showButton | `boolean` | `true` | 是否显示添加按钮 |
 | buttonText | `string` | `'添加'` | 按钮文案 |
 | maxCount | `number` | `-1` | 最大数量 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| confirmType | `string` | `'done'` | 键盘确认类型 |
+| confirmType | `string` | `'done'` | 键盘确认键类型 |
 
 ## 事件
 

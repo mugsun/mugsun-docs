@@ -28,7 +28,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
 | closable | `boolean` | `true` | 是否可关闭 |
-| zIndex | `number` | `1000` | 层级 |
+| zIndex | `number` | `1000` | 层级 z-index |
 | dim | `'light' \| 'normal' \| 'heavy'` | `'normal'` | 遮罩浓度：浅 / 常规 / 深（语义档，非任意颜色字符串） |
 
 ## 事件

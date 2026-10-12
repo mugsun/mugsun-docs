@@ -26,15 +26,15 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| count | `number` | `0` | 数量 |
-| label | `string` | `''` | 标签文案 |
-| dot | `boolean` | `false` | 圆点 |
-| max | `number` | `99` | 最大值 / 上限 |
-| showZero | `boolean` | `false` | 是否显示Zero |
-| theme | `'danger' \| 'primary' \| 'success' \| 'warning'` | `'danger'` | success \ |
+| count | `number` | `0` | 数字徽标；优先于 label |
+| label | `string` | `''` | 文案徽标（非数字时） |
+| dot | `boolean` | `false` | 是否圆点徽标（忽略数字） |
+| max | `number` | `99` | 数字封顶；超出显示 max+ |
+| showZero | `boolean` | `false` | count 为 0 时是否仍显示 |
+| theme | `'danger' \| 'primary' \| 'success' \| 'warning'` | `'danger'` | 主题色 |
 | shape | `'circle' \| 'square'` | `'circle'` | 外形 |
 | size | `'sm' \| 'md'` | `'md'` | 尺寸 |
-| offset | `number[]` | `[]` | 偏移 |
+| offset | `number[]` | `[]` | 相对锚点的 [x,y] 偏移（px） |
 | standalone | `boolean` | `false` | 独立展示徽标（不包裹锚点） |
 
 ## 插槽

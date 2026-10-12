@@ -27,15 +27,15 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `boolean` | `false` | Bound value (v-model) |
-| value | `string` | `''` | Current value |
+| value | `string` | `''` | Option value within checkbox-group |
 | label | `string` | `''` | Label text |
-| content | `string` | `''` | Content text |
-| contentDisabled | `boolean` | `false` | Whether content is disabled |
+| content | `string` | `''` | Secondary description |
+| contentDisabled | `boolean` | `false` | Tapping content does not toggle; only the icon toggles |
 | disabled | `boolean` | `false` | Whether disabled |
 | indeterminate | `boolean` | `false` | Indeterminate state |
-| icon | `'square' \| 'circle' \| 'line'` | `'square'` | Icon name (icons.uts) |
-| placement | `'left' \| 'right'` | `'left'` | Placement |
-| block | `boolean` | `false` | Whether block-level / full width |
+| icon | `'square' \| 'circle' \| 'line'` | `'square'` | Icon shape |
+| placement | `'left' \| 'right'` | `'left'` | Icon position relative to text |
+| block | `boolean` | `false` | Whether full-bleed / block |
 
 ## Events
 

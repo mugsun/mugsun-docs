@@ -34,10 +34,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | confirmText | `string` | `'确定'` | Confirm button label |
 | placeholder | `string` | `'搜索'` | Placeholder |
 | emptyText | `string` | `'暂无数据'` | Empty-state text |
-| valueKey | `string` | `'id'` | valueKey string value |
-| labelKey | `string` | `'name'` | Label field key |
-| filterKey | `string` | `''` | Filter field key |
-| localSearch | `boolean` | `true` | Whether localSearch is enabled |
+| valueKey | `string` | `'id'` | Option value field name |
+| labelKey | `string` | `'name'` | Option label field name |
+| filterKey | `string` | `''` | Search match field name |
+| localSearch | `boolean` | `true` | Whether to filter within local options |
 | multiple | `boolean` | `true` | Whether multiple |
 | required | `boolean` | `false` | Whether required |
 | disabled | `boolean` | `false` | Whether disabled |

@@ -27,10 +27,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | Page URL; empty shows empty state |
-| height | `number` | `260` | Container height (px; vapor number/pixel only, no %) |
-| showToolbar | `boolean` | `true` | Show navigation toolbar |
-| showStatus | `boolean` | `true` | Show status line |
+| src | `string` | `''` | Resource URL |
+| height | `number` | `260` | Height (px) |
+| showToolbar | `boolean` | `true` | Whether to show toolbar |
+| showStatus | `boolean` | `true` | Whether to show status |
 | loadingText | `string` | `'加载中…'` | Loading text |
 
 ## Events

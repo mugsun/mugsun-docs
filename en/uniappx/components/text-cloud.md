@@ -28,8 +28,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | list | `UTSJSONObject[]` | `[]` | Data list |
 | height | `number` | `180` | Height (px) |
-| minFontSize | `number` | `12` | minFontSize number |
-| maxFontSize | `number` | `30` | maxFontSize number |
+| minFontSize | `number` | `12` | Word-cloud min font size (px) |
+| maxFontSize | `number` | `30` | Word-cloud max font size (px) |
 | gap | `number` | `2` | Gap (px) |
 
 ## Events

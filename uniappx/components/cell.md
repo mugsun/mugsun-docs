@@ -26,15 +26,15 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| title | `string` | `''` | 标题 |
-| description | `string` | `''` | 描述文案 |
-| note | `string` | `''` | 备注 |
+| title | `string` | `''` | 主标题 |
+| description | `string` | `''` | 下方描述 |
+| note | `string` | `''` | 右侧备注 |
 | icon | `string` | `''` | 图标名（icons.uts） |
 | image | `string` | `''` | 左侧图片（优先于 icon） |
 | arrow | `boolean` | `false` | 是否显示箭头 |
-| bordered | `boolean` | `true` | 是否带边框 |
-| required | `boolean` | `false` | 是否必填 |
-| url | `string` | `''` | 地址 |
+| bordered | `boolean` | `true` | 是否显示边框 |
+| required | `boolean` | `false` | 是否显示必填星号 |
+| url | `string` | `''` | 点击跳转地址 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | align | `'top' \| 'middle' \| 'bottom'` | `'middle'` | 右侧区垂直对齐 |
 

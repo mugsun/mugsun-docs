@@ -29,11 +29,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | modelValue | `string[]` | `[]` | Bound value (v-model) |
 | placeholder | `string` | `'输入后回车添加'` | Placeholder |
 | position | `string` | `'outside'` | Position |
-| showButton | `boolean` | `true` | Whether to show Button |
-| buttonText | `string` | `'添加'` | Button text |
+| showButton | `boolean` | `true` | Whether to show add button |
+| buttonText | `string` | `'添加'` | Button label |
 | maxCount | `number` | `-1` | Max count |
 | disabled | `boolean` | `false` | Whether disabled |
-| confirmType | `string` | `'done'` | Keyboard confirm type |
+| confirmType | `string` | `'done'` | Keyboard confirm-key type |
 
 ## Events
 

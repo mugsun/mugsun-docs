@@ -33,8 +33,8 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | image | `string` | `''` | 图片地址 |
 | actionText | `string` | `''` | 操作文案 |
 | errorText | `string` | `'加载出错了'` | 错误文案 |
-| moreText | `string` | `'没有更多了'` | moreText 文案/取值 |
-| loadingText | `string` | `'加载中…'` | 加载文案 |
+| moreText | `string` | `'没有更多了'` | variant 为 more 时的文案 |
+| loadingText | `string` | `'加载中…'` | 加载中文案 |
 
 ## 事件
 

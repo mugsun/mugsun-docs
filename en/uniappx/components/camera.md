@@ -27,12 +27,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| devicePosition | `string` | `'back'` | `back` / `front`; invalid falls back to `back` |
-| flash | `string` | `'auto'` | `auto` / `on` / `off` / `torch` |
-| resolution | `string` | `'medium'` | `low` / `medium` / `high` |
-| height | `number` | `220` | Viewfinder height (px) |
-| showToolbar | `boolean` | `true` | Show capture / flip toolbar |
-| tip | `string` | `''` | Tip text under the viewfinder |
+| devicePosition | `string` | `'back'` | Camera facing |
+| flash | `string` | `'auto'` | Flash mode |
+| resolution | `string` | `'medium'` | Resolution |
+| height | `number` | `220` | Height (px) |
+| showToolbar | `boolean` | `true` | Whether to show toolbar |
+| tip | `string` | `''` | Tip text |
 
 ## Events
 

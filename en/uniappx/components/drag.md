@@ -28,7 +28,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | list | `UTSJSONObject[]` | `[]` | Data list |
 | col | `number` | `1` | Column span |
-| scrollDiff | `number` | `25` | scrollDiff number |
+| scrollDiff | `number` | `25` | Pixels to scroll each time when dragged near an edge |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events

@@ -29,8 +29,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | visible | `boolean` | `false` | Whether visible |
 | images | `string[]` | `[]` | Image URL list |
 | initialIndex | `number` | `0` | Initial index |
-| showIndex | `boolean` | `false` | Whether to show Index |
-| closeBtn | `boolean` | `false` | Whether to show close button |
+| showIndex | `boolean` | `false` | Whether to show current index |
+| closeBtn | `boolean` | `false` | Whether to show the close button |
 | deleteBtn | `boolean` | `false` | Whether to show delete button |
 
 ## Events

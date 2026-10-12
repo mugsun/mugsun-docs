@@ -29,8 +29,8 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | list | `UTSJSONObject[]` | `[]` | 数据列表 |
 | value | `string[]` | `[]` | 当前值 |
 | folderIds | `string[]` | `[]` | 文件夹 id 列表 |
-| checkable | `boolean` | `true` | 是否可选 |
-| parentLink | `boolean` | `false` | 是否开启 parentLink |
+| checkable | `boolean` | `true` | 是否可选中 |
+| parentLink | `boolean` | `false` | 选父是否联动子；选子是否回写父 |
 | disabledParent | `boolean` | `false` | 是否禁用父级联动 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | idKey | `string` | `'id'` | id 字段名 |

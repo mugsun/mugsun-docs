@@ -30,7 +30,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | duration | `number` | `300` | 时长（ms） |
 | delay | `number` | `0` | 延迟（ms） |
 | autoPlay | `boolean` | `false` | 是否自动播放 |
-| playing | `boolean` | `false` | 是否开启 playing |
+| playing | `boolean` | `false` | 是否播放中（可 v-model:playing） |
 
 ## 事件
 

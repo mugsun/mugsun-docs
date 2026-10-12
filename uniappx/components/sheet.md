@@ -26,14 +26,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | 变体样式 |
+| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | 样式变体 |
 | radius | `'md' \| 'lg'` | `'lg'` | 圆角（px） |
 | padding | `'none' \| 'md' \| 'lg'` | `'md'` | 内边距（px） |
-| margin | `'none' \| 'page'` | `'none'` | margin |
-| bordered | `boolean` | `false` | 是否带边框 |
-| shadow | `boolean` | `false` | 是否开启 shadow |
+| margin | `'none' \| 'page'` | `'none'` | 外边距：none / page |
+| bordered | `boolean` | `false` | 是否显示边框 |
+| shadow | `boolean` | `false` | 是否投影 |
 | loading | `boolean` | `false` | 是否加载中 |
-| url | `string` | `''` | 地址 |
+| url | `string` | `''` | 跳转地址 |
 | pressable | `boolean` | `false` | 可点按压反馈；有 url 时默认视为可点 |
 
 ## 事件

@@ -26,12 +26,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| columns | `UTSJSONObject[]` | `[]` | Columns config / count |
+| columns | `UTSJSONObject[]` | `[]` | Column config |
 | data | `UTSJSONObject[]` | `[]` | Data source |
-| rowKey | `string` | `'id'` | rowKey string value |
-| stripe | `boolean` | `false` | Whether stripe is enabled |
-| bordered | `boolean` | `false` | Whether bordered |
-| showHeader | `boolean` | `true` | Whether to show header |
+| rowKey | `string` | `'id'` | Row key field name |
+| stripe | `boolean` | `false` | Whether striped |
+| bordered | `boolean` | `false` | Whether to show border |
+| showHeader | `boolean` | `true` | Whether to show the header |
 | emptyText | `string` | `'暂无数据'` | Empty-state text |
 | selectable | `boolean` | `false` | Enable row selection column |
 | selectedKeys | `string[]` | `[]` | Controlled selected row keys |

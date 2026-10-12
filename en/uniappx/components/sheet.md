@@ -26,14 +26,14 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | Variant |
+| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | Style variant |
 | radius | `'md' \| 'lg'` | `'lg'` | Border radius (px) |
 | padding | `'none' \| 'md' \| 'lg'` | `'md'` | Padding (px) |
-| margin | `'none' \| 'page'` | `'none'` | margin |
-| bordered | `boolean` | `false` | Whether bordered |
-| shadow | `boolean` | `false` | Whether shadow is enabled |
+| margin | `'none' \| 'page'` | `'none'` | Outer margin: none / page |
+| bordered | `boolean` | `false` | Whether to show border |
+| shadow | `boolean` | `false` | Whether shadowed |
 | loading | `boolean` | `false` | Whether loading |
-| url | `string` | `''` | URL |
+| url | `string` | `''` | Navigation URL |
 | pressable | `boolean` | `false` | Press feedback; treated as clickable when url is set |
 
 ## Events

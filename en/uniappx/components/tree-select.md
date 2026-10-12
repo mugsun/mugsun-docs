@@ -26,10 +26,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | Tree data |
-| value | `string[]` | `[]` | Column path; in single-select the last entry is the leaf value |
-| leafValues | `string[]` | `[]` | Multi-select checked values on the last column; ignored in single-select |
-| multiple | `boolean` | `false` | Whether the last column allows multi-select |
+| options | `UTSJSONObject[]` | `[]` | Options list |
+| value | `string[]` | `[]` | Current value |
+| leafValues | `string[]` | `[]` | Selected leaf values (v-model:leafValues) |
+| multiple | `boolean` | `false` | Whether multiple |
 
 ## Events
 

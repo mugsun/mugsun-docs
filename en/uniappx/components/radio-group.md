@@ -29,7 +29,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | modelValue | `string` | `''` | Bound value (v-model) |
 | disabled | `boolean` | `false` | Whether disabled |
 | horizontal | `boolean` | `false` | Whether horizontal |
-| allowUncheck | `boolean` | `false` | Allow unchecking |
+| allowUncheck | `boolean` | `false` | Whether unchecking is allowed |
 
 ## Events
 

@@ -27,14 +27,14 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| type | `string` | `'line'` | `line` / `area` / `bar` / `pie` / `ring` / `radar` / `scatter` / `funnel` |
-| list | `UTSJSONObject[]` | `[]` | 每项 `label` + `value`；散点可用 `x`/`y` |
+| type | `string` | `'line'` | 类型 |
+| list | `UTSJSONObject[]` | `[]` | 数据列表 |
 | compareList | `UTSJSONObject[]` | `[]` | 第二系列（折线/面积/柱对比）；饼图忽略 |
-| height | `number` | `220` | 画布高度 px |
-| showGrid | `boolean` | `true` | 直角系横向网格与刻度 |
-| showLabel | `boolean` | `true` | 数值 / 占比标签 |
-| showLegend | `boolean` | `false` | 饼图下方图例；多系列时为可点隐系列图例 |
-| smooth | `boolean` | `false` | 折线 / 面积平滑 |
+| height | `number` | `220` | 高度（px） |
+| showGrid | `boolean` | `true` | 是否显示网格 |
+| showLabel | `boolean` | `true` | 是否显示标签 |
+| showLegend | `boolean` | `false` | 是否显示图例 |
+| smooth | `boolean` | `false` | 是否平滑曲线 |
 | showTip | `boolean` | `false` | 点选后在图下展示简易提示条 |
 | stack | `boolean` | `false` | 柱/面积 + compareList 时按堆叠绘制（堆叠语义） |
 | seriesName | `string` | `'系列一'` | 主系列图例名 |

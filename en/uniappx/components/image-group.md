@@ -27,9 +27,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | list | `UTSJSONObject[]` | `[]` | Data list |
-| columns | `number` | `3` | `3` |
+| columns | `number` | `3` | Column config |
 | mode | `string` | `'aspectFill'` | Mode |
-| labelMode | `string` | `'inset'` | `'inset'` |
+| labelMode | `string` | `'inset'` | Label mode |
 | maxCount | `number` | `-1` | Max count |
 | preview | `boolean` | `true` | Whether previewable |
 | disabled | `boolean` | `false` | Whether disabled |

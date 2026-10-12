@@ -26,10 +26,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| percentage | `number` | `0` | percentage 数值 |
-| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | 变体样式 |
+| percentage | `number` | `0` | 进度百分比 0–100 |
+| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | 样式变体 |
 | status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | 状态 |
-| strokeWidth | `number` | `6` | strokeWidth 数值 |
+| strokeWidth | `number` | `6` | 轨道粗细（px） |
 | label | `boolean \| string` | `true` | 标签文案 |
 | size | `'xs' \| 'md'` | `'md'` | 尺寸 |
 

@@ -29,9 +29,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | text | `string` | `'加载中…'` | Display text |
 | layout | `'horizontal' \| 'vertical'` | `'vertical'` | Layout |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | tone |
+| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | Tone: default / primary / inverse |
 | indicator | `boolean` | `true` | Whether to show indicator |
-| paused | `boolean` | `false` | Whether paused is enabled |
+| paused | `boolean` | `false` | Whether spin animation is paused |
 
 ## Slots
 

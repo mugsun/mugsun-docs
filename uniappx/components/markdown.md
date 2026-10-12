@@ -27,10 +27,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `string` | `''` | Markdown 源文本 |
-| fontSize | `number` | `14` | 正文字号 px |
-| showCodeLang | `boolean` | `true` | 代码块是否显示语言标签 |
-| selectable | `boolean` | `false` | 正文是否可选中 |
+| value | `string` | `''` | 当前值 |
+| fontSize | `number` | `14` | 字号（px） |
+| showCodeLang | `boolean` | `true` | 是否显示代码语言标签 |
+| selectable | `boolean` | `false` | 是否可选中文本 |
 
 ## 事件
 

@@ -29,10 +29,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | modelValue | `boolean` | `false` | Bound value (v-model) |
 | disabled | `boolean` | `false` | Whether disabled |
 | loading | `boolean` | `false` | Whether loading |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| label | `string[]` | `[]` | Label text |
-| activeIcon | `string` | `''` | Active icon |
-| voidIcon | `string` | `''` | Inactive icon |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size: sm / md / lg |
+| label | `string[]` | `[]` | Labels on both sides of the switch [off, on]; empty hides them |
+| activeIcon | `string` | `''` | On-state icon |
+| voidIcon | `string` | `''` | Closed-state icon |
 
 ## Events
 

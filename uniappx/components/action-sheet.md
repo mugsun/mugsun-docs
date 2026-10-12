@@ -28,13 +28,13 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / description / icon / tone('default'\|'primary'\|'danger') / disabled |
-| theme | `'list' \| 'grid'` | `'list'` | 主题 |
+| theme | `'list' \| 'grid'` | `'list'` | 主题色 |
 | align | `'center' \| 'left'` | `'center'` | 对齐方式 |
 | description | `string` | `''` | 描述文案 |
 | showCancel | `boolean` | `true` | 是否显示取消按钮 |
 | cancelText | `string` | `'取消'` | 取消按钮文案 |
 | closeOnOverlayClick | `boolean` | `true` | 点击遮罩是否关闭 |
-| zIndex | `number` | `1000` | 层级 |
+| zIndex | `number` | `1000` | 层级 z-index |
 
 ## 事件
 

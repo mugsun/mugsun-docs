@@ -27,11 +27,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| message | `string` | `''` | Validation message |
-| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | Theme |
+| message | `string` | `''` | Message text |
+| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | Theme color |
 | icon | `string` | `''` | Custom icon name (icons.uts); optional when theme has a default |
 | direction | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction |
-| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | Placement |
+| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | Popup / placement |
 | duration | `number` | `2000` | Milliseconds; 0 = do not auto-close |
 | showOverlay | `boolean` | `false` | Show overlay to block click-through |
 | zIndex | `number` | `1100` | z-index |

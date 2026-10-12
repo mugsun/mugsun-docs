@@ -28,15 +28,15 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | options | `UTSJSONObject[]` | `[]` | Options list |
 | value | `string[]` | `[]` | Current value |
-| level | `number` | `3` | Level |
+| level | `number` | `3` | Province/city/district levels |
 | visible | `boolean` | `false` | Whether visible |
 | title | `string` | `'选择地区'` | Title |
 | cancelText | `string` | `'取消'` | Cancel button label |
 | confirmText | `string` | `'确定'` | Confirm button label |
 | separator | `string` | `' / '` | Separator |
 | itemHeight | `number` | `44` | Item height (px) |
-| visibleItemCount | `number` | `5` | visibleItemCount number |
-| usePopup | `boolean` | `true` | Whether to use popup |
+| visibleItemCount | `number` | `5` | Visible items per column |
+| usePopup | `boolean` | `true` | Whether wrapped in a popup |
 
 ## Events
 

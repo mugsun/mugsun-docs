@@ -27,9 +27,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | `string` | `''` | Current value |
-| encode | `string` | `'ean13'` | 'upca' \ |
-| size | `string` | `'md'` | 'lg'` |
-| showText | `boolean` | `true` | Whether to show Text |
+| encode | `string` | `'ean13'` | Encoding |
+| size | `string` | `'md'` | Size |
+| showText | `boolean` | `true` | Whether to show readable text under the barcode |
 
 ## See also
 

@@ -26,14 +26,14 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'warning' \| 'success'` | `'primary'` | Theme |
+| theme | `'default' \| 'primary' \| 'danger' \| 'warning' \| 'success'` | `'primary'` | Theme color |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| underline | `boolean` | `false` | Whether underline is enabled |
+| underline | `boolean` | `false` | Whether to show underline |
 | disabled | `boolean` | `false` | Whether disabled |
 | href | `string` | `''` | Link URL |
-| openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | openType |
+| openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | Navigation mode: navigate / redirect / switchTab / reLaunch |
 | icon | `string` | `''` | Icon name (icons.uts) |
-| suffixIcon | `string` | `''` | Suffix icon |
+| suffixIcon | `string` | `''` | Suffix icon name |
 | content | `string` | `''` | Text used when default slot is empty |
 
 ## Events

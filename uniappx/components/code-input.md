@@ -27,10 +27,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | 绑定值（v-model） |
-| length | `number` | `4` | length 数值 |
-| skin | `'outline' \| 'fill'` | `'outline'` | skin |
-| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | placeShape |
-| password | `boolean` | `false` | 是否密码框 |
+| length | `number` | `4` | 位数 |
+| skin | `'outline' \| 'fill'` | `'outline'` | 外观：outline / fill |
+| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | 未填位占位：none / line / dot |
+| password | `boolean` | `false` | 是否密码输入 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | autoFocus | `boolean` | `false` | 是否自动聚焦 |
 

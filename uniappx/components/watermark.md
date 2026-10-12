@@ -27,8 +27,8 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | content | `string` | `'Mugsun'` | 内容文案 |
-| density | `string` | `'md'` | 'lg'` |
-| layout | `string` | `'rectangular'` | `'rectangular'` |
+| density | `string` | `'md'` | 密度 |
+| layout | `string` | `'rectangular'` | 布局 |
 
 ## 插槽
 

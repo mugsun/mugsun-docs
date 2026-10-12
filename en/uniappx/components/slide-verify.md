@@ -27,10 +27,10 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | tips | `string` | `'拖动滑块完成验证'` | Tip text |
-| successTips | `string` | `'验证成功'` | Success tip text |
-| showTarget | `boolean` | `false` | Whether to show Target |
+| successTips | `string` | `'验证成功'` | Verification success text |
+| showTarget | `boolean` | `false` | Whether to show the target gap position |
 | targetPercent | `number` | `100` | Target position 0–100 |
-| tolerance | `number` | `8` | tolerance number |
+| tolerance | `number` | `8` | Allowed slider-to-target error (px) |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events

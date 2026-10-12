@@ -27,14 +27,14 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | title | `string` | `''` | Title |
-| subtitle | `string` | `''` | subtitle string value |
+| subtitle | `string` | `''` | Subtitle |
 | content | `string` | `''` | Content text |
 | image | `string` | `''` | Image URL |
-| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | imageHeight |
-| statusIcon | `string` | `''` | statusIcon string value |
+| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | Cover height tier: sm / md / lg |
+| statusIcon | `string` | `''` | Top-right status icon name |
 | radius | `'md' \| 'lg'` | `'lg'` | Border radius (px) |
-| bordered | `boolean` | `false` | Whether bordered |
-| shadow | `boolean` | `false` | Whether shadow is enabled |
+| bordered | `boolean` | `false` | Whether to show border |
+| shadow | `boolean` | `false` | Whether shadowed |
 
 ## Events
 

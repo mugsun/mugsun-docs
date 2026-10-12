@@ -26,9 +26,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| swipeThreshold | `number` | `40` | swipeThreshold number |
+| swipeThreshold | `number` | `40` | Swipe gesture threshold (px) |
 | doubleTapInterval | `number` | `280` | Double-tap interval (ms) |
-| longPressDelay | `number` | `500` | longPressDelay number |
+| longPressDelay | `number` | `500` | Long-press trigger delay (ms) |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events

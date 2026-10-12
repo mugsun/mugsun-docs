@@ -27,9 +27,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| blur | `number` | `12` | Blur radius px (Web / mini program) |
-| tint | `string` | `'light'` | Tint: `light` / `dark` |
-| opacity | `number` | `0.85` | Tint opacity 0–1 (clamped) |
+| blur | `number` | `12` | Blur radius (px) |
+| tint | `string` | `'light'` | Tint tier |
+| opacity | `number` | `0.85` | Opacity |
 | radius | `number` | `0` | Border radius (px) |
 | padding | `number` | `12` | Padding (px) |
 

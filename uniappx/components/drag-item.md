@@ -26,7 +26,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| order | `number` | `0` | order 数值 |
+| order | `number` | `0` | 排序序号（越小越靠前） |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件

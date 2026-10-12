@@ -27,8 +27,8 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | duration | `number` | `300` | 时长（ms） |
-| showClose | `boolean` | `true` | 是否显示Close |
-| opened | `boolean` | `false` | 是否开启 opened |
+| showClose | `boolean` | `true` | 全屏时是否显示关闭 |
+| opened | `boolean` | `false` | 是否全屏打开 |
 
 ## 事件
 

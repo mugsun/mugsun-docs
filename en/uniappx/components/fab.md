@@ -27,12 +27,12 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | icon | `string` | `'add-line'` | Icon name (icons.uts) |
-| text | `string` | `''` | Display text |
+| text | `string` | `''` | Label beside the primary button; empty = icon only |
 | position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | Position |
 | inset | `'sm' \| 'md' \| 'lg'` | `'md'` | Whether inset style |
-| expandable | `boolean` | `false` | Whether expandable |
+| expandable | `boolean` | `false` | Whether sub-actions can expand |
 | expanded | `boolean` | `false` | Expanded state (controlled; pairs with update:expanded) |
-| local | `boolean` | `false` | Whether local/inline |
+| local | `boolean` | `false` | Relative to parent; false = fixed to the edge |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events

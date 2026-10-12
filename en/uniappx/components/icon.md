@@ -28,7 +28,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | name | `string` | `''` | Name / field name |
 | size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size |
-| tone | `\| 'inherit'` | `'inherit'` | tone |
+| tone | `\| 'inherit'` | `'inherit'` | Tone (inherit / primary / secondary / danger…) |
 | spin | `boolean` | `false` | Spin loading: UniElement.animate on App/Web; CSS animation on WeChat MP |
 | spinDuration | `number` | `1500` | One spin duration in ms (default 1500) |
 | rotate | `number` | `0` | Static rotate angle (mutually exclusive with spin; spin wins) |

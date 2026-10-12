@@ -26,8 +26,8 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | 主题 |
-| variant | `'light' \| 'solid'` | `'light'` | 变体样式 |
+| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | 主题色 |
+| variant | `'light' \| 'solid'` | `'light'` | 样式变体 |
 | closable | `boolean` | `true` | 是否可关闭 |
 | icon | `string` | `''` | 图标名（icons.uts） |
 | showIcon | `boolean` | `true` | 不显示左侧图标 |

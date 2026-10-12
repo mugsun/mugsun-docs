@@ -27,16 +27,16 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | title | `string` | `''` | 标题 |
-| titleAlign | `'center' \| 'left'` | `'center'` | `'center'` |
+| titleAlign | `'center' \| 'left'` | `'center'` | 标题对齐：center / left |
 | titleMaxLength | `number` | `0` | 标题最大字数，超出用 … 收尾；0 表示不截断 |
-| leftArrow | `boolean` | `false` | 是否开启 leftArrow |
+| leftArrow | `boolean` | `false` | 是否显示左侧返回箭头 |
 | leftText | `string` | `''` | 左侧返回文案；空串只显示箭头 |
 | homeIcon | `boolean` | `false` | 返回旁再放一个首页入口 |
-| theme | `'light' \| 'brand'` | `'light'` | `'light'` |
+| theme | `'light' \| 'brand'` | `'light'` | 主题色 |
 | fixed | `boolean` | `true` | 是否固定定位 |
 | placeholder | `boolean` | `false` | fixed 时是否在文档流里占位，避免内容被压住 |
-| safeAreaInsetTop | `boolean` | `true` | 是否开启 safeAreaInsetTop |
-| zIndex | `number` | `500` | 层级 |
+| safeAreaInsetTop | `boolean` | `true` | 是否预留顶部安全区 |
+| zIndex | `number` | `500` | 层级 z-index |
 
 ## 事件
 

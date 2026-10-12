@@ -27,9 +27,9 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | value | `string` | `''` | 当前值 |
-| encode | `string` | `'ean13'` | 'upca' \ |
-| size | `string` | `'md'` | 'lg'` |
-| showText | `boolean` | `true` | 是否显示Text |
+| encode | `string` | `'ean13'` | 编码方式 |
+| size | `string` | `'md'` | 尺寸 |
+| showText | `boolean` | `true` | 是否在条码下方显示可读文案 |
 
 ## 相关
 

@@ -27,11 +27,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | title | `string` | `'调试面板'` | 标题 |
-| host | `string` | `''` | 请求域名，空则不显示 |
-| entries | `UTSJSONObject[]` | `[]` | `api` / `status` / `time` / `result` |
-| open | `boolean` | `false` | 展开态（`v-model:open`） |
-| showEnv | `boolean` | `true` | 环境信息段 |
-| maxHeight | `number` | `220` | 记录区最大高度 px |
+| host | `string` | `''` | 宿主标识 |
+| entries | `UTSJSONObject[]` | `[]` | 条目列表 |
+| open | `boolean` | `false` | 是否打开 |
+| showEnv | `boolean` | `true` | 是否显示环境元信息 |
+| maxHeight | `number` | `220` | 面板最大高度（px） |
 
 ## 事件
 

@@ -27,11 +27,11 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| layout | `string` | `'tree'` | `tree` / `force` / `dagre` |
-| nodes | `UTSJSONObject[]` | `[]` | `id` + `label` |
-| edges | `UTSJSONObject[]` | `[]` | `source` + `target` |
-| height | `number` | `320` | 画布高 px |
-| fitView | `boolean` | `true` | 布局后适配视口 |
+| layout | `string` | `'tree'` | 布局 |
+| nodes | `UTSJSONObject[]` | `[]` | 节点列表 |
+| edges | `UTSJSONObject[]` | `[]` | 边列表 |
+| height | `number` | `320` | 高度（px） |
+| fitView | `boolean` | `true` | 是否适配视口 |
 
 ## 事件
 

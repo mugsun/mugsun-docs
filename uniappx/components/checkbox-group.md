@@ -28,7 +28,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | modelValue | `string[]` | `[]` | 绑定值（v-model） |
 | disabled | `boolean` | `false` | 是否禁用 |
-| max | `number` | `-1` | 最大值 / 上限 |
+| max | `number` | `-1` | 最大值 |
 | horizontal | `boolean` | `false` | 是否横向 |
 
 ## 事件

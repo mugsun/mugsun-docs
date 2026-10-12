@@ -27,8 +27,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | content | `string` | `'Mugsun'` | Content text |
-| density | `string` | `'md'` | 'lg'` |
-| layout | `string` | `'rectangular'` | `'rectangular'` |
+| density | `string` | `'md'` | Density |
+| layout | `string` | `'rectangular'` | Layout |
 
 ## Slots
 

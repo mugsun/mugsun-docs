@@ -29,9 +29,9 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | text | `string` | `'加载中…'` | 展示文案 |
 | layout | `'horizontal' \| 'vertical'` | `'vertical'` | 布局 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | tone |
+| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | 色调：default / primary / inverse |
 | indicator | `boolean` | `true` | 是否显示指示器 |
-| paused | `boolean` | `false` | 是否开启 paused |
+| paused | `boolean` | `false` | 是否暂停旋转动画 |
 
 ## 插槽
 

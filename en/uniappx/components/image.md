@@ -31,7 +31,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | shape | `'square' \| 'round' \| 'circle'` | `'square'` | Shape |
 | width | `string` | `'72px'` | Width (px) |
 | height | `string` | `'72px'` | Height (px) |
-| lazy | `boolean` | `false` | Whether lazy |
+| lazy | `boolean` | `false` | Whether lazy-load |
 | showMenuByLongpress | `boolean` | `false` | Long-press MP code menu (WeChat; see image.md) |
 
 ## Events

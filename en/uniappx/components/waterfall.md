@@ -26,16 +26,16 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | Items list |
+| items | `UTSJSONObject[]` | `[]` | Entries |
 | column | `number` | `2` | Column count |
-| balance | `boolean` | `true` | Whether balanced / justified |
+| balance | `boolean` | `true` | Whether to equalize column heights when possible |
 | itemHeight | `number` | `120` | Item height (px) |
-| titleKey | `string` | `'title'` | titleKey string value |
-| descKey | `string` | `'desc'` | Description field key |
-| heightKey | `string` | `'height'` | Height field key |
-| imageKey | `string` | `'image'` | Image field key |
-| coverHeightKey | `string` | `'coverHeight'` | Cover height field key |
-| keyField | `string` | `'id'` | Key field name |
+| titleKey | `string` | `'title'` | Title field name |
+| descKey | `string` | `'desc'` | Description field name |
+| heightKey | `string` | `'height'` | Height field name |
+| imageKey | `string` | `'image'` | Image field name |
+| coverHeightKey | `string` | `'coverHeight'` | Cover height field name |
+| keyField | `string` | `'id'` | Primary key field name |
 | emptyText | `string` | `'暂无数据'` | Empty-state text |
 | coverHeight | `number` | `88` | Default cover height when image is set |
 

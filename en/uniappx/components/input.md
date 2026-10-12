@@ -29,18 +29,18 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | modelValue | `string` | `''` | Bound value (v-model) |
 | label | `string` | `''` | Label text |
 | placeholder | `string` | `''` | Placeholder |
-| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | Type |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status |
-| tips | `string` | `''` | Tip text |
-| prefixIcon | `string` | `''` | Prefix icon |
-| suffixIcon | `string` | `''` | Suffix icon |
+| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | Input type: text / number / idcard / digit / password, etc. |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | Input align: left / center / right |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status: default / success / warning / error |
+| tips | `string` | `''` | Bottom tip text |
+| prefixIcon | `string` | `''` | Prefix icon name |
+| suffixIcon | `string` | `''` | Suffix icon name |
 | clearable | `boolean` | `false` | Whether clearable |
 | disabled | `boolean` | `false` | Whether disabled |
 | readonly | `boolean` | `false` | Whether read-only |
 | maxlength | `number` | `-1` | Max input length; -1 = unlimited |
 | showCount | `boolean` | `false` | Show character count (requires maxlength ≥ 0) |
-| bordered | `boolean` | `true` | Whether bordered |
+| bordered | `boolean` | `true` | Whether to show bottom border |
 
 ## Events
 

@@ -26,13 +26,13 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `1` | Current value |
+| value | `number` | `1` | Current page (1-based) |
 | total | `number` | `0` | Total count |
 | pageSize | `number` | `10` | Page size |
-| maxButtons | `number` | `3` | maxButtons number |
-| minButtons | `number` | `5` | minButtons number |
-| simple | `boolean` | `false` | Whether simple is enabled |
-| showTotal | `boolean` | `true` | Whether to show Total |
+| maxButtons | `number` | `3` | Max middle page buttons in ellipsis mode |
+| minButtons | `number` | `5` | Page-number expand threshold when total pages are few |
+| simple | `boolean` | `false` | Simple mode (prev/next only) |
+| showTotal | `boolean` | `true` | Whether to show total count |
 | disabled | `boolean` | `false` | Whether disabled |
 | showPrevNext | `boolean` | `false` | Full mode shows prev/next on both sides |
 | showJumper | `boolean` | `false` | Jump to a specific page |

@@ -27,9 +27,9 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | list | `UTSJSONObject[]` | `[]` | 数据列表 |
-| columns | `number` | `3` | `3` |
+| columns | `number` | `3` | 列配置 |
 | mode | `string` | `'aspectFill'` | 模式 |
-| labelMode | `string` | `'inset'` | `'inset'` |
+| labelMode | `string` | `'inset'` | 标签模式 |
 | maxCount | `number` | `-1` | 最大数量 |
 | preview | `boolean` | `true` | 是否可预览 |
 | disabled | `boolean` | `false` | 是否禁用 |

@@ -27,14 +27,14 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| type | `string` | `'line'` | `line` / `area` / `bar` / `pie` / `ring` / `radar` / `scatter` / `funnel` |
-| list | `UTSJSONObject[]` | `[]` | Each item `label` + `value`; scatter may use `x`/`y` |
+| type | `string` | `'line'` | Type |
+| list | `UTSJSONObject[]` | `[]` | Data list |
 | compareList | `UTSJSONObject[]` | `[]` | Second series (line/area/bar compare); ignored for pie |
-| height | `number` | `220` | Canvas height (px) |
-| showGrid | `boolean` | `true` | Cartesian horizontal grid and ticks |
-| showLabel | `boolean` | `true` | Value / percentage labels |
-| showLegend | `boolean` | `false` | Legend under pie; for multi-series a tappable show/hide legend |
-| smooth | `boolean` | `false` | Smooth line / area |
+| height | `number` | `220` | Height (px) |
+| showGrid | `boolean` | `true` | Whether to show grid |
+| showLabel | `boolean` | `true` | Whether to show labels |
+| showLegend | `boolean` | `false` | Whether to show legend |
+| smooth | `boolean` | `false` | Whether smooth curve |
 | showTip | `boolean` | `false` | Show a simple tip bar under the chart after tap |
 | stack | `boolean` | `false` | Stack bars/areas when compareList is set |
 | seriesName | `string` | `'系列一'` | Primary series legend name |

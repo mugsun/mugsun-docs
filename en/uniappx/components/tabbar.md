@@ -28,13 +28,13 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | --- | --- | --- | --- |
 | value | `number` | `0` | Selected item index |
 | items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled |
-| theme | `'normal' \| 'tag'` | `'normal'` | Theme |
+| theme | `'normal' \| 'tag'` | `'normal'` | Theme color |
 | shape | `'normal' \| 'round'` | `'normal'` | Shape |
 | bordered | `boolean` | `true` | Top border |
 | split | `boolean` | `false` | Divider between items |
 | fixed | `boolean` | `true` | Whether fixed positioned |
 | placeholder | `boolean` | `false` | When fixed, reserve flow space so content is not covered |
-| safeAreaInsetBottom | `boolean` | `true` | Whether safeAreaInsetBottom is enabled |
+| safeAreaInsetBottom | `boolean` | `true` | Whether to reserve bottom safe area |
 | zIndex | `number` | `400` | z-index |
 
 ## Events

@@ -27,9 +27,9 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | text | `string` | `''` | 展示文案 |
-| links | `UTSJSONObject[]` | `[]` | links |
-| logoTitle | `string` | `''` | logoTitle 文案/取值 |
-| logoIcon | `string` | `''` | logoIcon 文案/取值 |
+| links | `UTSJSONObject[]` | `[]` | 底部链接列表（name 等） |
+| logoTitle | `string` | `''` | Logo 旁标题 |
+| logoIcon | `string` | `''` | Logo 图标名 |
 | logoWithInfo | `boolean` | `false` | logo 模式下是否仍显示链接与版权 |
 
 ## 事件

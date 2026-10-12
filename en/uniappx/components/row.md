@@ -26,7 +26,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| gutter | `0 \| 8 \| 16 \| 24` | `0` | Gutter (px) |
+| gutter | `0 \| 8 \| 16 \| 24` | `0` | Grid gutter (px) |
 | justify | `'start' \| 'end' \| 'center' \| 'space-between' \| 'space-around'` | `'start'` | Main-axis alignment |
 | align | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` | Alignment |
 | wrap | `boolean` | `true` | Whether to wrap |

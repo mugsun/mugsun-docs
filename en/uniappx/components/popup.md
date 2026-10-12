@@ -27,11 +27,11 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | Placement |
+| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | Popup / placement |
 | title | `string` | `''` | Title |
-| showOverlay | `boolean` | `true` | Whether to show overlay |
-| closeOnOverlayClick | `boolean` | `true` | Close when overlay is clicked |
-| closeBtn | `boolean` | `false` | Whether to show close button |
+| showOverlay | `boolean` | `true` | Whether to show the overlay |
+| closeOnOverlayClick | `boolean` | `true` | Whether clicking the overlay closes |
+| closeBtn | `boolean` | `false` | Whether to show the close button |
 | round | `boolean` | `true` | Whether rounded |
 | zIndex | `number` | `1000` | z-index |
 

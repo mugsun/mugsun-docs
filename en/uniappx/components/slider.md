@@ -29,14 +29,14 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 | modelValue | `number` | `0` | Bound value (v-model) |
 | rangeValue | `number[]` | `[]` | Controlled range [low, high] in dual-thumb mode |
 | range | `boolean` | `false` | Enable dual-thumb range mode |
-| min | `number` | `0` | Minimum / lower limit |
-| max | `number` | `100` | Maximum / upper limit |
+| min | `number` | `0` | Minimum |
+| max | `number` | `100` | Maximum |
 | step | `number` | `1` | Step |
 | disabled | `boolean` | `false` | Whether disabled |
 | label | `boolean` | `false` | Label text |
-| showExtremeValue | `boolean` | `false` | Whether to show ExtremeValue |
-| marks | `number[]` | `[]` | Marks |
-| theme | `'default' \| 'capsule'` | `'default'` | Theme |
+| showExtremeValue | `boolean` | `false` | Whether to show min/max at both ends |
+| marks | `number[]` | `[]` | Date marker list |
+| theme | `'default' \| 'capsule'` | `'default'` | Theme color |
 
 ## Events
 

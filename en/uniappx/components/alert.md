@@ -26,8 +26,8 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | Theme |
-| variant | `'light' \| 'solid'` | `'light'` | Variant |
+| theme | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | Theme color |
+| variant | `'light' \| 'solid'` | `'light'` | Style variant |
 | closable | `boolean` | `true` | Whether closable |
 | icon | `string` | `''` | Icon name (icons.uts) |
 | showIcon | `boolean` | `true` | Hide the left icon |

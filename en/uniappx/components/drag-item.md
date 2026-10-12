@@ -26,7 +26,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| order | `number` | `0` | order number |
+| order | `number` | `0` | Sort order (smaller comes first) |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events

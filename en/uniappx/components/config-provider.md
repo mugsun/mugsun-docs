@@ -26,9 +26,9 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| themeVars | `UTSJSONObject \| null` | `null` | `null` |
-| theme | `string` | `'light'` | `light` / `dark` |
-| block | `boolean` | `true` | Whether to fill width |
+| themeVars | `UTSJSONObject \| null` | `null` | Local CSS variables (applied to the subtree) |
+| theme | `string` | `'light'` | Theme color |
+| block | `boolean` | `true` | Whether full-bleed / block |
 
 ## Events
 

@@ -29,10 +29,10 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | modelValue | `boolean` | `false` | 绑定值（v-model） |
 | disabled | `boolean` | `false` | 是否禁用 |
 | loading | `boolean` | `false` | 是否加载中 |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| label | `string[]` | `[]` | 标签文案 |
-| activeIcon | `string` | `''` | 激活态图标 |
-| voidIcon | `string` | `''` | 未激活图标 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸：sm / md / lg |
+| label | `string[]` | `[]` | 开关两侧文案 [关, 开]；空则不显示 |
+| activeIcon | `string` | `''` | 开启态图标 |
+| voidIcon | `string` | `''` | 关闭态图标 |
 
 ## 事件
 

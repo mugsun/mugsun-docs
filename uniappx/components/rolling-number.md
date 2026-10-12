@@ -27,7 +27,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | value | `number` | `0` | 当前值 |
-| start | `number` | `0` | 起始 |
+| start | `number` | `0` | 起始值 |
 | duration | `number` | `400` | 时长（ms） |
 | decimals | `number` | `-1` | 小数位数 |
 | grouping | `boolean` | `false` | 是否分组 |

@@ -26,16 +26,16 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| messages | `UTSJSONObject[]` | `[]` | 见消息字段 |
-| layout | `string` | `'both'` | `both` / `left` |
-| variant | `string` | `'base'` | `base` / `outline` / `text` |
-| reverse | `boolean` | `false` | 倒序渲染 |
-| loadingText | `string` | `'正在思考…'` | pending 文案 |
-| errorText | `string` | `'生成失败，点击重试'` | error 文案 |
-| showActions | `boolean` | `true` | 助手操作栏 |
-| actions | `string` | `'copy,retry,good,bad'` | 逗号分隔 |
-| height | `number` | `0` | `>0` 启用内滚动 |
-| autoScroll | `boolean` | `true` | 消息变化滚底 |
+| messages | `UTSJSONObject[]` | `[]` | 消息列表 |
+| layout | `string` | `'both'` | 气泡布局 |
+| variant | `string` | `'base'` | 样式变体 |
+| reverse | `boolean` | `false` | 是否倒序渲染（最新在下时常用） |
+| loadingText | `string` | `'正在思考…'` | 加载中文案 |
+| errorText | `string` | `'生成失败，点击重试'` | 错误文案 |
+| showActions | `boolean` | `true` | 是否显示消息操作区 |
+| actions | `string` | `'copy,retry,good,bad'` | 操作项列表 |
+| height | `number` | `0` | 高度（px） |
+| autoScroll | `boolean` | `true` | 是否自动滚动 |
 
 ## 事件
 

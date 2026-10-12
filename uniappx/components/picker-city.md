@@ -28,15 +28,15 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | --- | --- | --- | --- |
 | options | `UTSJSONObject[]` | `[]` | 选项列表 |
 | value | `string[]` | `[]` | 当前值 |
-| level | `number` | `3` | 层级/级别 |
+| level | `number` | `3` | 省市区级数 |
 | visible | `boolean` | `false` | 是否显示 |
 | title | `string` | `'选择地区'` | 标题 |
 | cancelText | `string` | `'取消'` | 取消按钮文案 |
 | confirmText | `string` | `'确定'` | 确认按钮文案 |
 | separator | `string` | `' / '` | 分隔符 |
 | itemHeight | `number` | `44` | 单项高度（px） |
-| visibleItemCount | `number` | `5` | visibleItemCount 数值 |
-| usePopup | `boolean` | `true` | 是否使用弹出层 |
+| visibleItemCount | `number` | `5` | 每列可视条目数 |
+| usePopup | `boolean` | `true` | 是否包在弹出层内 |
 
 ## 事件
 

@@ -26,7 +26,7 @@ With easycom scanning the matching `uni_modules/.../components`, no manual regis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 'warning' \ |
+| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | Theme color |
 | title | `string` | `''` | Title |
 | description | `string` | `''` | Description text |
 | icon | `string` | `''` | Override theme icon; 'none' hides the icon |
