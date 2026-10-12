@@ -20,15 +20,15 @@ demo: pages/demo/basic/config-provider
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| themeVars | `UTSJSONObject \| null` | `null` | — |
-| theme | `string` | `'light'` | — |
-| block | `boolean` | `true` | — |
+| themeVars | `UTSJSONObject \| null` | `null` | `null` |
+| theme | `string` | `'light'` | `light` / `dark` |
+| block | `boolean` | `true` | 是否撑满宽度 |
 
 ## 事件
 
@@ -44,5 +44,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-config-provider/`
-- 演示：`#/pages/demo/basic/config-provider`
+- 组件目录: `uni_modules/ms-ui/components/ms-config-provider/`
+- 演示: `#/pages/demo/basic/config-provider`

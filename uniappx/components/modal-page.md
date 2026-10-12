@@ -20,17 +20,17 @@ demo: pages/demo/feedback/modal-page
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| title | `string` | `''` | — |
-| showClose | `boolean` | `true` | — |
-| closeOnOverlayClick | `boolean` | `false` | — |
-| zIndex | `number` | `1100` | — |
+| visible | `boolean` | `false` | 是否显示 |
+| title | `string` | `''` | 标题 |
+| showClose | `boolean` | `true` | 是否显示Close |
+| closeOnOverlayClick | `boolean` | `false` | 点击遮罩是否关闭 |
+| zIndex | `number` | `1100` | 层级 |
 
 ## 事件
 
@@ -49,5 +49,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-modal-page/`
-- 演示：`#/pages/demo/feedback/modal-page`
+- 组件目录: `uni_modules/ms-ui/components/ms-modal-page/`
+- 演示: `#/pages/demo/feedback/modal-page`

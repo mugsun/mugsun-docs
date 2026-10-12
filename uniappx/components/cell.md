@@ -14,28 +14,28 @@ demo: pages/demo/basic/cell
 
 ```vue
 <template>
-  <ms-cell title="…" :disabled="true">
+  <ms-cell title="…">
     …
   </ms-cell>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| title | `string` | `''` | — |
-| description | `string` | `''` | — |
-| note | `string` | `''` | — |
-| icon | `string` | `''` | — |
+| title | `string` | `''` | 标题 |
+| description | `string` | `''` | 描述文案 |
+| note | `string` | `''` | 备注 |
+| icon | `string` | `''` | 图标名（icons.uts） |
 | image | `string` | `''` | 左侧图片（优先于 icon） |
-| arrow | `boolean` | `false` | — |
-| bordered | `boolean` | `true` | — |
-| required | `boolean` | `false` | — |
-| url | `string` | `''` | — |
-| disabled | `boolean` | `false` | — |
+| arrow | `boolean` | `false` | 是否显示箭头 |
+| bordered | `boolean` | `true` | 是否带边框 |
+| required | `boolean` | `false` | 是否必填 |
+| url | `string` | `''` | 地址 |
+| disabled | `boolean` | `false` | 是否禁用 |
 | align | `'top' \| 'middle' \| 'bottom'` | `'middle'` | 右侧区垂直对齐 |
 
 ## 事件
@@ -52,5 +52,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-cell/`
-- 演示：`#/pages/demo/basic/cell`
+- 组件目录: `uni_modules/ms-ui/components/ms-cell/`
+- 演示: `#/pages/demo/basic/cell`

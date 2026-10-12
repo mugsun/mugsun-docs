@@ -5,9 +5,9 @@ demo: pages/demo/form/picker
 
 # Picker
 
-选择器。扁平 `options`（`column` 分列 + `label` / `value`），内层是原生 `picker-view` / `picker-view-column`。
+`ms-picker` — Picker for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker`).
 Demo route: `#/pages/demo/form/picker`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/form/picker`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | 扁平选项：column（列下标）+ label + value |
-| value | `number[]` | `[]` | 各列选中项下标 |
-| visible | `boolean` | `false` | 是否显示（usePopup 时生效） |
-| title | `string` | `''` | 标题；空串则头部只留取消/确定 |
-| cancelText | `string` | `'取消'` | 取消按钮文案 |
-| confirmText | `string` | `'确定'` | 确定按钮文案 |
-| header | `boolean` | `true` | 是否显示头部 |
-| itemHeight | `number` | `44` | 单项高度 px |
-| visibleItemCount | `number` | `5` | 可视项数 |
-| usePopup | `boolean` | `true` | 是否用弹出层包裹；false 则内嵌 |
+| options | `UTSJSONObject[]` | `[]` | Flat options: column (index) + label + value |
+| value | `number[]` | `[]` | Selected index per column |
+| visible | `boolean` | `false` | Whether visible (when usePopup) |
+| title | `string` | `''` | Title; empty keeps only cancel/confirm in the header |
+| cancelText | `string` | `'取消'` | Cancel button label |
+| confirmText | `string` | `'确定'` | Confirm button label |
+| header | `boolean` | `true` | Whether to show the header |
+| itemHeight | `number` | `44` | Item height (px) |
+| visibleItemCount | `number` | `5` | Visible item count |
+| usePopup | `boolean` | `true` | Wrap in popup; false = inline |
 
 ## Events
 

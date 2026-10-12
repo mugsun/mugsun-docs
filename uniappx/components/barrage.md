@@ -20,17 +20,17 @@ demo: pages/demo/media/barrage
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `string[]` | `[]` | — |
-| height | `number` | `120` | — |
-| speed | `number` | `80` | — |
-| rows | `number` | `3` | — |
-| paused | `boolean` | `false` | — |
+| list | `string[]` | `[]` | 数据列表 |
+| height | `number` | `120` | 高度（px） |
+| speed | `number` | `80` | 速度 |
+| rows | `number` | `3` | 行数 |
+| paused | `boolean` | `false` | 是否开启 paused |
 
 ## 事件
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-barrage/`
-- 演示：`#/pages/demo/media/barrage`
+- 组件目录: `uni_modules/ms-ui/components/ms-barrage/`
+- 演示: `#/pages/demo/media/barrage`

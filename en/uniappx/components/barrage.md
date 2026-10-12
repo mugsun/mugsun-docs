@@ -5,9 +5,9 @@ demo: pages/demo/media/barrage
 
 # Barrage
 
-`ms-barrage`: Barrage. See Chinese docs for narrative detail; API tables below are from source.
+`ms-barrage` — Barrage for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-barrage`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-barrage`).
 Demo route: `#/pages/demo/media/barrage`.
 
 ## Basic usage
@@ -20,17 +20,17 @@ Demo route: `#/pages/demo/media/barrage`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `string[]` | `[]` | — |
-| height | `number` | `120` | — |
-| speed | `number` | `80` | — |
-| rows | `number` | `3` | — |
-| paused | `boolean` | `false` | — |
+| list | `string[]` | `[]` | Data list |
+| height | `number` | `120` | Height (px) |
+| speed | `number` | `80` | Speed |
+| rows | `number` | `3` | Rows |
+| paused | `boolean` | `false` | Whether paused is enabled |
 
 ## Events
 

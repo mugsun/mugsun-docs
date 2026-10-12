@@ -14,27 +14,27 @@ demo: pages/demo/display/qrcode
 
 ```vue
 <template>
-  <ms-qrcode size="…">
+  <ms-qrcode size="…" value="…">
     …
   </ms-qrcode>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `string` | `''` | — |
-| size | `string` | `'md'` | — |
-| level | `string` | `'M'` | — |
-| logo | `string` | `''` | — |
-| status | `string` | `'active'` | — |
-| statusText | `string` | `''` | — |
-| margin | `boolean` | `true` | — |
+| value | `string` | `''` | 当前值 |
+| size | `string` | `'md'` | 'lg'` |
+| level | `string` | `'M'` | 'Q' \ |
+| logo | `string` | `''` | logo 文案/取值 |
+| status | `string` | `'active'` | 'loading' \ |
+| statusText | `string` | `''` | statusText 文案/取值 |
+| margin | `boolean` | `true` | 是否开启 margin |
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-qrcode/`
-- 演示：`#/pages/demo/display/qrcode`
+- 组件目录: `uni_modules/ms-ui/components/ms-qrcode/`
+- 演示: `#/pages/demo/display/qrcode`

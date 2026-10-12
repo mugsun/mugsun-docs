@@ -5,9 +5,9 @@ demo: pages/demo/form/picker-selected
 
 # Picker Selected
 
-`ms-picker-selected`: Picker Selected. See Chinese docs for narrative detail; API tables below are from source.
+`ms-picker-selected` — Picker Selected for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-selected`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-selected`).
 Demo route: `#/pages/demo/form/picker-selected`.
 
 ## Basic usage
@@ -20,27 +20,27 @@ Demo route: `#/pages/demo/form/picker-selected`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| visible | `boolean` | `false` | — |
-| title | `string` | `'请选择'` | — |
-| cancelText | `string` | `'取消'` | — |
-| confirmText | `string` | `'确定'` | — |
-| placeholder | `string` | `'搜索'` | — |
-| emptyText | `string` | `'暂无数据'` | — |
-| valueKey | `string` | `'id'` | — |
-| labelKey | `string` | `'name'` | — |
-| filterKey | `string` | `''` | — |
-| localSearch | `boolean` | `true` | — |
-| multiple | `boolean` | `true` | — |
-| required | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
+| options | `UTSJSONObject[]` | `[]` | Options list |
+| value | `string[]` | `[]` | Current value |
+| visible | `boolean` | `false` | Whether visible |
+| title | `string` | `'请选择'` | Title |
+| cancelText | `string` | `'取消'` | Cancel button label |
+| confirmText | `string` | `'确定'` | Confirm button label |
+| placeholder | `string` | `'搜索'` | Placeholder |
+| emptyText | `string` | `'暂无数据'` | Empty-state text |
+| valueKey | `string` | `'id'` | valueKey string value |
+| labelKey | `string` | `'name'` | Label field key |
+| filterKey | `string` | `''` | Filter field key |
+| localSearch | `boolean` | `true` | Whether localSearch is enabled |
+| multiple | `boolean` | `true` | Whether multiple |
+| required | `boolean` | `false` | Whether required |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

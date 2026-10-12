@@ -5,9 +5,9 @@ demo: pages/demo/display/result
 
 # Result
 
-`ms-result`: Result. See Chinese docs for narrative detail; API tables below are from source.
+`ms-result` — Result for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-result`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-result`).
 Demo route: `#/pages/demo/display/result`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/display/result`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | — |
-| title | `string` | `''` | — |
-| description | `string` | `''` | — |
-| icon | `string` | `''` | 覆盖主题默认图标；'none' 表示不显示图标 |
-| image | `string` | `''` | 图片地址，有值时优先于图标 |
-| showActions | `boolean` | `false` | 是否渲染操作区（默认插槽） |
+| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 'warning' \ |
+| title | `string` | `''` | Title |
+| description | `string` | `''` | Description text |
+| icon | `string` | `''` | Override theme icon; 'none' hides the icon |
+| image | `string` | `''` | Image URL; takes priority over icon when set |
+| showActions | `boolean` | `false` | Whether to render the action area (default slot) |
 
 ## Slots
 

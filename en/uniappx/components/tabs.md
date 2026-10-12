@@ -5,9 +5,9 @@ demo: pages/demo/nav/tabs
 
 # Tabs
 
-`ms-tabs`: Tabs. See Chinese docs for narrative detail; API tables below are from source.
+`ms-tabs` — Tabs for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tabs`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tabs`).
 Demo route: `#/pages/demo/nav/tabs`.
 
 ## Basic usage
@@ -20,19 +20,19 @@ Demo route: `#/pages/demo/nav/tabs`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | 选中项下标 |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled / content |
-| theme | `'line' \| 'tag' \| 'card'` | `'line'` | — |
-| size | `'md' \| 'lg'` | `'md'` | — |
-| spaceEvenly | `boolean` | `true` | 头部是否均分；false 时按内容撑开并可横向滚动 |
-| showLine | `boolean` | `true` | line 主题是否显示底部激活条 |
-| showContent | `boolean` | `false` | 是否渲染内容区（items[].content 或默认插槽） |
+| value | `number` | `0` | Selected item index |
+| items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled / content |
+| theme | `'line' \| 'tag' \| 'card'` | `'line'` | Theme |
+| size | `'md' \| 'lg'` | `'md'` | Size |
+| spaceEvenly | `boolean` | `true` | Equal-width header; false = content width + horizontal scroll |
+| showLine | `boolean` | `true` | Whether the line theme shows the bottom active bar |
+| showContent | `boolean` | `false` | Whether to render content (items[].content or default slot) |
 
 ## Events
 

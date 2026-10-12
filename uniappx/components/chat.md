@@ -20,22 +20,22 @@ demo: pages/demo/media/chat
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| messages | `UTSJSONObject[]` | `[]` | — |
-| layout | `string` | `'both'` | — |
-| variant | `string` | `'base'` | — |
-| reverse | `boolean` | `false` | — |
-| loadingText | `string` | `'正在思考…'` | — |
-| errorText | `string` | `'生成失败，点击重试'` | — |
-| showActions | `boolean` | `true` | — |
-| actions | `string` | `'copy,retry,good,bad'` | — |
-| height | `number` | `0` | — |
-| autoScroll | `boolean` | `true` | — |
+| messages | `UTSJSONObject[]` | `[]` | 见消息字段 |
+| layout | `string` | `'both'` | `both` / `left` |
+| variant | `string` | `'base'` | `base` / `outline` / `text` |
+| reverse | `boolean` | `false` | 倒序渲染 |
+| loadingText | `string` | `'正在思考…'` | pending 文案 |
+| errorText | `string` | `'生成失败，点击重试'` | error 文案 |
+| showActions | `boolean` | `true` | 助手操作栏 |
+| actions | `string` | `'copy,retry,good,bad'` | 逗号分隔 |
+| height | `number` | `0` | `>0` 启用内滚动 |
+| autoScroll | `boolean` | `true` | 消息变化滚底 |
 
 ## 事件
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-chat/`
-- 演示：`#/pages/demo/media/chat`
+- 组件目录: `uni_modules/ms-ui/components/ms-chat/`
+- 演示: `#/pages/demo/media/chat`

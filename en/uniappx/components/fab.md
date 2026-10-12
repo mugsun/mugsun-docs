@@ -5,35 +5,35 @@ demo: pages/demo/feedback/fab
 
 # Fab
 
-悬浮球：定位档 + expandable；`v-model:expanded`。
+`ms-fab` — Fab for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-fab`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-fab`).
 Demo route: `#/pages/demo/feedback/fab`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-fab text="…" :disabled="true">
+  <ms-fab text="…">
     …
   </ms-fab>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| icon | `string` | `'add-line'` | — |
-| text | `string` | `''` | — |
-| position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | — |
-| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| expandable | `boolean` | `false` | — |
-| expanded | `boolean` | `false` | 展开态（受控，配 update:expanded） |
-| local | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
+| icon | `string` | `'add-line'` | Icon name (icons.uts) |
+| text | `string` | `''` | Display text |
+| position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | Position |
+| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | Whether inset style |
+| expandable | `boolean` | `false` | Whether expandable |
+| expanded | `boolean` | `false` | Expanded state (controlled; pairs with update:expanded) |
+| local | `boolean` | `false` | Whether local/inline |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

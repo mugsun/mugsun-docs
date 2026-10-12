@@ -5,31 +5,31 @@ demo: pages/demo/media/drag
 
 # Drag
 
-`ms-drag`: Drag. See Chinese docs for narrative detail; API tables below are from source.
+`ms-drag` — Drag for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drag`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drag`).
 Demo route: `#/pages/demo/media/drag`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-drag :disabled="true">
+  <ms-drag>
     …
   </ms-drag>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| col | `number` | `1` | — |
-| scrollDiff | `number` | `25` | — |
-| disabled | `boolean` | `false` | — |
+| list | `UTSJSONObject[]` | `[]` | Data list |
+| col | `number` | `1` | Column span |
+| scrollDiff | `number` | `25` | scrollDiff number |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

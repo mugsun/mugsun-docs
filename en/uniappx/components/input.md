@@ -5,9 +5,9 @@ demo: pages/demo/form/input
 
 # Input
 
-单行输入。`v-model` + `label` / `placeholder` / `prefixIcon` / `clearable` / `type="password"` / `status` / `tips` / `align` / `disabled`。
+`ms-input` — Input for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-input`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-input`).
 Demo route: `#/pages/demo/form/input`.
 
 ## Basic usage
@@ -20,37 +20,37 @@ Demo route: `#/pages/demo/form/input`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| label | `string` | `''` | — |
-| placeholder | `string` | `''` | — |
-| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | — |
-| tips | `string` | `''` | — |
-| prefixIcon | `string` | `''` | — |
-| suffixIcon | `string` | `''` | — |
-| clearable | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| readonly | `boolean` | `false` | — |
-| maxlength | `number` | `-1` | — |
-| showCount | `boolean` | `false` | 显示字数统计（需 maxlength ≥ 0） |
-| bordered | `boolean` | `true` | — |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| label | `string` | `''` | Label text |
+| placeholder | `string` | `''` | Placeholder |
+| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | Type |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status |
+| tips | `string` | `''` | Tip text |
+| prefixIcon | `string` | `''` | Prefix icon |
+| suffixIcon | `string` | `''` | Suffix icon |
+| clearable | `boolean` | `false` | Whether clearable |
+| disabled | `boolean` | `false` | Whether disabled |
+| readonly | `boolean` | `false` | Whether read-only |
+| maxlength | `number` | `-1` | Max input length; -1 = unlimited |
+| showCount | `boolean` | `false` | Show character count (requires maxlength ≥ 0) |
+| bordered | `boolean` | `true` | Whether bordered |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
 | update:modelValue | v-model update |
-| input | input |
-| focus | focus |
-| blur | blur |
-| clear | clear |
+| input | Input |
+| focus | Focus |
+| blur | Blur |
+| clear | Clear |
 | confirm | Confirm |
 
 ## Slots

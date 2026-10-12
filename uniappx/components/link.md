@@ -20,20 +20,20 @@ demo: pages/demo/basic/link
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'warning' \| 'success'` | `'primary'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| underline | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| href | `string` | `''` | — |
-| openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | — |
-| icon | `string` | `''` | — |
-| suffixIcon | `string` | `''` | — |
+| theme | `'default' \| 'primary' \| 'danger' \| 'warning' \| 'success'` | `'primary'` | 主题 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| underline | `boolean` | `false` | 是否开启 underline |
+| disabled | `boolean` | `false` | 是否禁用 |
+| href | `string` | `''` | 链接地址 |
+| openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | openType |
+| icon | `string` | `''` | 图标名（icons.uts） |
+| suffixIcon | `string` | `''` | 后缀图标 |
 | content | `string` | `''` | 文案；无默认插槽内容时使用 |
 
 ## 事件
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-link/`
-- 演示：`#/pages/demo/basic/link`
+- 组件目录: `uni_modules/ms-ui/components/ms-link/`
+- 演示: `#/pages/demo/basic/link`

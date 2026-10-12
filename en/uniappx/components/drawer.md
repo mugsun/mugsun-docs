@@ -5,9 +5,9 @@ demo: pages/demo/feedback/drawer
 
 # Drawer
 
-`ms-drawer`: Drawer. See Chinese docs for narrative detail; API tables below are from source.
+`ms-drawer` — Drawer for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drawer`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drawer`).
 Demo route: `#/pages/demo/feedback/drawer`.
 
 ## Basic usage
@@ -20,27 +20,27 @@ Demo route: `#/pages/demo/feedback/drawer`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| placement | `'left' \| 'right'` | `'right'` | — |
-| title | `string` | `''` | — |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 title / icon / disabled |
-| showOverlay | `boolean` | `true` | — |
-| closeOnOverlayClick | `boolean` | `true` | — |
-| closeOnSelect | `boolean` | `true` | 点菜单项后是否自动关闭 |
-| zIndex | `number` | `1000` | — |
+| visible | `boolean` | `false` | Whether visible |
+| placement | `'left' \| 'right'` | `'right'` | Placement |
+| title | `string` | `''` | Title |
+| items | `UTSJSONObject[]` | `[]` | Each item: title / icon / disabled |
+| showOverlay | `boolean` | `true` | Whether to show overlay |
+| closeOnOverlayClick | `boolean` | `true` | Close when overlay is clicked |
+| closeOnSelect | `boolean` | `true` | Whether selecting a menu item auto-closes |
+| zIndex | `number` | `1000` | z-index |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
 | update:visible | v-model:visible update |
-| item-click | Menu item click |
+| item-click | Item click |
 | overlay-click | Overlay click |
 | close | Closed |
 | open | Opened |

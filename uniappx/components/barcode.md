@@ -14,24 +14,24 @@ demo: pages/demo/display/barcode
 
 ```vue
 <template>
-  <ms-barcode size="…">
+  <ms-barcode size="…" value="…">
     …
   </ms-barcode>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `string` | `''` | — |
-| encode | `string` | `'ean13'` | — |
-| size | `string` | `'md'` | — |
-| showText | `boolean` | `true` | — |
+| value | `string` | `''` | 当前值 |
+| encode | `string` | `'ean13'` | 'upca' \ |
+| size | `string` | `'md'` | 'lg'` |
+| showText | `boolean` | `true` | 是否显示Text |
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-barcode/`
-- 演示：`#/pages/demo/display/barcode`
+- 组件目录: `uni_modules/ms-ui/components/ms-barcode/`
+- 演示: `#/pages/demo/display/barcode`

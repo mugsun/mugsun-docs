@@ -5,9 +5,9 @@ demo: pages/demo/media/chat
 
 # Chat
 
-`ms-chat`: Chat. See Chinese docs for narrative detail; API tables below are from source.
+`ms-chat` — Chat for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-chat`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-chat`).
 Demo route: `#/pages/demo/media/chat`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/media/chat`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| messages | `UTSJSONObject[]` | `[]` | — |
-| layout | `string` | `'both'` | — |
-| variant | `string` | `'base'` | — |
-| reverse | `boolean` | `false` | — |
-| loadingText | `string` | `'正在思考…'` | — |
-| errorText | `string` | `'生成失败，点击重试'` | — |
-| showActions | `boolean` | `true` | — |
-| actions | `string` | `'copy,retry,good,bad'` | — |
-| height | `number` | `0` | — |
-| autoScroll | `boolean` | `true` | — |
+| messages | `UTSJSONObject[]` | `[]` | See message field schema |
+| layout | `string` | `'both'` | `both` / `left` |
+| variant | `string` | `'base'` | `base` / `outline` / `text` |
+| reverse | `boolean` | `false` | Render in reverse order |
+| loadingText | `string` | `'正在思考…'` | Pending-state text |
+| errorText | `string` | `'生成失败，点击重试'` | Error-state text |
+| showActions | `boolean` | `true` | Assistant action bar |
+| actions | `string` | `'copy,retry,good,bad'` | Comma-separated |
+| height | `number` | `0` | `>0` enables inner scrolling |
+| autoScroll | `boolean` | `true` | Scroll to bottom when messages change |
 
 ## Events
 

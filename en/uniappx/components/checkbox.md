@@ -5,9 +5,9 @@ demo: pages/demo/form/checkbox
 
 # Checkbox
 
-多选框：单独 `v-model` 或放进 `ms-checkbox-group`。
+`ms-checkbox` — Checkbox for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-checkbox`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-checkbox`).
 Demo route: `#/pages/demo/form/checkbox`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/form/checkbox`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | — |
-| value | `string` | `''` | — |
-| label | `string` | `''` | — |
-| content | `string` | `''` | — |
-| contentDisabled | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| indeterminate | `boolean` | `false` | — |
-| icon | `'square' \| 'circle' \| 'line'` | `'square'` | — |
-| placement | `'left' \| 'right'` | `'left'` | — |
-| block | `boolean` | `false` | — |
+| modelValue | `boolean` | `false` | Bound value (v-model) |
+| value | `string` | `''` | Current value |
+| label | `string` | `''` | Label text |
+| content | `string` | `''` | Content text |
+| contentDisabled | `boolean` | `false` | Whether content is disabled |
+| disabled | `boolean` | `false` | Whether disabled |
+| indeterminate | `boolean` | `false` | Indeterminate state |
+| icon | `'square' \| 'circle' \| 'line'` | `'square'` | Icon name (icons.uts) |
+| placement | `'left' \| 'right'` | `'left'` | Placement |
+| block | `boolean` | `false` | Whether block-level / full width |
 
 ## Events
 

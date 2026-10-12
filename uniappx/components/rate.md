@@ -20,25 +20,25 @@ demo: pages/demo/form/rate
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `number` | `0` | — |
-| count | `number` | `5` | — |
-| readonly | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| activeIcon | `string` | `'star-fill'` | — |
-| voidIcon | `string` | `'star-line'` | — |
-| halfIcon | `string` | `'star-half-fill'` | — |
-| showText | `boolean` | `false` | — |
+| modelValue | `number` | `0` | 绑定值（v-model） |
+| count | `number` | `5` | 数量 |
+| readonly | `boolean` | `false` | 是否只读 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| activeIcon | `string` | `'star-fill'` | 激活态图标 |
+| voidIcon | `string` | `'star-line'` | 未激活图标 |
+| halfIcon | `string` | `'star-half-fill'` | 半星图标 |
+| showText | `boolean` | `false` | 是否显示Text |
 | showScore | `boolean` | `false` | 显示数字分值 |
 | allowHalf | `boolean` | `false` | 允许半星 |
 | clearable | `boolean` | `false` | 再点当前分值可清零 |
-| texts | `string[]` | `[]` | — |
+| texts | `string[]` | `[]` | texts 文案/取值 |
 | placement | `'top' \| 'bottom' \| ''` | `''` | 点选时短暂展示评分弹层位置。 空串不展示；top / bottom 相对星排。 |
 
 ## 事件
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-rate/`
-- 演示：`#/pages/demo/form/rate`
+- 组件目录: `uni_modules/ms-ui/components/ms-rate/`
+- 演示: `#/pages/demo/form/rate`

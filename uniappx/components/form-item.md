@@ -20,26 +20,26 @@ demo: pages/demo/form/form
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| label | `string` | `''` | — |
-| name | `string` | `''` | — |
+| label | `string` | `''` | 标签文案 |
+| name | `string` | `''` | 名称 / 字段名 |
 | value | `string` | `''` | 参与校验的当前值（由宿主把表单数据传进来） |
-| required | `boolean` | `false` | — |
-| requiredMark | `boolean` | `true` | — |
-| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | — |
-| min | `number` | `-1` | — |
-| max | `number` | `-1` | — |
-| message | `string` | `''` | — |
-| help | `string` | `''` | — |
-| arrow | `boolean` | `false` | — |
-| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | — |
-| labelWidth | `number` | `-1` | — |
-| bordered | `boolean` | `true` | — |
+| required | `boolean` | `false` | 是否必填 |
+| requiredMark | `boolean` | `true` | 是否开启 requiredMark |
+| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | rule 数值 |
+| min | `number` | `-1` | 最小值 / 下限 |
+| max | `number` | `-1` | 最大值 / 上限 |
+| message | `string` | `''` | 校验消息 |
+| help | `string` | `''` | 帮助文案 |
+| arrow | `boolean` | `false` | 是否显示箭头 |
+| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | 标签对齐 |
+| labelWidth | `number` | `-1` | 标签宽度（px） |
+| bordered | `boolean` | `true` | 是否带边框 |
 
 ## 事件
 
@@ -55,5 +55,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-form-item/`
-- 演示：`#/pages/demo/form/form`
+- 组件目录: `uni_modules/ms-ui/components/ms-form-item/`
+- 演示: `#/pages/demo/form/form`

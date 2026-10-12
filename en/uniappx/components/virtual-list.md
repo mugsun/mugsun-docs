@@ -5,50 +5,50 @@ demo: pages/demo/display/virtual-list
 
 # Virtual List
 
-`ms-virtual-list`: Virtual List. See Chinese docs for narrative detail; API tables below are from source.
+`ms-virtual-list` — Virtual List for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-virtual-list`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-virtual-list`).
 Demo route: `#/pages/demo/display/virtual-list`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-virtual-list :loading="true">
+  <ms-virtual-list>
     …
   </ms-virtual-list>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | — |
-| itemHeight | `number` | `56` | — |
-| visibleCount | `number` | `5` | — |
-| buffer | `number` | `3` | — |
-| virtual | `boolean` | `true` | — |
-| titleKey | `string` | `'title'` | — |
-| descKey | `string` | `'desc'` | — |
-| keyField | `string` | `'id'` | — |
-| emptyText | `string` | `'暂无数据'` | — |
-| loading | `boolean` | `false` | 触底加载中；为 true 时展示底栏并抑制重复 scrolltolower |
-| finished | `boolean` | `false` | 已无更多；底栏展示 finishedText |
-| loadingText | `string` | `'加载中…'` | — |
-| finishedText | `string` | `'没有更多了'` | — |
-| lowerThreshold | `number` | `50` | 距底多少 px 触发 scrolltolower（对齐 scroll-view lower-threshold） |
-| showLoadMore | `boolean` | `false` | 是否渲染触底状态底栏 |
+| items | `UTSJSONObject[]` | `[]` | Items list |
+| itemHeight | `number` | `56` | Item height (px) |
+| visibleCount | `number` | `5` | visibleCount number |
+| buffer | `number` | `3` | Buffer size |
+| virtual | `boolean` | `true` | Whether virtualized |
+| titleKey | `string` | `'title'` | titleKey string value |
+| descKey | `string` | `'desc'` | Description field key |
+| keyField | `string` | `'id'` | Key field name |
+| emptyText | `string` | `'暂无数据'` | Empty-state text |
+| loading | `boolean` | `false` | Loading more; when true shows footer and suppresses repeat scrolltolower |
+| finished | `boolean` | `false` | No more data; footer shows finishedText |
+| loadingText | `string` | `'加载中…'` | Loading text |
+| finishedText | `string` | `'没有更多了'` | Finished / no-more text |
+| lowerThreshold | `number` | `50` | Distance from bottom (px) to fire scrolltolower |
+| showLoadMore | `boolean` | `false` | Whether to render the bottom status bar |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
-| item-click | Menu item click |
+| item-click | Item click |
 | range-change | range-change |
-| scrolltolower | scrolltolower |
+| scrolltolower | Scrolled to lower |
 
 ## Slots
 

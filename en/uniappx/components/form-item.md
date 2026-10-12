@@ -5,9 +5,9 @@ demo: pages/demo/form/form
 
 # Form Item
 
-`ms-form-item`: Form Item. See Chinese docs for narrative detail; API tables below are from source.
+`ms-form-item` — Form Item for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-form-item`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-form-item`).
 Demo route: `#/pages/demo/form/form`.
 
 ## Basic usage
@@ -20,26 +20,26 @@ Demo route: `#/pages/demo/form/form`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| label | `string` | `''` | — |
-| name | `string` | `''` | — |
-| value | `string` | `''` | 参与校验的当前值（由宿主把表单数据传进来） |
-| required | `boolean` | `false` | — |
-| requiredMark | `boolean` | `true` | — |
-| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | — |
-| min | `number` | `-1` | — |
-| max | `number` | `-1` | — |
-| message | `string` | `''` | — |
-| help | `string` | `''` | — |
-| arrow | `boolean` | `false` | — |
-| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | — |
-| labelWidth | `number` | `-1` | — |
-| bordered | `boolean` | `true` | — |
+| label | `string` | `''` | Label text |
+| name | `string` | `''` | Name / field name |
+| value | `string` | `''` | Value under validation (host passes form data in) |
+| required | `boolean` | `false` | Whether required |
+| requiredMark | `boolean` | `true` | Whether requiredMark is enabled |
+| rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | rule number |
+| min | `number` | `-1` | Minimum / lower limit |
+| max | `number` | `-1` | Maximum / upper limit |
+| message | `string` | `''` | Validation message |
+| help | `string` | `''` | Help text |
+| arrow | `boolean` | `false` | Whether to show arrow |
+| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | Label alignment |
+| labelWidth | `number` | `-1` | Label width (px) |
+| bordered | `boolean` | `true` | Whether bordered |
 
 ## Events
 

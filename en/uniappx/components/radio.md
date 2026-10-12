@@ -5,9 +5,9 @@ demo: pages/demo/form/radio
 
 # Radio
 
-`ms-radio`: Radio. See Chinese docs for narrative detail; API tables below are from source.
+`ms-radio` — Radio for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-radio`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-radio`).
 Demo route: `#/pages/demo/form/radio`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/form/radio`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | — |
-| value | `string` | `''` | — |
-| label | `string` | `''` | — |
-| content | `string` | `''` | — |
-| contentDisabled | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | — |
-| placement | `'left' \| 'right'` | `'left'` | — |
-| block | `boolean` | `false` | — |
-| allowUncheck | `boolean` | `false` | — |
+| modelValue | `boolean` | `false` | Bound value (v-model) |
+| value | `string` | `''` | Current value |
+| label | `string` | `''` | Label text |
+| content | `string` | `''` | Content text |
+| contentDisabled | `boolean` | `false` | Whether content is disabled |
+| disabled | `boolean` | `false` | Whether disabled |
+| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | Icon name (icons.uts) |
+| placement | `'left' \| 'right'` | `'left'` | Placement |
+| block | `boolean` | `false` | Whether block-level / full width |
+| allowUncheck | `boolean` | `false` | Allow unchecking |
 
 ## Events
 

@@ -14,22 +14,22 @@ demo: pages/demo/media/drag
 
 ```vue
 <template>
-  <ms-drag :disabled="true">
+  <ms-drag>
     …
   </ms-drag>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| col | `number` | `1` | — |
-| scrollDiff | `number` | `25` | — |
-| disabled | `boolean` | `false` | — |
+| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| col | `number` | `1` | 栅格列数占用 |
+| scrollDiff | `number` | `25` | scrollDiff 数值 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-drag/`
-- 演示：`#/pages/demo/media/drag`
+- 组件目录: `uni_modules/ms-ui/components/ms-drag/`
+- 演示: `#/pages/demo/media/drag`

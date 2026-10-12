@@ -20,15 +20,15 @@ demo: pages/demo/media/view-tofull
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| duration | `number` | `300` | — |
-| showClose | `boolean` | `true` | — |
-| opened | `boolean` | `false` | — |
+| duration | `number` | `300` | 时长（ms） |
+| showClose | `boolean` | `true` | 是否显示Close |
+| opened | `boolean` | `false` | 是否开启 opened |
 
 ## 事件
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-view-tofull/`
-- 演示：`#/pages/demo/media/view-tofull`
+- 组件目录: `uni_modules/ms-ui/components/ms-view-tofull/`
+- 演示: `#/pages/demo/media/view-tofull`

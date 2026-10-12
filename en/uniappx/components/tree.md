@@ -5,36 +5,36 @@ demo: pages/demo/display/tree
 
 # Tree
 
-`ms-tree`: Tree. See Chinese docs for narrative detail; API tables below are from source.
+`ms-tree` — Tree for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tree`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tree`).
 Demo route: `#/pages/demo/display/tree`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-tree :disabled="true">
+  <ms-tree value="…">
     …
   </ms-tree>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| folderIds | `string[]` | `[]` | — |
-| checkable | `boolean` | `true` | — |
-| parentLink | `boolean` | `false` | — |
-| disabledParent | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| idKey | `string` | `'id'` | — |
-| labelKey | `string` | `'text'` | — |
+| list | `UTSJSONObject[]` | `[]` | Data list |
+| value | `string[]` | `[]` | Current value |
+| folderIds | `string[]` | `[]` | Folder id list |
+| checkable | `boolean` | `true` | Whether checkable |
+| parentLink | `boolean` | `false` | Whether parentLink is enabled |
+| disabledParent | `boolean` | `false` | Disable parent linkage |
+| disabled | `boolean` | `false` | Whether disabled |
+| idKey | `string` | `'id'` | Id field key |
+| labelKey | `string` | `'text'` | Label field key |
 
 ## Events
 

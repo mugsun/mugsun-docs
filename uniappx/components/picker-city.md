@@ -20,23 +20,23 @@ demo: pages/demo/form/picker-city
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| level | `number` | `3` | — |
-| visible | `boolean` | `false` | — |
-| title | `string` | `'选择地区'` | — |
-| cancelText | `string` | `'取消'` | — |
-| confirmText | `string` | `'确定'` | — |
-| separator | `string` | `' / '` | — |
-| itemHeight | `number` | `44` | — |
-| visibleItemCount | `number` | `5` | — |
-| usePopup | `boolean` | `true` | — |
+| options | `UTSJSONObject[]` | `[]` | 选项列表 |
+| value | `string[]` | `[]` | 当前值 |
+| level | `number` | `3` | 层级/级别 |
+| visible | `boolean` | `false` | 是否显示 |
+| title | `string` | `'选择地区'` | 标题 |
+| cancelText | `string` | `'取消'` | 取消按钮文案 |
+| confirmText | `string` | `'确定'` | 确认按钮文案 |
+| separator | `string` | `' / '` | 分隔符 |
+| itemHeight | `number` | `44` | 单项高度（px） |
+| visibleItemCount | `number` | `5` | visibleItemCount 数值 |
+| usePopup | `boolean` | `true` | 是否使用弹出层 |
 
 ## 事件
 
@@ -57,5 +57,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-picker-city/`
-- 演示：`#/pages/demo/form/picker-city`
+- 组件目录: `uni_modules/ms-ui/components/ms-picker-city/`
+- 演示: `#/pages/demo/form/picker-city`

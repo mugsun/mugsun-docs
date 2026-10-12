@@ -5,9 +5,9 @@ demo: pages/demo/form/slider
 
 # Slider
 
-`ms-slider`: Slider. See Chinese docs for narrative detail; API tables below are from source.
+`ms-slider` — Slider for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-slider`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-slider`).
 Demo route: `#/pages/demo/form/slider`.
 
 ## Basic usage
@@ -20,23 +20,23 @@ Demo route: `#/pages/demo/form/slider`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `number` | `0` | — |
-| rangeValue | `number[]` | `[]` | 双游标时的受控区间 [low, high] |
-| range | `boolean` | `false` | 开启双游标区间模式 |
-| min | `number` | `0` | — |
-| max | `number` | `100` | — |
-| step | `number` | `1` | — |
-| disabled | `boolean` | `false` | — |
-| label | `boolean` | `false` | — |
-| showExtremeValue | `boolean` | `false` | — |
-| marks | `number[]` | `[]` | — |
-| theme | `'default' \| 'capsule'` | `'default'` | — |
+| modelValue | `number` | `0` | Bound value (v-model) |
+| rangeValue | `number[]` | `[]` | Controlled range [low, high] in dual-thumb mode |
+| range | `boolean` | `false` | Enable dual-thumb range mode |
+| min | `number` | `0` | Minimum / lower limit |
+| max | `number` | `100` | Maximum / upper limit |
+| step | `number` | `1` | Step |
+| disabled | `boolean` | `false` | Whether disabled |
+| label | `boolean` | `false` | Label text |
+| showExtremeValue | `boolean` | `false` | Whether to show ExtremeValue |
+| marks | `number[]` | `[]` | Marks |
+| theme | `'default' \| 'capsule'` | `'default'` | Theme |
 
 ## Events
 

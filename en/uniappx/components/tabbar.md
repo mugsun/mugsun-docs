@@ -5,9 +5,9 @@ demo: pages/demo/nav/tabbar
 
 # Tabbar
 
-底部导航：纯文字 / 图标 / 徽标；`v-model:value`；fixed + placeholder。
+`ms-tabbar` — Tabbar for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tabbar`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tabbar`).
 Demo route: `#/pages/demo/nav/tabbar`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/nav/tabbar`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | 选中项下标 |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled |
-| theme | `'normal' \| 'tag'` | `'normal'` | — |
-| shape | `'normal' \| 'round'` | `'normal'` | — |
-| bordered | `boolean` | `true` | 顶部外边框 |
-| split | `boolean` | `false` | 项间分割线 |
-| fixed | `boolean` | `true` | — |
-| placeholder | `boolean` | `false` | fixed 时在文档流占位，避免压住页面底部内容 |
-| safeAreaInsetBottom | `boolean` | `true` | — |
-| zIndex | `number` | `400` | — |
+| value | `number` | `0` | Selected item index |
+| items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled |
+| theme | `'normal' \| 'tag'` | `'normal'` | Theme |
+| shape | `'normal' \| 'round'` | `'normal'` | Shape |
+| bordered | `boolean` | `true` | Top border |
+| split | `boolean` | `false` | Divider between items |
+| fixed | `boolean` | `true` | Whether fixed positioned |
+| placeholder | `boolean` | `false` | When fixed, reserve flow space so content is not covered |
+| safeAreaInsetBottom | `boolean` | `true` | Whether safeAreaInsetBottom is enabled |
+| zIndex | `number` | `400` | z-index |
 
 ## Events
 

@@ -5,9 +5,9 @@ demo: pages/demo/basic/cell
 
 # Cell Group
 
-单元格组容器。用 `theme`（default|card）、`title`；default 插槽放 ms-cell。
+`ms-cell-group` — Cell Group for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-cell-group`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-cell-group`).
 Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage
@@ -20,14 +20,14 @@ Demo route: `#/pages/demo/basic/cell`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'card'` | `'default'` | — |
-| title | `string` | `''` | — |
+| theme | `'default' \| 'card'` | `'default'` | Theme |
+| title | `string` | `''` | Title |
 
 ## Slots
 

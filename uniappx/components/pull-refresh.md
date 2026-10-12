@@ -14,13 +14,13 @@ demo: pages/demo/feedback/pull-refresh
 
 ```vue
 <template>
-  <ms-pull-refresh v-model="value" :disabled="true">
+  <ms-pull-refresh v-model="value">
     …
   </ms-pull-refresh>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
@@ -38,10 +38,10 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 | 事件 | 说明 |
 | --- | --- |
 | update:modelValue | v-model 更新 |
-| refresh | refresh |
+| refresh | 刷新 |
 | pulling | pulling |
 | restore | restore |
-| scrolltolower | scrolltolower |
+| scrolltolower | 触底 |
 
 ## 插槽
 
@@ -52,5 +52,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-pull-refresh/`
-- 演示：`#/pages/demo/feedback/pull-refresh`
+- 组件目录: `uni_modules/ms-ui/components/ms-pull-refresh/`
+- 演示: `#/pages/demo/feedback/pull-refresh`

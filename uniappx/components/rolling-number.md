@@ -20,21 +20,21 @@ demo: pages/demo/display/rolling-number
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `0` | — |
-| start | `number` | `0` | — |
-| duration | `number` | `400` | — |
-| decimals | `number` | `-1` | — |
-| grouping | `boolean` | `false` | — |
-| prefix | `string` | `''` | — |
-| suffix | `string` | `''` | — |
-| animated | `boolean` | `true` | — |
-| size | `'md' \| 'lg'` | `'md'` | — |
+| value | `number` | `0` | 当前值 |
+| start | `number` | `0` | 起始 |
+| duration | `number` | `400` | 时长（ms） |
+| decimals | `number` | `-1` | 小数位数 |
+| grouping | `boolean` | `false` | 是否分组 |
+| prefix | `string` | `''` | 前缀 |
+| suffix | `string` | `''` | 后缀 |
+| animated | `boolean` | `true` | 是否开启动画 |
+| size | `'md' \| 'lg'` | `'md'` | 尺寸 |
 
 ## 事件
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-rolling-number/`
-- 演示：`#/pages/demo/display/rolling-number`
+- 组件目录: `uni_modules/ms-ui/components/ms-rolling-number/`
+- 演示: `#/pages/demo/display/rolling-number`

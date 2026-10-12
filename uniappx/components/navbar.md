@@ -20,23 +20,23 @@ demo: pages/demo/nav/navbar
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| title | `string` | `''` | — |
-| titleAlign | `'center' \| 'left'` | `'center'` | — |
+| title | `string` | `''` | 标题 |
+| titleAlign | `'center' \| 'left'` | `'center'` | `'center'` |
 | titleMaxLength | `number` | `0` | 标题最大字数，超出用 … 收尾；0 表示不截断 |
-| leftArrow | `boolean` | `false` | — |
+| leftArrow | `boolean` | `false` | 是否开启 leftArrow |
 | leftText | `string` | `''` | 左侧返回文案；空串只显示箭头 |
 | homeIcon | `boolean` | `false` | 返回旁再放一个首页入口 |
-| theme | `'light' \| 'brand'` | `'light'` | — |
-| fixed | `boolean` | `true` | — |
+| theme | `'light' \| 'brand'` | `'light'` | `'light'` |
+| fixed | `boolean` | `true` | 是否固定定位 |
 | placeholder | `boolean` | `false` | fixed 时是否在文档流里占位，避免内容被压住 |
-| safeAreaInsetTop | `boolean` | `true` | — |
-| zIndex | `number` | `500` | — |
+| safeAreaInsetTop | `boolean` | `true` | 是否开启 safeAreaInsetTop |
+| zIndex | `number` | `500` | 层级 |
 
 ## 事件
 
@@ -55,5 +55,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-navbar/`
-- 演示：`#/pages/demo/nav/navbar`
+- 组件目录: `uni_modules/ms-ui/components/ms-navbar/`
+- 演示: `#/pages/demo/nav/navbar`

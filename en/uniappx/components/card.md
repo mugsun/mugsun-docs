@@ -5,9 +5,9 @@ demo: pages/demo/display/card
 
 # Card
 
-`ms-card`: Card. See Chinese docs for narrative detail; API tables below are from source.
+`ms-card` — Card for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-card`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-card`).
 Demo route: `#/pages/demo/display/card`.
 
 ## Basic usage
@@ -20,21 +20,21 @@ Demo route: `#/pages/demo/display/card`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| title | `string` | `''` | — |
-| subtitle | `string` | `''` | — |
-| content | `string` | `''` | — |
-| image | `string` | `''` | — |
-| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| statusIcon | `string` | `''` | — |
-| radius | `'md' \| 'lg'` | `'lg'` | — |
-| bordered | `boolean` | `false` | — |
-| shadow | `boolean` | `false` | — |
+| title | `string` | `''` | Title |
+| subtitle | `string` | `''` | subtitle string value |
+| content | `string` | `''` | Content text |
+| image | `string` | `''` | Image URL |
+| imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | imageHeight |
+| statusIcon | `string` | `''` | statusIcon string value |
+| radius | `'md' \| 'lg'` | `'lg'` | Border radius (px) |
+| bordered | `boolean` | `false` | Whether bordered |
+| shadow | `boolean` | `false` | Whether shadow is enabled |
 
 ## Events
 

@@ -5,31 +5,31 @@ demo: pages/demo/form/checkbox
 
 # Checkbox Group
 
-`ms-checkbox-group`: Checkbox Group. See Chinese docs for narrative detail; API tables below are from source.
+`ms-checkbox-group` — Checkbox Group for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-checkbox-group`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-checkbox-group`).
 Demo route: `#/pages/demo/form/checkbox`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-checkbox-group v-model="value" :disabled="true">
+  <ms-checkbox-group v-model="value">
     …
   </ms-checkbox-group>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string[]` | `[]` | — |
-| disabled | `boolean` | `false` | — |
-| max | `number` | `-1` | — |
-| horizontal | `boolean` | `false` | — |
+| modelValue | `string[]` | `[]` | Bound value (v-model) |
+| disabled | `boolean` | `false` | Whether disabled |
+| max | `number` | `-1` | Maximum / upper limit |
+| horizontal | `boolean` | `false` | Whether horizontal |
 
 ## Events
 

@@ -7,7 +7,7 @@ demo: pages/demo/display/scroll-x
 
 `ms-scroll-x-item` — Scroll-X Item for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-scroll-x-item`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-scroll-x-item`).
 Demo route: `#/pages/demo/display/scroll-x`.
 
 ## Basic usage
@@ -20,7 +20,7 @@ Demo route: `#/pages/demo/display/scroll-x`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 

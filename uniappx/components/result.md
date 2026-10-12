@@ -20,15 +20,15 @@ demo: pages/demo/display/result
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | — |
-| title | `string` | `''` | — |
-| description | `string` | `''` | — |
+| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 'warning' \ |
+| title | `string` | `''` | 标题 |
+| description | `string` | `''` | 描述文案 |
 | icon | `string` | `''` | 覆盖主题默认图标；'none' 表示不显示图标 |
 | image | `string` | `''` | 图片地址，有值时优先于图标 |
 | showActions | `boolean` | `false` | 是否渲染操作区（默认插槽） |
@@ -43,5 +43,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-result/`
-- 演示：`#/pages/demo/display/result`
+- 组件目录: `uni_modules/ms-ui/components/ms-result/`
+- 演示: `#/pages/demo/display/result`

@@ -20,29 +20,29 @@ demo: pages/demo/form/calendar
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| type | `string` | `'single'` | — |
-| value | `string` | `''` | — |
-| minDate | `string` | `''` | — |
-| maxDate | `string` | `''` | — |
-| firstDayOfWeek | `number` | `0` | — |
-| disabledDates | `string[]` | `[]` | — |
-| marks | `UTSJSONObject[]` | `[]` | — |
-| switchMode | `string` | `'none'` | — |
-| title | `string` | `''` | — |
-| weekdays | `string[]` | `[]` | — |
-| readonly | `boolean` | `false` | — |
-| allowSameDay | `boolean` | `false` | — |
-| showConfirm | `boolean` | `true` | — |
-| confirmText | `string` | `'确定'` | — |
-| visible | `boolean` | `false` | — |
-| usePopup | `boolean` | `true` | — |
-| autoClose | `boolean` | `true` | — |
+| type | `string` | `'single'` | 类型 |
+| value | `string` | `''` | 当前值 |
+| minDate | `string` | `''` | minDate 文案/取值 |
+| maxDate | `string` | `''` | maxDate 文案/取值 |
+| firstDayOfWeek | `number` | `0` | 一周起始日 |
+| disabledDates | `string[]` | `[]` | 禁用日期列表 |
+| marks | `UTSJSONObject[]` | `[]` | 刻度/标记 |
+| switchMode | `string` | `'none'` | switchMode 文案/取值 |
+| title | `string` | `''` | 标题 |
+| weekdays | `string[]` | `[]` | weekdays 文案/取值 |
+| readonly | `boolean` | `false` | 是否只读 |
+| allowSameDay | `boolean` | `false` | 是否允许同一天 |
+| showConfirm | `boolean` | `true` | 是否显示确认 |
+| confirmText | `string` | `'确定'` | 确认按钮文案 |
+| visible | `boolean` | `false` | 是否显示 |
+| usePopup | `boolean` | `true` | 是否使用弹出层 |
+| autoClose | `boolean` | `true` | 是否自动关闭 |
 
 ## 事件
 
@@ -58,5 +58,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-calendar/`
-- 演示：`#/pages/demo/form/calendar`
+- 组件目录: `uni_modules/ms-ui/components/ms-calendar/`
+- 演示: `#/pages/demo/form/calendar`

@@ -5,31 +5,31 @@ demo: pages/demo/media/finger
 
 # Finger
 
-`ms-finger`: Finger. See Chinese docs for narrative detail; API tables below are from source.
+`ms-finger` — Finger for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-finger`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-finger`).
 Demo route: `#/pages/demo/media/finger`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-finger :disabled="true">
+  <ms-finger>
     …
   </ms-finger>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| swipeThreshold | `number` | `40` | — |
-| doubleTapInterval | `number` | `280` | — |
-| longPressDelay | `number` | `500` | — |
-| disabled | `boolean` | `false` | — |
+| swipeThreshold | `number` | `40` | swipeThreshold number |
+| doubleTapInterval | `number` | `280` | Double-tap interval (ms) |
+| longPressDelay | `number` | `500` | longPressDelay number |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 

@@ -5,9 +5,9 @@ demo: pages/demo/display/text-cloud
 
 # Text Cloud
 
-`ms-text-cloud`: Text Cloud. See Chinese docs for narrative detail; API tables below are from source.
+`ms-text-cloud` — Text Cloud for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-text-cloud`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-text-cloud`).
 Demo route: `#/pages/demo/display/text-cloud`.
 
 ## Basic usage
@@ -20,17 +20,17 @@ Demo route: `#/pages/demo/display/text-cloud`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| height | `number` | `180` | — |
-| minFontSize | `number` | `12` | — |
-| maxFontSize | `number` | `30` | — |
-| gap | `number` | `2` | — |
+| list | `UTSJSONObject[]` | `[]` | Data list |
+| height | `number` | `180` | Height (px) |
+| minFontSize | `number` | `12` | minFontSize number |
+| maxFontSize | `number` | `30` | maxFontSize number |
+| gap | `number` | `2` | Gap (px) |
 
 ## Events
 

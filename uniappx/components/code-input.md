@@ -14,25 +14,25 @@ demo: pages/demo/form/code-input
 
 ```vue
 <template>
-  <ms-code-input v-model="value" :disabled="true">
+  <ms-code-input v-model="value">
     …
   </ms-code-input>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| length | `number` | `4` | — |
-| skin | `'outline' \| 'fill'` | `'outline'` | — |
-| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | — |
-| password | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| autoFocus | `boolean` | `false` | — |
+| modelValue | `string` | `''` | 绑定值（v-model） |
+| length | `number` | `4` | length 数值 |
+| skin | `'outline' \| 'fill'` | `'outline'` | skin |
+| placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | placeShape |
+| password | `boolean` | `false` | 是否密码框 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| autoFocus | `boolean` | `false` | 是否自动聚焦 |
 
 ## 事件
 
@@ -45,5 +45,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-code-input/`
-- 演示：`#/pages/demo/form/code-input`
+- 组件目录: `uni_modules/ms-ui/components/ms-code-input/`
+- 演示: `#/pages/demo/form/code-input`

@@ -20,24 +20,24 @@ demo: pages/demo/basic/button
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | — |
-| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | — |
-| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | — |
-| block | `boolean` | `false` | — |
-| ghost | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| loading | `boolean` | `false` | — |
+| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning' \| 'light'` | `'primary'` | 主题 |
+| variant | `'solid' \| 'outline' \| 'dashed' \| 'text'` | `'solid'` | 变体样式 |
+| size | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| shape | `'rectangle' \| 'square' \| 'round' \| 'circle'` | `'rectangle'` | 外形 |
+| block | `boolean` | `false` | 是否通栏 |
+| ghost | `boolean` | `false` | 幽灵样式（透明底） |
+| disabled | `boolean` | `false` | 是否禁用 |
+| loading | `boolean` | `false` | 是否加载中 |
 | loadingText | `string` | `'加载中…'` | 加载态文案；空串则只显示转圈 |
-| icon | `string` | `''` | — |
-| iconOnly | `boolean` | `false` | — |
-| formType | `'' \| 'submit' \| 'reset'` | `''` | — |
+| icon | `string` | `''` | 图标名（icons.uts） |
+| iconOnly | `boolean` | `false` | 是否纯图标 |
+| formType | `'' \| 'submit' \| 'reset'` | `''` | 表单类型（submit/reset） |
 | haptic | `boolean` | `true` | App/小程序点击短震动；Web 无能力自动跳过。cite: api/vibrate.md |
 
 ## 事件
@@ -54,5 +54,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-button/`
-- 演示：`#/pages/demo/basic/button`
+- 组件目录: `uni_modules/ms-ui/components/ms-button/`
+- 演示: `#/pages/demo/basic/button`

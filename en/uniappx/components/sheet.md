@@ -5,36 +5,36 @@ demo: pages/demo/basic/sheet
 
 # Sheet
 
-卡片/容器面。`variant` / `radius` / `padding` / `margin` / `bordered` / `shadow` / `loading` / `url` / `pressable`（对齐 x-sheet isLink）。
+`ms-sheet` — Sheet for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-sheet`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-sheet`).
 Demo route: `#/pages/demo/basic/sheet`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-sheet variant="default" :loading="true">
+  <ms-sheet variant="default">
     …
   </ms-sheet>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | — |
-| radius | `'md' \| 'lg'` | `'lg'` | — |
-| padding | `'none' \| 'md' \| 'lg'` | `'md'` | — |
-| margin | `'none' \| 'page'` | `'none'` | — |
-| bordered | `boolean` | `false` | — |
-| shadow | `boolean` | `false` | — |
-| loading | `boolean` | `false` | — |
-| url | `string` | `''` | — |
-| pressable | `boolean` | `false` | 可点按压反馈；有 url 时默认视为可点 |
+| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | Variant |
+| radius | `'md' \| 'lg'` | `'lg'` | Border radius (px) |
+| padding | `'none' \| 'md' \| 'lg'` | `'md'` | Padding (px) |
+| margin | `'none' \| 'page'` | `'none'` | margin |
+| bordered | `boolean` | `false` | Whether bordered |
+| shadow | `boolean` | `false` | Whether shadow is enabled |
+| loading | `boolean` | `false` | Whether loading |
+| url | `string` | `''` | URL |
+| pressable | `boolean` | `false` | Press feedback; treated as clickable when url is set |
 
 ## Events
 

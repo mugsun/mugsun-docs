@@ -20,14 +20,14 @@ demo: pages/demo/nav/col
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| span | `number` | `24` | — |
-| offset | `number` | `0` | — |
+| span | `number` | `24` | 栅格跨度 |
+| offset | `number` | `0` | 偏移 |
 
 ## 事件
 
@@ -43,5 +43,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-col/`
-- 演示：`#/pages/demo/nav/col`
+- 组件目录: `uni_modules/ms-ui/components/ms-col/`
+- 演示: `#/pages/demo/nav/col`

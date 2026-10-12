@@ -20,22 +20,22 @@ demo: pages/demo/form/radio
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | — |
-| value | `string` | `''` | — |
-| label | `string` | `''` | — |
-| content | `string` | `''` | — |
-| contentDisabled | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | — |
-| placement | `'left' \| 'right'` | `'left'` | — |
-| block | `boolean` | `false` | — |
-| allowUncheck | `boolean` | `false` | — |
+| modelValue | `boolean` | `false` | 绑定值（v-model） |
+| value | `string` | `''` | 当前值 |
+| label | `string` | `''` | 标签文案 |
+| content | `string` | `''` | 内容文案 |
+| contentDisabled | `boolean` | `false` | 内容区是否禁用 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | 图标名（icons.uts） |
+| placement | `'left' \| 'right'` | `'left'` | 弹出位置 |
+| block | `boolean` | `false` | 是否通栏 |
+| allowUncheck | `boolean` | `false` | 是否允许取消选中 |
 
 ## 事件
 
@@ -52,5 +52,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-radio/`
-- 演示：`#/pages/demo/form/radio`
+- 组件目录: `uni_modules/ms-ui/components/ms-radio/`
+- 演示: `#/pages/demo/form/radio`

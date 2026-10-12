@@ -20,20 +20,20 @@ demo: pages/demo/feedback/guide
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| steps | `UTSJSONObject[]` | `[]` | — |
-| current | `number` | `-1` | — |
-| mode | `'popover' \| 'dialog'` | `'popover'` | — |
-| showOverlay | `boolean` | `true` | — |
-| highlightPadding | `number` | `8` | — |
-| hideSkip | `boolean` | `false` | — |
-| hideCounter | `boolean` | `false` | — |
-| hideBack | `boolean` | `false` | — |
+| steps | `UTSJSONObject[]` | `[]` | steps |
+| current | `number` | `-1` | 当前索引 |
+| mode | `'popover' \| 'dialog'` | `'popover'` | 模式 |
+| showOverlay | `boolean` | `true` | 是否显示遮罩 |
+| highlightPadding | `number` | `8` | 高亮内边距（px） |
+| hideSkip | `boolean` | `false` | 是否隐藏跳过 |
+| hideCounter | `boolean` | `false` | 是否隐藏计数 |
+| hideBack | `boolean` | `false` | 是否隐藏返回 |
 
 ## 事件
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-guide/`
-- 演示：`#/pages/demo/feedback/guide`
+- 组件目录: `uni_modules/ms-ui/components/ms-guide/`
+- 演示: `#/pages/demo/feedback/guide`

@@ -20,19 +20,19 @@ demo: pages/demo/form/switch
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| loading | `boolean` | `false` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| label | `string[]` | `[]` | — |
-| activeIcon | `string` | `''` | — |
-| voidIcon | `string` | `''` | — |
+| modelValue | `boolean` | `false` | 绑定值（v-model） |
+| disabled | `boolean` | `false` | 是否禁用 |
+| loading | `boolean` | `false` | 是否加载中 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| label | `string[]` | `[]` | 标签文案 |
+| activeIcon | `string` | `''` | 激活态图标 |
+| voidIcon | `string` | `''` | 未激活图标 |
 
 ## 事件
 
@@ -43,5 +43,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-switch/`
-- 演示：`#/pages/demo/form/switch`
+- 组件目录: `uni_modules/ms-ui/components/ms-switch/`
+- 演示: `#/pages/demo/form/switch`

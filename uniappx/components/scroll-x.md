@@ -20,25 +20,25 @@ demo: pages/demo/display/scroll-x
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| indicator | `boolean` | `true` | — |
-| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| inset | `boolean` | `false` | — |
-| showScrollbar | `boolean` | `false` | — |
-| scrollWithAnimation | `boolean` | `false` | — |
+| indicator | `boolean` | `true` | 底部指示条 |
+| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | 子项间距档 |
+| inset | `boolean` | `false` | 首尾留白 |
+| showScrollbar | `boolean` | `false` | 原生滚动条 |
+| scrollWithAnimation | `boolean` | `false` | 滚动动画 |
 
 ## 事件
 
 | 事件 | 说明 |
 | --- | --- |
-| scroll | scroll |
+| scroll | 滚动 |
 | scrolltoupper | scrolltoupper |
-| scrolltolower | scrolltolower |
+| scrolltolower | 触底 |
 
 ## 插槽
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-scroll-x/`
-- 演示：`#/pages/demo/display/scroll-x`
+- 组件目录: `uni_modules/ms-ui/components/ms-scroll-x/`
+- 演示: `#/pages/demo/display/scroll-x`

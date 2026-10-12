@@ -5,9 +5,9 @@ demo: pages/demo/form/keyboard
 
 # Keyboard
 
-自定义键盘：`type` 为 `number` / `password` / `idcard` / `car`，底部 `ms-popup` 弹出。
+`ms-keyboard` — Keyboard for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-keyboard`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-keyboard`).
 Demo route: `#/pages/demo/form/keyboard`.
 
 ## Basic usage
@@ -20,21 +20,21 @@ Demo route: `#/pages/demo/form/keyboard`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| visible | `boolean` | `false` | — |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| visible | `boolean` | `false` | Whether visible |
 | type | `string` | `'number'` | number / password / idcard / car |
-| title | `string` | `'安全键盘'` | — |
-| maxLen | `number` | `0` | — |
-| max | `number` | `0` | — |
-| digit | `boolean` | `true` | — |
-| hold | `boolean` | `false` | — |
-| confirmText | `string` | `'确认'` | — |
+| title | `string` | `'安全键盘'` | Title |
+| maxLen | `number` | `0` | maxLen number |
+| max | `number` | `0` | Maximum / upper limit |
+| digit | `boolean` | `true` | Digit / decimal-related |
+| hold | `boolean` | `false` | Whether hold is enabled |
+| confirmText | `string` | `'确认'` | Confirm button label |
 
 ## Events
 

@@ -14,24 +14,24 @@ demo: pages/demo/nav/more
 
 ```vue
 <template>
-  <ms-more :disabled="true">
+  <ms-more>
     …
   </ms-more>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | — |
-| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| expandText | `string` | `'展开更多'` | — |
-| collapseText | `string` | `'收起'` | — |
-| disabled | `boolean` | `false` | — |
-| showAction | `boolean` | `true` | — |
+| opened | `boolean` | `false` | 是否开启 opened |
+| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | 'lg'` |
+| expandText | `string` | `'展开更多'` | 展开文案 |
+| collapseText | `string` | `'收起'` | 收起文案 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| showAction | `boolean` | `true` | 是否显示Action |
 | showIcon | `boolean` | `true` | 是否显示展开/收起箭头图标 |
 
 ## 事件
@@ -50,5 +50,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-more/`
-- 演示：`#/pages/demo/nav/more`
+- 组件目录: `uni_modules/ms-ui/components/ms-more/`
+- 演示: `#/pages/demo/nav/more`

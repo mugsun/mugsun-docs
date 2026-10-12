@@ -5,31 +5,31 @@ demo: pages/demo/form/radio
 
 # Radio Group
 
-`ms-radio-group`: Radio Group. See Chinese docs for narrative detail; API tables below are from source.
+`ms-radio-group` — Radio Group for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-radio-group`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-radio-group`).
 Demo route: `#/pages/demo/form/radio`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-radio-group v-model="value" :disabled="true">
+  <ms-radio-group v-model="value">
     …
   </ms-radio-group>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| disabled | `boolean` | `false` | — |
-| horizontal | `boolean` | `false` | — |
-| allowUncheck | `boolean` | `false` | — |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| disabled | `boolean` | `false` | Whether disabled |
+| horizontal | `boolean` | `false` | Whether horizontal |
+| allowUncheck | `boolean` | `false` | Allow unchecking |
 
 ## Events
 

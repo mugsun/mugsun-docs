@@ -5,9 +5,9 @@ demo: pages/demo/form/stepper
 
 # Stepper
 
-`ms-stepper`: Stepper. See Chinese docs for narrative detail; API tables below are from source.
+`ms-stepper` — Stepper for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-stepper`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-stepper`).
 Demo route: `#/pages/demo/form/stepper`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/form/stepper`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `number` | `0` | — |
-| min | `number` | `0` | — |
-| max | `number` | `100` | — |
-| step | `number` | `1` | — |
-| precision | `number` | `0` | — |
-| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| disabled | `boolean` | `false` | — |
-| disableInput | `boolean` | `false` | — |
-| longPress | `boolean` | `true` | 长按加减钮连续步进，默认开 |
+| modelValue | `number` | `0` | Bound value (v-model) |
+| min | `number` | `0` | Minimum / lower limit |
+| max | `number` | `100` | Maximum / upper limit |
+| step | `number` | `1` | Step |
+| precision | `number` | `0` | Precision |
+| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | Theme |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| disabled | `boolean` | `false` | Whether disabled |
+| disableInput | `boolean` | `false` | Whether input is disabled |
+| longPress | `boolean` | `true` | Long-press +/- for continuous step (on by default) |
 
 ## Events
 

@@ -5,9 +5,9 @@ demo: pages/demo/display/progress
 
 # Progress
 
-进度条：线形 / 内显 / 环形；`percentage` + `status` + 可选 `label`。
+`ms-progress` — Progress for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-progress`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-progress`).
 Demo route: `#/pages/demo/display/progress`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/display/progress`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| percentage | `number` | `0` | — |
-| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | — |
-| status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | — |
-| strokeWidth | `number` | `6` | — |
-| label | `boolean \| string` | `true` | — |
-| size | `'xs' \| 'md'` | `'md'` | — |
+| percentage | `number` | `0` | percentage number |
+| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | Variant |
+| status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | Status |
+| strokeWidth | `number` | `6` | strokeWidth number |
+| label | `boolean \| string` | `true` | Label text |
+| size | `'xs' \| 'md'` | `'md'` | Size |
 
 ## See also
 

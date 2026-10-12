@@ -20,19 +20,19 @@ demo: pages/demo/display/countdown
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| time | `number` | `0` | — |
-| format | `string` | `'HH:mm:ss'` | — |
-| autoStart | `boolean` | `true` | — |
-| millisecond | `boolean` | `false` | — |
-| theme | `'default' \| 'round' \| 'square'` | `'default'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| splitWithUnit | `boolean` | `false` | — |
+| time | `number` | `0` | 时间 |
+| format | `string` | `'HH:mm:ss'` | 格式 |
+| autoStart | `boolean` | `true` | 是否自动开始 |
+| millisecond | `boolean` | `false` | 是否开启 millisecond |
+| theme | `'default' \| 'round' \| 'square'` | `'default'` | 主题 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
+| splitWithUnit | `boolean` | `false` | 是否开启 splitWithUnit |
 
 ## 事件
 
@@ -45,5 +45,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-countdown/`
-- 演示：`#/pages/demo/display/countdown`
+- 组件目录: `uni_modules/ms-ui/components/ms-countdown/`
+- 演示: `#/pages/demo/display/countdown`

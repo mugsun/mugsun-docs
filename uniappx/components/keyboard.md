@@ -20,21 +20,21 @@ demo: pages/demo/form/keyboard
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| visible | `boolean` | `false` | — |
+| modelValue | `string` | `''` | 绑定值（v-model） |
+| visible | `boolean` | `false` | 是否显示 |
 | type | `string` | `'number'` | number / password / idcard / car |
-| title | `string` | `'安全键盘'` | — |
-| maxLen | `number` | `0` | — |
-| max | `number` | `0` | — |
-| digit | `boolean` | `true` | — |
-| hold | `boolean` | `false` | — |
-| confirmText | `string` | `'确认'` | — |
+| title | `string` | `'安全键盘'` | 标题 |
+| maxLen | `number` | `0` | maxLen 数值 |
+| max | `number` | `0` | 最大值 / 上限 |
+| digit | `boolean` | `true` | 是否数字 / 小数位相关 |
+| hold | `boolean` | `false` | 是否长按保持 |
+| confirmText | `string` | `'确认'` | 确认按钮文案 |
 
 ## 事件
 
@@ -49,5 +49,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-keyboard/`
-- 演示：`#/pages/demo/form/keyboard`
+- 组件目录: `uni_modules/ms-ui/components/ms-keyboard/`
+- 演示: `#/pages/demo/form/keyboard`

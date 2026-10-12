@@ -20,23 +20,23 @@ demo: pages/demo/nav/footer
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| text | `string` | `''` | — |
-| links | `UTSJSONObject[]` | `[]` | — |
-| logoTitle | `string` | `''` | — |
-| logoIcon | `string` | `''` | — |
+| text | `string` | `''` | 展示文案 |
+| links | `UTSJSONObject[]` | `[]` | links |
+| logoTitle | `string` | `''` | logoTitle 文案/取值 |
+| logoIcon | `string` | `''` | logoIcon 文案/取值 |
 | logoWithInfo | `boolean` | `false` | logo 模式下是否仍显示链接与版权 |
 
 ## 事件
 
 | 事件 | 说明 |
 | --- | --- |
-| link | link |
+| link | 点击链接 |
 
 ## 插槽
 
@@ -46,5 +46,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-footer/`
-- 演示：`#/pages/demo/nav/footer`
+- 组件目录: `uni_modules/ms-ui/components/ms-footer/`
+- 演示: `#/pages/demo/nav/footer`

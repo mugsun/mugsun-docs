@@ -5,9 +5,9 @@ demo: pages/demo/feedback/modal
 
 # Modal
 
-`ms-modal`: Modal. See Chinese docs for narrative detail; API tables below are from source.
+`ms-modal` — Modal for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-modal`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-modal`).
 Demo route: `#/pages/demo/feedback/modal`.
 
 ## Basic usage
@@ -20,25 +20,25 @@ Demo route: `#/pages/demo/feedback/modal`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| title | `string` | `''` | — |
-| content | `string` | `''` | — |
-| confirmText | `string` | `'确定'` | — |
-| cancelText | `string` | `'取消'` | — |
-| showCancel | `boolean` | `false` | — |
-| buttonLayout | `'horizontal' \| 'vertical'` | `'horizontal'` | — |
-| theme | `'default' \| 'danger'` | `'default'` | — |
-| closeBtn | `boolean` | `false` | — |
-| closeOnOverlayClick | `boolean` | `false` | — |
-| closeOnConfirm | `boolean` | `true` | — |
-| confirmLoading | `boolean` | `false` | — |
-| zIndex | `number` | `1000` | — |
+| visible | `boolean` | `false` | Whether visible |
+| title | `string` | `''` | Title |
+| content | `string` | `''` | Content text |
+| confirmText | `string` | `'确定'` | Confirm button label |
+| cancelText | `string` | `'取消'` | Cancel button label |
+| showCancel | `boolean` | `false` | Whether to show cancel button |
+| buttonLayout | `'horizontal' \| 'vertical'` | `'horizontal'` | buttonLayout |
+| theme | `'default' \| 'danger'` | `'default'` | Theme |
+| closeBtn | `boolean` | `false` | Whether to show close button |
+| closeOnOverlayClick | `boolean` | `false` | Close when overlay is clicked |
+| closeOnConfirm | `boolean` | `true` | Close after confirm |
+| confirmLoading | `boolean` | `false` | Confirm button loading |
+| zIndex | `number` | `1000` | z-index |
 
 ## Events
 

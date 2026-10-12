@@ -5,48 +5,48 @@ demo: pages/demo/form/search
 
 # Search
 
-搜索栏：shape / action / leftIcon；expose focus/blur/clear。
+`ms-search` — Search for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-search`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-search`).
 Demo route: `#/pages/demo/form/search`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-search v-model="value" :disabled="true">
+  <ms-search v-model="value">
     …
   </ms-search>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| placeholder | `string` | `''` | — |
-| shape | `'square' \| 'round'` | `'square'` | — |
-| action | `string` | `''` | — |
-| center | `boolean` | `false` | — |
-| clearable | `boolean` | `true` | — |
-| disabled | `boolean` | `false` | — |
-| readonly | `boolean` | `false` | — |
-| maxlength | `number` | `-1` | — |
-| leftIcon | `string` | `'search'` | — |
-| confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | — |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| placeholder | `string` | `''` | Placeholder |
+| shape | `'square' \| 'round'` | `'square'` | Shape |
+| action | `string` | `''` | Action |
+| center | `boolean` | `false` | Whether vertically centered |
+| clearable | `boolean` | `true` | Whether clearable |
+| disabled | `boolean` | `false` | Whether disabled |
+| readonly | `boolean` | `false` | Whether read-only |
+| maxlength | `number` | `-1` | Max input length; -1 = unlimited |
+| leftIcon | `string` | `'search'` | Left icon |
+| confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | Keyboard confirm type |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
 | update:modelValue | v-model update |
-| input | input |
-| focus | focus |
-| blur | blur |
-| clear | clear |
+| input | Input |
+| focus | Focus |
+| blur | Blur |
+| clear | Clear |
 | confirm | Confirm |
 | action | Action button |
 

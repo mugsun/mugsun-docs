@@ -5,9 +5,9 @@ demo: pages/demo/nav/footer
 
 # Footer
 
-`ms-footer`: Footer. See Chinese docs for narrative detail; API tables below are from source.
+`ms-footer` — Footer for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-footer`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-footer`).
 Demo route: `#/pages/demo/nav/footer`.
 
 ## Basic usage
@@ -20,23 +20,23 @@ Demo route: `#/pages/demo/nav/footer`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| text | `string` | `''` | — |
-| links | `UTSJSONObject[]` | `[]` | — |
-| logoTitle | `string` | `''` | — |
-| logoIcon | `string` | `''` | — |
-| logoWithInfo | `boolean` | `false` | logo 模式下是否仍显示链接与版权 |
+| text | `string` | `''` | Display text |
+| links | `UTSJSONObject[]` | `[]` | links |
+| logoTitle | `string` | `''` | logoTitle string value |
+| logoIcon | `string` | `''` | logoIcon string value |
+| logoWithInfo | `boolean` | `false` | In logo mode, whether to still show links and copyright |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
-| link | link |
+| link | Link click |
 
 ## Slots
 

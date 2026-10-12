@@ -5,9 +5,9 @@ demo: pages/demo/basic/loading
 
 # Loading
 
-`ms-loading`: Loading. See Chinese docs for narrative detail; API tables below are from source.
+`ms-loading` — Loading for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-loading`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-loading`).
 Demo route: `#/pages/demo/basic/loading`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/basic/loading`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| text | `string` | `'加载中…'` | — |
-| layout | `'horizontal' \| 'vertical'` | `'vertical'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | — |
-| indicator | `boolean` | `true` | — |
-| paused | `boolean` | `false` | — |
+| text | `string` | `'加载中…'` | Display text |
+| layout | `'horizontal' \| 'vertical'` | `'vertical'` | Layout |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| tone | `'default' \| 'primary' \| 'inverse'` | `'default'` | tone |
+| indicator | `boolean` | `true` | Whether to show indicator |
+| paused | `boolean` | `false` | Whether paused is enabled |
 
 ## Slots
 

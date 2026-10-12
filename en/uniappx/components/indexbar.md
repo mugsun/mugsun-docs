@@ -5,9 +5,9 @@ demo: pages/demo/nav/indexbar
 
 # Indexbar
 
-索引列表：侧栏字符 + scroll-into-view；`v-model:current`。
+`ms-indexbar` — Indexbar for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-indexbar`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-indexbar`).
 Demo route: `#/pages/demo/nav/indexbar`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/nav/indexbar`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | 扁平行：{ index, label, disabled }，index 相同者归一组 |
-| current | `string` | `''` | 当前激活索引字符，空取首组 |
-| indexList | `UTSJSONObject[]` | `[]` | 侧栏字符表：{ key, label }，空则由 items 去重推导 |
-| height | `number` | `360` | 容器高 px（蒸汽禁百分比高） |
-| showTip | `boolean` | `true` | 拖动侧栏时显示大字气泡 |
-| showAnchor | `boolean` | `true` | 是否渲染分组头 |
+| items | `UTSJSONObject[]` | `[]` | Flat rows: { index, label, disabled }; same index = one group |
+| current | `string` | `''` | Active index char; empty uses the first group |
+| indexList | `UTSJSONObject[]` | `[]` | Index chars: { key, label }; empty = derived from items |
+| height | `number` | `360` | Container height (px; vapor forbids %) |
+| showTip | `boolean` | `true` | Show large bubble while dragging the index bar |
+| showAnchor | `boolean` | `true` | Whether to render group headers |
 
 ## Events
 

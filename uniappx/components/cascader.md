@@ -20,7 +20,7 @@ demo: pages/demo/form/cascader
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-cascader/`
-- 演示：`#/pages/demo/form/cascader`
+- 组件目录: `uni_modules/ms-ui/components/ms-cascader/`
+- 演示: `#/pages/demo/form/cascader`

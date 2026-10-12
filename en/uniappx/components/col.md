@@ -5,9 +5,9 @@ demo: pages/demo/nav/col
 
 # Col
 
-栅格列：`span`/`offset` → BEM 宽与 margin；`gutter` 来自行 inject。
+`ms-col` — Col for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-col`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-col`).
 Demo route: `#/pages/demo/nav/col`.
 
 ## Basic usage
@@ -20,14 +20,14 @@ Demo route: `#/pages/demo/nav/col`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| span | `number` | `24` | — |
-| offset | `number` | `0` | — |
+| span | `number` | `24` | Column span |
+| offset | `number` | `0` | Offset |
 
 ## Events
 

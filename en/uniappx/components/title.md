@@ -5,9 +5,9 @@ demo: pages/demo/nav/title
 
 # Title
 
-`ms-title`: Title. See Chinese docs for narrative detail; API tables below are from source.
+`ms-title` — Title for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-title`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-title`).
 Demo route: `#/pages/demo/nav/title`.
 
 ## Basic usage
@@ -20,16 +20,16 @@ Demo route: `#/pages/demo/nav/title`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| content | `string` | `''` | — |
-| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | — |
-| lines | `number` | `0` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
+| content | `string` | `''` | Content text |
+| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | Level |
+| lines | `number` | `0` | Line count |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
 
 ## Events
 

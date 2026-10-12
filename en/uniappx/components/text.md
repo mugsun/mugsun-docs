@@ -5,9 +5,9 @@ demo: pages/demo/basic/text
 
 # Text
 
-语义化文字。`variant` / `size` / `bold` / `align` / `lines` / `selectable`。行高 1.7（对齐 x-text）。高亮/正则为二期。
+`ms-text` — Text for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-text`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-text`).
 Demo route: `#/pages/demo/basic/text`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/basic/text`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| bold | `boolean` | `false` | — |
-| lines | `number` | `0` | — |
-| selectable | `boolean` | `false` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
+| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Variant |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| bold | `boolean` | `false` | Whether bold |
+| lines | `number` | `0` | Line count |
+| selectable | `boolean` | `false` | Whether text is selectable |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
 
 ## Events
 

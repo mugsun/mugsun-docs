@@ -5,9 +5,9 @@ demo: pages/demo/basic/tag
 
 # Tag
 
-类目/状态标签。`theme` / `variant` / `size` / `shape` / `closable` / `disabled` / `icon` / `checkable` / `maxWidth`。按压用 opacity（禁 scale）。嵌套 ms-icon 须 `pressable=false`。
+`ms-tag` — Tag for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tag`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tag`).
 Demo route: `#/pages/demo/basic/tag`.
 
 ## Basic usage
@@ -20,22 +20,22 @@ Demo route: `#/pages/demo/basic/tag`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | — |
-| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| shape | `'square' \| 'round' \| 'mark'` | `'square'` | — |
-| closable | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| icon | `string` | `''` | — |
-| checkable | `boolean` | `false` | 可选中（筛选标签） |
-| checked | `boolean` | `false` | — |
-| maxWidth | `number` | `0` | 文案最大宽度（px）；0 不限制，超出省略 |
+| theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Theme |
+| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | Variant |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| shape | `'square' \| 'round' \| 'mark'` | `'square'` | Shape |
+| closable | `boolean` | `false` | Whether closable |
+| disabled | `boolean` | `false` | Whether disabled |
+| icon | `string` | `''` | Icon name (icons.uts) |
+| checkable | `boolean` | `false` | Selectable (filter tag) |
+| checked | `boolean` | `false` | Whether checked |
+| maxWidth | `number` | `0` | Max text width (px); 0 = no limit; overflow ellipsis |
 
 ## Events
 

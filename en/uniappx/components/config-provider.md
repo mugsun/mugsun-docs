@@ -5,9 +5,9 @@ demo: pages/demo/basic/config-provider
 
 # Config Provider
 
-`ms-config-provider`: Config Provider. See Chinese docs for narrative detail; API tables below are from source.
+`ms-config-provider` — Config Provider for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-config-provider`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-config-provider`).
 Demo route: `#/pages/demo/basic/config-provider`.
 
 ## Basic usage
@@ -20,15 +20,15 @@ Demo route: `#/pages/demo/basic/config-provider`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| themeVars | `UTSJSONObject \| null` | `null` | — |
-| theme | `string` | `'light'` | — |
-| block | `boolean` | `true` | — |
+| themeVars | `UTSJSONObject \| null` | `null` | `null` |
+| theme | `string` | `'light'` | `light` / `dark` |
+| block | `boolean` | `true` | Whether to fill width |
 
 ## Events
 

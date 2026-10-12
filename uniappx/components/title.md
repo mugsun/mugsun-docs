@@ -20,16 +20,16 @@ demo: pages/demo/nav/title
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| content | `string` | `''` | — |
-| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | — |
-| lines | `number` | `0` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
+| content | `string` | `''` | 内容文案 |
+| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | 层级/级别 |
+| lines | `number` | `0` | 行数 |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | 对齐方式 |
 
 ## 事件
 
@@ -45,5 +45,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-title/`
-- 演示：`#/pages/demo/nav/title`
+- 组件目录: `uni_modules/ms-ui/components/ms-title/`
+- 演示: `#/pages/demo/nav/title`

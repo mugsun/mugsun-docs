@@ -5,9 +5,9 @@ demo: pages/demo/basic/divider
 
 # Divider
 
-`ms-divider`: Divider. See Chinese docs for narrative detail; API tables below are from source.
+`ms-divider` — Divider for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-divider`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-divider`).
 Demo route: `#/pages/demo/basic/divider`.
 
 ## Basic usage
@@ -20,16 +20,16 @@ Demo route: `#/pages/demo/basic/divider`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| layout | `'horizontal' \| 'vertical'` | `'horizontal'` | — |
-| align | `'left' \| 'center' \| 'right'` | `'center'` | — |
-| dashed | `boolean` | `false` | — |
-| text | `string` | `''` | — |
+| layout | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout |
+| align | `'left' \| 'center' \| 'right'` | `'center'` | Alignment |
+| dashed | `boolean` | `false` | Whether dashed |
+| text | `string` | `''` | Display text |
 
 ## See also
 

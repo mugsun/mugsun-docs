@@ -5,37 +5,37 @@ demo: pages/demo/form/weekbar
 
 # Weekbar
 
-`ms-weekbar`: Weekbar. See Chinese docs for narrative detail; API tables below are from source.
+`ms-weekbar` — Weekbar for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-weekbar`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-weekbar`).
 Demo route: `#/pages/demo/form/weekbar`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-weekbar v-model="value" :disabled="true">
+  <ms-weekbar v-model="value">
     …
   </ms-weekbar>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | 选中日期 YYYY-MM-DD |
-| startDate | `string` | `''` | 可选范围起（含） |
-| endDate | `string` | `''` | 可选范围止（含） |
-| mode | `string` | `'rect'` | 选中态：rect / circular / none |
-| firstDay | `number` | `0` | 一周起始：0 周一 … 6 周日 |
-| showAction | `boolean` | `true` | 是否显示左右切周按钮 |
-| markedDates | `string[]` | `[]` | 打点日期 |
-| disabledDates | `string[]` | `[]` | 禁用日期（仍可见，不可点） |
-| autoSelectToday | `boolean` | `true` | 空值时是否默认选中今天 |
-| disabled | `boolean` | `false` | 整体禁用 |
+| modelValue | `string` | `''` | Selected date YYYY-MM-DD |
+| startDate | `string` | `''` | Selectable range start (inclusive) |
+| endDate | `string` | `''` | Selectable range end (inclusive) |
+| mode | `string` | `'rect'` | Selected style: rect / circular / none |
+| firstDay | `number` | `0` | Week start: 0 = Monday … 6 = Sunday |
+| showAction | `boolean` | `true` | Whether to show prev/next week buttons |
+| markedDates | `string[]` | `[]` | Marked dates |
+| disabledDates | `string[]` | `[]` | Disabled dates (visible but not tappable) |
+| autoSelectToday | `boolean` | `true` | When empty, whether to select today by default |
+| disabled | `boolean` | `false` | Disable the whole group |
 
 ## Events
 

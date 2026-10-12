@@ -5,9 +5,9 @@ demo: pages/demo/form/switch
 
 # Switch
 
-`ms-switch`: Switch. See Chinese docs for narrative detail; API tables below are from source.
+`ms-switch` — Switch for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-switch`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-switch`).
 Demo route: `#/pages/demo/form/switch`.
 
 ## Basic usage
@@ -20,19 +20,19 @@ Demo route: `#/pages/demo/form/switch`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| loading | `boolean` | `false` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| label | `string[]` | `[]` | — |
-| activeIcon | `string` | `''` | — |
-| voidIcon | `string` | `''` | — |
+| modelValue | `boolean` | `false` | Bound value (v-model) |
+| disabled | `boolean` | `false` | Whether disabled |
+| loading | `boolean` | `false` | Whether loading |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| label | `string[]` | `[]` | Label text |
+| activeIcon | `string` | `''` | Active icon |
+| voidIcon | `string` | `''` | Inactive icon |
 
 ## Events
 

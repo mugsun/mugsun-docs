@@ -14,31 +14,31 @@ demo: pages/demo/basic/image
 
 ```vue
 <template>
-  <ms-image>
+  <ms-image src="…">
     …
   </ms-image>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | — |
-| mode | `string` | `'aspectFill'` | — |
-| shape | `'square' \| 'round' \| 'circle'` | `'square'` | — |
-| width | `string` | `'72px'` | — |
-| height | `string` | `'72px'` | — |
-| lazy | `boolean` | `false` | — |
+| src | `string` | `''` | 资源地址 |
+| mode | `string` | `'aspectFill'` | 模式 |
+| shape | `'square' \| 'round' \| 'circle'` | `'square'` | 外形 |
+| width | `string` | `'72px'` | 宽度（px） |
+| height | `string` | `'72px'` | 高度（px） |
+| lazy | `boolean` | `false` | 是否懒加载 |
 | showMenuByLongpress | `boolean` | `false` | 长按识别小程序码菜单（微信有效，见 image.md） |
 
 ## 事件
 
 | 事件 | 说明 |
 | --- | --- |
-| load | load |
+| load | 加载完成 |
 | error | 错误 |
 | click | 点击 |
 
@@ -51,5 +51,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-image/`
-- 演示：`#/pages/demo/basic/image`
+- 组件目录: `uni_modules/ms-ui/components/ms-image/`
+- 演示: `#/pages/demo/basic/image`

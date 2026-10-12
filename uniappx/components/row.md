@@ -20,16 +20,16 @@ demo: pages/demo/nav/row
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| gutter | `0 \| 8 \| 16 \| 24` | `0` | — |
-| justify | `'start' \| 'end' \| 'center' \| 'space-between' \| 'space-around'` | `'start'` | — |
-| align | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` | — |
-| wrap | `boolean` | `true` | — |
+| gutter | `0 \| 8 \| 16 \| 24` | `0` | 间距（px） |
+| justify | `'start' \| 'end' \| 'center' \| 'space-between' \| 'space-around'` | `'start'` | 主轴对齐 |
+| align | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` | 对齐方式 |
+| wrap | `boolean` | `true` | 是否换行 |
 
 ## 插槽
 
@@ -39,5 +39,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-row/`
-- 演示：`#/pages/demo/nav/row`
+- 组件目录: `uni_modules/ms-ui/components/ms-row/`
+- 演示: `#/pages/demo/nav/row`

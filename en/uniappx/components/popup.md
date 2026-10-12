@@ -5,9 +5,9 @@ demo: pages/demo/feedback/popup
 
 # Popup
 
-`ms-popup`: Popup. See Chinese docs for narrative detail; API tables below are from source.
+`ms-popup` — Popup for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-popup`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-popup`).
 Demo route: `#/pages/demo/feedback/popup`.
 
 ## Basic usage
@@ -20,20 +20,20 @@ Demo route: `#/pages/demo/feedback/popup`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | — |
-| title | `string` | `''` | — |
-| showOverlay | `boolean` | `true` | — |
-| closeOnOverlayClick | `boolean` | `true` | — |
-| closeBtn | `boolean` | `false` | — |
-| round | `boolean` | `true` | — |
-| zIndex | `number` | `1000` | — |
+| visible | `boolean` | `false` | Whether visible |
+| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | Placement |
+| title | `string` | `''` | Title |
+| showOverlay | `boolean` | `true` | Whether to show overlay |
+| closeOnOverlayClick | `boolean` | `true` | Close when overlay is clicked |
+| closeBtn | `boolean` | `false` | Whether to show close button |
+| round | `boolean` | `true` | Whether rounded |
+| zIndex | `number` | `1000` | z-index |
 
 ## Events
 

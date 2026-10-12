@@ -20,19 +20,19 @@ demo: pages/demo/display/table
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| columns | `UTSJSONObject[]` | `[]` | — |
-| data | `UTSJSONObject[]` | `[]` | — |
-| rowKey | `string` | `'id'` | — |
-| stripe | `boolean` | `false` | — |
-| bordered | `boolean` | `false` | — |
-| showHeader | `boolean` | `true` | — |
-| emptyText | `string` | `'暂无数据'` | — |
+| columns | `UTSJSONObject[]` | `[]` | 列配置 / 列数 |
+| data | `UTSJSONObject[]` | `[]` | 数据源 |
+| rowKey | `string` | `'id'` | rowKey 文案/取值 |
+| stripe | `boolean` | `false` | 是否开启 stripe |
+| bordered | `boolean` | `false` | 是否带边框 |
+| showHeader | `boolean` | `true` | 是否显示头部 |
+| emptyText | `string` | `'暂无数据'` | 空态文案 |
 | selectable | `boolean` | `false` | 开启行勾选列 |
 | selectedKeys | `string[]` | `[]` | 受控选中行 key 列表 |
 | sortKey | `string` | `''` | 受控排序列；空串表示无排序 |
@@ -57,5 +57,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-table/`
-- 演示：`#/pages/demo/display/table`
+- 组件目录: `uni_modules/ms-ui/components/ms-table/`
+- 演示: `#/pages/demo/display/table`

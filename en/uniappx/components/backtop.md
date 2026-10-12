@@ -5,9 +5,9 @@ demo: pages/demo/nav/backtop
 
 # Backtop
 
-回顶按钮：`scrollTop` ≥ `visibilityHeight` 才显示。
+`ms-backtop` — Backtop for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-backtop`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-backtop`).
 Demo route: `#/pages/demo/nav/backtop`.
 
 ## Basic usage
@@ -20,19 +20,19 @@ Demo route: `#/pages/demo/nav/backtop`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| scrollTop | `number` | `0` | — |
-| visibilityHeight | `number` | `200` | — |
-| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | — |
-| text | `string` | `''` | — |
-| icon | `string` | `'skip-up-fill'` | — |
-| fixed | `boolean` | `true` | — |
-| local | `boolean` | `false` | — |
+| scrollTop | `number` | `0` | Scroll top |
+| visibilityHeight | `number` | `200` | visibilityHeight number |
+| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | Theme |
+| text | `string` | `''` | Display text |
+| icon | `string` | `'skip-up-fill'` | Icon name (icons.uts) |
+| fixed | `boolean` | `true` | Whether fixed positioned |
+| local | `boolean` | `false` | Whether local/inline |
 
 ## Events
 

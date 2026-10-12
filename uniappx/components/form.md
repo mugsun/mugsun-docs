@@ -14,23 +14,23 @@ demo: pages/demo/form/form
 
 ```vue
 <template>
-  <ms-form :disabled="true">
+  <ms-form>
     …
   </ms-form>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| labelAlign | `'left' \| 'right' \| 'top'` | `'right'` | — |
-| labelWidth | `number` | `81` | — |
-| colon | `boolean` | `false` | — |
-| showErrorMessage | `boolean` | `true` | — |
-| disabled | `boolean` | `false` | — |
+| labelAlign | `'left' \| 'right' \| 'top'` | `'right'` | 标签对齐 |
+| labelWidth | `number` | `81` | 标签宽度（px） |
+| colon | `boolean` | `false` | 标签后是否显示冒号 |
+| showErrorMessage | `boolean` | `true` | 是否显示错误信息 |
+| disabled | `boolean` | `false` | 是否禁用 |
 | validateTick | `number` | `0` | +1 触发一次全量校验（避免页面持有组件 ref 调方法） |
 | resetTick | `number` | `0` | +1 清空全部错误 |
 
@@ -51,5 +51,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-form/`
-- 演示：`#/pages/demo/form/form`
+- 组件目录: `uni_modules/ms-ui/components/ms-form/`
+- 演示: `#/pages/demo/form/form`

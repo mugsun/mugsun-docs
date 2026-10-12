@@ -5,35 +5,35 @@ demo: pages/demo/form/mention
 
 # Mention
 
-`ms-mention`: Mention. See Chinese docs for narrative detail; API tables below are from source.
+`ms-mention` — Mention for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-mention`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-mention`).
 Demo route: `#/pages/demo/form/mention`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-mention v-model="value" :disabled="true">
+  <ms-mention v-model="value">
     …
   </ms-mention>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| options | `string[]` | `[]` | — |
-| trigger | `string` | `'@'` | — |
-| filterable | `boolean` | `true` | — |
-| placeholder | `string` | `'输入 @ 提及成员'` | — |
-| emptyText | `string` | `'无匹配成员'` | — |
-| disabled | `boolean` | `false` | — |
-| confirmType | `string` | `'send'` | — |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| options | `string[]` | `[]` | Options list |
+| trigger | `string` | `'@'` | Trigger |
+| filterable | `boolean` | `true` | Whether filterable |
+| placeholder | `string` | `'输入 @ 提及成员'` | Placeholder |
+| emptyText | `string` | `'无匹配成员'` | Empty-state text |
+| disabled | `boolean` | `false` | Whether disabled |
+| confirmType | `string` | `'send'` | Keyboard confirm type |
 
 ## Events
 

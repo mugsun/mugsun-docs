@@ -20,28 +20,28 @@ demo: pages/demo/media/devtool
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| title | `string` | `'调试面板'` | — |
-| host | `string` | `''` | — |
-| entries | `UTSJSONObject[]` | `[]` | — |
-| open | `boolean` | `false` | — |
-| showEnv | `boolean` | `true` | — |
-| maxHeight | `number` | `220` | — |
+| title | `string` | `'调试面板'` | 标题 |
+| host | `string` | `''` | 请求域名，空则不显示 |
+| entries | `UTSJSONObject[]` | `[]` | `api` / `status` / `time` / `result` |
+| open | `boolean` | `false` | 展开态（`v-model:open`） |
+| showEnv | `boolean` | `true` | 环境信息段 |
+| maxHeight | `number` | `220` | 记录区最大高度 px |
 
 ## 事件
 
 | 事件 | 说明 |
 | --- | --- |
 | update:open | update:open |
-| clear | clear |
+| clear | 清空 |
 | entry-click | entry-click |
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-devtool/`
-- 演示：`#/pages/demo/media/devtool`
+- 组件目录: `uni_modules/ms-ui/components/ms-devtool/`
+- 演示: `#/pages/demo/media/devtool`

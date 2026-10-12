@@ -5,9 +5,9 @@ demo: pages/demo/display/avatar
 
 # Avatar
 
-`ms-avatar`: Avatar. See Chinese docs for narrative detail; API tables below are from source.
+`ms-avatar` — Avatar for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-avatar`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-avatar`).
 Demo route: `#/pages/demo/display/avatar`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/display/avatar`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | — |
-| text | `string` | `''` | — |
-| icon | `string` | `''` | — |
-| shape | `'circle' \| 'round'` | `'circle'` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| mode | `string` | `'aspectFill'` | — |
+| src | `string` | `''` | Resource URL |
+| text | `string` | `''` | Display text |
+| icon | `string` | `''` | Icon name (icons.uts) |
+| shape | `'circle' \| 'round'` | `'circle'` | Shape |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| mode | `string` | `'aspectFill'` | Mode |
 
 ## Events
 

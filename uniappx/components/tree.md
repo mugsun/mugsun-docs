@@ -14,27 +14,27 @@ demo: pages/demo/display/tree
 
 ```vue
 <template>
-  <ms-tree :disabled="true">
+  <ms-tree value="…">
     …
   </ms-tree>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| value | `string[]` | `[]` | — |
-| folderIds | `string[]` | `[]` | — |
-| checkable | `boolean` | `true` | — |
-| parentLink | `boolean` | `false` | — |
-| disabledParent | `boolean` | `false` | — |
-| disabled | `boolean` | `false` | — |
-| idKey | `string` | `'id'` | — |
-| labelKey | `string` | `'text'` | — |
+| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| value | `string[]` | `[]` | 当前值 |
+| folderIds | `string[]` | `[]` | 文件夹 id 列表 |
+| checkable | `boolean` | `true` | 是否可选 |
+| parentLink | `boolean` | `false` | 是否开启 parentLink |
+| disabledParent | `boolean` | `false` | 是否禁用父级联动 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| idKey | `string` | `'id'` | id 字段名 |
+| labelKey | `string` | `'text'` | 标签字段名 |
 
 ## 事件
 
@@ -48,5 +48,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-tree/`
-- 演示：`#/pages/demo/display/tree`
+- 组件目录: `uni_modules/ms-ui/components/ms-tree/`
+- 演示: `#/pages/demo/display/tree`

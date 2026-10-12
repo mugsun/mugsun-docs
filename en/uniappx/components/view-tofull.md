@@ -5,9 +5,9 @@ demo: pages/demo/media/view-tofull
 
 # View To Full
 
-`ms-view-tofull`: View To Full. See Chinese docs for narrative detail; API tables below are from source.
+`ms-view-tofull` — View Tofull for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-view-tofull`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-view-tofull`).
 Demo route: `#/pages/demo/media/view-tofull`.
 
 ## Basic usage
@@ -20,15 +20,15 @@ Demo route: `#/pages/demo/media/view-tofull`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| duration | `number` | `300` | — |
-| showClose | `boolean` | `true` | — |
-| opened | `boolean` | `false` | — |
+| duration | `number` | `300` | Duration (ms) |
+| showClose | `boolean` | `true` | Whether to show Close |
+| opened | `boolean` | `false` | Whether opened is enabled |
 
 ## Events
 

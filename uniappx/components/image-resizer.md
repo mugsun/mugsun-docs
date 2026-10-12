@@ -14,24 +14,24 @@ demo: pages/demo/display/image-resizer
 
 ```vue
 <template>
-  <ms-image-resizer>
+  <ms-image-resizer src="…">
     …
   </ms-image-resizer>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | — |
-| cropWidth | `number` | `240` | — |
-| cropHeight | `number` | `240` | — |
-| height | `number` | `320` | — |
-| quality | `number` | `1` | — |
-| hideFlip | `boolean` | `false` | — |
+| src | `string` | `''` | 资源地址 |
+| cropWidth | `number` | `240` | 裁剪宽度（px） |
+| cropHeight | `number` | `240` | 裁剪高度（px） |
+| height | `number` | `320` | 高度（px） |
+| quality | `number` | `1` | quality 数值 |
+| hideFlip | `boolean` | `false` | 是否隐藏翻转 |
 
 ## 事件
 
@@ -44,5 +44,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-image-resizer/`
-- 演示：`#/pages/demo/display/image-resizer`
+- 组件目录: `uni_modules/ms-ui/components/ms-image-resizer/`
+- 演示: `#/pages/demo/display/image-resizer`

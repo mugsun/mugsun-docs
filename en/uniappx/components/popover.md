@@ -5,9 +5,9 @@ demo: pages/demo/feedback/popover
 
 # Popover
 
-`ms-popover`: Popover. See Chinese docs for narrative detail; API tables below are from source.
+`ms-popover` — Popover for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-popover`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-popover`).
 Demo route: `#/pages/demo/feedback/popover`.
 
 ## Basic usage
@@ -20,19 +20,19 @@ Demo route: `#/pages/demo/feedback/popover`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| content | `string` | `''` | 纯文本内容；复杂内容用 content 插槽 |
-| placement | `\| 'top'` | `'top'` | — |
-| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | — |
-| showArrow | `boolean` | `true` | — |
-| closeOnClickOutside | `boolean` | `true` | 点气泡外（透明遮罩）是否关闭 |
-| zIndex | `number` | `900` | — |
+| visible | `boolean` | `false` | Whether visible |
+| content | `string` | `''` | Plain text; use content slot for rich content |
+| placement | `\| 'top'` | `'top'` | 'top-right' \ |
+| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | 'brand' \ |
+| showArrow | `boolean` | `true` | Whether to show Arrow |
+| closeOnClickOutside | `boolean` | `true` | Whether clicking outside (transparent overlay) closes |
+| zIndex | `number` | `900` | z-index |
 
 ## Events
 

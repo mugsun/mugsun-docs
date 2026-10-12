@@ -20,18 +20,18 @@ demo: pages/demo/display/image-viewer
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| images | `string[]` | `[]` | — |
-| initialIndex | `number` | `0` | — |
-| showIndex | `boolean` | `false` | — |
-| closeBtn | `boolean` | `false` | — |
-| deleteBtn | `boolean` | `false` | — |
+| visible | `boolean` | `false` | 是否显示 |
+| images | `string[]` | `[]` | 图片地址列表 |
+| initialIndex | `number` | `0` | 初始索引 |
+| showIndex | `boolean` | `false` | 是否显示Index |
+| closeBtn | `boolean` | `false` | 是否显示关闭按钮 |
+| deleteBtn | `boolean` | `false` | 是否显示删除按钮 |
 
 ## 事件
 
@@ -44,5 +44,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-image-viewer/`
-- 演示：`#/pages/demo/display/image-viewer`
+- 组件目录: `uni_modules/ms-ui/components/ms-image-viewer/`
+- 演示: `#/pages/demo/display/image-viewer`

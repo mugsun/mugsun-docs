@@ -14,26 +14,26 @@ demo: pages/demo/form/input-tag
 
 ```vue
 <template>
-  <ms-input-tag v-model="value" :disabled="true">
+  <ms-input-tag v-model="value">
     …
   </ms-input-tag>
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string[]` | `[]` | — |
-| placeholder | `string` | `'输入后回车添加'` | — |
-| position | `string` | `'outside'` | — |
-| showButton | `boolean` | `true` | — |
-| buttonText | `string` | `'添加'` | — |
-| maxCount | `number` | `-1` | — |
-| disabled | `boolean` | `false` | — |
-| confirmType | `string` | `'done'` | — |
+| modelValue | `string[]` | `[]` | 绑定值（v-model） |
+| placeholder | `string` | `'输入后回车添加'` | 占位文案 |
+| position | `string` | `'outside'` | 位置 |
+| showButton | `boolean` | `true` | 是否显示Button |
+| buttonText | `string` | `'添加'` | 按钮文案 |
+| maxCount | `number` | `-1` | 最大数量 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| confirmType | `string` | `'done'` | 键盘确认类型 |
 
 ## 事件
 
@@ -47,5 +47,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-input-tag/`
-- 演示：`#/pages/demo/form/input-tag`
+- 组件目录: `uni_modules/ms-ui/components/ms-input-tag/`
+- 演示: `#/pages/demo/form/input-tag`

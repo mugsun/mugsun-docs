@@ -5,9 +5,9 @@ demo: pages/demo/form/textarea
 
 # Textarea
 
-`ms-textarea`: Textarea. See Chinese docs for narrative detail; API tables below are from source.
+`ms-textarea` — Textarea for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-textarea`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-textarea`).
 Demo route: `#/pages/demo/form/textarea`.
 
 ## Basic usage
@@ -20,36 +20,36 @@ Demo route: `#/pages/demo/form/textarea`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| label | `string` | `''` | — |
-| placeholder | `string` | `''` | — |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | — |
-| tips | `string` | `''` | — |
-| disabled | `boolean` | `false` | — |
-| readonly | `boolean` | `false` | — |
-| maxlength | `number` | `-1` | — |
-| indicator | `boolean` | `false` | — |
-| autoHeight | `boolean` | `false` | — |
-| maxHeight | `number` | `0` | autoHeight 时最大高度 px；0 不限制（对标 peer autosize.maxHeight） |
-| height | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
-| bordered | `boolean` | `true` | — |
-| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | — |
+| modelValue | `string` | `''` | Bound value (v-model) |
+| label | `string` | `''` | Label text |
+| placeholder | `string` | `''` | Placeholder |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status |
+| tips | `string` | `''` | Tip text |
+| disabled | `boolean` | `false` | Whether disabled |
+| readonly | `boolean` | `false` | Whether read-only |
+| maxlength | `number` | `-1` | Max input length; -1 = unlimited |
+| indicator | `boolean` | `false` | Whether to show indicator |
+| autoHeight | `boolean` | `false` | Whether height grows with content |
+| maxHeight | `number` | `0` | Max height (px) when autoHeight; 0 = no limit |
+| height | `'sm' \| 'md' \| 'lg'` | `'md'` | Height (px) |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
+| bordered | `boolean` | `true` | Whether bordered |
+| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | Keyboard confirm type |
 
 ## Events
 
 | Event | Description |
 | --- | --- |
 | update:modelValue | v-model update |
-| input | input |
-| focus | focus |
-| blur | blur |
+| input | Input |
+| focus | Focus |
+| blur | Blur |
 | confirm | Confirm |
 | linechange | linechange |
 

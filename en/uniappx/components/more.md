@@ -5,34 +5,34 @@ demo: pages/demo/nav/more
 
 # More
 
-`ms-more`: More. See Chinese docs for narrative detail; API tables below are from source.
+`ms-more` — More for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-more`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-more`).
 Demo route: `#/pages/demo/nav/more`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-more :disabled="true">
+  <ms-more>
     …
   </ms-more>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | — |
-| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| expandText | `string` | `'展开更多'` | — |
-| collapseText | `string` | `'收起'` | — |
-| disabled | `boolean` | `false` | — |
-| showAction | `boolean` | `true` | — |
-| showIcon | `boolean` | `true` | 是否显示展开/收起箭头图标 |
+| opened | `boolean` | `false` | Whether opened is enabled |
+| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | 'lg'` |
+| expandText | `string` | `'展开更多'` | Expand text |
+| collapseText | `string` | `'收起'` | Collapse text |
+| disabled | `boolean` | `false` | Whether disabled |
+| showAction | `boolean` | `true` | Whether to show Action |
+| showIcon | `boolean` | `true` | Whether to show expand/collapse arrow |
 
 ## Events
 

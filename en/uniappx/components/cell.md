@@ -5,38 +5,38 @@ demo: pages/demo/basic/cell
 
 # Cell
 
-列表单元格。用 `title` / `description` / `note` / `icon` / `arrow` / `bordered` / `required` / `url` / `disabled`；右侧自定义放 `note` 插槽。
+`ms-cell` — Cell for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-cell`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-cell`).
 Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage
 
 ```vue
 <template>
-  <ms-cell title="…" :disabled="true">
+  <ms-cell title="…">
     …
   </ms-cell>
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| title | `string` | `''` | — |
-| description | `string` | `''` | — |
-| note | `string` | `''` | — |
-| icon | `string` | `''` | — |
-| image | `string` | `''` | 左侧图片（优先于 icon） |
-| arrow | `boolean` | `false` | — |
-| bordered | `boolean` | `true` | — |
-| required | `boolean` | `false` | — |
-| url | `string` | `''` | — |
-| disabled | `boolean` | `false` | — |
-| align | `'top' \| 'middle' \| 'bottom'` | `'middle'` | 右侧区垂直对齐 |
+| title | `string` | `''` | Title |
+| description | `string` | `''` | Description text |
+| note | `string` | `''` | Note |
+| icon | `string` | `''` | Icon name (icons.uts) |
+| image | `string` | `''` | Left image (preferred over icon) |
+| arrow | `boolean` | `false` | Whether to show arrow |
+| bordered | `boolean` | `true` | Whether bordered |
+| required | `boolean` | `false` | Whether required |
+| url | `string` | `''` | URL |
+| disabled | `boolean` | `false` | Whether disabled |
+| align | `'top' \| 'middle' \| 'bottom'` | `'middle'` | Vertical alignment of the right area |
 
 ## Events
 

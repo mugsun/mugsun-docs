@@ -5,9 +5,9 @@ demo: pages/demo/basic/transition
 
 # Transition
 
-`ms-transition`: Transition. See Chinese docs for narrative detail; API tables below are from source.
+`ms-transition` — Transition for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-transition`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-transition`).
 Demo route: `#/pages/demo/basic/transition`.
 
 ## Basic usage
@@ -20,17 +20,17 @@ Demo route: `#/pages/demo/basic/transition`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| visible | `boolean` | `false` | — |
-| name | `\| 'fade'` | `'fade'` | — |
-| duration | `number` | `300` | — |
-| appear | `boolean` | `false` | — |
-| destroyOnHide | `boolean` | `false` | — |
+| visible | `boolean` | `false` | Whether visible |
+| name | `\| 'fade'` | `'fade'` | Name / field name |
+| duration | `number` | `300` | Duration (ms) |
+| appear | `boolean` | `false` | Whether to animate on appear |
+| destroyOnHide | `boolean` | `false` | Destroy when hidden |
 
 ## Events
 

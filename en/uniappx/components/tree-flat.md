@@ -5,9 +5,9 @@ demo: pages/demo/display/tree-flat
 
 # Tree Flat
 
-`ms-tree-flat`: Tree Flat. See Chinese docs for narrative detail; API tables below are from source.
+`ms-tree-flat` — Tree Flat for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tree-flat`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tree-flat`).
 Demo route: `#/pages/demo/display/tree-flat`.
 
 ## Basic usage
@@ -20,18 +20,18 @@ Demo route: `#/pages/demo/display/tree-flat`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | — |
-| height | `number` | `320` | — |
-| direction | `string` | `'horizontal'` | — |
-| lineType | `string` | `'straight'` | — |
-| fontSize | `number` | `13` | — |
-| collapsible | `boolean` | `true` | — |
+| list | `UTSJSONObject[]` | `[]` | Tree data; each item `title` + optional `children`, `opened` |
+| height | `number` | `320` | Component height (px) |
+| direction | `string` | `'horizontal'` | `horizontal` / `vertical` |
+| lineType | `string` | `'straight'` | `straight` polyline / `curve` curve |
+| fontSize | `number` | `13` | Node label font size (px) |
+| collapsible | `boolean` | `true` | Whether tapping a parent expands/collapses |
 
 ## Events
 

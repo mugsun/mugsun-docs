@@ -5,9 +5,9 @@ demo: pages/demo/display/paragraph
 
 # Paragraph
 
-`ms-paragraph`: Paragraph. See Chinese docs for narrative detail; API tables below are from source.
+`ms-paragraph` — Paragraph for uni-app x.
 
-Source: private repo [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-paragraph`).
+Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-paragraph`).
 Demo route: `#/pages/demo/display/paragraph`.
 
 ## Basic usage
@@ -20,16 +20,16 @@ Demo route: `#/pages/demo/display/paragraph`.
 </template>
 ```
 
-With easycom scanning `uni_modules/ms-ui/components`, no manual registration is needed.
+With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| content | `string` | `''` | — |
-| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | — |
-| lines | `number` | `0` | — |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
+| content | `string` | `''` | Content text |
+| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | `'default'` |
+| lines | `number` | `0` | Line count |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 
 ## Events
 

@@ -20,36 +20,36 @@ demo: pages/demo/form/textarea
 </template>
 ```
 
-easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
+easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | — |
-| label | `string` | `''` | — |
-| placeholder | `string` | `''` | — |
-| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | — |
-| tips | `string` | `''` | — |
-| disabled | `boolean` | `false` | — |
-| readonly | `boolean` | `false` | — |
-| maxlength | `number` | `-1` | — |
-| indicator | `boolean` | `false` | — |
-| autoHeight | `boolean` | `false` | — |
+| modelValue | `string` | `''` | 绑定值（v-model） |
+| label | `string` | `''` | 标签文案 |
+| placeholder | `string` | `''` | 占位文案 |
+| status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态 |
+| tips | `string` | `''` | 提示文案 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| readonly | `boolean` | `false` | 是否只读 |
+| maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
+| indicator | `boolean` | `false` | 是否显示指示器 |
+| autoHeight | `boolean` | `false` | 是否自动增高 |
 | maxHeight | `number` | `0` | autoHeight 时最大高度 px；0 不限制（对标 peer autosize.maxHeight） |
-| height | `'sm' \| 'md' \| 'lg'` | `'md'` | — |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | — |
-| bordered | `boolean` | `true` | — |
-| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | — |
+| height | `'sm' \| 'md' \| 'lg'` | `'md'` | 高度（px） |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | 对齐方式 |
+| bordered | `boolean` | `true` | 是否带边框 |
+| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | 键盘确认类型 |
 
 ## 事件
 
 | 事件 | 说明 |
 | --- | --- |
 | update:modelValue | v-model 更新 |
-| input | input |
-| focus | focus |
-| blur | blur |
+| input | 输入 |
+| focus | 聚焦 |
+| blur | 失焦 |
 | confirm | 确认 |
 | linechange | linechange |
 
@@ -62,5 +62,5 @@ easycom 扫描 `uni_modules/ms-ui/components` 后无需手动注册。
 
 ## 相关
 
-- 组件目录：`uni_modules/ms-ui/components/ms-textarea/`
-- 演示：`#/pages/demo/form/textarea`
+- 组件目录: `uni_modules/ms-ui/components/ms-textarea/`
+- 演示: `#/pages/demo/form/textarea`
