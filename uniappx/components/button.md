@@ -40,7 +40,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 | icon | `string` | `''` | 左侧图标名；与文案并存 |
 | iconOnly | `boolean` | `false` | 仅图标（正方形触控区） |
 | formType | `'' \| 'submit' \| 'reset'` | `''` | 原生表单类型：submit / reset；空为普通按钮 |
-| haptic | `boolean` | `true` | App/小程序点击短震动；Web 无能力自动跳过。cite: api/vibrate.md |
+| haptic | `boolean` | `true` | App/小程序点击短震动；Web 无能力自动跳过 |
 
 ## 事件
 

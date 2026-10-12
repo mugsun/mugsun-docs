@@ -38,11 +38,12 @@ features:
 | --- | --- | --- |
 | [boot](/en/boot/) | Modular Spring Boot 3.5 backend | Open source |
 | [pc](/en/pc/) | Vue3 + Element Plus admin | Open source |
-| [track](/en/track/) | Lightweight web SDK + ingest + dashboards | Open source (flagship) |
+| [track](/en/track/) | Lightweight web SDK + ingest + dashboards | Open source |
 | [core](/en/core/) | BOM & starters | Open source |
 | cloud | Microservices edition | <span class="soon">Planned</span> |
 | [ms-ui](/en/uniappx/) | uni-app x UI kit (not PC admin) | Docs live |
 
 ## Demo
 
-There is **no** public clickable demo yet. Follow [Getting started](/en/guide/getting-started) locally. Credentials follow the boot README—**change the password on first login**. Notes: [Demo](/en/demo).
+- **Admin / analytics**: no public clickable demo yet—follow [Getting started](/en/guide/getting-started). Credentials follow the boot README—**change the password on first login**.
+- **ms-ui components**: phone-frame H5 preview on component pages; see [Demo notes](/en/demo).

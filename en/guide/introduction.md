@@ -8,12 +8,13 @@ mugsun is a **self-hosted** admin foundation for small teams: multi-tenant tenan
 - [mugsun-pc](https://github.com/mugsun/mugsun-pc) — Vue 3 + TypeScript + Element Plus
 - [mugsun-track](https://github.com/mugsun/mugsun-track) — pluginized web SDK (core gzip target ≤ 8KB)
 - [mugsun-core](https://github.com/mugsun/mugsun-core) — BOM and starters
+- **ms-ui** (uni-app x) — component docs: [ms-ui](/en/uniappx/); source repo `mugsun-uniappx-ui` is currently private
 
 ## What it is not
 
 - Not a kitchen-sink low-code platform
 - Not a hosted analytics SaaS (you take the pipeline with you)
-- **cloud** and **uniappx-ui** are *planned*—this site will not pretend they ship as open install guides today
+- **cloud** (microservices edition) remains *planned*—this site will not pretend it ships as an open install guide today
 
 ## How it differs
 

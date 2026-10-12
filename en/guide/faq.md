@@ -1,7 +1,7 @@
 # FAQ
 
 **Is there a live demo?**  
-Not yet. Use [Getting started](/en/guide/getting-started). See [Demo](/en/demo).
+No public full-stack demo yet—use [Getting started](/en/guide/getting-started). ms-ui component pages include an H5 phone preview. See [Demo notes](/en/demo).
 
 **What is mugsun’s positioning?**  
 A full-stack platform focused on embedded analytics plus optional GIS/AI—not a feature-wall low-code suite. Do not market “compatible with / drop-in replacement for” commercial kits.

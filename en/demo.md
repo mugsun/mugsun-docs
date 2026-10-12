@@ -1,13 +1,17 @@
-# Demo
+# Demo notes
 
-## Live demo
+This page clarifies what is live versus what is not—so the top-nav entry is not mistaken for a full-stack public demo.
 
-**Not available yet.** We will not publish broken links or pretend a public URL exists.
+## Admin / analytics stack
 
-## Local alternative
+**No public clickable demo yet.** Follow [Getting started](/en/guide/getting-started) to run boot (and optionally pc). Credentials follow the [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README_EN.md)—**change the password on first login**.
 
-1. Follow [Getting started](/en/guide/getting-started) to run boot (and optionally pc).
-2. Sign in with the demo account from the [mugsun-boot README](https://github.com/mugsun/mugsun-boot/blob/main/README_EN.md), then **change the password immediately**.
-3. For external demos, host a read-only environment with non-production secrets.
+## ms-ui · uni-app x component H5
 
-Next: [Getting started](/en/guide/getting-started) · [Security checklist](/en/boot/security-checklist)
+Component pages show a phone frame (bottom-right) that embeds the hosted H5 preview (`/demo/index.html`). Example: [Button](/en/uniappx/components/button).
+
+Full H5 entry: [Open ms-ui demo](/demo/index.html) (new tab).
+
+## External showcases
+
+Host a read-only environment with non-production secrets. Next: [Getting started](/en/guide/getting-started) · [Security checklist](/en/boot/security-checklist) · [ms-ui](/en/uniappx/)

@@ -7,6 +7,7 @@ export const shared = defineConfig({
   // Browser tab / SEO title. Nav bar text is hidden via siteTitle: false
   // because logo.svg already includes the MUGSUN wordmark.
   title: 'mugsun',
+  titleTemplate: ':title · mugsun',
   base,
   cleanUrls: true,
   // Repo-level Keep a Changelog; site page is changelog.md (case collision on Linux)
@@ -45,6 +46,29 @@ export const shared = defineConfig({
     ],
     search: {
       provider: 'local',
+      options: {
+        locales: {
+          root: {
+            translations: {
+              button: {
+                buttonText: '搜索',
+                buttonAriaLabel: '搜索文档',
+              },
+              modal: {
+                displayDetails: '显示详细列表',
+                resetButtonTitle: '清除查询',
+                backButtonTitle: '关闭搜索',
+                noResultsText: '无法找到相关结果',
+                footer: {
+                  selectText: '选择',
+                  navigateText: '切换',
+                  closeText: '关闭',
+                },
+              },
+            },
+          },
+        },
+      },
     },
   },
 })

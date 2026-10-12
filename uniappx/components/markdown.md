@@ -1,9 +1,9 @@
 ---
-title: Markdown Markdown
+title: Markdown
 demo: pages/demo/media/markdown
 ---
 
-# Markdown Markdown
+# Markdown
 
 `ms-markdown`：Markdown 子集原生渲染（零第三方依赖，不用 webview）。
 
