@@ -38,4 +38,4 @@ pnpm docs:preview
 
 ## License
 
-MIT · 北京定旭晨信息科技工作室 / mugsun
+MIT · mugsun

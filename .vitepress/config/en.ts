@@ -63,7 +63,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
     },
     footer: {
       message: 'Open source: boot · core · pc · track. cloud / uniappx-ui are planned.',
-      copyright: 'Copyright © 2026 Beijing Dingxu Chen IT Studio · mugsun',
+      copyright: 'Copyright © 2026 mugsun',
     },
   },
 }
