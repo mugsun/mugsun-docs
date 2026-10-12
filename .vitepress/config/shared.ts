@@ -7,6 +7,8 @@ export const shared = defineConfig({
   title: 'mugsun',
   base,
   cleanUrls: true,
+  // Repo-level Keep a Changelog; site page is changelog.md (case collision on Linux)
+  srcExclude: ['**/CHANGELOG.md'],
   lastUpdated: true,
   metaChunk: true,
   ignoreDeadLinks: [
