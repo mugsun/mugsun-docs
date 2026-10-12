@@ -1,0 +1,48 @@
+---
+layout: home
+hero:
+  name: mugsun
+  text: Self-hosted admin stack
+  tagline: Multi-tenant & SM crypto, plus an embedded analytics path (SDK → API → dashboard). GIS and AI are optional modules—not a kitchen-sink low-code suite.
+  image:
+    src: /brand/svg/mugsun-icon-dark.svg
+    alt: mugsun
+  actions:
+    - theme: brand
+      text: Get started
+      link: /en/guide/getting-started
+    - theme: alt
+      text: Install Track
+      link: /en/track/install
+    - theme: alt
+      text: Local demo notes
+      link: /en/demo
+features:
+  - title: Run it
+    details: One docker compose path from empty DB to a signed-in admin console.
+    link: /en/guide/getting-started
+    linkText: Getting started
+  - title: Wire analytics
+    details: Install @mugsun/track-web and aim to see an event on the dashboard within ~30 minutes.
+    link: /en/track/first-event
+    linkText: First event
+  - title: Extend it
+    details: Learn how boot / pc / track / core split, flip module flags, and develop locally.
+    link: /en/guide/architecture
+    linkText: Architecture
+---
+
+## Modules
+
+| Module | Role | Status |
+| --- | --- | --- |
+| [boot](/en/boot/) | Modular Spring Boot 3.5 backend | Open source |
+| [pc](/en/pc/) | Vue3 + Element Plus admin | Open source |
+| [track](/en/track/) | Lightweight web SDK + ingest + dashboards | Open source (flagship) |
+| [core](/en/core/) | BOM & starters | Open source |
+| cloud | Microservices edition | <span class="soon">Planned</span> |
+| uniappx-ui | uni-app x UI kit | <span class="soon">Planned</span> |
+
+## Live demo
+
+A public demo is coming soon. For now, follow [Getting started](/en/guide/getting-started) locally. Demo credentials are documented there—**change the password on first login**.
