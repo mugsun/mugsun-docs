@@ -8,8 +8,8 @@
 4. 附件下载校验租户与属主（防 IDOR）
 5. 出站 URL（知识库、MCP、渠道回调）走统一安全闸门
 6. 依赖 CVE（含文档解析组件）已扫描并升级
-7. 埋点回放与 apiBody 脱敏策略符合隐私页约定
+7. 埋点回放与 apiBody 脱敏策略符合 [隐私与合规](/track/privacy)
 
-::: tip
-逐项操作说明与 boot 内配置键将在后续补全。安全披露方式见各仓 `SECURITY.md`（待统一添加）。
-:::
+操作细节与配置键以 [mugsun-boot](https://github.com/mugsun/mugsun-boot) 源码及 README 为准。安全披露方式见各仓 `SECURITY.md`（若已添加）。
+
+下一步：[配置](/boot/configuration) · [快速开始](/guide/getting-started)

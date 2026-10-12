@@ -8,6 +8,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'Boot', link: '/boot/', activeMatch: '/boot/' },
       { text: '管理台', link: '/pc/', activeMatch: '/pc/' },
       { text: '埋点', link: '/track/', activeMatch: '/track/' },
+      { text: 'Core', link: '/core/', activeMatch: '/core/' },
       { text: '演示', link: '/demo' },
       { text: '更新日志', link: '/changelog' },
     ],

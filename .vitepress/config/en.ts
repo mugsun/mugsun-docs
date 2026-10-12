@@ -9,6 +9,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'Boot', link: '/en/boot/', activeMatch: '/en/boot/' },
       { text: 'Admin', link: '/en/pc/', activeMatch: '/en/pc/' },
       { text: 'Track', link: '/en/track/', activeMatch: '/en/track/' },
+      { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
       { text: 'Demo', link: '/en/demo' },
       { text: 'Changelog', link: '/en/changelog' },
     ],

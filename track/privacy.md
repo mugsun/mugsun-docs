@@ -11,5 +11,7 @@
 - apiBody 等敏感载荷脱敏默认开启
 
 ::: warning
-本文将随 SDK / 服务端默认值对齐后写成可勾选清单。若你发现文档与行为不一致，以「更严格的隐私行为」为准并提 issue。
+若文档与实际行为不一致，以「更严格的隐私行为」为准，并在 [mugsun-track](https://github.com/mugsun/mugsun-track) 提 issue。
 :::
+
+相关：[安装](/track/install) · [第一个事件](/track/first-event) · [安全清单](/boot/security-checklist)

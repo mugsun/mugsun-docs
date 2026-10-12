@@ -9,6 +9,12 @@ export const shared = defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   metaChunk: true,
+  ignoreDeadLinks: [
+    // Local run URLs shown as docs examples (not published routes)
+    /^https?:\/\/localhost/,
+    // README is not a VitePress page; relative LICENSE link is fine in GitHub
+    './LICENSE',
+  ],
   head: [
     ['link', { rel: 'icon', href: `${base}favicon.ico`, sizes: 'any' }],
     ['link', { rel: 'icon', href: `${base}favicon.svg`, type: 'image/svg+xml' }],

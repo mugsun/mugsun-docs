@@ -13,8 +13,10 @@ mugsun is a **self-hosted** admin foundation for small teams: multi-tenant tenan
 
 - Not a kitchen-sink low-code platform
 - Not a hosted analytics SaaS (you take the pipeline with you)
-- **cloud** and **uniappx-ui** are *planned / commercial intent*—this site will not pretend they ship as open install guides today
+- **cloud** and **uniappx-ui** are *planned*—this site will not pretend they ship as open install guides today
 
-::: tip
-Chinese is the canonical language for now; English pages may be slightly abridged. See [Architecture](/en/guide/architecture).
-:::
+## How it differs
+
+Instead of a feature-wall checklist, mugsun emphasizes one verifiable slice: **SDK → ingest → dashboard**, with security defaults (secrets, redaction, replay masking) documented up front.
+
+See [Architecture](/en/guide/architecture). To run locally: [Getting started](/en/guide/getting-started).

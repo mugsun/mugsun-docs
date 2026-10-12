@@ -14,3 +14,6 @@ The product goal is privacy-safe defaults (masking, redaction, DNT). See [Privac
 
 **Licenses?**  
 boot/core Apache-2.0; pc/track mostly MIT (pc derives from art-design-pro—keep NOTICE). Always trust each repo’s LICENSE file.
+
+**Does compose start the app too?**  
+No. Boot’s `docker compose` starts PostgreSQL and Redis only; the app runs via Maven / JAR. See [Getting started](/en/guide/getting-started).

@@ -15,19 +15,19 @@ hero:
       text: Install Track
       link: /en/track/install
     - theme: alt
-      text: Local demo notes
-      link: /en/demo
+      text: GitHub
+      link: https://github.com/mugsun
 features:
   - title: Run it
-    details: One docker compose path from empty DB to a signed-in admin console.
+    details: Install core as a sibling, compose for the DB, Maven for boot; optionally open the pc console.
     link: /en/guide/getting-started
     linkText: Getting started
   - title: Wire analytics
-    details: Install @mugsun/track-web and aim to see an event on the dashboard within ~30 minutes.
+    details: Install @mugsun/track-web, point the collect endpoint, confirm the first event on the dashboard.
     link: /en/track/first-event
     linkText: First event
   - title: Extend it
-    details: Learn how boot / pc / track / core split, flip module flags, and develop locally.
+    details: Learn how boot / pc / track / core split, and flip GIS / Track / AI as needed.
     link: /en/guide/architecture
     linkText: Architecture
 ---
@@ -43,6 +43,6 @@ features:
 | cloud | Microservices edition | <span class="soon">Planned</span> |
 | uniappx-ui | uni-app x UI kit | <span class="soon">Planned</span> |
 
-## Live demo
+## Demo
 
-A public demo is coming soon. For now, follow [Getting started](/en/guide/getting-started) locally. Demo credentials are documented there—**change the password on first login**.
+There is **no** public clickable demo yet. Follow [Getting started](/en/guide/getting-started) locally. Credentials follow the boot README—**change the password on first login**. Notes: [Demo](/en/demo).

@@ -3,6 +3,19 @@
   --vp-c-brand-2: #a84a1c;
   --vp-c-brand-3: #8a3c16;
   --vp-c-brand-soft: rgba(196, 92, 38, 0.12);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    #c45c26 30%,
+    #e08a4f 70%
+  );
+}
+
+.dark {
+  --vp-c-brand-1: #e08a4f;
+  --vp-c-brand-2: #c45c26;
+  --vp-c-brand-3: #a84a1c;
+  --vp-c-brand-soft: rgba(224, 138, 79, 0.14);
 }
 
 .VPNavBarTitle .logo {
@@ -10,14 +23,30 @@
   margin-right: 8px;
 }
 
+.VPHomeHero .image-src {
+  max-width: 220px;
+  max-height: 220px;
+}
+
 .soon {
   display: inline-block;
   margin-left: 6px;
   padding: 0 6px;
   font-size: 11px;
+  font-weight: 500;
   line-height: 18px;
   border-radius: 4px;
   background: var(--vp-c-default-soft);
   color: var(--vp-c-text-2);
   vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+
+.VPDoc table td .soon {
+  margin-left: 0;
+}
+
+/* Keep home module table readable without chrome clutter */
+.VPHome .vp-doc table {
+  margin-top: 0.5rem;
 }

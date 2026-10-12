@@ -12,6 +12,4 @@
 
 免费开源。微服务版见站点首页「cloud · 规划中」。
 
-::: tip
-配置项、环境变量与模块开关细节见 [配置](/boot/configuration)；上线前请过一遍 [安全清单](/boot/security-checklist)。
-:::
+最短路径见 [快速开始](/guide/getting-started)。配置项与模块开关见 [配置](/boot/configuration)；上线前请过一遍 [安全清单](/boot/security-checklist)。

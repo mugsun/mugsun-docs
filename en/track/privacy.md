@@ -1,7 +1,17 @@
 # Privacy
 
-Defaults should be safe: mask inputs/passwords, mask replay text unless explicitly disabled, strip sensitive query params (e.g. `token`), honor DNT / `optOut()`, redact apiBody by default.
+Principle: **safe by default**—not “record first, ask later”.
+
+Capabilities (per current SDK / server version):
+
+- Inputs / passwords not collected or masked by default
+- Session replay masks page text unless explicitly disabled
+- Collect URLs strip sensitive query params (e.g. `token`)
+- Honor DNT; expose `optOut()`
+- Redact sensitive payloads such as apiBody by default
 
 ::: warning
-This page will become a checklist once SDK/server defaults are fully aligned. If docs and behavior disagree, prefer the stricter privacy behavior and file an issue.
+If docs and behavior disagree, prefer the stricter privacy behavior and file an issue on [mugsun-track](https://github.com/mugsun/mugsun-track).
 :::
+
+Related: [Install](/en/track/install) · [First event](/en/track/first-event) · [Security checklist](/en/boot/security-checklist)
