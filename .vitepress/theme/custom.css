@@ -50,3 +50,223 @@
 .VPHome .vp-doc table {
   margin-top: 0.5rem;
 }
+
+/* TMUI-style right-float phone preview for ms-ui component demos */
+.ms-demo-phone {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+  max-width: calc(100vw - 24px);
+  font-family: var(--vp-font-family-base);
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-elv);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 20px;
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.16),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.ms-demo-phone--landscape {
+  width: 760px;
+  max-width: calc(100vw - 24px);
+}
+
+.ms-demo-phone__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: linear-gradient(
+    180deg,
+    var(--vp-c-bg-soft) 0%,
+    var(--vp-c-bg-elv) 100%
+  );
+}
+
+.ms-demo-phone__toolbar-left {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ms-demo-phone__brand {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--vp-c-brand-1);
+}
+
+.ms-demo-phone__hint {
+  font-size: 11px;
+  color: var(--vp-c-text-3);
+}
+
+.ms-demo-phone__toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ms-demo-phone__tool {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ms-demo-phone__tool:hover {
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 25%, transparent);
+}
+
+.ms-demo-phone__tool--danger:hover {
+  color: #e11d48;
+  background: rgba(225, 29, 72, 0.1);
+  border-color: rgba(225, 29, 72, 0.25);
+}
+
+.ms-demo-phone__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 12px 14px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg);
+}
+
+.ms-demo-phone__qr-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.ms-demo-phone__qr-tip {
+  margin: 0;
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+}
+
+.ms-demo-phone__qr-url {
+  display: block;
+  max-width: 100%;
+  padding: 0 4px;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--vp-c-text-3);
+  word-break: break-all;
+  text-align: center;
+}
+
+.ms-demo-phone__bezel {
+  position: relative;
+  width: 100%;
+  height: 760px;
+  max-height: min(760px, calc(100vh - 96px));
+  background: #0b1220;
+}
+
+.ms-demo-phone--landscape .ms-demo-phone__bezel {
+  height: 375px;
+  max-height: min(375px, calc(100vh - 96px));
+}
+
+.ms-demo-phone__notch {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  z-index: 2;
+  width: 96px;
+  height: 8px;
+  margin-left: -48px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.ms-demo-phone--landscape .ms-demo-phone__notch {
+  display: none;
+}
+
+.ms-demo-phone__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--vp-c-bg);
+}
+
+.ms-demo-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-1);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-demo-fab:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+}
+
+.ms-demo-fab__icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+@media (max-width: 1280px) {
+  .ms-demo-phone {
+    right: 12px;
+    bottom: 12px;
+    transform: scale(0.9);
+    transform-origin: bottom right;
+  }
+
+  .ms-demo-phone--landscape {
+    transform: scale(0.72);
+  }
+}
+
+@media (max-width: 960px) {
+  .ms-demo-phone {
+    display: none;
+  }
+
+  .ms-demo-fab {
+    display: none;
+  }
+}
