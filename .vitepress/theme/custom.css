@@ -20,7 +20,8 @@
 
 .VPNavBarTitle .logo {
   height: 28px;
-  margin-right: 8px;
+  /* no siteTitle text beside logo */
+  margin-right: 0;
 }
 
 .VPHomeHero .image-src {
