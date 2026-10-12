@@ -1,11 +1,19 @@
-# Per-repo GitHub banners
+# Repo GitHub banners
 
-Dark MS + horizon warm-light banners for each platform repository README header.
+Flat 1280×320 headers for each mugsun repository README.
 
-**Size:** 1280×320 (narrow README strip). `@2x` is 2560×640.
+| File | Language | Use |
+| --- | --- | --- |
+| `mugsun-<repo>.png` | 中文 | Chinese `README.md` top image |
+| `mugsun-<repo>-en.png` | English | `README_EN.md` top image |
+| `mugsun-<repo>@2x.png` / `mugsun-<repo>-en@2x.png` | — | Optional 2× assets |
+| `mugsun-brand-zh.png` / `mugsun-brand-en.png` | 中 / EN | Org / overview |
 
-Use the 1x PNG in README:
+Raw URL pattern:
 
-`https://raw.githubusercontent.com/mugsun/mugsun-docs/main/public/brand/banners/repos/<slug>.png`
+```text
+https://raw.githubusercontent.com/mugsun/mugsun-docs/main/public/brand/banners/repos/mugsun-<repo>.png
+https://raw.githubusercontent.com/mugsun/mugsun-docs/main/public/brand/banners/repos/mugsun-<repo>-en.png
+```
 
-Do not use `*-alt` or `alt-360` variants for production READMEs.
+Style lock: LXGW WenKai for Chinese, Saira Semi Condensed Medium for Latin; warm highlight on the core-stack line.
