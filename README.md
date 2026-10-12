@@ -21,16 +21,42 @@ pnpm docs:build
 pnpm docs:preview
 ```
 
-## Cloudflare Pages
+## 部署
+
+### GitHub Pages（当前）
+
+推送 `main` 后由 Actions 自动构建并发布。
+
+- 临时地址：<https://mugsun.github.io/mugsun-docs/>
+- 构建：`npm ci` → `DOCS_BASE=/mugsun-docs/ npm run docs:build`
+- 产物：`.vitepress/dist`
+- 工作流：`.github/workflows/deploy-docs.yml`
+
+本地若要模拟项目页路径：
+
+```bash
+DOCS_BASE=/mugsun-docs/ npm run docs:build && npm run docs:preview
+```
+
+### 自定义域 docs.mugsun.com
+
+域名目前不在本 Cloudflare 账号 DNS 里时，在**域名注册商**（或实际 DNS 面板）添加：
+
+| 类型 | 主机记录 | 值 |
+| --- | --- | --- |
+| CNAME | `docs` | `mugsun.github.io` |
+
+并在仓库 Settings → Pages → Custom domain 填入 `docs.mugsun.com`，按 GitHub 提示加 TXT 校验。  
+若自定义域指向站点根路径，把工作流里的 `DOCS_BASE` 改为 `/` 后重新部署。
+
+### Cloudflare Pages（备选）
 
 | 项 | 值 |
 | --- | --- |
-| Framework preset | VitePress（或 None） |
-| Build command | `npm run docs:build` / `pnpm docs:build` |
+| Build command | `npm run docs:build` |
 | Build output directory | `.vitepress/dist` |
 | Root | 仓库根 |
-
-自定义域建议：`docs.mugsun.com`（在 Cloudflare 绑定 Pages 项目）。
+| `DOCS_BASE` | 若挂在域名根用 `/`；子路径则设对应前缀 |
 
 ## 范围
 
