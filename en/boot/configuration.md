@@ -76,8 +76,9 @@ mugsun:
       expire-seconds: 120  # challenge lifetime
       token-expire-seconds: 120
       decoy-count: 1       # fake gaps, 0–2
+      keyboard-step-px: 4  # native pixels moved per key press in keyboard mode
       bind-ip: false       # enforce token binding to IP / UA (recorded either way)
-      bind-ua: false
+      bind-ua: false       # true by default in prod
     background:
       dir: classpath:captcha/bg/   # or file:/opt/mugsun/captcha-bg/
       rotate: random               # random | round-robin
@@ -85,6 +86,9 @@ mugsun:
     rate-limit:
       challenge-per-minute: 30     # challenges per IP per minute
       verify-fail-max: 5           # failures in 10 minutes before a 10-minute lock (3 in keyboard mode)
+      global-challenge-per-second: 200   # global per-second cap (shared across nodes with Redis)
+      sms-phone-per-day: 10        # SMS codes per phone number per day
+      sms-ip-per-hour: 20          # SMS codes per IP per hour
 ```
 
 See `mugsun.captcha` in `application.yml` for every key and default.
@@ -99,7 +103,7 @@ See `mugsun.captcha` in `application.yml` for every key and default.
 | `POST /auth/captcha/challenge` | Background and puzzle piece, valid for `expireSeconds` |
 | `POST /auth/captcha/verify` | Submit the drop position and track (or key presses in keyboard mode) for a one-time `captchaToken` |
 
-`scene` is `login`, `register`, `sms` (sending the SMS code) or `forget`. Put the `captchaToken` in the body of `/auth/login`, `/auth/register`, `/auth/sms-code` or `/auth/forget-code`. It works once and must match the scene, client and tenant used for the challenge. The server decides on its own whether verification is needed; it does not rely on `config`.
+`scene` is `login`, `register`, `sms` (sending the SMS code) or `forget`. The challenge request declares `inputMode` (`pointer` for mouse/touch or `keyboard`), and verify must use the same one; keyboard challenges return `keyboardStep`, and the number of key presses must match the drop position. Put the `captchaToken` in the body of `/auth/login`, `/auth/register`, `/auth/sms-code` or `/auth/forget-code`. It works once and must match the scene, client and tenant used for the challenge. The server decides on its own whether verification is needed; it does not rely on `config`.
 
 Errors come back as HTTP 200 with `R.code`:
 
@@ -111,7 +115,7 @@ Errors come back as HTTP 200 with `R.code`:
 | `40013` | Missing or invalid `captchaToken` |
 | `40014` | Verification is not needed right now |
 
-**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. The client switch (`sys_client.captcha_enabled`) still applies to login only.
+**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. In slider mode the client switch (`sys_client.captcha_enabled`) cannot turn verification off, because the caller chooses the clientId; it only applies to login in legacy IMAGE mode. New tenants always start with verification on.
 
 ## Production
 

@@ -75,8 +75,9 @@ mugsun:
       expire-seconds: 120  # 挑战有效期
       token-expire-seconds: 120
       decoy-count: 1       # 假缺口 0–2
-      bind-ip: false       # 令牌强制绑定 IP / UA（默认只记录）
-      bind-ua: false
+      keyboard-step-px: 4  # 键盘模式每次按键移动的原始像素
+      bind-ip: false       # 令牌强制绑定 IP / UA（关闭时只记录）
+      bind-ua: false       # prod 默认 true
     background:
       dir: classpath:captcha/bg/   # 也可 file:/opt/mugsun/captcha-bg/
       rotate: random               # random | round-robin
@@ -84,6 +85,9 @@ mugsun:
     rate-limit:
       challenge-per-minute: 30     # 单 IP 每分钟取题
       verify-fail-max: 5           # 10 分钟内失败次数，超过锁定 10 分钟（键盘模式 3 次）
+      global-challenge-per-second: 200   # 全局每秒取题上限（Redis 存储时跨节点共享）
+      sms-phone-per-day: 10        # 发送短信：单手机号每天
+      sms-ip-per-hour: 20          # 发送短信：单 IP 每小时
 ```
 
 完整键名与默认值见 `application.yml` 的 `mugsun.captcha`。
@@ -98,7 +102,7 @@ mugsun:
 | `POST /auth/captcha/challenge` | 取底图与拼图块，有效期 `expireSeconds` |
 | `POST /auth/captcha/verify` | 提交落点与轨迹（或键盘模式的按键次数），换取一次性 `captchaToken` |
 
-`scene` 取 `login`、`register`、`sms`（发送短信验证码）、`forget`。拿到的 `captchaToken` 放进 `/auth/login`、`/auth/register`、`/auth/sms-code`、`/auth/forget-code` 的请求体，只能用一次，且必须与取题时的场景、客户端、租户一致。服务端会自行判断是否需要验证，不以 `config` 的结果为准。
+`scene` 取 `login`、`register`、`sms`（发送短信验证码）、`forget`。取题时用 `inputMode` 声明鼠标/触屏（`pointer`）还是键盘（`keyboard`），校验时必须一致；键盘题会返回 `keyboardStep`，按键次数要与落点对得上。拿到的 `captchaToken` 放进 `/auth/login`、`/auth/register`、`/auth/sms-code`、`/auth/forget-code` 的请求体，只能用一次，且必须与取题时的场景、客户端、租户一致。服务端会自行判断是否需要验证，不以 `config` 的结果为准。
 
 错误码通过 HTTP 200 + `R.code` 返回：
 
@@ -110,7 +114,7 @@ mugsun:
 | `40013` | 缺少有效的 `captchaToken` |
 | `40014` | 当前无需验证 |
 
-**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。客户端开关（`sys_client.captcha_enabled`）仍只作用于登录。
+**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。滑块模式下客户端开关（`sys_client.captcha_enabled`）不能关闭验证码，因为 clientId 由调用方填写；它只在旧数字码模式下对登录生效。新建的租户一律开启。
 
 ## 生产环境
 
