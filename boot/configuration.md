@@ -31,6 +31,25 @@ cp config/application-local.yml.example config/application-local.yml
 | `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对，与传输密钥分离 |
 | `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时任一密钥缺失即拒绝启动 |
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
+| `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
+
+## 本地文件访问
+
+开发环境（默认配置）下，本地存储的文件由应用在 `/file/**` 下直接提供。为避免私有附件被人拿着地址匿名下载：
+
+- `mugsun/public/` 下的公开文件（如头像）仍可匿名访问。
+- 其余文件必须带短时签名才能下载。登录后调用 `GET /system/file/download/{id}` 会返回一个带 `e`（过期时间）和 `s`（签名）参数的地址，默认 300 秒内有效；没有签名、签名不对或过期的请求一律返回 404。
+
+```yaml
+mugsun:
+  file:
+    local-access:
+      public-prefixes: [mugsun/public/]   # 匿名可访问的路径前缀
+      sign-secret: ${MUGSUN_FILE_SIGN_SECRET:}
+      expire-seconds: 300
+```
+
+`sign-secret` 留空时每次启动随机生成，只适合单实例；多实例部署必须给所有实例配置同一个值，否则一个实例签发的地址在另一个实例上会 404。`prod` profile 默认关闭 `/file/**` 直出，私有附件走授权下载接口，不受此项影响。
 
 ## 可选模块
 
