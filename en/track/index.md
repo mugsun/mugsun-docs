@@ -73,7 +73,20 @@ Session replay and visual tagging screenshots are in
 
 ## Dashboard trend
 
-When you pick 3 days or more, the overview visit trend has one point per day, and the x-axis always shows every day in the range (UTC dates). A day with no data is drawn as 0 instead of being skipped (since [mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28)). For 1–2 days the chart uses 5-minute points and only shows periods that have data.
+When you pick 3 days or more, the overview visit trend has one point per day, and the x-axis always shows every day in the range. A day with no data is drawn as 0 instead of being skipped (since [mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28)). For 1–2 days the chart uses 5-minute points and only shows periods that have data.
+
+The trend chart and the error monitoring list cut days in the tenant's timezone, so "today" starts at local midnight (since [mugsun-boot #31](https://github.com/mugsun/mugsun-boot/pull/31); before that days were cut in UTC, so at UTC+8 a new day only began at 8 a.m.). The default is `Asia/Shanghai`. You can change it globally or per tenant ID:
+
+```yaml
+mugsun:
+  track:
+    timezone:
+      default-zone: Asia/Shanghai   # or env MUGSUN_TRACK_TIMEZONE
+      tenants:
+        "[000000]": Asia/Shanghai   # keys need brackets and quotes
+```
+
+When the timezone isn't UTC, daily trends of 3 days or more are counted straight from raw events, which is slower than the daily summary table on large data sets. Overview cards, pages, performance and other stats still cut days in UTC for now.
 
 ## Upgrading: backfill historical UV
 

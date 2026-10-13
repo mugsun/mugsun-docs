@@ -73,7 +73,20 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 ## 看板趋势
 
-概览的访问趋势选 3 天以上时按天画点，横轴固定是所选范围内的每一天（按 UTC 日期）。某天没有数据时按 0 画出，不会跳过（[mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28) 起）。选 1–2 天时按 5 分钟画点，只画有数据的时段。
+概览的访问趋势选 3 天以上时按天画点，横轴固定是所选范围内的每一天。某天没有数据时按 0 画出，不会跳过（[mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28) 起）。选 1–2 天时按 5 分钟画点，只画有数据的时段。
+
+趋势图和错误监控列表按租户时区切日，「今天」从当地 0 点开始（[mugsun-boot #31](https://github.com/mugsun/mugsun-boot/pull/31) 起，之前按 UTC 切日，UTC+8 下要到早上 8 点才算新的一天）。没配置时用 `Asia/Shanghai`，可以整体改，也可以按租户编号单独设：
+
+```yaml
+mugsun:
+  track:
+    timezone:
+      default-zone: Asia/Shanghai   # 或环境变量 MUGSUN_TRACK_TIMEZONE
+      tenants:
+        "[000000]": Asia/Shanghai   # 键要加中括号和引号
+```
+
+时区不是 UTC 时，3 天以上的日趋势改为直接按明细统计，数据量大时会比按日汇总表慢一些。概览卡片、页面、性能等其它统计目前仍按 UTC 切日。
 
 ## 升级：历史 UV 回填
 
