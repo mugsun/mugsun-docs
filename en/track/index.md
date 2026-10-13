@@ -38,11 +38,11 @@ The screenshots below come from a local boot + pc run. The data was reported for
 
 **Performance**: P75 and percentile breakdown for each Web Vitals metric, rated good / needs improvement / poor against thresholds.
 
-![Performance (demo data)](/screenshots/track/track-perf.png)
-
 **Errors**: JS errors grouped by fingerprint with counts, affected sessions and first/last seen; drill down to occurrences and linked replays.
 
 ![Errors (demo data)](/screenshots/track/track-error.png)
+
+**Retention**: a new-user retention grid. A visitor joins the cohort of the day they were first active (UTC day boundary). Rows are cohort dates with their size; columns D+0, D+1, … show the share of that cohort active again N days later, with darker cells meaning higher retention. Choose the last 7, 14 or 30 days; lookback is capped at 30 days so users active before that are not miscounted as new. Days are bucketed by server receive time, not client time, so D+1 and later only fill in after several consecutive days of real traffic. No screenshot here: the demo data covers a single day, so the grid only has D+0.
 
 Session replay and visual tagging screenshots are in [Plugins · Session replay](/en/track/plugins#session-replay) and [Plugins · Visual tagging and geolocation](/en/track/plugins#visual-tagging-and-geolocation).
 
