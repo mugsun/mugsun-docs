@@ -10,6 +10,8 @@
 | 版本 | 0.1.0 |
 | 许可 | MIT；UI 基座衍生自 [art-design-pro](https://github.com/Daymychen/art-design-pro)（MIT），分发须保留 `NOTICE` |
 
+![工作台](/screenshots/pc-workbench.png)
+
 ## 设计要点
 
 - **权限只来自后端。** 侧边栏菜单、按钮权限码与用户信息来自 boot 的 `/api/auth/info` 等接口，前端不维护独立权限模型。

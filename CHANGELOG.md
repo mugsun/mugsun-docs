@@ -1,11 +1,16 @@
 # 更新日志
 
-本文件记录 [mugsun-docs](https://github.com/mugsun/mugsun-docs) 仓库与文档站的重要变更。站点入口：[docs.mugsun.com](https://docs.mugsun.com/)；站内摘要页见 `changelog.md`。
+本文件记录 [mugsun-docs](https://github.com/mugsun/mugsun-docs) 仓库与文档站的重要变更。站点入口：[docs.mugsun.com](https://docs.mugsun.com/)；面向使用者的变更摘要见站内 [更新日志](https://docs.mugsun.com/guide/changelog)（源文件 `guide/changelog.md`）。
 
 ## [Unreleased]
 
 ### 变更
 
+- 首页、指南与信息架构重写；各产品线补齐概览、快速开始、配置参考与 FAQ
+- ms-ui 组件「基础用法」改为摘自演示源码的可运行片段（`scripts/sync-demo-snippets.py`）
+- 快速开始实测修正：boot 改为 `package` + `java -jar` 启动
+- 新增管理台与埋点看板真实截图（`public/screenshots/`，演示数据）
+- 站内更新日志迁至 `/guide/changelog`，解决与本文件的大小写冲突
 - 快速开始改为可执行短路径；首页与演示空态表述收紧
 - 主题与 IA：中英对齐，补充 core / pc 等薄页
 - 品牌资产：`public/brand/banners/repos/` 八仓差异化顶图（1280×320）

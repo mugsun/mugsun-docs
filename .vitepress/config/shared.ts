@@ -25,13 +25,11 @@ export const shared = defineConfig({
     ['link', { rel: 'icon', href: `${base}favicon.svg`, type: 'image/svg+xml' }],
     ['link', { rel: 'apple-touch-icon', href: `${base}apple-touch-icon.png` }],
     ['meta', { property: 'og:type', content: 'website' }],
-    [
-      'meta',
-      {
-        property: 'og:image',
-        content: `${base}brand/banners/github-og-1200x630.png`,
-      },
-    ],
+    ['meta', { property: 'og:site_name', content: 'mugsun' }],
+    // Social cards require an absolute image URL
+    ['meta', { property: 'og:image', content: 'https://docs.mugsun.com/brand/banners/github-og-1200x630.png' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'theme-color', content: '#111111' }],
   ],
   themeConfig: {
     // Logo already ships MS mark + MUGSUN wordmark; hide duplicate <span>mugsun</span>

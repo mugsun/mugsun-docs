@@ -29,7 +29,9 @@
    await track.flush() // 不等批量阈值，立即发送
    ```
 
-4. **核对**：浏览器网络面板中 `POST /track/collect` 返回 2xx；管理台埋点看板 / 实时视图出现该应用的新事件。
+4. **核对**：浏览器网络面板中 `POST /track/collect` 返回 2xx；在「埋点分析 → 事件分析」选择该应用，列表与下方「实时事件流」出现新事件。
+
+   ![事件分析（演示数据）](/screenshots/track-event.png)
 
 ## 没看到事件？
 

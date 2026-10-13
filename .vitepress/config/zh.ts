@@ -236,7 +236,13 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       ],
     },
     langMenuLabel: '语言',
-    outline: { label: '本页目录' },
+    outline: { label: '本页目录', level: [2, 3] },
+    notFound: {
+      title: '页面不存在',
+      quote: '链接可能已过期或被移动。可以用顶栏搜索，或从快速开始重新进入。',
+      linkLabel: '返回首页',
+      linkText: '返回首页',
+    },
     lastUpdated: { text: '最后更新', formatOptions: { dateStyle: 'medium', timeStyle: 'short' } },
     editLink: {
       pattern: 'https://github.com/mugsun/mugsun-docs/edit/main/:path',
@@ -249,8 +255,8 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     lightModeSwitchTitle: '切换到浅色',
     darkModeSwitchTitle: '切换到深色',
     footer: {
-      message: '免费开源：boot · core · pc · track。ms-ui（uni-app x）组件文档已开放。',
-      copyright: 'Copyright © 2026 mugsun',
+      message: 'boot · core 基于 Apache-2.0，pc · track 基于 MIT 发布。',
+      copyright: 'Copyright © 2026 北京定旭晨信息科技工作室 (mugsun)',
     },
   },
 }

@@ -58,10 +58,11 @@ features:
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose up -d
 cp config/application-local.yml.example config/application-local.yml
-mvn -pl mugsun-boot-server -am spring-boot:run   # http://localhost:8080/ping
+mvn -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-完整步骤（含管理台与第一个埋点事件）见 [快速开始](/guide/getting-started)。
+启动后访问 `http://localhost:8080/ping` 验证。完整步骤（含管理台与第一个埋点事件）见 [快速开始](/guide/getting-started)。
 
 ## 在业务页面接入埋点
 
@@ -69,14 +70,25 @@ mvn -pl mugsun-boot-server -am spring-boot:run   # http://localhost:8080/ping
 import { createTracker } from '@mugsun/track-web'
 
 const track = createTracker({
-  endpoint: 'https://your-host',   // 实际上报 {endpoint}/track/collect
-  appKey: 'your-app-key',          // 管理台「埋点分析 → 接入管理」创建
+  endpoint: 'https://your-host',   // 上报到 {endpoint}/track/collect
+  appKey: 'your-app-key',          // 在管理台「接入管理」创建
 })
 
 track.track('button_click', { name: 'buy' })
 ```
 
 默认插件覆盖页面浏览、停留、全埋点、曝光、Web Vitals 与错误；回放、接口监控、圈选、地理位置按需注册。详见 [安装与初始化](/track/install)。
+
+## 界面一览
+
+<div class="shot-grid">
+  <figure><img src="/screenshots/pc-workbench.png" alt="管理台工作台"><figcaption>管理台 · 工作台</figcaption></figure>
+  <figure><img src="/screenshots/track-overview.png" alt="埋点数据概览"><figcaption>埋点分析 · 数据概览</figcaption></figure>
+  <figure><img src="/screenshots/track-event.png" alt="事件分析"><figcaption>埋点分析 · 事件分析与实时流</figcaption></figure>
+  <figure><img src="/screenshots/pc-login.png" alt="登录页"><figcaption>登录 · 验证码与第三方登录</figcaption></figure>
+</div>
+
+截图来自本地启动的 boot + pc，埋点数据为演示数据。
 
 ## 模块一览
 

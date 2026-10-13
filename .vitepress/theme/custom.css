@@ -297,3 +297,23 @@
 @media (min-width: 640px) {
   .home-body { padding: 24px 48px 64px; }
 }
+
+/* Home: screenshot grid */
+.shot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 16px 0 8px;
+}
+.shot-grid figure { margin: 0; }
+.shot-grid img,
+.vp-doc img[src^="/screenshots/"] {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.shot-grid figcaption {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
