@@ -52,7 +52,7 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 ### `pnpm install` 报找不到 `@mugsun/track-web`？
 
-管理台以 `file:../mugsun-track` 引用 SDK，且 SDK 仓不提交 `dist/`。请把 mugsun-track 克隆到平级目录并执行 `pnpm setup:sdk`；不需要埋点时设 `VITE_ENABLE_TRACK=false`。
+管理台以 `file:../mugsun-track` 引用 SDK，且 SDK 仓不提交 `dist/`。请把 mugsun-track 克隆到平级目录并执行 `pnpm setup:sdk`；不需要埋点时可设 `VITE_ENABLE_TRACK=false` 跳过构建，但平级目录仍须存在，`pnpm install` 才能通过。
 
 ## 埋点
 
