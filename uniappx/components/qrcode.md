@@ -14,13 +14,29 @@ demo: pages/demo/display/qrcode
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/qrcode.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-qrcode size="…" value="…">
-    …
-  </ms-qrcode>
+  <!-- 组件类型 -->
+  <ms-qrcode :value="demoValue" />
+  <ms-qrcode :value="demoValue" logo="/static/logo.png" level="H" />
+  <!-- 纠错等级 -->
+  <ms-qrcode :value="demoValue" level="L" size="sm" />
+  <ms-qrcode :value="demoValue" level="M" size="sm" />
+  <ms-qrcode :value="demoValue" level="Q" size="sm" />
+  <!-- 组件状态 -->
+  <ms-qrcode :value="demoValue" status="expired" size="sm" />
+  <ms-qrcode :value="demoValue" status="loading" size="sm" />
+  <ms-qrcode :value="demoValue" status="scanned" size="sm" />
+  <!-- 组件尺寸 -->
+  <ms-qrcode :value="demoValue" size="sm" />
+  <ms-qrcode :value="demoValue" size="md" />
+  <ms-qrcode :value="demoValue" size="lg" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,58 @@ Demo route: `#/pages/demo/form/weekbar`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-weekbar v-model="value">
-    …
-  </ms-weekbar>
+  <!-- 组件类型 -->
+  <ms-weekbar v-model="basicDate" @change="onBasicChange" @weekchange="onWeekChange" />
+  <ms-weekbar v-model="plainDate" :show-action="false" mode="none" @change="onPlainChange" />
+  <!-- 组件样式 -->
+  <ms-weekbar v-model="circleDate" mode="circular" :first-day="6" @change="onCircleChange" />
+  <ms-weekbar
+    v-model="rangeDate"
+    :marked-dates="marked"
+    :start-date="rangeStart"
+    :end-date="rangeEnd"
+    @change="onRangeChange"
+  />
+  <ms-weekbar v-model="basicDate" :disabled="true" />
+  <!-- 组件深度 -->
+  <ms-weekbar
+    v-model="banDate"
+    :disabled-dates="banned"
+    @change="onBanChange"
+  />
+  <ms-weekbar
+    v-model="manualDate"
+    :auto-select-today="false"
+    @change="onManualChange"
+  />
+  <ms-weekbar
+    ref="jumpRef"
+    v-model="jumpDate"
+    @change="onJumpChange"
+  />
 </template>
+
+<script setup lang="uts">
+const basicDate = ref('2026-08-31')
+const plainDate = ref('2026-08-31')
+const circleDate = ref('2026-09-02')
+const rangeDate = ref('2026-08-31')
+const rangeStart = ref('2026-08-30')
+const rangeEnd = ref('2026-09-03')
+const marked = ref(['2026-09-01', '2026-09-03'] as string[])
+const banDate = ref('2026-09-01')
+const banned = ref(['2026-09-02', '2026-09-03'] as string[])
+const manualDate = ref('')
+const jumpDate = ref('2026-08-31')
+const jumpRef = ref<MsWeekbarComponentPublicInstance | null>(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

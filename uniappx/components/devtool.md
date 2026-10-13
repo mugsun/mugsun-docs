@@ -14,13 +14,60 @@ demo: pages/demo/media/devtool
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/media/devtool.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-devtool title="…">
-    …
-  </ms-devtool>
+  <!-- 组件类型 -->
+  <ms-devtool
+    v-model:open="mainOpen"
+    title="请求记录"
+    host="https://api.example.com"
+    :entries="entries"
+    :show-env="false"
+    @clear="onClear"
+    @entry-click="onEntry"
+  />
+  <ms-devtool v-model:open="envOpen" title="环境信息" :entries="entries" />
+  <!-- 组件样式 -->
+  <ms-devtool title="折叠面板" :entries="entries" :open="false" />
+  <ms-devtool title="展开面板" :entries="[]" :open="true" :max-height="120" />
+  <!-- 组件深度 -->
+  <ms-devtool
+    title="矮列表"
+    host="https://api.example.com"
+    :entries="entries"
+    :open="true"
+    :show-env="false"
+    :max-height="80"
+  />
+  <ms-devtool
+    title="域名面板"
+    host="https://edge.example.cn"
+    :entries="[]"
+    :open="true"
+    :show-env="false"
+    :max-height="100"
+  />
+  <ms-devtool
+    v-model:open="clickOpen"
+    title="点击记录"
+    :entries="entries"
+    :show-env="false"
+    :max-height="120"
+    @entry-click="onEntry"
+  />
 </template>
+
+<script setup lang="uts">
+const mainOpen = ref(true)
+const envOpen = ref(true)
+const clickOpen = ref(true)
+const entries = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,41 @@ demo: pages/demo/form/rate
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/rate.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-rate size="sm" v-model="value">
-    …
-  </ms-rate>
+  <!-- 组件类型 -->
+  <ms-rate v-model="vSolid" />
+  <ms-rate v-model="vCustom" active-icon="heart-fill" void-icon="heart-line" />
+  <ms-rate v-model="vCount" :count="3" />
+  <!-- 组件状态 -->
+  <ms-rate v-model="vActive" />
+  <ms-rate :model-value="4" readonly />
+  <ms-rate :model-value="3" disabled />
+  <!-- 组件尺寸 -->
+  <ms-rate v-model="vSize" size="sm" />
+  <ms-rate v-model="vSize" size="md" />
+  <ms-rate v-model="vSize" size="lg" />
+  <!-- 组件深度 -->
+  <ms-rate v-model="vHalf" allow-half show-score />
+  <ms-rate v-model="vClear" clearable show-text />
+  <ms-rate v-model="vTexts" show-text :texts="customTexts" />
 </template>
+
+<script setup lang="uts">
+const vSolid = ref(3)
+const vCustom = ref(2)
+const vCount = ref(2)
+const vActive = ref(3)
+const vSize = ref(3)
+const vHalf = ref(3.5)
+const vClear = ref(4)
+const vTexts = ref(3)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

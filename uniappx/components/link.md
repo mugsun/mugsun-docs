@@ -14,13 +14,28 @@ demo: pages/demo/basic/link
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/link.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-link theme="default" size="sm">
-    …
-  </ms-link>
+  <!-- 主题 -->
+  <ms-link theme="default">默认</ms-link>
+  <ms-link theme="primary">主色</ms-link>
+  <ms-link theme="danger">危险</ms-link>
+  <!-- 下划线 -->
+  <ms-link theme="primary">无下划线</ms-link>
+  <ms-link theme="primary" :underline="true">下划线</ms-link>
+  <!-- 图标 -->
+  <ms-link theme="primary" icon="links-line">前缀</ms-link>
+  <ms-link theme="primary" suffix-icon="arrow-right-s-line">后缀</ms-link>
+  <!-- 尺寸 -->
+  <ms-link size="sm" theme="primary">小号</ms-link>
+  <ms-link size="md" theme="primary">中号</ms-link>
+  <ms-link size="lg" theme="primary">大号</ms-link>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,37 @@ Demo route: `#/pages/demo/display/image-viewer`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/image-viewer.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-image-viewer v-model:visible="open">
-    …
-  </ms-image-viewer>
+  <ms-image-viewer
+    ref="viewerRef"
+    :visible="viewerVisible"
+    :images="viewerImages"
+    :initial-index="viewerInitial"
+    :show-index="viewerShowIndex"
+    :close-btn="viewerCloseBtn"
+    :delete-btn="viewerDeleteBtn"
+    @update:visible="onVisible"
+    @close="onClose"
+    @change="onChange"
+    @delete="onDelete"
+  />
 </template>
+
+<script setup lang="uts">
+const viewerVisible = ref(false)
+const viewerImages = ref<string[]>(DEMO_IMAGES.slice(0))
+const viewerShowIndex = ref(true)
+const viewerCloseBtn = ref(false)
+const viewerDeleteBtn = ref(false)
+const viewerInitial = ref(0)
+const viewerRef = ref(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

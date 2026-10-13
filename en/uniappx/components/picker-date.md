@@ -14,13 +14,66 @@ Demo route: `#/pages/demo/form/picker-date`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/picker-date.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-picker-date title="…" v-model:visible="open">
-    …
+  <!-- 组件类型 -->
+  <ms-picker-date
+    :value="dateText"
+    mode="date"
+    title="选择日期"
+    @change="onDateChange"
+    @confirm="onDateConfirm"
+    @cancel="onDateCancel"
+  >
+    <ms-cell title="选择日期" :note="dateText" arrow :bordered="false" />
   </ms-picker-date>
+  <ms-picker-date
+    :value="monthText"
+    mode="month"
+    title="选择月份"
+    @confirm="onMonthConfirm"
+  >
+    <ms-cell title="选择月份" :note="monthText" arrow :bordered="false" />
+  </ms-picker-date>
+  <ms-picker-date
+    :value="minuteText"
+    mode="minute"
+    title="选择时分"
+    @confirm="onMinuteConfirm"
+  >
+    <ms-cell title="选择时分" :note="minuteText" arrow :bordered="false" />
+  </ms-picker-date>
+  <!-- 组件用法 -->
+  <ms-picker-date
+    :value="stepText"
+    mode="minute"
+    :minute-step="5"
+    title="五分钟步长"
+    @confirm="onStepConfirm"
+  >
+    <ms-cell title="五分钟步长" :note="stepText" arrow :bordered="false" />
+  </ms-picker-date>
+  <ms-picker-date
+    value="2026-03-15"
+    mode="date"
+    title="内嵌日期"
+    :use-popup="false"
+    @change="onInlineChange"
+    @confirm="onInlineConfirm"
+  />
 </template>
+
+<script setup lang="uts">
+const dateText = ref('2026-03-15')
+const monthText = ref('2026-03')
+const minuteText = ref('2026-03-15 09:30')
+const stepText = ref('2026-03-15 09:30')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

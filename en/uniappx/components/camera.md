@@ -15,13 +15,53 @@ Demo route: `#/pages/demo/media/camera`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/media/camera.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-camera>
-    …
-  </ms-camera>
+  <!-- 组件类型 -->
+  <ms-camera
+    :device-position="position"
+    flash="auto"
+    :height="180"
+    tip="真机可取景；不支持时显示占位"
+    @photo="onPhoto"
+    @error="onError"
+    @position-change="onPositionChange"
+  />
+  <ms-camera device-position="front" flash="off" :height="140" :show-toolbar="false" />
+  <!-- 组件样式 -->
+  <ms-camera :height="120" :show-toolbar="false" resolution="low" />
+  <ms-camera :height="120" resolution="high" tip="拍照与翻转两个动作" />
+  <!-- 组件深度 -->
+  <ms-camera
+    flash="torch"
+    :height="120"
+    :show-toolbar="false"
+    tip="常亮闪光"
+  />
+  <ms-camera
+    flash="on"
+    resolution="medium"
+    :height="120"
+    tip="拍照时强制开灯"
+  />
+  <ms-camera
+    ref="cmdCamera"
+    :height="120"
+    :show-toolbar="false"
+    @photo="onPhoto"
+    @error="onError"
+  />
 </template>
+
+<script setup lang="uts">
+const position = ref('back')
+const cmdCamera = ref(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

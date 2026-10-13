@@ -14,13 +14,43 @@ Demo route: `#/pages/demo/nav/indexbar`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-indexbar>
-    …
-  </ms-indexbar>
+  <!-- 组件类型 -->
+  <ms-indexbar
+    :items="cityItems"
+    :height="300"
+    @change="onBaseChange"
+    @select="onBaseSelect"
+    @click="onBaseClick"
+  />
+  <ms-indexbar
+    :items="customItems"
+    :index-list="customKeys"
+    :height="260"
+    @select="onCustomSelect"
+  />
+  <!-- 组件状态 -->
+  <ms-indexbar :items="shortItems" :show-anchor="false" :height="200" @select="onPlainSelect" />
+  <ms-indexbar :items="disabledItems" :height="200" @click="onDisabledClick" />
+  <!-- 组件深度 -->
+  <ms-indexbar :items="cityItems" current="C" :height="240" @change="onControlledChange" />
+  <ms-indexbar :items="shortItems" :show-tip="false" :height="200" />
+  <ms-indexbar
+    v-model:current="modelCurrent"
+    :items="cityItems"
+    :height="240"
+  />
 </template>
+
+<script setup lang="uts">
+const modelCurrent = ref('B')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

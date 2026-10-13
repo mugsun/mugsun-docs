@@ -15,13 +15,41 @@ demo: pages/demo/media/editor
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/media/editor.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-editor v-model="value">
-    …
-  </ms-editor>
+  <!-- 组件类型 -->
+  <ms-editor v-model="draft" @command="onCommand" @change="onChange" />
+  <ms-editor :model-value="draft" read-only :height="120" />
+  <!-- 组件样式 -->
+  <ms-editor v-model="notes" :show-preview="false" :height="120" />
+  <ms-editor v-model="notes" :toolbar="slimToolbar" :height="120" />
+  <!-- 组件深度 -->
+  <ms-editor
+    ref="richEditor"
+    v-model="rich"
+    :toolbar="richToolbar"
+    show-count
+    :maxlength="800"
+    :height="160"
+    placeholder="在此输入 Markdown…"
+    @command="onCommand"
+    @clear="onClear"
+  />
 </template>
+
+<script setup lang="uts">
+const richEditor = ref<MsEditorComponentPublicInstance | null>(null)
+const draft = ref(
+const notes = ref('- 待办一\n- 待办二\n')
+const rich = ref('### 深度编辑\n\n可插入图片、任务与表格。\n')
+const slimToolbar = ref(['bold', 'list', 'link'] as string[])
+const richToolbar = ref(
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

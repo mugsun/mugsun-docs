@@ -15,13 +15,66 @@ demo: pages/demo/media/graph
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/media/graph.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-graph>
-    …
-  </ms-graph>
+  <!-- 组件类型 -->
+  <ms-graph
+    layout="tree"
+    :nodes="orgNodes"
+    :edges="orgEdges"
+    :height="360"
+    @node-click="onNode"
+    @ready="onReady"
+  />
+  <ms-graph
+    layout="force"
+    :nodes="serviceNodes"
+    :edges="serviceEdges"
+    :height="340"
+    @node-click="onNode"
+  />
+  <ms-graph
+    layout="dagre"
+    :nodes="flowNodes"
+    :edges="flowEdges"
+    :height="360"
+    @node-click="onNode"
+  />
+  <!-- 组件样式 -->
+  <ms-graph
+    layout="tree"
+    :nodes="orgNodes"
+    :edges="orgEdges"
+    :height="320"
+    @node-click="onNode"
+  />
+  <!-- 组件深度 -->
+  <ms-graph
+    layout="dagre"
+    :nodes="flowNodes"
+    :edges="flowEdges"
+    :height="340"
+    :fit-view="true"
+    @node-click="onNode"
+  />
+  <ms-graph layout="tree" :nodes="emptyNodes" :edges="emptyEdges" :height="120" />
 </template>
+
+<script setup lang="uts">
+const orgNodes = ref(buildOrgV1())
+const orgEdges = ref(buildOrgEdgesV1())
+const serviceNodes = ref([
+const serviceEdges = ref([
+const flowNodes = ref([
+const flowEdges = ref([
+const emptyNodes = ref([] as UTSJSONObject[])
+const emptyEdges = ref([] as UTSJSONObject[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,42 @@ Demo route: `#/pages/demo/feedback/drawer`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-drawer title="…" v-model:visible="open">
-    …
-  </ms-drawer>
+  <ms-drawer
+    :visible="showBase"
+    :items="baseItems"
+    @update:visible="onBaseVisible"
+    @item-click="onPick"
+  />
+  <ms-drawer
+    :visible="showTitled"
+    :items="baseItems"
+    title="菜单"
+    @update:visible="onTitledVisible"
+    @item-click="onPick"
+  />
+  <ms-drawer
+    :visible="showIcon"
+    :items="iconItems"
+    title="快捷入口"
+    @update:visible="onIconVisible"
+    @item-click="onPick"
+  />
 </template>
+
+<script setup lang="uts">
+const showBase = ref(false)
+const showTitled = ref(false)
+const showIcon = ref(false)
+const baseItems = ref([
+const iconItems = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

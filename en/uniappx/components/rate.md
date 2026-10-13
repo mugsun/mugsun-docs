@@ -14,13 +14,41 @@ Demo route: `#/pages/demo/form/rate`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/rate.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-rate size="sm" v-model="value">
-    …
-  </ms-rate>
+  <!-- 组件类型 -->
+  <ms-rate v-model="vSolid" />
+  <ms-rate v-model="vCustom" active-icon="heart-fill" void-icon="heart-line" />
+  <ms-rate v-model="vCount" :count="3" />
+  <!-- 组件状态 -->
+  <ms-rate v-model="vActive" />
+  <ms-rate :model-value="4" readonly />
+  <ms-rate :model-value="3" disabled />
+  <!-- 组件尺寸 -->
+  <ms-rate v-model="vSize" size="sm" />
+  <ms-rate v-model="vSize" size="md" />
+  <ms-rate v-model="vSize" size="lg" />
+  <!-- 组件深度 -->
+  <ms-rate v-model="vHalf" allow-half show-score />
+  <ms-rate v-model="vClear" clearable show-text />
+  <ms-rate v-model="vTexts" show-text :texts="customTexts" />
 </template>
+
+<script setup lang="uts">
+const vSolid = ref(3)
+const vCustom = ref(2)
+const vCount = ref(2)
+const vActive = ref(3)
+const vSize = ref(3)
+const vHalf = ref(3.5)
+const vClear = ref(4)
+const vTexts = ref(3)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

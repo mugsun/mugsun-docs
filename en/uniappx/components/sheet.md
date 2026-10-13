@@ -14,13 +14,35 @@ Demo route: `#/pages/demo/basic/sheet`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/basic/sheet.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-sheet variant="default">
-    …
+  <ms-sheet radius="lg" padding="none">
+    <text>默认容器</text>
+    <text>统一白底面，承载列表与表单</text>
+    <ms-sheet>
+      <ms-text>统一白底容器，承载列表与表单内容。</ms-text>
+    </ms-sheet>
+  </ms-sheet>
+  <ms-sheet radius="lg" bordered shadow padding="md">
+    <text>圆角</text>
+    <text>大圆角 + 浅底面</text>
+    <ms-sheet radius="lg" variant="muted">
+      <ms-text>圆角卡片面</ms-text>
+    </ms-sheet>
+  </ms-sheet>
+  <ms-sheet radius="lg" bordered shadow padding="md">
+    <text>描边</text>
+    <text>边框强调块边界</text>
+    <ms-sheet bordered radius="lg">
+      <ms-text>带边框的容器块</ms-text>
+    </ms-sheet>
   </ms-sheet>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

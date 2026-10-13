@@ -14,13 +14,69 @@ Demo route: `#/pages/demo/nav/more`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/more.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-more>
-    …
+  <!-- 组件类型 -->
+  <ms-more
+    :opened="baseOpened"
+    @change="onBaseChange"
+  >
+    <ms-paragraph :content="longText" />
+  </ms-more>
+  <ms-more
+    :opened="tallOpened"
+    collapsed-size="lg"
+    @change="onTallChange"
+  >
+    <ms-paragraph :content="longText" />
+    <ms-paragraph tone="secondary" content="附加说明：大号收起高度适合带配图的长内容。" />
+  </ms-more>
+  <!-- 组件状态 -->
+  <ms-more
+    :opened="false"
+    disabled
+    expand-text="暂不可展开"
+  >
+    <ms-paragraph :content="longText" />
+  </ms-more>
+  <!-- 组件深度 -->
+  <ms-more
+    :opened="smOpened"
+    collapsed-size="sm"
+    @change="onSmChange"
+  >
+    <ms-paragraph :content="longText" />
+  </ms-more>
+  <ms-more
+    :opened="customOpened"
+    :show-icon="false"
+    expand-text="查看全文"
+    collapse-text="收起全文"
+    @change="onCustomChange"
+  >
+    <ms-paragraph :content="longText" />
+    <template #action>
+      <ms-button size="sm" theme="primary" variant="text">
+        {{ customOpened ? '收起全文' : '查看全文' }}
+      </ms-button>
+    </template>
+  </ms-more>
+  <ms-more :opened="true" :show-action="false">
+    <ms-paragraph :content="longText" />
   </ms-more>
 </template>
+
+<script setup lang="uts">
+const baseOpened = ref(false)
+const tallOpened = ref(false)
+const smOpened = ref(false)
+const customOpened = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

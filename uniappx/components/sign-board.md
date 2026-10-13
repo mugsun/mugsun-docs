@@ -14,13 +14,28 @@ demo: pages/demo/form/sign-board
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/sign-board.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-sign-board>
-    …
-  </ms-sign-board>
+  <!-- 组件类型 -->
+  <ms-sign-board ref="boardRef" :pen-type="penType" @end="onStrokeEnd" />
+  <!-- 组件样式 -->
+  <ms-sign-board ref="pencilRef" pen-type="pencil" :stroke-width="6" />
+  <!-- 组件深度 -->
+  <ms-sign-board pen-type="pen" :stroke-width="14" />
+  <ms-sign-board disabled :stroke-width="8" />
+  <ms-sign-board pen-type="pencil" :stroke-width="3" />
 </template>
+
+<script setup lang="uts">
+const penType = ref('default')
+const boardRef = ref<MsSignBoardComponentPublicInstance | null>(null)
+const pencilRef = ref<MsSignBoardComponentPublicInstance | null>(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

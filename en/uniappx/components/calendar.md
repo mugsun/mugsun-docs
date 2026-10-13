@@ -14,13 +14,53 @@ Demo route: `#/pages/demo/form/calendar`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/calendar.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-calendar title="…" v-model:visible="open">
-    …
-  </ms-calendar>
+  <!-- 组件用法 -->
+  <ms-calendar
+    value="2026-03-10,2026-03-18"
+    type="range"
+    switch-mode="month"
+    :use-popup="false"
+    :show-confirm="false"
+    min-date="2026-03-01"
+    max-date="2026-03-31"
+    :marks="markList2"
+    @change="onInlineChange"
+  />
+  <!-- 组件深度 -->
+  <ms-calendar
+    ref="resetCalRef"
+    value="2026-04-10"
+    type="single"
+    switch-mode="month"
+    :use-popup="false"
+    :show-confirm="false"
+    :auto-close="false"
+    min-date="2026-04-01"
+    max-date="2026-04-30"
+    @change="onResetCalChange"
+  />
+  <ms-calendar
+    type="single"
+    switch-mode="month"
+    :use-popup="false"
+    :show-confirm="false"
+    :auto-close="false"
+    min-date="2026-05-01"
+    max-date="2026-05-31"
+    @select="onSelectDay"
+  />
 </template>
+
+<script setup lang="uts">
+const resetCalRef = ref(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

@@ -14,13 +14,66 @@ demo: pages/demo/basic/transition
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/transition.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-transition name="fade" v-model:visible="open">
-    …
+  <!-- 组件类型 -->
+  <ms-transition :visible="fadeVisible">
+    <view>
+      <text>淡入淡出内容</text>
+    </view>
+  </ms-transition>
+  <ms-transition :visible="slideVisible" name="slide-right" :duration="300">
+    <view>
+      <text>右侧滑入内容</text>
+    </view>
+  </ms-transition>
+  <!-- 组件样式 -->
+  <ms-transition :visible="true" :appear="true" name="zoom">
+    <view>
+      <text>打开即缩放进场</text>
+    </view>
+  </ms-transition>
+  <ms-transition
+    :visible="destroyVisible"
+    :destroy-on-hide="true"
+    name="slide-up"
+    @after-leave="onDestroyed"
+  >
+    <view>
+      <text>隐藏后不留内容</text>
+    </view>
+  </ms-transition>
+  <!-- 组件深度 -->
+  <ms-transition :visible="leftVisible" name="slide-left" :duration="300">
+    <view>
+      <text>左侧滑入内容</text>
+    </view>
+  </ms-transition>
+  <ms-transition :visible="downVisible" name="slide-down" :duration="300">
+    <view>
+      <text>下沉内容</text>
+    </view>
+  </ms-transition>
+  <ms-transition :visible="zoomVisible" name="zoom" :duration="300">
+    <view>
+      <text>缩放过渡内容</text>
+    </view>
   </ms-transition>
 </template>
+
+<script setup lang="uts">
+const fadeVisible = ref(true)
+const slideVisible = ref(true)
+const destroyVisible = ref(true)
+const leftVisible = ref(true)
+const downVisible = ref(true)
+const zoomVisible = ref(true)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,46 @@ demo: pages/demo/form/keyboard
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/keyboard.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-keyboard title="…" v-model="value">
-    …
-  </ms-keyboard>
+  <ms-keyboard
+    v-model="numberValue"
+    v-model:visible="numberVisible"
+    type="number"
+    :max="100"
+    :max-len="6"
+    @confirm="onNumberConfirm"
+  />
+  <ms-keyboard
+    v-model="intValue"
+    v-model:visible="intVisible"
+    type="number"
+    :digit="false"
+    :max-len="8"
+    @confirm="onIntConfirm"
+  />
+  <ms-keyboard
+    v-model="passwordValue"
+    v-model:visible="passwordVisible"
+    type="password"
+    :max-len="12"
+    @confirm="onPasswordConfirm"
+  />
 </template>
+
+<script setup lang="uts">
+const numberVisible = ref(false)
+const numberValue = ref('')
+const intVisible = ref(false)
+const intValue = ref('')
+const passwordVisible = ref(false)
+const passwordValue = ref('')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

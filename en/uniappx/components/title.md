@@ -14,13 +14,28 @@ Demo route: `#/pages/demo/nav/title`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/title.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-title>
-    …
-  </ms-title>
+  <!-- 组件类型 -->
+  <ms-title content="一级标题" level="h1" @click="onTitleClick" />
+  <ms-title content="二级标题" level="h2" />
+  <ms-title content="三级标题" level="h3" />
+  <!-- 组件状态 -->
+  <ms-title
+    level="h4"
+    :lines="1"
+    content="这是一段很长的标题文案用来演示单行省略截断效果请不要折行"
+  />
+  <!-- 组件深度 -->
+  <ms-title content="四级标题" level="h4" />
+  <ms-title content="五级标题" level="h5" />
+  <ms-title content="六级标题" level="h6" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

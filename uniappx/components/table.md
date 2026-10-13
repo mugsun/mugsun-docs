@@ -14,13 +14,59 @@ demo: pages/demo/display/table
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/table.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-table>
-    …
-  </ms-table>
+  <!-- 组件类型 -->
+  <ms-table
+    :columns="baseColumns"
+    :data="baseData"
+    @cell-click="onCellClick"
+  />
+  <ms-table
+    :columns="scrollColumns"
+    :data="scrollData"
+    @cell-click="onCellClick"
+  />
+  <!-- 组件样式 -->
+  <ms-table
+    :columns="baseColumns"
+    :data="styleData"
+    stripe
+    @cell-click="onCellClick"
+  />
+  <ms-table
+    :columns="baseColumns"
+    :data="styleData"
+    bordered
+    @cell-click="onCellClick"
+  />
+  <!-- 组件深度 -->
+  <ms-table
+    :columns="sortColumns"
+    :data="sortData"
+    @sort-change="onSortChange"
+    @cell-click="onCellClick"
+  />
+  <ms-table
+    :columns="baseColumns"
+    :data="styleData"
+    selectable
+    :selected-keys="selectedKeys"
+    @selection-change="onSelectionChange"
+    @cell-click="onCellClick"
+  />
+  <ms-table :columns="baseColumns" :data="emptyData" empty-text="暂无表格数据" />
 </template>
+
+<script setup lang="uts">
+const selectedKeys = ref([] as string[])
+const emptyData = ref([] as UTSJSONObject[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,37 @@ Demo route: `#/pages/demo/feedback/guide`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/guide.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-guide>
-    …
-  </ms-guide>
+  <ms-guide
+    :steps="steps"
+    v-model:current="current"
+    :mode="mode"
+    :show-overlay="overlay"
+    :hide-skip="hideSkip"
+    :hide-counter="hideCounter"
+    :hide-back="hideBack"
+    :highlight-padding="highlightPad"
+    @finish="onFinish"
+    @skip="onSkip"
+  />
 </template>
+
+<script setup lang="uts">
+const current = ref(-1)
+const mode = ref('popover' as Mode)
+const overlay = ref(true)
+const hideSkip = ref(false)
+const hideCounter = ref(false)
+const hideBack = ref(false)
+const highlightPad = ref(8)
+const steps = ref(oneStep)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

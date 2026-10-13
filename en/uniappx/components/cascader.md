@@ -14,13 +14,47 @@ Demo route: `#/pages/demo/form/cascader`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/cascader.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-cascader theme="…" title="…">
-    …
-  </ms-cascader>
+  <ms-cascader
+    :visible="stepVisible"
+    :options="areaOptions"
+    :value="stepValue"
+    title="请选择地址"
+    @update:visible="onStepVisible"
+    @change="onStepChange"
+    @pick="onStepPick"
+  />
+  <ms-cascader
+    :visible="tabVisible"
+    :options="areaOptions"
+    theme="tab"
+    title="请选择地址"
+    @update:visible="onTabVisible"
+    @change="onTabChange"
+  />
+  <ms-cascader
+    :visible="looseVisible"
+    :options="areaOptions"
+    check-strictly
+    :close-btn="false"
+    title="请选择地址"
+    @update:visible="onLooseVisible"
+    @change="onLooseChange"
+  />
 </template>
+
+<script setup lang="uts">
+const stepValue = ref('110105')
+const stepVisible = ref(false)
+const tabVisible = ref(false)
+const looseVisible = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

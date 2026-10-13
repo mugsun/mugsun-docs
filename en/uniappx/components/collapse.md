@@ -14,13 +14,51 @@ Demo route: `#/pages/demo/display/collapse`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/collapse.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-collapse theme="…">
-    …
-  </ms-collapse>
+  <ms-collapse
+    :items="baseItems"
+    :value="baseValue"
+    @change="onBaseChange"
+  />
+  <ms-collapse
+    :items="actionItems"
+    @change="onActionChange"
+  />
+  <ms-collapse
+    :items="accordionItems"
+    :value="accordionValue"
+    accordion
+    @change="onAccordionChange"
+  />
+  <ms-collapse
+    :items="disabledItems"
+    @change="onDisabledChange"
+  />
+  <!-- 样式 -->
+  <ms-collapse
+    :items="cardItems"
+    :value="cardValue"
+    theme="card"
+    @change="onCardChange"
+  />
+  <ms-collapse :items="baseItems" :expand-icon="false" />
+  <ms-collapse :items="accordionItems" :default-expand-all="true" />
+  <ms-collapse
+    v-model:value="modelValue"
+    :items="baseItems"
+    @change="onModelChange"
+  />
 </template>
+
+<script setup lang="uts">
+const modelValue = ref([0] as number[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

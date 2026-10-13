@@ -14,13 +14,62 @@ demo: pages/demo/nav/sidebar
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/sidebar.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-sidebar>
-    …
+  <ms-sidebar
+    :items="baseItems"
+    :value="baseIndex"
+    :height="280"
+    @change="onBaseChange"
+  >
+    <text>{{ baseTitle }}</text>
+    <text>{{ baseBody }}</text>
+  </ms-sidebar>
+  <ms-sidebar
+    :items="iconItems"
+    :value="iconIndex"
+    :height="240"
+    @change="onIconChange"
+  >
+    <text>{{ iconTitle }}</text>
+    <text>带图标侧边导航内容区</text>
+  </ms-sidebar>
+  <ms-sidebar
+    :items="badgeItems"
+    :value="badgeIndex"
+    :height="240"
+    @change="onBadgeChange"
+  >
+    <text>{{ badgeTitle }}</text>
+    <text>徽标用于未读提示</text>
+  </ms-sidebar>
+  <ms-sidebar
+    :items="disabledItems"
+    :value="disabledIndex"
+    :height="240"
+    @change="onDisabledChange"
+  >
+    <text>{{ disabledTitle }}</text>
+    <text>禁用项不可点选</text>
   </ms-sidebar>
 </template>
+
+<script setup lang="uts">
+const baseIndex = ref(0)
+const iconIndex = ref(0)
+const badgeIndex = ref(0)
+const disabledIndex = ref(0)
+const baseTitle = computed((): string => {
+const baseBody = computed((): string => {
+const iconTitle = computed((): string => {
+const badgeTitle = computed((): string => {
+const disabledTitle = computed((): string => {
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

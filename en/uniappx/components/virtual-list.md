@@ -14,13 +14,46 @@ Demo route: `#/pages/demo/display/virtual-list`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/virtual-list.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-virtual-list>
-    …
-  </ms-virtual-list>
+  <!-- 组件类型 -->
+  <ms-virtual-list
+    :items="baseItems"
+    :item-height="56"
+    :visible-count="4"
+    @item-click="onItemClick"
+    @range-change="onRangeChange"
+  />
+  <ms-virtual-list
+    :items="smallItems"
+    :item-height="56"
+    :visible-count="3"
+    :virtual="false"
+    @item-click="onItemClick"
+  />
+  <!-- 组件样式 -->
+  <ms-virtual-list
+    ref="bigList"
+    :items="bigItems"
+    :item-height="56"
+    :visible-count="4"
+    :buffer="4"
+    @item-click="onItemClick"
+    @range-change="onRangeChange"
+  />
 </template>
+
+<script setup lang="uts">
+const bigList = ref<MsVirtualListComponentPublicInstance | null>(null)
+const baseItems = ref(buildItems(200, '基础', 1))
+const smallItems = ref(buildItems(6, '全量', 1))
+const bigItems = ref(buildItems(2000, '大数据', 1))
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

@@ -14,13 +14,57 @@ Demo route: `#/pages/demo/nav/col`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/col.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-col>
-    …
+  <!-- 占比 -->
+  <ms-col :span="8">
+    <view>
+      <text>八栏</text>
+    </view>
+  </ms-col>
+  <ms-col :span="16">
+    <view>
+      <text>十六栏</text>
+    </view>
+  </ms-col>
+  <ms-col :span="24">
+    <view>
+      <text>全宽</text>
+    </view>
+  </ms-col>
+  <!-- 偏移 -->
+  <ms-col :span="8" :offset="4">
+    <view>
+      <text>偏移四</text>
+    </view>
+  </ms-col>
+  <ms-col :span="12" :offset="12">
+    <view>
+      <text>偏移十二</text>
+    </view>
+  </ms-col>
+  <!-- 间距 -->
+  <ms-col :span="8">
+    <view>
+      <text>带间距列</text>
+    </view>
+  </ms-col>
+  <ms-col :span="8">
+    <view>
+      <text>带间距列</text>
+    </view>
+  </ms-col>
+  <ms-col :span="8">
+    <view>
+      <text>带间距列</text>
+    </view>
   </ms-col>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

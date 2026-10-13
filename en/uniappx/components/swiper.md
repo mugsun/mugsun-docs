@@ -14,13 +14,48 @@ Demo route: `#/pages/demo/display/swiper`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-swiper>
-    …
-  </ms-swiper>
+  <!-- 组件类型 -->
+  <ms-swiper :items="slides" :height="150" @change="onDotsChange" />
+  <ms-swiper
+    :items="slides"
+    :height="150"
+    navigation="dots-bar"
+    @change="onBarChange"
+  />
+  <ms-swiper
+    :items="slides"
+    :height="150"
+    navigation="fraction"
+    @change="onFractionChange"
+  />
+  <!-- 组件状态 -->
+  <ms-swiper
+    :items="slides"
+    :height="150"
+    autoplay
+    :interval="2000"
+    @change="onAutoChange"
+  />
+  <ms-swiper :items="slides" :height="120" navigation="none" />
+  <!-- 方向 -->
+  <ms-swiper
+    :items="slides"
+    :height="160"
+    vertical
+    @change="onVerticalChange"
+  />
+  <!-- 组件深度 -->
+  <ms-swiper :items="slides" :height="120" :loop="false" navigation="fraction" />
+  <ms-swiper :items="imageSlides" :height="120" navigation="dots" />
+  <ms-swiper :items="slides" :height="120" :duration="200" navigation="dots" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

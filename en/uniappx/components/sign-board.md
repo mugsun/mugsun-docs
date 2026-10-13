@@ -14,13 +14,28 @@ Demo route: `#/pages/demo/form/sign-board`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/sign-board.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-sign-board>
-    …
-  </ms-sign-board>
+  <!-- 组件类型 -->
+  <ms-sign-board ref="boardRef" :pen-type="penType" @end="onStrokeEnd" />
+  <!-- 组件样式 -->
+  <ms-sign-board ref="pencilRef" pen-type="pencil" :stroke-width="6" />
+  <!-- 组件深度 -->
+  <ms-sign-board pen-type="pen" :stroke-width="14" />
+  <ms-sign-board disabled :stroke-width="8" />
+  <ms-sign-board pen-type="pencil" :stroke-width="3" />
 </template>
+
+<script setup lang="uts">
+const penType = ref('default')
+const boardRef = ref<MsSignBoardComponentPublicInstance | null>(null)
+const pencilRef = ref<MsSignBoardComponentPublicInstance | null>(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

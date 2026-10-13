@@ -14,13 +14,29 @@ demo: pages/demo/display/avatar
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/avatar.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-avatar size="sm" text="…">
-    …
-  </ms-avatar>
+  <!-- 组件类型 -->
+  <ms-avatar :src="demoSrc" />
+  <ms-avatar text="Mug" />
+  <ms-avatar />
+  <!-- 形状 -->
+  <ms-avatar :src="demoSrc" shape="circle" />
+  <ms-avatar :src="demoSrc" shape="round" />
+  <!-- 组件尺寸 -->
+  <ms-avatar text="S" size="sm" />
+  <ms-avatar text="M" size="md" />
+  <ms-avatar text="L" size="lg" />
+  <!-- 组件深度 -->
+  <ms-avatar icon="customer-service-line" size="lg" />
+  <ms-avatar text="圆" shape="round" size="lg" />
+  <ms-avatar src="/static/not-exist.png" text="退" @error="onAvatarError" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

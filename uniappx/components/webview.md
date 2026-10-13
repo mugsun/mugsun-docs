@@ -15,13 +15,46 @@ demo: pages/demo/media/webview
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/media/webview.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-webview src="…">
-    …
-  </ms-webview>
+  <!-- 组件类型 -->
+  <ms-webview
+    :src="src"
+    :height="200"
+    @load="onLoad"
+    @error="onError"
+    @navigate="onNavigate"
+  />
+  <ms-webview :src="src" :height="160" :show-toolbar="false" />
+  <!-- 组件样式 -->
+  <ms-webview :src="src" :height="120" :show-status="false" />
+  <ms-webview src="" :height="100" />
+  <!-- 组件深度 -->
+  <ms-webview
+    :src="src"
+    :height="120"
+    loading-text="页面打开中…"
+    :show-toolbar="false"
+  />
+  <ms-webview
+    :src="src"
+    :height="140"
+    :show-toolbar="true"
+    :show-status="true"
+    loading-text="拉取中…"
+  />
+  <ms-webview ref="reloadRef" :src="src" :height="120" :show-toolbar="false" />
 </template>
+
+<script setup lang="uts">
+const src = ref('https://example.com/')
+const reloadRef = ref<ComponentPublicInstance | null>(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

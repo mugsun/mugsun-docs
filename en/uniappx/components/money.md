@@ -14,13 +14,28 @@ Demo route: `#/pages/demo/display/money`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/money.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-money size="sm">
-    …
-  </ms-money>
+  <!-- 组件类型 -->
+  <ms-money :value="0.01" />
+  <ms-money :value="15568.398" :digit="3" thousand size="lg" />
+  <ms-money :value="1568" symbol="$" />
+  <!-- 组件状态 -->
+  <ms-money :value="moneyValue" :digit="4" show-cn />
+  <!-- 组件深度 -->
+  <ms-money :value="1288.5" thousand tone="success" size="lg" />
+  <ms-money :value="-86.2" thousand tone="danger" />
+  <ms-money :value="9.9" size="sm" tone="primary" />
 </template>
+
+<script setup lang="uts">
+const moneyValue = ref(1568.3984)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

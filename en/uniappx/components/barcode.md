@@ -14,13 +14,29 @@ Demo route: `#/pages/demo/display/barcode`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/barcode.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-barcode size="…" value="…">
-    …
-  </ms-barcode>
+  <!-- 组件类型 -->
+  <ms-barcode value="6970980210024" encode="ean13" />
+  <ms-barcode value="abc125698" encode="code128" />
+  <!-- 其它制式 -->
+  <ms-barcode value="96385074" encode="ean8" size="sm" />
+  <ms-barcode value="012345678905" encode="upca" size="sm" />
+  <ms-barcode value="CODE39" encode="code39" size="sm" />
+  <!-- 组件尺寸 -->
+  <ms-barcode value="6970980210024" encode="ean13" size="sm" />
+  <ms-barcode value="6970980210024" encode="ean13" size="md" />
+  <ms-barcode value="6970980210024" encode="ean13" size="lg" />
+  <!-- 组件深度 -->
+  <ms-barcode value="6970980210024" encode="ean13" :show-text="false" size="sm" />
+  <ms-barcode value="MS2026" encode="code128" size="lg" />
+  <ms-barcode value="CODE39" encode="code39" :show-text="false" size="md" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

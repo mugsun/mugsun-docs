@@ -14,13 +14,33 @@ Demo route: `#/pages/demo/feedback/modal-page`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/modal-page.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-modal-page title="…" v-model:visible="open">
-    …
+  <ms-modal-page v-model:visible="basicVisible" title="整页详情" @open="onOpen" @close="onClose">
+    <text>这是基础整页模态内容。可滚动长文区域。</text>
+    <text>第二段说明：盖住宿主页，不走原生独立窗口。</text>
+  </ms-modal-page>
+  <ms-modal-page v-model:visible="footerVisible" title="带底栏">
+    <text>内容区下方有确认操作。</text>
+    <template #footer>
+      <ms-button block theme="primary" @click="footerVisible = false">完成</ms-button>
+    </template>
+  </ms-modal-page>
+  <ms-modal-page v-model:visible="customVisible" title="订单确认 · 自定义">
+    <text>自定义标题示例。</text>
   </ms-modal-page>
 </template>
+
+<script setup lang="uts">
+const basicVisible = ref(false)
+const footerVisible = ref(false)
+const customVisible = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

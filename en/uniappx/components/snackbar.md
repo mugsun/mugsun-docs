@@ -14,13 +14,39 @@ Demo route: `#/pages/demo/feedback/snackbar`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/snackbar.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-snackbar theme="info" v-model:visible="open">
-    …
-  </ms-snackbar>
+  <ms-snackbar
+    :visible="showText"
+    content="这是一条纯文字的消息通知"
+    :show-icon="false"
+    @update:visible="onTextVisible"
+  />
+  <ms-snackbar
+    :visible="showIcon"
+    content="这是一条带图标的消息通知"
+    @update:visible="onIconVisible"
+  />
+  <ms-snackbar
+    :visible="showClose"
+    content="这是一条带关闭的消息通知"
+    close-btn
+    :duration="0"
+    @update:visible="onCloseVisible"
+    @close="onClosed"
+  />
 </template>
+
+<script setup lang="uts">
+const showText = ref(false)
+const showIcon = ref(false)
+const showClose = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

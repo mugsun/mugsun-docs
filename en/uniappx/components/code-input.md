@@ -14,13 +14,41 @@ Demo route: `#/pages/demo/form/code-input`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/code-input.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-code-input v-model="value">
-    …
-  </ms-code-input>
+  <!-- 组件类型 -->
+  <ms-code-input v-model="vOutline" />
+  <ms-code-input v-model="vFill" skin="fill" />
+  <!-- 组件状态 -->
+  <ms-code-input v-model="vLine" place-shape="line" />
+  <ms-code-input v-model="vPassword" password />
+  <ms-code-input model-value="12" disabled />
+  <!-- 组件长度 -->
+  <ms-code-input v-model="vFour" @complete="onComplete" />
+  <ms-code-input v-model="vSix" :length="6" skin="fill" @complete="onComplete" />
+  <!-- 组件深度 -->
+  <ms-code-input v-model="vDot" place-shape="dot" />
+  <ms-code-input v-model="vAuto" auto-focus />
+  <ms-code-input ref="ctrlCode" v-model="vCtrl" :auto-focus="false" />
 </template>
+
+<script setup lang="uts">
+const vOutline = ref('12')
+const vFill = ref('34')
+const vLine = ref('5')
+const vPassword = ref('678')
+const vFour = ref('')
+const vSix = ref('12345')
+const vDot = ref('')
+const vAuto = ref('')
+const vCtrl = ref('')
+const ctrlCode = ref(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

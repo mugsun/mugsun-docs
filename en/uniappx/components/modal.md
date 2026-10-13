@@ -14,13 +14,47 @@ Demo route: `#/pages/demo/feedback/modal`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/modal.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-modal theme="default" title="…">
-    …
-  </ms-modal>
+  <ms-modal
+    :visible="showRecipeDelete"
+    title="删除这条数据？"
+    content="删除后不可恢复，请确认操作"
+    theme="danger"
+    confirm-text="删除"
+    show-cancel
+    @update:visible="onRecipeDeleteVisible"
+    @confirm="onRecipeDeleteConfirm"
+    @cancel="onRecipeDeleteCancel"
+  />
+  <ms-modal
+    :visible="showFeedback"
+    title="对话框标题"
+    content="告知当前状态、信息和解决方法，描述文案尽量控制在三行内"
+    @update:visible="onFeedbackVisible"
+    @confirm="onConfirmTap"
+  />
+  <ms-modal
+    :visible="showConfirm"
+    title="对话框标题"
+    content="确认类对话框，左取消右确定"
+    show-cancel
+    @update:visible="onConfirmVisible"
+    @confirm="onConfirmTap"
+    @cancel="onCancelTap"
+  />
 </template>
+
+<script setup lang="uts">
+const showFeedback = ref(false)
+const showConfirm = ref(false)
+const showRecipeDelete = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

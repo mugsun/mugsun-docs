@@ -14,13 +14,41 @@ demo: pages/demo/basic/overlay
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/overlay.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-overlay v-model:visible="open">
-    …
+  <ms-overlay
+    :visible="showBase"
+    @update:visible="onBaseVisible"
+    @click="onBaseMaskClick"
+  />
+  <ms-overlay :visible="showContent" @update:visible="onContentVisible">
+    <ms-sheet margin="page" radius="lg" shadow>
+      <ms-text>遮罩上的内容块</ms-text>
+      <view>
+        <ms-button size="sm" theme="primary" @click="closeContent">关闭</ms-button>
+      </view>
+    </ms-sheet>
+  </ms-overlay>
+  <ms-overlay :visible="showLock" :closable="false" @update:visible="onLockVisible">
+    <ms-sheet margin="page" radius="lg">
+      <ms-text>点遮罩不会关闭</ms-text>
+      <view>
+        <ms-button size="sm" theme="primary" @click="closeLock">知道了</ms-button>
+      </view>
+    </ms-sheet>
   </ms-overlay>
 </template>
+
+<script setup lang="uts">
+const showBase = ref(false)
+const showContent = ref(false)
+const showLock = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,41 @@ Demo route: `#/pages/demo/media/barrage`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/media/barrage.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-barrage>
-    …
+  <!-- 组件类型 -->
+  <ms-barrage :list="list" :height="120" :rows="3" :paused="paused" @complete="onComplete">
+    <view>
+      <text>多行轨道 · 营销滚动示例</text>
+    </view>
+  </ms-barrage>
+  <!-- 组件深度 -->
+  <ms-barrage :list="slowList" :height="96" :rows="2" :speed="40">
+    <view>
+      <text>双轨 · 慢速</text>
+    </view>
+  </ms-barrage>
+  <ms-barrage :list="fastList" :height="140" :rows="4" :speed="120">
+    <view>
+      <text>四轨 · 快速</text>
+    </view>
+  </ms-barrage>
+  <ms-barrage :list="singleList" :height="56" :rows="1" :speed="60">
+    <view>
+      <text>单轨 · 单行滚动</text>
+    </view>
   </ms-barrage>
 </template>
+
+<script setup lang="uts">
+const paused = ref(false)
+const list = ref(seed.slice(0) as string[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

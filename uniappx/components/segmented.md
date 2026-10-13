@@ -14,13 +14,50 @@ demo: pages/demo/nav/segmented
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/segmented.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-segmented size="sm">
-    …
-  </ms-segmented>
+  <!-- 组件类型 -->
+  <ms-segmented
+    :options="baseOptions"
+    :value="baseIndex"
+    @change="onBaseChange"
+  />
+  <ms-segmented
+    :options="blockOptions"
+    :value="blockIndex"
+    block
+    @change="onBlockChange"
+  />
+  <ms-segmented
+    :options="iconOptions"
+    :value="iconIndex"
+    block
+    @change="onIconChange"
+  />
+  <!-- 组件状态 -->
+  <ms-segmented
+    :options="baseOptions"
+    :value="0"
+    disabled
+  />
+  <ms-segmented
+    :options="statusOptions"
+    :value="statusIndex"
+    @change="onStatusChange"
+  />
 </template>
+
+<script setup lang="uts">
+const baseIndex = ref(0)
+const blockIndex = ref(0)
+const iconIndex = ref(0)
+const statusIndex = ref(0)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

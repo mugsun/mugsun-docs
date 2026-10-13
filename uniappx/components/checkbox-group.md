@@ -14,13 +14,44 @@ demo: pages/demo/form/checkbox
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/checkbox.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-checkbox-group v-model="value">
-    …
+  <!-- 组件分组 -->
+  <ms-checkbox-group v-model="groupValue" :max="2" @change="onGroupChange">
+    <ms-checkbox value="a" label="选项 A" block />
+    <ms-checkbox value="b" label="选项 B" block />
+    <ms-checkbox value="c" label="选项 C" block />
+  </ms-checkbox-group>
+  <ms-checkbox-group v-model="rowValue" horizontal>
+    <view>
+      <ms-checkbox value="x" label="横排一" />
+    </view>
+    <view>
+      <ms-checkbox value="y" label="横排二" />
+    </view>
+  </ms-checkbox-group>
+  <!-- 组件深度 -->
+  <ms-checkbox-group v-model="disabledGroup" disabled>
+    <ms-checkbox value="1" label="禁用组甲" block />
+    <ms-checkbox value="2" label="禁用组乙" block />
+  </ms-checkbox-group>
+  <ms-checkbox-group v-model="childValue" @change="onChildChange">
+    <ms-checkbox value="a" label="子项 A" block />
+    <ms-checkbox value="b" label="子项 B" block />
   </ms-checkbox-group>
 </template>
+
+<script setup lang="uts">
+const groupValue = ref(['a'] as string[])
+const rowValue = ref(['x'] as string[])
+const disabledGroup = ref(['1'] as string[])
+const childValue = ref(['a'] as string[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

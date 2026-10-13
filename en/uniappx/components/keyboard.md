@@ -14,13 +14,46 @@ Demo route: `#/pages/demo/form/keyboard`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/keyboard.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-keyboard title="…" v-model="value">
-    …
-  </ms-keyboard>
+  <ms-keyboard
+    v-model="numberValue"
+    v-model:visible="numberVisible"
+    type="number"
+    :max="100"
+    :max-len="6"
+    @confirm="onNumberConfirm"
+  />
+  <ms-keyboard
+    v-model="intValue"
+    v-model:visible="intVisible"
+    type="number"
+    :digit="false"
+    :max-len="8"
+    @confirm="onIntConfirm"
+  />
+  <ms-keyboard
+    v-model="passwordValue"
+    v-model:visible="passwordVisible"
+    type="password"
+    :max-len="12"
+    @confirm="onPasswordConfirm"
+  />
 </template>
+
+<script setup lang="uts">
+const numberVisible = ref(false)
+const numberValue = ref('')
+const intVisible = ref(false)
+const intValue = ref('')
+const passwordVisible = ref(false)
+const passwordValue = ref('')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

@@ -14,13 +14,39 @@ demo: pages/demo/nav/dropdown
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/dropdown.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-dropdown>
-    …
-  </ms-dropdown>
+  <ms-dropdown
+    :menus="singleMenus"
+    :options="singleOptions"
+    :height="300"
+    @change="onSingleChange"
+  />
+  <ms-dropdown
+    :menus="multiMenus"
+    :options="multiOptions"
+    :height="320"
+    @change="onMultiChange"
+    @reset="onMultiReset"
+  />
+  <ms-dropdown
+    :menus="disabledMenus"
+    :options="disabledOptions"
+    :height="260"
+    @change="onDisabledChange"
+  />
+  <ms-dropdown
+    :menus="columnMenus"
+    :options="columnOptions"
+    :height="320"
+    @change="onColumnChange"
+  />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

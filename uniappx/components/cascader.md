@@ -14,13 +14,47 @@ demo: pages/demo/form/cascader
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/cascader.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-cascader theme="…" title="…">
-    …
-  </ms-cascader>
+  <ms-cascader
+    :visible="stepVisible"
+    :options="areaOptions"
+    :value="stepValue"
+    title="请选择地址"
+    @update:visible="onStepVisible"
+    @change="onStepChange"
+    @pick="onStepPick"
+  />
+  <ms-cascader
+    :visible="tabVisible"
+    :options="areaOptions"
+    theme="tab"
+    title="请选择地址"
+    @update:visible="onTabVisible"
+    @change="onTabChange"
+  />
+  <ms-cascader
+    :visible="looseVisible"
+    :options="areaOptions"
+    check-strictly
+    :close-btn="false"
+    title="请选择地址"
+    @update:visible="onLooseVisible"
+    @change="onLooseChange"
+  />
 </template>
+
+<script setup lang="uts">
+const stepValue = ref('110105')
+const stepVisible = ref(false)
+const tabVisible = ref(false)
+const looseVisible = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

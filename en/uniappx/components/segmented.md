@@ -14,13 +14,50 @@ Demo route: `#/pages/demo/nav/segmented`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-segmented size="sm">
-    …
-  </ms-segmented>
+  <!-- 组件类型 -->
+  <ms-segmented
+    :options="baseOptions"
+    :value="baseIndex"
+    @change="onBaseChange"
+  />
+  <ms-segmented
+    :options="blockOptions"
+    :value="blockIndex"
+    block
+    @change="onBlockChange"
+  />
+  <ms-segmented
+    :options="iconOptions"
+    :value="iconIndex"
+    block
+    @change="onIconChange"
+  />
+  <!-- 组件状态 -->
+  <ms-segmented
+    :options="baseOptions"
+    :value="0"
+    disabled
+  />
+  <ms-segmented
+    :options="statusOptions"
+    :value="statusIndex"
+    @change="onStatusChange"
+  />
 </template>
+
+<script setup lang="uts">
+const baseIndex = ref(0)
+const blockIndex = ref(0)
+const iconIndex = ref(0)
+const statusIndex = ref(0)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

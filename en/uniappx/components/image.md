@@ -14,13 +14,29 @@ Demo route: `#/pages/demo/basic/image`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/basic/image.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-image src="…">
-    …
-  </ms-image>
+  <!-- 裁切 -->
+  <ms-image :src="demoSrc" mode="aspectFill" />
+  <ms-image :src="demoSrc" mode="heightFix" />
+  <ms-image :src="demoSrc" mode="scaleToFill" />
+  <!-- 形状 -->
+  <ms-image :src="demoSrc" shape="square" />
+  <ms-image :src="demoSrc" shape="round" />
+  <ms-image :src="demoSrc" shape="circle" />
+  <!-- 状态 -->
+  <ms-image :src="demoSrc" />
+  <ms-image src="https://invalid.ms-ui.example/error.png" />
+  <!-- 组件深度 -->
+  <ms-image :src="demoSrc" width="120px" height="80px" shape="round" />
+  <ms-image :src="demoSrc" :lazy="true" />
+  <ms-image :src="demoSrc" :show-menu-by-longpress="true" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

@@ -14,13 +14,37 @@ Demo route: `#/pages/demo/form/input`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/input.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-input label="…" v-model="value">
-    …
-  </ms-input>
+  <!-- 基础 -->
+  <ms-input v-model="baseValue" label="标签文字" placeholder="请输入文字" />
+  <!-- 前置图标 -->
+  <ms-input v-model="searchValue" label="搜索" placeholder="请输入关键字" prefix-icon="search" />
+  <!-- 可清空 -->
+  <ms-input v-model="clearValue" label="可清空" placeholder="输入后点右侧清空" clearable />
+  <!-- 状态 -->
+  <ms-input model-value="禁用文案" label="禁用" placeholder="不可编辑" disabled />
+  <ms-input
+    v-model="errorValue"
+    label="错误"
+    placeholder="请输入"
+    status="error"
+    tips="错误提示"
+    clearable
+  />
 </template>
+
+<script setup lang="uts">
+const baseValue = ref('')
+const searchValue = ref('')
+const clearValue = ref('可清空')
+const errorValue = ref('')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

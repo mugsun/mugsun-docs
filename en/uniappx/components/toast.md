@@ -14,13 +14,36 @@ Demo route: `#/pages/demo/feedback/toast`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-toast theme="default" v-model:visible="open">
-    …
-  </ms-toast>
+  <ms-toast
+    :visible="showPlain"
+    message="操作成功"
+    @update:visible="onPlainVisible"
+  />
+  <ms-toast
+    :visible="showMultiLine"
+    message="这是一条比较长的提示文案，会折行显示，最多两三行"
+    @update:visible="onMultiVisible"
+  />
+  <ms-toast
+    :visible="showRowIcon"
+    message="横向图标"
+    icon="star-line"
+    @update:visible="onRowVisible"
+  />
 </template>
+
+<script setup lang="uts">
+const showPlain = ref(false)
+const showMultiLine = ref(false)
+const showRowIcon = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

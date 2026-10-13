@@ -14,13 +14,52 @@ demo: pages/demo/display/scroll-x
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/scroll-x.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
+  <!-- 基础用法 -->
+  <ms-scroll-x @scroll="onScroll">
+    <ms-scroll-x-item v-for="item in baseItems" :key="item">
+      <view>
+        <text>{{ item }}</text>
+      </view>
+    </ms-scroll-x-item>
+  </ms-scroll-x>
+  <!-- 滚动指示 -->
   <ms-scroll-x>
-    …
+    <ms-scroll-x-item v-for="item in baseItems" :key="item">
+      <view>
+        <text>{{ item }}</text>
+      </view>
+    </ms-scroll-x-item>
+  </ms-scroll-x>
+  <ms-scroll-x :indicator="false">
+    <ms-scroll-x-item v-for="item in baseItems" :key="item">
+      <view>
+        <text>{{ item }}</text>
+      </view>
+    </ms-scroll-x-item>
+  </ms-scroll-x>
+  <!-- 间距布局 -->
+  <ms-scroll-x gap="sm" :indicator="false">
+    <ms-scroll-x-item v-for="item in baseItems" :key="item">
+      <view>
+        <text>{{ item }}</text>
+      </view>
+    </ms-scroll-x-item>
+  </ms-scroll-x>
+  <ms-scroll-x gap="lg" inset :indicator="false">
+    <ms-scroll-x-item v-for="item in baseItems" :key="item">
+      <view>
+        <text>{{ item }}</text>
+      </view>
+    </ms-scroll-x-item>
   </ms-scroll-x>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

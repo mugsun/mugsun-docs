@@ -14,13 +14,58 @@ Demo route: `#/pages/demo/nav/tabs`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/tabs.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-tabs theme="line" size="md">
-    …
-  </ms-tabs>
+  <ms-tabs
+    :items="baseItems"
+    :value="baseIndex"
+    @change="onBaseChange"
+  />
+  <ms-tabs
+    :items="scrollItems"
+    :value="scrollIndex"
+    :space-evenly="false"
+    @change="onScrollChange"
+  />
+  <ms-tabs
+    :items="iconItems"
+    :value="iconIndex"
+    @change="onIconChange"
+  />
+  <ms-tabs
+    :items="statusItems"
+    :value="statusIndex"
+    @change="onStatusChange"
+  />
+  <ms-tabs :items="themeItems" :value="mdIndex" size="md" @change="onMdChange" />
+  <ms-tabs
+    :items="themeItems"
+    :value="lgIndex"
+    size="lg"
+    @change="onLgChange"
+  />
+  <ms-tabs
+    :items="themeItems"
+    :value="tagIndex"
+    theme="tag"
+    @change="onTagChange"
+  />
 </template>
+
+<script setup lang="uts">
+const baseIndex = ref(0)
+const scrollIndex = ref(0)
+const iconIndex = ref(0)
+const statusIndex = ref(0)
+const mdIndex = ref(0)
+const lgIndex = ref(0)
+const tagIndex = ref(0)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

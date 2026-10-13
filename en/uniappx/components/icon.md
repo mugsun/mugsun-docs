@@ -14,13 +14,29 @@ Demo route: `#/pages/demo/basic/icon`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/basic/icon.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-icon size="xs" name="…">
-    …
-  </ms-icon>
+  <!-- 常用 -->
+  <ms-icon name="search-line" tone="primary" />
+  <ms-icon name="add-line" tone="primary" />
+  <ms-icon name="home-3-line" tone="primary" />
+  <!-- 尺寸 -->
+  <ms-icon name="settings-3-line" size="sm" tone="secondary" />
+  <ms-icon name="settings-3-line" size="md" tone="secondary" />
+  <ms-icon name="settings-3-line" size="lg" tone="secondary" />
+  <!-- 方向 -->
+  <ms-icon name="arrow-up-s-line" size="lg" tone="primary" />
+  <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="90" />
+  <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="180" />
+  <!-- 旋转 -->
+  <ms-icon name="loader-line" size="lg" tone="primary" :spin="true" />
+  <ms-icon name="refresh-line" size="lg" tone="secondary" :spin="true" :spin-duration="3000" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

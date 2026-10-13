@@ -14,13 +14,44 @@ Demo route: `#/pages/demo/form/radio`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/radio.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-radio-group v-model="value">
-    …
+  <!-- 组件分组 -->
+  <ms-radio-group v-model="groupValue">
+    <ms-radio value="a" label="选项 A" block />
+    <ms-radio value="b" label="选项 B" block />
+    <ms-radio value="c" label="选项 C" block />
+  </ms-radio-group>
+  <ms-radio-group v-model="rowValue" horizontal>
+    <view>
+      <ms-radio value="x" label="横排一" />
+    </view>
+    <view>
+      <ms-radio value="y" label="横排二" />
+    </view>
+  </ms-radio-group>
+  <!-- 组件深度 -->
+  <ms-radio-group v-model="disabledGroup" disabled>
+    <ms-radio value="1" label="禁用组甲" block />
+    <ms-radio value="2" label="禁用组乙" block />
+  </ms-radio-group>
+  <ms-radio-group v-model="uncheckGroup" allow-uncheck>
+    <ms-radio value="a" label="组内 A" block />
+    <ms-radio value="b" label="组内 B" block />
   </ms-radio-group>
 </template>
+
+<script setup lang="uts">
+const groupValue = ref('a')
+const rowValue = ref('x')
+const disabledGroup = ref('1')
+const uncheckGroup = ref('a')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

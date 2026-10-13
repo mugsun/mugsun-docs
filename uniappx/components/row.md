@@ -14,13 +14,49 @@ demo: pages/demo/nav/row
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/row.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
+  <!-- 基础 -->
   <ms-row>
-    …
+    <ms-col :span="8">
+      <view>
+        <text>8</text>
+      </view>
+    </ms-col>
+    <ms-col :span="8">
+      <view>
+        <text>8</text>
+      </view>
+    </ms-col>
+    <ms-col :span="8">
+      <view>
+        <text>8</text>
+      </view>
+    </ms-col>
+  </ms-row>
+  <ms-row>
+    <ms-col :span="4">
+      <view>
+        <text>4</text>
+      </view>
+    </ms-col>
+    <ms-col :span="16">
+      <view>
+        <text>16</text>
+      </view>
+    </ms-col>
+    <ms-col :span="4">
+      <view>
+        <text>4</text>
+      </view>
+    </ms-col>
   </ms-row>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

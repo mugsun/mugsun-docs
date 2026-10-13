@@ -14,13 +14,56 @@ Demo route: `#/pages/demo/feedback/pull-refresh`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-pull-refresh v-model="value">
-    …
+  <!-- 组件类型 -->
+  <ms-pull-refresh
+    v-model="baseRefreshing"
+    :height="220"
+    @refresh="onBaseRefresh"
+    @restore="onBaseRestore"
+  >
+    <view v-for="row in baseRows" :key="row">
+      <text>{{ row }}</text>
+    </view>
+  </ms-pull-refresh>
+  <ms-pull-refresh v-model="customRefreshing" :height="180" @refresh="onCustomRefresh">
+    <template #refresher>
+      <text>自定义刷新提示</text>
+    </template>
+    <view v-for="row in customRows" :key="row">
+      <text>{{ row }}</text>
+    </view>
+  </ms-pull-refresh>
+  <!-- 组件状态 -->
+  <ms-pull-refresh :disabled="true" :height="140">
+    <view>
+      <text>禁用下拉的内容</text>
+    </view>
+    <view>
+      <text>下拉手势不生效</text>
+    </view>
+  </ms-pull-refresh>
+  <!-- 阈值与高度 -->
+  <ms-pull-refresh :threshold="100" :height="160" @refresh="onLargeRefresh">
+    <view>
+      <text>需下拉 100px 才触发</text>
+    </view>
+    <view>
+      <text>容器高 160px</text>
+    </view>
   </ms-pull-refresh>
 </template>
+
+<script setup lang="uts">
+const baseRefreshing = ref(false)
+const customRefreshing = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

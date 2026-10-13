@@ -14,13 +14,37 @@ demo: pages/demo/feedback/guide
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/feedback/guide.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-guide>
-    …
-  </ms-guide>
+  <ms-guide
+    :steps="steps"
+    v-model:current="current"
+    :mode="mode"
+    :show-overlay="overlay"
+    :hide-skip="hideSkip"
+    :hide-counter="hideCounter"
+    :hide-back="hideBack"
+    :highlight-padding="highlightPad"
+    @finish="onFinish"
+    @skip="onSkip"
+  />
 </template>
+
+<script setup lang="uts">
+const current = ref(-1)
+const mode = ref('popover' as Mode)
+const overlay = ref(true)
+const hideSkip = ref(false)
+const hideCounter = ref(false)
+const hideBack = ref(false)
+const highlightPad = ref(8)
+const steps = ref(oneStep)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
