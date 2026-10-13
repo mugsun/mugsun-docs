@@ -1,6 +1,6 @@
 # 管理台概述
 
-[mugsun-pc](https://github.com/mugsun/mugsun-pc) 是 mugsun 的管理端：系统管理开箱可用，GIS、埋点看板、AI 管理页作为可选模块装配。
+[mugsun-pc](https://github.com/mugsun/mugsun-pc) 是 mugsun 的管理台：系统管理开箱可用，GIS、埋点看板、AI 管理页作为可选模块装配。
 
 | 项 | 说明 |
 | --- | --- |
