@@ -4,9 +4,9 @@
 
 源码仓：[mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（私有），模块路径 `uni_modules/ms-ui`。
 
-本站组件页右下角手机框会 iframe 嵌入 H5 演示（`public/demo/`）。有独立演示路由的页面会自动打开对应 hash。
+带演示的组件页可直接体验 H5：宽屏在页面右侧手机框中查看，手机上点底栏「打开 H5 演示」。
 
-当前已收录 **119** 个组件（含可选插件）；Props / 事件 / 插槽来自源码与 `LLM.md`，不臆造行为。
+当前已收录 **119** 个组件（含可选插件），每页列出 Props、事件与插槽。
 
 ## 基础
 

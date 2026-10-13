@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/media/devtool`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>

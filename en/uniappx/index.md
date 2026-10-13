@@ -4,9 +4,9 @@
 
 Source: [mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (private), module path `uni_modules/ms-ui`.
 
-Component pages can show an H5 phone preview when a demo route exists.
+Component pages with a demo let you try it live: in the phone frame on the right on wide screens, or via the H5 demo bar at the bottom on phones.
 
-**119** components documented (including optional plugins). Props / events / slots come from source and `LLM.md`.
+**119** components documented (including optional plugins), each with props, events and slots.
 
 ## Basic
 
