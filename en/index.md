@@ -97,7 +97,7 @@ Captured from a local boot + pc stack with demo data. The console UI is in Chine
 | [boot](/en/boot/) backend | JDK 21 · Spring Boot 3.5.13 · MyBatis-Flex · Sa-Token · Flyway | Apache-2.0 | 0.1.0, open source |
 | [core](/en/core/) shared kernel | BOM · Web / MyBatis starters | Apache-2.0 | 0.1.0 · Maven Central |
 | [pc](/en/pc/) admin console | Vue 3.5 · Vite 7 · Element Plus 2.11 · Pinia | MIT | 0.1.0, open source |
-| [track](/en/track/) analytics SDK | TypeScript · plugin core · rrweb replay (separate entry) | MIT | 0.2.0 (npm: 0.1.0) |
+| [track](/en/track/) analytics SDK | TypeScript · plugin core · rrweb replay (separate entry) | MIT | 0.2.0 · npm |
 | [ms-ui](/en/uniappx/) cross-platform UI | uni-app x (uvue / uts) | — | Docs and H5 demo available |
 | cloud (microservices) | — | — | <span class="soon">Planned</span> |
 
