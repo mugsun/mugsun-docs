@@ -29,6 +29,18 @@ No. `com.mugsun:mugsun-*:0.1.0` is on Maven Central. Clone core and run `mvn cle
 No. Compose starts PostgreSQL (5432) and Redis (6379) only. Package the app and run it with `java -jar mugsun-boot-server/target/mugsun-boot.jar`.
 
 
+### Ports 5432 / 6379 are already in use
+
+Compose and the backend read the same environment variables, so one change covers both and no yml edit is needed:
+
+```bash
+export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
+docker compose up -d
+java -jar mugsun-boot-server/target/mugsun-boot.jar
+```
+
+The backend also reads `MUGSUN_DB_HOST`, `MUGSUN_DB_NAME`, `MUGSUN_DB_USERNAME`, `MUGSUN_DB_PASSWORD`, `MUGSUN_REDIS_HOST`, or a full `MUGSUN_DB_URL`. The track database `mugsun_track` follows the same host and port by default; `TRACK_JDBC_URL` still overrides it. `prod` ignores these variables; see [Configuration](/en/boot/configuration).
+
 ### The first `docker compose up -d` is slow on Apple Silicon
 
 The database image is built locally, and the official `postgis/postgis` base image is amd64 only, so Apple Silicon runs it under emulation: the first build takes several extra minutes and the database is slower. To run natively, use a multi-arch base image:
@@ -44,6 +56,16 @@ In older versions, running `mvn -pl mugsun-boot-server -am spring-boot:run` from
 ### The local config file isn't picked up
 
 The path is `optional:file:./config/application-local.yml`, so the working directory must be the boot repository root. Create it with `cp config/application-local.yml.example config/application-local.yml`.
+
+
+### Startup fails with `Migration checksum mismatch for version 1`
+
+The released 0.1.0 `V1__baseline_0_1.sql` is now identical on main (since [mugsun-boot #15](https://github.com/mugsun/mugsun-boot/pull/15); CI checks it against `db/RELEASED.sha256`, so it won't change again). This error means your dev database was created from main before 0.1.0 was released, or from main between #11 and #15, so it recorded an older V1 checksum.
+
+- **Dev database, data not needed (recommended):** `docker compose down -v && docker compose up -d`, then start the backend to rebuild from the current migrations. This deletes the dev data volume only; never run it against a shared database.
+- **Keep the data:** back up first, check the schema matches the current V1, then record the released V1 checksum (what `flyway repair` would do for V1): `docker exec mugsun-pg psql -U mugsun -d mugsun -c "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"`. This only updates the history table; it doesn't add columns or menus the older V1 lacked, so rebuilding is safer when the schema differs.
+
+Databases created from the 0.1.0 release are not affected and upgrade normally.
 
 ### The app exits immediately with the `prod` profile
 
