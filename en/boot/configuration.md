@@ -58,6 +58,9 @@ Entries are exact hostnames or `*.example.com` wildcards. A matching host may re
 Example: a local Ollama listens on `http://localhost:11434` by default. Add `localhost` to `allow-hosts` before that URL can be saved and called from a knowledge base or channel.
 
 - The check runs both when the configuration is saved and right before each request; only `http` and `https` are allowed.
+- When the connection is opened, the hostname is resolved again, every address is checked, and the connection goes to the address that was checked. A hostname that switches to an internal address after the check (DNS rebinding) still can't be reached. If any one of the resolved addresses is in a blocked range, the whole request is rejected.
+- Blocked ranges cover private, loopback, link-local, CGNAT (which includes cloud metadata addresses), multicast and reserved addresses. The same applies to IPv6, including IPv4-mapped, NAT64 and 6to4 addresses that embed one of those IPv4 addresses. The workflow HTTP node ignores `allow-hosts` and always blocks internal addresses.
+- Redirects are not followed: when the other side answers with a 3xx, the request ends there and the `Location` address is never requested. If a webhook or MCP address redirects, enter the final address instead.
 - The default is `allow-hosts: []`, so no private address is allowed. Public hosts not on the list are unaffected.
 - `*.example.com` matches any subdomain but not `example.com` itself. Hosts ending in `.local` or `.internal` are rejected unless listed explicitly. List only the hosts you actually need.
 
