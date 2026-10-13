@@ -26,11 +26,7 @@ Access rules (every check filters by tenant first):
 
 Other tenants' attachments, missing attachments and attachments you can't access all return 404, so their existence isn't revealed. Legacy attachments have no recorded uploader; their private ones can only be downloaded or deleted with `sys:file:manage`.
 
-The `manage`, `public` and `remove` codes are added by the Flyway baseline (V1) and pre-granted to the admin role; grant them to other roles under role management as needed.
-
-::: warning Upgrading a dev database
-The permission codes and the uploader column were appended to the V1 baseline. A dev database that already ran the old V1 fails at startup with `Migration checksum mismatch for migration version 1`. Run `flyway repair` or recreate the dev database.
-:::
+The `manage`, `public` and `remove` codes are pre-granted to the admin role by a database migration; grant them to other roles under role management as needed.
 
 ## Avatars
 

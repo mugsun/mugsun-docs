@@ -26,11 +26,7 @@
 
 跨租户、不存在或无权访问一律返回 404，不暴露附件是否存在。历史附件没有记录上传者，其私有附件仅持有 `sys:file:manage` 的用户可下载或删除。
 
-`manage` / `public` / `remove` 三项权限码随 Flyway 基线脚本（V1）写入并预置给管理员角色，其他角色在「角色管理」中按需授予。
-
-::: warning 开发库升级
-权限码与附件上传者字段是追加进 V1 基线的。已执行过旧版 V1 的开发库启动时会报 `Migration checksum mismatch for migration version 1`，请执行 `flyway repair` 或重建开发库。
-:::
+`manage` / `public` / `remove` 三项权限点由数据库迁移预置给管理员角色，其他角色在「角色管理」中按需授予。
 
 ## 头像
 
