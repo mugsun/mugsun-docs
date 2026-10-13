@@ -31,7 +31,7 @@
 | --- | --- | --- |
 | [core](/core/) | BOM、统一响应体 `R`、全局异常、Sa-Token 注解拦截、接口加解密、MyBatis-Flex 实体基类 | Maven 坐标 |
 | [boot](/boot/) | 业务域与可选能力模块；Flyway 管理表结构 | HTTP（`:8080`），OpenAPI |
-| [pc](/pc/) | 管理端 UI；菜单与按钮权限来自 boot | 浏览器（开发 `:3006`） |
+| [pc](/pc/) | 管理台 UI；菜单与按钮权限来自 boot | 浏览器（开发 `:3006`） |
 | [track](/track/) | 浏览器埋点 SDK | npm `@mugsun/track-web` |
 | [ms-ui](/uniappx/) | uni-app x 跨端组件库（移动端 / 小程序 / H5），与管理台无依赖 | uni_modules |
 
