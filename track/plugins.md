@@ -48,6 +48,10 @@ const track = createTracker({
 <div data-track-mask>身份证号：…</div>
 ```
 
+管理台「会话回放」播放器里的效果如下：0.2.0 默认配置录制的演示会话，导航、标题、正文和按钮文字都显示为 `*`，只保留页面结构与交互轨迹，下方打点条标出点击、页面切换和错误的位置。
+
+![会话回放默认文本遮罩（演示数据）](/screenshots/track/track-replay-masked.png)
+
 ## 接口监控
 
 `apiMonitorPlugin()` 记录请求的方法、URL、状态码与耗时，事件名为 `api_request`。
@@ -73,6 +77,14 @@ const track = createTracker({
 
 - `visualTrack()`：按管理台下发的 `visualRules` 匹配元素并上报；无规则时不安装监听。
 - `geoPlugin()`：`geoEnabled` 为 `true` 时采集精确位置，会触发浏览器定位授权。
+
+圈选流程：在「接入管理 → 圈选规则」选中应用后点「进入圈选」，填写要圈选的页面地址，平台会签发 30 分钟令牌并在新窗口打开该页面。页面进入圈选模式，点选元素、填写事件名后提交草稿：
+
+![页面内圈选元素（演示页面）](/screenshots/track/track-visual-inspect.png)
+
+草稿回到管理台的草稿条，确认后生成圈选规则并随 `/track/config` 下发，丢弃则不生效。下方表格是已确认的规则：
+
+![圈选草稿与规则（演示数据）](/screenshots/track/track-visual-drafts.png)
 
 ## 下一步
 
