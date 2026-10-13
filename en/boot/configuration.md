@@ -49,7 +49,11 @@ mugsun:
       expire-seconds: 300
 ```
 
-If `sign-secret` is empty, a random key is generated on every start, which only works for a single instance. With several instances, give them all the same value, or an address signed by one instance will 404 on another. The `prod` profile turns off direct `/file/**` serving by default and private attachments go through the authorized download endpoint, so this setting doesn't affect it.
+Every file served this way carries `X-Content-Type-Options: nosniff`. Types a browser might run, such as html, svg, xml and js, are always sent as downloads (`Content-Disposition: attachment`, plus `Content-Security-Policy: sandbox`) and never open in the page.
+
+The signature covers only the file path and the expiry, not the user: anyone holding the link can download the file until it expires, so don't share it.
+
+If `sign-secret` is empty, a random key is generated on every start, which only works for a single instance. With several instances, give them all the same value, or an address signed by one instance will 404 on another. The `prod` profile turns off direct `/file/**` serving by default and private attachments go through the authorized download endpoint. If you turn direct serving back on in `prod` (`enable-access: true`) without setting `sign-secret`, the app refuses to start.
 
 ## Optional modules
 
