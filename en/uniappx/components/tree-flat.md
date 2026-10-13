@@ -32,10 +32,33 @@ Snippets below are taken from the demo source `pages/demo/display/tree-flat.uvue
 </template>
 
 <script setup lang="uts">
-const mainRef = ref<ComponentPublicInstance | null>(null)
-const tree = ref([
-const small = ref([
 const collapsed = ref([
+  node(
+    '跨端适配',
+    [node('Web', leafNone), node('小程序', leafNone), node('iOS', leafNone)] as UTSJSONObject[],
+    false
+  ),
+] as UTSJSONObject[])
+
+const small = ref([
+  node('跨端适配', [node('Web', leafNone), node('小程序', leafNone), node('iOS', leafNone)] as UTSJSONObject[]),
+] as UTSJSONObject[])
+
+const tree = ref([
+  node('组件库', [
+    node('基础', [node('按钮', leafNone), node('图标', leafNone), node('文本', leafNone)] as UTSJSONObject[]),
+    node('表单', [node('输入框', leafNone), node('选择器', leafNone)] as UTSJSONObject[]),
+    node('展示', [node('表格', leafNone), node('树形', leafNone), node('词云', leafNone)] as UTSJSONObject[]),
+  ] as UTSJSONObject[]),
+] as UTSJSONObject[])
+
+function onNode(payload: UTSJSONObject) : void {
+  console.log('onNode')
+}
+
+function onChange(payload: UTSJSONObject) : void {
+  console.log('onChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

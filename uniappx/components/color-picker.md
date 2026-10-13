@@ -44,15 +44,51 @@ demo: pages/demo/form/color-picker
 </template>
 
 <script setup lang="uts">
-const baseColor = ref('#0579ff')
-const fullColor = ref('#ff4f00')
 const alphaColor = ref('rgba(0,155,58,0.6)')
-const hslColor = ref('#0f766e')
+
+const baseColor = ref('#0579ff')
+
+const customSwatches = ['#e11d48', '#ea580c', '#ca8a04', '#16a34a', '#2563eb'] as string[]
+
 const disabledColor = ref('#8c9099')
-const swatchColor = ref('#e11d48')
-const noPreviewColor = ref('#2563eb')
+
 const exposeColor = ref('#2563eb')
-const pickerRef = ref<MsColorPickerComponentPublicInstance | null>(null)
+
+const fullColor = ref('#ff4f00')
+
+const hslColor = ref('#0f766e')
+
+const noPreviewColor = ref('#2563eb')
+
+const swatchColor = ref('#e11d48')
+
+function onBaseChange(value: string) : void {
+  console.log('onBaseChange')
+}
+
+function onFullChange(value: string) : void {
+  console.log('onFullChange')
+}
+
+function onAlphaChange(value: string) : void {
+  console.log('onAlphaChange')
+}
+
+function onHslChange(value: string) : void {
+  console.log('onHslChange')
+}
+
+function onSwatchChange(value: string) : void {
+  console.log('onSwatchChange')
+}
+
+function onNoPreviewChange(value: string) : void {
+  console.log('onNoPreviewChange')
+}
+
+function onExposeChange(value: string) : void {
+  console.log('onExposeChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

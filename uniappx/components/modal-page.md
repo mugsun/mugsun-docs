@@ -36,8 +36,18 @@ demo: pages/demo/feedback/modal-page
 
 <script setup lang="uts">
 const basicVisible = ref(false)
-const footerVisible = ref(false)
+
 const customVisible = ref(false)
+
+const footerVisible = ref(false)
+
+function onOpen() : void {
+  console.log('onOpen')
+}
+
+function onClose() : void {
+  console.log('onClose')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

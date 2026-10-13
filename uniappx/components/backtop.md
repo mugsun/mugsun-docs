@@ -59,6 +59,10 @@ demo: pages/demo/nav/backtop
 
 <script setup lang="uts">
 const localScrollY = ref(0)
+
+function onLocalToTop() : void {
+  console.log('onLocalToTop')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

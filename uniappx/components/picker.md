@@ -67,10 +67,69 @@ demo: pages/demo/form/picker
 </template>
 
 <script setup lang="uts">
-const probePicker = ref(null)
 const cityLabel = ref('上海')
-const seasonLabel = ref('2025 年 第三季度')
+
+const cityOptions = [
+  { column: 0, label: '北京', value: 'bj' } as UTSJSONObject,
+  { column: 0, label: '上海', value: 'sh' } as UTSJSONObject,
+  { column: 0, label: '广州', value: 'gz' } as UTSJSONObject,
+  { column: 0, label: '深圳', value: 'sz' } as UTSJSONObject,
+  { column: 0, label: '杭州', value: 'hz' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const cityValue = [1] as number[]
+
+const inlineValue = [2] as number[]
+
 const plainLabel = ref('北京')
+
+const plainValue = [0] as number[]
+
+const seasonLabel = ref('2025 年 第三季度')
+
+const seasonOptions = [
+  { column: 0, label: '2024 年', value: '2024' } as UTSJSONObject,
+  { column: 0, label: '2025 年', value: '2025' } as UTSJSONObject,
+  { column: 0, label: '2026 年', value: '2026' } as UTSJSONObject,
+  { column: 1, label: '第一季度', value: 'q1' } as UTSJSONObject,
+  { column: 1, label: '第二季度', value: 'q2' } as UTSJSONObject,
+  { column: 1, label: '第三季度', value: 'q3' } as UTSJSONObject,
+  { column: 1, label: '第四季度', value: 'q4' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const seasonValue = [1, 2] as number[]
+
+function onCityChange(indexes: number[], label: string) : void {
+  console.log('onCityChange')
+}
+
+function onCityConfirm(indexes: number[], label: string) : void {
+  console.log('onCityConfirm')
+}
+
+function onCityCancel() : void {
+  console.log('onCityCancel')
+}
+
+function onSeasonConfirm(indexes: number[], label: string) : void {
+  console.log('onSeasonConfirm')
+}
+
+function onSeasonCancel() : void {
+  console.log('onSeasonCancel')
+}
+
+function onInlineChange(indexes: number[], label: string) : void {
+  console.log('onInlineChange')
+}
+
+function onInlineConfirm(indexes: number[], label: string) : void {
+  console.log('onInlineConfirm')
+}
+
+function onPlainConfirm(indexes: number[], label: string) : void {
+  console.log('onPlainConfirm')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

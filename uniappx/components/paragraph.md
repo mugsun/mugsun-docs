@@ -38,6 +38,12 @@ demo: pages/demo/display/paragraph
   <ms-paragraph tone="warning" content="警告提示：请核对必填项。" />
   <ms-paragraph tone="danger" content="危险提示：操作不可撤销。" />
 </template>
+
+<script setup lang="uts">
+function onParaClick() : void {
+  console.log('onParaClick')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

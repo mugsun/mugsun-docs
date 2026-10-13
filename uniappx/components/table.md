@@ -62,8 +62,82 @@ demo: pages/demo/display/table
 </template>
 
 <script setup lang="uts">
-const selectedKeys = ref([] as string[])
+const baseColumns = [
+  { key: 'name', title: '姓名', width: 96 },
+  { key: 'role', title: '角色', width: 120 },
+  { key: 'city', title: '城市', width: 96 },
+] as UTSJSONObject[]
+
+const baseData = [
+  { id: '1', name: '张三', role: '产品', city: '上海' },
+  { id: '2', name: '李四', role: '设计', city: '北京' },
+  { id: '3', name: '王五', role: '开发', city: '杭州' },
+] as UTSJSONObject[]
+
 const emptyData = ref([] as UTSJSONObject[])
+
+const scrollColumns = [
+  { key: 'name', title: '姓名', width: 88 },
+  { key: 'dept', title: '部门', width: 110 },
+  { key: 'role', title: '岗位', width: 100 },
+  { key: 'city', title: '城市', width: 96 },
+  { key: 'phone', title: '手机', width: 120 },
+  { key: 'mail', title: '邮箱', width: 160 },
+] as UTSJSONObject[]
+
+const scrollData = [
+  {
+    id: 's1',
+    name: '张三',
+    dept: '产品中心',
+    role: '经理',
+    city: '上海',
+    phone: '13800001111',
+    mail: 'zhang@example.com',
+  },
+  {
+    id: 's2',
+    name: '李四',
+    dept: '设计组',
+    role: '主设',
+    city: '北京',
+    phone: '13800002222',
+    mail: 'li@example.com',
+  },
+] as UTSJSONObject[]
+
+const selectedKeys = ref([] as string[])
+
+const sortColumns = [
+  { key: 'name', title: '姓名', width: 96, sortable: true },
+  { key: 'score', title: '分数', width: 96, sortable: true },
+  { key: 'city', title: '城市', width: 96 },
+] as UTSJSONObject[]
+
+const sortData = [
+  { id: 'p1', name: '周七', score: '88', city: '成都' },
+  { id: 'p2', name: '吴八', score: '95', city: '南京' },
+  { id: 'p3', name: '郑九', score: '76', city: '苏州' },
+] as UTSJSONObject[]
+
+const styleData = [
+  { id: 'a', name: '张三', role: '产品', city: '上海' },
+  { id: 'b', name: '李四', role: '设计', city: '北京' },
+  { id: 'c', name: '王五', role: '开发', city: '杭州' },
+  { id: 'd', name: '赵六', role: '测试', city: '深圳' },
+] as UTSJSONObject[]
+
+function onCellClick(rowKey: string, columnKey: string) : void {
+  console.log('onCellClick')
+}
+
+function onSortChange(key: string, order: string) : void {
+  console.log('onSortChange')
+}
+
+function onSelectionChange(keys: string[]) : void {
+  console.log('onSelectionChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

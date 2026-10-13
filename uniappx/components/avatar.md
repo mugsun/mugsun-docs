@@ -35,6 +35,14 @@ demo: pages/demo/display/avatar
   <ms-avatar text="圆" shape="round" size="lg" />
   <ms-avatar src="/static/not-exist.png" text="退" @error="onAvatarError" />
 </template>
+
+<script setup lang="uts">
+const demoSrc = '/static/logo.png'
+
+function onAvatarError() : void {
+  console.log('onAvatarError')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

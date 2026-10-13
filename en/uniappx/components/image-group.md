@@ -35,6 +35,41 @@ Snippets below are taken from the demo source `pages/demo/display/image-group.uv
   <ms-image-group :list="listTwo" :columns="2" mode="aspectFit" disabled />
   <ms-image-group :list="listMany" :columns="2" :max-count="2" />
 </template>
+
+<script setup lang="uts">
+const listBasic = [
+  row(IMG1),
+  row(IMG2),
+  row(IMG3),
+  row(IMG1),
+] as UTSJSONObject[]
+
+const listLabeled = [
+  row(IMG1, '封面 A'),
+  row(IMG2, '封面 B'),
+  row(IMG3, '封面 C'),
+] as UTSJSONObject[]
+
+const listMany = [
+  row(IMG1),
+  row(IMG2),
+  row(IMG3),
+  row(IMG1),
+  row(IMG2),
+  row(IMG3),
+] as UTSJSONObject[]
+
+const listTwo = [
+  row(IMG2),
+  row(IMG3),
+  row(IMG1),
+  row(IMG2),
+] as UTSJSONObject[]
+
+function onClick(payload: UTSJSONObject) : void {
+  console.log('onClick')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

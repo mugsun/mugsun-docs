@@ -40,8 +40,11 @@ Snippets below are taken from the demo source `pages/demo/display/countdown.uvue
 </template>
 
 <script setup lang="uts">
-const ctrlCountdown = ref(null)
-const finishCountdown = ref(null)
+const demoTime = 5760000
+
+function onFinish() : void {
+  console.log('onFinish')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

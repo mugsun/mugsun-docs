@@ -40,6 +40,14 @@ demo: pages/demo/feedback/alert
 
 <script setup lang="uts">
 const showClosable = ref(true)
+
+function onClosableVisible(value: boolean): void {
+  showClosable.value = value
+}
+
+function onAlertClose() : void {
+  console.log('onAlertClose')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

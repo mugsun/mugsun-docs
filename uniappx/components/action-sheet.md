@@ -41,12 +41,50 @@ demo: pages/demo/feedback/action-sheet
 </template>
 
 <script setup lang="uts">
-const showList = ref(false)
-const showIcon = ref(false)
-const showRecipeShare = ref(false)
-const shareItems = ref([
-const plainItems = ref([
 const iconItems = ref([
+  { label: '分享', icon: 'share-line' } as UTSJSONObject,
+  { label: '收藏', icon: 'star-line' } as UTSJSONObject,
+  { label: '删除', icon: 'delete-bin-line' } as UTSJSONObject,
+] as UTSJSONObject[])
+
+const plainItems = ref([
+  { label: '移动' } as UTSJSONObject,
+  { label: '标为重要' } as UTSJSONObject,
+  { label: '退订' } as UTSJSONObject,
+] as UTSJSONObject[])
+
+const shareItems = ref([
+  { label: '微信好友', icon: 'share-line' } as UTSJSONObject,
+  { label: '收藏', icon: 'star-line' } as UTSJSONObject,
+  { label: '复制链接', icon: 'links-line' } as UTSJSONObject,
+  { label: '删除', icon: 'delete-bin-line', tone: 'danger' } as UTSJSONObject,
+] as UTSJSONObject[])
+
+const showIcon = ref(false)
+
+const showList = ref(false)
+
+const showRecipeShare = ref(false)
+
+function onRecipeShareVisible(value: boolean): void {
+  showRecipeShare.value = value
+}
+
+function onRecipeShareSelect(index: number) : void {
+  console.log('onRecipeShareSelect')
+}
+
+function onListVisible(value: boolean): void {
+  showList.value = value
+}
+
+function onSelect(index: number) : void {
+  console.log('onSelect')
+}
+
+function onIconVisible(value: boolean): void {
+  showIcon.value = value
+}
 </script>
 ```
 <!-- demo-snippets:end -->

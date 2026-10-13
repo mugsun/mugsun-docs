@@ -65,12 +65,21 @@ demo: pages/demo/basic/transition
 </template>
 
 <script setup lang="uts">
-const fadeVisible = ref(true)
-const slideVisible = ref(true)
 const destroyVisible = ref(true)
-const leftVisible = ref(true)
+
 const downVisible = ref(true)
+
+const fadeVisible = ref(true)
+
+const leftVisible = ref(true)
+
+const slideVisible = ref(true)
+
 const zoomVisible = ref(true)
+
+function onDestroyed() : void {
+  console.log('onDestroyed')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

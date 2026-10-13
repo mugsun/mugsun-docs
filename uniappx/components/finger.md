@@ -66,11 +66,49 @@ demo: pages/demo/media/finger
 </template>
 
 <script setup lang="uts">
-const basicLog = ref('尚未触发')
-const swipeLog = ref('尚未滑动')
-const pinchLog = computed((): string => {
-const strictLog = ref('尚未滑动')
-const timedLog = ref('尚未触发')
+function onTap(_e: UTSJSONObject) : void {
+  console.log('onTap')
+}
+
+function onDouble(_e: UTSJSONObject) : void {
+  console.log('onDouble')
+}
+
+function onLong(_e: UTSJSONObject) : void {
+  console.log('onLong')
+}
+
+function onSwipe(e: UTSJSONObject) : void {
+  console.log('onSwipe')
+}
+
+function onPinch(e: UTSJSONObject) : void {
+  console.log('onPinch')
+}
+
+function onRotate(e: UTSJSONObject) : void {
+  console.log('onRotate')
+}
+
+function onSwipeStrict(e: UTSJSONObject) : void {
+  console.log('onSwipeStrict')
+}
+
+function onDisabledTap(_e: UTSJSONObject) : void {
+  console.log('onDisabledTap')
+}
+
+function onTimedTap(_e: UTSJSONObject) : void {
+  console.log('onTimedTap')
+}
+
+function onTimedDouble(_e: UTSJSONObject) : void {
+  console.log('onTimedDouble')
+}
+
+function onTimedLong(_e: UTSJSONObject) : void {
+  console.log('onTimedLong')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

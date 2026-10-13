@@ -57,10 +57,13 @@ Snippets below are taken from the demo source `pages/demo/feedback/animation.uvu
 </template>
 
 <script setup lang="uts">
+type AnimName =
+
 const animName = ref('fade-in' as AnimName)
-const playing = ref(false)
+
 const outPlaying = ref(false)
-const effectLabel = computed((): string => {
+
+const playing = ref(false)
 </script>
 ```
 <!-- demo-snippets:end -->

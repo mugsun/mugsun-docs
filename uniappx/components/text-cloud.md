@@ -33,8 +33,31 @@ demo: pages/demo/display/text-cloud
 
 <script setup lang="uts">
 const baseList = ref(build(3, ['#1d4ed8', '#64748b', '#94a3b8'] as string[]))
+
 const colorList = ref(build(8, ['#dc2626', '#0d9488', '#f59e0b', '#0369a1'] as string[]))
+
 const shortList = ref(((): UTSJSONObject[] => {
+  const rows: UTSJSONObject[] = []
+  const items = [
+    ['跨端', 20, '#1d4ed8'],
+    ['适配', 14, '#64748b'],
+    ['组件', 10, '#94a3b8'],
+    ['布局', 8, '#475569'],
+    ['主题', 6, '#cbd5e1'],
+  ] as (string | number)[][]
+  for (let i = 0; i < items.length; i++) {
+    const row = new UTSJSONObject()
+    row.set('text', items[i][0] as string)
+    row.set('weight', items[i][1] as number)
+    row.set('color', items[i][2] as string)
+    rows.push(row)
+  }
+  return rows
+})())
+
+function onComplete(payload: UTSJSONObject) : void {
+  console.log('onComplete')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

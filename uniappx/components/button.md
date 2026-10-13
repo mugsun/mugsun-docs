@@ -36,6 +36,12 @@ demo: pages/demo/basic/button
   <ms-button block disabled variant="dashed" theme="primary">禁用虚框</ms-button>
   <ms-button block disabled theme="light">禁用浅色</ms-button>
 </template>
+
+<script setup lang="uts">
+function onThemeClick(name: string) : void {
+  console.log('onThemeClick')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

@@ -45,6 +45,19 @@ Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`; see 
   </ms-footer>
   <ms-footer :links="multiLinks" @link="onLink" />
 </template>
+
+<script setup lang="uts">
+const multiLinks = [
+  { name: '用户协议' } as UTSJSONObject,
+  { name: '隐私政策' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const singleLinks = [{ name: '用户协议' } as UTSJSONObject] as UTSJSONObject[]
+
+function onLink(index: number) : void {
+  console.log('onLink')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

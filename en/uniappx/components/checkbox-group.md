@@ -45,10 +45,21 @@ Snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`; s
 </template>
 
 <script setup lang="uts">
-const groupValue = ref(['a'] as string[])
-const rowValue = ref(['x'] as string[])
-const disabledGroup = ref(['1'] as string[])
 const childValue = ref(['a'] as string[])
+
+const disabledGroup = ref(['1'] as string[])
+
+const groupValue = ref(['a'] as string[])
+
+const rowValue = ref(['x'] as string[])
+
+function onGroupChange(values: string[]) : void {
+  console.log('onGroupChange')
+}
+
+function onChildChange(values: string[]) : void {
+  console.log('onChildChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

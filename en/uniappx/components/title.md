@@ -34,6 +34,12 @@ Snippets below are taken from the demo source `pages/demo/nav/title.uvue`; see t
   <ms-title content="五级标题" level="h5" />
   <ms-title content="六级标题" level="h6" />
 </template>
+
+<script setup lang="uts">
+function onTitleClick() : void {
+  console.log('onTitleClick')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

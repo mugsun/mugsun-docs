@@ -50,6 +50,18 @@ Snippets below are taken from the demo source `pages/demo/feedback/fab.uvue`; se
 
 <script setup lang="uts">
 const modelExpanded = ref(false)
+
+function onFabClick() : void {
+  console.log('onFabClick')
+}
+
+function onExpandChange(next: boolean) : void {
+  console.log('onExpandChange')
+}
+
+function onMenuTap(label: string) : void {
+  console.log('onMenuTap')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

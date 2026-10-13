@@ -44,11 +44,23 @@ Snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`; s
 </template>
 
 <script setup lang="uts">
-const vSquare = ref(true)
-const vCircle = ref(true)
-const vLine = ref(true)
 const parentChecked = computed((): boolean => {
+  return childValue.value.length == 2
+})
+
 const parentIndeterminate = computed((): boolean => {
+  return childValue.value.length == 1
+})
+
+const vCircle = ref(true)
+
+const vLine = ref(true)
+
+const vSquare = ref(true)
+
+function onParentChange(on: boolean) : void {
+  console.log('onParentChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

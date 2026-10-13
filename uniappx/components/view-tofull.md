@@ -66,11 +66,24 @@ demo: pages/demo/media/view-tofull
 
 <script setup lang="uts">
 const openedA = ref(false)
+
 const openedB = ref(false)
+
 const openedC = ref(false)
-const openedSlow = ref(false)
-const openedNoClose = ref(false)
+
 const openedFast = ref(false)
+
+const openedNoClose = ref(false)
+
+const openedSlow = ref(false)
+
+function onOpened() : void {
+  console.log('onOpened')
+}
+
+function toggleNoClose() : void {
+  console.log('toggleNoClose')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

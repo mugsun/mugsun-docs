@@ -60,6 +60,16 @@ demo: pages/demo/nav/navbar
     :safe-area-inset-top="false"
   />
 </template>
+
+<script setup lang="uts">
+function onBack() : void {
+  console.log('onBack')
+}
+
+function onHome() : void {
+  console.log('onHome')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

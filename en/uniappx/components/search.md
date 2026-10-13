@@ -45,14 +45,25 @@ Snippets below are taken from the demo source `pages/demo/form/search.uvue`; see
 </template>
 
 <script setup lang="uts">
-const baseValue = ref('')
-const limitValue = ref('')
 const actionValue = ref('关键词')
-const squareValue = ref('')
-const roundValue = ref('')
+
+const baseValue = ref('')
+
 const centerValue = ref('')
-const noClearValue = ref('保留')
+
 const filterValue = ref('')
+
+const limitValue = ref('')
+
+const noClearValue = ref('保留')
+
+const roundValue = ref('')
+
+const squareValue = ref('')
+
+function onSearchAction() : void {
+  console.log('onSearchAction')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

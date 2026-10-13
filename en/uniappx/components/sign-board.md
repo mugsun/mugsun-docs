@@ -31,8 +31,10 @@ Snippets below are taken from the demo source `pages/demo/form/sign-board.uvue`;
 
 <script setup lang="uts">
 const penType = ref('default')
-const boardRef = ref<MsSignBoardComponentPublicInstance | null>(null)
-const pencilRef = ref<MsSignBoardComponentPublicInstance | null>(null)
+
+function onStrokeEnd() : void {
+  console.log('onStrokeEnd')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

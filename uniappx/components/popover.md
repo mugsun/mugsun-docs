@@ -61,8 +61,34 @@ demo: pages/demo/feedback/popover
 
 <script setup lang="uts">
 const showArrow = ref(false)
-const showNoArrow = ref(false)
+
 const showCustom = ref(false)
+
+const showNoArrow = ref(false)
+
+function onArrowVisible(value: boolean): void {
+  showArrow.value = value
+}
+
+function tapArrow() : void {
+  console.log('tapArrow')
+}
+
+function onNoArrowVisible(value: boolean): void {
+  showNoArrow.value = value
+}
+
+function tapNoArrow() : void {
+  console.log('tapNoArrow')
+}
+
+function onCustomVisible(value: boolean): void {
+  showCustom.value = value
+}
+
+function tapCustom() : void {
+  console.log('tapCustom')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -40,7 +40,30 @@ demo: pages/demo/form/slide-verify
 
 <script setup lang="uts">
 const targetPercent = ref(55)
-const targetRef = ref<MsSlideVerifyComponentPublicInstance | null>(null)
+
+function onDefaultSuccess() : void {
+  console.log('onDefaultSuccess')
+}
+
+function onDefaultFail() : void {
+  console.log('onDefaultFail')
+}
+
+function onTargetSuccess() : void {
+  console.log('onTargetSuccess')
+}
+
+function onTargetFail() : void {
+  console.log('onTargetFail')
+}
+
+function onTipsSuccess() : void {
+  console.log('onTipsSuccess')
+}
+
+function onLooseSuccess() : void {
+  console.log('onLooseSuccess')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

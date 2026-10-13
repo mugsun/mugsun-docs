@@ -50,6 +50,18 @@ demo: pages/demo/feedback/fab
 
 <script setup lang="uts">
 const modelExpanded = ref(false)
+
+function onFabClick() : void {
+  console.log('onFabClick')
+}
+
+function onExpandChange(next: boolean) : void {
+  console.log('onExpandChange')
+}
+
+function onMenuTap(label: string) : void {
+  console.log('onMenuTap')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

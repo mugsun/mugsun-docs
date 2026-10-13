@@ -35,7 +35,19 @@ Snippets below are taken from the demo source `pages/demo/media/svg.uvue`; see t
 </template>
 
 <script setup lang="uts">
+const check =
+
+const star =
+
 const tint = ref('#2563eb')
+
+function onLoad(payload: UTSJSONObject) : void {
+  console.log('onLoad')
+}
+
+function onError(payload: UTSJSONObject) : void {
+  console.log('onError')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

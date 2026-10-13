@@ -66,17 +66,74 @@ Snippets below are taken from the demo source `pages/demo/form/picker-selected.u
 </template>
 
 <script setup lang="uts">
-const localPickerRef = ref(null)
 const companies = ref([
-const localValue = ref(['2', '8'] as string[])
+  { id: '1', name: '广州信瑞化妆品公司' },
+  { id: '2', name: '深圳市创明展览设计有限公司' },
+  { id: '3', name: '上海盟威实业发展有限公司' },
+  { id: '4', name: '国都期货有限公司' },
+  { id: '5', name: '山西宇达集团' },
+  { id: '6', name: '博达网络有限公司' },
+  { id: '7', name: '新贸易有限公司' },
+  { id: '8', name: '东莞市东辉仪器有限公司' },
+  { id: '9', name: '古兰电子科技有限责任公司' },
+  { id: '10', name: '邦达礼品公司' },
+  { id: '11', name: '明珠盘艺有限公司' },
+  { id: '12', name: '福建古拉特商贸公司' },
+] as UTSJSONObject[])
+
 const localLabel = ref('已选 2 项')
-const remoteValue = ref([] as string[])
-const remoteLabel = ref('未选择')
-const remoteOptions = ref([] as UTSJSONObject[])
-const multiValue = ref(['1'] as string[])
+
+const localValue = ref(['2', '8'] as string[])
+
 const multiLabel = ref('广州信瑞化妆品公司')
-const singleValue = ref(['4'] as string[])
+
+const multiValue = ref(['1'] as string[])
+
+const remoteLabel = ref('未选择')
+
+const remoteOptions = ref([] as UTSJSONObject[])
+
+const remoteValue = ref([] as string[])
+
 const singleLabel = ref('国都期货有限公司')
+
+const singleValue = ref(['4'] as string[])
+
+function onLocalOpen() : void {
+  console.log('onLocalOpen')
+}
+
+function onLocalConfirm(ids: string[], labels: string[]) : void {
+  console.log('onLocalConfirm')
+}
+
+function onRemoteOpen() : void {
+  console.log('onRemoteOpen')
+}
+
+function onRemoteSearch(keyword: string) : void {
+  console.log('onRemoteSearch')
+}
+
+function onRemoteConfirm(ids: string[], labels: string[]) : void {
+  console.log('onRemoteConfirm')
+}
+
+function onMultiOpen() : void {
+  console.log('onMultiOpen')
+}
+
+function onMultiConfirm(ids: string[], labels: string[]) : void {
+  console.log('onMultiConfirm')
+}
+
+function onSingleOpen() : void {
+  console.log('onSingleOpen')
+}
+
+function onSingleConfirm(ids: string[], labels: string[]) : void {
+  console.log('onSingleConfirm')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

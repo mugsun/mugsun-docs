@@ -33,6 +33,14 @@ Snippets below are taken from the demo source `pages/demo/feedback/notice-bar.uv
   <!-- 可关闭 -->
   <ms-notice-bar theme="warning" content="可关闭公告" closable @close="onNoticeClose" />
 </template>
+
+<script setup lang="uts">
+const verticalList = ['轮播公告一', '轮播公告二', '轮播公告三'] as string[]
+
+function onNoticeClose() : void {
+  console.log('onNoticeClose')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

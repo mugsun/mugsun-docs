@@ -71,13 +71,31 @@ demo: pages/demo/form/input-tag
 </template>
 
 <script setup lang="uts">
-const outsideTags = ref(['产品', '设计'] as string[])
-const insideTags = ref(['前端', '后端', '测试'] as string[])
-const limitTags = ref(['已选一'] as string[])
-const disabledTags = ref(['只读标签'] as string[])
 const buttonTags = ref(['标签'] as string[])
-const noBtnTags = ref([] as string[])
+
 const confirmTags = ref([] as string[])
+
+const disabledTags = ref(['只读标签'] as string[])
+
+const insideTags = ref(['前端', '后端', '测试'] as string[])
+
+const limitTags = ref(['已选一'] as string[])
+
+const noBtnTags = ref([] as string[])
+
+const outsideTags = ref(['产品', '设计'] as string[])
+
+function onAdd(tag: string) : void {
+  console.log('onAdd')
+}
+
+function onRemove(tag: string, index: number) : void {
+  console.log('onRemove')
+}
+
+function onExceed(max: number) : void {
+  console.log('onExceed')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

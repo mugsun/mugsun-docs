@@ -41,9 +41,27 @@ Snippets below are taken from the demo source `pages/demo/feedback/snackbar.uvue
 </template>
 
 <script setup lang="uts">
-const showText = ref(false)
-const showIcon = ref(false)
 const showClose = ref(false)
+
+const showIcon = ref(false)
+
+const showText = ref(false)
+
+function onTextVisible(value: boolean): void {
+  showText.value = value
+}
+
+function onIconVisible(value: boolean): void {
+  showIcon.value = value
+}
+
+function onCloseVisible(value: boolean): void {
+  showClose.value = value
+}
+
+function onClosed() : void {
+  console.log('onClosed')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

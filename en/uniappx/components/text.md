@@ -40,6 +40,12 @@ Snippets below are taken from the demo source `pages/demo/basic/text.uvue`; see 
     这是一段很长的可复制文案，超出一行时省略，仍可长按选中复制整段内容。
   </ms-text>
 </template>
+
+<script setup lang="uts">
+function onTextClick() : void {
+  console.log('onTextClick')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

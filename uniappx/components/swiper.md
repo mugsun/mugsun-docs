@@ -54,6 +54,39 @@ demo: pages/demo/display/swiper
   <ms-swiper :items="imageSlides" :height="120" navigation="dots" />
   <ms-swiper :items="slides" :height="120" :duration="200" navigation="dots" />
 </template>
+
+<script setup lang="uts">
+const imageSlides = [
+  { image: '/static/demo-cover.png', label: '封面一' } as UTSJSONObject,
+  { image: '/static/logo.png', label: '封面二' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const slides = [
+  { label: '第一屏', tone: 'brand' } as UTSJSONObject,
+  { label: '第二屏', tone: 'success' } as UTSJSONObject,
+  { label: '第三屏', tone: 'warning' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+function onDotsChange(current: number) : void {
+  console.log('onDotsChange')
+}
+
+function onBarChange(current: number) : void {
+  console.log('onBarChange')
+}
+
+function onFractionChange(current: number) : void {
+  console.log('onFractionChange')
+}
+
+function onAutoChange(current: number) : void {
+  console.log('onAutoChange')
+}
+
+function onVerticalChange(current: number) : void {
+  console.log('onVerticalChange')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

@@ -44,8 +44,34 @@ Snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`; s
 
 <script setup lang="uts">
 const showBase = ref(false)
+
 const showContent = ref(false)
+
 const showLock = ref(false)
+
+function onBaseVisible(value: boolean): void {
+  showBase.value = value
+}
+
+function onBaseMaskClick() : void {
+  console.log('onBaseMaskClick')
+}
+
+function onContentVisible(value: boolean): void {
+  showContent.value = value
+}
+
+function closeContent(): void {
+  showContent.value = false
+}
+
+function onLockVisible(value: boolean): void {
+  showLock.value = value
+}
+
+function closeLock(): void {
+  showLock.value = false
+}
 </script>
 ```
 <!-- demo-snippets:end -->

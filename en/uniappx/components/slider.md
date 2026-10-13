@@ -36,16 +36,23 @@ Snippets below are taken from the demo source `pages/demo/form/slider.uvue`; see
 </template>
 
 <script setup lang="uts">
-const vBase = ref(23)
-const vCapsule = ref(30)
-const vLabel = ref(40)
-const vStep = ref(60)
-const vExtreme = ref(50)
-const vRangeMin = ref(40)
-const vDepthCap = ref(55)
-const vDecimal = ref(0.3)
-const vRange = ref([20, 60] as number[])
 const marks = ref<number[]>([0, 20, 40, 60, 80, 100] as number[])
+
+const vBase = ref(23)
+
+const vCapsule = ref(30)
+
+const vDecimal = ref(0.3)
+
+const vDepthCap = ref(55)
+
+const vExtreme = ref(50)
+
+const vLabel = ref(40)
+
+const vRangeMin = ref(40)
+
+const vStep = ref(60)
 </script>
 ```
 <!-- demo-snippets:end -->

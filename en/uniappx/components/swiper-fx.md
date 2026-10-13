@@ -56,8 +56,23 @@ Snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue
 </template>
 
 <script setup lang="uts">
+type FxEffect = 'fade' | 'slide' | 'zoom' | 'scale-slide'
+
 const effectName = ref('fade' as FxEffect)
+
 const list = ref([
+  { color: '#64748b', label: '卡片一' } as UTSJSONObject,
+  { color: '#0f766e', label: '卡片二' } as UTSJSONObject,
+  { color: '#b45309', label: '卡片三' } as UTSJSONObject,
+] as UTSJSONObject[])
+
+function onChange(i: number) : void {
+  console.log('onChange')
+}
+
+function onClick(i: number) : void {
+  console.log('onClick')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

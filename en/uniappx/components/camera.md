@@ -58,7 +58,18 @@ Snippets below are taken from the demo source `pages/demo/media/camera.uvue`; se
 
 <script setup lang="uts">
 const position = ref('back')
-const cmdCamera = ref(null)
+
+function onPhoto(payload: UTSJSONObject) : void {
+  console.log('onPhoto')
+}
+
+function onError(payload: UTSJSONObject) : void {
+  console.log('onError')
+}
+
+function onPositionChange(payload: UTSJSONObject) : void {
+  console.log('onPositionChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -59,6 +59,10 @@ Snippets below are taken from the demo source `pages/demo/nav/backtop.uvue`; see
 
 <script setup lang="uts">
 const localScrollY = ref(0)
+
+function onLocalToTop() : void {
+  console.log('onLocalToTop')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

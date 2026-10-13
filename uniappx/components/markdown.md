@@ -34,11 +34,28 @@ demo: pages/demo/media/markdown
 
 <script setup lang="uts">
 const doc = ref(docA)
-const listDoc = ref('- 轻量渲染\n- 跨端一致\n- 零第三方依赖\n\n1. 解析\n2. 渲染\n3. 事件')
-const quoteDoc = ref('> 可选中文本便于复制\n\n```\nnpm run dev\n```\n')
+
 const imageDoc = ref('### 配图说明\n\n![演示封面](/static/demo-cover.png)\n')
-const taskDoc = ref('- [x] 完成解析器\n- [ ] 补齐图片预览\n- [ ] 语法高亮\n')
+
+const listDoc = ref('- 轻量渲染\n- 跨端一致\n- 零第三方依赖\n\n1. 解析\n2. 渲染\n3. 事件')
+
+const quoteDoc = ref('> 可选中文本便于复制\n\n```\nnpm run dev\n```\n')
+
 const tableDoc = ref('| 列A | 列B | 列C |\n| --- | --- | --- |\n| 1 | 甲 | 是 |\n| 2 | 乙 | 否 |\n')
+
+const taskDoc = ref('- [x] 完成解析器\n- [ ] 补齐图片预览\n- [ ] 语法高亮\n')
+
+function onLink(payload: UTSJSONObject) : void {
+  console.log('onLink')
+}
+
+function onParsed(payload: UTSJSONObject) : void {
+  console.log('onParsed')
+}
+
+function onImage(payload: UTSJSONObject) : void {
+  console.log('onImage')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

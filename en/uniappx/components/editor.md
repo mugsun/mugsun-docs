@@ -41,12 +41,31 @@ Snippets below are taken from the demo source `pages/demo/media/editor.uvue`; se
 </template>
 
 <script setup lang="uts">
-const richEditor = ref<MsEditorComponentPublicInstance | null>(null)
 const draft = ref(
+  '## 发布说明\n\n本次新增 **图表** 与 *Markdown* 渲染。\n\n- 支持折线与柱状\n- 支持饼图与环形\n',
+)
+
 const notes = ref('- 待办一\n- 待办二\n')
+
 const rich = ref('### 深度编辑\n\n可插入图片、任务与表格。\n')
-const slimToolbar = ref(['bold', 'list', 'link'] as string[])
+
 const richToolbar = ref(
+  ['bold', 'h3', 'task', 'image', 'table', 'hr', 'clear'] as string[],
+)
+
+const slimToolbar = ref(['bold', 'list', 'link'] as string[])
+
+function onCommand(payload: UTSJSONObject) : void {
+  console.log('onCommand')
+}
+
+function onChange(payload: UTSJSONObject) : void {
+  console.log('onChange')
+}
+
+function onClear() : void {
+  console.log('onClear')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

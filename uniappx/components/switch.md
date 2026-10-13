@@ -43,10 +43,14 @@ demo: pages/demo/form/switch
 
 <script setup lang="uts">
 const vBase = ref(false)
-const vLabel = ref(true)
-const vIcon = ref(true)
-const vSize = ref(true)
+
 const vDepthLabel = ref(true)
+
+const vIcon = ref(true)
+
+const vLabel = ref(true)
+
+const vSize = ref(true)
 </script>
 ```
 <!-- demo-snippets:end -->

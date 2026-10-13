@@ -32,13 +32,19 @@ demo: pages/demo/display/rolling-number
 </template>
 
 <script setup lang="uts">
-const decimalVal = ref(2023.2)
-const intVal = ref(1998)
-const moneyVal = ref(12880.5)
 const bigVal = ref(9600)
-const suffixVal = ref(68.5)
-const staticVal = ref(100)
+
+const decimalVal = ref(2023.2)
+
+const intVal = ref(1998)
+
+const moneyVal = ref(12880.5)
+
 const startVal = ref(88)
+
+const staticVal = ref(100)
+
+const suffixVal = ref(68.5)
 </script>
 ```
 <!-- demo-snippets:end -->

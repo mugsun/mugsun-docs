@@ -35,6 +35,10 @@ demo: pages/demo/display/qrcode
   <ms-qrcode :value="demoValue" size="md" />
   <ms-qrcode :value="demoValue" size="lg" />
 </template>
+
+<script setup lang="uts">
+const demoValue = 'https://mugsun.example/qr'
+</script>
 ```
 <!-- demo-snippets:end -->
 

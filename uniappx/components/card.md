@@ -68,6 +68,16 @@ demo: pages/demo/display/card
   />
   <ms-card title="无状态图标" subtitle="不设图标时右上角不占位" bordered />
 </template>
+
+<script setup lang="uts">
+function onFooter(action: string) : void {
+  console.log('onFooter')
+}
+
+function onStatus() : void {
+  console.log('onStatus')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

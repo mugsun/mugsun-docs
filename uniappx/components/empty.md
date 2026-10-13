@@ -38,7 +38,17 @@ demo: pages/demo/basic/empty
 </template>
 
 <script setup lang="uts">
+type EmptyStatus = 'empty' | 'loading' | 'error' | 'more'
+
 const sceneStatus = ref('loading' as EmptyStatus)
+
+function onAction() : void {
+  console.log('onAction')
+}
+
+function onRetry() : void {
+  console.log('onRetry')
+}
 </script>
 ```
 <!-- demo-snippets:end -->
