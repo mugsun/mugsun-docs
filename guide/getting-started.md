@@ -40,8 +40,8 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 - 打包默认使用 `full` profile（core + gis + track + ai）。
 - `java -jar` 必须在仓库根目录执行，才能读到 `config/application-local.yml`。确认 `java -version` 输出 21。
 
-::: details 为什么不用 `mvn -pl mugsun-boot-server -am spring-boot:run`？
-在仓库根目录这样执行时，`spring-boot:run` 也会作用于父工程并报 `Unable to find a suitable main class`。先打包再 `java -jar` 是当前最稳的方式。
+::: details 能用 `mvn -pl mugsun-boot-server -am spring-boot:run` 吗？
+可以，开发时可在仓库根目录直接运行（[mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) 起）。部署与验收仍推荐先打包再 `java -jar`。
 :::
 
 **验收：**

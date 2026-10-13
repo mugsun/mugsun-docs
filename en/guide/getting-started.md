@@ -40,8 +40,8 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 - The package uses the default `full` profile (core + gis + track + ai).
 - Run `java -jar` from the repository root, otherwise `config/application-local.yml` is not picked up. Make sure `java -version` reports 21.
 
-::: details Why not `mvn -pl mugsun-boot-server -am spring-boot:run`?
-Run from the repository root, that command also applies `spring-boot:run` to the parent POM and fails with `Unable to find a suitable main class`. Packaging first and running the JAR is the reliable path for now.
+::: details Can I use `mvn -pl mugsun-boot-server -am spring-boot:run`?
+Yes. For development you can run it from the repository root (since [mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13)). Packaging and running the JAR is still recommended for deployment and verification.
 :::
 
 **Check:**
