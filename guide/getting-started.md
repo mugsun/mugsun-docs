@@ -1,76 +1,107 @@
 # 快速开始
 
-目标：从空环境拉起 **Postgres + Redis + boot**，用管理台登录并做一次冒烟。命令以 [mugsun-boot README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 为准；本页只给最短诚实路径。
+本页带你从空环境走到三个可验证的结果：**后端健康检查通过 → 管理台登录成功 → 看板出现第一条埋点事件**。每一步都给出验收方式，命令与各仓 README 保持一致。
 
-## 你需要
+## 环境要求
 
-- JDK 21、Maven 3.9+、Docker / Docker Compose
-- 与 `mugsun-boot` **平级**克隆 [mugsun-core](https://github.com/mugsun/mugsun-core)（尚未发布到 Maven Central，须本地 `mvn install`）
-- 可选：Node.js ≥ 20.19、pnpm，用于 [mugsun-pc](https://github.com/mugsun/mugsun-pc) 管理台
+| 工具 | 版本 | 用途 |
+| --- | --- | --- |
+| JDK | 21 | 运行 boot |
+| Maven | 3.9+ | 构建 boot（自动从 Maven Central 拉取 `com.mugsun:mugsun-*:0.1.0`） |
+| Docker / Docker Compose | 近期版本 | 启动 PostgreSQL 16（含 PostGIS、pgvector）与 Redis 7 |
+| Node.js | ≥ 20.19 | 管理台与埋点 SDK（可选） |
+| pnpm | ≥ 8.8（管理台锁定 `pnpm@11.9.0`） | 同上 |
 
-建议目录：
+推荐目录结构（管理台以 `file:../mugsun-track` 引用 SDK，因此需平级）：
 
 ```text
 mugsun/
-  mugsun-core/
-  mugsun-boot/
-  mugsun-pc/      # 可选
-  mugsun-track/   # 接埋点时再克隆
+  mugsun-boot/    # 后端 :8080
+  mugsun-pc/      # 管理台 :3006（可选）
+  mugsun-track/   # 埋点 SDK（管理台启用埋点模块时需要）
 ```
 
-## 1. 安装 core
+::: tip 不需要再本地 install core
+`mugsun-core` 0.1.0 已发布至 [Maven Central](https://central.sonatype.com/search?q=com.mugsun)，构建 boot 时由 Maven 自动解析。仅在离线环境才需要平级克隆 core 并执行 `mvn clean install -DskipTests`。
+:::
 
-```bash
-git clone https://github.com/mugsun/mugsun-core.git
-cd mugsun-core
-mvn clean install -DskipTests
-```
-
-## 2. 拉起基础设施 + 启动 boot
-
-`docker compose` 只起 **PostgreSQL（5432）与 Redis（6379）**；应用本身以 JAR / `spring-boot:run` 运行，不是「一条 compose 起完整栈」。
+## 第 1 步：启动后端
 
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git
 cd mugsun-boot
-docker compose up -d
+docker compose up -d                                              # 仅 PostgreSQL:5432 + Redis:6379
 cp config/application-local.yml.example config/application-local.yml
-mvn -pl mugsun-boot-server -am spring-boot:run
+mvn -pl mugsun-boot-server -am spring-boot:run                    # 默认 profile = full
 ```
 
-健康检查：`http://localhost:8080/ping`（应返回正常响应）。
+**验收：**
 
-OpenAPI（开发环境）：`http://localhost:8080/swagger-ui/index.html`（`prod` 下关闭）。
+- `curl http://localhost:8080/ping` 返回正常响应
+- 开发环境 OpenAPI：`http://localhost:8080/swagger-ui/index.html`（`prod` 下关闭）
 
-::: warning 口令
-默认初始账号见 boot README：`admin` / `123456`（可用环境变量 `MUGSUN_INIT_PASSWORD` 覆盖）。**登录后立刻改密**；切勿把演示口令暴露到公网。`prod` 未注入初始口令时会拒绝启动。
+::: warning 初始口令
+默认账号 `admin` / `123456`，可通过环境变量 `MUGSUN_INIT_PASSWORD` 覆盖。`prod` 未注入初始口令会拒绝启动。登录后请立刻修改密码，演示口令不要暴露到公网。
 :::
 
-开发库账号默认与 JDBC 一致（`mugsun` / `mugsun`）。无 Docker 时可参考仓内 `scripts/init-db.sql`。细节变动以 [mugsun-boot](https://github.com/mugsun/mugsun-boot) 当前 README 为准。
+启动失败时先看 [常见问题](/guide/faq#启动与构建)。工作目录必须是 boot 仓库根目录，否则读不到 `config/application-local.yml`。
 
-## 3. （可选）打开管理台
-
-boot 在 `:8080` 跑通后：
+## 第 2 步：启动管理台（可选）
 
 ```bash
+git clone https://github.com/mugsun/mugsun-track.git   # 与 mugsun-pc 平级
 git clone https://github.com/mugsun/mugsun-pc.git
-# 若启用埋点，需与 mugsun-track 平级，并先 pnpm setup:sdk（见 pc README）
 cd mugsun-pc
+pnpm setup:sdk     # 构建平级 mugsun-track；VITE_ENABLE_TRACK=false 时可跳过
 pnpm install
-pnpm dev
+pnpm dev           # http://localhost:3006
 ```
 
-浏览器打开 `http://localhost:3006`（`VITE_PORT`）。开发期 `/api` 代理到 boot `:8080`。登录账号与 boot 一致。
+开发期 `/api/**` 由 Vite 代理到 `.env.development` 中的 `VITE_API_PROXY_URL`（默认 `http://localhost:8080`）。
 
-## 4. 冒烟
+**验收：** 用第 1 步的账号登录，侧边栏出现「系统管理」等菜单，打开任一列表页能加载数据。
 
-1. 登录管理台，打开任一系统管理列表页。
-2. 若启用 track：按 [第一个事件](/track/first-event) 验证采集。
-3. 上线前过一遍 [安全清单](/boot/security-checklist)。
+::: info 登录态只在当前标签页
+自 0.1.0 起，`accessToken` / `refreshToken` 存于 `sessionStorage`，不再写入 `localStorage`。新开标签页需要重新登录，这是预期行为。
+:::
 
-## 相关链接
+## 第 3 步：发送第一个埋点事件（可选）
 
-- [mugsun-boot](https://github.com/mugsun/mugsun-boot) · [配置](/boot/configuration)
-- [mugsun-pc](https://github.com/mugsun/mugsun-pc) · [本地开发](/pc/development)
-- [mugsun-track](https://github.com/mugsun/mugsun-track) · [安装埋点](/track/install)
-- [演示说明](/demo)
+1. 在管理台「埋点分析 → 接入管理」创建应用，得到 `appKey`。
+2. 在任意 Web 项目里安装并初始化 SDK：
+
+::: code-group
+
+```bash [pnpm]
+pnpm add @mugsun/track-web
+```
+
+```bash [npm]
+npm install @mugsun/track-web
+```
+
+```bash [yarn]
+yarn add @mugsun/track-web
+```
+
+:::
+
+```ts
+import { createTracker } from '@mugsun/track-web'
+
+const track = createTracker({
+  endpoint: 'http://localhost:8080', // 上报到 {endpoint}/track/collect
+  appKey: '<上一步得到的 appKey>',
+})
+
+track.track('hello_mugsun', { from: 'getting-started' })
+```
+
+**验收：** 浏览器网络面板中 `/track/collect` 返回 2xx；管理台埋点看板出现该应用的新事件。完整排查步骤见 [第一个事件](/track/first-event)。
+
+## 下一步
+
+- 了解各仓分工与数据流：[架构全景](/guide/architecture)
+- 调整模块、数据源与安全配置：[Boot 配置](/boot/configuration)
+- 上线前逐项核对：[安全清单](/boot/security-checklist)
+- 管理台二次开发：[管理台本地开发](/pc/development)
