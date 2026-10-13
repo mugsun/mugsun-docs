@@ -19,21 +19,21 @@ Snippets below are taken from the demo source `pages/demo/display/avatar.uvue`. 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-avatar :src="demoSrc" />
   <ms-avatar text="Mug" />
   <ms-avatar />
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-avatar :src="demoSrc" shape="circle" />
   <ms-avatar :src="demoSrc" shape="round" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-avatar text="S" size="sm" />
   <ms-avatar text="M" size="md" />
   <ms-avatar text="L" size="lg" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-avatar icon="customer-service-line" size="lg" />
-  <ms-avatar text="圆" shape="round" size="lg" />
-  <ms-avatar src="/static/not-exist.png" text="退" @error="onAvatarError" />
+  <ms-avatar text="R" shape="round" size="lg" />
+  <ms-avatar src="/static/not-exist.png" text="F" @error="onAvatarError" />
 </template>
 
 <script setup lang="uts">

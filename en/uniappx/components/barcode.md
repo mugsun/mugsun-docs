@@ -19,18 +19,18 @@ Snippets below are taken from the demo source `pages/demo/display/barcode.uvue`.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-barcode value="6970980210024" encode="ean13" />
   <ms-barcode value="abc125698" encode="code128" />
-  <!-- 其它制式 -->
+  <!-- Other formats -->
   <ms-barcode value="96385074" encode="ean8" size="sm" />
   <ms-barcode value="012345678905" encode="upca" size="sm" />
   <ms-barcode value="CODE39" encode="code39" size="sm" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-barcode value="6970980210024" encode="ean13" size="sm" />
   <ms-barcode value="6970980210024" encode="ean13" size="md" />
   <ms-barcode value="6970980210024" encode="ean13" size="lg" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-barcode value="6970980210024" encode="ean13" :show-text="false" size="sm" />
   <ms-barcode value="MS2026" encode="code128" size="lg" />
   <ms-barcode value="CODE39" encode="code39" :show-text="false" size="md" />

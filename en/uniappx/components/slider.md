@@ -19,17 +19,17 @@ Snippets below are taken from the demo source `pages/demo/form/slider.uvue`. To 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-slider v-model="vBase" />
   <ms-slider v-model="vCapsule" theme="capsule" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-slider v-model="vLabel" label />
   <ms-slider :model-value="35" disabled />
-  <!-- 组件刻度 -->
+  <!-- Marks -->
   <ms-slider v-model="vStep" :step="20" :marks="marks" />
   <ms-slider v-model="vExtreme" show-extreme-value />
   <ms-slider v-model="vRangeMin" :min="20" :max="100" :step="20" label />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-slider v-model="vDepthCap" theme="capsule" label show-extreme-value />
   <ms-slider v-model="vDecimal" :min="0" :max="1" :step="0.1" label />
   <ms-slider range v-model:range-value="vRange" label />

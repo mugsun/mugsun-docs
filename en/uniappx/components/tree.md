@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/display/tree.uvue`. To
 
 ```vue
 <template>
-  <!-- 基础树 -->
+  <!-- Basic tree -->
   <ms-tree
     :list="treeList"
     :folder-ids="basicFolders"
@@ -28,7 +28,7 @@ Snippets below are taken from the demo source `pages/demo/display/tree.uvue`. To
     @expand-change="onBasicExpand"
     @node-click="onNodeClick"
   />
-  <!-- 可选 -->
+  <!-- Selectable -->
   <ms-tree
     :list="treeList"
     :value="checkValue"
@@ -40,7 +40,7 @@ Snippets below are taken from the demo source `pages/demo/display/tree.uvue`. To
     @change="onCheckChange"
     @node-click="onNodeClick"
   />
-  <!-- 状态 -->
+  <!-- States -->
   <ms-tree
     :list="treeList"
     :value="stateValue"

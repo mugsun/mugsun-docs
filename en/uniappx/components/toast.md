@@ -21,17 +21,17 @@ Snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`. 
 <template>
   <ms-toast
     :visible="showPlain"
-    message="操作成功"
+    message="Success"
     @update:visible="onPlainVisible"
   />
   <ms-toast
     :visible="showMultiLine"
-    message="这是一条比较长的提示文案，会折行显示，最多两三行"
+    message="This is a longer message that wraps onto two or three lines at most"
     @update:visible="onMultiVisible"
   />
   <ms-toast
     :visible="showRowIcon"
-    message="横向图标"
+    message="Horizontal icon"
     icon="star-line"
     @update:visible="onRowVisible"
   />

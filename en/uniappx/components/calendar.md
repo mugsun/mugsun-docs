@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/form/calendar.uvue`. T
 
 ```vue
 <template>
-  <!-- 组件用法 -->
+  <!-- Usage -->
   <ms-calendar
     value="2026-03-10,2026-03-18"
     type="range"
@@ -31,7 +31,7 @@ Snippets below are taken from the demo source `pages/demo/form/calendar.uvue`. T
     :marks="markList2"
     @change="onInlineChange"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-calendar
     ref="resetCalRef"
     value="2026-04-10"

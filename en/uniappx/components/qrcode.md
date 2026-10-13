@@ -19,18 +19,18 @@ Snippets below are taken from the demo source `pages/demo/display/qrcode.uvue`. 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-qrcode :value="demoValue" />
   <ms-qrcode :value="demoValue" logo="/static/logo.png" level="H" />
-  <!-- 纠错等级 -->
+  <!-- Error correction level -->
   <ms-qrcode :value="demoValue" level="L" size="sm" />
   <ms-qrcode :value="demoValue" level="M" size="sm" />
   <ms-qrcode :value="demoValue" level="Q" size="sm" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-qrcode :value="demoValue" status="expired" size="sm" />
   <ms-qrcode :value="demoValue" status="loading" size="sm" />
   <ms-qrcode :value="demoValue" status="scanned" size="sm" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-qrcode :value="demoValue" size="sm" />
   <ms-qrcode :value="demoValue" size="md" />
   <ms-qrcode :value="demoValue" size="lg" />

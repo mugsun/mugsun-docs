@@ -21,18 +21,18 @@ Snippets below are taken from the demo source `pages/demo/feedback/snackbar.uvue
 <template>
   <ms-snackbar
     :visible="showText"
-    content="这是一条纯文字的消息通知"
+    content="A text-only notification"
     :show-icon="false"
     @update:visible="onTextVisible"
   />
   <ms-snackbar
     :visible="showIcon"
-    content="这是一条带图标的消息通知"
+    content="A notification with an icon"
     @update:visible="onIconVisible"
   />
   <ms-snackbar
     :visible="showClose"
-    content="这是一条带关闭的消息通知"
+    content="A notification with a close button"
     close-btn
     :duration="0"
     @update:visible="onCloseVisible"

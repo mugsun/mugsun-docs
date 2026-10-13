@@ -20,13 +20,13 @@ Snippets below are taken from the demo source `pages/demo/media/editor.uvue`. To
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-editor v-model="draft" @command="onCommand" @change="onChange" />
   <ms-editor :model-value="draft" read-only :height="120" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-editor v-model="notes" :show-preview="false" :height="120" />
   <ms-editor v-model="notes" :toolbar="slimToolbar" :height="120" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-editor
     ref="richEditor"
     v-model="rich"
@@ -34,7 +34,7 @@ Snippets below are taken from the demo source `pages/demo/media/editor.uvue`. To
     show-count
     :maxlength="800"
     :height="160"
-    placeholder="在此输入 Markdown…"
+    placeholder="Type Markdown here…"
     @command="onCommand"
     @clear="onClear"
   />
@@ -42,12 +42,12 @@ Snippets below are taken from the demo source `pages/demo/media/editor.uvue`. To
 
 <script setup lang="uts">
 const draft = ref(
-  '## 发布说明\n\n本次新增 **图表** 与 *Markdown* 渲染。\n\n- 支持折线与柱状\n- 支持饼图与环形\n',
+  '## Release notes\n\nThis release adds **charts** and *Markdown* rendering.\n\n- Line and bar charts\n- Pie and donut charts\n',
 )
 
-const notes = ref('- 待办一\n- 待办二\n')
+const notes = ref('- To-do 1\n- To-do 2\n')
 
-const rich = ref('### 深度编辑\n\n可插入图片、任务与表格。\n')
+const rich = ref('### Advanced editing\n\nInsert images, tasks and tables.\n')
 
 const richToolbar = ref(
   ['bold', 'h3', 'task', 'image', 'table', 'hr', 'clear'] as string[],

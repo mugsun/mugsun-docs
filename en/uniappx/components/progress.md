@@ -19,19 +19,19 @@ Snippets below are taken from the demo source `pages/demo/display/progress.uvue`
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-progress variant="line" :percentage="80" />
   <ms-progress variant="plump" :percentage="80" />
   <ms-progress variant="circle" :percentage="30" />
-  <!-- 线性状态 -->
+  <!-- Linear states -->
   <ms-progress variant="line" :percentage="88" status="warning" />
   <ms-progress variant="line" :percentage="88" status="error" />
   <ms-progress variant="line" :percentage="88" status="success" />
-  <!-- 内显状态 -->
+  <!-- Inner label states -->
   <ms-progress variant="plump" :percentage="88" status="warning" />
   <ms-progress variant="plump" :percentage="88" status="error" />
   <ms-progress variant="plump" :percentage="88" status="success" />
-  <!-- 环形状态 -->
+  <!-- Circle states -->
   <ms-progress variant="circle" :percentage="88" status="warning" />
   <ms-progress variant="circle" :percentage="88" status="error" />
   <ms-progress variant="circle" :percentage="88" status="success" />

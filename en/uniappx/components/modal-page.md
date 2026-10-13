@@ -19,18 +19,18 @@ Snippets below are taken from the demo source `pages/demo/feedback/modal-page.uv
 
 ```vue
 <template>
-  <ms-modal-page v-model:visible="basicVisible" title="整页详情" @open="onOpen" @close="onClose">
-    <text>这是基础整页模态内容。可滚动长文区域。</text>
-    <text>第二段说明：盖住宿主页，不走原生独立窗口。</text>
+  <ms-modal-page v-model:visible="basicVisible" title="Full-page details" @open="onOpen" @close="onClose">
+    <text>This is basic full-page modal content. The long text area scrolls.</text>
+    <text>Second paragraph: it covers the host page instead of opening a native window.</text>
   </ms-modal-page>
-  <ms-modal-page v-model:visible="footerVisible" title="带底栏">
-    <text>内容区下方有确认操作。</text>
+  <ms-modal-page v-model:visible="footerVisible" title="With footer">
+    <text>There is a confirm action below the content.</text>
     <template #footer>
-      <ms-button block theme="primary" @click="footerVisible = false">完成</ms-button>
+      <ms-button block theme="primary" @click="footerVisible = false">Done</ms-button>
     </template>
   </ms-modal-page>
-  <ms-modal-page v-model:visible="customVisible" title="订单确认 · 自定义">
-    <text>自定义标题示例。</text>
+  <ms-modal-page v-model:visible="customVisible" title="Order confirmation · custom">
+    <text>Custom title example.</text>
   </ms-modal-page>
 </template>
 
