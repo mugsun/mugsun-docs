@@ -7,13 +7,13 @@ demo: pages/demo/nav/grid
 
 `ms-grid-item` 组件。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-grid-item`（源码仓暂未公开）。
+源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-grid-item`（商业版，源码不公开）。
 演示路由：`#/pages/demo/nav/grid`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/grid.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/nav/grid.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
 
 ```vue
 <template>

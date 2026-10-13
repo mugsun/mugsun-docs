@@ -9,17 +9,17 @@ demo: pages/demo/display/swiper-fx
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swiper-fx` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swiper-fx` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/swiper-fx`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-swiper-fx
     :list="list"
     :effect="effectName"
@@ -29,9 +29,9 @@ Snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue
     @change="onChange"
     @click="onClick"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-swiper-fx :list="list" effect="slide" :show-dots="true" :autoplay="false" :height="140" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-swiper-fx
     :list="list"
     effect="fade"
@@ -61,9 +61,9 @@ type FxEffect = 'fade' | 'slide' | 'zoom' | 'scale-slide'
 const effectName = ref('fade' as FxEffect)
 
 const list = ref([
-  { color: '#64748b', label: '卡片一' } as UTSJSONObject,
-  { color: '#0f766e', label: '卡片二' } as UTSJSONObject,
-  { color: '#b45309', label: '卡片三' } as UTSJSONObject,
+  { color: '#64748b', label: 'Card 1' } as UTSJSONObject,
+  { color: '#0f766e', label: 'Card 2' } as UTSJSONObject,
+  { color: '#b45309', label: 'Card 3' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 function onChange(i: number) : void {

@@ -19,7 +19,7 @@ cp config/application-local.yml.example config/application-local.yml
 | `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | 主库连接 |
 | `REDIS_HOST` / `REDIS_PORT`（默认 6379）/ `REDIS_PASSWORD` / `REDIS_DB`（prod 默认 0） | Redis |
 | `FILE_STORAGE_PATH`（默认 `/var/lib/mugsun/files/`）/ `FILE_DOMAIN` | 本地文件存储与访问域名 |
-| `MUGSUN_FRONT_URL` | 管理端 origin，用于 OAuth 回跳等；开发默认 `http://localhost:3006`，prod 必填 |
+| `MUGSUN_FRONT_URL` | 管理台 origin，用于 OAuth 回跳等；开发默认 `http://localhost:3006`，prod 必填 |
 
 ## 安全与密钥
 

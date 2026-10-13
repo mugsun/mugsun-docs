@@ -9,17 +9,17 @@ demo: pages/demo/nav/pagination
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pagination` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pagination` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/pagination`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-pagination
     :value="fullPage"
     :total="1000"
@@ -31,13 +31,13 @@ Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`; 
     simple
     @change="onSimpleChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-pagination
     :value="3"
     :total="50"
     disabled
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-pagination
     :value="navPage"
     :total="200"

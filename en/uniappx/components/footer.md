@@ -9,17 +9,17 @@ demo: pages/demo/nav/footer
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-footer` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-footer` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/footer`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-footer text="Copyright © 2026 Mugsun. All Rights Reserved" />
   <ms-footer
     text="Copyright © 2026 Mugsun"
@@ -31,7 +31,7 @@ Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`; see 
     :links="multiLinks"
     @link="onLink"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-footer
     logo-title="Mugsun"
     logo-icon="/static/logo.png"
@@ -41,18 +41,18 @@ Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`; see 
     @link="onLink"
   />
   <ms-footer>
-    <text>自定义内容 · 页脚插槽</text>
+    <text>Custom content · footer slot</text>
   </ms-footer>
   <ms-footer :links="multiLinks" @link="onLink" />
 </template>
 
 <script setup lang="uts">
 const multiLinks = [
-  { name: '用户协议' } as UTSJSONObject,
-  { name: '隐私政策' } as UTSJSONObject,
+  { name: 'Terms of Service' } as UTSJSONObject,
+  { name: 'Privacy Policy' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
-const singleLinks = [{ name: '用户协议' } as UTSJSONObject] as UTSJSONObject[]
+const singleLinks = [{ name: 'Terms of Service' } as UTSJSONObject] as UTSJSONObject[]
 
 function onLink(index: number) : void {
   console.log('onLink')

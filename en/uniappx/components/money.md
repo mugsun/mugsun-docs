@@ -9,23 +9,23 @@ demo: pages/demo/display/money
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-money` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-money` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/money`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/money.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/money.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-money :value="0.01" />
   <ms-money :value="15568.398" :digit="3" thousand size="lg" />
   <ms-money :value="1568" symbol="$" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-money :value="moneyValue" :digit="4" show-cn />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-money :value="1288.5" thousand tone="success" size="lg" />
   <ms-money :value="-86.2" thousand tone="danger" />
   <ms-money :value="9.9" size="sm" tone="primary" />

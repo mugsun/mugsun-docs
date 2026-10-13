@@ -14,7 +14,7 @@ mugsun is an admin platform for small and mid-sized teams that you can **deploy 
 | [mugsun-core](https://github.com/mugsun/mugsun-core) | BOM and starters | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · BouncyCastle | Apache-2.0 |
 | [mugsun-pc](https://github.com/mugsun/mugsun-pc) | Admin console | Vue 3.5 · Vite 7 · Element Plus 2.11 · Pinia · Vue Router | MIT |
 | [mugsun-track](https://github.com/mugsun/mugsun-track) | Browser analytics SDK `@mugsun/track-web` | TypeScript · plugin-based core | MIT |
-| ms-ui (`mugsun-uniappx-ui`) | Component library for uni-app x | uvue · uts | Source not yet public; docs and demo are |
+| ms-ui (`mugsun-uniappx-ui`) | Component library for uni-app x | uvue · uts | Commercial edition (source not public); docs and demo are |
 
 ## Design choices
 

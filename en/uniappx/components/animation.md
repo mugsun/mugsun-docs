@@ -9,49 +9,49 @@ demo: pages/demo/feedback/animation
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-animation` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-animation` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/animation`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/animation.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/animation.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-animation :name="animName" v-model:playing="playing" :duration="400">
     <view>
       <text>{{ effectLabel }}</text>
     </view>
   </ms-animation>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-animation name="fade-in" :auto-play="true" :duration="500">
     <view>
-      <text>挂载自动淡入</text>
+      <text>Fades in on mount</text>
     </view>
   </ms-animation>
   <ms-animation name="left-in" :auto-play="true" :duration="500" :delay="80">
     <view>
-      <text>条目一</text>
-      <text>条目二</text>
-      <text>条目三</text>
+      <text>Item 1</text>
+      <text>Item 2</text>
+      <text>Item 3</text>
     </view>
   </ms-animation>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-animation name="up-in" :auto-play="true" :duration="450">
     <view>
-      <text>上滑示例</text>
+      <text>Slide-up example</text>
     </view>
   </ms-animation>
   <ms-animation name="fade-out" v-model:playing="outPlaying" :duration="600" :delay="200">
     <view>
-      <text>延迟淡出示例</text>
+      <text>Delayed fade-out example</text>
     </view>
   </ms-animation>
   <ms-animation name="down-in" :auto-play="true" :duration="420">
     <view>
-      <text>下滑示例</text>
+      <text>Slide-down example</text>
     </view>
   </ms-animation>
 </template>
