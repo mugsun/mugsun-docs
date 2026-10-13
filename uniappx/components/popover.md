@@ -7,7 +7,7 @@ demo: pages/demo/feedback/popover
 
 `ms-popover`：气泡提示。触发元素放默认插槽，气泡内容用 `content` prop 或 `content` 插槽。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-popover`）。
 演示路由：`#/pages/demo/feedback/popover`。

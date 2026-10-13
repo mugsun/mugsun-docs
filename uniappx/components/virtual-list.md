@@ -7,7 +7,7 @@ demo: pages/demo/display/virtual-list
 
 `ms-virtual-list`：定高虚拟列表：只渲染可视窗口 + 前后缓冲行；可选触底加载底栏与空态/窗口作用域插槽。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-virtual-list`）。
 演示路由：`#/pages/demo/display/virtual-list`。

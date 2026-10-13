@@ -6,7 +6,7 @@ This page clarifies what is live versus what is not—so the top-nav entry is no
 
 **No public clickable demo yet.** Follow [Getting started](/en/guide/getting-started) to run boot (and optionally pc). Credentials follow the [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README_EN.md)—**change the password on first login**.
 
-## ms-ui · uni-app x component H5
+## uni-app x (ms-ui) component H5
 
 Component pages show a phone frame (bottom-right) that embeds the hosted H5 preview (`/demo/index.html`). Example: [Button](/en/uniappx/components/button).
 

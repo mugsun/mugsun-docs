@@ -9,6 +9,8 @@
 
 mugsun 官方文档站。用 [VitePress](https://vitepress.dev/) 构建，**根路径为简体中文**，英文在 `/en/`。线上地址：[https://docs.mugsun.com/](https://docs.mugsun.com/)。
 
+**对外状态**：boot · core · pc · track 免费开源；uni-app x 组件库（包名 ms-ui，源码私有）仅开放文档与 H5 演示，入口 `/uniappx/`（旧 `/ms-ui/` 自动跳转）。
+
 本仓只放文档与站点配置，不包含业务运行时。平台后端、管理台、埋点 SDK 分别在兄弟仓。
 
 ## 文档范围

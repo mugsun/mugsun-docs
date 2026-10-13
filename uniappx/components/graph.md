@@ -7,7 +7,7 @@ demo: pages/demo/media/graph
 
 `ms-graph`：原生 canvas 关系图子集：树 / 力导 / 层次 DAG。学 F6 常用布局语义，**不** npm 嵌入 `@antv/f6`。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-graph/components/ms-graph`）。
 可选插件：需单独安装 `uni_modules/ms-graph`，并依赖 `ms-ui`。

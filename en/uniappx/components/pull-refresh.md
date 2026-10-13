@@ -7,7 +7,7 @@ demo: pages/demo/feedback/pull-refresh
 
 `ms-pull-refresh` — Pull Refresh for uni-app x.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-pull-refresh`).
 Demo route: `#/pages/demo/feedback/pull-refresh`.

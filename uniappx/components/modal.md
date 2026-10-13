@@ -7,7 +7,7 @@ demo: pages/demo/feedback/modal
 
 `ms-modal`：对话框：标题 + 正文居中，底部一或两个按钮，可竖排；`theme="danger"` 给危险操作。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-modal`）。
 演示路由：`#/pages/demo/feedback/modal`。

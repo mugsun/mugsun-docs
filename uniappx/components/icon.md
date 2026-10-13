@@ -7,7 +7,7 @@ demo: pages/demo/basic/icon
 
 `ms-icon`：Remix 子集图标。`spin`：App/Web 用 `UniElement.animate`（宿主 view）；微信用 **text/image** 上 CSS `animation`（对齐 x-icon `faceSpinIcon`，勿挂宿主 view）。`rotate` 静态角度挂字形。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-icon`）。
 演示路由：`#/pages/demo/basic/icon`。

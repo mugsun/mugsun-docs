@@ -7,7 +7,7 @@ demo: pages/demo/media/markdown
 
 `ms-markdown`：Markdown 子集原生渲染（零第三方依赖，不用 webview）。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-markdown/components/ms-markdown`）。
 可选插件：需单独安装 `uni_modules/ms-markdown`，并依赖 `ms-ui`。

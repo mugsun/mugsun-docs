@@ -7,7 +7,7 @@ demo: pages/demo/media/webview
 
 `ms-webview`: Controlled wrapper around official `<web-view>`: fixed-height container + nav toolbar (back/forward/reload) + status line.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-webview/components/ms-webview`).
 Optional plugin: install `uni_modules/ms-webview` alongside `ms-ui`.

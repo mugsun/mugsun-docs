@@ -7,7 +7,7 @@ demo: pages/demo/feedback/modal-page
 
 `ms-modal-page`：整页模态层：`position: fixed` 全屏覆盖（不依赖 x-design 原生 `xModalPage`）。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-modal-page`）。
 演示路由：`#/pages/demo/feedback/modal-page`。

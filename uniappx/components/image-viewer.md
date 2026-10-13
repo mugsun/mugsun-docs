@@ -7,7 +7,7 @@ demo: pages/demo/display/image-viewer
 
 `ms-image-viewer`：全屏大图预览：swiper 翻页 + 可选页码/关闭/删除。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-image-viewer`）。
 演示路由：`#/pages/demo/display/image-viewer`。

@@ -7,7 +7,7 @@ demo: pages/demo/feedback/drawer
 
 `ms-drawer` — Drawer for uni-app x.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-drawer`).
 Demo route: `#/pages/demo/feedback/drawer`.

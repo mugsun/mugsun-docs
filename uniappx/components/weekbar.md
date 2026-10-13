@@ -7,7 +7,7 @@ demo: pages/demo/form/weekbar
 
 `ms-weekbar`：周选择条：一行七天，左右按钮整周切换。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-weekbar`）。
 演示路由：`#/pages/demo/form/weekbar`。

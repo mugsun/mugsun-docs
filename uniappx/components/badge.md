@@ -7,7 +7,7 @@ demo: pages/demo/basic/badge
 
 `ms-badge`：角标：包裹 default 插槽，右上角展示红点 / 数字 / 文案。`label` 优先于 `count` / `dot`；`standalone` 可独立展示。禁止 color / fontSize 等样式 props。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-badge`）。
 演示路由：`#/pages/demo/basic/badge`。

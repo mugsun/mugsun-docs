@@ -6,7 +6,7 @@
 
 **暂无公网可点演示。** 请按 [快速开始](/guide/getting-started) 本地拉起 boot（及可选 pc），账号以 [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 为准，**首次登录请改密**。
 
-## ms-ui · uni-app x 组件 H5
+## uni-app x（ms-ui） 组件 H5
 
 组件文档页右下角有手机框，嵌入本站托管的 H5 预览（`/demo/index.html`）。例如打开 [Button](/uniappx/components/button)，即可在框内切换组件演示。
 

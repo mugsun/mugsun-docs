@@ -10,14 +10,14 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'Admin', link: '/en/pc/', activeMatch: '/en/pc/' },
       { text: 'Track', link: '/en/track/', activeMatch: '/en/track/' },
       { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
-      { text: 'ms-ui · uni-app x', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
+      { text: 'uni-app x (ms-ui)', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
       { text: 'Demo notes', link: '/en/demo' },
       { text: 'Changelog', link: '/en/changelog' },
     ],
     sidebar: {
       '/en/uniappx/': [
         {
-          text: 'ms-ui · uni-app x',
+          text: 'uni-app x (ms-ui)',
           items: [
             { text: 'Overview', link: '/en/uniappx/' },
           ],
