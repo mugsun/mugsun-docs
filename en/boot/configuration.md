@@ -88,6 +88,86 @@ Example: a local Ollama listens on `http://localhost:11434` by default. Add `loc
 - The default is `allow-hosts: []`, so no private address is allowed. Public hosts not on the list are unaffected.
 - `*.example.com` matches any subdomain but not `example.com` itself. Hosts ending in `.local` or `.internal` are rejected unless listed explicitly. List only the hosts you actually need.
 
+## Human verification (slider captcha)
+
+Login, registration, the forgot-password code and the SMS code request require a slider puzzle by default. The captcha is built into boot and uses no third-party service.
+
+```yaml
+mugsun:
+  captcha:
+    enabled: true          # global switch
+    type: SLIDER           # SLIDER (default) | IMAGE (legacy digits, kept for one release)
+    store: redis           # redis | memory; memory is single-node dev only and fails to start in prod
+    slider:
+      tolerance-px: 6      # drop tolerance in native background pixels (background is 320×180)
+      expire-seconds: 120  # challenge lifetime
+      token-expire-seconds: 120
+      decoy-count: 1       # fake gaps, 0–2
+      keyboard-step-px: 4  # native pixels moved per key press in keyboard mode
+      bind-ip: false       # enforce token binding to IP / UA (recorded either way)
+      bind-ua: false       # true by default in prod
+    background:
+      dir: classpath:captcha/bg/   # or file:/opt/mugsun/captcha-bg/
+      rotate: random               # random | round-robin
+      reload-seconds: 600          # rescan interval, 0 = load at startup only
+    rate-limit:
+      challenge-per-minute: 30     # challenges per IP per minute
+      verify-fail-max: 5           # failures in 10 minutes before a 10-minute lock (3 in keyboard mode)
+      global-challenge-per-second: 200   # global per-second cap (shared across nodes with Redis)
+      sms-phone-per-day: 10        # SMS codes per phone number per day
+      sms-ip-per-hour: 20          # SMS codes per IP per hour
+      sms-phone-per-minute: 5      # short window: per phone per minute (counts only after a token is consumed; recovers on its own)
+      sms-ip-per-minute: 30        # short window: per IP per minute (every request counts, even without a token)
+```
+
+See `mugsun.captcha` in `application.yml` for every key and default.
+
+**Backgrounds:** jpg or png, 640×360 (16:9) recommended, up to 200KB each, at least 20 images, avoiding large flat areas. A plain-colour placeholder is used while the folder is empty. Use only images you own or may use commercially, and list their sources in a `SOURCES.md` in the folder.
+
+**Endpoints:**
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /auth/captcha/config?scene=&clientId=&tenantId=` | Whether verification is needed; a hint for the front end only |
+| `POST /auth/captcha/challenge` | Background and puzzle piece, valid for `expireSeconds` |
+| `POST /auth/captcha/verify` | Submit the drop position and track (or key presses in keyboard mode) for a one-time `captchaToken` |
+
+`scene` is `login`, `register`, `sms` (sending the SMS code) or `forget`. The challenge request declares `inputMode` (`pointer` for mouse/touch or `keyboard`), and verify must use the same one; keyboard challenges return `keyboardStep`, and the number of key presses must match the drop position. Put the `captchaToken` in the body of `/auth/login`, `/auth/register`, `/auth/sms-code` or `/auth/forget-code`. It works once and must match the scene, client and tenant used for the challenge. The server decides on its own whether verification is needed; it does not rely on `config`.
+
+Errors come back as HTTP 200 with `R.code`:
+
+| code | Meaning |
+| --- | --- |
+| `40010` | Challenge expired; fetch a new one |
+| `40011` | Failed; fetch a new one (no reason given) |
+| `40012` | Too many attempts; retry after `data.retryAfter` seconds. The failure that triggers the lock (the 5th pointer or 3rd keyboard failure) already returns `40012`, as does any failed verify when the IP is already locked (including by a concurrent request or the other input mode). Challenge and verify also return `40012` while locked |
+| `40013` | Missing or invalid `captchaToken` |
+| `40014` | Verification is not needed right now |
+
+The verify request body is capped at 32KB, chunked uploads included; an oversized body also gets HTTP 200 with `40011`.
+
+**Forgotten password:** `/auth/forget-code` sends its email asynchronously, so response time does not depend on whether the account exists, and it returns the same success message ("如账号存在，验证码已发送至绑定邮箱"; the admin site shows it in English as "If the account exists, a verification code has been sent to its linked email.") whether the account is missing, has no email, the mail channel is not configured, or sending failed. The actual reason only goes to the server log, so the response reveals neither the account nor the channel state. Check the mail channel after deploying, or users will see "sent" and get nothing.
+
+**Sending SMS:** `/auth/sms-code` runs these steps in order: (1) a per-IP short window of 30 per minute, which counts every request, including ones without a token, and recovers after 60 seconds; (2) a read-only check of the daily quotas (per phone per day, per IP per hour), so an over-quota request does not burn the token; (3) consume the `captchaToken`; (4) a per-phone short window of 5 per minute, counted only once the token has been consumed; (5) atomically count against the daily quotas only if they are not yet full; (6) send. Requests with no token or a bad token only count toward the per-IP window, never the per-phone window or the daily quota, so nobody can lock out a number or use up its quota for the day on its owner's behalf. A failed send still counts and is written to the audit log. Every limit returns `40012` with `retryAfter`. The phone number has spaces and `-` removed and any `+86`/`0086`/`86` prefix stripped, and the limits, sending and SMS login all use that form.
+
+**Redis keys:** captcha state lives under the prefix `mugsun:captcha:v2:` (with `store: memory` the same keys live in-process):
+
+| Key | Purpose | Expiry |
+| --- | --- | --- |
+| `challenge:<captchaId>` | Challenge (answer and bindings), taken and deleted on verify | `expire-seconds` |
+| `token:<captchaToken>` | One-time token, taken and deleted by the business endpoint | `token-expire-seconds` |
+| `rl:challenge:<ip>` | Challenges per IP per minute | 60 s |
+| `rl:keyboard:<ip>` | Keyboard verifies per IP per minute | 60 s |
+| `rl:global:<second>` | Global challenges per second | 2 s |
+| `rl:sms-phone:<phone hash>` / `rl:sms-ip:<ip>` | SMS daily quotas (counted only after the token is consumed) | 1 day / 1 hour |
+| `rl:sms-burst-phone:<phone hash>` / `rl:sms-burst-ip:<ip>` | SMS short-window limit | 60 s |
+| `fail:<pointer\|keyboard>:<ip>` | Failure counter | `fail-window-seconds` |
+| `lock:<ip>` | IP lock; its remaining TTL is `retryAfter` | `lock-seconds` |
+
+`:` in IPv6 addresses is written as `_`. To unlock an IP by hand: `DEL mugsun:captcha:v2:lock:<ip>`.
+
+**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. In slider mode the client switch (`sys_client.captcha_enabled`) cannot turn verification off, because the caller chooses the clientId; it only applies to login in legacy IMAGE mode. New tenants always start with verification on.
+
 ## Production
 
 The `prod` profile turns off the OpenAPI docs (springdoc / swagger-ui), forces `strict-keys: true` and disables mock social login. A minimal start looks like this:
