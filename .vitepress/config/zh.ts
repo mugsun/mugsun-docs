@@ -241,7 +241,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     lightModeSwitchTitle: '切换到浅色',
     darkModeSwitchTitle: '切换到深色',
     footer: {
-      message: '免费开源：boot · core · pc · track。ms-ui（uni-app x）组件文档已开放。',
+      message: '免费开源：boot · core · pc · track。uni-app x（ms-ui）组件文档已开放。',
       copyright: 'Copyright © 2026 mugsun',
     },
   },

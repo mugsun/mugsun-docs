@@ -1,0 +1,6 @@
+/ms-ui /uniappx 301
+/ms-ui/ /uniappx/ 301
+/ms-ui/* /uniappx/:splat 301
+/en/ms-ui /en/uniappx 301
+/en/ms-ui/ /en/uniappx/ 301
+/en/ms-ui/* /en/uniappx/:splat 301

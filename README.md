@@ -22,10 +22,11 @@ mugsun 官方文档站。用 [VitePress](https://vitepress.dev/) 构建，**根�
 | `/pc/` | `/en/pc/` | 管理台概述与本地开发 |
 | `/track/` | `/en/track/` | 埋点安装、首事件、隐私 |
 | `/core/` | `/en/core/` | BOM / starter 概述 |
+| `/uniappx/` | `/en/uniappx/` | uni-app x 组件文档（包名 ms-ui；旧 `/ms-ui/` 跳转至此） |
 | `/demo` | `/en/demo` | 本地演示说明（无公网 Demo 时的替代） |
 | `/changelog` | `/en/changelog` | 站点与产品相关更新记录 |
 
-免费开源产品线：`boot` · `core` · `pc` · `track`。`cloud`（微服务）与 `uniappx-ui` 在文中标为规划中 / 商业意向，不写成已交付安装包。
+免费开源产品线：`boot` · `core` · `pc` · `track`。`cloud`（微服务）规划中；uni-app x 组件库（仓 `mugsun-uniappx-ui`，包名 ms-ui）源码私有，**文档与 H5 演示已开放**（`/uniappx/`）。
 
 ## 本地预览
 

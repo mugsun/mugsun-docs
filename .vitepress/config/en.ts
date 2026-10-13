@@ -242,7 +242,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
     darkModeSwitchTitle: 'Switch to dark',
     langMenuLabel: 'Language',
     footer: {
-      message: 'Open source: boot · core · pc · track. ms-ui (uni-app x) component docs available in English and Chinese.',
+      message: 'Open source: boot · core · pc · track. uni-app x (ms-ui) component docs available in English and Chinese.',
       copyright: 'Copyright © 2026 mugsun',
     },
   },

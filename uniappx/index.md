@@ -1,4 +1,4 @@
-# ms-ui（uni-app x）
+# uni-app x（ms-ui）
 
 **ms-ui** 是面向 **uni-app x** 的跨端组件库（App / 小程序 / H5），easycom 前缀 `ms-`。**不是** PC 管理台（管理台见 [pc](/pc/)）。
 

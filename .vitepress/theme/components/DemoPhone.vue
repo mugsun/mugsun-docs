@@ -170,16 +170,5 @@ watch(iframeSrc, () => {
         />
       </div>
     </aside>
-    <!-- ≤960px: bottom bar linking to the full H5 demo (no iframe) -->
-    <nav v-if="demoPath" class="ms-demo-mobile-bar" aria-label="H5 演示入口">
-      <a
-        class="ms-demo-mobile-bar__cta"
-        :href="iframeSrc"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="打开 H5 演示"
-      >打开 H5 演示</a>
-      <span class="ms-demo-mobile-bar__sub">完整交互在演示页</span>
-    </nav>
   </ClientOnly>
 </template>

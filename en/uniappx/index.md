@@ -1,4 +1,4 @@
-# ms-ui (uni-app x)
+# uni-app x (ms-ui)
 
 **ms-ui** is a cross-platform component library for **uni-app x** (App / mini programs / H5), easycom prefix `ms-`. It is **not** the PC admin console (see [Admin / pc](/en/pc/)).
 

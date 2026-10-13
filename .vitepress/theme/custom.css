@@ -232,38 +232,6 @@
   }
 }
 
-/* Narrow-screen H5 demo entry (only shown ≤960px) */
-.ms-demo-mobile-bar {
-  display: none;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 25; /* above content, below VPNav (30) */
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-  background: var(--vp-c-bg);
-  border-top: 1px solid var(--vp-c-divider);
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.ms-demo-mobile-bar__cta {
-  display: inline-block;
-  padding: 8px 20px;
-  border-radius: 20px;
-  background: var(--vp-c-brand-1);
-  color: var(--vp-c-white) !important;
-  font-weight: 600;
-  text-decoration: none !important;
-}
-
-.ms-demo-mobile-bar__sub {
-  font-size: 12px;
-  color: var(--vp-c-text-2);
-}
-
 @media (max-width: 960px) {
   .ms-demo-phone {
     display: none;
@@ -271,14 +239,5 @@
 
   .ms-demo-fab {
     display: none;
-  }
-
-  .ms-demo-mobile-bar {
-    display: flex;
-  }
-
-  body:has(.ms-demo-mobile-bar) .VPDoc,
-  body:has(.ms-demo-mobile-bar) .VPDocFooter {
-    padding-bottom: calc(72px + env(safe-area-inset-bottom));
   }
 }
