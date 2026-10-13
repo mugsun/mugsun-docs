@@ -86,7 +86,7 @@ Example: a local Ollama listens on `http://localhost:11434` by default. Add `loc
 - Blocked ranges cover private, loopback, link-local, CGNAT (which includes cloud metadata addresses), multicast, reserved and documentation addresses. The same applies to IPv6 (including `2001:db8::/32` and Teredo `2001::/32`), including IPv4-mapped, NAT64 and 6to4 addresses that embed one of those IPv4 addresses. The workflow HTTP node ignores `allow-hosts` and always blocks internal addresses.
 - Redirects are not followed: when the other side answers with a 3xx, the request ends there and the `Location` address is never requested. If a webhook, MCP or model address redirects, enter the final address instead.
 - The default is `allow-hosts: []`, so no private address is allowed. Public hosts not on the list are unaffected.
-- Cloud metadata addresses (`169.254.169.254`, `100.100.100.200` and `fd00:ec2::254`, including IPv4-mapped forms) are always refused, even when the host is on `allow-hosts`.
+- Cloud metadata addresses are always refused, even when the host is on `allow-hosts`: the whole link-local range `169.254.0.0/16` (including `169.254.169.254`, the AWS ECS task credentials endpoint `169.254.170.2` and Tencent Cloud's `169.254.0.23`), plus `100.100.100.200` and `fd00:ec2::254`. IPv6 forms that embed an IPv4 address (`::ffff:` mapped, `::a.b.c.d` compatible, NAT64 `64:ff9b::/96` and 6to4 `2002::/16`) are decoded to the embedded IPv4 address before the check.
 - `*.example.com` matches any subdomain but not `example.com` itself. Hosts ending in `.local` or `.internal` are rejected unless listed explicitly. List only the hosts you actually need.
 
 ## Production
