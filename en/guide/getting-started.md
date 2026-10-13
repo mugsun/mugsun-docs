@@ -9,8 +9,8 @@ This guide takes you from an empty machine to three verifiable results: **the ba
 | JDK | 21 | Running boot |
 | Maven | 3.9+ | Building boot (pulls `com.mugsun:mugsun-*:0.1.0` from Maven Central) |
 | Docker / Docker Compose | Recent | PostgreSQL 16 (with PostGIS and pgvector) and Redis 7 |
-| Node.js | ≥ 20.19 | Console and SDK (optional) |
-| pnpm | ≥ 8.8 (the console pins `pnpm@11.9.0`) | Same as above |
+| Node.js | ≥ 22.13 | Console and SDK (optional) |
+| pnpm | ≥ 11.11 (the console pins `pnpm@11.28.2`) | Same as above |
 
 Recommended layout. The console references the SDK as `file:../mugsun-track`, so the repositories must sit side by side:
 
