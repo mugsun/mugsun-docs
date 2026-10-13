@@ -111,9 +111,30 @@ Errors come back as HTTP 200 with `R.code`:
 | --- | --- |
 | `40010` | Challenge expired; fetch a new one |
 | `40011` | Failed; fetch a new one (no reason given) |
-| `40012` | Too many attempts; retry after `data.retryAfter` seconds |
+| `40012` | Too many attempts; retry after `data.retryAfter` seconds. The failure that triggers the lock (the 5th pointer or 3rd keyboard failure) already returns `40012`, as do challenge and verify while locked |
 | `40013` | Missing or invalid `captchaToken` |
 | `40014` | Verification is not needed right now |
+
+The verify request body is capped at 32KB, chunked uploads included; an oversized body also gets HTTP 200 with `40011`.
+
+**Forgotten password:** `/auth/forget-code` returns the same success message whether the account is missing, has no email, the mail channel is not configured, or sending failed. The actual reason only goes to the server log, so the response reveals neither the account nor the channel state. Check the mail channel after deploying, or users will see "sent" and get nothing.
+
+**Sending SMS:** `/auth/sms-code` checks the phone and IP limits before consuming the `captchaToken`, so an over-limit request does not burn the token. The phone number has spaces and `-` removed and any `+86`/`0086`/`86` prefix stripped, and the limits, sending and SMS login all use that form.
+
+**Redis keys:** captcha state lives under the prefix `mugsun:captcha:v2:` (with `store: memory` the same keys live in-process):
+
+| Key | Purpose | Expiry |
+| --- | --- | --- |
+| `challenge:<captchaId>` | Challenge (answer and bindings), taken and deleted on verify | `expire-seconds` |
+| `token:<captchaToken>` | One-time token, taken and deleted by the business endpoint | `token-expire-seconds` |
+| `rl:challenge:<ip>` | Challenges per IP per minute | 60 s |
+| `rl:keyboard:<ip>` | Keyboard verifies per IP per minute | 60 s |
+| `rl:global:<second>` | Global challenges per second | 2 s |
+| `rl:sms-phone:<phone hash>` / `rl:sms-ip:<ip>` | SMS send limits | 1 day / 1 hour |
+| `fail:<pointer\|keyboard>:<ip>` | Failure counter | `fail-window-seconds` |
+| `lock:<ip>` | IP lock; its remaining TTL is `retryAfter` | `lock-seconds` |
+
+`:` in IPv6 addresses is written as `_`. To unlock an IP by hand: `DEL mugsun:captcha:v2:lock:<ip>`.
 
 **Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. In slider mode the client switch (`sys_client.captcha_enabled`) cannot turn verification off, because the caller chooses the clientId; it only applies to login in legacy IMAGE mode. New tenants always start with verification on.
 

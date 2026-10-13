@@ -110,9 +110,30 @@ mugsun:
 | --- | --- |
 | `40010` | 题目已过期，重新取题 |
 | `40011` | 未通过，重新取题（不提示具体原因） |
-| `40012` | 尝试过多，`data.retryAfter` 秒后再试 |
+| `40012` | 尝试过多，`data.retryAfter` 秒后再试。触发锁定的那次失败（如鼠标第 5 次、键盘第 3 次）本身就返回 `40012`，锁定期内取题和校验也都返回 `40012` |
 | `40013` | 缺少有效的 `captchaToken` |
 | `40014` | 当前无需验证 |
+
+校验接口请求体上限 32KB（含分块传输），超限同样返回 HTTP 200 + `40011`。
+
+**忘记密码：** `/auth/forget-code` 对账号不存在、未绑定邮箱、邮件通道未配置或下发失败一律返回同一成功提示，具体原因只写服务端日志，避免借此判断账号是否存在或通道状态。部署后请检查邮件通道，否则用户收不到验证码却看到“已发送”。
+
+**发送短信：** `/auth/sms-code` 先检查手机号与 IP 频控，再核销 `captchaToken`，超额时不消耗令牌。手机号先去空格和 `-`、去 `+86`/`0086`/`86` 前缀，频控、发码与短信登录用同一号码。
+
+**Redis 键：** 验证码状态都在前缀 `mugsun:captcha:v2:` 下（`store: memory` 时同名键在进程内）：
+
+| 键 | 用途 | 过期 |
+| --- | --- | --- |
+| `challenge:<captchaId>` | 题目（答案与绑定信息），校验时取出即删 | `expire-seconds` |
+| `token:<captchaToken>` | 一次性令牌，业务接口取出即删 | `token-expire-seconds` |
+| `rl:challenge:<ip>` | 单 IP 每分钟取题计数 | 60 秒 |
+| `rl:keyboard:<ip>` | 单 IP 每分钟键盘校验计数 | 60 秒 |
+| `rl:global:<秒>` | 全局每秒取题计数 | 2 秒 |
+| `rl:sms-phone:<号码哈希>` / `rl:sms-ip:<ip>` | 发送短信频控 | 1 天 / 1 小时 |
+| `fail:<pointer\|keyboard>:<ip>` | 失败计数 | `fail-window-seconds` |
+| `lock:<ip>` | IP 锁定，剩余 TTL 即 `retryAfter` | `lock-seconds` |
+
+IPv6 地址中的 `:` 写成 `_`。手动解锁某 IP：`DEL mugsun:captcha:v2:lock:<ip>`。
 
 **租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。滑块模式下客户端开关（`sys_client.captcha_enabled`）不能关闭验证码，因为 clientId 由调用方填写；它只在旧数字码模式下对登录生效。新建的租户一律开启。
 
