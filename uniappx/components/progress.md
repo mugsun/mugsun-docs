@@ -14,13 +14,30 @@ demo: pages/demo/display/progress
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/progress.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-progress variant="line" size="xs">
-    …
-  </ms-progress>
+  <!-- 组件类型 -->
+  <ms-progress variant="line" :percentage="80" />
+  <ms-progress variant="plump" :percentage="80" />
+  <ms-progress variant="circle" :percentage="30" />
+  <!-- 线性状态 -->
+  <ms-progress variant="line" :percentage="88" status="warning" />
+  <ms-progress variant="line" :percentage="88" status="error" />
+  <ms-progress variant="line" :percentage="88" status="success" />
+  <!-- 内显状态 -->
+  <ms-progress variant="plump" :percentage="88" status="warning" />
+  <ms-progress variant="plump" :percentage="88" status="error" />
+  <ms-progress variant="plump" :percentage="88" status="success" />
+  <!-- 环形状态 -->
+  <ms-progress variant="circle" :percentage="88" status="warning" />
+  <ms-progress variant="circle" :percentage="88" status="error" />
+  <ms-progress variant="circle" :percentage="88" status="success" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

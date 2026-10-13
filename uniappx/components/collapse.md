@@ -14,13 +14,51 @@ demo: pages/demo/display/collapse
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/collapse.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-collapse theme="…">
-    …
-  </ms-collapse>
+  <ms-collapse
+    :items="baseItems"
+    :value="baseValue"
+    @change="onBaseChange"
+  />
+  <ms-collapse
+    :items="actionItems"
+    @change="onActionChange"
+  />
+  <ms-collapse
+    :items="accordionItems"
+    :value="accordionValue"
+    accordion
+    @change="onAccordionChange"
+  />
+  <ms-collapse
+    :items="disabledItems"
+    @change="onDisabledChange"
+  />
+  <!-- 样式 -->
+  <ms-collapse
+    :items="cardItems"
+    :value="cardValue"
+    theme="card"
+    @change="onCardChange"
+  />
+  <ms-collapse :items="baseItems" :expand-icon="false" />
+  <ms-collapse :items="accordionItems" :default-expand-all="true" />
+  <ms-collapse
+    v-model:value="modelValue"
+    :items="baseItems"
+    @change="onModelChange"
+  />
 </template>
+
+<script setup lang="uts">
+const modelValue = ref([0] as number[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

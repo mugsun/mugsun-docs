@@ -14,13 +14,57 @@ demo: pages/demo/display/tree
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/tree.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-tree value="…">
-    …
-  </ms-tree>
+  <!-- 基础树 -->
+  <ms-tree
+    :list="treeList"
+    :folder-ids="basicFolders"
+    :checkable="false"
+    @update:folderIds="onBasicFolders"
+    @expand-change="onBasicExpand"
+    @node-click="onNodeClick"
+  />
+  <!-- 可选 -->
+  <ms-tree
+    :list="treeList"
+    :value="checkValue"
+    :folder-ids="checkFolders"
+    :parent-link="parentLink"
+    checkable
+    @update:value="onCheckValue"
+    @update:folderIds="onCheckFolders"
+    @change="onCheckChange"
+    @node-click="onNodeClick"
+  />
+  <!-- 状态 -->
+  <ms-tree
+    :list="treeList"
+    :value="stateValue"
+    :folder-ids="stateFolders"
+    :disabled-parent="disabledParent"
+    parent-link
+    checkable
+    @update:value="onStateValue"
+    @update:folderIds="onStateFolders"
+    @node-click="onNodeClick"
+  />
 </template>
+
+<script setup lang="uts">
+const basicFolders = ref(['1', '2'] as string[])
+const checkFolders = ref(['1', '1-2', '2'] as string[])
+const stateFolders = ref(['1', '1-1', '2'] as string[])
+const checkValue = ref(['1-2-1'] as string[])
+const stateValue = ref([] as string[])
+const parentLink = ref(true)
+const disabledParent = ref(true)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

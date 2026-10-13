@@ -14,13 +14,62 @@ Demo route: `#/pages/demo/display/card`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/card.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-card title="…">
-    …
+  <!-- 基础用法 -->
+  <ms-card
+    image="/static/demo-cover.png"
+    image-height="sm"
+    title="图文卡片标题"
+    subtitle="副标题说明文字"
+    content="头图、标题、副标题与正文按固定层次排布，正文超出时按行高换行。"
+    bordered
+  />
+  <ms-card
+    title="纯文字卡片标题"
+    subtitle="没有头图时首行即标题"
+    content="没有头图时不占位，卡片高度跟随内容。"
+    bordered
+  />
+  <!-- 内容与底部 -->
+  <ms-card title="内容插槽标题" subtitle="正文区可放任意内容" bordered>
+    <view>
+      <view>
+        <ms-tag theme="primary">标签一</ms-tag>
+      </view>
+      <view>
+        <ms-tag theme="success">标签二</ms-tag>
+      </view>
+    </view>
   </ms-card>
+  <ms-card title="底部操作卡片" subtitle="底部放置操作按钮" bordered>
+    <template #footer>
+      <view>
+        <view>
+          <ms-button size="sm" variant="outline" theme="default" @click="onFooter('取消')">取消</ms-button>
+        </view>
+        <ms-button size="sm" theme="primary" @click="onFooter('确定')">确定</ms-button>
+      </view>
+    </template>
+  </ms-card>
+  <!-- 外观 -->
+  <ms-card title="描边卡片" subtitle="细线描边，适合浅底页面" bordered />
+  <ms-card title="投影卡片" subtitle="轻投影抬升层次" shadow />
+  <!-- 状态图标 -->
+  <ms-card
+    title="带状态图标"
+    subtitle="点击右上角图标不触发卡片点击"
+    status-icon="more-line"
+    bordered
+    @status="onStatus"
+  />
+  <ms-card title="无状态图标" subtitle="不设图标时右上角不占位" bordered />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

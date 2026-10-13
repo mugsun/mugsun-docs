@@ -14,13 +14,72 @@ demo: pages/demo/form/picker-selected
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/picker-selected.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-picker-selected title="…" v-model:visible="open">
-    …
+  <!-- 组件类型 -->
+  <ms-picker-selected
+    ref="localPickerRef"
+    :value="localValue"
+    :options="companies"
+    title="本地搜索"
+    @open="onLocalOpen"
+    @confirm="onLocalConfirm"
+  >
+    <ms-cell title="合作公司" :note="localLabel" arrow :bordered="false" />
+  </ms-picker-selected>
+  <ms-picker-selected
+    :value="remoteValue"
+    :options="remoteOptions"
+    :local-search="false"
+    title="异步搜索"
+    @open="onRemoteOpen"
+    @search="onRemoteSearch"
+    @confirm="onRemoteConfirm"
+  >
+    <ms-cell title="搜索公司" :note="remoteLabel" arrow :bordered="false" />
+  </ms-picker-selected>
+  <!-- 组件样式 -->
+  <ms-picker-selected
+    :value="multiValue"
+    :options="companies"
+    :multiple="true"
+    title="多选公司"
+    @open="onMultiOpen"
+    @confirm="onMultiConfirm"
+  >
+    <ms-cell title="多选公司" :note="multiLabel" arrow :bordered="false" />
+  </ms-picker-selected>
+  <ms-picker-selected
+    :value="singleValue"
+    :options="companies"
+    :multiple="false"
+    :required="true"
+    title="单选公司"
+    @open="onSingleOpen"
+    @confirm="onSingleConfirm"
+  >
+    <ms-cell title="单选公司" :note="singleLabel" arrow :bordered="false" />
   </ms-picker-selected>
 </template>
+
+<script setup lang="uts">
+const localPickerRef = ref(null)
+const companies = ref([
+const localValue = ref(['2', '8'] as string[])
+const localLabel = ref('已选 2 项')
+const remoteValue = ref([] as string[])
+const remoteLabel = ref('未选择')
+const remoteOptions = ref([] as UTSJSONObject[])
+const multiValue = ref(['1'] as string[])
+const multiLabel = ref('广州信瑞化妆品公司')
+const singleValue = ref(['4'] as string[])
+const singleLabel = ref('国都期货有限公司')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

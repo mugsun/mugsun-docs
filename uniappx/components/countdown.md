@@ -14,13 +14,37 @@ demo: pages/demo/display/countdown
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/countdown.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-countdown theme="default" size="sm">
-    …
-  </ms-countdown>
+  <!-- 组件类型 -->
+  <ms-countdown :time="demoTime" />
+  <ms-countdown :time="demoTime" format="HH:mm:ss:SSS" millisecond />
+  <ms-countdown :time="demoTime" theme="square" />
+  <!-- 组件尺寸 -->
+  <ms-countdown :time="demoTime" size="sm" theme="square" />
+  <ms-countdown :time="demoTime" size="md" theme="square" />
+  <ms-countdown :time="demoTime" size="lg" theme="square" />
+  <!-- 组件深度 -->
+  <ms-countdown :time="90000" format="mm:ss" />
+  <ms-countdown ref="finishCountdown" :time="5000" format="ss" @finish="onFinish" />
+  <ms-countdown
+    ref="ctrlCountdown"
+    :time="120000"
+    format="mm:ss"
+    :auto-start="false"
+    theme="square"
+  />
 </template>
+
+<script setup lang="uts">
+const ctrlCountdown = ref(null)
+const finishCountdown = ref(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,39 @@ demo: pages/demo/media/chat
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/media/chat.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-chat variant="…">
-    …
-  </ms-chat>
+  <!-- 组件类型 -->
+  <ms-chat :messages="basic" @message-click="onMessage" @action="onAction" />
+  <ms-chat :messages="named" layout="left" />
+  <!-- 组件状态 -->
+  <ms-chat :messages="pending" />
+  <ms-chat :messages="failed" @retry="onRetry" />
+  <ms-chat :messages="streaming" />
+  <!-- 组件样式 -->
+  <ms-chat :messages="basic" variant="outline" />
+  <ms-chat :messages="basic" variant="text" />
+  <!-- 组件深度 -->
+  <ms-chat :messages="markdownMsgs" />
+  <ms-chat :messages="thinkingMsgs" @thinking-toggle="onThink" />
+  <ms-chat :messages="actionMsgs" @action="onAction" />
 </template>
+
+<script setup lang="uts">
+const basic = ref([
+const named = ref([
+const pending = ref([
+const failed = ref([
+const streaming = ref([
+const markdownMsgs = ref([msg('user', '用 Markdown 说明能力。'), mdAssistant] as UTSJSONObject[])
+const thinkingMsgs = ref([msg('user', '为什么要加深对话？'), thinkAssistant] as UTSJSONObject[])
+const actionMsgs = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,54 @@ Demo route: `#/pages/demo/nav/navbar`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/navbar.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-navbar theme="light" title="…">
-    …
-  </ms-navbar>
+  <ms-navbar title="纯标题" :fixed="false" :safe-area-inset-top="false" />
+  <ms-navbar
+    title="带返回"
+    left-arrow
+    :fixed="false"
+    :safe-area-inset-top="false"
+    @go-back="onBack"
+  />
+  <ms-navbar
+    title="返回加首页"
+    left-arrow
+    home-icon
+    :fixed="false"
+    :safe-area-inset-top="false"
+    @go-back="onBack"
+    @go-home="onHome"
+  />
+  <ms-navbar title="标题居中" left-arrow :fixed="false" :safe-area-inset-top="false" />
+  <ms-navbar
+    title="标题左对齐"
+    title-align="left"
+    left-arrow
+    :fixed="false"
+    :safe-area-inset-top="false"
+  />
+  <ms-navbar
+    left-arrow
+    left-text="返回带文案"
+    :fixed="false"
+    :safe-area-inset-top="false"
+    @go-back="onBack"
+  />
+  <ms-navbar title="浅色" left-arrow theme="light" :fixed="false" :safe-area-inset-top="false" />
+  <ms-navbar
+    title="品牌色"
+    left-arrow
+    theme="brand"
+    :fixed="false"
+    :safe-area-inset-top="false"
+  />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

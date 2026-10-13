@@ -14,13 +14,39 @@ demo: pages/demo/nav/footer
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/footer.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-footer text="…">
-    …
+  <!-- 组件类型 -->
+  <ms-footer text="Copyright © 2026 Mugsun. All Rights Reserved" />
+  <ms-footer
+    text="Copyright © 2026 Mugsun"
+    :links="singleLinks"
+    @link="onLink"
+  />
+  <ms-footer
+    text="Copyright © 2026 Mugsun"
+    :links="multiLinks"
+    @link="onLink"
+  />
+  <!-- 组件深度 -->
+  <ms-footer
+    logo-title="Mugsun"
+    logo-icon="/static/logo.png"
+    logo-with-info
+    text="Copyright © 2026 Mugsun"
+    :links="multiLinks"
+    @link="onLink"
+  />
+  <ms-footer>
+    <text>自定义内容 · 页脚插槽</text>
   </ms-footer>
+  <ms-footer :links="multiLinks" @link="onLink" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

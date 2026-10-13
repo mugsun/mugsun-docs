@@ -14,13 +14,34 @@ demo: pages/demo/display/rolling-number
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/rolling-number.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-rolling-number size="md">
-    …
-  </ms-rolling-number>
+  <!-- 组件类型 -->
+  <ms-rolling-number :value="decimalVal" />
+  <ms-rolling-number :value="intVal" :duration="1100" :decimals="0" />
+  <!-- 组件样式 -->
+  <ms-rolling-number :value="moneyVal" :grouping="true" prefix="¥" :decimals="2" />
+  <ms-rolling-number :value="bigVal" size="lg" :decimals="0" />
+  <!-- 组件深度 -->
+  <ms-rolling-number :value="suffixVal" suffix="%" :decimals="1" />
+  <ms-rolling-number :value="staticVal" :animated="false" :decimals="0" />
+  <ms-rolling-number :value="startVal" :start="10" :decimals="0" />
 </template>
+
+<script setup lang="uts">
+const decimalVal = ref(2023.2)
+const intVal = ref(1998)
+const moneyVal = ref(12880.5)
+const bigVal = ref(9600)
+const suffixVal = ref(68.5)
+const staticVal = ref(100)
+const startVal = ref(88)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

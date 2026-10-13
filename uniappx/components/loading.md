@@ -14,13 +14,22 @@ demo: pages/demo/basic/loading
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/loading.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-loading size="sm" text="…">
-    …
-  </ms-loading>
+  <!-- 纯图标 -->
+  <ms-loading text="" />
+  <!-- 横向 -->
+  <ms-loading layout="horizontal" text="加载中…" />
+  <!-- 竖向 -->
+  <ms-loading layout="vertical" text="加载中…" />
+  <!-- 纯文字 -->
+  <ms-loading :indicator="false" text="加载中…" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

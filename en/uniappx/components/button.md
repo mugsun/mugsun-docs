@@ -14,13 +14,30 @@ Demo route: `#/pages/demo/basic/button`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/basic/button.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-button theme="default" variant="solid">
-    …
-  </ms-button>
+  <!-- 形态 -->
+  <ms-button block theme="primary">填充</ms-button>
+  <ms-button block variant="outline" theme="primary">描边</ms-button>
+  <ms-button block variant="dashed" theme="primary">虚框</ms-button>
+  <!-- 主题 -->
+  <ms-button block theme="default" @click="onThemeClick('default')">默认</ms-button>
+  <ms-button block theme="primary" @click="onThemeClick('primary')">主色</ms-button>
+  <ms-button block theme="danger" @click="onThemeClick('danger')">危险</ms-button>
+  <!-- 尺寸 -->
+  <ms-button theme="primary" size="lg">大号</ms-button>
+  <ms-button theme="primary" size="md">中号</ms-button>
+  <ms-button theme="primary" size="sm">小号</ms-button>
+  <!-- 状态 -->
+  <ms-button block disabled theme="primary">禁用填充</ms-button>
+  <ms-button block disabled variant="dashed" theme="primary">禁用虚框</ms-button>
+  <ms-button block disabled theme="light">禁用浅色</ms-button>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

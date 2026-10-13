@@ -14,13 +14,44 @@ demo: pages/demo/display/waterfall
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/waterfall.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-waterfall>
-    …
-  </ms-waterfall>
+  <!-- 组件类型 -->
+  <ms-waterfall
+    :items="baseItems"
+    :column="2"
+    @item-click="onItemClick"
+  />
+  <ms-waterfall :items="baseItems" :column="3" @item-click="onItemClick" />
+  <!-- 组件样式 -->
+  <ms-waterfall :items="mixedItems" :column="2" @item-click="onItemClick" />
+  <ms-waterfall
+    :items="mixedItems"
+    :column="2"
+    :balance="false"
+    @item-click="onItemClick"
+  />
+  <!-- 组件深度 -->
+  <ms-waterfall :items="coverItems" :column="2" @item-click="onItemClick" />
+  <ms-waterfall :items="emptyItems" empty-text="暂无瀑布流内容" />
+  <ms-waterfall
+    :items="mappedItems"
+    :column="2"
+    key-field="uid"
+    title-key="name"
+    desc-key="subtitle"
+    height-key="h"
+    image-key="cover"
+    cover-height-key="ch"
+    :item-height="100"
+    @item-click="onItemClick"
+  />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,29 @@ demo: pages/demo/basic/image
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/image.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-image src="…">
-    …
-  </ms-image>
+  <!-- 裁切 -->
+  <ms-image :src="demoSrc" mode="aspectFill" />
+  <ms-image :src="demoSrc" mode="heightFix" />
+  <ms-image :src="demoSrc" mode="scaleToFill" />
+  <!-- 形状 -->
+  <ms-image :src="demoSrc" shape="square" />
+  <ms-image :src="demoSrc" shape="round" />
+  <ms-image :src="demoSrc" shape="circle" />
+  <!-- 状态 -->
+  <ms-image :src="demoSrc" />
+  <ms-image src="https://invalid.ms-ui.example/error.png" />
+  <!-- 组件深度 -->
+  <ms-image :src="demoSrc" width="120px" height="80px" shape="round" />
+  <ms-image :src="demoSrc" :lazy="true" />
+  <ms-image :src="demoSrc" :show-menu-by-longpress="true" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,65 @@ demo: pages/demo/feedback/swipe-cell
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/feedback/swipe-cell.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-swipe-cell>
-    …
+  <!-- 组件类型 -->
+  <ms-swipe-cell :bordered="false" v-model:opened="singleOpened" @open="onOpen" @close="onClose">
+    <template #actions>
+      <view @click="onAction('删除')">
+        <text>删除</text>
+      </view>
+    </template>
+    <view>
+      <text>单行内容 · 左滑显示删除</text>
+    </view>
+  </ms-swipe-cell>
+  <ms-swipe-cell :bordered="false">
+    <template #actions>
+      <view @click="onAction('收藏')">
+        <text>收藏</text>
+      </view>
+      <view @click="onAction('删除')">
+        <text>删除</text>
+      </view>
+    </template>
+    <view>
+      <text>双操作行</text>
+      <text>辅助信息</text>
+    </view>
+  </ms-swipe-cell>
+  <!-- 组件状态 -->
+  <ms-swipe-cell :bordered="false" :disabled="true">
+    <template #actions>
+      <view>
+        <text>删除</text>
+      </view>
+    </template>
+    <view>
+      <text>禁用滑动的行</text>
+    </view>
+  </ms-swipe-cell>
+  <!-- 内容规格 -->
+  <ms-swipe-cell v-for="row in rows" :key="row" :bordered="row < rows.length">
+    <template #actions>
+      <view @click="onAction('删除')">
+        <text>删除</text>
+      </view>
+    </template>
+    <view>
+      <text>大列表内容 {{ row }}</text>
+    </view>
   </ms-swipe-cell>
 </template>
+
+<script setup lang="uts">
+const singleOpened = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

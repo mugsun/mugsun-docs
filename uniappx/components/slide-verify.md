@@ -14,13 +14,36 @@ demo: pages/demo/form/slide-verify
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/slide-verify.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-slide-verify>
-    …
-  </ms-slide-verify>
+  <!-- 组件类型 -->
+  <ms-slide-verify @success="onDefaultSuccess" @fail="onDefaultFail" />
+  <ms-slide-verify
+    ref="targetRef"
+    :show-target="true"
+    :target-percent="targetPercent"
+    @success="onTargetSuccess"
+    @fail="onTargetFail"
+  />
+  <!-- 组件深度 -->
+  <ms-slide-verify
+    tips="按住拖到最右"
+    success-tips="校验通过"
+    @success="onTipsSuccess"
+  />
+  <ms-slide-verify disabled tips="已禁用" />
+  <ms-slide-verify :tolerance="24" tips="容差更大更易过" @success="onLooseSuccess" />
 </template>
+
+<script setup lang="uts">
+const targetPercent = ref(55)
+const targetRef = ref<MsSlideVerifyComponentPublicInstance | null>(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

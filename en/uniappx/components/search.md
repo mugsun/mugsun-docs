@@ -14,13 +14,48 @@ Demo route: `#/pages/demo/form/search`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/search.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-search v-model="value">
-    …
-  </ms-search>
+  <!-- 组件类型 -->
+  <ms-search v-model="baseValue" placeholder="搜索预设文案" />
+  <ms-search
+    v-model="limitValue"
+    placeholder="最多输入 10 个字符"
+    :maxlength="10"
+  />
+  <ms-search
+    v-model="actionValue"
+    placeholder="输入后点右侧搜索"
+    action="搜索"
+    @action="onSearchAction"
+  />
+  <!-- 组件样式 -->
+  <ms-search v-model="squareValue" placeholder="方形搜索框" shape="square" />
+  <ms-search v-model="roundValue" placeholder="圆形搜索框" shape="round" />
+  <!-- 组件状态 -->
+  <ms-search v-model="centerValue" placeholder="居中占位" shape="round" center />
+  <ms-search model-value="" placeholder="禁用状态" disabled />
+  <!-- 组件深度 -->
+  <ms-search model-value="只读关键字" readonly shape="round" />
+  <ms-search v-model="noClearValue" placeholder="无清空按钮" :clearable="false" />
+  <ms-search v-model="filterValue" placeholder="筛选关键字" left-icon="filter" />
 </template>
+
+<script setup lang="uts">
+const baseValue = ref('')
+const limitValue = ref('')
+const actionValue = ref('关键词')
+const squareValue = ref('')
+const roundValue = ref('')
+const centerValue = ref('')
+const noClearValue = ref('保留')
+const filterValue = ref('')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

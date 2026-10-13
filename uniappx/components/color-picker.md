@@ -14,13 +14,48 @@ demo: pages/demo/form/color-picker
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/color-picker.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-color-picker v-model="value" type="…">
-    …
-  </ms-color-picker>
+  <!-- 组件类型 -->
+  <ms-color-picker v-model="baseColor" type="base" @change="onBaseChange" />
+  <ms-color-picker v-model="fullColor" type="multiple" @change="onFullChange" />
+  <!-- 组件样式 -->
+  <ms-color-picker v-model="alphaColor" :enable-alpha="true" format="rgb" @change="onAlphaChange" />
+  <ms-color-picker v-model="hslColor" format="hsl" :columns="6" @change="onHslChange" />
+  <ms-color-picker v-model="disabledColor" type="base" :disabled="true" />
+  <!-- 组件深度 -->
+  <ms-color-picker
+    v-model="swatchColor"
+    type="base"
+    :swatch-colors="customSwatches"
+    :columns="5"
+    @change="onSwatchChange"
+  />
+  <ms-color-picker
+    v-model="noPreviewColor"
+    type="base"
+    :show-preview="false"
+    @change="onNoPreviewChange"
+  />
+  <ms-color-picker ref="pickerRef" v-model="exposeColor" type="multiple" @change="onExposeChange" />
 </template>
+
+<script setup lang="uts">
+const baseColor = ref('#0579ff')
+const fullColor = ref('#ff4f00')
+const alphaColor = ref('rgba(0,155,58,0.6)')
+const hslColor = ref('#0f766e')
+const disabledColor = ref('#8c9099')
+const swatchColor = ref('#e11d48')
+const noPreviewColor = ref('#2563eb')
+const exposeColor = ref('#2563eb')
+const pickerRef = ref<MsColorPickerComponentPublicInstance | null>(null)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

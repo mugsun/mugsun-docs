@@ -14,13 +14,27 @@ demo: pages/demo/basic/divider
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/divider.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-divider text="…">
-    …
-  </ms-divider>
+  <!-- 纯分割 -->
+  <ms-divider />
+  <!-- 对齐 -->
+  <ms-divider text="左对齐" align="left" />
+  <ms-divider text="居中" align="center" />
+  <ms-divider text="右对齐" align="right" />
+  <!-- 垂直 -->
+  <ms-divider layout="vertical" />
+  <ms-divider layout="vertical" />
+  <!-- 虚线 -->
+  <ms-divider dashed />
+  <ms-divider dashed text="文字信息" align="left" />
+  <ms-divider dashed text="文字信息" align="center" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

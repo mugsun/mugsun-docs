@@ -14,13 +14,34 @@ Demo route: `#/pages/demo/basic/empty`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/basic/empty.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-empty title="…">
-    …
-  </ms-empty>
+  <!-- 图标 -->
+  <ms-empty icon="information-line" description="图标空态" />
+  <!-- 图片 -->
+  <ms-empty image="/static/empty-illustration.svg" description="图片空态" />
+  <!-- 操作 -->
+  <ms-empty icon="inbox-line" description="描述文字" action-text="操作按钮" @action="onAction" />
+  <!-- 场景切换 -->
+  <ms-empty
+    :status="sceneStatus"
+    title="当前没有数据"
+    description="可以下拉或点按钮重试"
+    error-text="出错啦~"
+    more-text="没有更多数据啦"
+    action-text="点击重试"
+    @action="onRetry"
+  />
 </template>
+
+<script setup lang="uts">
+const sceneStatus = ref('loading' as EmptyStatus)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

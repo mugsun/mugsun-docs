@@ -14,13 +14,45 @@ demo: pages/demo/feedback/fab
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/feedback/fab.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-fab text="…">
-    …
+  <!-- 基础用法 -->
+  <ms-fab local inset="sm" @click="onFabClick" />
+  <ms-fab local inset="sm" text="新建" @click="onFabClick" />
+  <!-- 定位 -->
+  <ms-fab local inset="sm" position="bottom-right" />
+  <ms-fab local inset="sm" position="bottom-left" />
+  <ms-fab local inset="sm" position="bottom-center" />
+  <!-- 状态 -->
+  <ms-fab local inset="sm" expandable @expand-change="onExpandChange">
+    <text @click="onMenuTap('添加')">添加</text>
+    <text @click="onMenuTap('收藏')">收藏</text>
+    <text @click="onMenuTap('分享')">分享</text>
+  </ms-fab>
+  <ms-fab local inset="sm" disabled @click="onFabClick" />
+  <!-- 组件深度 -->
+  <ms-fab local inset="lg" position="top-right" icon="edit-line" @click="onFabClick" />
+  <ms-fab local inset="lg" position="top-left" icon="customer-service-line" />
+  <ms-fab
+    local
+    inset="sm"
+    expandable
+    v-model:expanded="modelExpanded"
+    @expand-change="onExpandChange"
+  >
+    <text @click="onMenuTap('添加')">添加</text>
+    <text @click="onMenuTap('收藏')">收藏</text>
   </ms-fab>
 </template>
+
+<script setup lang="uts">
+const modelExpanded = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

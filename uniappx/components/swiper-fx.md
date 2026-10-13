@@ -14,13 +14,53 @@ demo: pages/demo/display/swiper-fx
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/swiper-fx.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-swiper-fx>
-    …
-  </ms-swiper-fx>
+  <!-- 组件类型 -->
+  <ms-swiper-fx
+    :list="list"
+    :effect="effectName"
+    :height="160"
+    :autoplay="true"
+    :interval="4000"
+    @change="onChange"
+    @click="onClick"
+  />
+  <!-- 组件样式 -->
+  <ms-swiper-fx :list="list" effect="slide" :show-dots="true" :autoplay="false" :height="140" />
+  <!-- 组件深度 -->
+  <ms-swiper-fx
+    :list="list"
+    effect="fade"
+    :loop="false"
+    :autoplay="false"
+    :height="140"
+  />
+  <ms-swiper-fx
+    :list="list"
+    effect="slide"
+    :duration="200"
+    :interval="2000"
+    :height="140"
+  />
+  <ms-swiper-fx
+    :list="list"
+    effect="slide"
+    :current="1"
+    :autoplay="false"
+    :height="140"
+  />
 </template>
+
+<script setup lang="uts">
+const effectName = ref('fade' as FxEffect)
+const list = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

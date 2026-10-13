@@ -14,13 +14,29 @@ Demo route: `#/pages/demo/display/image-group`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/image-group.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-image-group>
-    …
-  </ms-image-group>
+  <!-- 布局 -->
+  <ms-image-group
+    :list="listBasic"
+    @click="onClick"
+  />
+  <ms-image-group :list="listTwo" :columns="2" />
+  <!-- 标签 -->
+  <ms-image-group :list="listLabeled" label-mode="inset" />
+  <ms-image-group :list="listLabeled" label-mode="outer" />
+  <!-- 数量限制 -->
+  <ms-image-group :list="listMany" :max-count="3" />
+  <!-- 组件深度 -->
+  <ms-image-group :list="listBasic" :preview="false" @click="onClick" />
+  <ms-image-group :list="listTwo" :columns="2" mode="aspectFit" disabled />
+  <ms-image-group :list="listMany" :columns="2" :max-count="2" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

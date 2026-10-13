@@ -14,13 +14,52 @@ demo: pages/demo/nav/steps
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/steps.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-steps theme="…">
-    …
-  </ms-steps>
+  <!-- 组件类型 -->
+  <ms-steps :items="baseItems" v-model:current="baseCurrent" @change="onBaseChange" />
+  <ms-steps
+    :items="verticalItems"
+    :current="1"
+    layout="vertical"
+    @change="onVerticalChange"
+  />
+  <ms-steps
+    :items="iconItems"
+    :current="1"
+    @change="onIconChange"
+  />
+  <!-- 组件状态 -->
+  <ms-steps
+    :items="errorItems"
+    :current="1"
+    current-status="error"
+    @change="onErrorChange"
+  />
+  <ms-steps :items="baseItems" :current="3" readonly />
+  <!-- 风格 -->
+  <ms-steps :items="dotItems" :current="1" theme="dot" @change="onDotChange" />
+  <!-- 组件深度 -->
+  <ms-steps
+    :items="errorItems"
+    :current="1"
+    current-status="error"
+    layout="vertical"
+    readonly
+  />
+  <ms-steps :items="baseItems" :current="1" readonly />
+  <ms-steps :items="baseItems" v-model:current="depthCurrent" @change="onDepthChange" />
 </template>
+
+<script setup lang="uts">
+const baseCurrent = ref(1)
+const depthCurrent = ref(0)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,30 @@ demo: pages/demo/basic/tag
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/tag.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-tag theme="default" variant="solid">
-    …
-  </ms-tag>
+  <!-- 形态 -->
+  <ms-tag variant="light" theme="primary">浅色</ms-tag>
+  <ms-tag variant="solid" theme="primary">填充</ms-tag>
+  <ms-tag variant="outline" theme="primary">描边</ms-tag>
+  <!-- 主题 -->
+  <ms-tag variant="light" theme="default">默认</ms-tag>
+  <ms-tag variant="light" theme="primary">主色</ms-tag>
+  <ms-tag variant="light" theme="danger">危险</ms-tag>
+  <!-- 尺寸 -->
+  <ms-tag size="sm" theme="primary">小号</ms-tag>
+  <ms-tag size="md" theme="primary">中号</ms-tag>
+  <ms-tag size="lg" theme="primary">大号</ms-tag>
+  <!-- 形状 -->
+  <ms-tag shape="square" theme="primary">方形</ms-tag>
+  <ms-tag shape="round" theme="primary">圆角</ms-tag>
+  <ms-tag shape="mark" variant="outline" theme="primary">标记</ms-tag>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

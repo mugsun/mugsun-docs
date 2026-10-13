@@ -14,13 +14,29 @@ Demo route: `#/pages/demo/display/qrcode`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/qrcode.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-qrcode size="…" value="…">
-    …
-  </ms-qrcode>
+  <!-- 组件类型 -->
+  <ms-qrcode :value="demoValue" />
+  <ms-qrcode :value="demoValue" logo="/static/logo.png" level="H" />
+  <!-- 纠错等级 -->
+  <ms-qrcode :value="demoValue" level="L" size="sm" />
+  <ms-qrcode :value="demoValue" level="M" size="sm" />
+  <ms-qrcode :value="demoValue" level="Q" size="sm" />
+  <!-- 组件状态 -->
+  <ms-qrcode :value="demoValue" status="expired" size="sm" />
+  <ms-qrcode :value="demoValue" status="loading" size="sm" />
+  <ms-qrcode :value="demoValue" status="scanned" size="sm" />
+  <!-- 组件尺寸 -->
+  <ms-qrcode :value="demoValue" size="sm" />
+  <ms-qrcode :value="demoValue" size="md" />
+  <ms-qrcode :value="demoValue" size="lg" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

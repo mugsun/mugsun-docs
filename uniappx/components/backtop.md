@@ -14,13 +14,54 @@ demo: pages/demo/nav/backtop
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/backtop.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-backtop theme="round" text="…">
-    …
-  </ms-backtop>
+  <!-- 主题样式 -->
+  <ms-backtop
+    :scroll-top="999"
+    :visibility-height="0"
+    :fixed="false"
+    theme="round"
+    text="顶部"
+  />
+  <ms-backtop
+    :scroll-top="999"
+    :visibility-height="0"
+    :fixed="false"
+    theme="half-round"
+    text="返回"
+  />
+  <ms-backtop
+    :scroll-top="999"
+    :visibility-height="0"
+    :fixed="false"
+    theme="round-dark"
+  />
+  <!-- 内容 -->
+  <ms-backtop
+    :scroll-top="999"
+    :visibility-height="0"
+    :fixed="false"
+    theme="round"
+  />
+  <!-- 局部滚动 -->
+  <ms-backtop
+    :scroll-top="localScrollY"
+    :visibility-height="40"
+    local
+    theme="round-dark"
+    @to-top="onLocalToTop"
+  />
 </template>
+
+<script setup lang="uts">
+const localScrollY = ref(0)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

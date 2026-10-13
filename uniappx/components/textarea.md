@@ -14,13 +14,54 @@ demo: pages/demo/form/textarea
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/textarea.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-textarea label="…" v-model="value">
-    …
-  </ms-textarea>
+  <!-- 组件类型 -->
+  <ms-textarea v-model="baseValue" placeholder="请输入文字" />
+  <ms-textarea v-model="labelValue" label="标签文字" placeholder="请输入文字" />
+  <ms-textarea
+    v-model="autoValue"
+    label="自动增高"
+    placeholder="输入多行后高度跟随"
+    auto-height
+  />
+  <!-- 组件状态 -->
+  <ms-textarea
+    model-value="不可编辑文字"
+    label="禁用"
+    placeholder="请输入文字"
+    disabled
+  />
+  <!-- 组件样式 -->
+  <ms-textarea
+    v-model="borderValue"
+    label="描边"
+    placeholder="请输入文字"
+    :maxlength="100"
+    indicator
+    bordered
+  />
+  <ms-textarea
+    v-model="plainValue"
+    label="无边框"
+    placeholder="嵌入列表时去掉描边"
+    :bordered="false"
+    height="sm"
+  />
 </template>
+
+<script setup lang="uts">
+const baseValue = ref('')
+const labelValue = ref('')
+const autoValue = ref('')
+const borderValue = ref('')
+const plainValue = ref('')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,35 @@ demo: pages/demo/form/radio
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/radio.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-radio label="…" v-model="value">
-    …
-  </ms-radio>
+  <!-- 组件类型 -->
+  <ms-radio :model-value="true" label="填充" block />
+  <ms-radio :model-value="true" label="描边" icon="line" block />
+  <ms-radio :model-value="true" label="圆点" icon="dot" block />
+  <!-- 组件状态 -->
+  <ms-radio :model-value="false" disabled label="禁用" block />
+  <ms-radio :model-value="true" disabled label="禁用已选" block />
+  <ms-radio v-model="vUncheck" allow-uncheck label="可取消" block />
+  <!-- 组件分组 -->
+  <ms-radio value="a" label="选项 A" block />
+  <ms-radio value="b" label="选项 B" block />
+  <ms-radio value="c" label="选项 C" block />
+  <!-- 组件深度 -->
+  <ms-radio value="1" label="禁用组甲" block />
+  <ms-radio value="2" label="禁用组乙" block />
+  <ms-radio v-model="vDepth" label="描边右侧" icon="line" placement="right" block />
 </template>
+
+<script setup lang="uts">
+const vUncheck = ref(true)
+const vDepth = ref(true)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

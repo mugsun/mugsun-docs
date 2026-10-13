@@ -14,13 +14,29 @@ Demo route: `#/pages/demo/display/avatar`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/avatar.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-avatar size="sm" text="…">
-    …
-  </ms-avatar>
+  <!-- 组件类型 -->
+  <ms-avatar :src="demoSrc" />
+  <ms-avatar text="Mug" />
+  <ms-avatar />
+  <!-- 形状 -->
+  <ms-avatar :src="demoSrc" shape="circle" />
+  <ms-avatar :src="demoSrc" shape="round" />
+  <!-- 组件尺寸 -->
+  <ms-avatar text="S" size="sm" />
+  <ms-avatar text="M" size="md" />
+  <ms-avatar text="L" size="lg" />
+  <!-- 组件深度 -->
+  <ms-avatar icon="customer-service-line" size="lg" />
+  <ms-avatar text="圆" shape="round" size="lg" />
+  <ms-avatar src="/static/not-exist.png" text="退" @error="onAvatarError" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

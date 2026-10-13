@@ -15,13 +15,30 @@ Demo route: `#/pages/demo/media/svg`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/media/svg.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-svg src="…">
-    …
-  </ms-svg>
+  <!-- 组件类型 -->
+  <ms-svg :source="check" :size="32" color="#2563eb" @load="onLoad" @error="onError" />
+  <ms-svg :source="star" :size="32" color="#f59e0b" />
+  <ms-svg src="/static/demo-vector.svg" :size="32" />
+  <!-- 组件样式 -->
+  <ms-svg :source="check" :size="16" :color="tint" />
+  <ms-svg :source="check" :size="24" :color="tint" />
+  <ms-svg :source="check" :size="40" :color="tint" />
+  <!-- 组件深度 -->
+  <ms-svg :source="star" :width="64" :height="32" mode="aspectFill" color="#2563eb" />
+  <ms-svg :source="check" :width="64" :height="32" mode="aspectFill" :color="tint" />
+  <ms-svg :source="star" :width="72" :height="28" mode="scaleToFill" color="#0f766e" />
 </template>
+
+<script setup lang="uts">
+const tint = ref('#2563eb')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

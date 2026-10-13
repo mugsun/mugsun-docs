@@ -14,13 +14,66 @@ demo: pages/demo/form/picker
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/picker.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-picker title="…" v-model:visible="open">
-    …
+  <!-- 组件类型 -->
+  <ms-picker
+    ref="probePicker"
+    :options="cityOptions"
+    :value="cityValue"
+    title="选择城市"
+    @change="onCityChange"
+    @confirm="onCityConfirm"
+    @cancel="onCityCancel"
+  >
+    <ms-cell title="选择城市" :note="cityLabel" arrow :bordered="false" />
+  </ms-picker>
+  <ms-picker
+    :options="seasonOptions"
+    :value="seasonValue"
+    title="选择时间"
+    @confirm="onSeasonConfirm"
+    @cancel="onSeasonCancel"
+  >
+    <ms-cell title="选择时间" :note="seasonLabel" arrow :bordered="false" />
+  </ms-picker>
+  <ms-picker
+    :options="cityOptions"
+    :value="inlineValue"
+    title="内嵌"
+    :use-popup="false"
+    @change="onInlineChange"
+    @confirm="onInlineConfirm"
+  />
+  <!-- 样式 -->
+  <ms-picker
+    :options="cityOptions"
+    :value="cityValue"
+    title="选择城市"
+    @confirm="onCityConfirm"
+  >
+    <ms-cell title="带标题选择器" :note="cityLabel" arrow :bordered="false" />
+  </ms-picker>
+  <ms-picker
+    :options="cityOptions"
+    :value="plainValue"
+    @confirm="onPlainConfirm"
+  >
+    <ms-cell title="无标题选择器" :note="plainLabel" arrow :bordered="false" />
   </ms-picker>
 </template>
+
+<script setup lang="uts">
+const probePicker = ref(null)
+const cityLabel = ref('上海')
+const seasonLabel = ref('2025 年 第三季度')
+const plainLabel = ref('北京')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

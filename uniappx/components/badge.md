@@ -14,13 +14,47 @@ demo: pages/demo/basic/badge
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/basic/badge.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-badge theme="danger" size="sm">
-    …
+  <!-- 红点 -->
+  <ms-badge dot>
+    <view />
+  </ms-badge>
+  <ms-badge dot>
+    <view>
+      <ms-icon name="notification-line" size="lg" tone="secondary" />
+    </view>
+  </ms-badge>
+  <!-- 数字 -->
+  <ms-badge :count="8">
+    <view />
+  </ms-badge>
+  <ms-badge :count="100" :max="99">
+    <view>
+      <ms-icon name="notification-line" size="lg" tone="secondary" />
+    </view>
+  </ms-badge>
+  <!-- 自定义 -->
+  <ms-badge label="NEW">
+    <ms-button size="sm" variant="outline" theme="default">按钮</ms-button>
+  </ms-badge>
+  <!-- 形状 -->
+  <ms-badge :count="2" shape="circle">
+    <view>
+      <ms-icon name="notification-line" size="lg" tone="secondary" />
+    </view>
+  </ms-badge>
+  <ms-badge :count="6" shape="square">
+    <view>
+      <ms-icon name="notification-line" size="lg" tone="secondary" />
+    </view>
   </ms-badge>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

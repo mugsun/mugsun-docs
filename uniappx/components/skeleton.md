@@ -14,13 +14,27 @@ demo: pages/demo/display/skeleton
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/skeleton.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-skeleton theme="avatar">
-    …
-  </ms-skeleton>
+  <!-- 骨架屏类型 -->
+  <ms-skeleton theme="avatar" />
+  <ms-skeleton theme="image" />
+  <ms-skeleton theme="text" />
+  <!-- 组合布局 -->
+  <ms-skeleton theme="paragraph" />
+  <!-- 组件动效 -->
+  <ms-skeleton theme="paragraph" animation="none" />
+  <ms-skeleton theme="paragraph" animation="flashed" />
+  <!-- 组件深度 -->
+  <ms-skeleton theme="card" :row="3" animation="flashed" />
+  <ms-skeleton theme="paragraph" :row="5" />
+  <ms-skeleton theme="text" :row="2" :delay="400" :loading="true" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

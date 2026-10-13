@@ -14,13 +14,33 @@ demo: pages/demo/feedback/upload
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/feedback/upload.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-upload>
-    …
-  </ms-upload>
+  <!-- 组件类型 -->
+  <ms-upload v-model:fileList="basicList" :max="9" @remove="onRemove" />
+  <ms-upload v-model:fileList="namedList" :column="3" :show-name="true" />
+  <!-- 组件状态 -->
+  <ms-upload :file-list="loadingList" :addable="false" />
+  <ms-upload :file-list="failedList" :addable="false" />
+  <ms-upload :file-list="basicList" :disabled="true" />
+  <!-- 规格与数量 -->
+  <ms-upload :file-list="namedList" :column="3" />
+  <ms-upload :file-list="fullList" :max="2" />
+  <!-- 组件深度 -->
+  <ms-upload :file-list="cameraList" source="camera" :removable="false" :addable="false" />
+  <ms-upload :file-list="namedList" :column="2" />
+  <ms-upload :file-list="namedList" :addable="false" :preview="true" @click="onPreviewClick" />
 </template>
+
+<script setup lang="uts">
+const basicList = ref([
+const namedList = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

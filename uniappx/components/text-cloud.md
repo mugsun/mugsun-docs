@@ -14,13 +14,30 @@ demo: pages/demo/display/text-cloud
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/text-cloud.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-text-cloud>
-    …
-  </ms-text-cloud>
+  <!-- 组件类型 -->
+  <ms-text-cloud :list="baseList" @complete="onComplete" />
+  <ms-text-cloud :list="colorList" @complete="onComplete" />
+  <!-- 组件样式 -->
+  <ms-text-cloud :list="baseList" :height="200" :min-font-size="14" :max-font-size="40" />
+  <ms-text-cloud :list="baseList" :height="120" :min-font-size="10" :max-font-size="20" :gap="1" />
+  <!-- 组件深度 -->
+  <ms-text-cloud :list="baseList" :height="160" :gap="8" :min-font-size="12" :max-font-size="28" />
+  <ms-text-cloud :list="[]" :height="100" />
+  <ms-text-cloud :list="shortList" :height="120" :min-font-size="14" :max-font-size="32" />
 </template>
+
+<script setup lang="uts">
+const baseList = ref(build(3, ['#1d4ed8', '#64748b', '#94a3b8'] as string[]))
+const colorList = ref(build(8, ['#dc2626', '#0d9488', '#f59e0b', '#0369a1'] as string[]))
+const shortList = ref(((): UTSJSONObject[] => {
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

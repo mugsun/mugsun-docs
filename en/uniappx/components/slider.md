@@ -14,13 +14,41 @@ Demo route: `#/pages/demo/form/slider`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/slider.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-slider theme="default" v-model="value">
-    …
-  </ms-slider>
+  <!-- 组件类型 -->
+  <ms-slider v-model="vBase" />
+  <ms-slider v-model="vCapsule" theme="capsule" />
+  <!-- 组件状态 -->
+  <ms-slider v-model="vLabel" label />
+  <ms-slider :model-value="35" disabled />
+  <!-- 组件刻度 -->
+  <ms-slider v-model="vStep" :step="20" :marks="marks" />
+  <ms-slider v-model="vExtreme" show-extreme-value />
+  <ms-slider v-model="vRangeMin" :min="20" :max="100" :step="20" label />
+  <!-- 组件深度 -->
+  <ms-slider v-model="vDepthCap" theme="capsule" label show-extreme-value />
+  <ms-slider v-model="vDecimal" :min="0" :max="1" :step="0.1" label />
+  <ms-slider range v-model:range-value="vRange" label />
 </template>
+
+<script setup lang="uts">
+const vBase = ref(23)
+const vCapsule = ref(30)
+const vLabel = ref(40)
+const vStep = ref(60)
+const vExtreme = ref(50)
+const vRangeMin = ref(40)
+const vDepthCap = ref(55)
+const vDecimal = ref(0.3)
+const vRange = ref([20, 60] as number[])
+const marks = ref<number[]>([0, 20, 40, 60, 80, 100] as number[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

@@ -14,13 +14,54 @@ demo: pages/demo/form/form
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/form.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-form>
-    …
+  <!-- 组件类型 -->
+  <ms-form label-align="right" :label-width="72">
+    <ms-form-item label="用户名" name="name" :value="hName">
+      <ms-input v-model="hName" placeholder="请输入用户名" :bordered="false" />
+    </ms-form-item>
+    <ms-form-item label="密码" name="password" :value="hPassword" :bordered="false">
+      <ms-input
+        v-model="hPassword"
+        type="password"
+        placeholder="请输入密码"
+        :bordered="false"
+      />
+    </ms-form-item>
+  </ms-form>
+  <ms-form label-align="top">
+    <ms-form-item label="昵称" name="nick" :value="vNick" :bordered="false">
+      <ms-input v-model="vNick" placeholder="请输入昵称" />
+    </ms-form-item>
+  </ms-form>
+  <!-- 组件状态 -->
+  <ms-form label-align="left" :label-width="72" colon>
+    <ms-form-item label="必填" name="req" :value="sReq" required help="必填项带红色星号">
+      <ms-input v-model="sReq" placeholder="请输入内容" :bordered="false" />
+    </ms-form-item>
+    <ms-form-item label="说明" name="help" :value="sHelp" help="下方为辅助说明文案">
+      <ms-input v-model="sHelp" placeholder="可不填" :bordered="false" />
+    </ms-form-item>
+    <ms-form-item label="箭头" name="arrow" :value="sArrow" arrow :bordered="false">
+      <ms-input v-model="sArrow" placeholder="点选类字段" readonly :bordered="false" />
+    </ms-form-item>
   </ms-form>
 </template>
+
+<script setup lang="uts">
+const hName = ref('mugsun')
+const hPassword = ref('')
+const vNick = ref('')
+const sReq = ref('')
+const sHelp = ref('')
+const sArrow = ref('')
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,30 @@ Demo route: `#/pages/demo/display/progress`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/progress.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-progress variant="line" size="xs">
-    …
-  </ms-progress>
+  <!-- 组件类型 -->
+  <ms-progress variant="line" :percentage="80" />
+  <ms-progress variant="plump" :percentage="80" />
+  <ms-progress variant="circle" :percentage="30" />
+  <!-- 线性状态 -->
+  <ms-progress variant="line" :percentage="88" status="warning" />
+  <ms-progress variant="line" :percentage="88" status="error" />
+  <ms-progress variant="line" :percentage="88" status="success" />
+  <!-- 内显状态 -->
+  <ms-progress variant="plump" :percentage="88" status="warning" />
+  <ms-progress variant="plump" :percentage="88" status="error" />
+  <ms-progress variant="plump" :percentage="88" status="success" />
+  <!-- 环形状态 -->
+  <ms-progress variant="circle" :percentage="88" status="warning" />
+  <ms-progress variant="circle" :percentage="88" status="error" />
+  <ms-progress variant="circle" :percentage="88" status="success" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

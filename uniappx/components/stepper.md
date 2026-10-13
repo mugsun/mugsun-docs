@@ -14,13 +14,42 @@ demo: pages/demo/form/stepper
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/form/stepper.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-stepper theme="normal" size="sm">
-    …
-  </ms-stepper>
+  <!-- 组件类型 -->
+  <ms-stepper v-model="vFilled" theme="filled" />
+  <ms-stepper v-model="vOutline" theme="outline" />
+  <ms-stepper v-model="vNormal" />
+  <!-- 组件状态 -->
+  <ms-stepper v-model="vMin" theme="filled" :min="0" :max="9" />
+  <ms-stepper v-model="vMax" theme="filled" :min="5" :max="9" />
+  <ms-stepper :model-value="3" theme="filled" disabled />
+  <!-- 组件尺寸 -->
+  <ms-stepper v-model="vSize" theme="filled" size="sm" />
+  <ms-stepper v-model="vSize" theme="filled" size="md" />
+  <ms-stepper v-model="vSize" theme="filled" size="lg" />
+  <!-- 组件深度 -->
+  <ms-stepper v-model="vDecimal" theme="filled" :step="0.1" :precision="1" :min="0" :max="10" />
+  <ms-stepper v-model="vDepth" theme="outline" size="lg" :min="1" :max="99" />
+  <ms-stepper v-model="vHold" theme="filled" :long-press="true" :min="0" :max="99" />
 </template>
+
+<script setup lang="uts">
+const vFilled = ref(3)
+const vOutline = ref(3)
+const vNormal = ref(3)
+const vMin = ref(0)
+const vMax = ref(9)
+const vSize = ref(3)
+const vDecimal = ref(1.5)
+const vDepth = ref(5)
+const vHold = ref(1)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

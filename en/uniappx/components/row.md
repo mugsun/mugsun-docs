@@ -14,13 +14,49 @@ Demo route: `#/pages/demo/nav/row`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/row.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
+  <!-- 基础 -->
   <ms-row>
-    …
+    <ms-col :span="8">
+      <view>
+        <text>8</text>
+      </view>
+    </ms-col>
+    <ms-col :span="8">
+      <view>
+        <text>8</text>
+      </view>
+    </ms-col>
+    <ms-col :span="8">
+      <view>
+        <text>8</text>
+      </view>
+    </ms-col>
+  </ms-row>
+  <ms-row>
+    <ms-col :span="4">
+      <view>
+        <text>4</text>
+      </view>
+    </ms-col>
+    <ms-col :span="16">
+      <view>
+        <text>16</text>
+      </view>
+    </ms-col>
+    <ms-col :span="4">
+      <view>
+        <text>4</text>
+      </view>
+    </ms-col>
   </ms-row>
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

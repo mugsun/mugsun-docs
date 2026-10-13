@@ -14,13 +14,58 @@ demo: pages/demo/nav/tabs
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/tabs.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-tabs theme="line" size="md">
-    …
-  </ms-tabs>
+  <ms-tabs
+    :items="baseItems"
+    :value="baseIndex"
+    @change="onBaseChange"
+  />
+  <ms-tabs
+    :items="scrollItems"
+    :value="scrollIndex"
+    :space-evenly="false"
+    @change="onScrollChange"
+  />
+  <ms-tabs
+    :items="iconItems"
+    :value="iconIndex"
+    @change="onIconChange"
+  />
+  <ms-tabs
+    :items="statusItems"
+    :value="statusIndex"
+    @change="onStatusChange"
+  />
+  <ms-tabs :items="themeItems" :value="mdIndex" size="md" @change="onMdChange" />
+  <ms-tabs
+    :items="themeItems"
+    :value="lgIndex"
+    size="lg"
+    @change="onLgChange"
+  />
+  <ms-tabs
+    :items="themeItems"
+    :value="tagIndex"
+    theme="tag"
+    @change="onTagChange"
+  />
 </template>
+
+<script setup lang="uts">
+const baseIndex = ref(0)
+const scrollIndex = ref(0)
+const iconIndex = ref(0)
+const statusIndex = ref(0)
+const mdIndex = ref(0)
+const lgIndex = ref(0)
+const tagIndex = ref(0)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

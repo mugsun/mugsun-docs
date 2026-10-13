@@ -14,13 +14,42 @@ demo: pages/demo/feedback/action-sheet
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/feedback/action-sheet.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-action-sheet theme="list" v-model:visible="open">
-    …
-  </ms-action-sheet>
+  <ms-action-sheet
+    :visible="showRecipeShare"
+    :items="shareItems"
+    description="分享到"
+    @update:visible="onRecipeShareVisible"
+    @select="onRecipeShareSelect"
+  />
+  <ms-action-sheet
+    :visible="showList"
+    :items="plainItems"
+    @update:visible="onListVisible"
+    @select="onSelect"
+  />
+  <ms-action-sheet
+    :visible="showIcon"
+    :items="iconItems"
+    @update:visible="onIconVisible"
+    @select="onSelect"
+  />
 </template>
+
+<script setup lang="uts">
+const showList = ref(false)
+const showIcon = ref(false)
+const showRecipeShare = ref(false)
+const shareItems = ref([
+const plainItems = ref([
+const iconItems = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

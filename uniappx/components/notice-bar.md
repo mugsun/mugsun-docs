@@ -14,13 +14,27 @@ demo: pages/demo/feedback/notice-bar
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/feedback/notice-bar.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-notice-bar theme="default">
-    …
-  </ms-notice-bar>
+  <!-- 主题 -->
+  <ms-notice-bar theme="default" content="默认公告" />
+  <ms-notice-bar theme="primary" content="主色公告" />
+  <ms-notice-bar theme="success" content="成功公告" />
+  <!-- 长文本 -->
+  <ms-notice-bar
+    theme="primary"
+    content="这是一条很长的公告文案，超出宽度时应省略显示而不是撑破布局"
+  />
+  <!-- 竖向 -->
+  <ms-notice-bar direction="vertical" theme="primary" :list="verticalList" />
+  <!-- 可关闭 -->
+  <ms-notice-bar theme="warning" content="可关闭公告" closable @close="onNoticeClose" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

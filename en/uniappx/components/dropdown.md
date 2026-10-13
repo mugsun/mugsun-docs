@@ -14,13 +14,39 @@ Demo route: `#/pages/demo/nav/dropdown`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/nav/dropdown.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-dropdown>
-    …
-  </ms-dropdown>
+  <ms-dropdown
+    :menus="singleMenus"
+    :options="singleOptions"
+    :height="300"
+    @change="onSingleChange"
+  />
+  <ms-dropdown
+    :menus="multiMenus"
+    :options="multiOptions"
+    :height="320"
+    @change="onMultiChange"
+    @reset="onMultiReset"
+  />
+  <ms-dropdown
+    :menus="disabledMenus"
+    :options="disabledOptions"
+    :height="260"
+    @change="onDisabledChange"
+  />
+  <ms-dropdown
+    :menus="columnMenus"
+    :options="columnOptions"
+    :height="320"
+    @change="onColumnChange"
+  />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

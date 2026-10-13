@@ -14,13 +14,42 @@ demo: pages/demo/feedback/drawer
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/feedback/drawer.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-drawer title="…" v-model:visible="open">
-    …
-  </ms-drawer>
+  <ms-drawer
+    :visible="showBase"
+    :items="baseItems"
+    @update:visible="onBaseVisible"
+    @item-click="onPick"
+  />
+  <ms-drawer
+    :visible="showTitled"
+    :items="baseItems"
+    title="菜单"
+    @update:visible="onTitledVisible"
+    @item-click="onPick"
+  />
+  <ms-drawer
+    :visible="showIcon"
+    :items="iconItems"
+    title="快捷入口"
+    @update:visible="onIconVisible"
+    @item-click="onPick"
+  />
 </template>
+
+<script setup lang="uts">
+const showBase = ref(false)
+const showTitled = ref(false)
+const showIcon = ref(false)
+const baseItems = ref([
+const iconItems = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,42 @@ Demo route: `#/pages/demo/feedback/action-sheet`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/action-sheet.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-action-sheet theme="list" v-model:visible="open">
-    …
-  </ms-action-sheet>
+  <ms-action-sheet
+    :visible="showRecipeShare"
+    :items="shareItems"
+    description="分享到"
+    @update:visible="onRecipeShareVisible"
+    @select="onRecipeShareSelect"
+  />
+  <ms-action-sheet
+    :visible="showList"
+    :items="plainItems"
+    @update:visible="onListVisible"
+    @select="onSelect"
+  />
+  <ms-action-sheet
+    :visible="showIcon"
+    :items="iconItems"
+    @update:visible="onIconVisible"
+    @select="onSelect"
+  />
 </template>
+
+<script setup lang="uts">
+const showList = ref(false)
+const showIcon = ref(false)
+const showRecipeShare = ref(false)
+const shareItems = ref([
+const plainItems = ref([
+const iconItems = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

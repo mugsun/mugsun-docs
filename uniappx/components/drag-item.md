@@ -12,13 +12,56 @@ demo: pages/demo/media/drag
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/media/drag.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-drag-item>
-    …
-  </ms-drag-item>
+  <!-- 组件类型 -->
+  <ms-drag :list="list1" @change="onChange1" @start="onStart">
+    <ms-drag-item v-for="(item, index) in list1" :key="itemLabel(item)" :order="index">
+      <view>
+        <text>长按 {{ itemLabel(item) }} 排序</text>
+      </view>
+    </ms-drag-item>
+  </ms-drag>
+  <ms-drag :list="listFixed" @change="onChangeFixed">
+    <ms-drag-item
+      v-for="(item, index) in listFixed"
+      :key="'f-' + itemLabel(item)"
+      :order="index"
+      :disabled="index == 1"
+    >
+      <view>
+        <text>{{ index == 1 ? '固定在第 2 位' : '长按 ' + itemLabel(item) }}</text>
+      </view>
+    </ms-drag-item>
+  </ms-drag>
+  <!-- 组件样式 -->
+  <ms-drag :col="2" :list="list2">
+    <ms-drag-item v-for="(item, index) in list2" :key="'g2-' + itemLabel(item)" :order="index">
+      <view>
+        <text>{{ itemLabel(item) }}</text>
+      </view>
+    </ms-drag-item>
+  </ms-drag>
+  <ms-drag :col="4" :list="list4">
+    <ms-drag-item v-for="(item, index) in list4" :key="'g4-' + itemLabel(item)" :order="index">
+      <view>
+        <text>{{ itemLabel(item) }}</text>
+      </view>
+    </ms-drag-item>
+  </ms-drag>
 </template>
+
+<script setup lang="uts">
+const list1 = ref([
+const listFixed = ref([
+const list2 = ref([
+const list4 = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

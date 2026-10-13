@@ -14,13 +14,68 @@ Demo route: `#/pages/demo/display/tree-select`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/display/tree-select.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-tree-select value="…">
-    …
-  </ms-tree-select>
+  <!-- 组件类型 -->
+  <ms-tree-select
+    :options="goodsOptions"
+    :value="baseValue"
+    @update:value="onBaseValue"
+    @change="onBaseChange"
+  />
+  <ms-tree-select
+    :options="teamOptions"
+    :value="multiPath"
+    :leaf-values="multiLeaves"
+    multiple
+    @update:value="onMultiPath"
+    @update:leafValues="onMultiLeaves"
+  />
+  <!-- 组件状态 -->
+  <ms-tree-select
+    :options="areaOptions"
+    :value="areaValue"
+    @update:value="onAreaValue"
+    @change="onAreaChange"
+  />
+  <!-- 组件深度 -->
+  <ms-tree-select
+    :options="areaOptions"
+    :value="depthPath"
+    :leaf-values="depthLeaves"
+    multiple
+    @update:value="onDepthPath"
+    @update:leafValues="onDepthLeaves"
+  />
+  <ms-tree-select
+    :options="goodsOptions"
+    :value="emptyValue"
+    @update:value="onEmptyValue"
+    @change="onEmptyChange"
+  />
+  <ms-tree-select
+    :options="goodsOptions"
+    :value="disabledLeafPath"
+    @update:value="onDisabledLeafPath"
+    @change="onDisabledLeafChange"
+  />
 </template>
+
+<script setup lang="uts">
+const baseValue = ref(['digital', 'pad'] as string[])
+const multiPath = ref(['fe'] as string[])
+const multiLeaves = ref(['fe-ui'] as string[])
+const areaValue = ref(['110000', '110100', '110101'] as string[])
+const depthPath = ref(['440000', '440300'] as string[])
+const depthLeaves = ref(['440304', '440305'] as string[])
+const emptyValue = ref([] as string[])
+const disabledLeafPath = ref(['home', 'fridge'] as string[])
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

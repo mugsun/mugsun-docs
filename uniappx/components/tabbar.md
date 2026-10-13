@@ -14,13 +14,67 @@ demo: pages/demo/nav/tabbar
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/tabbar.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-tabbar theme="normal">
-    …
-  </ms-tabbar>
+  <ms-tabbar
+    :items="textItems"
+    :value="textIndex"
+    :fixed="false"
+    :safe-area-inset-bottom="false"
+    @change="onTextChange"
+  />
+  <ms-tabbar
+    :items="iconTextItems"
+    :value="iconTextIndex"
+    :fixed="false"
+    :safe-area-inset-bottom="false"
+    @change="onIconTextChange"
+  />
+  <ms-tabbar
+    :items="iconItems"
+    :value="iconIndex"
+    :fixed="false"
+    :safe-area-inset-bottom="false"
+    @change="onIconChange"
+  />
+  <ms-tabbar
+    :items="iconTextItems"
+    :value="tagIndex"
+    theme="tag"
+    :fixed="false"
+    :safe-area-inset-bottom="false"
+    @change="onTagChange"
+  />
+  <ms-tabbar
+    :items="disabledItems"
+    :value="disabledIndex"
+    :fixed="false"
+    :safe-area-inset-bottom="false"
+    @change="onDisabledChange"
+  />
+  <ms-tabbar
+    :items="textItems"
+    :value="splitIndex"
+    split
+    :fixed="false"
+    :safe-area-inset-bottom="false"
+    @change="onSplitChange"
+  />
 </template>
+
+<script setup lang="uts">
+const textIndex = ref(0)
+const iconTextIndex = ref(0)
+const iconIndex = ref(0)
+const tagIndex = ref(1)
+const disabledIndex = ref(0)
+const splitIndex = ref(0)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

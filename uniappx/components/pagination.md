@@ -14,13 +14,61 @@ demo: pages/demo/nav/pagination
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/nav/pagination.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-pagination>
-    …
-  </ms-pagination>
+  <!-- 组件类型 -->
+  <ms-pagination
+    :value="fullPage"
+    :total="1000"
+    @change="onFullChange"
+  />
+  <ms-pagination
+    :value="simplePage"
+    :total="100"
+    simple
+    @change="onSimpleChange"
+  />
+  <!-- 组件状态 -->
+  <ms-pagination
+    :value="3"
+    :total="50"
+    disabled
+  />
+  <!-- 组件深度 -->
+  <ms-pagination
+    :value="navPage"
+    :total="200"
+    show-prev-next
+    @change="onNavChange"
+  />
+  <ms-pagination
+    :value="jumpPage"
+    :total="500"
+    show-prev-next
+    show-jumper
+    @change="onJumpChange"
+  />
+  <ms-pagination
+    :value="sizePage"
+    :total="240"
+    :page-size="20"
+    show-prev-next
+    @change="onSizeChange"
+  />
 </template>
+
+<script setup lang="uts">
+const fullPage = ref(5)
+const simplePage = ref(1)
+const navPage = ref(2)
+const jumpPage = ref(8)
+const sizePage = ref(1)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

@@ -14,13 +14,31 @@ demo: pages/demo/display/tree-flat
 
 ## 基础用法
 
+<!-- demo-snippets:start -->
+以下片段摘自演示源码 `pages/demo/display/tree-flat.uvue`，可在右侧手机框中查看运行效果。
+
 ```vue
 <template>
-  <ms-tree-flat>
-    …
-  </ms-tree-flat>
+  <!-- 组件类型 -->
+  <ms-tree-flat ref="mainRef" :list="tree" @node-click="onNode" @change="onChange" />
+  <ms-tree-flat :list="tree" direction="vertical" :height="260" />
+  <!-- 组件样式 -->
+  <ms-tree-flat :list="tree" line-type="curve" :height="260" />
+  <ms-tree-flat :list="small" :collapsible="false" :height="200" :font-size="14" />
+  <!-- 组件深度 -->
+  <ms-tree-flat :list="small" line-type="straight" :height="200" />
+  <ms-tree-flat :list="small" direction="vertical" :font-size="16" :height="220" />
+  <ms-tree-flat :list="collapsed" :height="200" />
 </template>
+
+<script setup lang="uts">
+const mainRef = ref<ComponentPublicInstance | null>(null)
+const tree = ref([
+const small = ref([
+const collapsed = ref([
+</script>
 ```
+<!-- demo-snippets:end -->
 
 easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 

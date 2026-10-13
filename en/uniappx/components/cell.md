@@ -14,13 +14,37 @@ Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/basic/cell.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-cell title="…">
-    …
+  <ms-cell title="单行标题" arrow />
+  <ms-cell title="单行标题" required note="必填" arrow />
+  <ms-cell title="单行标题" note="辅助信息" arrow />
+  <ms-cell
+    title="单行标题"
+    description="一段很长很长的内容文字"
+    arrow
+  />
+  <ms-cell
+    title="单行标题"
+    description="一段很长很长的内容文字"
+    required
+    arrow
+    :bordered="false"
+  />
+  <ms-cell title="带徽标" arrow :bordered="false">
+    <template #note>
+      <ms-badge :count="16" />
+    </template>
   </ms-cell>
+  <ms-cell title="单行标题" icon="customer-service-line" arrow />
+  <ms-cell title="单行标题" icon="global-line" arrow />
+  <ms-cell title="单行标题" icon="lock-line" arrow :bordered="false" />
 </template>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

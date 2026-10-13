@@ -14,13 +14,42 @@ Demo route: `#/pages/demo/form/switch`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/form/switch.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-switch size="sm" label="…">
-    …
-  </ms-switch>
+  <!-- 组件类型 -->
+  <ms-switch v-model="vBase" />
+  <ms-switch v-model="vLabel" :label="['开', '关']" />
+  <ms-switch v-model="vIcon" active-icon="check-line" void-icon="close-line" />
+  <!-- 组件状态 -->
+  <ms-switch :model-value="true" loading />
+  <ms-switch :model-value="false" disabled />
+  <!-- 组件尺寸 -->
+  <ms-switch v-model="vSize" size="sm" />
+  <ms-switch v-model="vSize" size="md" />
+  <ms-switch v-model="vSize" size="lg" />
+  <!-- 组件深度 -->
+  <ms-switch v-model="vDepthLabel" size="lg" :label="['开', '关']" />
+  <ms-switch
+    :model-value="true"
+    loading
+    active-icon="check-line"
+    void-icon="close-line"
+  />
+  <ms-switch :model-value="true" disabled :label="['开', '关']" />
 </template>
+
+<script setup lang="uts">
+const vBase = ref(false)
+const vLabel = ref(true)
+const vIcon = ref(true)
+const vSize = ref(true)
+const vDepthLabel = ref(true)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 

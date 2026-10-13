@@ -14,13 +14,58 @@ Demo route: `#/pages/demo/feedback/popover`.
 
 ## Basic usage
 
+<!-- demo-snippets:start -->
+Snippets below are taken from the demo source `pages/demo/feedback/popover.uvue`; see them running in the phone frame.
+
 ```vue
 <template>
-  <ms-popover theme="dark" v-model:visible="open">
-    …
+  <!-- 组件类型 -->
+  <ms-popover
+    :visible="showArrow"
+    content="弹出气泡内容"
+    placement="top"
+    @update:visible="onArrowVisible"
+  >
+    <ms-button size="sm" variant="outline" theme="primary" @click="tapArrow">
+      带箭头
+    </ms-button>
+  </ms-popover>
+  <ms-popover
+    :visible="showNoArrow"
+    content="弹出气泡内容"
+    placement="top"
+    :show-arrow="false"
+    @update:visible="onNoArrowVisible"
+  >
+    <ms-button size="sm" variant="outline" theme="primary" @click="tapNoArrow">
+      不带箭头
+    </ms-button>
+  </ms-popover>
+  <ms-popover
+    :visible="showCustom"
+    placement="top"
+    @update:visible="onCustomVisible"
+  >
+    <template #content>
+      <view>
+        <text>选项 1</text>
+        <text>选项 2</text>
+        <text>选项 3</text>
+      </view>
+    </template>
+    <ms-button size="sm" variant="outline" theme="primary" @click="tapCustom">
+      自定义内容
+    </ms-button>
   </ms-popover>
 </template>
+
+<script setup lang="uts">
+const showArrow = ref(false)
+const showNoArrow = ref(false)
+const showCustom = ref(false)
+</script>
 ```
+<!-- demo-snippets:end -->
 
 With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
 
