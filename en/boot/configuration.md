@@ -44,23 +44,26 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 
 ## AI outbound allowlist
 
-Knowledge-base fetches, channel webhooks and remote MCP calls are checked for SSRF before any request goes out; private, loopback and cloud-metadata addresses are rejected by default. To reach an internal service, such as a local model server or an internal MCP endpoint, allow it explicitly:
+Model calls (chat, streaming chat and embeddings), knowledge-base fetches, channel webhooks, remote MCP calls and the workflow HTTP node are checked for SSRF before any request goes out; private, loopback and cloud-metadata addresses are rejected by default. To reach an internal service, such as a local model server or an internal MCP endpoint, allow it explicitly:
 
 ```yaml
 mugsun:
   ai:
     outbound:
       allow-hosts: [localhost, ollama.internal]
+      # Ports allowed for hosts not on the list; 80/443 by default, [] means any port
+      allowed-ports: [80, 443]
 ```
 
 Entries are exact hostnames or `*.example.com` wildcards. A matching host may resolve to a private address.
 
-Example: a local Ollama listens on `http://localhost:11434` by default. Add `localhost` to `allow-hosts` before that URL can be saved and called from a knowledge base or channel.
+Example: a local Ollama listens on `http://localhost:11434` by default. Add `localhost` to `allow-hosts` before that URL can be saved and called from model management, a knowledge base or a channel. `allow-hosts` can only be set in the platform configuration file, so tenants can't open internal addresses themselves. Models saved with an internal address before the upgrade fail when called until their host is added to the list.
 
-- The check runs both when the configuration is saved and right before each request; only `http` and `https` are allowed.
+- The check runs when the configuration is saved (including a model's API address) and again before every request, so an IP written directly into the address is caught too; only `http` and `https` are allowed.
+- Hosts not on the list can only use ports 80 and 443 by default; open others with `allowed-ports`. Hosts on the list can use any port.
 - When the connection is opened, the hostname is resolved again, every address is checked, and the connection goes to the address that was checked. A hostname that switches to an internal address after the check (DNS rebinding) still can't be reached. If any one of the resolved addresses is in a blocked range, the whole request is rejected.
-- Blocked ranges cover private, loopback, link-local, CGNAT (which includes cloud metadata addresses), multicast and reserved addresses. The same applies to IPv6, including IPv4-mapped, NAT64 and 6to4 addresses that embed one of those IPv4 addresses. The workflow HTTP node ignores `allow-hosts` and always blocks internal addresses.
-- Redirects are not followed: when the other side answers with a 3xx, the request ends there and the `Location` address is never requested. If a webhook or MCP address redirects, enter the final address instead.
+- Blocked ranges cover private, loopback, link-local, CGNAT (which includes cloud metadata addresses), multicast, reserved and documentation addresses. The same applies to IPv6 (including `2001:db8::/32` and Teredo `2001::/32`), including IPv4-mapped, NAT64 and 6to4 addresses that embed one of those IPv4 addresses. The workflow HTTP node ignores `allow-hosts` and always blocks internal addresses.
+- Redirects are not followed: when the other side answers with a 3xx, the request ends there and the `Location` address is never requested. If a webhook, MCP or model address redirects, enter the final address instead.
 - The default is `allow-hosts: []`, so no private address is allowed. Public hosts not on the list are unaffected.
 - `*.example.com` matches any subdomain but not `example.com` itself. Hosts ending in `.local` or `.internal` are rejected unless listed explicitly. List only the hosts you actually need.
 
