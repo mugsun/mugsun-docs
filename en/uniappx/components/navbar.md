@@ -19,16 +19,16 @@ Snippets below are taken from the demo source `pages/demo/nav/navbar.uvue`. To s
 
 ```vue
 <template>
-  <ms-navbar title="纯标题" :fixed="false" :safe-area-inset-top="false" />
+  <ms-navbar title="Title only" :fixed="false" :safe-area-inset-top="false" />
   <ms-navbar
-    title="带返回"
+    title="With back"
     left-arrow
     :fixed="false"
     :safe-area-inset-top="false"
     @go-back="onBack"
   />
   <ms-navbar
-    title="返回加首页"
+    title="Back and home"
     left-arrow
     home-icon
     :fixed="false"
@@ -36,9 +36,9 @@ Snippets below are taken from the demo source `pages/demo/nav/navbar.uvue`. To s
     @go-back="onBack"
     @go-home="onHome"
   />
-  <ms-navbar title="标题居中" left-arrow :fixed="false" :safe-area-inset-top="false" />
+  <ms-navbar title="Centered title" left-arrow :fixed="false" :safe-area-inset-top="false" />
   <ms-navbar
-    title="标题左对齐"
+    title="Left-aligned title"
     title-align="left"
     left-arrow
     :fixed="false"
@@ -46,14 +46,14 @@ Snippets below are taken from the demo source `pages/demo/nav/navbar.uvue`. To s
   />
   <ms-navbar
     left-arrow
-    left-text="返回带文案"
+    left-text="Back with text"
     :fixed="false"
     :safe-area-inset-top="false"
     @go-back="onBack"
   />
-  <ms-navbar title="浅色" left-arrow theme="light" :fixed="false" :safe-area-inset-top="false" />
+  <ms-navbar title="Light" left-arrow theme="light" :fixed="false" :safe-area-inset-top="false" />
   <ms-navbar
-    title="品牌色"
+    title="Brand"
     left-arrow
     theme="brand"
     :fixed="false"

@@ -21,10 +21,10 @@ Snippets below are taken from the demo source `pages/demo/feedback/modal.uvue`. 
 <template>
   <ms-modal
     :visible="showRecipeDelete"
-    title="删除这条数据？"
-    content="删除后不可恢复，请确认操作"
+    title="Delete this item?"
+    content="This cannot be undone. Please confirm."
     theme="danger"
-    confirm-text="删除"
+    confirm-text="Delete"
     show-cancel
     @update:visible="onRecipeDeleteVisible"
     @confirm="onRecipeDeleteConfirm"
@@ -32,15 +32,15 @@ Snippets below are taken from the demo source `pages/demo/feedback/modal.uvue`. 
   />
   <ms-modal
     :visible="showFeedback"
-    title="对话框标题"
-    content="告知当前状态、信息和解决方法，描述文案尽量控制在三行内"
+    title="Dialog title"
+    content="Explain the current status, details and how to resolve it; keep the text within three lines"
     @update:visible="onFeedbackVisible"
     @confirm="onConfirmTap"
   />
   <ms-modal
     :visible="showConfirm"
-    title="对话框标题"
-    content="确认类对话框，左取消右确定"
+    title="Dialog title"
+    content="Confirmation dialog: Cancel on the left, OK on the right"
     show-cancel
     @update:visible="onConfirmVisible"
     @confirm="onConfirmTap"

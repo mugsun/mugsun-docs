@@ -19,18 +19,18 @@ Snippets below are taken from the demo source `pages/demo/basic/image.uvue`. To 
 
 ```vue
 <template>
-  <!-- 裁切 -->
+  <!-- Fit -->
   <ms-image :src="demoSrc" mode="aspectFill" />
   <ms-image :src="demoSrc" mode="heightFix" />
   <ms-image :src="demoSrc" mode="scaleToFill" />
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-image :src="demoSrc" shape="square" />
   <ms-image :src="demoSrc" shape="round" />
   <ms-image :src="demoSrc" shape="circle" />
-  <!-- 状态 -->
+  <!-- States -->
   <ms-image :src="demoSrc" />
   <ms-image src="https://invalid.ms-ui.example/error.png" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-image :src="demoSrc" width="120px" height="80px" shape="round" />
   <ms-image :src="demoSrc" :lazy="true" />
   <ms-image :src="demoSrc" :show-menu-by-longpress="true" />
