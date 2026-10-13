@@ -56,13 +56,14 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 ### 对线上库的影响
 
-- 每个「应用 × 天」一个事务，只扫一次当天明细，事务内 `statement_timeout` 默认 120 秒；两天之间默认停 300 毫秒（`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`）。
+- 每个「应用 × 天」一个事务，只扫一次当天明细，事务内 `statement_timeout` 默认 120 秒、`work_mem` 默认 256MB（`MUGSUN_TRACK_UV_BACKFILL_WORK_MEM`）；两天之间默认停 300 毫秒（`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`）。
+- 某个「应用 × 天」超时只回滚这一天并打 WARN 日志，该应用游标不推进、其余日子留到下次，其它应用照常继续。大应用每天都超时时，用 `mugsun.track.uv-backfill.app-statement-timeout.<appKey>`（如 `600s`）单独放宽。
 - 默认只在**北京时间 02:00–07:00** 运行，到点自动暂停；进度记在 `track_rollup_cursor`（`job_key = uv_backfill`），下次从断点继续。`MUGSUN_TRACK_UV_BACKFILL_WINDOW_ENABLED=false` 可取消时段限制。
 - 使用独立 Redis 锁并逐天续期，多实例同一时刻只有一个在跑；**Redis 不可用时不执行**。
 
 ### 上线前实跑
 
-1. 在从库上对一个大应用的一天跑 `EXPLAIN (ANALYZE, BUFFERS)`，确认只扫当月分区、走 `app_key, received_at` 相关索引、耗时远小于 120 秒。查询语句见 boot 仓库 `docs/upgrade/track-uv-backfill.md`。
+1. 在从库上对一个大应用的一天跑 `EXPLAIN (ANALYZE, BUFFERS)`，先 `SET work_mem = '256MB'`，确认：只扫单个月分区、走 `app_key, received_at` 相关索引；没有 `external merge`、几乎没有 temp 读写；耗时远小于 120 秒。查询语句见 boot 仓库 `docs/upgrade/track-uv-backfill.md`。
 2. 用小应用试跑一天：`{"days": 1, "appKey": "小应用"}`；同样参数再跑一次，日志应为「改动 0 行」。
 3. 低峰期再按默认 90 天跑全量。
 
@@ -72,7 +73,7 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 **高峰期不要打开 `on-startup`。** 二选一：
 
-1. PowerJob 里新建任务，处理器填 `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor`，在运行时段内运行（可配成每天 02:10，直到日志显示完成）。参数可留空，或写 `{"days": 180}`、`{"days": 30, "appKey": "你的应用"}`。
+1. PowerJob 里新建任务，处理器填 `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor`，**配成每天 02:05 定时运行，直到日志出现 `UV 回填完成`** 再停用。只有全部完成时 PowerJob 结果才是成功；不在时段、到点暂停、锁丢失或有天超时都显示未完成（失败），下次定时会续跑。参数可留空，或写 `{"days": 180}`、`{"days": 30, "appKey": "你的应用"}`。
 2. 没有 PowerJob 时，低峰期设 `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` 重启，日志出现 `UV 回填完成：run_id=...` 后改回 `false`。
 
 ### 还原与清理

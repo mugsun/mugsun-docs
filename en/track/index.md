@@ -56,13 +56,14 @@ Dashboard UV (unique visitors) counts one per device ID (`distinct_id`). After u
 
 ### Load on the production database
 
-- Each app-and-day is one transaction that scans that day's raw events once, with `statement_timeout` set to 120 seconds by default. It pauses 300 ms between days by default (`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`).
+- Each app-and-day is one transaction that scans that day's raw events once, with `statement_timeout` set to 120 seconds and `work_mem` to 256MB by default (`MUGSUN_TRACK_UV_BACKFILL_WORK_MEM`). It pauses 300 ms between days by default (`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`).
+- If one app-and-day times out, only that day is rolled back and a WARN is logged. That app's progress isn't advanced and its remaining days wait for the next run, while other apps carry on. If a large app times out every day, raise its limit alone with `mugsun.track.uv-backfill.app-statement-timeout.<appKey>` (for example `600s`).
 - By default it only runs **between 02:00 and 07:00 Beijing time** and pauses when the window ends. Progress is stored in `track_rollup_cursor` (`job_key = uv_backfill`), so the next run picks up where it stopped. Set `MUGSUN_TRACK_UV_BACKFILL_WINDOW_ENABLED=false` to remove the time limit.
 - It holds its own Redis lock and renews it after each day, so with several instances only one runs at a time. **If Redis is unavailable it doesn't run.**
 
 ### Trial run before production
 
-1. On a replica, run `EXPLAIN (ANALYZE, BUFFERS)` for one day of a large app. Check that it reads only that month's partition, uses an index on `app_key, received_at`, and takes far less than 120 seconds. The query is in `docs/upgrade/track-uv-backfill.md` in the boot repository.
+1. On a replica, run `EXPLAIN (ANALYZE, BUFFERS)` for one day of a large app. Run `SET work_mem = '256MB'` first, then check that it reads a single monthly partition, uses an index on `app_key, received_at`, shows no `external merge` and little or no temp I/O, and takes far less than 120 seconds. The query is in `docs/upgrade/track-uv-backfill.md` in the boot repository.
 2. Try one day on a small app: `{"days": 1, "appKey": "small-app"}`. Run it again with the same parameters; the log should report 0 rows changed.
 3. Then run the default 90 days off-peak.
 
@@ -72,7 +73,7 @@ The migration doesn't create an index. If you need one, create it off-peak on ea
 
 **Don't turn on `on-startup` during peak hours.** Pick one:
 
-1. In PowerJob, create a job with processor `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor` and run it inside the time window (or schedule it daily at 02:10 until the log says it's done). Leave the parameters empty, or pass `{"days": 180}` or `{"days": 30, "appKey": "your-app"}`.
+1. In PowerJob, create a job with processor `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor` and **schedule it daily at 02:05 until the log shows `UV 回填完成`**, then disable it. PowerJob reports success only when everything is done; outside the window, paused at the window's end, lock lost, or any day timed out all show as not completed (failed), and the next scheduled run resumes. Leave the parameters empty, or pass `{"days": 180}` or `{"days": 30, "appKey": "your-app"}`.
 2. Without PowerJob, set `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` and restart off-peak. When the log shows `UV 回填完成：run_id=...`, set it back to `false`.
 
 ### Restore and clean up
