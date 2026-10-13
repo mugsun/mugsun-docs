@@ -20,15 +20,15 @@ Snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. To s
 ```vue
 <template>
   <ms-cell-group theme="card">
-    <ms-cell title="单行标题" icon="customer-service-line" arrow />
-    <ms-cell title="单行标题" icon="global-line" arrow />
-    <ms-cell title="单行标题" icon="lock-line" arrow :bordered="false" />
+    <ms-cell title="Single-line title" icon="customer-service-line" arrow />
+    <ms-cell title="Single-line title" icon="global-line" arrow />
+    <ms-cell title="Single-line title" icon="lock-line" arrow :bordered="false" />
   </ms-cell-group>
   <ms-cell-group>
-    <ms-cell title="常见能力" icon="apps-line" description="高质量组件库" arrow />
-    <ms-cell title="价格设置" icon="price-tag-3-line" note="+￥32" arrow />
-    <ms-cell title="消息通知" icon="customer-service-line" note="测试" arrow />
-    <ms-cell title="标签页面" icon="gift-line" note="测试" arrow :bordered="false" />
+    <ms-cell title="Common features" icon="apps-line" description="High-quality component library" arrow />
+    <ms-cell title="Pricing" icon="price-tag-3-line" note="+￥32" arrow />
+    <ms-cell title="Message notifications" icon="customer-service-line" note="Test" arrow />
+    <ms-cell title="Tag page" icon="gift-line" note="Test" arrow :bordered="false" />
   </ms-cell-group>
 </template>
 ```
