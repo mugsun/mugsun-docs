@@ -47,4 +47,4 @@ Views and hooks call `/api` through axios, and Vite proxies it to boot during de
 
 ## Next
 
-[Development](/en/pc/development) · [Getting started](/en/guide/getting-started)
+[GIS & maps](/en/pc/gis) · [Development](/en/pc/development) · [Getting started](/en/guide/getting-started)

@@ -45,4 +45,4 @@ mugsun-pc/
 
 ## 下一步
 
-[本地开发](/pc/development) · [快速开始](/guide/getting-started)
+[GIS 与地图](/pc/gis) · [本地开发](/pc/development) · [快速开始](/guide/getting-started)
