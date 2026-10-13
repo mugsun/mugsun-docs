@@ -9,27 +9,27 @@ demo: pages/demo/form/code-input
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-code-input` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-code-input` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/code-input`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/code-input.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/code-input.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-code-input v-model="vOutline" />
   <ms-code-input v-model="vFill" skin="fill" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-code-input v-model="vLine" place-shape="line" />
   <ms-code-input v-model="vPassword" password />
   <ms-code-input model-value="12" disabled />
-  <!-- 组件长度 -->
+  <!-- Length -->
   <ms-code-input v-model="vFour" @complete="onComplete" />
   <ms-code-input v-model="vSix" :length="6" skin="fill" @complete="onComplete" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-code-input v-model="vDot" place-shape="dot" />
   <ms-code-input v-model="vAuto" auto-focus />
   <ms-code-input ref="ctrlCode" v-model="vCtrl" :auto-focus="false" />

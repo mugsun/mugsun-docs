@@ -9,46 +9,46 @@ demo: pages/demo/media/finger
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-finger` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-finger` (commercial edition; source not public).
 Demo route: `#/pages/demo/media/finger`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/finger.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/finger.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-finger @tap="onTap" @doubletap="onDouble" @longpress="onLong">
     <view>
-      <text>点按 / 双击 / 长按此区域</text>
+      <text>Tap / double-tap / long-press here</text>
       <text>{{ basicLog }}</text>
     </view>
   </ms-finger>
   <ms-finger @swipe="onSwipe">
     <view>
-      <text>上下左右滑动</text>
+      <text>Swipe in any direction</text>
       <text>{{ swipeLog }}</text>
     </view>
   </ms-finger>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-finger @pinch="onPinch" @rotate="onRotate">
     <view>
-      <text>双指捏合 / 旋转</text>
+      <text>Pinch / rotate with two fingers</text>
       <text>{{ pinchLog }}</text>
     </view>
   </ms-finger>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-finger :swipe-threshold="80" @swipe="onSwipeStrict">
     <view>
-      <text>需滑动更远才触发</text>
+      <text>Requires a longer swipe</text>
       <text>{{ strictLog }}</text>
     </view>
   </ms-finger>
   <ms-finger disabled @tap="onDisabledTap">
     <view>
-      <text>已禁用 · 点击无效</text>
+      <text>Disabled · taps ignored</text>
     </view>
   </ms-finger>
   <ms-finger
@@ -59,7 +59,7 @@ Snippets below are taken from the demo source `pages/demo/media/finger.uvue`; se
     @longpress="onTimedLong"
   >
     <view>
-      <text>双击窗 450ms · 长按 800ms</text>
+      <text>Double-tap window 450ms · long-press 800ms</text>
       <text>{{ timedLog }}</text>
     </view>
   </ms-finger>

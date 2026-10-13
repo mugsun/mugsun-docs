@@ -9,57 +9,57 @@ demo: pages/demo/media/view-tofull
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-view-tofull` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-view-tofull` (commercial edition; source not public).
 Demo route: `#/pages/demo/media/view-tofull`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/view-tofull.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/view-tofull.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-view-tofull v-model:opened="openedA" @opened="onOpened">
     <view :class="openedA ? 'demo-full-card--open' : ''">
-      <text>点开展开示例</text>
-      <text>点击卡片进入全屏</text>
+      <text>Tap to expand</text>
+      <text>Tap the card to go full screen</text>
       <view v-if="openedA">
-        <text>加量内容：展开后可见的详细说明与列表。</text>
-        <text>适用于视频、详情等不想新开页的场景。</text>
+        <text>Extra content: details and lists visible after expanding.</text>
+        <text>Useful for videos or details without opening a new page.</text>
       </view>
     </view>
   </ms-view-tofull>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-view-tofull v-model:opened="openedB">
     <view :class="openedB ? 'demo-full-card--open' : ''">
-      <text>卡片甲</text>
-      <text v-if="openedB">甲的加量内容</text>
+      <text>Card A</text>
+      <text v-if="openedB">Extra content for A</text>
     </view>
   </ms-view-tofull>
   <ms-view-tofull v-model:opened="openedC">
     <view :class="openedC ? 'demo-full-card--open' : ''">
-      <text>卡片乙</text>
-      <text v-if="openedC">乙的加量内容</text>
+      <text>Card B</text>
+      <text v-if="openedC">Extra content for B</text>
     </view>
   </ms-view-tofull>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-view-tofull v-model:opened="openedSlow" :duration="600">
     <view :class="openedSlow ? 'demo-full-card--open' : ''">
-      <text>慢展开 600ms</text>
-      <text v-if="openedSlow">慢动画加量内容</text>
+      <text>Slow expand 600ms</text>
+      <text v-if="openedSlow">Slow animation extra content</text>
     </view>
   </ms-view-tofull>
   <ms-view-tofull v-model:opened="openedNoClose" :show-close="false" :duration="280">
     <view :class="openedNoClose ? 'demo-full-card--open' : ''" @click.stop="toggleNoClose">
-      <text>无关闭钮 · 再点回落</text>
-      <text v-if="openedNoClose">点此区域可关闭</text>
+      <text>No close button · tap again to collapse</text>
+      <text v-if="openedNoClose">Tap here to close</text>
     </view>
   </ms-view-tofull>
   <ms-view-tofull v-model:opened="openedFast" :duration="120">
     <view :class="openedFast ? 'demo-full-card--open' : ''">
-      <text>快展开 120ms</text>
-      <text v-if="openedFast">短时长过渡</text>
+      <text>Fast expand 120ms</text>
+      <text v-if="openedFast">Short transition</text>
     </view>
   </ms-view-tofull>
 </template>

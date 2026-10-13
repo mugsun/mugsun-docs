@@ -9,40 +9,40 @@ demo: pages/demo/form/picker-city
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker-city` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker-city` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/picker-city`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/picker-city.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/picker-city.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-picker-city
     :value="popupValue"
     :options="regions"
-    title="选择地区"
+    title="Select region"
     @confirm="onPopupConfirm"
     @change="onChange"
   >
-    <ms-cell title="所在地区" :note="popupLabel" arrow :bordered="false" />
+    <ms-cell title="Region" :note="popupLabel" arrow :bordered="false" />
   </ms-picker-city>
   <ms-picker-city
     :value="inlineValue"
     :options="regions"
     :use-popup="false"
-    title="常驻选择"
+    title="Always visible"
     @confirm="onInlineConfirm"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-picker-city
     :value="twoValue"
     :options="regions"
     :level="2"
     :use-popup="false"
-    title="省市两级"
+    title="Province and city only"
     @confirm="onTwoConfirm"
   />
 </template>

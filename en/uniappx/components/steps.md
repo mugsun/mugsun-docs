@@ -9,17 +9,17 @@ demo: pages/demo/nav/steps
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-steps` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-steps` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/steps`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-steps :items="baseItems" v-model:current="baseCurrent" @change="onBaseChange" />
   <ms-steps
     :items="verticalItems"
@@ -32,7 +32,7 @@ Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see t
     :current="1"
     @change="onIconChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-steps
     :items="errorItems"
     :current="1"
@@ -40,9 +40,9 @@ Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see t
     @change="onErrorChange"
   />
   <ms-steps :items="baseItems" :current="3" readonly />
-  <!-- 风格 -->
+  <!-- Style -->
   <ms-steps :items="dotItems" :current="1" theme="dot" @change="onDotChange" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-steps
     :items="errorItems"
     :current="1"
@@ -58,35 +58,35 @@ Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see t
 const baseCurrent = ref(1)
 
 const baseItems = [
-  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
-  { title: '当前步骤', content: '辅助信息' } as UTSJSONObject,
-  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+  { title: 'Completed', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Current step', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Upcoming', content: 'Extra info' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const depthCurrent = ref(0)
 
 const dotItems = [
-  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
-  { title: '当前步骤', content: '辅助信息' } as UTSJSONObject,
-  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+  { title: 'Completed', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Current step', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Upcoming', content: 'Extra info' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const errorItems = [
-  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
-  { title: '错误步骤', content: '请重新提交' } as UTSJSONObject,
-  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+  { title: 'Completed', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Error step', content: 'Please resubmit' } as UTSJSONObject,
+  { title: 'Upcoming', content: 'Extra info' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const iconItems = [
-  { title: '下单', content: '辅助信息', icon: 'check-line' } as UTSJSONObject,
-  { title: '发货', content: '辅助信息', icon: 'inbox-line' } as UTSJSONObject,
-  { title: '收货', content: '辅助信息', icon: 'home-3-line' } as UTSJSONObject,
+  { title: 'Ordered', content: 'Extra info', icon: 'check-line' } as UTSJSONObject,
+  { title: 'Shipped', content: 'Extra info', icon: 'inbox-line' } as UTSJSONObject,
+  { title: 'Delivered', content: 'Extra info', icon: 'home-3-line' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const verticalItems = [
-  { title: '已完成步骤', content: '可自定义此处内容' } as UTSJSONObject,
-  { title: '当前步骤', content: '可自定义此处内容' } as UTSJSONObject,
-  { title: '未完成步骤', content: '可自定义此处内容' } as UTSJSONObject,
+  { title: 'Completed step', content: 'Customizable content' } as UTSJSONObject,
+  { title: 'Current step', content: 'Customizable content' } as UTSJSONObject,
+  { title: 'Upcoming step', content: 'Customizable content' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onBaseChange(current: number, previous: number) : void {

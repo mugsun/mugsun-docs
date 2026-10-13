@@ -1,10 +1,18 @@
-# Demo notes
+# Live demo
 
-This page clarifies what is live versus what is not—so the top-nav entry is not mistaken for a full-stack public demo.
+## Try the admin console and analytics locally
 
-## Admin / analytics stack
+Run the full backend on your machine with these commands (requires Docker and JDK 21):
 
-**No public clickable demo yet.** Follow [Getting started](/en/guide/getting-started) to run boot (and optionally pc). Credentials follow the [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README_EN.md)—**change the password on first login**.
+```bash
+git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
+docker compose up -d
+cp config/application-local.yml.example config/application-local.yml
+mvn -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar
+```
+
+For the console (pc) and verification steps see [Getting started](/en/guide/getting-started). Credentials follow the [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README_EN.md)—**change the password on first login**.
 
 ## uni-app x (ms-ui) component H5
 

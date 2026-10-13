@@ -9,35 +9,35 @@ demo: pages/demo/basic/text
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-text` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-text` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/text`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/text.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/text.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 正文与语义色 -->
-  <ms-text>这是一段默认正文，用于页面正文展示。</ms-text>
-  <ms-text variant="secondary">次要</ms-text>
-  <ms-text variant="primary">主色</ms-text>
-  <!-- 字号与样式 -->
-  <ms-text size="sm">小号 · 辅助说明与标签</ms-text>
-  <ms-text size="md">中号 · 默认正文与表单</ms-text>
-  <ms-text size="lg">大号 · 小标题与强调</ms-text>
-  <!-- 交互 -->
+  <!-- Body and semantic colors -->
+  <ms-text>This is default body text for page content.</ms-text>
+  <ms-text variant="secondary">Secondary</ms-text>
+  <ms-text variant="primary">Primary</ms-text>
+  <!-- Font size and style -->
+  <ms-text size="sm">Small · helper text and labels</ms-text>
+  <ms-text size="md">Medium · default body and forms</ms-text>
+  <ms-text size="lg">Large · subheadings and emphasis</ms-text>
+  <!-- Interaction -->
   <ms-text :lines="2">
-    这是一段很长的文字，用来测试最大行数与省略号。第二行继续。第三行应该被截断并显示省略号效果。
+    This is a long piece of text for testing max lines and the ellipsis. The second line continues. The third line should be truncated with an ellipsis.
   </ms-text>
-  <ms-text selectable>可选中文字，长按或拖选</ms-text>
-  <ms-text variant="primary" @click="onTextClick">点我（看 toast）</ms-text>
-  <!-- 组件深度 -->
-  <ms-text variant="danger" bold>危险操作不可恢复，请谨慎确认</ms-text>
-  <ms-text variant="warning" align="right" size="sm">余额不足，请先充值</ms-text>
+  <ms-text selectable>Selectable text: long-press or drag to select</ms-text>
+  <ms-text variant="primary" @click="onTextClick">Tap me (shows a toast)</ms-text>
+  <!-- Advanced -->
+  <ms-text variant="danger" bold>Dangerous actions cannot be undone; confirm carefully</ms-text>
+  <ms-text variant="warning" align="right" size="sm">Insufficient balance, please top up first</ms-text>
   <ms-text :lines="1" selectable variant="secondary">
-    这是一段很长的可复制文案，超出一行时省略，仍可长按选中复制整段内容。
+    This is a long copyable text that is truncated beyond one line; you can still long-press to copy all of it.
   </ms-text>
 </template>
 

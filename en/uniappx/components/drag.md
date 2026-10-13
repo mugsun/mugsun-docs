@@ -9,21 +9,21 @@ demo: pages/demo/media/drag
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-drag` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-drag` (commercial edition; source not public).
 Demo route: `#/pages/demo/media/drag`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/drag.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/drag.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-drag :list="list1" @change="onChange1" @start="onStart">
     <ms-drag-item v-for="(item, index) in list1" :key="itemLabel(item)" :order="index">
       <view>
-        <text>长按 {{ itemLabel(item) }} 排序</text>
+        <text>Long-press {{ itemLabel(item) }} to reorder</text>
       </view>
     </ms-drag-item>
   </ms-drag>
@@ -35,11 +35,11 @@ Snippets below are taken from the demo source `pages/demo/media/drag.uvue`; see 
       :disabled="index == 1"
     >
       <view>
-        <text>{{ index == 1 ? '固定在第 2 位' : '长按 ' + itemLabel(item) }}</text>
+        <text>{{ index == 1 ? 'Pinned at position 2' : 'Long-press ' + itemLabel(item) }}</text>
       </view>
     </ms-drag-item>
   </ms-drag>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-drag :col="2" :list="list2">
     <ms-drag-item v-for="(item, index) in list2" :key="'g2-' + itemLabel(item)" :order="index">
       <view>

@@ -2,11 +2,11 @@
 
 **ms-ui** is a cross-platform component library for **uni-app x** (App / mini programs / H5), easycom prefix `ms-`. It is **not** the PC admin console (see [Admin / pc](/en/pc/)).
 
-Source: [mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (private), module path `uni_modules/ms-ui`.
+ms-ui is a commercial edition and its source is not public; this site is the reference for usage. In a project the module lives at `uni_modules/ms-ui`.
 
-Component pages can show an H5 phone preview when a demo route exists.
+Component pages with a demo let you try it live: in the phone frame on the right on wide screens, or via the H5 demo bar at the bottom on phones.
 
-**119** components documented (including optional plugins). Props / events / slots come from source and `LLM.md`.
+**119** components documented (including optional plugins), each with props, events and slots.
 
 ## Basic
 

@@ -9,13 +9,13 @@ demo: pages/demo/basic/overlay
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-overlay` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-overlay` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/overlay`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
@@ -26,17 +26,17 @@ Snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`; s
   />
   <ms-overlay :visible="showContent" @update:visible="onContentVisible">
     <ms-sheet margin="page" radius="lg" shadow>
-      <ms-text>遮罩上的内容块</ms-text>
+      <ms-text>Content on the overlay</ms-text>
       <view>
-        <ms-button size="sm" theme="primary" @click="closeContent">关闭</ms-button>
+        <ms-button size="sm" theme="primary" @click="closeContent">Close</ms-button>
       </view>
     </ms-sheet>
   </ms-overlay>
   <ms-overlay :visible="showLock" :closable="false" @update:visible="onLockVisible">
     <ms-sheet margin="page" radius="lg">
-      <ms-text>点遮罩不会关闭</ms-text>
+      <ms-text>Tapping the overlay will not close it</ms-text>
       <view>
-        <ms-button size="sm" theme="primary" @click="closeLock">知道了</ms-button>
+        <ms-button size="sm" theme="primary" @click="closeLock">Got it</ms-button>
       </view>
     </ms-sheet>
   </ms-overlay>
