@@ -9,7 +9,7 @@ demo: pages/demo/media/graph
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-graph/components/ms-graph` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-graph/components/ms-graph` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-graph` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/graph`.
 

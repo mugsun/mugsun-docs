@@ -9,7 +9,7 @@ demo: pages/demo/display/tree-flat
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-tree-flat` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-tree-flat` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/tree-flat`.
 
 ## Basic usage

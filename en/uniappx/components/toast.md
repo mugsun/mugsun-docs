@@ -9,7 +9,7 @@ demo: pages/demo/feedback/toast
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-toast` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-toast` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/toast`.
 
 ## Basic usage

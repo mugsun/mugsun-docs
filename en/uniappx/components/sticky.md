@@ -9,7 +9,7 @@ demo: pages/demo/nav/sticky
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-sticky` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-sticky` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/sticky`.
 
 ## Basic usage

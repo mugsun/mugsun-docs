@@ -9,7 +9,7 @@ demo: pages/demo/basic/cell
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-cell` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-cell` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage

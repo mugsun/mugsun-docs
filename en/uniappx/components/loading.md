@@ -9,7 +9,7 @@ demo: pages/demo/basic/loading
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-loading` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-loading` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/loading`.
 
 ## Basic usage

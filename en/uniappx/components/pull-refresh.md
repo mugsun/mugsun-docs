@@ -9,7 +9,7 @@ demo: pages/demo/feedback/pull-refresh
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pull-refresh` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pull-refresh` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/pull-refresh`.
 
 ## Basic usage

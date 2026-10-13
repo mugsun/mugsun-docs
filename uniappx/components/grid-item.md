@@ -7,7 +7,7 @@ demo: pages/demo/nav/grid
 
 `ms-grid-item` 组件。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-grid-item`（源码仓暂未公开）。
+源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-grid-item`（商业版，源码不公开）。
 演示路由：`#/pages/demo/nav/grid`。
 
 ## 基础用法

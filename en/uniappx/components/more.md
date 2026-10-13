@@ -9,7 +9,7 @@ demo: pages/demo/nav/more
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-more` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-more` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/more`.
 
 ## Basic usage

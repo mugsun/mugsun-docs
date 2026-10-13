@@ -9,7 +9,7 @@ demo: pages/demo/media/barrage
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-barrage` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-barrage` (commercial edition; source not public).
 Demo route: `#/pages/demo/media/barrage`.
 
 ## Basic usage

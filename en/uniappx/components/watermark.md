@@ -9,7 +9,7 @@ demo: pages/demo/display/watermark
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-watermark` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-watermark` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/watermark`.
 
 ## Basic usage

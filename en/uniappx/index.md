@@ -2,7 +2,7 @@
 
 **ms-ui** is a cross-platform component library for **uni-app x** (App / mini programs / H5), easycom prefix `ms-`. It is **not** the PC admin console (see [Admin / pc](/en/pc/)).
 
-The component source is not public yet; this site is the reference for usage. In a project the module lives at `uni_modules/ms-ui`.
+ms-ui is a commercial edition and its source is not public; this site is the reference for usage. In a project the module lives at `uni_modules/ms-ui`.
 
 Component pages can show an H5 phone preview when a demo route exists.
 

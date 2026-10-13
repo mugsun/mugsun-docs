@@ -9,7 +9,7 @@ demo: pages/demo/nav/pagination
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pagination` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pagination` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/pagination`.
 
 ## Basic usage

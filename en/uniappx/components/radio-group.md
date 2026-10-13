@@ -9,7 +9,7 @@ demo: pages/demo/form/radio
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-radio-group` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-radio-group` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/radio`.
 
 ## Basic usage
