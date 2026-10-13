@@ -48,6 +48,10 @@ const track = createTracker({
 <div data-track-mask>ID number: …</div>
 ```
 
+This is what it looks like in the console's Session replay player: a demo session recorded with 0.2.0 defaults. Navigation, headings, body text and button labels all render as `*`; only page structure and interaction are kept. The marker bar below shows clicks, page changes and errors.
+
+![Session replay with default text masking (demo data)](/screenshots/track/track-replay-masked.png)
+
 ## API monitoring
 
 `apiMonitorPlugin()` records method, URL, status and duration as `api_request` events.
@@ -73,6 +77,14 @@ From 0.2.0, replays mask page text and `apiBodyMaskEnabled` defaults to `true`. 
 
 - `visualTrack()` matches elements against the `visualRules` delivered from the console and reports hits. With no rules, it installs no listeners.
 - `geoPlugin()` collects precise location when `geoEnabled` is `true`, which triggers the browser's location permission prompt.
+
+Visual tagging flow: in Integration → Visual rules (接入管理 → 圈选规则), pick the app and click Start visual selection (进入圈选), then enter the page URL. The platform issues a 30-minute token and opens that page in a new window in inspect mode. Click an element, give it an event name and submit a draft:
+
+![Selecting an element in inspect mode (demo page)](/screenshots/track/track-visual-inspect.png)
+
+The draft shows up in the console's draft bar. Confirm turns it into a rule delivered through `/track/config`; discard drops it. The table below lists confirmed rules:
+
+![Visual-tagging drafts and rules (demo data)](/screenshots/track/track-visual-drafts.png)
 
 ## Next
 
