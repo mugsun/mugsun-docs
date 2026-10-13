@@ -9,7 +9,7 @@ demo: pages/demo/form/picker-selected
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-picker-selected`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker-selected` (repository not yet public).
 Demo route: `#/pages/demo/form/picker-selected`.
 
 ## Basic usage

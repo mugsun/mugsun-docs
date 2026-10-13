@@ -9,7 +9,7 @@ demo: pages/demo/basic/empty
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-empty`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-empty` (repository not yet public).
 Demo route: `#/pages/demo/basic/empty`.
 
 ## Basic usage

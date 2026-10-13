@@ -9,7 +9,7 @@ demo: pages/demo/feedback/popover
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-popover`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-popover` (repository not yet public).
 Demo route: `#/pages/demo/feedback/popover`.
 
 ## Basic usage

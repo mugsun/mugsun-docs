@@ -9,7 +9,7 @@ demo: pages/demo/form/form
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-form-item`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-form-item` (repository not yet public).
 Demo route: `#/pages/demo/form/form`.
 
 ## Basic usage

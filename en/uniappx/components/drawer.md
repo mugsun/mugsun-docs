@@ -9,7 +9,7 @@ demo: pages/demo/feedback/drawer
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-drawer`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-drawer` (repository not yet public).
 Demo route: `#/pages/demo/feedback/drawer`.
 
 ## Basic usage

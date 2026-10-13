@@ -9,7 +9,7 @@ demo: pages/demo/display/image-viewer
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-image-viewer`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-viewer` (repository not yet public).
 Demo route: `#/pages/demo/display/image-viewer`.
 
 ## Basic usage

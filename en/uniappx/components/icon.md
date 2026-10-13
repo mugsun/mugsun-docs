@@ -9,7 +9,7 @@ demo: pages/demo/basic/icon
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-icon`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-icon` (repository not yet public).
 Demo route: `#/pages/demo/basic/icon`.
 
 ## Basic usage

@@ -9,7 +9,7 @@ demo: pages/demo/media/blur
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-blur/components/ms-blur`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-blur/components/ms-blur` (repository not yet public).
 Optional plugin: install `uni_modules/ms-blur` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/blur`.
 

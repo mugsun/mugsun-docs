@@ -9,7 +9,7 @@ demo: pages/demo/display/swiper-fx
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-swiper-fx`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swiper-fx` (repository not yet public).
 Demo route: `#/pages/demo/display/swiper-fx`.
 
 ## Basic usage

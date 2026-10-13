@@ -9,7 +9,7 @@ demo: pages/demo/display/table
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-table`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-table` (repository not yet public).
 Demo route: `#/pages/demo/display/table`.
 
 ## Basic usage

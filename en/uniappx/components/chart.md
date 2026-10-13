@@ -9,7 +9,7 @@ demo: pages/demo/media/chart
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-chart/components/ms-chart`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-chart/components/ms-chart` (repository not yet public).
 Optional plugin: install `uni_modules/ms-chart` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/chart`.
 

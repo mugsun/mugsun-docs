@@ -9,7 +9,7 @@ demo: pages/demo/basic/button
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-button`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-button` (repository not yet public).
 Demo route: `#/pages/demo/basic/button`.
 
 ## Basic usage

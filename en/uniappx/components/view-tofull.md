@@ -9,7 +9,7 @@ demo: pages/demo/media/view-tofull
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-view-tofull`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-view-tofull` (repository not yet public).
 Demo route: `#/pages/demo/media/view-tofull`.
 
 ## Basic usage

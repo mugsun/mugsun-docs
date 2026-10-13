@@ -7,7 +7,7 @@ demo: pages/demo/media/drag
 
 `ms-drag` 的可排序子项。
 
-源码位置：`mugsun-uniappx-ui`（源码仓暂未公开）`uni_modules/ms-ui/components/ms-drag-item`）。
+源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-drag-item`（源码仓暂未公开）。
 演示路由：`#/pages/demo/media/drag`。
 
 ## 基础用法

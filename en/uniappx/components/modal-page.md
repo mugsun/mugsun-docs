@@ -9,7 +9,7 @@ demo: pages/demo/feedback/modal-page
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-modal-page`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-modal-page` (repository not yet public).
 Demo route: `#/pages/demo/feedback/modal-page`.
 
 ## Basic usage

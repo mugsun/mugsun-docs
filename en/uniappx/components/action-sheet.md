@@ -9,7 +9,7 @@ demo: pages/demo/feedback/action-sheet
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-action-sheet`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-action-sheet` (repository not yet public).
 Demo route: `#/pages/demo/feedback/action-sheet`.
 
 ## Basic usage

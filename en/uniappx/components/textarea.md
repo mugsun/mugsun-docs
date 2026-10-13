@@ -9,7 +9,7 @@ demo: pages/demo/form/textarea
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-textarea`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-textarea` (repository not yet public).
 Demo route: `#/pages/demo/form/textarea`.
 
 ## Basic usage

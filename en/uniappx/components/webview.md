@@ -9,7 +9,7 @@ demo: pages/demo/media/webview
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-webview/components/ms-webview`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-webview/components/ms-webview` (repository not yet public).
 Optional plugin: install `uni_modules/ms-webview` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/webview`.
 

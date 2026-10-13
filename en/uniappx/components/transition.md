@@ -9,7 +9,7 @@ demo: pages/demo/basic/transition
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-transition`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-transition` (repository not yet public).
 Demo route: `#/pages/demo/basic/transition`.
 
 ## Basic usage

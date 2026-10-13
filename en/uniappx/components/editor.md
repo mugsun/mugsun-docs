@@ -9,7 +9,7 @@ demo: pages/demo/media/editor
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-editor/components/ms-editor`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-editor/components/ms-editor` (repository not yet public).
 Optional plugin: install `uni_modules/ms-editor` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/editor`.
 

@@ -9,7 +9,7 @@ demo: pages/demo/media/camera
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-camera/components/ms-camera`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-camera/components/ms-camera` (repository not yet public).
 Optional plugin: install `uni_modules/ms-camera` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/camera`.
 

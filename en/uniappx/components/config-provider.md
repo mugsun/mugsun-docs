@@ -9,7 +9,7 @@ demo: pages/demo/basic/config-provider
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-config-provider`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-config-provider` (repository not yet public).
 Demo route: `#/pages/demo/basic/config-provider`.
 
 ## Basic usage

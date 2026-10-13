@@ -9,7 +9,7 @@ demo: pages/demo/feedback/alert
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-alert`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-alert` (repository not yet public).
 Demo route: `#/pages/demo/feedback/alert`.
 
 ## Basic usage

@@ -9,7 +9,7 @@ demo: pages/demo/nav/dropdown
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-dropdown`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-dropdown` (repository not yet public).
 Demo route: `#/pages/demo/nav/dropdown`.
 
 ## Basic usage

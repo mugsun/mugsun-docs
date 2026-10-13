@@ -9,7 +9,7 @@ demo: pages/demo/feedback/guide
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-guide`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-guide` (repository not yet public).
 Demo route: `#/pages/demo/feedback/guide`.
 
 ## Basic usage

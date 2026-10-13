@@ -9,7 +9,7 @@ demo: pages/demo/media/drag
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-drag-item`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-drag-item` (repository not yet public).
 Demo route: `#/pages/demo/media/drag`.
 
 ## Basic usage

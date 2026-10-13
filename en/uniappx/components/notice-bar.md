@@ -9,7 +9,7 @@ demo: pages/demo/feedback/notice-bar
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-notice-bar`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-notice-bar` (repository not yet public).
 Demo route: `#/pages/demo/feedback/notice-bar`.
 
 ## Basic usage
