@@ -9,13 +9,13 @@ demo: pages/demo/nav/footer
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-footer` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-footer` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/footer`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>

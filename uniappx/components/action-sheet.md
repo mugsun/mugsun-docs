@@ -9,13 +9,13 @@ demo: pages/demo/feedback/action-sheet
 
 属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-action-sheet`（源码仓暂未公开）。
+源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-action-sheet`（商业版，源码不公开）。
 演示路由：`#/pages/demo/feedback/action-sheet`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/action-sheet.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/feedback/action-sheet.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
 
 ```vue
 <template>

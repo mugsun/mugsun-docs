@@ -14,7 +14,7 @@
 - [ ] OpenAPI 文档在 prod 已关闭（prod 默认关闭）
 - [ ] 若在反向代理之后，`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只包含真实代理网段（[开放平台](/boot/open-api#客户端-ip-与可信代理)）
 - [ ] 各 API Key 的 IP 白名单使用最小 CIDR 网段
-- [ ] `MUGSUN_FRONT_URL` 指向正式管理端域名
+- [ ] `MUGSUN_FRONT_URL` 指向正式管理台域名
 
 ## 数据与附件
 
