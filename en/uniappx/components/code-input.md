@@ -19,17 +19,17 @@ Snippets below are taken from the demo source `pages/demo/form/code-input.uvue`.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-code-input v-model="vOutline" />
   <ms-code-input v-model="vFill" skin="fill" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-code-input v-model="vLine" place-shape="line" />
   <ms-code-input v-model="vPassword" password />
   <ms-code-input model-value="12" disabled />
-  <!-- 组件长度 -->
+  <!-- Length -->
   <ms-code-input v-model="vFour" @complete="onComplete" />
   <ms-code-input v-model="vSix" :length="6" skin="fill" @complete="onComplete" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-code-input v-model="vDot" place-shape="dot" />
   <ms-code-input v-model="vAuto" auto-focus />
   <ms-code-input ref="ctrlCode" v-model="vCtrl" :auto-focus="false" />
