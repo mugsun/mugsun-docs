@@ -214,6 +214,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           items: [
             { text: 'Overview', link: '/en/pc/' },
             { text: 'Development', link: '/en/pc/development' },
+            { text: 'Basemaps & allow-list', link: '/en/pc/gis-basemap' },
           ],
         },
       ],
