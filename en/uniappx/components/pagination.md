@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`. 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-pagination
     :value="fullPage"
     :total="1000"
@@ -31,13 +31,13 @@ Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`. 
     simple
     @change="onSimpleChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-pagination
     :value="3"
     :total="50"
     disabled
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-pagination
     :value="navPage"
     :total="200"

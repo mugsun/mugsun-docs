@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/nav/more.uvue`. To see
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-more
     :opened="baseOpened"
     @change="onBaseChange"
@@ -32,17 +32,17 @@ Snippets below are taken from the demo source `pages/demo/nav/more.uvue`. To see
     @change="onTallChange"
   >
     <ms-paragraph :content="longText" />
-    <ms-paragraph tone="secondary" content="附加说明：大号收起高度适合带配图的长内容。" />
+    <ms-paragraph tone="secondary" content="Note: the large collapsed height suits long content with images." />
   </ms-more>
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-more
     :opened="false"
     disabled
-    expand-text="暂不可展开"
+    expand-text="Cannot expand yet"
   >
     <ms-paragraph :content="longText" />
   </ms-more>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-more
     :opened="smOpened"
     collapsed-size="sm"
@@ -53,14 +53,14 @@ Snippets below are taken from the demo source `pages/demo/nav/more.uvue`. To see
   <ms-more
     :opened="customOpened"
     :show-icon="false"
-    expand-text="查看全文"
-    collapse-text="收起全文"
+    expand-text="Read more"
+    collapse-text="Show less"
     @change="onCustomChange"
   >
     <ms-paragraph :content="longText" />
     <template #action>
       <ms-button size="sm" theme="primary" variant="text">
-        {{ customOpened ? '收起全文' : '查看全文' }}
+        {{ customOpened ? 'Show less' : 'Read more' }}
       </ms-button>
     </template>
   </ms-more>

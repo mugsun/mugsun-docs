@@ -48,58 +48,58 @@ Snippets below are taken from the demo source `pages/demo/nav/dropdown.uvue`. To
 
 <script setup lang="uts">
 const columnMenus = [
-  { label: '三列多选', multiple: true, columns: 3 } as UTSJSONObject,
-  { label: '双列单选', columns: 2 } as UTSJSONObject,
+  { label: '3-column multi-select', multiple: true, columns: 3 } as UTSJSONObject,
+  { label: '2-column single-select', columns: 2 } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const columnOptions = [
-  { menu: 0, label: '一', value: 'c1', checked: true } as UTSJSONObject,
-  { menu: 0, label: '二', value: 'c2' } as UTSJSONObject,
-  { menu: 0, label: '三', value: 'c3' } as UTSJSONObject,
-  { menu: 0, label: '四', value: 'c4' } as UTSJSONObject,
-  { menu: 0, label: '五', value: 'c5' } as UTSJSONObject,
-  { menu: 0, label: '六', value: 'c6' } as UTSJSONObject,
-  { menu: 1, label: '左列', value: 'l1', checked: true } as UTSJSONObject,
-  { menu: 1, label: '右列', value: 'r1' } as UTSJSONObject,
+  { menu: 0, label: 'One', value: 'c1', checked: true } as UTSJSONObject,
+  { menu: 0, label: 'Two', value: 'c2' } as UTSJSONObject,
+  { menu: 0, label: 'Three', value: 'c3' } as UTSJSONObject,
+  { menu: 0, label: 'Four', value: 'c4' } as UTSJSONObject,
+  { menu: 0, label: 'Five', value: 'c5' } as UTSJSONObject,
+  { menu: 0, label: 'Six', value: 'c6' } as UTSJSONObject,
+  { menu: 1, label: 'Left column', value: 'l1', checked: true } as UTSJSONObject,
+  { menu: 1, label: 'Right column', value: 'r1' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const disabledMenus = [
-  { label: '可选菜单' } as UTSJSONObject,
-  { label: '停用菜单', disabled: true } as UTSJSONObject,
+  { label: 'Enabled menu' } as UTSJSONObject,
+  { label: 'Disabled menu', disabled: true } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const disabledOptions = [
-  { menu: 0, label: '可选项', value: 'ok', checked: true } as UTSJSONObject,
-  { menu: 0, label: '禁用选项', value: 'no', disabled: true } as UTSJSONObject,
-  { menu: 1, label: '不会展开', value: 'x' } as UTSJSONObject,
+  { menu: 0, label: 'Enabled option', value: 'ok', checked: true } as UTSJSONObject,
+  { menu: 0, label: 'Disabled option', value: 'no', disabled: true } as UTSJSONObject,
+  { menu: 1, label: 'Will not open', value: 'x' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const multiMenus = [
-  { label: '单列多选', multiple: true } as UTSJSONObject,
-  { label: '双列多选', multiple: true, columns: 2 } as UTSJSONObject,
+  { label: '1-column multi-select', multiple: true } as UTSJSONObject,
+  { label: '2-column multi-select', multiple: true, columns: 2 } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const multiOptions = [
-  { menu: 0, label: '选项一', value: 'm1', checked: true } as UTSJSONObject,
-  { menu: 0, label: '选项二', value: 'm2' } as UTSJSONObject,
-  { menu: 0, label: '选项三', value: 'm3' } as UTSJSONObject,
-  { menu: 1, label: '双列一', value: 'd1', checked: true } as UTSJSONObject,
-  { menu: 1, label: '双列二', value: 'd2' } as UTSJSONObject,
-  { menu: 1, label: '双列三', value: 'd3' } as UTSJSONObject,
-  { menu: 1, label: '双列四', value: 'd4' } as UTSJSONObject,
+  { menu: 0, label: 'Option 1', value: 'm1', checked: true } as UTSJSONObject,
+  { menu: 0, label: 'Option 2', value: 'm2' } as UTSJSONObject,
+  { menu: 0, label: 'Option 3', value: 'm3' } as UTSJSONObject,
+  { menu: 1, label: 'Column 2-1', value: 'd1', checked: true } as UTSJSONObject,
+  { menu: 1, label: 'Column 2-2', value: 'd2' } as UTSJSONObject,
+  { menu: 1, label: 'Column 2-3', value: 'd3' } as UTSJSONObject,
+  { menu: 1, label: 'Column 2-4', value: 'd4' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const singleMenus = [
-  { label: '全部产品' } as UTSJSONObject,
-  { label: '默认排序' } as UTSJSONObject,
+  { label: 'All products' } as UTSJSONObject,
+  { label: 'Default sort' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const singleOptions = [
-  { menu: 0, label: '全部产品', value: 'all', checked: true } as UTSJSONObject,
-  { menu: 0, label: '最新产品', value: 'new' } as UTSJSONObject,
-  { menu: 0, label: '最火产品', value: 'hot' } as UTSJSONObject,
-  { menu: 1, label: '默认排序', value: 'default', checked: true } as UTSJSONObject,
-  { menu: 1, label: '价格从高到低', value: 'price' } as UTSJSONObject,
+  { menu: 0, label: 'All products', value: 'all', checked: true } as UTSJSONObject,
+  { menu: 0, label: 'Newest', value: 'new' } as UTSJSONObject,
+  { menu: 0, label: 'Most popular', value: 'hot' } as UTSJSONObject,
+  { menu: 1, label: 'Default sort', value: 'default', checked: true } as UTSJSONObject,
+  { menu: 1, label: 'Price: high to low', value: 'price' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onSingleChange(index: number, values: string[]) : void {

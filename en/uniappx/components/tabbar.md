@@ -69,10 +69,10 @@ Snippets below are taken from the demo source `pages/demo/nav/tabbar.uvue`. To s
 const disabledIndex = ref(0)
 
 const disabledItems = [
-  { label: '首页', icon: 'home-3-line' } as UTSJSONObject,
-  { label: '发现', icon: 'search-line' } as UTSJSONObject,
-  { label: '停用', icon: 'megaphone-line', disabled: true } as UTSJSONObject,
-  { label: '我的', icon: 'user-3-fill' } as UTSJSONObject,
+  { label: 'Home', icon: 'home-3-line' } as UTSJSONObject,
+  { label: 'Discover', icon: 'search-line' } as UTSJSONObject,
+  { label: 'Disabled', icon: 'megaphone-line', disabled: true } as UTSJSONObject,
+  { label: 'Me', icon: 'user-3-fill' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const iconIndex = ref(0)
@@ -87,10 +87,10 @@ const iconItems = [
 const iconTextIndex = ref(0)
 
 const iconTextItems = [
-  { label: '首页', icon: 'home-3-line' } as UTSJSONObject,
-  { label: '发现', icon: 'search-line' } as UTSJSONObject,
-  { label: '消息', icon: 'megaphone-line' } as UTSJSONObject,
-  { label: '我的', icon: 'user-3-fill' } as UTSJSONObject,
+  { label: 'Home', icon: 'home-3-line' } as UTSJSONObject,
+  { label: 'Discover', icon: 'search-line' } as UTSJSONObject,
+  { label: 'Messages', icon: 'megaphone-line' } as UTSJSONObject,
+  { label: 'Me', icon: 'user-3-fill' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const splitIndex = ref(0)
@@ -100,10 +100,10 @@ const tagIndex = ref(1)
 const textIndex = ref(0)
 
 const textItems = [
-  { label: '首页' } as UTSJSONObject,
-  { label: '应用' } as UTSJSONObject,
-  { label: '聊天' } as UTSJSONObject,
-  { label: '我的' } as UTSJSONObject,
+  { label: 'Home' } as UTSJSONObject,
+  { label: 'Apps' } as UTSJSONObject,
+  { label: 'Chat' } as UTSJSONObject,
+  { label: 'Me' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onTextChange(index: number) : void {
