@@ -24,7 +24,7 @@ The console's Analytics section has Overview, Events, Performance, Errors, Integ
 
 The screenshots below come from a local boot + pc run. The data was reported for real by a demo shop page through `@mugsun/track-web` 0.2.0 (about 110 visitors, all on the same day). The console UI is shown in Chinese.
 
-**Overview**: page views, visitors, sessions, events, average session duration and bounce rate, plus top pages and source, device and browser breakdowns. A session settles after 30 minutes of silence; duration and bounce rate count settled sessions only.
+**Overview**: page views, visitors, sessions, events, average session duration and bounce rate, plus top pages and source, device and browser breakdowns. A session settles after 30 minutes of silence; duration and bounce rate count settled sessions only. The overview API returns `cards.settledSessionCount`, the number of settled sessions in the range; while it is 0 those two figures are not final yet, and the dashboard shows "—" instead of 0.
 
 ![Overview (demo data)](/screenshots/track/track-overview.png)
 
