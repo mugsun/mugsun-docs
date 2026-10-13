@@ -73,7 +73,7 @@ pnpm dev
 
 During development, Vite proxies `/api/**` to `VITE_API_PROXY_URL` in `.env.development` (default `http://localhost:8080`).
 
-**Check:** sign in with the account from step 1. The local config echoes the captcha, so it is filled in for you. You should land on the workbench, with menus such as Analytics and System in the top bar.
+**Check:** sign in with the account from step 1, dragging the slider to pass the check. You should land on the workbench, with menus such as Analytics and System in the top bar.
 
 ![Sign-in page](/screenshots/pc-login.png)
 

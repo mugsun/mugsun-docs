@@ -15,6 +15,7 @@
 - [ ] 若在反向代理之后，`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只包含真实代理网段（[开放平台](/boot/open-api#客户端-ip-与可信代理)）
 - [ ] 各 API Key 的 IP 白名单使用最小 CIDR 网段
 - [ ] `MUGSUN_FRONT_URL` 指向正式管理端域名
+- [ ] 安全验证为 `type: SLIDER`、`store: redis`，`show-code` 为 `false`；关闭验证的租户确有理由（[配置参考](/boot/configuration#安全验证-滑块验证码)）
 
 ## 数据与附件
 

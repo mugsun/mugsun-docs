@@ -61,6 +61,58 @@ Example: a local Ollama listens on `http://localhost:11434` by default. Add `loc
 - The default is `allow-hosts: []`, so no private address is allowed. Public hosts not on the list are unaffected.
 - `*.example.com` matches any subdomain but not `example.com` itself. Hosts ending in `.local` or `.internal` are rejected unless listed explicitly. List only the hosts you actually need.
 
+## Human verification (slider captcha)
+
+Login, registration, the forgot-password code and the SMS code request require a slider puzzle by default. The captcha is built into boot and uses no third-party service.
+
+```yaml
+mugsun:
+  captcha:
+    enabled: true          # global switch
+    type: SLIDER           # SLIDER (default) | IMAGE (legacy digits, kept for one release)
+    store: redis           # redis | memory; memory is single-node dev only and fails to start in prod
+    slider:
+      tolerance-px: 6      # drop tolerance in native background pixels (background is 320×180)
+      expire-seconds: 120  # challenge lifetime
+      token-expire-seconds: 120
+      decoy-count: 1       # fake gaps, 0–2
+      bind-ip: false       # enforce token binding to IP / UA (recorded either way)
+      bind-ua: false
+    background:
+      dir: classpath:captcha/bg/   # or file:/opt/mugsun/captcha-bg/
+      rotate: random               # random | round-robin
+      reload-seconds: 600          # rescan interval, 0 = load at startup only
+    rate-limit:
+      challenge-per-minute: 30     # challenges per IP per minute
+      verify-fail-max: 5           # failures in 10 minutes before a 10-minute lock (3 in keyboard mode)
+```
+
+See `mugsun.captcha` in `application.yml` for every key and default.
+
+**Backgrounds:** jpg or png, 640×360 (16:9) recommended, up to 200KB each, at least 20 images, avoiding large flat areas. A plain-colour placeholder is used while the folder is empty. Use only images you own or may use commercially, and list their sources in a `SOURCES.md` in the folder.
+
+**Endpoints:**
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /auth/captcha/config?scene=&clientId=&tenantId=` | Whether verification is needed; a hint for the front end only |
+| `POST /auth/captcha/challenge` | Background and puzzle piece, valid for `expireSeconds` |
+| `POST /auth/captcha/verify` | Submit the drop position and track (or key presses in keyboard mode) for a one-time `captchaToken` |
+
+`scene` is `login`, `register`, `sms` (sending the SMS code) or `forget`. Put the `captchaToken` in the body of `/auth/login`, `/auth/register`, `/auth/sms-code` or `/auth/forget-code`. It works once and must match the scene, client and tenant used for the challenge. The server decides on its own whether verification is needed; it does not rely on `config`.
+
+Errors come back as HTTP 200 with `R.code`:
+
+| code | Meaning |
+| --- | --- |
+| `40010` | Challenge expired; fetch a new one |
+| `40011` | Failed; fetch a new one (no reason given) |
+| `40012` | Too many attempts; retry after `data.retryAfter` seconds |
+| `40013` | Missing or invalid `captchaToken` |
+| `40014` | Verification is not needed right now |
+
+**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. The client switch (`sys_client.captcha_enabled`) still applies to login only.
+
 ## Production
 
 The `prod` profile turns off the OpenAPI docs (springdoc / swagger-ui), forces `strict-keys: true` and disables mock social login. A minimal start looks like this:
