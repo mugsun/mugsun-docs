@@ -53,6 +53,20 @@ mugsun:
 
 直出的文件都带 `X-Content-Type-Options: nosniff`。HTML、SVG 等浏览器可能执行的类型以及 PDF 一律作为附件下载，不在浏览器里直接打开；HTML、SVG 等还会附加 `Content-Security-Policy: sandbox`。
 
+## 操作日志排除
+
+所有 Controller 的写接口（POST/PUT/DELETE/PATCH）会自动记一条操作日志（标题「自动留痕」）。浏览器高频调用、不属于管理操作的接口可以排除，不再写日志，也不参与操作日志的哈希链。默认排除埋点 SDK 的上报接口：
+
+```yaml
+mugsun:
+  oper-log:
+    exclude-paths:          # Ant 风格，按去掉 context-path 后的路径匹配
+      - /track/collect
+      - /track/replay
+```
+
+配置这个列表会整体替换默认值，要保留这两项请一并写上；写成 `exclude-paths: []` 则全部留痕。排除只影响自动留痕，显式标了 `@OperationLog` 的接口照常记录，管理端的 `/system/track/**` 也不受影响。
+
 ## 可选模块
 
 | 变量 | 默认 | 说明 |
