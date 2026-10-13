@@ -28,6 +28,19 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 不会。compose 只启动 PostgreSQL（5432）与 Redis（6379），应用打包后用 `java -jar mugsun-boot-server/target/mugsun-boot.jar` 运行。
 
+
+### 本机 5432 / 6379 已被占用？
+
+compose 与后端读同一组环境变量，换端口后一起生效，不用改 yml：
+
+```bash
+export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
+docker compose up -d
+java -jar mugsun-boot-server/target/mugsun-boot.jar
+```
+
+后端还认 `MUGSUN_DB_HOST`、`MUGSUN_DB_NAME`、`MUGSUN_DB_USERNAME`、`MUGSUN_DB_PASSWORD`、`MUGSUN_REDIS_HOST`，或整条 `MUGSUN_DB_URL`。埋点库 `mugsun_track` 默认跟随同一主机和端口，`TRACK_JDBC_URL` 仍可单独覆盖。`prod` 不读这些变量，见 [配置](/boot/configuration)。
+
 ### `spring-boot:run` 报 `Unable to find a suitable main class`？
 
 旧版本在仓库根目录执行 `mvn -pl mugsun-boot-server -am spring-boot:run` 时，插件也会作用于父工程而报错。[mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) 已修复，请拉取最新代码后在仓库根目录重试。推荐方式仍是先 `mvn -pl mugsun-boot-server -am package -DskipTests`，再在仓库根目录 `java -jar mugsun-boot-server/target/mugsun-boot.jar`。
@@ -35,6 +48,16 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 ### 启动时读不到本地配置？
 
 本地配置路径是 `optional:file:./config/application-local.yml`，工作目录必须是 boot 仓库根目录。先 `cp config/application-local.yml.example config/application-local.yml`。
+
+
+### 启动报 `Migration checksum mismatch for version 1`？
+
+0.1.0 发布的 `V1__baseline_0_1.sql` 现在与 main 完全一致（[mugsun-boot #15](https://github.com/mugsun/mugsun-boot/pull/15) 起，CI 用 `db/RELEASED.sha256` 校验，不会再改）。报这个错说明开发库是用 0.1.0 发布前的 main，或 #11 到 #15 之间的 main 建的，库里记的是旧版 V1 的校验和。
+
+- **开发库，数据不要了（推荐）：** `docker compose down -v && docker compose up -d`，再启动后端，按当前迁移重建。只删开发数据卷，别对共享库执行。
+- **数据要保留：** 先备份，确认库结构和当前 V1 一致后，再改记 V1 的校验和（等同 `flyway repair` 对 V1 的效果）：`docker exec mugsun-pg psql -U mugsun -d mugsun -c "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"`。这只改历史表记录，不补表结构；旧 V1 少的字段或菜单不会自动出现，所以结构不一致时还是重建更稳。
+
+用 0.1.0 正式包建的库不受影响，直接升级即可。
 
 ### `prod` 启动直接退出？
 
