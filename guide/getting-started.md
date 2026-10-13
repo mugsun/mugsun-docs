@@ -9,8 +9,8 @@
 | JDK | 21 | 运行 boot |
 | Maven | 3.9+ | 构建 boot（自动从 Maven Central 拉取 `com.mugsun:mugsun-*:0.1.0`） |
 | Docker / Docker Compose | 近期版本 | 启动 PostgreSQL 16（含 PostGIS、pgvector）与 Redis 7 |
-| Node.js | ≥ 20.19 | 管理台与埋点 SDK（可选） |
-| pnpm | ≥ 8.8（管理台锁定 `pnpm@11.9.0`） | 同上 |
+| Node.js | ≥ 22.13 | 管理台与埋点 SDK（可选） |
+| pnpm | ≥ 11.11（管理台锁定 `pnpm@11.28.2`） | 同上 |
 
 推荐目录结构（管理台以 `file:../mugsun-track` 引用 SDK，因此需平级）：
 

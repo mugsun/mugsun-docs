@@ -5,7 +5,7 @@
 | 项 | 说明 |
 | --- | --- |
 | 技术栈 | Vue 3.5 · Vite 7 · TypeScript · Element Plus 2.11（按需加载）· Pinia · Vue Router |
-| 运行时 | Node.js ≥ 20.19 · pnpm ≥ 8.8（`packageManager` 锁定 `pnpm@11.9.0`） |
+| 运行时 | Node.js ≥ 22.13 · pnpm ≥ 11.11（`packageManager` 锁定 `pnpm@11.28.2`） |
 | 后端 | [mugsun-boot](/boot/)，开发期 `/api` 代理到 `http://localhost:8080` |
 | 版本 | 0.1.0 |
 | 许可 | MIT；UI 基座衍生自 [art-design-pro](https://github.com/Daymychen/art-design-pro)（MIT），分发须保留 `NOTICE` |
