@@ -2,7 +2,7 @@
 
 **ms-ui** 是面向 **uni-app x** 的跨端组件库（App / 小程序 / H5），easycom 前缀 `ms-`。**不是** PC 管理台（管理台见 [pc](/pc/)）。
 
-源码仓：[mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（私有），模块路径 `uni_modules/ms-ui`。
+组件源码暂未公开，使用方式以本站文档为准；组件在工程中的模块路径为 `uni_modules/ms-ui`。
 
 本站组件页右下角手机框会 iframe 嵌入 H5 演示（`public/demo/`）。有独立演示路由的页面会自动打开对应 hash。
 
