@@ -20,7 +20,7 @@ Only png, jpeg, webp and gif responses are passed through, and the `Content-Type
 
 ## No redirects
 
-The four vendor engines (Tianditu, AMap, Baidu, Tencent) and custom XYZ basemaps **do not follow 3xx redirects**. A redirect is treated as a failure.
+The four vendor engines (Tianditu, AMap, Baidu, Google: tiles, search, reverse geocoding and the Google session request) and custom XYZ basemaps **do not follow 3xx redirects**. A redirect is treated as a failure.
 
 ## Blocked ranges (custom XYZ)
 

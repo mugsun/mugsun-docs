@@ -12,6 +12,17 @@ All basemap tiles in the admin are **proxied same-origin** by mugsun-boot: the b
 | Google | `google` | required (Map Tiles API key) | WGS84 |
 | Custom tiles | `xyz` | optional | WGS84, no datum shift |
 
+How vendor tiles are fetched (per the boot code):
+
+| Provider | Tile URL | Key parameter | Upstream CRS | Allowed tile hosts |
+| --- | --- | --- | --- | --- |
+| Tianditu | `https://t0`–`t7.tianditu.gov.cn/DataServer?T=…` | `tk` | WGS84 (CGCS2000) | `*.tianditu.gov.cn` |
+| AMap | `https://webrd0{1-4}.is.autonavi.com/appmaptile?…` (imagery/labels use `webst0{1-4}`) | `key` | GCJ-02 | `*.autonavi.com`, `*.amap.com` |
+| Baidu | `https://maponline{0-3}.bdimg.com/tile/?qt=vtile…` (imagery uses `/starpic/`) | `ak` | BD-09 | `*.bdimg.com`, `*.baidu.com` |
+| Google | `https://tile.googleapis.com/v1/2dtiles/{z}/{x}/{y}?session=…` (a session is created first) | `key` | WGS84 | `*.googleapis.com` |
+
+The API always speaks WGS84; AMap and Baidu coordinates are converted to and from GCJ-02 and BD-09 on the server. All four vendors are fetched without following redirects, capped at 2 MB per tile, and only png, jpeg, webp and gif are passed through (the type must match the file's magic bytes). Anything else is replaced with a blank tile. See [Tile proxy security](./gis-tile-security).
+
 Configure them under **GIS → Basemap**. The workspace, map picker, analytics heatmap and 3D view all share the same basemap.
 
 ## Custom XYZ tiles
@@ -38,13 +49,19 @@ mugsun:
       max-tile-bytes: 2097152       # per-tile limit
       cache-max-bytes: 67108864     # in-process tile cache; 0 disables it
       cache-ttl-seconds: 86400
+      allow-benchmark-net: ${MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET:false}  # 198.18.0.0/15
+      allow-nat64: ${MUGSUN_GIS_XYZ_ALLOW_NAT64:false}                  # 64:ff9b::/96
+      allow-6to4: ${MUGSUN_GIS_XYZ_ALLOW_6TO4:false}                    # 2002::/16
 ```
 
 Every tile fetch is checked on the server:
 - https and the default port only; userinfo is rejected;
 - IP literals are rejected (including decimal and hex forms);
 - the host is resolved via DNS, and the request is rejected if any address is loopback, private, link-local (including cloud metadata at 169.254.169.254), CGNAT, multicast or reserved;
-- redirects are not followed, size and timeouts are capped, and only `image/*` responses are accepted.
+- `198.18.0.0/15` (benchmark network, also used by fake-ip proxies), `64:ff9b::/96` (NAT64) and `2002::/16` (6to4) are **blocked by default**; each can be enabled with `allow-benchmark-net`, `allow-nat64` or `allow-6to4` (all default false). With NAT64 or 6to4 enabled, the embedded IPv4 address is still checked against the IPv4 rules;
+- redirects are not followed, size (`max-tile-bytes`) and timeouts are capped, only png, jpeg, webp and gif are accepted (the type must match the magic bytes; SVG is always rejected), and responses carry `X-Content-Type-Options: nosniff`.
+
+See [Tile proxy security](./gis-tile-security) for the switches, rate limits and fake-ip proxy setups.
 
 ## Tile usage terms
 

@@ -12,6 +12,17 @@
 | Google | `google` | 需要（Map Tiles API Key） | WGS84 |
 | 自定义瓦片 | `xyz` | 可选 | WGS84，不做纠偏 |
 
+厂商底图的取图方式（以 boot 代码为准）：
+
+| 服务商 | 瓦片地址 | 密钥参数 | 上游坐标系 | 允许的瓦片域名 |
+| --- | --- | --- | --- | --- |
+| 天地图 | `https://t0`～`t7.tianditu.gov.cn/DataServer?T=…` | `tk` | WGS84（CGCS2000） | `*.tianditu.gov.cn` |
+| 高德 | `https://webrd0{1-4}.is.autonavi.com/appmaptile?…`（影像和注记走 `webst0{1-4}`） | `key` | GCJ-02 | `*.autonavi.com`、`*.amap.com` |
+| 百度 | `https://maponline{0-3}.bdimg.com/tile/?qt=vtile…`（影像走 `/starpic/`） | `ak` | BD-09 | `*.bdimg.com`、`*.baidu.com` |
+| Google | `https://tile.googleapis.com/v1/2dtiles/{z}/{x}/{y}?session=…`（先创建 session） | `key` | WGS84 | `*.googleapis.com` |
+
+接口对外一律使用 WGS84，高德和百度在服务端与 GCJ-02、BD-09 之间转换。四家厂商取瓦片时都不跟随重定向，单张上限 2 MB，只放行 png、jpeg、webp、gif（类型须与文件头一致），其他内容一律返回空白瓦片。详见 [底图瓦片代理安全](./gis-tile-security)。
+
 在「地理信息 → 底图」里配置。工作台、地图选点、埋点热力、三维视图共用同一套底图。
 
 ## 自定义 XYZ 瓦片
@@ -38,13 +49,19 @@ mugsun:
       max-tile-bytes: 2097152       # 单张瓦片上限
       cache-max-bytes: 67108864     # 进程内瓦片缓存上限，0 表示关闭
       cache-ttl-seconds: 86400
+      allow-benchmark-net: ${MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET:false}  # 198.18.0.0/15
+      allow-nat64: ${MUGSUN_GIS_XYZ_ALLOW_NAT64:false}                  # 64:ff9b::/96
+      allow-6to4: ${MUGSUN_GIS_XYZ_ALLOW_6TO4:false}                    # 2002::/16
 ```
 
 服务端对每次取瓦片做以下检查：
 - 只允许 https 和默认端口，拒绝 userinfo；
 - 拒绝直接写 IP（包括十进制、十六进制等写法）；
 - 解析 DNS 后，若任一地址落在回环、内网、链路本地（含云元数据 169.254.169.254）、CGNAT、组播或保留段，就拒绝；
-- 不跟随重定向，限制大小和超时，只接受 `image/*`。
+- `198.18.0.0/15`（基准测试网段，fake-ip 代理也用它）、`64:ff9b::/96`（NAT64）、`2002::/16`（6to4）三段**默认拦截**，可分别用 `allow-benchmark-net`、`allow-nat64`、`allow-6to4` 放开（默认都是 false）。NAT64 和 6to4 放开后，内嵌的 IPv4 仍按 IPv4 规则检查；
+- 不跟随重定向，限制大小（`max-tile-bytes`）和超时，只放行 png、jpeg、webp、gif（类型须与文件头一致，svg 一律拒绝），响应带 `X-Content-Type-Options: nosniff`。
+
+开关、限流和 fake-ip 代理环境的处理见 [底图瓦片代理安全](./gis-tile-security)。
 
 ## 瓦片使用条款注意事项
 
