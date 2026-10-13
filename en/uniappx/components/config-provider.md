@@ -9,13 +9,13 @@ demo: pages/demo/basic/config-provider
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-config-provider` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-config-provider` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/config-provider`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/config-provider.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/config-provider.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
