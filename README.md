@@ -132,7 +132,7 @@ mugsun-docs/
 
 ## License
 
-[MIT](LICENSE) · © 2026 北京定旭晨 / mugsun
+[MIT](LICENSE) · © 2026 mugsun
 
 ---
 

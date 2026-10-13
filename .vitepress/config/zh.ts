@@ -259,7 +259,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     darkModeSwitchTitle: '切换到深色',
     footer: {
       message: 'boot · core 基于 Apache-2.0，pc · track 基于 MIT 发布。',
-      copyright: 'Copyright © 2026 北京定旭晨信息科技工作室 (mugsun)',
+      copyright: '© 2026 mugsun',
     },
   },
 }
