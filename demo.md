@@ -1,10 +1,18 @@
-# 演示说明
+# 在线演示
 
-本页说明「什么已上线、什么还没有」，避免和顶栏入口误解成整站可点演示。
+## 本地体验管理台与埋点
 
-## 管理台 / 埋点全链路
+在本机按以下命令跑起完整后端（需 Docker 与 JDK 21）：
 
-**暂无公网可点演示。** 请按 [快速开始](/guide/getting-started) 本地拉起 boot（及可选 pc），账号以 [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 为准，**首次登录请改密**。
+```bash
+git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
+docker compose up -d
+cp config/application-local.yml.example config/application-local.yml
+mvn -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar
+```
+
+管理台（pc）与验收步骤见 [快速开始](/guide/getting-started)。账号以 [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 为准，**首次登录请改密**。
 
 ## uni-app x（ms-ui） 组件 H5
 
