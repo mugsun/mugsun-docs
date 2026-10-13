@@ -217,6 +217,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'GIS & maps', link: '/en/pc/gis' },
             { text: 'Basemaps & allow-list', link: '/en/pc/gis-basemap' },
             { text: 'Tile proxy security', link: '/en/pc/gis-tile-security' },
+            { text: 'Behavior captcha', link: '/en/pc/captcha' },
           ],
         },
       ],
