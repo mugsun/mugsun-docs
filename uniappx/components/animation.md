@@ -7,7 +7,7 @@ demo: pages/demo/feedback/animation
 
 `ms-animation`：预设名一次播放动画容器（命令式），与 `ms-transition`（`visible` 进出场）分工。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-animation`）。
 演示路由：`#/pages/demo/feedback/animation`。

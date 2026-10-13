@@ -7,7 +7,7 @@ demo: pages/demo/form/picker-city
 
 `ms-picker-city`：滚轮式**联动**行政区选择（省 → 市 → 区）。数据入口与 `ms-cascader` 同形的扁平 `options`（`value`/`label`/`parent`），不内置全国区划表——真源是后端 `sys_region`。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-picker-city`）。
 演示路由：`#/pages/demo/form/picker-city`。

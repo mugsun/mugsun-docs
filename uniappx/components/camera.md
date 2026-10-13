@@ -7,7 +7,7 @@ demo: pages/demo/media/camera
 
 `ms-camera`：官方 `<camera>` 的受控封装：定高取景框 + 拍照/翻转工具条，不支持的平台落占位块。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-camera/components/ms-camera`）。
 可选插件：需单独安装 `uni_modules/ms-camera`，并依赖 `ms-ui`。

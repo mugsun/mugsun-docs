@@ -7,7 +7,7 @@ demo: pages/demo/media/chart
 
 `ms-chart`：原生 canvas 图表子集：折线 / 面积 / 柱状 / 饼图 / 环形 / **雷达 / 散点 / 漏斗**；支持堆叠与多系列图例点隐。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-chart/components/ms-chart`）。
 可选插件：需单独安装 `uni_modules/ms-chart`，并依赖 `ms-ui`。

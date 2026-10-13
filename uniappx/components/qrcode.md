@@ -7,7 +7,7 @@ demo: pages/demo/display/qrcode
 
 `ms-qrcode`：文本 → 二维码点阵渲染（Nayuki 思路自写矩阵 + view 模块）。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-qrcode`）。
 演示路由：`#/pages/demo/display/qrcode`。

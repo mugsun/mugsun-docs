@@ -7,7 +7,7 @@ demo: pages/demo/media/editor
 
 `ms-editor`：Markdown 源码编辑器：工具条插入标记 + `textarea` 源码 + `ms-markdown` 实时预览。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-editor/components/ms-editor`）。
 可选插件：需单独安装 `uni_modules/ms-editor`，并依赖 `ms-ui`。

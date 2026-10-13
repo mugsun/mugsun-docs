@@ -7,7 +7,7 @@ demo: pages/demo/media/chart
 
 `ms-chart`: Native canvas chart subset: line / area / bar / pie / ring / radar / scatter / funnel; stacking and multi-series legend toggle.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-chart/components/ms-chart`).
 Optional plugin: install `uni_modules/ms-chart` alongside `ms-ui`.

@@ -7,7 +7,7 @@ demo: pages/demo/nav/grid
 
 `ms-grid-item` — Grid Item for uni-app x.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-grid-item`).
 Demo route: `#/pages/demo/nav/grid`.

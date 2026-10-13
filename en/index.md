@@ -43,4 +43,4 @@ features:
 ## Demo
 
 - **Admin / analytics**: no public clickable demo yet—follow [Getting started](/en/guide/getting-started). Credentials follow the boot README—**change the password on first login**.
-- **ms-ui components**: phone-frame H5 preview on component pages; see [Demo notes](/en/demo).
+- **ms-ui components**: phone-frame H5 preview on desktop component pages, bottom-bar link on mobile; see [Demo notes](/en/demo).

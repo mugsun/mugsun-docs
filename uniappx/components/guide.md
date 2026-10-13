@@ -7,7 +7,7 @@ demo: pages/demo/feedback/guide
 
 `ms-guide`：分步引导：高亮目标 + 提示卡（上一步 / 下一步 / 跳过 / 完成 / 计数）。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-guide`）。
 演示路由：`#/pages/demo/feedback/guide`。

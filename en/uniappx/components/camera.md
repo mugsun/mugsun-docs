@@ -7,7 +7,7 @@ demo: pages/demo/media/camera
 
 `ms-camera`: Controlled wrapper around official `<camera>`: fixed-height viewfinder + capture/flip toolbar; unsupported platforms show a placeholder.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-camera/components/ms-camera`).
 Optional plugin: install `uni_modules/ms-camera` alongside `ms-ui`.

@@ -7,7 +7,7 @@ demo: pages/demo/display/waterfall
 
 `ms-waterfall`：瀑布流：声明高度分桶；可选封面图与空态。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-waterfall`）。
 演示路由：`#/pages/demo/display/waterfall`。

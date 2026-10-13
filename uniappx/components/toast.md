@@ -7,7 +7,7 @@ demo: pages/demo/feedback/toast
 
 `ms-toast`：轻提示：文本 / 图标 / 加载；顶中底；遮罩可选。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-toast`）。
 演示路由：`#/pages/demo/feedback/toast`。

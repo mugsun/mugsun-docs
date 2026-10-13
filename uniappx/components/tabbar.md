@@ -7,7 +7,7 @@ demo: pages/demo/nav/tabbar
 
 `ms-tabbar`：底部导航：纯文字 / 图标 / 徽标；`v-model:value`；fixed + placeholder。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-tabbar`）。
 演示路由：`#/pages/demo/nav/tabbar`。

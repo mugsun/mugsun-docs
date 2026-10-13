@@ -7,7 +7,7 @@ demo: pages/demo/media/blur
 
 `ms-blur`：磨砂遮罩层：半透明底 + 明暗两档，用于浮层、工具条、图片说明条这类**功能性遮罩**（不做装饰性玻璃拟态）。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-blur/components/ms-blur`）。
 可选插件：需单独安装 `uni_modules/ms-blur`，并依赖 `ms-ui`。

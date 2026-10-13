@@ -7,7 +7,7 @@ demo: pages/demo/form/checkbox
 
 `ms-checkbox-group`：多选分组：`v-model` 为 `string[]`，支持整组禁用、`max` 上限与横排换行。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-checkbox-group`）。
 演示路由：`#/pages/demo/form/checkbox`。

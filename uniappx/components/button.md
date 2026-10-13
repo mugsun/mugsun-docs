@@ -7,7 +7,7 @@ demo: pages/demo/basic/button
 
 `ms-button`：语义化按钮。`theme` + `variant` + `size` + `block` + `disabled` + `loading` + `loadingText` + `formType` + `ghost` + `icon` / `iconOnly` + `shape` + `haptic`。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-button`）。
 演示路由：`#/pages/demo/basic/button`。

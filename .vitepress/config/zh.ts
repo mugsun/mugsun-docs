@@ -9,7 +9,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: '管理台', link: '/pc/', activeMatch: '/pc/' },
       { text: '埋点', link: '/track/', activeMatch: '/track/' },
       { text: 'Core', link: '/core/', activeMatch: '/core/' },
-      { text: 'ms-ui · uni-app x', link: '/uniappx/', activeMatch: '/uniappx/' },
+      { text: 'uni-app x（ms-ui）', link: '/uniappx/', activeMatch: '/uniappx/' },
       { text: '演示说明', link: '/demo' },
       { text: '更新日志', link: '/changelog' },
     ],
@@ -63,7 +63,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       ],
       '/uniappx/': [
         {
-          text: 'ms-ui · uni-app x',
+          text: 'uni-app x（ms-ui）',
           items: [
             { text: '概述', link: '/uniappx/' },
           ],

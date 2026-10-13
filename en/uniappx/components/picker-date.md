@@ -7,7 +7,7 @@ demo: pages/demo/form/picker-date
 
 `ms-picker-date` — Picker Date for uni-app x.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-picker-date`).
 Demo route: `#/pages/demo/form/picker-date`.

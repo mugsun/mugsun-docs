@@ -7,7 +7,7 @@ demo: pages/demo/media/webview
 
 `ms-webview`：官方 `<web-view>` 的受控封装：定高容器 + 导航工具条（后退/前进/刷新）+ 一行状态文案。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-webview/components/ms-webview`）。
 可选插件：需单独安装 `uni_modules/ms-webview`，并依赖 `ms-ui`。

@@ -7,7 +7,7 @@ demo: pages/demo/media/devtool
 
 `ms-devtool`：页内调试面板：记录列表 + 环境信息 + 清空，折叠/展开两态。记录由宿主喂入。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-devtool`）。
 演示路由：`#/pages/demo/media/devtool`。

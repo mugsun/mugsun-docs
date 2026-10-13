@@ -7,7 +7,7 @@ demo: pages/demo/display/paragraph
 
 `ms-paragraph`：段落正文。可选次级色与行数省略。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-paragraph`）。
 演示路由：`#/pages/demo/display/paragraph`。

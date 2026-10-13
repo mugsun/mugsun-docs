@@ -7,7 +7,7 @@ demo: pages/demo/nav/navbar
 
 `ms-navbar`：自定义顶栏。左侧返回/首页 + 中间标题 + 右侧操作，三插槽 `left` / `title` / `right`。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-navbar`）。
 演示路由：`#/pages/demo/nav/navbar`。

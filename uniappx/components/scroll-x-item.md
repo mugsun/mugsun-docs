@@ -34,7 +34,7 @@ easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
 
 ## 相关
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 - 组件目录: `uni_modules/ms-ui/components/ms-scroll-x-item/`
 - 演示: `#/pages/demo/display/scroll-x`

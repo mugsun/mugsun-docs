@@ -7,7 +7,7 @@ demo: pages/demo/basic/overlay
 
 `ms-overlay` — Overlay for uni-app x.
 
-Part of **ms-ui · uni-app x** (not the PC admin UI).
+Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
 Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-overlay`).
 Demo route: `#/pages/demo/basic/overlay`.

@@ -7,7 +7,7 @@ demo: pages/demo/form/sign-board
 
 `ms-sign-board`：手写签名板：`canvas` 2d + 触摸（Web 另补鼠标）。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-sign-board`）。
 演示路由：`#/pages/demo/form/sign-board`。

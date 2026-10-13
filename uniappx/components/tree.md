@@ -7,7 +7,7 @@ demo: pages/demo/display/tree
 
 `ms-tree`：树形列表：扁平可见行渲染（不递归组件），支持展开/折叠、多选勾选、子父关联半选、禁父框。
 
-属于 **ms-ui · uni-app x** 跨端组件（不是 PC 管理台）。
+属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
 源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-tree`）。
 演示路由：`#/pages/demo/display/tree`。
