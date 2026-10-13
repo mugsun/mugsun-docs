@@ -134,18 +134,24 @@ See `mugsun.captcha` in `application.yml` for every key and default.
 
 `scene` is `login`, `register`, `sms` (sending the SMS code) or `forget`. The challenge request declares `inputMode` (`pointer` for mouse/touch or `keyboard`), and verify must use the same one; keyboard challenges return `keyboardStep`, and the number of key presses must match the drop position. Put the `captchaToken` in the body of `/auth/login`, `/auth/register`, `/auth/sms-code` or `/auth/forget-code`. It works once and must match the scene, client and tenant used for the challenge. The server decides on its own whether verification is needed; it does not rely on `config`.
 
-**Challenge types:** besides the slider (`SLIDER`), there are rotate (`ROTATE`), word click (`WORD_CLICK`, click 3 characters in order), icon click (`ICON_CLICK`, click 3 icons in order) and jigsaw (`JIGSAW`, 2×2). For every challenge the server picks one at random from the types enabled for the tenant, and the front end renders whatever `type` comes back; a `type` in the request is ignored. In keyboard mode (`inputMode: keyboard`) only slider or rotate is issued, falling back to slider when neither is enabled. The `type` from `config` is `RANDOM` when two or more types are enabled, otherwise the type name. Everything is checked on the server, the answer is kept only in the challenge record and is gone after one verify attempt, and error codes, failure counts and lockouts are the same for every type.
+**Challenge types:** besides the slider (`SLIDER`), there are rotate (`ROTATE`), word click (`WORD_CLICK`, click 3 characters in order), icon click (`ICON_CLICK`, click 3 icons in order) and jigsaw (`JIGSAW`, 2×2). For every challenge the server picks one at random from the types enabled for the tenant, and the front end renders whatever `type` comes back; a `type` in the request is ignored. In keyboard mode (`inputMode: keyboard`) the server picks only from the slider and rotate types the tenant has enabled; if neither is enabled, the challenge request returns `40015` (no accessible challenge type enabled) instead of issuing another type. Keyboard challenges have their own stricter per-IP limit (`rate-limit.keyboard-challenge-per-minute`) and are counted separately in the audit log. The `type` from `config` is `RANDOM` when two or more types are enabled, otherwise the type name. Everything is checked on the server, the answer is kept only in the challenge record and is gone after one verify attempt, and error codes, failure counts and lockouts are the same for every type.
 
 ```yaml
 mugsun:
   captcha:
     default-types: [SLIDER]   # types enabled for tenants without their own setting; any of SLIDER, ROTATE, WORD_CLICK, ICON_CLICK, JIGSAW
-    rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 12, keyboard-step: 5 }
+    rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 10, keyboard-step: 5 }
     click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000 }
     jigsaw: { rows: 2, cols: 2 }
+    icon-dir: classpath:captcha/icons/   # icon directory; must contain manifest.json and <slug>.png
+    render-max-concurrent: 16           # max concurrent image renders on this node, 40012 when exceeded; ≤0 means no limit
+    rate-limit:
+      keyboard-challenge-per-minute: 10 # per-IP keyboard challenges per minute
 ```
 
-Tolerances are set so an ordinary user passes in 1–2 seconds: ±12° for rotate, a hit radius of 0.75 × the character or icon size (at least 22 px) for clicks, and 0.4–30 seconds of interaction for click and jigsaw. Characters are drawn on the server from a bundled Noto Sans SC subset (SIL OFL 1.1) with added noise, and icons that look alike never appear in the same challenge. Sources and licences of the default assets are in `captcha/SOURCES.md` in the boot repository.
+Tolerances are set so an ordinary user passes in 1–2 seconds: ±10° for rotate (the applied angle is a whole multiple of `keyboard-step` between 30° and 330°), a hit radius of 0.75 × the character or icon size (at least 22 px) for clicks, and 0.4–30 seconds of interaction for click and jigsaw. Characters are drawn on the server from a bundled Noto Sans SC subset (SIL OFL 1.1) with added noise, and icons that look alike never appear in the same challenge. Sources and licences of the default assets are in `captcha/SOURCES.md` in the boot repository.
+
+**Use a private asset library in production:** the default rotate images (16) and icons (44) ship with the open-source repository, so an attacker can build an answer table in advance, which noticeably weakens rotate and icon click. Before enabling `ROTATE` or `ICON_CLICK` publicly, point `background.dir`, `rotate.dir` and `icon-dir` at your own directories (`file:` or `classpath:`) and rotate them regularly; the icon directory needs a `manifest.json` (`slug`, `name_zh`, `confusable`).
 
 Errors come back as HTTP 200 with `R.code`:
 
@@ -156,6 +162,7 @@ Errors come back as HTTP 200 with `R.code`:
 | `40012` | Too many attempts; retry after `data.retryAfter` seconds. The failure that triggers the lock (the 5th pointer or 3rd keyboard failure) already returns `40012`, as does any failed verify when the IP is already locked (including by a concurrent request or the other input mode). Challenge and verify also return `40012` while locked |
 | `40013` | Missing or invalid `captchaToken` |
 | `40014` | Verification is not needed right now |
+| `40015` | Keyboard challenge requested, but the tenant has neither slider nor rotate enabled (no accessible challenge type) |
 
 The verify request body is capped at 32KB, chunked uploads included; an oversized body also gets HTTP 200 with `40011`.
 
@@ -179,7 +186,7 @@ The verify request body is capped at 32KB, chunked uploads included; an oversize
 
 `:` in IPv6 addresses is written as `_`. To unlock an IP by hand: `DEL mugsun:captcha:v2:lock:<ip>`.
 
-**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. In slider mode the client switch (`sys_client.captcha_enabled`) cannot turn verification off, because the caller chooses the clientId; it only applies to login in legacy IMAGE mode. New tenants always start with verification on. The platform super admin can also pass `types` on the same endpoint (for example `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`) to choose the tenant's challenge types: at least one, from the five above. Leaving `types` out keeps the current setting, and tenants that never set it use `default-types`. The setting lives in `sys_tenant.captcha_types` (migration `V5__tenant_captcha_types.sql`).
+**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. In slider mode the client switch (`sys_client.captcha_enabled`) cannot turn verification off, because the caller chooses the clientId; it only applies to login in legacy IMAGE mode. New tenants always start with verification on. The platform super admin can also pass `types` on the same endpoint (for example `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`) to choose the tenant's challenge types: at least one, from the five above. Leaving `types` out keeps the current setting, passing `null` or `[]` resets it to the platform default (`default-types`), and tenants that never set it use `default-types`. A setting without `SLIDER` and `ROTATE` is still saved, but `data.warning` in the response says keyboard users will get `40015`. The setting lives in `sys_tenant.captcha_types` (migration `V5__tenant_captcha_types.sql`).
 
 ## Production
 
