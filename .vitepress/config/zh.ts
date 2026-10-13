@@ -10,8 +10,8 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: '埋点', link: '/track/', activeMatch: '/track/' },
       { text: 'Core', link: '/core/', activeMatch: '/core/' },
       { text: 'uni-app x（ms-ui）', link: '/uniappx/', activeMatch: '/uniappx/' },
-      { text: '演示说明', link: '/demo' },
-      { text: '更新日志', link: '/changelog' },
+      { text: '在线演示', link: '/demo' },
+      { text: '更新日志', link: '/guide/changelog' },
     ],
     sidebar: {
       '/guide/': [
@@ -22,6 +22,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '快速开始', link: '/guide/getting-started' },
             { text: '架构全景', link: '/guide/architecture' },
             { text: '常见问题', link: '/guide/faq' },
+            { text: '更新日志', link: '/guide/changelog' },
           ],
         },
       ],
@@ -233,7 +234,11 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     },
     langMenuLabel: '语言',
     outline: { label: '本页目录' },
-    lastUpdated: { text: '最后更新' },
+    lastUpdated: { text: '最后更新', formatOptions: { dateStyle: 'medium', timeStyle: 'short' } },
+    editLink: {
+      pattern: 'https://github.com/mugsun/mugsun-docs/edit/main/:path',
+      text: '在 GitHub 上编辑此页',
+    },
     docFooter: { prev: '上一页', next: '下一页' },
     returnToTopLabel: '回到顶部',
     sidebarMenuLabel: '菜单',
