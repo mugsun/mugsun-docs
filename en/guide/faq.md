@@ -28,6 +28,19 @@ No. `com.mugsun:mugsun-*:0.1.0` is on Maven Central. Clone core and run `mvn cle
 
 No. Compose starts PostgreSQL (5432) and Redis (6379) only. Package the app and run it with `java -jar mugsun-boot-server/target/mugsun-boot.jar`.
 
+
+### Ports 5432 / 6379 are already in use
+
+Compose and the backend read the same environment variables, so one change covers both and no yml edit is needed:
+
+```bash
+export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
+docker compose up -d
+java -jar mugsun-boot-server/target/mugsun-boot.jar
+```
+
+The backend also reads `MUGSUN_DB_HOST`, `MUGSUN_DB_NAME`, `MUGSUN_DB_USERNAME`, `MUGSUN_DB_PASSWORD`, `MUGSUN_REDIS_HOST`, or a full `MUGSUN_DB_URL`. The track database `mugsun_track` follows the same host and port by default; `TRACK_JDBC_URL` still overrides it. `prod` ignores these variables; see [Configuration](/en/boot/configuration).
+
 ### `spring-boot:run` fails with `Unable to find a suitable main class`
 
 In older versions, running `mvn -pl mugsun-boot-server -am spring-boot:run` from the repository root also applied the plugin to the parent POM. [mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) fixed this; pull the latest code and retry from the repository root. The recommended path is still `mvn -pl mugsun-boot-server -am package -DskipTests` followed by `java -jar mugsun-boot-server/target/mugsun-boot.jar` from the repository root.
