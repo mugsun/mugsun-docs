@@ -114,16 +114,17 @@ track.reset()
 | `visualRules` | `VisualRule[]` | — | Visual-tagging rules |
 | `geoEnabled` | `boolean` | `false` | Precise location |
 | `debug` | `boolean` | `false` | Log SDK activity to the console |
-| `beforeSend` | `(event) => event \| null \| false` | — | Rewrite or drop events before queueing (`null`/`false` drops) |
+| `beforeSend` | `(event) => event \| null \| false` | — | Rewrite `props` or drop events before queueing (`null`/`false` drops) |
+| `beforeSendOnError` | `'drop' \| 'keep'` | `'drop'` | When `beforeSend` throws, drop the event or send the original |
 | `ignoreErrors` | `(string \| RegExp)[] \| (error, message) => boolean` | — | Errors not to report |
-| `skipHandledErrors` | `boolean` | `true` | Skip `HttpError` and errors flagged `handled`/`expected` |
+| `skipHandledErrors` | `boolean` | `true` (**behavior change**) | Skip `HttpError` and errors flagged `handled`/`expected` |
 
 For options that can be set remotely, an explicit local value wins; otherwise the value from `/track/config` applies **from the next start**.
 
 ## Error filtering and API failures
 
 ::: tip Version
-This section and the [self-check](/en/track/first-event#self-check) need a `@mugsun/track-web` release after 0.2.0 (see "Unreleased" in the repo CHANGELOG).
+This section and the [self-check](/en/track/first-event#self-check) need `@mugsun/track-web` 0.3.0 or later (planned; see "Unreleased" in the repo CHANGELOG).
 :::
 
 ```ts
@@ -136,9 +137,11 @@ const tracker = createTracker({
 })
 ```
 
-- **`beforeSend(event)`** runs before each business event (including `$identify`) is queued. Return a modified event, or `null` / `false` to drop it. If the hook throws, the original event is kept. `$session_start` / `$session_end` bypass it.
+- **`beforeSend(event)`** runs before each business event (including `$identify`) is queued. Return `null` / `false` to drop it. When it returns an object, only its `props` are merged back; `event_id`, `distinct_id` and the event name can't be changed, and non-object return values mean "unchanged".
+- **A throwing hook drops the event by default** (`beforeSendOnError: 'drop'`) so a broken masking hook can't leak unmasked data; `'keep'` sends the original event instead.
+- **Not covered by `beforeSend`**: `$session_start` / `$session_end`, session replay chunks and API response body uploads. Mask replay with `maskTextSelector` / `maskSelectors` and bodies with `apiBodyMaskEnabled` (on by default).
 - **`ignoreErrors`**: strings match a substring of the error message, `RegExp`s test the message, or pass a predicate `(error, message) => boolean` that returns `true` to ignore (a throwing predicate means "don't ignore").
-- **`skipHandledErrors`** (default `true`) skips errors with `name === 'HttpError'` or `handled === true` / `expected === true`, typically API errors your request interceptor already showed to the user. Set it to `false` to report everything.
+- **`skipHandledErrors`** (default `true`; **behavior change**: after upgrading these errors are no longer reported as `$error`, so `$error` counts may drop) skips errors with `name === 'HttpError'` or `handled === true` / `expected === true`, typically API errors your request interceptor already showed to the user. Set it to `false` to report everything.
 - These filters apply to the `error` plugin (`window` error, `unhandledrejection`) and the Vue integration's `app.config.errorHandler`; your existing errorHandler is still called.
 
 To still count skipped API errors, report them from the interceptor:
@@ -147,7 +150,7 @@ To still count skipped API errors, report them from the interceptor:
 tracker.trackApiError({ url: '/api/order', method: 'POST', status: 200, bizCode: 40001, message: 'Out of stock' })
 ```
 
-`trackApiError` emits an `api_request` event (`success=false`, `source=manual`, with `biz_code` and a truncated `error_message`), the same event name as the `api-monitor` plugin, so API analytics aggregate both.
+`trackApiError` emits an `api_request` event (`success=false`, `source=manual`, with `biz_code` and a truncated `error_message`), the same event name as the `api-monitor` plugin, so API analytics aggregate both. The `url` is redacted the same way as in `api-monitor`: values of sensitive query params such as `token` and `access_token` become `***`; other params are kept.
 
 ## Versions and releases
 

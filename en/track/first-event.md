@@ -72,9 +72,14 @@ The self-check sends no user data and queues nothing. Messages are in Chinese. T
 The **Integration health** tab on the Track apps page shows, per app:
 
 - **Last event received** as relative time (hover for the exact time). A warning appears after 24 hours without events; apps that never received anything get a hint to run `selfCheck()`. Without a live record the time is estimated from event definitions and marked as such.
+- A note at the top says counts may include requests that didn't come from the SDK.
 - **Rejections in the last 7 days**: fail / warn counts. Open "Rejections" for each reason code's today and 7-day counts, last occurrence and server message, and a fix suggestion.
 
 The SDK collect URL carries `?app_key=` (`{endpoint}/track/collect?app_key=…`), so the server can attribute requests rejected for unparseable or oversized bodies. Rejections are recorded only for existing apps.
+
+::: warning Counts can be forged
+Rejections are attributed by the appKey in the request, and the appKey is public in the browser. Anyone can send bad requests with your appKey and inflate the counts, so they may include requests that didn't come from the SDK. This only causes false alarms; it doesn't expose data or affect stored events. Confirm with the SDK's `selfCheck()`.
+:::
 
 Endpoints (app-list permission, tenant-scoped):
 

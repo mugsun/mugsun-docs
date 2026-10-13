@@ -114,16 +114,17 @@ track.reset()
 | `visualRules` | `VisualRule[]` | — | 圈选规则 |
 | `geoEnabled` | `boolean` | `false` | 精确位置采集 |
 | `debug` | `boolean` | `false` | 控制台输出调试日志 |
-| `beforeSend` | `(event) => event \| null \| false` | — | 事件入队前改写或丢弃（返回 `null`/`false` 丢弃） |
+| `beforeSend` | `(event) => event \| null \| false` | — | 事件入队前改写 `props` 或丢弃（返回 `null`/`false` 丢弃） |
+| `beforeSendOnError` | `'drop' \| 'keep'` | `'drop'` | `beforeSend` 抛错时丢弃事件，或发送钩子处理前的原事件 |
 | `ignoreErrors` | `(string \| RegExp)[] \| (error, message) => boolean` | — | 不上报的错误 |
-| `skipHandledErrors` | `boolean` | `true` | 跳过 `HttpError` 与标记 `handled`/`expected` 的错误 |
+| `skipHandledErrors` | `boolean` | `true`（**行为变更**） | 跳过 `HttpError` 与标记 `handled`/`expected` 的错误 |
 
 带「远端下发」说明的选项：本地显式设置优先，未设置时使用 `/track/config` 下发值，**下次启动生效**。
 
 ## 错误过滤与接口失败
 
 ::: tip 版本
-本节与 [接入自检](/track/first-event#接入自检) 需要 `@mugsun/track-web` 0.2.0 之后的版本（见仓库 CHANGELOG「Unreleased」）。
+本节与 [接入自检](/track/first-event#接入自检) 需要 `@mugsun/track-web` 0.3.0 起（计划版本，见仓库 CHANGELOG「Unreleased」）。
 :::
 
 ```ts
@@ -136,9 +137,11 @@ const tracker = createTracker({
 })
 ```
 
-- **`beforeSend(event)`**：每个业务事件（含 `$identify`）入队前调用，可返回改写后的事件；返回 `null` 或 `false` 丢弃。钩子抛错时保留原事件。`$session_start` / `$session_end` 不经过此钩子。
+- **`beforeSend(event)`**：每个业务事件（含 `$identify`）入队前调用；返回 `null` 或 `false` 丢弃。返回对象时只取其 `props` 合并回事件，`event_id`、`distinct_id`、事件名等不可改；非对象返回值视为不改。
+- **钩子抛错默认丢弃事件**（`beforeSendOnError: 'drop'`），避免脱敏钩子出错时把未脱敏数据发出；设为 `'keep'` 则发送钩子处理前的原事件。
+- **`beforeSend` 不覆盖**：`$session_start` / `$session_end`、会话回放块、接口响应体上传。回放用 `maskTextSelector` / `maskSelectors` 遮罩，响应体用 `apiBodyMaskEnabled`（默认开启）脱敏。
 - **`ignoreErrors`**：字符串按错误 message 子串匹配，`RegExp` 按 message 测试；也可传谓词 `(error, message) => boolean`，返回 `true` 表示忽略（谓词抛错按不忽略处理）。
-- **`skipHandledErrors`**（默认 `true`）：跳过 `error.name === 'HttpError'` 以及 `error.handled === true` / `error.expected === true` 的错误——通常是请求拦截器已经提示过用户的接口错误。设为 `false` 则全部上报。
+- **`skipHandledErrors`**（默认 `true`，**行为变更**：升级后这类错误不再上报为 `$error`，`$error` 数量可能下降）：跳过 `error.name === 'HttpError'` 以及 `error.handled === true` / `error.expected === true` 的错误——通常是请求拦截器已经提示过用户的接口错误。设为 `false` 则全部上报。
 - 以上过滤同时作用于 `error` 插件（`window` error、`unhandledrejection`）和 Vue 集成的 `app.config.errorHandler`；被过滤时原有 errorHandler 仍会被调用。
 
 跳过的接口错误如果仍想统计，在拦截器里手动上报：
@@ -147,7 +150,7 @@ const tracker = createTracker({
 tracker.trackApiError({ url: '/api/order', method: 'POST', status: 200, bizCode: 40001, message: '库存不足' })
 ```
 
-`trackApiError` 发出一条 `api_request` 事件（`success=false`、`source=manual`，带 `biz_code`、截断后的 `error_message`），与 `api-monitor` 插件同一事件名，接口分析可统一聚合。
+`trackApiError` 发出一条 `api_request` 事件（`success=false`、`source=manual`，带 `biz_code`、截断后的 `error_message`），与 `api-monitor` 插件同一事件名，接口分析可统一聚合。`url` 与 `api-monitor` 同口径脱敏：`token`、`access_token` 等敏感 query 的值替换为 `***`，业务参数保留。
 
 ## 版本与发布
 
