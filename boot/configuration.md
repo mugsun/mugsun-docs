@@ -33,6 +33,14 @@ cp config/application-local.yml.example config/application-local.yml
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
 | `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
 
+## 审计日志
+
+| 配置项 | 默认 | 说明 |
+| --- | --- | --- |
+| `mugsun.audit.anonymous-max-pending`（环境变量 `MUGSUN_AUDIT_ANONYMOUS_MAX_PENDING`） | `64` | 未登录请求的操作日志最多同时排队多少条。超出的直接丢弃，并在日志里告警累计条数（第 1 条和每 100 条记一次）。已登录请求的审计不受限，不会丢 |
+
+操作日志按哈希链落库。多实例部署时，各实例会在事务里锁住同一行链头再写入，并由唯一索引兜底，所以链不会分叉，不需要额外配置。
+
 ## 本地文件访问
 
 开发环境（默认配置）下，本地存储的文件由应用在 `/file/**` 下直接提供。为避免私有附件被人拿着地址匿名下载：
