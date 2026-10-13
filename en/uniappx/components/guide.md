@@ -34,14 +34,31 @@ Snippets below are taken from the demo source `pages/demo/feedback/guide.uvue`; 
 </template>
 
 <script setup lang="uts">
+type Mode = 'popover' | 'dialog'
+
 const current = ref(-1)
-const mode = ref('popover' as Mode)
-const overlay = ref(true)
-const hideSkip = ref(false)
-const hideCounter = ref(false)
+
 const hideBack = ref(false)
+
+const hideCounter = ref(false)
+
+const hideSkip = ref(false)
+
 const highlightPad = ref(8)
+
+const mode = ref('popover' as Mode)
+
+const overlay = ref(true)
+
 const steps = ref(oneStep)
+
+function onFinish() : void {
+  console.log('onFinish')
+}
+
+function onSkip() : void {
+  console.log('onSkip')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -48,10 +48,58 @@ Snippets below are taken from the demo source `pages/demo/form/cascader.uvue`; s
 </template>
 
 <script setup lang="uts">
-const stepValue = ref('110105')
-const stepVisible = ref(false)
-const tabVisible = ref(false)
+const areaOptions = [
+  { value: '110000', label: '北京市', parent: '' } as UTSJSONObject,
+  { value: '120000', label: '天津市', parent: '' } as UTSJSONObject,
+  { value: '330000', label: '浙江省', parent: '' } as UTSJSONObject,
+  { value: '110100', label: '北京市', parent: '110000' } as UTSJSONObject,
+  { value: '120100', label: '天津市', parent: '120000' } as UTSJSONObject,
+  { value: '330100', label: '杭州市', parent: '330000' } as UTSJSONObject,
+  { value: '330200', label: '宁波市', parent: '330000' } as UTSJSONObject,
+  { value: '110101', label: '东城区', parent: '110100' } as UTSJSONObject,
+  { value: '110105', label: '朝阳区', parent: '110100' } as UTSJSONObject,
+  { value: '110108', label: '海淀区', parent: '110100' } as UTSJSONObject,
+  { value: '120101', label: '和平区', parent: '120100' } as UTSJSONObject,
+  { value: '330102', label: '上城区', parent: '330100' } as UTSJSONObject,
+  { value: '330106', label: '西湖区', parent: '330100' } as UTSJSONObject,
+  { value: '330203', label: '海曙区', parent: '330200' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const looseVisible = ref(false)
+
+const stepValue = ref('110105')
+
+const stepVisible = ref(false)
+
+const tabVisible = ref(false)
+
+function onStepVisible(shown: boolean): void {
+  stepVisible.value = shown
+}
+
+function onStepChange(value: string, label: string) : void {
+  console.log('onStepChange')
+}
+
+function onStepPick(value: string, label: string, level: number) : void {
+  console.log('onStepPick')
+}
+
+function onTabVisible(shown: boolean): void {
+  tabVisible.value = shown
+}
+
+function onTabChange(value: string, label: string) : void {
+  console.log('onTabChange')
+}
+
+function onLooseVisible(shown: boolean): void {
+  looseVisible.value = shown
+}
+
+function onLooseChange(value: string, label: string) : void {
+  console.log('onLooseChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

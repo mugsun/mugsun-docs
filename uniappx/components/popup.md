@@ -81,13 +81,45 @@ demo: pages/demo/feedback/popup
 </template>
 
 <script setup lang="uts">
-const placement = ref('bottom')
-const showClose = ref(false)
-const showRecipeSelect = ref(false)
-const showRecipeForm = ref(false)
+function cityNote(name: string): string {
+  return selectedCity.value == name ? '已选' : ''
+}
+
 const formNotify = ref(true)
+
 const formPromo = ref(false)
+
 const formRemark = ref('')
+
+const showClose = ref(false)
+
+const showRecipeForm = ref(false)
+
+const showRecipeSelect = ref(false)
+
+function onRecipeSelectVisible(value: boolean): void {
+  showRecipeSelect.value = value
+}
+
+function pickCity(name: string) : void {
+  console.log('pickCity')
+}
+
+function onRecipeFormVisible(value: boolean): void {
+  showRecipeForm.value = value
+}
+
+function saveRecipeForm() : void {
+  console.log('saveRecipeForm')
+}
+
+function onCloseVisible(value: boolean): void {
+  showClose.value = value
+}
+
+function fromCloseToSelect() : void {
+  console.log('fromCloseToSelect')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

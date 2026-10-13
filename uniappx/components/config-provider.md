@@ -57,11 +57,19 @@ demo: pages/demo/basic/config-provider
 </template>
 
 <script setup lang="uts">
-const greenVars = ref(vars('#0d9488'))
-const orangeVars = ref(vars('#ea580c'))
-const pinkVars = ref(vars('#db2777'))
 const darkPrimaryVars = ref(vars('#38bdf8'))
+
+const greenVars = ref(vars('#0d9488'))
+
+const orangeVars = ref(vars('#ea580c'))
+
+const pinkVars = ref(vars('#db2777'))
+
 const textVars = ref(new UTSJSONObject())
+
+function onChange(payload: UTSJSONObject) : void {
+  console.log('onChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -70,15 +70,35 @@ Snippets below are taken from the demo source `pages/demo/form/mention.uvue`; se
 </template>
 
 <script setup lang="uts">
-const members = ref(['张伟', '李娜', '王强', '刘敏', '陈晨'] as string[])
-const topics = ref(['发布计划', '版本回顾', '性能优化'] as string[])
 const basicText = ref('今天的进度 ')
-const topicText = ref('')
-const emptyText = ref('')
-const disabledText = ref('@张伟 已只读')
-const unfilteredText = ref('')
-const customEmptyText = ref('')
+
 const confirmText = ref('')
+
+const customEmptyText = ref('')
+
+const disabledText = ref('@张伟 已只读')
+
+const emptyText = ref('')
+
+const members = ref(['张伟', '李娜', '王强', '刘敏', '陈晨'] as string[])
+
+const topicText = ref('')
+
+const topics = ref(['发布计划', '版本回顾', '性能优化'] as string[])
+
+const unfilteredText = ref('')
+
+function onSelect(name: string) : void {
+  console.log('onSelect')
+}
+
+function onRemove(name: string) : void {
+  console.log('onRemove')
+}
+
+function onMention(keyword: string) : void {
+  console.log('onMention')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

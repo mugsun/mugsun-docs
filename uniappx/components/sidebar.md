@@ -58,15 +58,54 @@ demo: pages/demo/nav/sidebar
 </template>
 
 <script setup lang="uts">
-const baseIndex = ref(0)
-const iconIndex = ref(0)
 const badgeIndex = ref(0)
+
+const badgeItems = [
+  { label: '消息', dot: true } as UTSJSONObject,
+  { label: '通知', count: 6 } as UTSJSONObject,
+  { label: '其他' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const baseIndex = ref(0)
+
+const baseItems = [
+  { label: '选项一' } as UTSJSONObject,
+  { label: '选项二' } as UTSJSONObject,
+  { label: '选项三' } as UTSJSONObject,
+  { label: '选项四' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const disabledIndex = ref(0)
-const baseTitle = computed((): string => {
-const baseBody = computed((): string => {
-const iconTitle = computed((): string => {
-const badgeTitle = computed((): string => {
-const disabledTitle = computed((): string => {
+
+const disabledItems = [
+  { label: '可选' } as UTSJSONObject,
+  { label: '停用', disabled: true } as UTSJSONObject,
+  { label: '可选二' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const iconIndex = ref(0)
+
+const iconItems = [
+  { label: '首页', icon: 'home-3-line' } as UTSJSONObject,
+  { label: '发现', icon: 'search-line' } as UTSJSONObject,
+  { label: '我的', icon: 'user-3-fill' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+function onBaseChange(index: number) : void {
+  console.log('onBaseChange')
+}
+
+function onIconChange(index: number) : void {
+  console.log('onIconChange')
+}
+
+function onBadgeChange(index: number) : void {
+  console.log('onBadgeChange')
+}
+
+function onDisabledChange(index: number) : void {
+  console.log('onDisabledChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

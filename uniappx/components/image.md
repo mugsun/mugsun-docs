@@ -35,6 +35,10 @@ demo: pages/demo/basic/image
   <ms-image :src="demoSrc" :lazy="true" />
   <ms-image :src="demoSrc" :show-menu-by-longpress="true" />
 </template>
+
+<script setup lang="uts">
+const demoSrc = '/static/demo-crop.png'
+</script>
 ```
 <!-- demo-snippets:end -->
 

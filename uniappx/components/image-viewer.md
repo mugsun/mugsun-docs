@@ -35,13 +35,33 @@ demo: pages/demo/display/image-viewer
 </template>
 
 <script setup lang="uts">
-const viewerVisible = ref(false)
-const viewerImages = ref<string[]>(DEMO_IMAGES.slice(0))
-const viewerShowIndex = ref(true)
 const viewerCloseBtn = ref(false)
+
 const viewerDeleteBtn = ref(false)
+
+const viewerImages = ref<string[]>(DEMO_IMAGES.slice(0))
+
 const viewerInitial = ref(0)
-const viewerRef = ref(null)
+
+const viewerShowIndex = ref(true)
+
+const viewerVisible = ref(false)
+
+function onVisible(v: boolean): void {
+  viewerVisible.value = v
+}
+
+function onClose() : void {
+  console.log('onClose')
+}
+
+function onChange(index: number) : void {
+  console.log('onChange')
+}
+
+function onDelete(index: number) : void {
+  console.log('onDelete')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

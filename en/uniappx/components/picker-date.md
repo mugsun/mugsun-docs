@@ -68,9 +68,44 @@ Snippets below are taken from the demo source `pages/demo/form/picker-date.uvue`
 
 <script setup lang="uts">
 const dateText = ref('2026-03-15')
-const monthText = ref('2026-03')
+
 const minuteText = ref('2026-03-15 09:30')
+
+const monthText = ref('2026-03')
+
 const stepText = ref('2026-03-15 09:30')
+
+function onDateChange(value: string) : void {
+  console.log('onDateChange')
+}
+
+function onDateConfirm(value: string) : void {
+  console.log('onDateConfirm')
+}
+
+function onDateCancel() : void {
+  console.log('onDateCancel')
+}
+
+function onMonthConfirm(value: string) : void {
+  console.log('onMonthConfirm')
+}
+
+function onMinuteConfirm(value: string) : void {
+  console.log('onMinuteConfirm')
+}
+
+function onStepConfirm(value: string) : void {
+  console.log('onStepConfirm')
+}
+
+function onInlineChange(value: string) : void {
+  console.log('onInlineChange')
+}
+
+function onInlineConfirm(value: string) : void {
+  console.log('onInlineConfirm')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

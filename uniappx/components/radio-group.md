@@ -45,9 +45,12 @@ demo: pages/demo/form/radio
 </template>
 
 <script setup lang="uts">
-const groupValue = ref('a')
-const rowValue = ref('x')
 const disabledGroup = ref('1')
+
+const groupValue = ref('a')
+
+const rowValue = ref('x')
+
 const uncheckGroup = ref('a')
 </script>
 ```

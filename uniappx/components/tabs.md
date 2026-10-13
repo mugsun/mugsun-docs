@@ -57,12 +57,82 @@ demo: pages/demo/nav/tabs
 
 <script setup lang="uts">
 const baseIndex = ref(0)
-const scrollIndex = ref(0)
+
+const baseItems = [
+  { label: '选项一' } as UTSJSONObject,
+  { label: '选项二' } as UTSJSONObject,
+  { label: '选项三' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const iconIndex = ref(0)
-const statusIndex = ref(0)
-const mdIndex = ref(0)
+
+const iconItems = [
+  { label: '首页', icon: 'home-3-line' } as UTSJSONObject,
+  { label: '发现', icon: 'search-line' } as UTSJSONObject,
+  { label: '我的', icon: 'user-3-fill' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const lgIndex = ref(0)
+
+const mdIndex = ref(0)
+
+const scrollIndex = ref(0)
+
+const scrollItems = [
+  { label: '推荐' } as UTSJSONObject,
+  { label: '热门' } as UTSJSONObject,
+  { label: '新品' } as UTSJSONObject,
+  { label: '服饰' } as UTSJSONObject,
+  { label: '数码' } as UTSJSONObject,
+  { label: '家电' } as UTSJSONObject,
+  { label: '美妆' } as UTSJSONObject,
+  { label: '更多' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const statusIndex = ref(0)
+
+const statusItems = [
+  { label: '可选一' } as UTSJSONObject,
+  { label: '可选二' } as UTSJSONObject,
+  { label: '禁用', disabled: true } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const tagIndex = ref(0)
+
+const themeItems = [
+  { label: '选项一' } as UTSJSONObject,
+  { label: '选项二' } as UTSJSONObject,
+  { label: '选项三' } as UTSJSONObject,
+  { label: '选项四' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+function onBaseChange(index: number) : void {
+  console.log('onBaseChange')
+}
+
+function onScrollChange(index: number) : void {
+  console.log('onScrollChange')
+}
+
+function onIconChange(index: number) : void {
+  console.log('onIconChange')
+}
+
+function onStatusChange(index: number) : void {
+  console.log('onStatusChange')
+}
+
+function onMdChange(index: number) : void {
+  console.log('onMdChange')
+}
+
+function onLgChange(index: number) : void {
+  console.log('onLgChange')
+}
+
+function onTagChange(index: number) : void {
+  console.log('onTagChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -60,7 +60,28 @@ Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.
 
 <script setup lang="uts">
 const baseRefreshing = ref(false)
+
+const baseRows = ['列表项 1', '列表项 2', '列表项 3', '列表项 4', '列表项 5']
+
 const customRefreshing = ref(false)
+
+const customRows = ['自定义列表 A', '自定义列表 B', '自定义列表 C']
+
+function onBaseRefresh() : void {
+  console.log('onBaseRefresh')
+}
+
+function onBaseRestore() : void {
+  console.log('onBaseRestore')
+}
+
+function onCustomRefresh() : void {
+  console.log('onCustomRefresh')
+}
+
+function onLargeRefresh() : void {
+  console.log('onLargeRefresh')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -57,10 +57,56 @@ demo: pages/demo/media/drag
 </template>
 
 <script setup lang="uts">
+function itemLabel(item: UTSJSONObject): string {
+  const id = item.getNumber('id')
+  return id == null ? '?' : id.toString()
+}
+
 const list1 = ref([
-const listFixed = ref([
+  { id: 1 } as UTSJSONObject,
+  { id: 2 } as UTSJSONObject,
+  { id: 3 } as UTSJSONObject,
+  { id: 4 } as UTSJSONObject,
+] as UTSJSONObject[])
+
 const list2 = ref([
+  { id: 1 } as UTSJSONObject,
+  { id: 2 } as UTSJSONObject,
+  { id: 3 } as UTSJSONObject,
+  { id: 4 } as UTSJSONObject,
+  { id: 5 } as UTSJSONObject,
+  { id: 6 } as UTSJSONObject,
+] as UTSJSONObject[])
+
 const list4 = ref([
+  { id: 1 } as UTSJSONObject,
+  { id: 2 } as UTSJSONObject,
+  { id: 3 } as UTSJSONObject,
+  { id: 4 } as UTSJSONObject,
+  { id: 5 } as UTSJSONObject,
+  { id: 6 } as UTSJSONObject,
+  { id: 7 } as UTSJSONObject,
+  { id: 8 } as UTSJSONObject,
+] as UTSJSONObject[])
+
+const listFixed = ref([
+  { id: 1 } as UTSJSONObject,
+  { id: 2 } as UTSJSONObject,
+  { id: 3 } as UTSJSONObject,
+  { id: 4 } as UTSJSONObject,
+] as UTSJSONObject[])
+
+function onChange1(next: UTSJSONObject[]) : void {
+  console.log('onChange1')
+}
+
+function onStart() : void {
+  console.log('onStart')
+}
+
+function onChangeFixed(next: UTSJSONObject[]) : void {
+  console.log('onChangeFixed')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

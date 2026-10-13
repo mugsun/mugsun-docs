@@ -36,16 +36,27 @@ demo: pages/demo/form/code-input
 </template>
 
 <script setup lang="uts">
-const vOutline = ref('12')
-const vFill = ref('34')
-const vLine = ref('5')
-const vPassword = ref('678')
-const vFour = ref('')
-const vSix = ref('12345')
-const vDot = ref('')
 const vAuto = ref('')
+
 const vCtrl = ref('')
-const ctrlCode = ref(null)
+
+const vDot = ref('')
+
+const vFill = ref('34')
+
+const vFour = ref('')
+
+const vLine = ref('5')
+
+const vOutline = ref('12')
+
+const vPassword = ref('678')
+
+const vSix = ref('12345')
+
+function onComplete(value: string) : void {
+  console.log('onComplete')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -47,10 +47,19 @@ demo: pages/demo/display/virtual-list
 </template>
 
 <script setup lang="uts">
-const bigList = ref<MsVirtualListComponentPublicInstance | null>(null)
 const baseItems = ref(buildItems(200, '基础', 1))
-const smallItems = ref(buildItems(6, '全量', 1))
+
 const bigItems = ref(buildItems(2000, '大数据', 1))
+
+const smallItems = ref(buildItems(6, '全量', 1))
+
+function onItemClick(key: string, index: number) : void {
+  console.log('onItemClick')
+}
+
+function onRangeChange(start: number, end: number) : void {
+  console.log('onRangeChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

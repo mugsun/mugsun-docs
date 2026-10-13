@@ -49,9 +49,39 @@ demo: pages/demo/feedback/modal
 </template>
 
 <script setup lang="uts">
-const showFeedback = ref(false)
 const showConfirm = ref(false)
+
+const showFeedback = ref(false)
+
 const showRecipeDelete = ref(false)
+
+function onRecipeDeleteVisible(value: boolean): void {
+  showRecipeDelete.value = value
+}
+
+function onRecipeDeleteConfirm() : void {
+  console.log('onRecipeDeleteConfirm')
+}
+
+function onRecipeDeleteCancel() : void {
+  console.log('onRecipeDeleteCancel')
+}
+
+function onFeedbackVisible(value: boolean): void {
+  showFeedback.value = value
+}
+
+function onConfirmTap() : void {
+  console.log('onConfirmTap')
+}
+
+function onConfirmVisible(value: boolean): void {
+  showConfirm.value = value
+}
+
+function onCancelTap() : void {
+  console.log('onCancelTap')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

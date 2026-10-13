@@ -56,7 +56,62 @@ Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see t
 
 <script setup lang="uts">
 const baseCurrent = ref(1)
+
+const baseItems = [
+  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
+  { title: '当前步骤', content: '辅助信息' } as UTSJSONObject,
+  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const depthCurrent = ref(0)
+
+const dotItems = [
+  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
+  { title: '当前步骤', content: '辅助信息' } as UTSJSONObject,
+  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const errorItems = [
+  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
+  { title: '错误步骤', content: '请重新提交' } as UTSJSONObject,
+  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const iconItems = [
+  { title: '下单', content: '辅助信息', icon: 'check-line' } as UTSJSONObject,
+  { title: '发货', content: '辅助信息', icon: 'inbox-line' } as UTSJSONObject,
+  { title: '收货', content: '辅助信息', icon: 'home-3-line' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+const verticalItems = [
+  { title: '已完成步骤', content: '可自定义此处内容' } as UTSJSONObject,
+  { title: '当前步骤', content: '可自定义此处内容' } as UTSJSONObject,
+  { title: '未完成步骤', content: '可自定义此处内容' } as UTSJSONObject,
+] as UTSJSONObject[]
+
+function onBaseChange(current: number, previous: number) : void {
+  console.log('onBaseChange')
+}
+
+function onVerticalChange(current: number, previous: number) : void {
+  console.log('onVerticalChange')
+}
+
+function onIconChange(current: number, previous: number) : void {
+  console.log('onIconChange')
+}
+
+function onErrorChange(current: number, previous: number) : void {
+  console.log('onErrorChange')
+}
+
+function onDotChange(current: number, previous: number) : void {
+  console.log('onDotChange')
+}
+
+function onDepthChange(current: number, previous: number) : void {
+  console.log('onDepthChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

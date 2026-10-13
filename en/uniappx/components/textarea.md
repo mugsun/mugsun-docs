@@ -54,10 +54,14 @@ Snippets below are taken from the demo source `pages/demo/form/textarea.uvue`; s
 </template>
 
 <script setup lang="uts">
-const baseValue = ref('')
-const labelValue = ref('')
 const autoValue = ref('')
+
+const baseValue = ref('')
+
 const borderValue = ref('')
+
+const labelValue = ref('')
+
 const plainValue = ref('')
 </script>
 ```

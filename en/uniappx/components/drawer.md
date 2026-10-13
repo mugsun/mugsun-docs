@@ -42,11 +42,40 @@ Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`;
 </template>
 
 <script setup lang="uts">
-const showBase = ref(false)
-const showTitled = ref(false)
-const showIcon = ref(false)
 const baseItems = ref([
+  { title: '菜单一' } as UTSJSONObject,
+  { title: '菜单二' } as UTSJSONObject,
+  { title: '菜单三' } as UTSJSONObject,
+  { title: '菜单四' } as UTSJSONObject,
+] as UTSJSONObject[])
+
 const iconItems = ref([
+  { title: '首页', icon: 'home-3-line' } as UTSJSONObject,
+  { title: '消息', icon: 'notification-line' } as UTSJSONObject,
+  { title: '设置', icon: 'settings-3-line' } as UTSJSONObject,
+] as UTSJSONObject[])
+
+const showBase = ref(false)
+
+const showIcon = ref(false)
+
+const showTitled = ref(false)
+
+function onBaseVisible(value: boolean): void {
+  showBase.value = value
+}
+
+function onPick(index: number) : void {
+  console.log('onPick')
+}
+
+function onTitledVisible(value: boolean): void {
+  showTitled.value = value
+}
+
+function onIconVisible(value: boolean): void {
+  showIcon.value = value
+}
 </script>
 ```
 <!-- demo-snippets:end -->

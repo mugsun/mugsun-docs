@@ -69,7 +69,21 @@ demo: pages/demo/feedback/swipe-cell
 </template>
 
 <script setup lang="uts">
+const rows = [1, 2, 3]
+
 const singleOpened = ref(false)
+
+function onOpen() : void {
+  console.log('onOpen')
+}
+
+function onClose() : void {
+  console.log('onClose')
+}
+
+function onAction(text: string) : void {
+  console.log('onAction')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

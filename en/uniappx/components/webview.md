@@ -51,7 +51,18 @@ Snippets below are taken from the demo source `pages/demo/media/webview.uvue`; s
 
 <script setup lang="uts">
 const src = ref('https://example.com/')
-const reloadRef = ref<ComponentPublicInstance | null>(null)
+
+function onLoad(payload: UTSJSONObject) : void {
+  console.log('onLoad')
+}
+
+function onError(payload: UTSJSONObject) : void {
+  console.log('onError')
+}
+
+function onNavigate(payload: UTSJSONObject) : void {
+  console.log('onNavigate')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

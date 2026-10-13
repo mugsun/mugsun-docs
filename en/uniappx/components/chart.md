@@ -73,16 +73,64 @@ Snippets below are taken from the demo source `pages/demo/media/chart.uvue`; see
 </template>
 
 <script setup lang="uts">
-const gmvTrend = ref(seriesFrom(gmvWave, 0))
-const gmvThisYear = ref(seriesFrom(gmvWave, 0))
-const gmvLastYear = ref(seriesFrom(gmvPrev, 0))
-const dauTrend = ref(seriesFrom(dauWave, 0))
 const aovTrend = ref(seriesFrom(aovWave, 0))
-const channelSales = ref([
+
 const categoryShare = ref([
+  row('数码配件', 286),
+  row('家居日用', 214),
+  row('美妆个护', 198),
+  row('母婴食品', 156),
+  row('运动户外', 132),
+  row('其它', 88),
+] as UTSJSONObject[])
+
+const channelSales = ref([
+  row('品牌旗舰', 186),
+  row('自营商城', 142),
+  row('直播间', 218),
+  row('私域社群', 96),
+  row('线下门店', 128),
+  row('经销批发', 74),
+] as UTSJSONObject[])
+
+const dauTrend = ref(seriesFrom(dauWave, 0))
+
+const gmvLastYear = ref(seriesFrom(gmvPrev, 0))
+
+const gmvThisYear = ref(seriesFrom(gmvWave, 0))
+
+const gmvTrend = ref(seriesFrom(gmvWave, 0))
+
 const stockHealth = ref([
+  row('周转健康', 62),
+  row('预警', 23),
+  row('滞销', 11),
+  row('缺货', 4),
+] as UTSJSONObject[])
+
 const storeEast = ref([
+  row('上海', 96),
+  row('杭州', 84),
+  row('南京', 71),
+  row('苏州', 68),
+  row('宁波', 55),
+] as UTSJSONObject[])
+
 const storeSouth = ref([
+  row('广州', 88),
+  row('深圳', 92),
+  row('佛山', 61),
+  row('东莞', 58),
+  row('珠海', 47),
+] as UTSJSONObject[])
+
+function onItem(payload: UTSJSONObject) : void {
+  console.log('onItem')
+}
+
+function onReady(payload: UTSJSONObject) : void {
+  console.log('onReady')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

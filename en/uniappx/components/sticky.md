@@ -74,11 +74,24 @@ Snippets below are taken from the demo source `pages/demo/nav/sticky.uvue`; see 
 
 <script setup lang="uts">
 const baseScrollTop = ref(0)
+
 const boxScrollTop = ref(0)
-const disabledScrollTop = ref(0)
-const offsetScrollTop = ref(0)
+
 const depthScrollTop = ref(0)
+
+const disabledScrollTop = ref(0)
+
+const offsetScrollTop = ref(0)
+
 const stackScrollTop = ref(0)
+
+function onBaseStuck(next: boolean) : void {
+  console.log('onBaseStuck')
+}
+
+function onDepthStuck(next: boolean) : void {
+  console.log('onDepthStuck')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

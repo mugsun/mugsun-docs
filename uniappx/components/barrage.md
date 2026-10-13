@@ -44,8 +44,28 @@ demo: pages/demo/media/barrage
 </template>
 
 <script setup lang="uts">
-const paused = ref(false)
+const fastList = [
+  '快速 A',
+  '快速 B',
+  '快速 C',
+  '快速 D',
+  '快速 E',
+  '快速 F',
+  '快速 G',
+  '快速 H',
+] as string[]
+
 const list = ref(seed.slice(0) as string[])
+
+const paused = ref(false)
+
+const singleList = ['单轨弹幕 A', '单轨弹幕 B', '单轨弹幕 C'] as string[]
+
+const slowList = ['慢速弹幕一', '慢速弹幕二', '慢速弹幕三', '慢速弹幕四'] as string[]
+
+function onComplete() : void {
+  console.log('onComplete')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

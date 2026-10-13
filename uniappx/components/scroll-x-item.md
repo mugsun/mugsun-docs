@@ -56,6 +56,14 @@ demo: pages/demo/display/scroll-x
     </ms-scroll-x-item>
   </ms-scroll-x>
 </template>
+
+<script setup lang="uts">
+const baseItems = ['卡片一', '卡片二', '卡片三', '卡片四', '卡片五', '卡片六'] as string[]
+
+function onScroll() : void {
+  console.log('onScroll')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

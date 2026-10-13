@@ -36,14 +36,55 @@ demo: pages/demo/media/chat
 </template>
 
 <script setup lang="uts">
-const basic = ref([
-const named = ref([
-const pending = ref([
-const failed = ref([
-const streaming = ref([
-const markdownMsgs = ref([msg('user', '用 Markdown 说明能力。'), mdAssistant] as UTSJSONObject[])
-const thinkingMsgs = ref([msg('user', '为什么要加深对话？'), thinkAssistant] as UTSJSONObject[])
 const actionMsgs = ref([
+  msg('user', '试试操作栏。'),
+  rich('assistant', '点下方复制、重试、赞或踩，探针会回写。', '助手', '10:31', ''),
+] as UTSJSONObject[])
+
+const basic = ref([
+  msg('user', '帮我总结一下这份发布说明。'),
+  msg('assistant', '本次新增图表与 Markdown 渲染，并补齐了编辑器与调试面板。'),
+] as UTSJSONObject[])
+
+const failed = ref([
+  msg('user', '导出一份验收报告。'),
+  rich('assistant', '', '助手', '10:27', 'error'),
+] as UTSJSONObject[])
+
+const markdownMsgs = ref([msg('user', '用 Markdown 说明能力。'), mdAssistant] as UTSJSONObject[])
+
+const named = ref([
+  rich('user', '组件库进度如何？', '产品', '10:24', ''),
+  rich('assistant', '对话组件已加深 Markdown、思考折叠与操作栏。', '助手', '10:25', ''),
+] as UTSJSONObject[])
+
+const pending = ref([
+  msg('user', '再帮我列一下未完成项。'),
+  rich('assistant', '', '助手', '10:26', 'pending'),
+] as UTSJSONObject[])
+
+const streaming = ref([
+  msg('user', '写一段发布摘要。'),
+  rich('assistant', '本次交付聚焦对话深度：', '助手', '10:28', 'streaming'),
+] as UTSJSONObject[])
+
+const thinkingMsgs = ref([msg('user', '为什么要加深对话？'), thinkAssistant] as UTSJSONObject[])
+
+function onMessage(payload: UTSJSONObject) : void {
+  console.log('onMessage')
+}
+
+function onAction(payload: UTSJSONObject) : void {
+  console.log('onAction')
+}
+
+function onRetry(payload: UTSJSONObject) : void {
+  console.log('onRetry')
+}
+
+function onThink(payload: UTSJSONObject) : void {
+  console.log('onThink')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -38,9 +38,23 @@ Snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`; 
 </template>
 
 <script setup lang="uts">
-const showPlain = ref(false)
 const showMultiLine = ref(false)
+
+const showPlain = ref(false)
+
 const showRowIcon = ref(false)
+
+function onPlainVisible(value: boolean): void {
+  showPlain.value = value
+}
+
+function onMultiVisible(value: boolean): void {
+  showMultiLine.value = value
+}
+
+function onRowVisible(value: boolean): void {
+  showRowIcon.value = value
+}
 </script>
 ```
 <!-- demo-snippets:end -->

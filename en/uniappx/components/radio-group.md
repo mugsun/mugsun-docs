@@ -45,9 +45,12 @@ Snippets below are taken from the demo source `pages/demo/form/radio.uvue`; see 
 </template>
 
 <script setup lang="uts">
-const groupValue = ref('a')
-const rowValue = ref('x')
 const disabledGroup = ref('1')
+
+const groupValue = ref('a')
+
+const rowValue = ref('x')
+
 const uncheckGroup = ref('a')
 </script>
 ```

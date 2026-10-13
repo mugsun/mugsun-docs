@@ -71,9 +71,30 @@ demo: pages/demo/nav/more
 
 <script setup lang="uts">
 const baseOpened = ref(false)
-const tallOpened = ref(false)
-const smOpened = ref(false)
+
 const customOpened = ref(false)
+
+const longText =
+
+const smOpened = ref(false)
+
+const tallOpened = ref(false)
+
+function onBaseChange(opened: boolean) : void {
+  console.log('onBaseChange')
+}
+
+function onTallChange(opened: boolean) : void {
+  console.log('onTallChange')
+}
+
+function onSmChange(opened: boolean) : void {
+  console.log('onSmChange')
+}
+
+function onCustomChange(opened: boolean) : void {
+  console.log('onCustomChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

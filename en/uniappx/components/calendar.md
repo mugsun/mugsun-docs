@@ -57,7 +57,22 @@ Snippets below are taken from the demo source `pages/demo/form/calendar.uvue`; s
 </template>
 
 <script setup lang="uts">
-const resetCalRef = ref(null)
+const markList2 = [
+  { date: '2026-03-12', prefix: '', suffix: '¥60' } as UTSJSONObject,
+  { date: '2026-03-15', prefix: '休', suffix: '' } as UTSJSONObject,
+]
+
+function onInlineChange(v: string) : void {
+  console.log('onInlineChange')
+}
+
+function onResetCalChange(v: string) : void {
+  console.log('onResetCalChange')
+}
+
+function onSelectDay(day: string) : void {
+  console.log('onSelectDay')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

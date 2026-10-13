@@ -45,12 +45,29 @@ Snippets below are taken from the demo source `pages/demo/form/keyboard.uvue`; s
 </template>
 
 <script setup lang="uts">
-const numberVisible = ref(false)
-const numberValue = ref('')
-const intVisible = ref(false)
 const intValue = ref('')
-const passwordVisible = ref(false)
+
+const intVisible = ref(false)
+
+const numberValue = ref('')
+
+const numberVisible = ref(false)
+
 const passwordValue = ref('')
+
+const passwordVisible = ref(false)
+
+function onNumberConfirm(value: string) : void {
+  console.log('onNumberConfirm')
+}
+
+function onIntConfirm(value: string) : void {
+  console.log('onIntConfirm')
+}
+
+function onPasswordConfirm(value: string) : void {
+  console.log('onPasswordConfirm')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

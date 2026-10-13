@@ -52,9 +52,51 @@ Snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`; s
 
 <script setup lang="uts">
 const baseIndex = ref(0)
+
+const baseOptions = [
+  { label: '日' } as UTSJSONObject,
+  { label: '周' } as UTSJSONObject,
+  { label: '月' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const blockIndex = ref(0)
+
+const blockOptions = [
+  { label: '全部订单' } as UTSJSONObject,
+  { label: '待付款' } as UTSJSONObject,
+  { label: '待收货' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const iconIndex = ref(0)
+
+const iconOptions = [
+  { label: '消息', icon: 'inbox-line' } as UTSJSONObject,
+  { label: '应用', icon: 'apps-line' } as UTSJSONObject,
+] as UTSJSONObject[]
+
 const statusIndex = ref(0)
+
+const statusOptions = [
+  { label: '可选一' } as UTSJSONObject,
+  { label: '可选二' } as UTSJSONObject,
+  { label: '禁用', disabled: true } as UTSJSONObject,
+] as UTSJSONObject[]
+
+function onBaseChange(index: number) : void {
+  console.log('onBaseChange')
+}
+
+function onBlockChange(index: number) : void {
+  console.log('onBlockChange')
+}
+
+function onIconChange(index: number) : void {
+  console.log('onIconChange')
+}
+
+function onStatusChange(index: number) : void {
+  console.log('onStatusChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

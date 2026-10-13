@@ -50,8 +50,19 @@ Snippets below are taken from the demo source `pages/demo/display/image-resizer.
 </template>
 
 <script setup lang="uts">
-const squareRef = ref<MsImageResizerComponentPublicInstance | null>(null)
 const src = ref('/static/demo-crop.png')
+
+function onConfirm(payload: UTSJSONObject) : void {
+  console.log('onConfirm')
+}
+
+function onCancel() : void {
+  console.log('onCancel')
+}
+
+function onError(msg: string) : void {
+  console.log('onError')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

@@ -38,13 +38,22 @@ Snippets below are taken from the demo source `pages/demo/form/rate.uvue`; see t
 </template>
 
 <script setup lang="uts">
-const vSolid = ref(3)
-const vCustom = ref(2)
-const vCount = ref(2)
+const customTexts = ['很差', '较差', '一般', '不错', '很棒'] as string[]
+
 const vActive = ref(3)
-const vSize = ref(3)
-const vHalf = ref(3.5)
+
 const vClear = ref(4)
+
+const vCount = ref(2)
+
+const vCustom = ref(2)
+
+const vHalf = ref(3.5)
+
+const vSize = ref(3)
+
+const vSolid = ref(3)
+
 const vTexts = ref(3)
 </script>
 ```

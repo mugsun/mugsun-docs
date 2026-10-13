@@ -48,11 +48,48 @@ Snippets below are taken from the demo source `pages/demo/form/picker-city.uvue`
 </template>
 
 <script setup lang="uts">
-const regions = ref([
-const popupValue = ref(['310000', '310100', '310104'] as string[])
-const popupLabel = ref('上海市 / 上海城区 / 徐汇区')
 const inlineValue = ref(['110000', '110100', '110102'] as string[])
+
+const popupLabel = ref('上海市 / 上海城区 / 徐汇区')
+
+const popupValue = ref(['310000', '310100', '310104'] as string[])
+
+const regions = ref([
+  { value: '110000', label: '北京市', parent: '' },
+  { value: '110100', label: '北京城区', parent: '110000' },
+  { value: '110101', label: '东城区', parent: '110100' },
+  { value: '110102', label: '西城区', parent: '110100' },
+  { value: '110105', label: '朝阳区', parent: '110100' },
+  { value: '310000', label: '上海市', parent: '' },
+  { value: '310100', label: '上海城区', parent: '310000' },
+  { value: '310101', label: '黄浦区', parent: '310100' },
+  { value: '310104', label: '徐汇区', parent: '310100' },
+  { value: '350000', label: '福建省', parent: '' },
+  { value: '350100', label: '福州市', parent: '350000' },
+  { value: '350102', label: '鼓楼区', parent: '350100' },
+  { value: '350103', label: '台江区', parent: '350100' },
+  { value: '350200', label: '厦门市', parent: '350000' },
+  { value: '350203', label: '思明区', parent: '350200' },
+  { value: '350205', label: '海沧区', parent: '350200' },
+] as UTSJSONObject[])
+
 const twoValue = ref(['350000', '350200'] as string[])
+
+function onPopupConfirm(values: string[], label: string) : void {
+  console.log('onPopupConfirm')
+}
+
+function onChange(values: string[], label: string) : void {
+  console.log('onChange')
+}
+
+function onInlineConfirm(values: string[], label: string) : void {
+  console.log('onInlineConfirm')
+}
+
+function onTwoConfirm(values: string[], label: string) : void {
+  console.log('onTwoConfirm')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

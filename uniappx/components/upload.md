@@ -37,7 +37,37 @@ demo: pages/demo/feedback/upload
 
 <script setup lang="uts">
 const basicList = ref([
+  { url: COVER, status: 'done' } as UTSJSONObject,
+  { url: CROP, status: 'done' } as UTSJSONObject,
+  { url: COVER, status: 'done' } as UTSJSONObject,
+])
+
+const cameraList = [{ url: COVER, name: '现场拍照.jpg', status: 'done' } as UTSJSONObject]
+
+const failedList = [{ url: CROP, status: 'failed' } as UTSJSONObject]
+
+const fullList = [
+  { url: CROP, status: 'done' } as UTSJSONObject,
+  { url: COVER, status: 'done' } as UTSJSONObject,
+]
+
+const loadingList = [
+  { url: CROP, status: 'loading', percent: 68 } as UTSJSONObject,
+  { url: COVER, status: 'loading' } as UTSJSONObject,
+]
+
 const namedList = ref([
+  { url: CROP, name: '合同扫描件.png', status: 'done' } as UTSJSONObject,
+  { url: COVER, name: '身份证正面.png', status: 'done' } as UTSJSONObject,
+])
+
+function onRemove(index: number) : void {
+  console.log('onRemove')
+}
+
+function onPreviewClick(index: number) : void {
+  console.log('onPreviewClick')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

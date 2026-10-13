@@ -51,18 +51,59 @@ Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`; se
 </template>
 
 <script setup lang="uts">
-const basicDate = ref('2026-08-31')
-const plainDate = ref('2026-08-31')
-const circleDate = ref('2026-09-02')
-const rangeDate = ref('2026-08-31')
-const rangeStart = ref('2026-08-30')
-const rangeEnd = ref('2026-09-03')
-const marked = ref(['2026-09-01', '2026-09-03'] as string[])
 const banDate = ref('2026-09-01')
+
 const banned = ref(['2026-09-02', '2026-09-03'] as string[])
-const manualDate = ref('')
+
+const basicDate = ref('2026-08-31')
+
+const circleDate = ref('2026-09-02')
+
 const jumpDate = ref('2026-08-31')
-const jumpRef = ref<MsWeekbarComponentPublicInstance | null>(null)
+
+const manualDate = ref('')
+
+const marked = ref(['2026-09-01', '2026-09-03'] as string[])
+
+const plainDate = ref('2026-08-31')
+
+const rangeDate = ref('2026-08-31')
+
+const rangeEnd = ref('2026-09-03')
+
+const rangeStart = ref('2026-08-30')
+
+function onBasicChange(value: string) : void {
+  console.log('onBasicChange')
+}
+
+function onWeekChange(dates: string[]) : void {
+  console.log('onWeekChange')
+}
+
+function onPlainChange(value: string) : void {
+  console.log('onPlainChange')
+}
+
+function onCircleChange(value: string) : void {
+  console.log('onCircleChange')
+}
+
+function onRangeChange(value: string) : void {
+  console.log('onRangeChange')
+}
+
+function onBanChange(value: string) : void {
+  console.log('onBanChange')
+}
+
+function onManualChange(value: string) : void {
+  console.log('onManualChange')
+}
+
+function onJumpChange(value: string) : void {
+  console.log('onJumpChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

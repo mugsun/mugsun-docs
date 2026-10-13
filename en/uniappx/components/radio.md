@@ -38,8 +38,9 @@ Snippets below are taken from the demo source `pages/demo/form/radio.uvue`; see 
 </template>
 
 <script setup lang="uts">
-const vUncheck = ref(true)
 const vDepth = ref(true)
+
+const vUncheck = ref(true)
 </script>
 ```
 <!-- demo-snippets:end -->

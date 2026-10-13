@@ -54,11 +54,16 @@ demo: pages/demo/form/form
 
 <script setup lang="uts">
 const hName = ref('mugsun')
+
 const hPassword = ref('')
-const vNick = ref('')
-const sReq = ref('')
-const sHelp = ref('')
+
 const sArrow = ref('')
+
+const sHelp = ref('')
+
+const sReq = ref('')
+
+const vNick = ref('')
 </script>
 ```
 <!-- demo-snippets:end -->

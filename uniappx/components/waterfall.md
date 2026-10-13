@@ -50,6 +50,101 @@ demo: pages/demo/display/waterfall
     @item-click="onItemClick"
   />
 </template>
+
+<script setup lang="uts">
+const baseItems = [
+  { id: 'b1', title: '城市夜景', desc: '高度 120', height: 120 },
+  { id: 'b2', title: '山间清晨', desc: '高度 96', height: 96 },
+  { id: 'b3', title: '海岸线', desc: '高度 140', height: 140 },
+  { id: 'b4', title: '街头速写', desc: '高度 104', height: 104 },
+  { id: 'b5', title: '雨后屋檐', desc: '高度 128', height: 128 },
+  { id: 'b6', title: '林间小径', desc: '高度 88', height: 88 },
+] as UTSJSONObject[]
+
+const coverItems = [
+  {
+    id: 'c1',
+    title: '封面 A',
+    desc: '按声明高度排布',
+    height: 168,
+    coverHeight: 100,
+    image: '/static/demo-cover.png',
+  },
+  {
+    id: 'c2',
+    title: '封面 B',
+    desc: '按声明高度排布',
+    height: 140,
+    coverHeight: 72,
+    image: '/static/demo-crop.png',
+  },
+  {
+    id: 'c3',
+    title: '封面 C',
+    desc: '按声明高度排布',
+    height: 156,
+    coverHeight: 88,
+    image: '/static/demo-cover.png',
+  },
+  {
+    id: 'c4',
+    title: '封面 D',
+    desc: '按声明高度排布',
+    height: 128,
+    coverHeight: 64,
+    image: '/static/demo-crop.png',
+  },
+] as UTSJSONObject[]
+
+const emptyItems = [] as UTSJSONObject[]
+
+const mappedItems = [
+  {
+    uid: 'k1',
+    name: '映射 A',
+    subtitle: '字段名可映射',
+    h: 148,
+    ch: 84,
+    cover: '/static/demo-cover.png',
+  },
+  {
+    uid: 'k2',
+    name: '映射 B',
+    subtitle: '字段名可映射',
+    h: 120,
+    ch: 64,
+    cover: '/static/demo-crop.png',
+  },
+  {
+    uid: 'k3',
+    name: '映射 C',
+    subtitle: '字段名可映射',
+    h: 136,
+    ch: 72,
+    cover: '/static/demo-cover.png',
+  },
+  {
+    uid: 'k4',
+    name: '映射 D',
+    subtitle: '字段名可映射',
+    h: 112,
+    ch: 56,
+    cover: '/static/demo-crop.png',
+  },
+] as UTSJSONObject[]
+
+const mixedItems = [
+  { id: 'm1', title: '长卡片', desc: '高度 160', height: 160 },
+  { id: 'm2', title: '短卡片', desc: '高度 80', height: 80 },
+  { id: 'm3', title: '短卡片', desc: '高度 80', height: 80 },
+  { id: 'm4', title: '中卡片', desc: '高度 120', height: 120 },
+  { id: 'm5', title: '短卡片', desc: '高度 80', height: 80 },
+] as UTSJSONObject[]
+
+function onItemClick(key: string, index: number) : void {
+  console.log('onItemClick')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

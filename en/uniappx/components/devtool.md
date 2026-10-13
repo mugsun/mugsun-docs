@@ -61,10 +61,25 @@ Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`; s
 </template>
 
 <script setup lang="uts">
-const mainOpen = ref(true)
-const envOpen = ref(true)
 const clickOpen = ref(true)
+
 const entries = ref([
+  entry('/app/home', '200', '128 ms', 'ok'),
+  entry('/app/todos', '200', '96 ms', 'ok'),
+  entry('/app/inbox', '401', '42 ms', 'unauthorized'),
+] as UTSJSONObject[])
+
+const envOpen = ref(true)
+
+const mainOpen = ref(true)
+
+function onClear(payload: UTSJSONObject) : void {
+  console.log('onClear')
+}
+
+function onEntry(payload: UTSJSONObject) : void {
+  console.log('onEntry')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

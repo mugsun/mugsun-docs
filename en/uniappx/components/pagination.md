@@ -62,10 +62,34 @@ Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`; 
 
 <script setup lang="uts">
 const fullPage = ref(5)
-const simplePage = ref(1)
-const navPage = ref(2)
+
 const jumpPage = ref(8)
+
+const navPage = ref(2)
+
+const simplePage = ref(1)
+
 const sizePage = ref(1)
+
+function onFullChange(page: number) : void {
+  console.log('onFullChange')
+}
+
+function onSimpleChange(page: number) : void {
+  console.log('onSimpleChange')
+}
+
+function onNavChange(page: number) : void {
+  console.log('onNavChange')
+}
+
+function onJumpChange(page: number) : void {
+  console.log('onJumpChange')
+}
+
+function onSizeChange(page: number) : void {
+  console.log('onSizeChange')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

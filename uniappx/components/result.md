@@ -62,6 +62,20 @@ demo: pages/demo/display/result
     <ms-button size="sm" theme="primary" @click="onAction">知道了</ms-button>
   </ms-result>
 </template>
+
+<script setup lang="uts">
+function onAction() : void {
+  console.log('onAction')
+}
+
+function onSecondary() : void {
+  console.log('onSecondary')
+}
+
+function onPrimary() : void {
+  console.log('onPrimary')
+}
+</script>
 ```
 <!-- demo-snippets:end -->
 

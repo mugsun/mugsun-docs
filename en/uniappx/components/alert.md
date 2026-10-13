@@ -40,6 +40,14 @@ Snippets below are taken from the demo source `pages/demo/feedback/alert.uvue`; 
 
 <script setup lang="uts">
 const showClosable = ref(true)
+
+function onClosableVisible(value: boolean): void {
+  showClosable.value = value
+}
+
+function onAlertClose() : void {
+  console.log('onAlertClose')
+}
 </script>
 ```
 <!-- demo-snippets:end -->

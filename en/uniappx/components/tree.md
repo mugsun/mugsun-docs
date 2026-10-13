@@ -56,12 +56,50 @@ Snippets below are taken from the demo source `pages/demo/display/tree.uvue`; se
 
 <script setup lang="uts">
 const basicFolders = ref(['1', '2'] as string[])
+
 const checkFolders = ref(['1', '1-2', '2'] as string[])
-const stateFolders = ref(['1', '1-1', '2'] as string[])
+
 const checkValue = ref(['1-2-1'] as string[])
-const stateValue = ref([] as string[])
-const parentLink = ref(true)
+
 const disabledParent = ref(true)
+
+const parentLink = ref(true)
+
+const stateFolders = ref(['1', '1-1', '2'] as string[])
+
+const stateValue = ref([] as string[])
+
+function onBasicFolders(ids: string[]): void {
+  basicFolders.value = ids
+}
+
+function onBasicExpand(ids: string[]) : void {
+  console.log('onBasicExpand')
+}
+
+function onNodeClick(id: string) : void {
+  console.log('onNodeClick')
+}
+
+function onCheckValue(ids: string[]): void {
+  checkValue.value = ids
+}
+
+function onCheckFolders(ids: string[]): void {
+  checkFolders.value = ids
+}
+
+function onCheckChange(ids: string[]) : void {
+  console.log('onCheckChange')
+}
+
+function onStateValue(ids: string[]): void {
+  stateValue.value = ids
+}
+
+function onStateFolders(ids: string[]): void {
+  stateFolders.value = ids
+}
 </script>
 ```
 <!-- demo-snippets:end -->

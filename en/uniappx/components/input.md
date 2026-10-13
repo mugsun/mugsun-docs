@@ -39,9 +39,12 @@ Snippets below are taken from the demo source `pages/demo/form/input.uvue`; see 
 
 <script setup lang="uts">
 const baseValue = ref('')
-const searchValue = ref('')
+
 const clearValue = ref('可清空')
+
 const errorValue = ref('')
+
+const searchValue = ref('')
 </script>
 ```
 <!-- demo-snippets:end -->

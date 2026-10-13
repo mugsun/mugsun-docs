@@ -38,15 +38,23 @@ demo: pages/demo/form/stepper
 </template>
 
 <script setup lang="uts">
-const vFilled = ref(3)
-const vOutline = ref(3)
-const vNormal = ref(3)
-const vMin = ref(0)
-const vMax = ref(9)
-const vSize = ref(3)
 const vDecimal = ref(1.5)
+
 const vDepth = ref(5)
+
+const vFilled = ref(3)
+
 const vHold = ref(1)
+
+const vMax = ref(9)
+
+const vMin = ref(0)
+
+const vNormal = ref(3)
+
+const vOutline = ref(3)
+
+const vSize = ref(3)
 </script>
 ```
 <!-- demo-snippets:end -->
