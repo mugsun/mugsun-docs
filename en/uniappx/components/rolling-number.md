@@ -19,13 +19,13 @@ Snippets below are taken from the demo source `pages/demo/display/rolling-number
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-rolling-number :value="decimalVal" />
   <ms-rolling-number :value="intVal" :duration="1100" :decimals="0" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-rolling-number :value="moneyVal" :grouping="true" prefix="¥" :decimals="2" />
   <ms-rolling-number :value="bigVal" size="lg" :decimals="0" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-rolling-number :value="suffixVal" suffix="%" :decimals="1" />
   <ms-rolling-number :value="staticVal" :animated="false" :decimals="0" />
   <ms-rolling-number :value="startVal" :start="10" :decimals="0" />

@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/display/virtual-list.u
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-virtual-list
     :items="baseItems"
     :item-height="56"
@@ -34,7 +34,7 @@ Snippets below are taken from the demo source `pages/demo/display/virtual-list.u
     :virtual="false"
     @item-click="onItemClick"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-virtual-list
     ref="bigList"
     :items="bigItems"
@@ -47,11 +47,11 @@ Snippets below are taken from the demo source `pages/demo/display/virtual-list.u
 </template>
 
 <script setup lang="uts">
-const baseItems = ref(buildItems(200, '基础', 1))
+const baseItems = ref(buildItems(200, 'Basic', 1))
 
-const bigItems = ref(buildItems(2000, '大数据', 1))
+const bigItems = ref(buildItems(2000, 'Large data', 1))
 
-const smallItems = ref(buildItems(6, '全量', 1))
+const smallItems = ref(buildItems(6, 'Full', 1))
 
 function onItemClick(key: string, index: number) : void {
   console.log('onItemClick')

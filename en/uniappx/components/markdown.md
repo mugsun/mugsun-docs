@@ -20,13 +20,13 @@ Snippets below are taken from the demo source `pages/demo/media/markdown.uvue`. 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-markdown :value="doc" @link="onLink" @parsed="onParsed" />
   <ms-markdown :value="listDoc" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-markdown :value="listDoc" :font-size="17" />
   <ms-markdown :value="quoteDoc" selectable :show-code-lang="false" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-markdown :value="imageDoc" @image="onImage" />
   <ms-markdown :value="taskDoc" />
   <ms-markdown :value="tableDoc" />
@@ -35,15 +35,15 @@ Snippets below are taken from the demo source `pages/demo/media/markdown.uvue`. 
 <script setup lang="uts">
 const doc = ref(docA)
 
-const imageDoc = ref('### 配图说明\n\n![演示封面](/static/demo-cover.png)\n')
+const imageDoc = ref('### Image caption\n\n![Demo cover](/static/demo-cover.png)\n')
 
-const listDoc = ref('- 轻量渲染\n- 跨端一致\n- 零第三方依赖\n\n1. 解析\n2. 渲染\n3. 事件')
+const listDoc = ref('- Lightweight rendering\n- Consistent across platforms\n- Zero third-party dependencies\n\n1. Parse\n2. Render\n3. Events')
 
-const quoteDoc = ref('> 可选中文本便于复制\n\n```\nnpm run dev\n```\n')
+const quoteDoc = ref('> Selectable text for easy copying\n\n```\nnpm run dev\n```\n')
 
-const tableDoc = ref('| 列A | 列B | 列C |\n| --- | --- | --- |\n| 1 | 甲 | 是 |\n| 2 | 乙 | 否 |\n')
+const tableDoc = ref('| Col A | Col B | Col C |\n| --- | --- | --- |\n| 1 | Alpha | Yes |\n| 2 | Beta | No |\n')
 
-const taskDoc = ref('- [x] 完成解析器\n- [ ] 补齐图片预览\n- [ ] 语法高亮\n')
+const taskDoc = ref('- [x] Finish the parser\n- [ ] Add image preview\n- [ ] Syntax highlighting\n')
 
 function onLink(payload: UTSJSONObject) : void {
   console.log('onLink')

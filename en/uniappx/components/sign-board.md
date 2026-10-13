@@ -19,11 +19,11 @@ Snippets below are taken from the demo source `pages/demo/form/sign-board.uvue`.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-sign-board ref="boardRef" :pen-type="penType" @end="onStrokeEnd" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-sign-board ref="pencilRef" pen-type="pencil" :stroke-width="6" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-sign-board pen-type="pen" :stroke-width="14" />
   <ms-sign-board disabled :stroke-width="8" />
   <ms-sign-board pen-type="pencil" :stroke-width="3" />

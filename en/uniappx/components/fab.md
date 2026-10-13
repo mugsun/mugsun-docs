@@ -19,21 +19,21 @@ Snippets below are taken from the demo source `pages/demo/feedback/fab.uvue`. To
 
 ```vue
 <template>
-  <!-- 基础用法 -->
+  <!-- Basic usage -->
   <ms-fab local inset="sm" @click="onFabClick" />
-  <ms-fab local inset="sm" text="新建" @click="onFabClick" />
-  <!-- 定位 -->
+  <ms-fab local inset="sm" text="New" @click="onFabClick" />
+  <!-- Position -->
   <ms-fab local inset="sm" position="bottom-right" />
   <ms-fab local inset="sm" position="bottom-left" />
   <ms-fab local inset="sm" position="bottom-center" />
-  <!-- 状态 -->
+  <!-- States -->
   <ms-fab local inset="sm" expandable @expand-change="onExpandChange">
-    <text @click="onMenuTap('添加')">添加</text>
-    <text @click="onMenuTap('收藏')">收藏</text>
-    <text @click="onMenuTap('分享')">分享</text>
+    <text @click="onMenuTap('Add')">Add</text>
+    <text @click="onMenuTap('Favorite')">Favorite</text>
+    <text @click="onMenuTap('Share')">Share</text>
   </ms-fab>
   <ms-fab local inset="sm" disabled @click="onFabClick" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-fab local inset="lg" position="top-right" icon="edit-line" @click="onFabClick" />
   <ms-fab local inset="lg" position="top-left" icon="customer-service-line" />
   <ms-fab
@@ -43,8 +43,8 @@ Snippets below are taken from the demo source `pages/demo/feedback/fab.uvue`. To
     v-model:expanded="modelExpanded"
     @expand-change="onExpandChange"
   >
-    <text @click="onMenuTap('添加')">添加</text>
-    <text @click="onMenuTap('收藏')">收藏</text>
+    <text @click="onMenuTap('Add')">Add</text>
+    <text @click="onMenuTap('Favorite')">Favorite</text>
   </ms-fab>
 </template>
 

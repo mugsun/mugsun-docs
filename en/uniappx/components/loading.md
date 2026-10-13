@@ -19,14 +19,14 @@ Snippets below are taken from the demo source `pages/demo/basic/loading.uvue`. T
 
 ```vue
 <template>
-  <!-- 纯图标 -->
+  <!-- Icon only -->
   <ms-loading text="" />
-  <!-- 横向 -->
-  <ms-loading layout="horizontal" text="加载中…" />
-  <!-- 竖向 -->
-  <ms-loading layout="vertical" text="加载中…" />
-  <!-- 纯文字 -->
-  <ms-loading :indicator="false" text="加载中…" />
+  <!-- Horizontal -->
+  <ms-loading layout="horizontal" text="Loading…" />
+  <!-- Vertical -->
+  <ms-loading layout="vertical" text="Loading…" />
+  <!-- Text only -->
+  <ms-loading :indicator="false" text="Loading…" />
 </template>
 ```
 <!-- demo-snippets:end -->

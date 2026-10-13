@@ -26,17 +26,17 @@ Snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`. T
   />
   <ms-overlay :visible="showContent" @update:visible="onContentVisible">
     <ms-sheet margin="page" radius="lg" shadow>
-      <ms-text>遮罩上的内容块</ms-text>
+      <ms-text>Content on the overlay</ms-text>
       <view>
-        <ms-button size="sm" theme="primary" @click="closeContent">关闭</ms-button>
+        <ms-button size="sm" theme="primary" @click="closeContent">Close</ms-button>
       </view>
     </ms-sheet>
   </ms-overlay>
   <ms-overlay :visible="showLock" :closable="false" @update:visible="onLockVisible">
     <ms-sheet margin="page" radius="lg">
-      <ms-text>点遮罩不会关闭</ms-text>
+      <ms-text>Tapping the overlay will not close it</ms-text>
       <view>
-        <ms-button size="sm" theme="primary" @click="closeLock">知道了</ms-button>
+        <ms-button size="sm" theme="primary" @click="closeLock">Got it</ms-button>
       </view>
     </ms-sheet>
   </ms-overlay>

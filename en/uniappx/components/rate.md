@@ -19,26 +19,26 @@ Snippets below are taken from the demo source `pages/demo/form/rate.uvue`. To se
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-rate v-model="vSolid" />
   <ms-rate v-model="vCustom" active-icon="heart-fill" void-icon="heart-line" />
   <ms-rate v-model="vCount" :count="3" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-rate v-model="vActive" />
   <ms-rate :model-value="4" readonly />
   <ms-rate :model-value="3" disabled />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-rate v-model="vSize" size="sm" />
   <ms-rate v-model="vSize" size="md" />
   <ms-rate v-model="vSize" size="lg" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-rate v-model="vHalf" allow-half show-score />
   <ms-rate v-model="vClear" clearable show-text />
   <ms-rate v-model="vTexts" show-text :texts="customTexts" />
 </template>
 
 <script setup lang="uts">
-const customTexts = ['很差', '较差', '一般', '不错', '很棒'] as string[]
+const customTexts = ['Terrible', 'Poor', 'Okay', 'Good', 'Great'] as string[]
 
 const vActive = ref(3)
 

@@ -19,71 +19,71 @@ Snippets below are taken from the demo source `pages/demo/form/input-tag.uvue`. 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-input-tag
     v-model="outsideTags"
-    placeholder="输入后回车添加"
+    placeholder="Press Enter to add"
     @add="onAdd"
     @remove="onRemove"
   />
   <ms-input-tag
     v-model="insideTags"
     position="inside"
-    placeholder="继续输入"
+    placeholder="Keep typing"
     @add="onAdd"
     @remove="onRemove"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-input-tag
     v-model="limitTags"
     :max-count="3"
-    placeholder="最多 3 个"
+    placeholder="Up to 3"
     @add="onAdd"
     @exceed="onExceed"
   />
   <ms-input-tag
     v-model="disabledTags"
     disabled
-    placeholder="已禁用"
+    placeholder="Disabled"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-input-tag
     v-model="buttonTags"
-    button-text="加入"
-    placeholder="输入后点加入"
+    button-text="Add"
+    placeholder="Type, then tap Add"
     @add="onAdd"
     @remove="onRemove"
   />
   <ms-input-tag
     v-model="noBtnTags"
     :show-button="false"
-    placeholder="仅回车添加"
+    placeholder="Enter only"
     @add="onAdd"
     @remove="onRemove"
   />
   <ms-input-tag
     v-model="confirmTags"
     confirm-type="go"
-    placeholder="键盘确认键为 go"
+    placeholder="Keyboard confirm key: go"
     @add="onAdd"
     @remove="onRemove"
   />
 </template>
 
 <script setup lang="uts">
-const buttonTags = ref(['标签'] as string[])
+const buttonTags = ref(['Tag'] as string[])
 
 const confirmTags = ref([] as string[])
 
-const disabledTags = ref(['只读标签'] as string[])
+const disabledTags = ref(['Read-only tag'] as string[])
 
-const insideTags = ref(['前端', '后端', '测试'] as string[])
+const insideTags = ref(['Frontend', 'Backend', 'QA'] as string[])
 
-const limitTags = ref(['已选一'] as string[])
+const limitTags = ref(['Selected 1'] as string[])
 
 const noBtnTags = ref([] as string[])
 
-const outsideTags = ref(['产品', '设计'] as string[])
+const outsideTags = ref(['Product', 'Design'] as string[])
 
 function onAdd(tag: string) : void {
   console.log('onAdd')

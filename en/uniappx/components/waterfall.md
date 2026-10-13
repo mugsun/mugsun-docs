@@ -19,14 +19,14 @@ Snippets below are taken from the demo source `pages/demo/display/waterfall.uvue
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-waterfall
     :items="baseItems"
     :column="2"
     @item-click="onItemClick"
   />
   <ms-waterfall :items="baseItems" :column="3" @item-click="onItemClick" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-waterfall :items="mixedItems" :column="2" @item-click="onItemClick" />
   <ms-waterfall
     :items="mixedItems"
@@ -34,9 +34,9 @@ Snippets below are taken from the demo source `pages/demo/display/waterfall.uvue
     :balance="false"
     @item-click="onItemClick"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-waterfall :items="coverItems" :column="2" @item-click="onItemClick" />
-  <ms-waterfall :items="emptyItems" empty-text="暂无瀑布流内容" />
+  <ms-waterfall :items="emptyItems" empty-text="No waterfall content" />
   <ms-waterfall
     :items="mappedItems"
     :column="2"
@@ -53,43 +53,43 @@ Snippets below are taken from the demo source `pages/demo/display/waterfall.uvue
 
 <script setup lang="uts">
 const baseItems = [
-  { id: 'b1', title: '城市夜景', desc: '高度 120', height: 120 },
-  { id: 'b2', title: '山间清晨', desc: '高度 96', height: 96 },
-  { id: 'b3', title: '海岸线', desc: '高度 140', height: 140 },
-  { id: 'b4', title: '街头速写', desc: '高度 104', height: 104 },
-  { id: 'b5', title: '雨后屋檐', desc: '高度 128', height: 128 },
-  { id: 'b6', title: '林间小径', desc: '高度 88', height: 88 },
+  { id: 'b1', title: 'City at night', desc: 'Height 120', height: 120 },
+  { id: 'b2', title: 'Mountain morning', desc: 'Height 96', height: 96 },
+  { id: 'b3', title: 'Coastline', desc: 'Height 140', height: 140 },
+  { id: 'b4', title: 'Street sketch', desc: 'Height 104', height: 104 },
+  { id: 'b5', title: 'Eaves after rain', desc: 'Height 128', height: 128 },
+  { id: 'b6', title: 'Forest path', desc: 'Height 88', height: 88 },
 ] as UTSJSONObject[]
 
 const coverItems = [
   {
     id: 'c1',
-    title: '封面 A',
-    desc: '按声明高度排布',
+    title: 'Cover A',
+    desc: 'Laid out by declared height',
     height: 168,
     coverHeight: 100,
     image: '/static/demo-cover.png',
   },
   {
     id: 'c2',
-    title: '封面 B',
-    desc: '按声明高度排布',
+    title: 'Cover B',
+    desc: 'Laid out by declared height',
     height: 140,
     coverHeight: 72,
     image: '/static/demo-crop.png',
   },
   {
     id: 'c3',
-    title: '封面 C',
-    desc: '按声明高度排布',
+    title: 'Cover C',
+    desc: 'Laid out by declared height',
     height: 156,
     coverHeight: 88,
     image: '/static/demo-cover.png',
   },
   {
     id: 'c4',
-    title: '封面 D',
-    desc: '按声明高度排布',
+    title: 'Cover D',
+    desc: 'Laid out by declared height',
     height: 128,
     coverHeight: 64,
     image: '/static/demo-crop.png',
@@ -101,32 +101,32 @@ const emptyItems = [] as UTSJSONObject[]
 const mappedItems = [
   {
     uid: 'k1',
-    name: '映射 A',
-    subtitle: '字段名可映射',
+    name: 'Mapped A',
+    subtitle: 'Field names can be mapped',
     h: 148,
     ch: 84,
     cover: '/static/demo-cover.png',
   },
   {
     uid: 'k2',
-    name: '映射 B',
-    subtitle: '字段名可映射',
+    name: 'Mapped B',
+    subtitle: 'Field names can be mapped',
     h: 120,
     ch: 64,
     cover: '/static/demo-crop.png',
   },
   {
     uid: 'k3',
-    name: '映射 C',
-    subtitle: '字段名可映射',
+    name: 'Mapped C',
+    subtitle: 'Field names can be mapped',
     h: 136,
     ch: 72,
     cover: '/static/demo-cover.png',
   },
   {
     uid: 'k4',
-    name: '映射 D',
-    subtitle: '字段名可映射',
+    name: 'Mapped D',
+    subtitle: 'Field names can be mapped',
     h: 112,
     ch: 56,
     cover: '/static/demo-crop.png',
@@ -134,11 +134,11 @@ const mappedItems = [
 ] as UTSJSONObject[]
 
 const mixedItems = [
-  { id: 'm1', title: '长卡片', desc: '高度 160', height: 160 },
-  { id: 'm2', title: '短卡片', desc: '高度 80', height: 80 },
-  { id: 'm3', title: '短卡片', desc: '高度 80', height: 80 },
-  { id: 'm4', title: '中卡片', desc: '高度 120', height: 120 },
-  { id: 'm5', title: '短卡片', desc: '高度 80', height: 80 },
+  { id: 'm1', title: 'Long card', desc: 'Height 160', height: 160 },
+  { id: 'm2', title: 'Short card', desc: 'Height 80', height: 80 },
+  { id: 'm3', title: 'Short card', desc: 'Height 80', height: 80 },
+  { id: 'm4', title: 'Medium card', desc: 'Height 120', height: 120 },
+  { id: 'm5', title: 'Short card', desc: 'Height 80', height: 80 },
 ] as UTSJSONObject[]
 
 function onItemClick(key: string, index: number) : void {
