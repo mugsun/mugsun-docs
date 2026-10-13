@@ -19,29 +19,29 @@ Snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. To s
 
 ```vue
 <template>
-  <ms-cell title="单行标题" arrow />
-  <ms-cell title="单行标题" required note="必填" arrow />
-  <ms-cell title="单行标题" note="辅助信息" arrow />
+  <ms-cell title="Single-line title" arrow />
+  <ms-cell title="Single-line title" required note="Required" arrow />
+  <ms-cell title="Single-line title" note="Extra info" arrow />
   <ms-cell
-    title="单行标题"
-    description="一段很长很长的内容文字"
+    title="Single-line title"
+    description="A very, very long piece of description text"
     arrow
   />
   <ms-cell
-    title="单行标题"
-    description="一段很长很长的内容文字"
+    title="Single-line title"
+    description="A very, very long piece of description text"
     required
     arrow
     :bordered="false"
   />
-  <ms-cell title="带徽标" arrow :bordered="false">
+  <ms-cell title="With badge" arrow :bordered="false">
     <template #note>
       <ms-badge :count="16" />
     </template>
   </ms-cell>
-  <ms-cell title="单行标题" icon="customer-service-line" arrow />
-  <ms-cell title="单行标题" icon="global-line" arrow />
-  <ms-cell title="单行标题" icon="lock-line" arrow :bordered="false" />
+  <ms-cell title="Single-line title" icon="customer-service-line" arrow />
+  <ms-cell title="Single-line title" icon="global-line" arrow />
+  <ms-cell title="Single-line title" icon="lock-line" arrow :bordered="false" />
 </template>
 ```
 <!-- demo-snippets:end -->

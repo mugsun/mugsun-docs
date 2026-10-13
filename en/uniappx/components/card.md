@@ -19,54 +19,54 @@ Snippets below are taken from the demo source `pages/demo/display/card.uvue`. To
 
 ```vue
 <template>
-  <!-- 基础用法 -->
+  <!-- Basic usage -->
   <ms-card
     image="/static/demo-cover.png"
     image-height="sm"
-    title="图文卡片标题"
-    subtitle="副标题说明文字"
-    content="头图、标题、副标题与正文按固定层次排布，正文超出时按行高换行。"
+    title="Image card title"
+    subtitle="Subtitle text"
+    content="The cover image, title, subtitle and body follow a fixed hierarchy; long body text wraps by line height."
     bordered
   />
   <ms-card
-    title="纯文字卡片标题"
-    subtitle="没有头图时首行即标题"
-    content="没有头图时不占位，卡片高度跟随内容。"
+    title="Text-only card title"
+    subtitle="Without a cover image, the title is the first line"
+    content="No space is reserved without a cover image; the card height follows its content."
     bordered
   />
-  <!-- 内容与底部 -->
-  <ms-card title="内容插槽标题" subtitle="正文区可放任意内容" bordered>
+  <!-- Content and footer -->
+  <ms-card title="Content slot title" subtitle="The body can hold any content" bordered>
     <view>
       <view>
-        <ms-tag theme="primary">标签一</ms-tag>
+        <ms-tag theme="primary">Tag 1</ms-tag>
       </view>
       <view>
-        <ms-tag theme="success">标签二</ms-tag>
+        <ms-tag theme="success">Tag 2</ms-tag>
       </view>
     </view>
   </ms-card>
-  <ms-card title="底部操作卡片" subtitle="底部放置操作按钮" bordered>
+  <ms-card title="Footer actions card" subtitle="Action buttons in the footer" bordered>
     <template #footer>
       <view>
         <view>
-          <ms-button size="sm" variant="outline" theme="default" @click="onFooter('取消')">取消</ms-button>
+          <ms-button size="sm" variant="outline" theme="default" @click="onFooter('Cancel')">Cancel</ms-button>
         </view>
-        <ms-button size="sm" theme="primary" @click="onFooter('确定')">确定</ms-button>
+        <ms-button size="sm" theme="primary" @click="onFooter('OK')">OK</ms-button>
       </view>
     </template>
   </ms-card>
-  <!-- 外观 -->
-  <ms-card title="描边卡片" subtitle="细线描边，适合浅底页面" bordered />
-  <ms-card title="投影卡片" subtitle="轻投影抬升层次" shadow />
-  <!-- 状态图标 -->
+  <!-- Appearance -->
+  <ms-card title="Outlined card" subtitle="Thin border, suits light backgrounds" bordered />
+  <ms-card title="Shadow card" subtitle="A light shadow adds elevation" shadow />
+  <!-- Status icon -->
   <ms-card
-    title="带状态图标"
-    subtitle="点击右上角图标不触发卡片点击"
+    title="With status icon"
+    subtitle="Tapping the top-right icon does not trigger the card click"
     status-icon="more-line"
     bordered
     @status="onStatus"
   />
-  <ms-card title="无状态图标" subtitle="不设图标时右上角不占位" bordered />
+  <ms-card title="No status icon" subtitle="No space is reserved in the top-right without an icon" bordered />
 </template>
 
 <script setup lang="uts">
