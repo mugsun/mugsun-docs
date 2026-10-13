@@ -1,6 +1,6 @@
 # 隐私与合规
 
-原则：**默认安全**。本页列出 SDK 当前（`origin/main`）的实际行为；若文档与实现不一致，以更严格的隐私行为为准，并请在 [mugsun-track](https://github.com/mugsun/mugsun-track/issues) 提 issue。
+原则：**默认安全**。本页列出 SDK `@mugsun/track-web@0.2.0`（npm 最新版）的实际行为；若文档与实现不一致，以更严格的隐私行为为准，并请在 [mugsun-track](https://github.com/mugsun/mugsun-track/issues) 提 issue。
 
 ## 默认行为
 

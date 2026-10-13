@@ -5,18 +5,20 @@
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web
+pnpm add @mugsun/track-web@^0.2.0
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web
+npm install @mugsun/track-web@^0.2.0
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web
+yarn add @mugsun/track-web@^0.2.0
 ```
 
 :::
+
+当前 npm 最新版本为 `0.2.0`。从 0.1.x 升级时注意隐私默认值变更，见 [更新日志](/guide/changelog) 与 [插件](/track/plugins#接口监控)。
 
 ## 原生 / 任意框架
 
@@ -112,6 +114,16 @@ track.reset()
 | `debug` | `boolean` | `false` | 控制台输出调试日志 |
 
 带「远端下发」说明的选项：本地显式设置优先，未设置时使用 `/track/config` 下发值，**下次启动生效**。
+
+## 版本与发布
+
+SDK 由 [mugsun-track](https://github.com/mugsun/mugsun-track) 仓库的 GitHub Actions（`.github/workflows/release.yml`）通过 npm Trusted Publishing 自动发布，无需本地 npm token：
+
+1. 在 PR 中修改 `package.json` 的 `version`（同步 `src/version.ts` 的 `SDK_VERSION`），并在 `CHANGELOG.md` 写明变更（行为变更附迁移说明）。
+2. PR 合入 `main`。
+3. `main` 上 `package.json` 变化触发 release 工作流：若该版本尚未在 npm 上，则执行 `typecheck` / `test` / `build` 后 `npm publish --provenance`；已发布的版本自动跳过。
+
+详见仓库 [CONTRIBUTING.md](https://github.com/mugsun/mugsun-track/blob/main/CONTRIBUTING.md)。
 
 ## 下一步
 

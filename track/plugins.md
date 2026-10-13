@@ -66,7 +66,7 @@ const track = createTracker({
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
 ::: warning 0.2.0 行为变更
-自 0.2.0 起回放默认遮罩页面文本、`apiBodyMaskEnabled` 默认开启。依赖响应体原文的接入须显式设置 `apiBodyMaskEnabled: false`；需要可读文本回放（仅调试）时传 `maskTextSelector: false`。0.2.0 尚未发布到 npm，以仓内版本为准。
+自 0.2.0 起回放默认遮罩页面文本、`apiBodyMaskEnabled` 默认开启。依赖响应体原文的接入须显式设置 `apiBodyMaskEnabled: false`；需要可读文本回放（仅调试）时传 `maskTextSelector: false`。0.2.0 已发布到 npm。
 :::
 
 ## 圈选与地理位置
