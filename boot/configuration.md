@@ -1,14 +1,71 @@
-# 配置
+# 配置参考
 
-关键配置入口（数据源、Redis、密钥、模块开关）。**详细键名以 boot 仓 `application*.yml` 与 [README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 为准。**
+boot 采用 Spring Boot 标准配置：`application.yml` 给默认值，`application-prod.yml` 覆盖生产，本地覆盖写在 `config/application-local.yml`（已 gitignore，工作目录须为仓库根目录）。下表列出最常用的环境变量，完整键名以 `mugsun-boot-core/src/main/resources/application*.yml` 为准。
 
-本地：从 `config/application-local.yml.example` 复制为 `config/application-local.yml`（已 gitignore），工作目录须为 boot 仓库根目录。
+## 本地开发
 
-生产建议：
+```bash
+cp config/application-local.yml.example config/application-local.yml
+```
 
-- 勿使用文档或仓库中的演示密钥
-- 缺密钥时拒绝启动（fail-fast），不要静默回落公开串
-- 模块（track / gis / ai）按需开启：`MUGSUN_TRACK_ENABLED` / `MUGSUN_GIS_ENABLED` / `MUGSUN_AI_ENABLED`
-- `prod` 须注入初始口令（如 `MUGSUN_INIT_PASSWORD`），否则拒绝启动
+示例文件已带本地密钥占位（`sm4-key`、`api-key`）与 mock 社交登录。SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
 
-下一步：[安全清单](/boot/security-checklist) · [快速开始](/guide/getting-started)
+## 数据源与缓存（prod）
+
+| 变量 | 说明 |
+| --- | --- |
+| `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | 主库连接 |
+| `REDIS_HOST` / `REDIS_PORT`（默认 6379）/ `REDIS_PASSWORD` / `REDIS_DB`（prod 默认 0） | Redis |
+| `FILE_STORAGE_PATH`（默认 `/var/lib/mugsun/files/`）/ `FILE_DOMAIN` | 本地文件存储与访问域名 |
+| `MUGSUN_FRONT_URL` | 管理端 origin，用于 OAuth 回跳等；开发默认 `http://localhost:3006`，prod 必填 |
+
+## 安全与密钥
+
+| 变量 | 默认 | 说明 |
+| --- | --- | --- |
+| `MUGSUN_INIT_PASSWORD` | — | 初始管理员口令。prod 未注入或仍为内置默认口令时拒绝启动 |
+| `MUGSUN_GM_ENABLED` | `true` | 国密总开关（传输 SM2 / 摘要 SM3） |
+| `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥 |
+| `MUGSUN_API_KEY` | 空 | 接口加解密 SM4 密钥 |
+| `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | 空 | SM2 传输密钥对（hex）；留空启动时生成并告警 |
+| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对，与传输密钥分离 |
+| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时任一密钥缺失即拒绝启动 |
+| `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
+
+## 可选模块
+
+| 变量 | 默认 | 说明 |
+| --- | --- | --- |
+| `MUGSUN_GIS_ENABLED` | `true` | GIS 模块 |
+| `MUGSUN_TRACK_ENABLED` | `true` | 埋点模块 |
+| `MUGSUN_AI_ENABLED` | `true` | AI 模块 |
+| `POWERJOB_ENABLED` | `false` | PowerJob Worker；启用须独立部署 Server 并设置 `POWERJOB_SERVER` |
+| `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / 空 | IP 归属地解析 |
+
+## AI 出站白名单
+
+知识库抓取、渠道 Webhook 与 MCP 远程调用在发起请求前统一做 SSRF 校验，默认拒绝内网、回环与云元数据地址。需要访问内网服务（如本地模型服务、内网 MCP）时显式放行：
+
+```yaml
+mugsun:
+  ai:
+    outbound:
+      # 精确主机或 *.example.com 通配；命中即允许解析到内网地址
+      allow-hosts: [localhost, ollama.internal]
+```
+
+## 生产环境
+
+`prod` profile 会关闭 OpenAPI 文档（springdoc / swagger-ui）、强制 `strict-keys: true`、关闭 mock 社交登录。最小启动示例：
+
+```bash
+export SPRING_PROFILES_ACTIVE=prod
+export JDBC_URL=jdbc:postgresql://db:5432/mugsun JDBC_USERNAME=mugsun JDBC_PASSWORD=******
+export REDIS_HOST=redis MUGSUN_FRONT_URL=https://admin.example.com
+export MUGSUN_INIT_PASSWORD=****** MUGSUN_SM4_KEY=****** MUGSUN_API_KEY=******
+export MUGSUN_SM2_PRIVATE_KEY=... MUGSUN_SM2_PUBLIC_KEY=...
+export MUGSUN_SIGN_PRIVATE_KEY=... MUGSUN_SIGN_PUBLIC_KEY=...
+java -jar mugsun-boot.jar
+```
+
+上线前逐项过一遍 [安全清单](/boot/security-checklist)。

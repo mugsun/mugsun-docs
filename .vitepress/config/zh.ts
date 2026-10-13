@@ -30,7 +30,9 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: 'Boot',
           items: [
             { text: '概述', link: '/boot/' },
-            { text: '配置', link: '/boot/configuration' },
+            { text: '配置参考', link: '/boot/configuration' },
+            { text: '权限与附件', link: '/boot/permissions' },
+            { text: '开放平台', link: '/boot/open-api' },
             { text: '安全清单', link: '/boot/security-checklist' },
           ],
         },
@@ -49,8 +51,9 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: '埋点',
           items: [
             { text: '概述', link: '/track/' },
-            { text: '安装', link: '/track/install' },
+            { text: '安装与初始化', link: '/track/install' },
             { text: '第一个事件', link: '/track/first-event' },
+            { text: '插件', link: '/track/plugins' },
             { text: '隐私与合规', link: '/track/privacy' },
           ],
         },
