@@ -19,22 +19,22 @@ Snippets below are taken from the demo source `pages/demo/form/radio.uvue`. To s
 
 ```vue
 <template>
-  <!-- 组件类型 -->
-  <ms-radio :model-value="true" label="填充" block />
-  <ms-radio :model-value="true" label="描边" icon="line" block />
-  <ms-radio :model-value="true" label="圆点" icon="dot" block />
-  <!-- 组件状态 -->
-  <ms-radio :model-value="false" disabled label="禁用" block />
-  <ms-radio :model-value="true" disabled label="禁用已选" block />
-  <ms-radio v-model="vUncheck" allow-uncheck label="可取消" block />
-  <!-- 组件分组 -->
-  <ms-radio value="a" label="选项 A" block />
-  <ms-radio value="b" label="选项 B" block />
-  <ms-radio value="c" label="选项 C" block />
-  <!-- 组件深度 -->
-  <ms-radio value="1" label="禁用组甲" block />
-  <ms-radio value="2" label="禁用组乙" block />
-  <ms-radio v-model="vDepth" label="描边右侧" icon="line" placement="right" block />
+  <!-- Types -->
+  <ms-radio :model-value="true" label="Solid" block />
+  <ms-radio :model-value="true" label="Outline" icon="line" block />
+  <ms-radio :model-value="true" label="Dot" icon="dot" block />
+  <!-- States -->
+  <ms-radio :model-value="false" disabled label="Disabled" block />
+  <ms-radio :model-value="true" disabled label="Disabled checked" block />
+  <ms-radio v-model="vUncheck" allow-uncheck label="Uncheckable" block />
+  <!-- Groups -->
+  <ms-radio value="a" label="Option A" block />
+  <ms-radio value="b" label="Option B" block />
+  <ms-radio value="c" label="Option C" block />
+  <!-- Advanced -->
+  <ms-radio value="1" label="Disabled group A" block />
+  <ms-radio value="2" label="Disabled group B" block />
+  <ms-radio v-model="vDepth" label="Outline, right" icon="line" placement="right" block />
 </template>
 
 <script setup lang="uts">

@@ -47,7 +47,5 @@ jobs:
             --fallback-extensions html
             --index-files index.html
             --exclude-path .vitepress/dist/demo
-            --exclude-path .vitepress/dist/README.html
-            --exclude-path .vitepress/dist/CONTRIBUTING.html
             --exclude-path .vitepress/dist/public
             '.vitepress/dist/**/*.html'

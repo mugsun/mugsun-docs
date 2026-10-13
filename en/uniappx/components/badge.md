@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. To 
 
 ```vue
 <template>
-  <!-- 红点 -->
+  <!-- Dot -->
   <ms-badge dot>
     <view />
   </ms-badge>
@@ -28,7 +28,7 @@ Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. To 
       <ms-icon name="notification-line" size="lg" tone="secondary" />
     </view>
   </ms-badge>
-  <!-- 数字 -->
+  <!-- Count -->
   <ms-badge :count="8">
     <view />
   </ms-badge>
@@ -37,11 +37,11 @@ Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. To 
       <ms-icon name="notification-line" size="lg" tone="secondary" />
     </view>
   </ms-badge>
-  <!-- 自定义 -->
+  <!-- Custom -->
   <ms-badge label="NEW">
-    <ms-button size="sm" variant="outline" theme="default">按钮</ms-button>
+    <ms-button size="sm" variant="outline" theme="default">Button</ms-button>
   </ms-badge>
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-badge :count="2" shape="circle">
     <view>
       <ms-icon name="notification-line" size="lg" tone="secondary" />

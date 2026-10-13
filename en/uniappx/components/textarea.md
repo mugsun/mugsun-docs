@@ -19,35 +19,35 @@ Snippets below are taken from the demo source `pages/demo/form/textarea.uvue`. T
 
 ```vue
 <template>
-  <!-- 组件类型 -->
-  <ms-textarea v-model="baseValue" placeholder="请输入文字" />
-  <ms-textarea v-model="labelValue" label="标签文字" placeholder="请输入文字" />
+  <!-- Types -->
+  <ms-textarea v-model="baseValue" placeholder="Enter text" />
+  <ms-textarea v-model="labelValue" label="Label" placeholder="Enter text" />
   <ms-textarea
     v-model="autoValue"
-    label="自动增高"
-    placeholder="输入多行后高度跟随"
+    label="Auto height"
+    placeholder="Height grows with multiple lines"
     auto-height
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-textarea
-    model-value="不可编辑文字"
-    label="禁用"
-    placeholder="请输入文字"
+    model-value="Read-only text"
+    label="Disabled"
+    placeholder="Enter text"
     disabled
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-textarea
     v-model="borderValue"
-    label="描边"
-    placeholder="请输入文字"
+    label="Outline"
+    placeholder="Enter text"
     :maxlength="100"
     indicator
     bordered
   />
   <ms-textarea
     v-model="plainValue"
-    label="无边框"
-    placeholder="嵌入列表时去掉描边"
+    label="Borderless"
+    placeholder="Remove the border inside lists"
     :bordered="false"
     height="sm"
   />

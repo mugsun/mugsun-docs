@@ -20,24 +20,24 @@ Snippets below are taken from the demo source `pages/demo/basic/sheet.uvue`. To 
 ```vue
 <template>
   <ms-sheet radius="lg" padding="none">
-    <text>默认容器</text>
-    <text>统一白底面，承载列表与表单</text>
+    <text>Default sheet</text>
+    <text>A uniform white surface for lists and forms</text>
     <ms-sheet>
-      <ms-text>统一白底容器，承载列表与表单内容。</ms-text>
+      <ms-text>A uniform white container for list and form content.</ms-text>
     </ms-sheet>
   </ms-sheet>
   <ms-sheet radius="lg" bordered shadow padding="md">
-    <text>圆角</text>
-    <text>大圆角 + 浅底面</text>
+    <text>Rounded</text>
+    <text>Large radius + light surface</text>
     <ms-sheet radius="lg" variant="muted">
-      <ms-text>圆角卡片面</ms-text>
+      <ms-text>Rounded card surface</ms-text>
     </ms-sheet>
   </ms-sheet>
   <ms-sheet radius="lg" bordered shadow padding="md">
-    <text>描边</text>
-    <text>边框强调块边界</text>
+    <text>Bordered</text>
+    <text>A border marks the block edge</text>
     <ms-sheet bordered radius="lg">
-      <ms-text>带边框的容器块</ms-text>
+      <ms-text>A bordered container</ms-text>
     </ms-sheet>
   </ms-sheet>
 </template>

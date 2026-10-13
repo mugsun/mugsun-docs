@@ -19,23 +19,23 @@ Snippets below are taken from the demo source `pages/demo/feedback/notice-bar.uv
 
 ```vue
 <template>
-  <!-- 主题 -->
-  <ms-notice-bar theme="default" content="默认公告" />
-  <ms-notice-bar theme="primary" content="主色公告" />
-  <ms-notice-bar theme="success" content="成功公告" />
-  <!-- 长文本 -->
+  <!-- Themes -->
+  <ms-notice-bar theme="default" content="Default notice" />
+  <ms-notice-bar theme="primary" content="Primary notice" />
+  <ms-notice-bar theme="success" content="Success notice" />
+  <!-- Long text -->
   <ms-notice-bar
     theme="primary"
-    content="这是一条很长的公告文案，超出宽度时应省略显示而不是撑破布局"
+    content="This is a very long notice that should be truncated with an ellipsis instead of breaking the layout"
   />
-  <!-- 竖向 -->
+  <!-- Vertical -->
   <ms-notice-bar direction="vertical" theme="primary" :list="verticalList" />
-  <!-- 可关闭 -->
-  <ms-notice-bar theme="warning" content="可关闭公告" closable @close="onNoticeClose" />
+  <!-- Closable -->
+  <ms-notice-bar theme="warning" content="Closable notice" closable @close="onNoticeClose" />
 </template>
 
 <script setup lang="uts">
-const verticalList = ['轮播公告一', '轮播公告二', '轮播公告三'] as string[]
+const verticalList = ['Rotating notice 1', 'Rotating notice 2', 'Rotating notice 3'] as string[]
 
 function onNoticeClose() : void {
   console.log('onNoticeClose')

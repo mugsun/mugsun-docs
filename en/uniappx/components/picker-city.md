@@ -19,30 +19,30 @@ Snippets below are taken from the demo source `pages/demo/form/picker-city.uvue`
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-picker-city
     :value="popupValue"
     :options="regions"
-    title="选择地区"
+    title="Select region"
     @confirm="onPopupConfirm"
     @change="onChange"
   >
-    <ms-cell title="所在地区" :note="popupLabel" arrow :bordered="false" />
+    <ms-cell title="Region" :note="popupLabel" arrow :bordered="false" />
   </ms-picker-city>
   <ms-picker-city
     :value="inlineValue"
     :options="regions"
     :use-popup="false"
-    title="常驻选择"
+    title="Always visible"
     @confirm="onInlineConfirm"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-picker-city
     :value="twoValue"
     :options="regions"
     :level="2"
     :use-popup="false"
-    title="省市两级"
+    title="Province and city only"
     @confirm="onTwoConfirm"
   />
 </template>

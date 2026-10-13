@@ -19,47 +19,47 @@ Snippets below are taken from the demo source `pages/demo/display/result.uvue`. 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
-  <ms-result theme="success" title="操作成功" />
+  <!-- Types -->
+  <ms-result theme="success" title="Success" />
   <ms-result
     theme="default"
-    title="已提交申请"
-    description="内容详情可折行，建议控制在两行以内"
+    title="Request submitted"
+    description="Details can wrap; keep them within two lines"
   />
   <ms-result
     image="/static/empty-illustration.svg"
-    title="自定义结果"
-    description="使用图片替代主题图标"
+    title="Custom result"
+    description="Uses an image instead of the theme icon"
     show-actions
   >
     <ms-button size="sm" theme="primary" @click="onAction">
-      返回
+      Back
     </ms-button>
   </ms-result>
-  <!-- 组件状态 -->
-  <ms-result theme="success" title="提交成功" description="预计 1–3 个工作日处理完成" />
-  <ms-result theme="warning" title="请核对信息" description="部分字段可能影响后续流程" />
-  <ms-result theme="error" title="提交失败" description="请检查网络后重试" />
-  <!-- 组件深度 -->
+  <!-- States -->
+  <ms-result theme="success" title="Submitted" description="Expected within 1–3 business days" />
+  <ms-result theme="warning" title="Please check your details" description="Some fields may affect later steps" />
+  <ms-result theme="error" title="Submission failed" description="Check your network and try again" />
+  <!-- Advanced -->
   <ms-result
     theme="error"
-    title="支付未完成"
-    description="可返回修改或重新发起"
+    title="Payment incomplete"
+    description="Go back to edit or try again"
     show-actions
   >
-    <ms-button size="sm" theme="default" @click="onSecondary">返回</ms-button>
+    <ms-button size="sm" theme="default" @click="onSecondary">Back</ms-button>
     <view></view>
-    <ms-button size="sm" theme="primary" @click="onPrimary">重试</ms-button>
+    <ms-button size="sm" theme="primary" @click="onPrimary">Retry</ms-button>
   </ms-result>
-  <ms-result icon="none" title="纯文案结果" description="适合轻量提示场景" />
+  <ms-result icon="none" title="Text-only result" description="For lightweight notices" />
   <ms-result theme="success" show-actions>
     <template #title>
-      <text>插槽标题</text>
+      <text>Slot title</text>
     </template>
     <template #description>
-      <text>插槽描述 · 可自定义富文案结构</text>
+      <text>Slot description · custom rich text</text>
     </template>
-    <ms-button size="sm" theme="primary" @click="onAction">知道了</ms-button>
+    <ms-button size="sm" theme="primary" @click="onAction">Got it</ms-button>
   </ms-result>
 </template>
 

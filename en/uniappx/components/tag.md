@@ -19,22 +19,22 @@ Snippets below are taken from the demo source `pages/demo/basic/tag.uvue`. To se
 
 ```vue
 <template>
-  <!-- 形态 -->
-  <ms-tag variant="light" theme="primary">浅色</ms-tag>
-  <ms-tag variant="solid" theme="primary">填充</ms-tag>
-  <ms-tag variant="outline" theme="primary">描边</ms-tag>
-  <!-- 主题 -->
-  <ms-tag variant="light" theme="default">默认</ms-tag>
-  <ms-tag variant="light" theme="primary">主色</ms-tag>
-  <ms-tag variant="light" theme="danger">危险</ms-tag>
-  <!-- 尺寸 -->
-  <ms-tag size="sm" theme="primary">小号</ms-tag>
-  <ms-tag size="md" theme="primary">中号</ms-tag>
-  <ms-tag size="lg" theme="primary">大号</ms-tag>
-  <!-- 形状 -->
-  <ms-tag shape="square" theme="primary">方形</ms-tag>
-  <ms-tag shape="round" theme="primary">圆角</ms-tag>
-  <ms-tag shape="mark" variant="outline" theme="primary">标记</ms-tag>
+  <!-- Variants -->
+  <ms-tag variant="light" theme="primary">Light</ms-tag>
+  <ms-tag variant="solid" theme="primary">Solid</ms-tag>
+  <ms-tag variant="outline" theme="primary">Outline</ms-tag>
+  <!-- Themes -->
+  <ms-tag variant="light" theme="default">Default</ms-tag>
+  <ms-tag variant="light" theme="primary">Primary</ms-tag>
+  <ms-tag variant="light" theme="danger">Danger</ms-tag>
+  <!-- Sizes -->
+  <ms-tag size="sm" theme="primary">Small</ms-tag>
+  <ms-tag size="md" theme="primary">Medium</ms-tag>
+  <ms-tag size="lg" theme="primary">Large</ms-tag>
+  <!-- Shapes -->
+  <ms-tag shape="square" theme="primary">Square</ms-tag>
+  <ms-tag shape="round" theme="primary">Round</ms-tag>
+  <ms-tag shape="mark" variant="outline" theme="primary">Mark</ms-tag>
 </template>
 ```
 <!-- demo-snippets:end -->
