@@ -28,6 +28,19 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 不会。compose 只启动 PostgreSQL（5432）与 Redis（6379），应用打包后用 `java -jar mugsun-boot-server/target/mugsun-boot.jar` 运行。
 
+
+### 本机 5432 / 6379 已被占用？
+
+compose 与后端读同一组环境变量，换端口后一起生效，不用改 yml：
+
+```bash
+export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
+docker compose up -d
+java -jar mugsun-boot-server/target/mugsun-boot.jar
+```
+
+后端还认 `MUGSUN_DB_HOST`、`MUGSUN_DB_NAME`、`MUGSUN_DB_USERNAME`、`MUGSUN_DB_PASSWORD`、`MUGSUN_REDIS_HOST`，或整条 `MUGSUN_DB_URL`。埋点库 `mugsun_track` 默认跟随同一主机和端口，`TRACK_JDBC_URL` 仍可单独覆盖。`prod` 不读这些变量，见 [配置](/boot/configuration)。
+
 ### `spring-boot:run` 报 `Unable to find a suitable main class`？
 
 旧版本在仓库根目录执行 `mvn -pl mugsun-boot-server -am spring-boot:run` 时，插件也会作用于父工程而报错。[mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) 已修复，请拉取最新代码后在仓库根目录重试。推荐方式仍是先 `mvn -pl mugsun-boot-server -am package -DskipTests`，再在仓库根目录 `java -jar mugsun-boot-server/target/mugsun-boot.jar`。
