@@ -17,7 +17,8 @@ docker compose -f docker-compose.full.yml logs init   # 查看首次生成的管
 - **没有弱口令。** 首次启动时 `init` 服务随机生成数据库和 Redis 口令、管理员口令、SM4/SM2 密钥、审计签名密钥和至少 32 位的文件签名密钥，存进 `secrets` 卷。重启不会变，`docker compose -f docker-compose.full.yml run --rm init show` 可再次查看管理员口令。
 - 后端以 `prod` profile 运行：缺任一密钥拒绝启动，登录要验证码，OpenAPI 文档关闭。
 - 只对外暴露管理台端口。数据库和 Redis 不映射到宿主机，管理台的 Nginx 把 `/api` 反代给后端。
-- `MUGSUN_OPENAPI_TRUSTED_PROXIES` 设为 compose 内网 `172.16.0.0/12`，只信任这层 Nginx 传来的客户端 IP。前面再加一层反代时，把它的地址也加进去。
+- compose 网络用固定子网（`MUGSUN_COMPOSE_SUBNET`，默认 `172.30.89.0/24`），管理台容器用固定 IP（`MUGSUN_PC_IP`，默认 `172.30.89.10`），`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只信任这一个 IP。前面再加一层反代时，把它的地址也加进去。
+- PostgreSQL 基础镜像和 Redis 镜像固定到 digest。Redis 口令写在生成的 `redis.conf` 里，不出现在进程参数中。
 - 自检：`scripts/compose-full-smoke.sh` 会从零启动，登录，上报一条埋点并在管理端查到，打印耗时，最后 `down -v` 清理。它用独立的项目名，不碰机器上已有的容器。
 - 清空重来（会删除数据和密钥）：`docker compose -f docker-compose.full.yml down -v`。
 
@@ -38,7 +39,7 @@ docker compose -f docker-compose.full.yml logs init   # 查看首次生成的管
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 可信反向代理 CIDR，前面有反代时必须配 |
 | `SMTP_*` / `SMS_*` | 邮件与短信。compose 里填的是占位值，要用找回密码或短信登录时换成真实值 |
 
-各项含义见 [配置参考](/boot/configuration)。下面是逐个仓库本地开发的步骤。
+密钥可用仓库里的 `scripts/gen-keys.sh --all >> .env` 生成（两对 SM2、两个 SM4、管理员口令、文件签名密钥，输出可直接贴进 `.env`；需 OpenSSL 1.1.1+），一键全栈的 `init` 也用它。各项含义见 [配置参考](/boot/configuration)。下面是逐个仓库本地开发的步骤。
 
 ## 环境要求
 

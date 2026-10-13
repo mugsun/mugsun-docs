@@ -17,7 +17,8 @@ Open <http://localhost:8088> and sign in as `admin` with the printed password. C
 - **No weak passwords.** On first start the `init` service generates random database and Redis passwords, the admin password, SM4/SM2 keys, the audit-signing key pair and a file-signing secret of at least 32 characters, and stores them in the `secrets` volume. They survive restarts; `docker compose -f docker-compose.full.yml run --rm init show` prints the admin password again.
 - The backend runs with the `prod` profile: it refuses to start if any key is missing, login requires a captcha, and the OpenAPI docs are off.
 - Only the console port is published. The database and Redis aren't mapped to the host; the console's Nginx proxies `/api` to the backend.
-- `MUGSUN_OPENAPI_TRUSTED_PROXIES` is set to the compose network `172.16.0.0/12`, so only client IPs passed by that Nginx are trusted. If you put another proxy in front, add its address too.
+- The compose network uses a fixed subnet (`MUGSUN_COMPOSE_SUBNET`, default `172.30.89.0/24`) and the console container a fixed IP (`MUGSUN_PC_IP`, default `172.30.89.10`); `MUGSUN_OPENAPI_TRUSTED_PROXIES` trusts only that one IP. If you put another proxy in front, add its address too.
+- The PostgreSQL base image and the Redis image are pinned to digests. The Redis password lives in a generated `redis.conf`, never in process arguments.
 - Self-check: `scripts/compose-full-smoke.sh` starts from scratch, signs in, sends one event and finds it in the console, prints the elapsed time, then runs `down -v`. It uses its own project name and leaves existing containers alone.
 - Start over (deletes data and secrets): `docker compose -f docker-compose.full.yml down -v`.
 
@@ -38,7 +39,7 @@ This compose file is for trying things out and demos. For your own production de
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | Trusted reverse-proxy CIDRs; required when a proxy sits in front |
 | `SMTP_*` / `SMS_*` | Mail and SMS. The compose file uses placeholders; set real values to use password reset or SMS login |
 
-See [Configuration](/en/boot/configuration) for details. The steps below are for local development repo by repo.
+Generate the keys with `scripts/gen-keys.sh --all >> .env` from the repo (two SM2 key pairs, two SM4 keys, the admin password and the file-signing secret, in `.env` format; needs OpenSSL 1.1.1+). The one-command stack's `init` uses the same script. See [Configuration](/en/boot/configuration) for details. The steps below are for local development repo by repo.
 
 ## Requirements
 
