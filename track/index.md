@@ -160,28 +160,80 @@ mugsun:
 
 ### 检查进度
 
-```sql
--- 父索引与各分区子索引是否就绪（全部为 t 即完成）
-SELECT c.relname, x.indisvalid
-FROM pg_index x JOIN pg_class c ON c.oid = x.indexrelid
-WHERE c.relname LIKE '%ts_timeline' ORDER BY 1;
+父索引的状态（`indisvalid = t` 表示所有分区都已挂齐）：
 
--- 后台补建进度
+```sql
+SELECT c.relname AS parent_index, x.indisvalid
+FROM pg_index x JOIN pg_class c ON c.oid = x.indexrelid
+WHERE c.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline');
+```
+
+每条父索引已挂接的子索引（按 `pg_inherits` 查，不靠名字猜）：
+
+```sql
+SELECT p.relname AS parent_index, t.relname AS partition, ci.relname AS child_index, x.indisvalid
+FROM pg_inherits i
+JOIN pg_class p  ON p.oid = i.inhparent
+JOIN pg_class ci ON ci.oid = i.inhrelid
+JOIN pg_index x  ON x.indexrelid = i.inhrelid
+JOIN pg_class t  ON t.oid = x.indrelid
+WHERE p.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline')
+ORDER BY 1, 2;
+```
+
+还没挂接的分区（就是后台任务待补的）：
+
+```sql
+SELECT p.relname AS parent_index, part.relname AS partition
+FROM pg_class p
+CROSS JOIN pg_inherits pi
+JOIN pg_class part ON part.oid = pi.inhrelid
+WHERE p.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline')
+  AND pi.inhparent = 'track_event'::regclass
+  AND NOT EXISTS (
+    SELECT 1 FROM pg_inherits ii JOIN pg_index x ON x.indexrelid = ii.inhrelid
+    WHERE ii.inhparent = p.oid AND x.indrelid = part.oid)
+ORDER BY 1, 2;
+```
+
+后台补建已完成的分区：
+
+```sql
 SELECT app_key AS partition, last_bucket AS done_at
 FROM track_rollup_cursor WHERE job_key = 'timeline_index' ORDER BY 1;
 ```
+
+### 停机与超时
+
+- **停应用会中断补建**：应用关闭时，任务会停止，并取消正在执行的 `CREATE INDEX CONCURRENTLY`，不再开始下一个分区。被中断的分区会留下一个 invalid 索引，下次运行时先删掉再重建，不需要手工处理。
+- **前提：数据库没有全局 `statement_timeout`**。任务在自己的会话里执行 `SET statement_timeout = 0`，结束后再 `RESET`。如果角色、数据库或 PgBouncer 层面强制了语句超时，并且会覆盖会话设置，大分区会建到一半被杀掉，反复重试。这种情况下请对埋点库的连接放开超时，或者关掉后台补建，在维护窗口手工建索引。
+- 用户时间线按用户 ID 查询时，最多合并最近活跃的 1000 个匿名设备。超过时，接口返回 `devicesTruncated: true` 和 `deviceCount`，这时请改用访客标识查询。
 
 ### 是否需要 flyway repair
 
 从已发布版本升级**不需要**。T3 和 T4 都是新增迁移，`T2` 归 UV 回填备份表。
 
-只有部署过 boot#25 合并前预览构建的库才需要处理。这类库的 `flyway_schema_history` 里有 `2 | track event timeline index`，或者有一条早于 UV 备份 T2 的 3/4 记录，启动时会报校验失败或 ignored migration。**不要用 `flyway repair`**：repair 会把旧记录改成新的 T2，UV 备份表就不会再建。正确做法是删掉这几条历史记录再重启：
+只有部署过 boot#25 合并前预览构建的库才需要处理。这类库的 `flyway_schema_history` 里有 `2 | track event timeline index`，或者有一条早于 UV 备份 T2 的 3/4 记录，启动时会报校验失败或 ignored migration。**不要用 `flyway repair`**：repair 会把旧记录改成新的 T2，UV 备份表就不会再建。
+
+正确做法是删掉这几条历史记录再重启。**以下 SQL 要在埋点库执行，也就是 `mybatis-flex.datasource.track.url` 指向的库，不是业务主库。** 主库也有 `flyway_schema_history`，版本号同样是 2/3/4，连错库会删掉主库的迁移记录。先用 SELECT 确认要删的行：
 
 ```sql
+-- 1) 确认当前连的是埋点库（应能看到 track_event）
+SELECT current_database(), to_regclass('track_event') IS NOT NULL AS is_track_db;
+
+-- 2) 看要删哪些行（script 应以 T 开头）
+SELECT installed_rank, version, description, script, success
+FROM flyway_schema_history
+WHERE script LIKE 'T%'
+  AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
+
+-- 3) 确认无误后删除
 DELETE FROM flyway_schema_history
-WHERE version IN ('3', '4')
-   OR (version = '2' AND description = 'track event timeline index');
+WHERE script LIKE 'T%'
+  AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
 ```
+
+T4 是 Java 迁移，`script` 列是类名 `db.track.migration.T4__…`，不以 `T` 开头。如果第 2 步没有列出 T4，请先确认它确实在埋点库里，再单独删：`… WHERE version = '4' AND script LIKE 'db.track.migration.T4%'`。
 
 重启后会依次执行 T2、T3、T4。三个迁移都可以安全重跑：已有的索引会跳过，已挂好的分区也会跳过。
 

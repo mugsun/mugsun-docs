@@ -160,28 +160,80 @@ The tracking database's Flyway lock and the advisory lock above are **session-le
 
 ### Checking progress
 
-```sql
--- Parent and per-partition indexes (all t = done)
-SELECT c.relname, x.indisvalid
-FROM pg_index x JOIN pg_class c ON c.oid = x.indexrelid
-WHERE c.relname LIKE '%ts_timeline' ORDER BY 1;
+Parent index status (`indisvalid = t` means every partition is attached):
 
--- Backfill progress
+```sql
+SELECT c.relname AS parent_index, x.indisvalid
+FROM pg_index x JOIN pg_class c ON c.oid = x.indexrelid
+WHERE c.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline');
+```
+
+Child indexes attached to each parent, read from `pg_inherits` rather than guessed from names:
+
+```sql
+SELECT p.relname AS parent_index, t.relname AS partition, ci.relname AS child_index, x.indisvalid
+FROM pg_inherits i
+JOIN pg_class p  ON p.oid = i.inhparent
+JOIN pg_class ci ON ci.oid = i.inhrelid
+JOIN pg_index x  ON x.indexrelid = i.inhrelid
+JOIN pg_class t  ON t.oid = x.indrelid
+WHERE p.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline')
+ORDER BY 1, 2;
+```
+
+Partitions not attached yet, which the background job still has to build:
+
+```sql
+SELECT p.relname AS parent_index, part.relname AS partition
+FROM pg_class p
+CROSS JOIN pg_inherits pi
+JOIN pg_class part ON part.oid = pi.inhrelid
+WHERE p.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline')
+  AND pi.inhparent = 'track_event'::regclass
+  AND NOT EXISTS (
+    SELECT 1 FROM pg_inherits ii JOIN pg_index x ON x.indexrelid = ii.inhrelid
+    WHERE ii.inhparent = p.oid AND x.indrelid = part.oid)
+ORDER BY 1, 2;
+```
+
+Partitions the backfill has finished:
+
+```sql
 SELECT app_key AS partition, last_bucket AS done_at
 FROM track_rollup_cursor WHERE job_key = 'timeline_index' ORDER BY 1;
 ```
+
+### Shutdown and timeouts
+
+- **Stopping the app interrupts the backfill.** On shutdown the job stops, cancels any running `CREATE INDEX CONCURRENTLY`, and does not start another partition. The interrupted partition is left with an invalid index, which the next run drops and rebuilds. No manual cleanup is needed.
+- **Precondition: no global `statement_timeout`.** The job runs `SET statement_timeout = 0` in its own session and `RESET`s it afterwards. If a role, database or PgBouncer setting enforces a statement timeout that overrides the session, large partitions get killed partway and retried forever. In that case lift the timeout for the tracking database connection, or turn the backfill off and build the indexes by hand in a maintenance window.
+- When you look up the user timeline by user ID, it merges at most the 1000 most recently active anonymous devices. Beyond that, the API returns `devicesTruncated: true` and `deviceCount`; look the user up by visitor ID instead.
 
 ### Is flyway repair needed?
 
 **No**, not when upgrading from a released version. T3 and T4 are new migrations, and `T2` is the UV backfill backup table.
 
-Only a database that ran a pre-merge preview build of boot#25 needs attention. Its `flyway_schema_history` has a `2 | track event timeline index` row, or a 3/4 row recorded without the UV backup T2, so startup fails validation or reports an ignored migration. **Don't use `flyway repair`**: it would rewrite the old row as the new T2, and the UV backup table would never be created. Instead, delete those history rows and restart:
+Only a database that ran a pre-merge preview build of boot#25 needs attention. Its `flyway_schema_history` has a `2 | track event timeline index` row, or a 3/4 row recorded without the UV backup T2, so startup fails validation or reports an ignored migration. **Don't use `flyway repair`**: it would rewrite the old row as the new T2, and the UV backup table would never be created.
+
+Instead, delete those history rows and restart. **Run the SQL below against the tracking database, the one `mybatis-flex.datasource.track.url` points to, not the main database.** The main database also has a `flyway_schema_history` with versions 2/3/4, and connecting to the wrong one deletes its migration history. Confirm with a SELECT first:
 
 ```sql
+-- 1) Confirm you are on the tracking database (track_event exists)
+SELECT current_database(), to_regclass('track_event') IS NOT NULL AS is_track_db;
+
+-- 2) See which rows would be deleted (script should start with T)
+SELECT installed_rank, version, description, script, success
+FROM flyway_schema_history
+WHERE script LIKE 'T%'
+  AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
+
+-- 3) Delete once confirmed
 DELETE FROM flyway_schema_history
-WHERE version IN ('3', '4')
-   OR (version = '2' AND description = 'track event timeline index');
+WHERE script LIKE 'T%'
+  AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
 ```
+
+T4 is a Java migration, so its `script` column is the class name `db.track.migration.T4__…` and does not start with `T`. If step 2 doesn't list T4, confirm it really is on the tracking database, then delete it separately: `… WHERE version = '4' AND script LIKE 'db.track.migration.T4%'`.
 
 On restart T2, T3 and T4 run in order. All three are safe to re-run: existing indexes and partitions that are already attached are skipped.
 
