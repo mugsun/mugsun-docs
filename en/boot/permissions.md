@@ -25,6 +25,7 @@ Avatars don't need `sys:file:public`; use the dedicated endpoints:
 | Endpoint | Auth | Description |
 | --- | --- | --- |
 | `POST /auth/avatar/upload` | Signed in | `multipart/form-data` with a `file` field. Sets the upload as your avatar and returns the attachment (`data.url` is the avatar URL) |
+| `GET /auth/avatar/raw/{id}` | Anonymous | Serves the avatar image (avatar scope only); usable directly as `<img src>` |
 | `POST /auth/update-avatar` | Signed in | Binds an existing attachment as your avatar. Only public attachments you uploaded in your tenant are accepted; external URLs are rejected |
 
 ```bash

@@ -15,10 +15,10 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-pc
 
-- **Session storage**: `accessToken`, `refreshToken` and `isLogin` moved to `sessionStorage`; the lock-screen password is no longer persisted. `localStorage` keeps only language, user info and search history. ([#4](https://github.com/mugsun/mugsun-pc/pull/4))
+- **Session storage**: `accessToken`, `refreshToken` and `isLogin` moved to `sessionStorage`; the lock-screen password is no longer persisted. `localStorage` keeps only language, user info and search history. New tabs or a reopened browser require signing in again, and the lock screen doesn't survive a reload; **everyone has to sign in once after upgrading**. ([#4](https://github.com/mugsun/mugsun-pc/pull/4))
 - **Error messages**: the backend's business message is shown instead of a generic HTTP status text. ([#5](https://github.com/mugsun/mugsun-pc/pull/5))
 - **Element Plus on demand**: no more full CSS import or `app.use(ElementPlus)`; components and styles load on demand. ([#6](https://github.com/mugsun/mugsun-pc/pull/6))
-- **Profile avatar**: now uses `/auth/avatar/upload`. ([#8](https://github.com/mugsun/mugsun-pc/pull/8))
+- **Profile avatar**: now uses `/auth/avatar/upload`; only png / jpg / jpeg / gif / webp up to 2MB are accepted and the avatar updates right after upload. Avatar URLs are `/auth/avatar/raw/{id}` and can be fetched without signing in. See [Development · Profile avatar](/en/pc/development#profile-avatar). ([#8](https://github.com/mugsun/mugsun-pc/pull/8))
 
 ### mugsun-track
 

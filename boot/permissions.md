@@ -25,6 +25,7 @@
 | 端点 | 鉴权 | 说明 |
 | --- | --- | --- |
 | `POST /auth/avatar/upload` | 登录 | `multipart/form-data`，字段 `file`；上传后即设为本人头像，返回附件信息（`data.url` 为头像地址） |
+| `GET /auth/avatar/raw/{id}` | 匿名 | 输出头像图片（仅头像范围），可直接用作 `<img src>` |
 | `POST /auth/update-avatar` | 登录 | 绑定已有附件为头像；只接受本人上传、本租户、公开的附件，外链一律拒绝 |
 
 ```bash
