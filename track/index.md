@@ -63,7 +63,7 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 | 端点 | 用途 |
 | --- | --- |
-| `POST /track/collect` | 批量事件摄入（gzip 或明文 JSON） |
+| `POST /track/collect` | 批量事件摄入（gzip 或明文 JSON）；SDK 在 query 带 `app_key`，用于拒绝原因归因 |
 | `GET /track/config` | SDK 远端配置下发 |
 | `POST /track/replay` | 回放块摄入 |
 | `POST /track/api-body` | 接口响应体摄入（独立通道） |
@@ -233,7 +233,7 @@ FROM track_rollup_cursor WHERE job_key = 'timeline_index' ORDER BY 1;
 
 - **停应用会中断补建**：应用关闭时，任务会停止，并取消正在执行的 `CREATE INDEX CONCURRENTLY`，不再开始下一个分区。被中断的分区会留下一个 invalid 索引，下次运行时先删掉再重建，不需要手工处理。
 - **前提：数据库没有全局 `statement_timeout`**。任务在自己的会话里执行 `SET statement_timeout = 0`，结束后再 `RESET`。如果角色、数据库或 PgBouncer 层面强制了语句超时，并且会覆盖会话设置，大分区会建到一半被杀掉，反复重试。这种情况下请对埋点库的连接放开超时，或者关掉后台补建，在维护窗口手工建索引。
-- 用户时间线按用户 ID 查询时，最多合并最近活跃的 1000 个匿名设备。超过时，接口返回 `devicesTruncated: true` 和 `deviceCount`，这时请改用访客标识查询。
+- 用户时间线按用户 ID 查询时，最多合并最近活跃的 1000 个匿名设备。超过时，接口返回 `devicesTruncated: true` 和 `deviceCount`，这时请改用访客标识查询。管理端「用户细查」会在时间线上方显示同样的提示。
 
 ### 是否需要 flyway repair
 

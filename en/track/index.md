@@ -63,7 +63,7 @@ Session replay and visual tagging screenshots are in
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /track/collect` | Batched events (gzip or plain JSON) |
+| `POST /track/collect` | Batched events (gzip or plain JSON); the SDK adds `app_key` to the query for rejection attribution |
 | `GET /track/config` | Remote SDK configuration |
 | `POST /track/replay` | Replay chunks |
 | `POST /track/api-body` | Response bodies (separate channel) |
@@ -233,7 +233,7 @@ FROM track_rollup_cursor WHERE job_key = 'timeline_index' ORDER BY 1;
 
 - **Stopping the app interrupts the backfill.** On shutdown the job stops, cancels any running `CREATE INDEX CONCURRENTLY`, and does not start another partition. The interrupted partition is left with an invalid index, which the next run drops and rebuilds. No manual cleanup is needed.
 - **Precondition: no global `statement_timeout`.** The job runs `SET statement_timeout = 0` in its own session and `RESET`s it afterwards. If a role, database or PgBouncer setting enforces a statement timeout that overrides the session, large partitions get killed partway and retried forever. In that case lift the timeout for the tracking database connection, or turn the backfill off and build the indexes by hand in a maintenance window.
-- When you look up the user timeline by user ID, it merges at most the 1000 most recently active anonymous devices. Beyond that, the API returns `devicesTruncated: true` and `deviceCount`; look the user up by visitor ID instead.
+- When you look up the user timeline by user ID, it merges at most the 1000 most recently active anonymous devices. Beyond that, the API returns `devicesTruncated: true` and `deviceCount`; look the user up by visitor ID instead. The admin "User lookup" page shows the same hint above the timeline.
 
 ### Is flyway repair needed?
 
