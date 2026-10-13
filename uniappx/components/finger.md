@@ -15,7 +15,7 @@ demo: pages/demo/media/finger
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/finger.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/media/finger.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
 
 ```vue
 <template>

@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/feedback/drawer`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
