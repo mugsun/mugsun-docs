@@ -41,6 +41,14 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 The backend also reads `MUGSUN_DB_HOST`, `MUGSUN_DB_NAME`, `MUGSUN_DB_USERNAME`, `MUGSUN_DB_PASSWORD`, `MUGSUN_REDIS_HOST`, or a full `MUGSUN_DB_URL`. The track database `mugsun_track` follows the same host and port by default; `TRACK_JDBC_URL` still overrides it. `prod` ignores these variables; see [Configuration](/en/boot/configuration).
 
+### The first `docker compose up -d` is slow on Apple Silicon
+
+The database image is built locally, and the official `postgis/postgis` base image is amd64 only, so Apple Silicon runs it under emulation: the first build takes several extra minutes and the database is slower. To run natively, use a multi-arch base image:
+
+```bash
+MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 docker compose up -d --build
+```
+
 ### `spring-boot:run` fails with `Unable to find a suitable main class`
 
 In older versions, running `mvn -pl mugsun-boot-server -am spring-boot:run` from the repository root also applied the plugin to the parent POM. [mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) fixed this; pull the latest code and retry from the repository root. The recommended path is still `mvn -pl mugsun-boot-server -am package -DskipTests` followed by `java -jar mugsun-boot-server/target/mugsun-boot.jar` from the repository root.
