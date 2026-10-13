@@ -9,17 +9,17 @@ demo: pages/demo/display/image-resizer
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-resizer` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-resizer` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/image-resizer`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/image-resizer.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/image-resizer.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-image-resizer
     ref="squareRef"
     :src="src"
@@ -37,7 +37,7 @@ Snippets below are taken from the demo source `pages/demo/display/image-resizer.
     @cancel="onCancel"
     @error="onError"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-image-resizer
     :src="src"
     :crop-width="200"

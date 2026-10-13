@@ -9,29 +9,29 @@ demo: pages/demo/basic/icon
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-icon` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-icon` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/icon`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/icon.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/icon.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 常用 -->
+  <!-- Common -->
   <ms-icon name="search-line" tone="primary" />
   <ms-icon name="add-line" tone="primary" />
   <ms-icon name="home-3-line" tone="primary" />
-  <!-- 尺寸 -->
+  <!-- Sizes -->
   <ms-icon name="settings-3-line" size="sm" tone="secondary" />
   <ms-icon name="settings-3-line" size="md" tone="secondary" />
   <ms-icon name="settings-3-line" size="lg" tone="secondary" />
-  <!-- 方向 -->
+  <!-- Direction -->
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" />
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="90" />
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="180" />
-  <!-- 旋转 -->
+  <!-- Rotation -->
   <ms-icon name="loader-line" size="lg" tone="primary" :spin="true" />
   <ms-icon name="refresh-line" size="lg" tone="secondary" :spin="true" :spin-duration="3000" />
 </template>

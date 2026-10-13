@@ -9,17 +9,17 @@ demo: pages/demo/nav/indexbar
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-indexbar` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-indexbar` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/indexbar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-indexbar
     :items="cityItems"
     :height="300"
@@ -33,10 +33,10 @@ Snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`; se
     :height="260"
     @select="onCustomSelect"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-indexbar :items="shortItems" :show-anchor="false" :height="200" @select="onPlainSelect" />
   <ms-indexbar :items="disabledItems" :height="200" @click="onDisabledClick" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-indexbar :items="cityItems" current="C" :height="240" @change="onControlledChange" />
   <ms-indexbar :items="shortItems" :show-tip="false" :height="200" />
   <ms-indexbar
@@ -48,52 +48,52 @@ Snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`; se
 
 <script setup lang="uts">
 const cityItems = [
-  { index: 'B', label: '北京' } as UTSJSONObject,
-  { index: 'B', label: '保定' } as UTSJSONObject,
-  { index: 'C', label: '成都' } as UTSJSONObject,
-  { index: 'C', label: '长沙' } as UTSJSONObject,
-  { index: 'G', label: '广州' } as UTSJSONObject,
-  { index: 'G', label: '贵阳' } as UTSJSONObject,
-  { index: 'H', label: '杭州' } as UTSJSONObject,
-  { index: 'H', label: '合肥' } as UTSJSONObject,
-  { index: 'N', label: '南京' } as UTSJSONObject,
-  { index: 'S', label: '上海' } as UTSJSONObject,
-  { index: 'S', label: '苏州' } as UTSJSONObject,
-  { index: 'W', label: '武汉' } as UTSJSONObject,
+  { index: 'B', label: 'Beijing' } as UTSJSONObject,
+  { index: 'B', label: 'Baoding' } as UTSJSONObject,
+  { index: 'C', label: 'Chengdu' } as UTSJSONObject,
+  { index: 'C', label: 'Changsha' } as UTSJSONObject,
+  { index: 'G', label: 'Guangzhou' } as UTSJSONObject,
+  { index: 'G', label: 'Guiyang' } as UTSJSONObject,
+  { index: 'H', label: 'Hangzhou' } as UTSJSONObject,
+  { index: 'H', label: 'Hefei' } as UTSJSONObject,
+  { index: 'N', label: 'Nanjing' } as UTSJSONObject,
+  { index: 'S', label: 'Shanghai' } as UTSJSONObject,
+  { index: 'S', label: 'Suzhou' } as UTSJSONObject,
+  { index: 'W', label: 'Wuhan' } as UTSJSONObject,
 ]
 
 const customItems = [
-  { index: '热门', label: '北京' } as UTSJSONObject,
-  { index: '热门', label: '上海' } as UTSJSONObject,
-  { index: '华东', label: '杭州' } as UTSJSONObject,
-  { index: '华东', label: '南京' } as UTSJSONObject,
-  { index: '华南', label: '广州' } as UTSJSONObject,
-  { index: '华南', label: '深圳' } as UTSJSONObject,
-  { index: '西南', label: '成都' } as UTSJSONObject,
+  { index: 'Hot', label: 'Beijing' } as UTSJSONObject,
+  { index: 'Hot', label: 'Shanghai' } as UTSJSONObject,
+  { index: 'East', label: 'Hangzhou' } as UTSJSONObject,
+  { index: 'East', label: 'Nanjing' } as UTSJSONObject,
+  { index: 'South', label: 'Guangzhou' } as UTSJSONObject,
+  { index: 'South', label: 'Shenzhen' } as UTSJSONObject,
+  { index: 'Southwest', label: 'Chengdu' } as UTSJSONObject,
 ]
 
 const customKeys = [
-  { key: '热门', label: '热' } as UTSJSONObject,
-  { key: '华东', label: '东' } as UTSJSONObject,
-  { key: '华南', label: '南' } as UTSJSONObject,
-  { key: '西南', label: '西' } as UTSJSONObject,
+  { key: 'Hot', label: 'H' } as UTSJSONObject,
+  { key: 'East', label: 'E' } as UTSJSONObject,
+  { key: 'South', label: 'S' } as UTSJSONObject,
+  { key: 'Southwest', label: 'SW' } as UTSJSONObject,
 ]
 
 const disabledItems = [
-  { index: 'K', label: '昆明' } as UTSJSONObject,
-  { index: 'K', label: '停用城市', disabled: true } as UTSJSONObject,
-  { index: 'L', label: '兰州' } as UTSJSONObject,
-  { index: 'L', label: '洛阳', disabled: true } as UTSJSONObject,
+  { index: 'K', label: 'Kunming' } as UTSJSONObject,
+  { index: 'K', label: 'Disabled city', disabled: true } as UTSJSONObject,
+  { index: 'L', label: 'Lanzhou' } as UTSJSONObject,
+  { index: 'L', label: 'Luoyang', disabled: true } as UTSJSONObject,
 ]
 
 const modelCurrent = ref('B')
 
 const shortItems = [
-  { index: 'A', label: '鞍山' } as UTSJSONObject,
-  { index: 'A', label: '安庆' } as UTSJSONObject,
-  { index: 'D', label: '大连' } as UTSJSONObject,
-  { index: 'D', label: '东莞' } as UTSJSONObject,
-  { index: 'F', label: '福州' } as UTSJSONObject,
+  { index: 'A', label: 'Anshan' } as UTSJSONObject,
+  { index: 'A', label: 'Anqing' } as UTSJSONObject,
+  { index: 'D', label: 'Dalian' } as UTSJSONObject,
+  { index: 'D', label: 'Dongguan' } as UTSJSONObject,
+  { index: 'F', label: 'Fuzhou' } as UTSJSONObject,
 ]
 
 function onBaseChange(index: string) : void {

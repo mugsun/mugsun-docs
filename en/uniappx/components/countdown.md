@@ -9,25 +9,25 @@ demo: pages/demo/display/countdown
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-countdown` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-countdown` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/countdown`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/countdown.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/countdown.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-countdown :time="demoTime" />
   <ms-countdown :time="demoTime" format="HH:mm:ss:SSS" millisecond />
   <ms-countdown :time="demoTime" theme="square" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-countdown :time="demoTime" size="sm" theme="square" />
   <ms-countdown :time="demoTime" size="md" theme="square" />
   <ms-countdown :time="demoTime" size="lg" theme="square" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-countdown :time="90000" format="mm:ss" />
   <ms-countdown ref="finishCountdown" :time="5000" format="ss" @finish="onFinish" />
   <ms-countdown

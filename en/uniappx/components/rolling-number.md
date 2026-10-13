@@ -9,23 +9,23 @@ demo: pages/demo/display/rolling-number
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-rolling-number` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-rolling-number` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/rolling-number`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/rolling-number.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/rolling-number.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-rolling-number :value="decimalVal" />
   <ms-rolling-number :value="intVal" :duration="1100" :decimals="0" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-rolling-number :value="moneyVal" :grouping="true" prefix="¥" :decimals="2" />
   <ms-rolling-number :value="bigVal" size="lg" :decimals="0" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-rolling-number :value="suffixVal" suffix="%" :decimals="1" />
   <ms-rolling-number :value="staticVal" :animated="false" :decimals="0" />
   <ms-rolling-number :value="startVal" :start="10" :decimals="0" />

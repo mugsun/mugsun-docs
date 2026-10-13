@@ -9,13 +9,13 @@ demo: pages/demo/feedback/drawer
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-drawer` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-drawer` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/drawer`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
@@ -28,14 +28,14 @@ Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`;
   <ms-drawer
     :visible="showTitled"
     :items="baseItems"
-    title="菜单"
+    title="Menu"
     @update:visible="onTitledVisible"
     @item-click="onPick"
   />
   <ms-drawer
     :visible="showIcon"
     :items="iconItems"
-    title="快捷入口"
+    title="Shortcuts"
     @update:visible="onIconVisible"
     @item-click="onPick"
   />
@@ -43,16 +43,16 @@ Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`;
 
 <script setup lang="uts">
 const baseItems = ref([
-  { title: '菜单一' } as UTSJSONObject,
-  { title: '菜单二' } as UTSJSONObject,
-  { title: '菜单三' } as UTSJSONObject,
-  { title: '菜单四' } as UTSJSONObject,
+  { title: 'Menu 1' } as UTSJSONObject,
+  { title: 'Menu 2' } as UTSJSONObject,
+  { title: 'Menu 3' } as UTSJSONObject,
+  { title: 'Menu 4' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const iconItems = ref([
-  { title: '首页', icon: 'home-3-line' } as UTSJSONObject,
-  { title: '消息', icon: 'notification-line' } as UTSJSONObject,
-  { title: '设置', icon: 'settings-3-line' } as UTSJSONObject,
+  { title: 'Home', icon: 'home-3-line' } as UTSJSONObject,
+  { title: 'Messages', icon: 'notification-line' } as UTSJSONObject,
+  { title: 'Settings', icon: 'settings-3-line' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const showBase = ref(false)

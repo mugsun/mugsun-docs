@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Node.js ≥ 20.19 and pnpm ≥ 8.8
+- Node.js ≥ 22.13 and pnpm ≥ 11.11
 - [mugsun-boot](/en/boot/) running on `:8080`
 - With the analytics module on (the default), [mugsun-track](https://github.com/mugsun/mugsun-track) cloned **next to** this repository: the SDK is referenced as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`
 

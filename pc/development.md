@@ -2,7 +2,7 @@
 
 ## 前置条件
 
-- Node.js ≥ 20.19、pnpm ≥ 8.8
+- Node.js ≥ 22.13、pnpm ≥ 11.11
 - [mugsun-boot](/boot/) 已在 `:8080` 运行
 - 启用埋点模块（默认）时，[mugsun-track](https://github.com/mugsun/mugsun-track) 与本仓**平级**克隆：SDK 以 `file:../mugsun-track` 引用，且 SDK 仓不提交 `dist/`
 

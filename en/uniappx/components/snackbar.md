@@ -9,30 +9,30 @@ demo: pages/demo/feedback/snackbar
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-snackbar` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-snackbar` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/snackbar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/snackbar.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/snackbar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
   <ms-snackbar
     :visible="showText"
-    content="这是一条纯文字的消息通知"
+    content="A text-only notification"
     :show-icon="false"
     @update:visible="onTextVisible"
   />
   <ms-snackbar
     :visible="showIcon"
-    content="这是一条带图标的消息通知"
+    content="A notification with an icon"
     @update:visible="onIconVisible"
   />
   <ms-snackbar
     :visible="showClose"
-    content="这是一条带关闭的消息通知"
+    content="A notification with a close button"
     close-btn
     :duration="0"
     @update:visible="onCloseVisible"

@@ -9,17 +9,17 @@ demo: pages/demo/basic/badge
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-badge` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-badge` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/badge`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 红点 -->
+  <!-- Dot -->
   <ms-badge dot>
     <view />
   </ms-badge>
@@ -28,7 +28,7 @@ Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`; see
       <ms-icon name="notification-line" size="lg" tone="secondary" />
     </view>
   </ms-badge>
-  <!-- 数字 -->
+  <!-- Count -->
   <ms-badge :count="8">
     <view />
   </ms-badge>
@@ -37,11 +37,11 @@ Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`; see
       <ms-icon name="notification-line" size="lg" tone="secondary" />
     </view>
   </ms-badge>
-  <!-- 自定义 -->
+  <!-- Custom -->
   <ms-badge label="NEW">
-    <ms-button size="sm" variant="outline" theme="default">按钮</ms-button>
+    <ms-button size="sm" variant="outline" theme="default">Button</ms-button>
   </ms-badge>
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-badge :count="2" shape="circle">
     <view>
       <ms-icon name="notification-line" size="lg" tone="secondary" />

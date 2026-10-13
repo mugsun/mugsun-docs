@@ -9,17 +9,17 @@ demo: pages/demo/form/calendar
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-calendar` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-calendar` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/calendar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/calendar.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/calendar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件用法 -->
+  <!-- Usage -->
   <ms-calendar
     value="2026-03-10,2026-03-18"
     type="range"
@@ -31,7 +31,7 @@ Snippets below are taken from the demo source `pages/demo/form/calendar.uvue`; s
     :marks="markList2"
     @change="onInlineChange"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-calendar
     ref="resetCalRef"
     value="2026-04-10"

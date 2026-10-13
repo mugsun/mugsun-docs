@@ -16,7 +16,7 @@ ms-ui has a [live H5 demo](/en/demo). There is no public environment for the con
 
 ### When will cloud and the ms-ui source be released?
 
-cloud is still planned, so this site has no install guide for it. The ms-ui docs and H5 demo are public; the `mugsun-uniappx-ui` source repository is not yet.
+cloud is still planned, so this site has no install guide for it. The ms-ui docs and H5 demo are public; the source is part of the commercial edition and is not public.
 
 ## Startup and build
 

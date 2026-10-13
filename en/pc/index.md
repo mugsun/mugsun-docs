@@ -5,7 +5,7 @@
 | Item | Details |
 | --- | --- |
 | Stack | Vue 3.5 · Vite 7 · TypeScript · Element Plus 2.11 (on demand) · Pinia · Vue Router |
-| Runtime | Node.js ≥ 20.19 · pnpm ≥ 8.8 (`packageManager` pins `pnpm@11.9.0`) |
+| Runtime | Node.js ≥ 22.13 · pnpm ≥ 11.11 (`packageManager` pins `pnpm@11.28.2`) |
 | Backend | [mugsun-boot](/en/boot/); `/api` is proxied to `http://localhost:8080` in development |
 | Version | 0.1.0 |
 | License | MIT. The UI foundation is derived from [art-design-pro](https://github.com/Daymychen/art-design-pro) (MIT); keep `NOTICE` when redistributing |
