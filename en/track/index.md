@@ -86,7 +86,16 @@ mugsun:
         "[000000]": Asia/Shanghai   # keys need brackets and quotes
 ```
 
-When the timezone isn't UTC, daily trends of 3 days or more are counted straight from raw events, which is slower than the daily summary table on large data sets. Overview cards, pages, performance and other stats still cut days in UTC for now.
+Since [mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36), overview cards, pages, performance, funnels and retention cut days in the same timezone, so "today" starts at local midnight on every dashboard.
+
+What counts differently:
+
+- **UV**: each day's UV in the daily trend is the number of distinct devices (`distinct_id`) in that local day. Days used to be UTC days, and a dimension trend (events, pages and so on) without a specific value used to add up the UV of each value, so a device that visited several pages was counted several times. It is now deduplicated per device. The UV on the overview cards was already deduplicated per device over the whole range and is unchanged.
+- **Sessions**: the session count on the overview cards is the sum of each local day's active sessions.
+- **Funnels**: the window used to be a rolling last N×24 hours. It now starts at local midnight of the first day, so "last 1 day" means midnight today until now, and numbers early in the local morning are smaller than before.
+- **Retention**: first-visit and return days are local dates, so a first visit at 23:59 and a return at 00:01 the next day counts as day-2 retention.
+
+When the timezone isn't UTC, the daily trend, overview cards and performance are counted straight from raw events (the daily summary tables use UTC days), which is slower on large data sets.
 
 ## Upgrading: backfill historical UV
 

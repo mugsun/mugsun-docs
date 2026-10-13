@@ -2,6 +2,17 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-14 · 埋点看板按当地时区切日
+
+### mugsun-boot
+
+- **按租户时区切日**：趋势图、错误列表、概览卡片、页面、性能、漏斗、留存的「今天」都从当地 0 点开始，默认 `Asia/Shanghai`，可用 `mugsun.track.timezone` 按租户调整。之前按 UTC 切日，UTC+8 下要到早上 8 点才算新的一天。（[#31](https://github.com/mugsun/mugsun-boot/pull/31)、[#36](https://github.com/mugsun/mugsun-boot/pull/36)）
+- **趋势补 0**：按天的趋势图横轴固定为所选的每一天，没数据的日子画 0。（[#28](https://github.com/mugsun/mugsun-boot/pull/28)）
+- **UV 口径变化**：日趋势每天的 UV 是当地日内去重设备数；维度趋势不指定维度值时不再把各维度值的 UV 相加。
+- **漏斗窗口变化**：从「最近 N×24 小时」改为从第一天当地 0 点算起。
+
+详见 [埋点 · 看板趋势](/track/#看板趋势)。
+
 ## 2026-10-13 · 第一批安全与质量修复
 
 ### mugsun-boot
