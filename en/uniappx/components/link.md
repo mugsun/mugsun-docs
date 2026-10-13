@@ -19,20 +19,20 @@ Snippets below are taken from the demo source `pages/demo/basic/link.uvue`. To s
 
 ```vue
 <template>
-  <!-- 主题 -->
-  <ms-link theme="default">默认</ms-link>
-  <ms-link theme="primary">主色</ms-link>
-  <ms-link theme="danger">危险</ms-link>
-  <!-- 下划线 -->
-  <ms-link theme="primary">无下划线</ms-link>
-  <ms-link theme="primary" :underline="true">下划线</ms-link>
-  <!-- 图标 -->
-  <ms-link theme="primary" icon="links-line">前缀</ms-link>
-  <ms-link theme="primary" suffix-icon="arrow-right-s-line">后缀</ms-link>
-  <!-- 尺寸 -->
-  <ms-link size="sm" theme="primary">小号</ms-link>
-  <ms-link size="md" theme="primary">中号</ms-link>
-  <ms-link size="lg" theme="primary">大号</ms-link>
+  <!-- Themes -->
+  <ms-link theme="default">Default</ms-link>
+  <ms-link theme="primary">Primary</ms-link>
+  <ms-link theme="danger">Danger</ms-link>
+  <!-- Underline -->
+  <ms-link theme="primary">No underline</ms-link>
+  <ms-link theme="primary" :underline="true">Underline</ms-link>
+  <!-- Icon -->
+  <ms-link theme="primary" icon="links-line">Prefix</ms-link>
+  <ms-link theme="primary" suffix-icon="arrow-right-s-line">Suffix</ms-link>
+  <!-- Sizes -->
+  <ms-link size="sm" theme="primary">Small</ms-link>
+  <ms-link size="md" theme="primary">Medium</ms-link>
+  <ms-link size="lg" theme="primary">Large</ms-link>
 </template>
 ```
 <!-- demo-snippets:end -->

@@ -19,14 +19,14 @@ Snippets below are taken from the demo source `pages/demo/form/color-picker.uvue
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-color-picker v-model="baseColor" type="base" @change="onBaseChange" />
   <ms-color-picker v-model="fullColor" type="multiple" @change="onFullChange" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-color-picker v-model="alphaColor" :enable-alpha="true" format="rgb" @change="onAlphaChange" />
   <ms-color-picker v-model="hslColor" format="hsl" :columns="6" @change="onHslChange" />
   <ms-color-picker v-model="disabledColor" type="base" :disabled="true" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-color-picker
     v-model="swatchColor"
     type="base"
