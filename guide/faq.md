@@ -28,6 +28,15 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 不会。compose 只启动 PostgreSQL（5432）与 Redis（6379），应用打包后用 `java -jar mugsun-boot-server/target/mugsun-boot.jar` 运行。
 
+
+### Apple Silicon 上首次 `docker compose up -d` 很慢？
+
+数据库镜像在本地构建，基础镜像 `postgis/postgis` 官方只有 amd64，Apple Silicon 上走仿真，首次构建要多几分钟，运行也慢。想原生运行可换多架构基础镜像：
+
+```bash
+MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 docker compose up -d --build
+```
+
 ### `spring-boot:run` 报 `Unable to find a suitable main class`？
 
 旧版本在仓库根目录执行 `mvn -pl mugsun-boot-server -am spring-boot:run` 时，插件也会作用于父工程而报错。[mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) 已修复，请拉取最新代码后在仓库根目录重试。推荐方式仍是先 `mvn -pl mugsun-boot-server -am package -DskipTests`，再在仓库根目录 `java -jar mugsun-boot-server/target/mugsun-boot.jar`。
