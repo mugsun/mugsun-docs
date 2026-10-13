@@ -15,10 +15,10 @@
 
 ### mugsun-pc
 
-- **登录态存储**：`accessToken` / `refreshToken` / `isLogin` 改存 `sessionStorage`，锁屏密码不再持久化；`localStorage` 只保留语言、用户信息与搜索历史。（[#4](https://github.com/mugsun/mugsun-pc/pull/4)）
+- **登录态存储**：`accessToken` / `refreshToken` / `isLogin` 改存 `sessionStorage`，锁屏密码不再持久化；`localStorage` 只保留语言、用户信息与搜索历史。新开标签页或重开浏览器需重新登录，锁屏状态刷新后不保留；**升级后所有人需重新登录一次**。（[#4](https://github.com/mugsun/mugsun-pc/pull/4)）
 - **错误提示**：优先展示后端返回的业务消息，而不是通用 HTTP 状态文案。（[#5](https://github.com/mugsun/mugsun-pc/pull/5)）
 - **Element Plus 按需加载**：移除全量 CSS 与 `app.use(ElementPlus)`，组件与样式按需引入。（[#6](https://github.com/mugsun/mugsun-pc/pull/6)）
-- **个人中心头像**：改为调用 `/auth/avatar/upload`。（[#8](https://github.com/mugsun/mugsun-pc/pull/8)）
+- **个人中心头像**：改为调用 `/auth/avatar/upload`，只接受 png / jpg / jpeg / gif / webp 且不超过 2MB，上传成功后头像立即更新；头像地址为 `/auth/avatar/raw/{id}`，无需登录即可访问。详见 [本地开发 · 个人中心头像](/pc/development#个人中心头像)。（[#8](https://github.com/mugsun/mugsun-pc/pull/8)）
 
 ### mugsun-track
 

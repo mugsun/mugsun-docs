@@ -41,6 +41,22 @@ pnpm dev
 
 `accessToken`、`refreshToken`、`isLogin` 存于 `sessionStorage`（键 `sys-v{version}-user-session`），关闭标签页即失效；语言、用户信息与搜索历史存于 `localStorage`。锁屏密码不持久化，刷新后锁屏状态不保留。
 
+对使用者的影响（[pc#4](https://github.com/mugsun/mugsun-pc/pull/4)）：
+
+- 同一标签页内刷新保持登录；**新开标签页或关闭后重开浏览器，需要重新登录**。
+- 锁屏后刷新页面，锁屏状态不保留。
+- 升级到该版本后，旧版存在 `localStorage` 中的 token 不再读取，**所有人需要重新登录一次**。
+
+## 个人中心头像
+
+个人中心上传头像（[pc#8](https://github.com/mugsun/mugsun-pc/pull/8)）：
+
+- 只接受 png / jpg / jpeg / gif / webp（同时校验文件类型与扩展名），大小不超过 2MB；不符合时提示且不上传。
+- 调用 `POST /auth/avatar/upload`，后端上传成功即设为本人头像；页面与顶栏头像立即更新。
+- 头像地址形如 `/auth/avatar/raw/{id}`，管理台按接口同一规则加前缀（如 `/api/auth/avatar/raw/{id}`）；**该地址不需要登录即可访问**，可直接用作 `<img src>`。旧的 `http(s)://` 头像原样显示，无头像显示默认图。
+
+接口细节见 [权限 · 头像](/boot/permissions#头像)。
+
 ## 下一步
 
 [管理台概述](/pc/) · [接入埋点](/track/install)
