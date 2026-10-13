@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/display/image-resizer.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-image-resizer
     ref="squareRef"
     :src="src"
@@ -37,7 +37,7 @@ Snippets below are taken from the demo source `pages/demo/display/image-resizer.
     @cancel="onCancel"
     @error="onError"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-image-resizer
     :src="src"
     :crop-width="200"

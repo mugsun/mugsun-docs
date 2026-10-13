@@ -19,13 +19,13 @@ Snippets below are taken from the demo source `pages/demo/display/money.uvue`. T
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-money :value="0.01" />
   <ms-money :value="15568.398" :digit="3" thousand size="lg" />
   <ms-money :value="1568" symbol="$" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-money :value="moneyValue" :digit="4" show-cn />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-money :value="1288.5" thousand tone="success" size="lg" />
   <ms-money :value="-86.2" thousand tone="danger" />
   <ms-money :value="9.9" size="sm" tone="primary" />
