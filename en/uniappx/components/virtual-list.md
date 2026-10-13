@@ -9,17 +9,17 @@ demo: pages/demo/display/virtual-list
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-virtual-list` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-virtual-list` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/virtual-list`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/virtual-list.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/virtual-list.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-virtual-list
     :items="baseItems"
     :item-height="56"
@@ -34,7 +34,7 @@ Snippets below are taken from the demo source `pages/demo/display/virtual-list.u
     :virtual="false"
     @item-click="onItemClick"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-virtual-list
     ref="bigList"
     :items="bigItems"
@@ -47,11 +47,11 @@ Snippets below are taken from the demo source `pages/demo/display/virtual-list.u
 </template>
 
 <script setup lang="uts">
-const baseItems = ref(buildItems(200, '基础', 1))
+const baseItems = ref(buildItems(200, 'Basic', 1))
 
-const bigItems = ref(buildItems(2000, '大数据', 1))
+const bigItems = ref(buildItems(2000, 'Large data', 1))
 
-const smallItems = ref(buildItems(6, '全量', 1))
+const smallItems = ref(buildItems(6, 'Full', 1))
 
 function onItemClick(key: string, index: number) : void {
   console.log('onItemClick')

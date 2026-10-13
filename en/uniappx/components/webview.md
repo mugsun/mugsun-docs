@@ -9,18 +9,18 @@ demo: pages/demo/media/webview
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-webview/components/ms-webview` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-webview/components/ms-webview` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-webview` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/webview`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/webview.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/webview.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-webview
     :src="src"
     :height="200"
@@ -29,14 +29,14 @@ Snippets below are taken from the demo source `pages/demo/media/webview.uvue`; s
     @navigate="onNavigate"
   />
   <ms-webview :src="src" :height="160" :show-toolbar="false" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-webview :src="src" :height="120" :show-status="false" />
   <ms-webview src="" :height="100" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-webview
     :src="src"
     :height="120"
-    loading-text="页面打开中…"
+    loading-text="Opening page…"
     :show-toolbar="false"
   />
   <ms-webview
@@ -44,7 +44,7 @@ Snippets below are taken from the demo source `pages/demo/media/webview.uvue`; s
     :height="140"
     :show-toolbar="true"
     :show-status="true"
-    loading-text="拉取中…"
+    loading-text="Fetching…"
   />
   <ms-webview ref="reloadRef" :src="src" :height="120" :show-toolbar="false" />
 </template>

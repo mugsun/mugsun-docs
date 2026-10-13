@@ -9,33 +9,33 @@ demo: pages/demo/feedback/alert
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-alert` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-alert` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/alert`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/alert.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/alert.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 主题 -->
-  <ms-alert theme="primary" :closable="false">主色提醒</ms-alert>
-  <ms-alert theme="info" :closable="false">信息提醒</ms-alert>
-  <ms-alert theme="success" :closable="false">成功提醒</ms-alert>
-  <!-- 形态 -->
-  <ms-alert variant="light" theme="primary" :closable="false">浅色</ms-alert>
-  <ms-alert variant="solid" theme="primary" :closable="false">填充</ms-alert>
-  <!-- 可关闭 -->
+  <!-- Themes -->
+  <ms-alert theme="primary" :closable="false">Primary alert</ms-alert>
+  <ms-alert theme="info" :closable="false">Info alert</ms-alert>
+  <ms-alert theme="success" :closable="false">Success alert</ms-alert>
+  <!-- Variants -->
+  <ms-alert variant="light" theme="primary" :closable="false">Light</ms-alert>
+  <ms-alert variant="solid" theme="primary" :closable="false">Solid</ms-alert>
+  <!-- Closable -->
   <ms-alert
     theme="warning"
     :visible="showClosable"
     @update:visible="onClosableVisible"
     @close="onAlertClose"
-  >可关闭</ms-alert>
-  <ms-alert theme="info" :closable="false">常驻</ms-alert>
-  <!-- 图标 -->
-  <ms-alert theme="primary" icon="information-line" :closable="false">自定义图标</ms-alert>
+  >Closable</ms-alert>
+  <ms-alert theme="info" :closable="false">Persistent</ms-alert>
+  <!-- Icon -->
+  <ms-alert theme="primary" icon="information-line" :closable="false">Custom icon</ms-alert>
 </template>
 
 <script setup lang="uts">

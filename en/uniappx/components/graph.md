@@ -9,18 +9,18 @@ demo: pages/demo/media/graph
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-graph/components/ms-graph` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-graph/components/ms-graph` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-graph` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/graph`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/graph.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/graph.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-graph
     layout="tree"
     :nodes="orgNodes"
@@ -43,7 +43,7 @@ Snippets below are taken from the demo source `pages/demo/media/graph.uvue`; see
     :height="360"
     @node-click="onNode"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-graph
     layout="tree"
     :nodes="orgNodes"
@@ -51,7 +51,7 @@ Snippets below are taken from the demo source `pages/demo/media/graph.uvue`; see
     :height="320"
     @node-click="onNode"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-graph
     layout="dagre"
     :nodes="flowNodes"
@@ -83,15 +83,15 @@ const flowEdges = ref([
 ] as UTSJSONObject[])
 
 const flowNodes = ref([
-  n('draft', '提交申请'),
-  n('leader', '直属主管'),
-  n('budget', '预算校验'),
-  n('finance', '财务初审'),
-  n('legal', '法务会签'),
-  n('cfo', 'CFO 审批'),
-  n('pay', '出纳付款'),
-  n('archive', '凭证归档'),
-  n('reject', '驳回修改'),
+  n('draft', 'Submit request'),
+  n('leader', 'Direct manager'),
+  n('budget', 'Budget check'),
+  n('finance', 'Finance review'),
+  n('legal', 'Legal sign-off'),
+  n('cfo', 'CFO approval'),
+  n('pay', 'Cashier payment'),
+  n('archive', 'Archive voucher'),
+  n('reject', 'Return for changes'),
 ] as UTSJSONObject[])
 
 const orgEdges = ref(buildOrgEdgesV1())
@@ -118,18 +118,18 @@ const serviceEdges = ref([
 ] as UTSJSONObject[])
 
 const serviceNodes = ref([
-  n('gateway', '网关'),
-  n('auth', '认证'),
-  n('user', '用户'),
-  n('order', '订单'),
-  n('pay', '支付'),
-  n('inventory', '库存'),
-  n('promo', '营销'),
-  n('search', '搜索'),
-  n('notify', '消息'),
-  n('risk', '风控'),
-  n('settle', '结算'),
-  n('log', '日志'),
+  n('gateway', 'Gateway'),
+  n('auth', 'Auth'),
+  n('user', 'User'),
+  n('order', 'Order'),
+  n('pay', 'Payment'),
+  n('inventory', 'Inventory'),
+  n('promo', 'Marketing'),
+  n('search', 'Search'),
+  n('notify', 'Messages'),
+  n('risk', 'Risk control'),
+  n('settle', 'Settlement'),
+  n('log', 'Logs'),
 ] as UTSJSONObject[])
 
 function onNode(payload: UTSJSONObject) : void {

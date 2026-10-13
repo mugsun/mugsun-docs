@@ -9,36 +9,36 @@ demo: pages/demo/feedback/popover
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-popover` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-popover` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/popover`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/popover.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/popover.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-popover
     :visible="showArrow"
-    content="弹出气泡内容"
+    content="Popover content"
     placement="top"
     @update:visible="onArrowVisible"
   >
     <ms-button size="sm" variant="outline" theme="primary" @click="tapArrow">
-      带箭头
+      With arrow
     </ms-button>
   </ms-popover>
   <ms-popover
     :visible="showNoArrow"
-    content="弹出气泡内容"
+    content="Popover content"
     placement="top"
     :show-arrow="false"
     @update:visible="onNoArrowVisible"
   >
     <ms-button size="sm" variant="outline" theme="primary" @click="tapNoArrow">
-      不带箭头
+      Without arrow
     </ms-button>
   </ms-popover>
   <ms-popover
@@ -48,13 +48,13 @@ Snippets below are taken from the demo source `pages/demo/feedback/popover.uvue`
   >
     <template #content>
       <view>
-        <text>选项 1</text>
-        <text>选项 2</text>
-        <text>选项 3</text>
+        <text>Option 1</text>
+        <text>Option 2</text>
+        <text>Option 3</text>
       </view>
     </template>
     <ms-button size="sm" variant="outline" theme="primary" @click="tapCustom">
-      自定义内容
+      Custom content
     </ms-button>
   </ms-popover>
 </template>

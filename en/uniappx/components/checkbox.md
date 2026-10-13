@@ -9,35 +9,35 @@ demo: pages/demo/form/checkbox
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-checkbox` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-checkbox` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/checkbox`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
-  <ms-checkbox v-model="vSquare" label="方形" block />
-  <ms-checkbox v-model="vCircle" label="圆形" icon="circle" block />
-  <ms-checkbox v-model="vLine" label="描边" icon="line" block />
-  <!-- 组件状态 -->
-  <ms-checkbox :model-value="false" indeterminate label="半选" block />
-  <ms-checkbox :model-value="false" disabled label="禁用" block />
-  <ms-checkbox :model-value="true" disabled label="禁用已选" block />
-  <!-- 组件分组 -->
-  <ms-checkbox value="a" label="选项 A" block />
-  <ms-checkbox value="b" label="选项 B" block />
-  <ms-checkbox value="c" label="选项 C" block />
-  <!-- 组件深度 -->
-  <ms-checkbox value="1" label="禁用组甲" block />
-  <ms-checkbox value="2" label="禁用组乙" block />
+  <!-- Types -->
+  <ms-checkbox v-model="vSquare" label="Square" block />
+  <ms-checkbox v-model="vCircle" label="Circle" icon="circle" block />
+  <ms-checkbox v-model="vLine" label="Outline" icon="line" block />
+  <!-- States -->
+  <ms-checkbox :model-value="false" indeterminate label="Indeterminate" block />
+  <ms-checkbox :model-value="false" disabled label="Disabled" block />
+  <ms-checkbox :model-value="true" disabled label="Disabled checked" block />
+  <!-- Groups -->
+  <ms-checkbox value="a" label="Option A" block />
+  <ms-checkbox value="b" label="Option B" block />
+  <ms-checkbox value="c" label="Option C" block />
+  <!-- Advanced -->
+  <ms-checkbox value="1" label="Disabled group A" block />
+  <ms-checkbox value="2" label="Disabled group B" block />
   <ms-checkbox
     :model-value="parentChecked"
     :indeterminate="parentIndeterminate"
-    label="全选"
+    label="Select all"
     block
     @change="onParentChange"
   />
