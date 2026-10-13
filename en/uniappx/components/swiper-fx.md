@@ -9,7 +9,7 @@ demo: pages/demo/display/swiper-fx
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-swiper-fx`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swiper-fx` (repository not yet public).
 Demo route: `#/pages/demo/display/swiper-fx`.
 
 ## Basic usage
@@ -62,7 +62,7 @@ const list = ref([
 ```
 <!-- demo-snippets:end -->
 
-With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
+Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
 
 ## Props
 

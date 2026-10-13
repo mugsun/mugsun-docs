@@ -9,7 +9,7 @@ demo: pages/demo/form/slider
 
 属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
-源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-slider`）。
+源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-slider`（源码仓暂未公开）。
 演示路由：`#/pages/demo/form/slider`。
 
 ## 基础用法
@@ -50,7 +50,7 @@ const marks = ref<number[]>([0, 20, 40, 60, 80, 100] as number[])
 ```
 <!-- demo-snippets:end -->
 
-easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
+组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
 
 ## Props
 

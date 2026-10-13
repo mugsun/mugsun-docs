@@ -9,7 +9,7 @@ demo: pages/demo/display/tree-flat
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-tree-flat`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-tree-flat` (repository not yet public).
 Demo route: `#/pages/demo/display/tree-flat`.
 
 ## Basic usage
@@ -40,7 +40,7 @@ const collapsed = ref([
 ```
 <!-- demo-snippets:end -->
 
-With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
+Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
 
 ## Props
 

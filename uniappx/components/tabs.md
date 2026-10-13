@@ -9,7 +9,7 @@ demo: pages/demo/nav/tabs
 
 属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
-源码见私有仓 [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（`uni_modules/ms-ui/components/ms-tabs`）。
+源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-tabs`（源码仓暂未公开）。
 演示路由：`#/pages/demo/nav/tabs`。
 
 ## 基础用法
@@ -67,7 +67,7 @@ const tagIndex = ref(0)
 ```
 <!-- demo-snippets:end -->
 
-easycom 扫描对应 `uni_modules/.../components` 后无需手动注册。
+组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
 
 ## Props
 

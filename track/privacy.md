@@ -10,8 +10,8 @@
 | 用户拒绝 | `optOut()` 后停止采集与回放，`optIn()` 恢复 |
 | 输入内容 | 不采集 `input` / `textarea` 的 `value` |
 | 密码与敏感区域 | `input[type="password"]`、`maskSelectors` 命中区域与 `data-track-mask` 元素整块屏蔽 |
-| 会话回放 | 默认关闭；开启后默认遮罩所有输入 |
-| 响应体 | 默认不采集；凭证端点永不采集 |
+| 会话回放 | 默认关闭；开启后默认遮罩所有输入与页面文本（0.2.0 起） |
+| 响应体 | 默认不采集；开启后敏感字段默认脱敏为 `***`（0.2.0 起）；凭证端点永不采集 |
 
 ## URL 敏感参数
 
@@ -32,7 +32,7 @@ api_key  apikey  auth  secret  password
 
 - 在隐私政策中说明采集范围，并为用户提供拒绝入口（调用 `optOut()`）。
 - 包含个人信息的区域加 `data-track-mask` 或写入 `maskSelectors`。
-- 开启响应体采集前评估必要性，并显式开启 `apiBodyMaskEnabled`（[默认值即将调整](/track/plugins#接口监控)）。
+- 开启响应体采集前评估必要性；保持 `apiBodyMaskEnabled` 默认开启，不要为排障长期关闭。
 - 数据存储在你自己的 PostgreSQL 中，保留周期与访问权限按企业制度配置。
 
 相关：[插件](/track/plugins) · [安全清单](/boot/security-checklist)

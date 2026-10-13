@@ -9,7 +9,7 @@ demo: pages/demo/feedback/modal
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-modal`).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-modal` (repository not yet public).
 Demo route: `#/pages/demo/feedback/modal`.
 
 ## Basic usage
@@ -56,7 +56,7 @@ const showRecipeDelete = ref(false)
 ```
 <!-- demo-snippets:end -->
 
-With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
+Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
 
 ## Props
 
