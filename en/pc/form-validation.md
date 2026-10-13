@@ -18,7 +18,7 @@ Create / edit dialogs in the admin console check required fields **in the browse
 ## Pages covered
 
 - AI center: apps, knowledge bases, datasets, models, prompts, MCP, vector stores, data sources, channels, secrets.
-- System: top menus, API scopes, data scopes, regions, plus pages that already validated in-field such as users, roles and departments.
+- System: top menus, API scopes, data scopes, regions, help docs (catalog and document dialogs), plus pages that already validated in-field such as users, roles, departments, serial numbers, notification templates and code generation. Chinese required-field messages all start with 「请输入」.
 
 ## Building a new page
 
