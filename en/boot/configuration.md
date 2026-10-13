@@ -55,6 +55,12 @@ mugsun:
 
 Entries are exact hostnames or `*.example.com` wildcards. A matching host may resolve to a private address.
 
+Example: a local Ollama listens on `http://localhost:11434` by default. Add `localhost` to `allow-hosts` before that URL can be saved and called from a knowledge base or channel.
+
+- The check runs both when the configuration is saved and right before each request; only `http` and `https` are allowed.
+- The default is `allow-hosts: []`, so no private address is allowed. Public hosts not on the list are unaffected.
+- `*.example.com` matches any subdomain but not `example.com` itself. Hosts ending in `.local` or `.internal` are rejected unless listed explicitly. List only the hosts you actually need.
+
 ## Production
 
 The `prod` profile turns off the OpenAPI docs (springdoc / swagger-ui), forces `strict-keys: true` and disables mock social login. A minimal start looks like this:

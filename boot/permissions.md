@@ -16,7 +16,17 @@
 | `sys:file:public` | 上传公开附件 | 上传时可设为公开；无此权限的上传一律强制为私有 |
 | `sys:file:remove` | 删除附件 | 删除附件（仍需是上传者本人或持有 `sys:file:manage`） |
 
-下载与删除规则：**本人上传的附件**或持有 `sys:file:manage`；其他用户或其他租户的附件按不存在处理。`manage` / `public` / `remove` 三项权限码随 Flyway 基线脚本写入，升级后在「角色管理」中按需授予。
+访问规则（所有判断先按租户过滤）：
+
+| 操作 | 允许 |
+| --- | --- |
+| 下载 | 上传者本人；持有 `sys:file:manage`；附件已公开时，本租户任意登录用户 |
+| 删除 | 仅上传者本人或持有 `sys:file:manage`（且需 `sys:file:remove`） |
+| 上传为公开 | 仅持有 `sys:file:public`；普通用户选择公开会被自动降为私有 |
+
+跨租户、不存在或无权访问一律返回 404，不暴露附件是否存在。历史附件没有记录上传者，其私有附件仅持有 `sys:file:manage` 的用户可下载或删除。
+
+`manage` / `public` / `remove` 三项权限点由数据库迁移预置给管理员角色，其他角色在「角色管理」中按需授予。
 
 ## 头像
 
@@ -25,8 +35,10 @@
 | 端点 | 鉴权 | 说明 |
 | --- | --- | --- |
 | `POST /auth/avatar/upload` | 登录 | `multipart/form-data`，字段 `file`；上传后即设为本人头像，返回附件信息（`data.url` 为头像地址） |
-| `GET /auth/avatar/raw/{id}` | 匿名 | 输出头像图片（仅头像范围），可直接用作 `<img src>` |
+| `GET /auth/avatar/raw/{id}` | 匿名 | 输出头像图片，可直接作 `<img src>`；仅限头像公开区，与存储平台（本地 / MinIO / OSS）无关 |
 | `POST /auth/update-avatar` | 登录 | 绑定已有附件为头像；只接受本人上传、本租户、公开的附件，外链一律拒绝 |
+
+上传限制：只接受 png、jpg / jpeg、gif、webp（校验扩展名、MIME 与文件头，拒绝 svg），单张不超过 2MB。经网关访问时与其他 `/auth` 接口一样加 `/api` 前缀。
 
 ```bash
 curl -X POST http://localhost:8080/auth/avatar/upload \

@@ -54,6 +54,12 @@ mugsun:
       allow-hosts: [localhost, ollama.internal]
 ```
 
+示例：本地 Ollama 默认监听 `http://localhost:11434`，把 `localhost` 加入 `allow-hosts` 后，知识库 / 渠道中填写该地址才能保存和调用。
+
+- 校验在保存配置时和实际发请求前各做一次；只允许 `http` / `https`。
+- 默认 `allow-hosts: []`，即不放行任何内网地址；未命中白名单的公网主机不受影响。
+- `*.example.com` 匹配其任意子域名，不含 `example.com` 本身；`.local`、`.internal` 结尾的主机默认拒绝，需显式列出。只列确需访问的主机。
+
 ## 生产环境
 
 `prod` profile 会关闭 OpenAPI 文档（springdoc / swagger-ui）、强制 `strict-keys: true`、关闭 mock 社交登录。最小启动示例：

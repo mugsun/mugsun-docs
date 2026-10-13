@@ -16,7 +16,17 @@
 | `sys:file:public` | Upload public attachments | Allows marking an upload as public; without it, uploads are always private |
 | `sys:file:remove` | Delete attachments | Delete attachments (you must still be the uploader or hold `sys:file:manage`) |
 
-Download and delete rules: **attachments you uploaded**, or any attachment if you hold `sys:file:manage`. Other users' and other tenants' attachments are treated as nonexistent. The `manage`, `public` and `remove` codes are added by the Flyway baseline; grant them under role management as needed.
+Access rules (every check filters by tenant first):
+
+| Action | Allowed for |
+| --- | --- |
+| Download | The uploader; holders of `sys:file:manage`; any signed-in user in the same tenant if the attachment is public |
+| Delete | Only the uploader or holders of `sys:file:manage` (and `sys:file:remove` is required) |
+| Upload as public | Only holders of `sys:file:public`; ordinary users asking for public get private instead |
+
+Other tenants' attachments, missing attachments and attachments you can't access all return 404, so their existence isn't revealed. Legacy attachments have no recorded uploader; their private ones can only be downloaded or deleted with `sys:file:manage`.
+
+The `manage`, `public` and `remove` codes are pre-granted to the admin role by a database migration; grant them to other roles under role management as needed.
 
 ## Avatars
 
@@ -25,8 +35,10 @@ Avatars don't need `sys:file:public`; use the dedicated endpoints:
 | Endpoint | Auth | Description |
 | --- | --- | --- |
 | `POST /auth/avatar/upload` | Signed in | `multipart/form-data` with a `file` field. Sets the upload as your avatar and returns the attachment (`data.url` is the avatar URL) |
-| `GET /auth/avatar/raw/{id}` | Anonymous | Serves the avatar image (avatar scope only); usable directly as `<img src>` |
+| `GET /auth/avatar/raw/{id}` | Anonymous | Serves the avatar image, usable directly as `<img src>`; avatar public area only, regardless of storage (local, MinIO or OSS) |
 | `POST /auth/update-avatar` | Signed in | Binds an existing attachment as your avatar. Only public attachments you uploaded in your tenant are accepted; external URLs are rejected |
+
+Upload limits: png, jpg / jpeg, gif and webp only (extension, MIME type and file header are checked; svg is rejected), up to 2 MB. Through the gateway, add the `/api` prefix as for other `/auth` endpoints.
 
 ```bash
 curl -X POST http://localhost:8080/auth/avatar/upload \
