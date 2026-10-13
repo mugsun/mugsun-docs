@@ -122,6 +122,69 @@ WHERE b.run_id = 'run_id from the log' AND d.id = b.stats_day_id;
 DELETE FROM track_stats_day_uv_backup WHERE backup_time < now() - interval '30 days';
 ```
 
+## Upgrading: user timeline indexes (T3 / T4)
+
+The user timeline pages by event time `(ts, id)`, newest first. It needs two new indexes: `idx_event_user_ts_timeline (app_key, user_id, ts, id)` and `idx_event_distinct_ts_timeline (app_key, distinct_id, ts, id)`. `track_event` is partitioned by month, so they are built in two steps:
+
+- **T3** (SQL migration) only runs `CREATE INDEX … ON ONLY track_event` on the parent. It reads no data, does not block writes and finishes instantly. The parent index stays invalid for now.
+- **T4** (Java migration, runs outside a transaction) handles only **empty partitions** at startup, such as next month's pre-created partition and the default partition. It runs `CREATE INDEX CONCURRENTLY` on each one and attaches it once `pg_index.indisvalid` is true. **Partitions that hold data are skipped, so startup never builds a large index.** T4 never fails startup: if it can't get the lock, hits an error, or leaves partitions pending, it logs a WARN listing the partitions.
+- **Background backfill**: a background job fills in the existing partitions one at a time during off-peak hours. The hourly partition-maintenance tick triggers it, and it runs on its own thread so it doesn't block the scheduler. Once every partition is attached, the parent index becomes valid automatically. Queries keep working throughout: finished partitions use the new indexes and the rest use T1's old ones.
+- **Old indexes**: T1's `idx_event_user_timeline` and `idx_event_distinct_timeline` are kept for now.
+
+### Configuration
+
+```yaml
+mugsun:
+  track:
+    timeline-index:
+      backfill-enabled: true   # MUGSUN_TRACK_TIMELINE_INDEX_BACKFILL_ENABLED
+      pause-millis: 5000       # pause between partitions
+      window-enabled: true     # MUGSUN_TRACK_TIMELINE_INDEX_WINDOW_ENABLED
+      window-start: "02:00"
+      window-end: "06:00"
+      window-zone: Asia/Shanghai
+```
+
+- With `backfill-enabled=false`, existing partitions are not backfilled. T4 and the partition job still handle new and empty partitions. Turn it off if you'd rather build the indexes yourself in a maintenance window.
+- A new partition is only **started** inside the window. A partition already in progress finishes, even if that runs past `window-end`.
+- Each finished partition writes a row to `track_rollup_cursor` (`job_key = timeline_index`, `app_key` = partition name). After an interruption, the job picks up from the current state in `pg_index`. Any invalid index left behind is dropped with `DROP INDEX CONCURRENTLY` and rebuilt.
+- T4, the backfill and the partition job share one session-level PG advisory lock (`hashtext('track_timeline_index')`), so only one instance builds at a time.
+
+### Expected duration
+
+Each partition gets two indexes, and each index scans the partition twice, so time grows roughly with partition size. On a Mac mini with an idle PG 16, a 3M-row (507 MB) monthly partition took 27 s for the `user_id` index and 11 s for the `distinct_id` index, about 40 s in total. At that rate a 100M-row month takes roughly 20–30 minutes, and longer under production write load. Check the log line `时间线索引后台补建：分区 … 完成（… ms）` for real numbers. Each build temporarily needs extra disk and IO roughly the size of the index.
+
+### Connection requirements
+
+The tracking database's Flyway lock and the advisory lock above are **session-level** locks. Connect to PostgreSQL directly or through PgBouncer in **session** mode. **PgBouncer transaction pooling is not supported.** When several instances start together, late starters wait up to about 10 minutes for the migration lock (`lockRetryCount = 600`).
+
+### Checking progress
+
+```sql
+-- Parent and per-partition indexes (all t = done)
+SELECT c.relname, x.indisvalid
+FROM pg_index x JOIN pg_class c ON c.oid = x.indexrelid
+WHERE c.relname LIKE '%ts_timeline' ORDER BY 1;
+
+-- Backfill progress
+SELECT app_key AS partition, last_bucket AS done_at
+FROM track_rollup_cursor WHERE job_key = 'timeline_index' ORDER BY 1;
+```
+
+### Is flyway repair needed?
+
+**No**, not when upgrading from a released version. T3 and T4 are new migrations, and `T2` is the UV backfill backup table.
+
+Only a database that ran a pre-merge preview build of boot#25 needs attention. Its `flyway_schema_history` has a `2 | track event timeline index` row, or a 3/4 row recorded without the UV backup T2, so startup fails validation or reports an ignored migration. **Don't use `flyway repair`**: it would rewrite the old row as the new T2, and the UV backup table would never be created. Instead, delete those history rows and restart:
+
+```sql
+DELETE FROM flyway_schema_history
+WHERE version IN ('3', '4')
+   OR (version = '2' AND description = 'track event timeline index');
+```
+
+On restart T2, T3 and T4 run in order. All three are safe to re-run: existing indexes and partitions that are already attached are skipped.
+
 ## Next
 
 [Install & setup](/en/track/install) → [Your first event](/en/track/first-event) → [Plugins](/en/track/plugins) → [Privacy](/en/track/privacy)
