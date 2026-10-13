@@ -19,23 +19,23 @@ Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`. T
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-devtool
     v-model:open="mainOpen"
-    title="请求记录"
+    title="Request log"
     host="https://api.example.com"
     :entries="entries"
     :show-env="false"
     @clear="onClear"
     @entry-click="onEntry"
   />
-  <ms-devtool v-model:open="envOpen" title="环境信息" :entries="entries" />
-  <!-- 组件样式 -->
-  <ms-devtool title="折叠面板" :entries="entries" :open="false" />
-  <ms-devtool title="展开面板" :entries="[]" :open="true" :max-height="120" />
-  <!-- 组件深度 -->
+  <ms-devtool v-model:open="envOpen" title="Environment" :entries="entries" />
+  <!-- Styles -->
+  <ms-devtool title="Collapsed panel" :entries="entries" :open="false" />
+  <ms-devtool title="Expanded panel" :entries="[]" :open="true" :max-height="120" />
+  <!-- Advanced -->
   <ms-devtool
-    title="矮列表"
+    title="Short list"
     host="https://api.example.com"
     :entries="entries"
     :open="true"
@@ -43,7 +43,7 @@ Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`. T
     :max-height="80"
   />
   <ms-devtool
-    title="域名面板"
+    title="Domain panel"
     host="https://edge.example.cn"
     :entries="[]"
     :open="true"
@@ -52,7 +52,7 @@ Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`. T
   />
   <ms-devtool
     v-model:open="clickOpen"
-    title="点击记录"
+    title="Click log"
     :entries="entries"
     :show-env="false"
     :max-height="120"

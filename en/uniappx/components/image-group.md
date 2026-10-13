@@ -19,18 +19,18 @@ Snippets below are taken from the demo source `pages/demo/display/image-group.uv
 
 ```vue
 <template>
-  <!-- 布局 -->
+  <!-- Layout -->
   <ms-image-group
     :list="listBasic"
     @click="onClick"
   />
   <ms-image-group :list="listTwo" :columns="2" />
-  <!-- 标签 -->
+  <!-- Labels -->
   <ms-image-group :list="listLabeled" label-mode="inset" />
   <ms-image-group :list="listLabeled" label-mode="outer" />
-  <!-- 数量限制 -->
+  <!-- Max count -->
   <ms-image-group :list="listMany" :max-count="3" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-image-group :list="listBasic" :preview="false" @click="onClick" />
   <ms-image-group :list="listTwo" :columns="2" mode="aspectFit" disabled />
   <ms-image-group :list="listMany" :columns="2" :max-count="2" />
@@ -45,9 +45,9 @@ const listBasic = [
 ] as UTSJSONObject[]
 
 const listLabeled = [
-  row(IMG1, '封面 A'),
-  row(IMG2, '封面 B'),
-  row(IMG3, '封面 C'),
+  row(IMG1, 'Cover A'),
+  row(IMG2, 'Cover B'),
+  row(IMG3, 'Cover C'),
 ] as UTSJSONObject[]
 
 const listMany = [

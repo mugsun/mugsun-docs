@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`
 
 ```vue
 <template>
-  <!-- 基础用法 -->
+  <!-- Basic usage -->
   <ms-scroll-x @scroll="onScroll">
     <ms-scroll-x-item v-for="item in baseItems" :key="item">
       <view>
@@ -27,7 +27,7 @@ Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`
       </view>
     </ms-scroll-x-item>
   </ms-scroll-x>
-  <!-- 滚动指示 -->
+  <!-- Scroll indicator -->
   <ms-scroll-x>
     <ms-scroll-x-item v-for="item in baseItems" :key="item">
       <view>
@@ -42,7 +42,7 @@ Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`
       </view>
     </ms-scroll-x-item>
   </ms-scroll-x>
-  <!-- 间距布局 -->
+  <!-- Spacing -->
   <ms-scroll-x gap="sm" :indicator="false">
     <ms-scroll-x-item v-for="item in baseItems" :key="item">
       <view>
@@ -60,7 +60,7 @@ Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`
 </template>
 
 <script setup lang="uts">
-const baseItems = ['卡片一', '卡片二', '卡片三', '卡片四', '卡片五', '卡片六'] as string[]
+const baseItems = ['Card 1', 'Card 2', 'Card 3', 'Card 4', 'Card 5', 'Card 6'] as string[]
 
 function onScroll() : void {
   console.log('onScroll')

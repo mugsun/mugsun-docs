@@ -38,7 +38,7 @@ Snippets below are taken from the demo source `pages/demo/display/collapse.uvue`
     :items="disabledItems"
     @change="onDisabledChange"
   />
-  <!-- 样式 -->
+  <!-- Styles -->
   <ms-collapse
     :items="cardItems"
     :value="cardValue"
@@ -56,36 +56,36 @@ Snippets below are taken from the demo source `pages/demo/display/collapse.uvue`
 
 <script setup lang="uts">
 const accordionItems = [
-  { label: '手风琴一', content: longText } as UTSJSONObject,
-  { label: '手风琴二', content: longText } as UTSJSONObject,
-  { label: '手风琴三', content: longText } as UTSJSONObject,
+  { label: 'Accordion 1', content: longText } as UTSJSONObject,
+  { label: 'Accordion 2', content: longText } as UTSJSONObject,
+  { label: 'Accordion 3', content: longText } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const accordionValue = [0] as number[]
 
 const actionItems = [
-  { label: '折叠面板标题', note: '展开', content: longText } as UTSJSONObject,
-  { label: '带左图标', icon: 'information-line', note: '说明', content: longText } as UTSJSONObject,
+  { label: 'Collapse panel title', note: 'Expand', content: longText } as UTSJSONObject,
+  { label: 'With left icon', icon: 'information-line', note: 'Info', content: longText } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const baseItems = [
-  { label: '折叠面板标题', content: longText } as UTSJSONObject,
-  { label: '第二个面板', content: longText } as UTSJSONObject,
+  { label: 'Collapse panel title', content: longText } as UTSJSONObject,
+  { label: 'Second panel', content: longText } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const baseValue = [0] as number[]
 
 const cardItems = [
-  { label: '卡片面板一', content: longText } as UTSJSONObject,
-  { label: '卡片面板二', content: longText } as UTSJSONObject,
-  { label: '卡片停用', content: longText, disabled: true } as UTSJSONObject,
+  { label: 'Card panel 1', content: longText } as UTSJSONObject,
+  { label: 'Card panel 2', content: longText } as UTSJSONObject,
+  { label: 'Card disabled', content: longText, disabled: true } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const cardValue = [0] as number[]
 
 const disabledItems = [
-  { label: '可展开面板', content: longText } as UTSJSONObject,
-  { label: '停用面板', content: longText, disabled: true } as UTSJSONObject,
+  { label: 'Expandable panel', content: longText } as UTSJSONObject,
+  { label: 'Disabled panel', content: longText, disabled: true } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const modelValue = ref([0] as number[])

@@ -63,7 +63,7 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 | 端点 | 用途 |
 | --- | --- |
-| `POST /track/collect` | 批量事件摄入（gzip 或明文 JSON） |
+| `POST /track/collect` | 批量事件摄入（gzip 或明文 JSON）；SDK 在 query 带 `app_key`，用于拒绝原因归因 |
 | `GET /track/config` | SDK 远端配置下发 |
 | `POST /track/replay` | 回放块摄入 |
 | `POST /track/api-body` | 接口响应体摄入（独立通道） |
@@ -121,6 +121,121 @@ WHERE b.run_id = '日志里的 run_id' AND d.id = b.stats_day_id;
 -- 确认无误后清理备份
 DELETE FROM track_stats_day_uv_backup WHERE backup_time < now() - interval '30 days';
 ```
+
+## 升级：用户时间线索引（T3 / T4）
+
+用户细查时间线按发生时间 `(ts, id)` 倒序翻页，需要两条新索引：`idx_event_user_ts_timeline (app_key, user_id, ts, id)` 和 `idx_event_distinct_ts_timeline (app_key, distinct_id, ts, id)`。`track_event` 是按月分区的父表，所以分两步建：
+
+- **T3**（SQL 迁移）：只在父表上 `CREATE INDEX … ON ONLY track_event`，不扫数据、不锁写，瞬间完成。这时父索引是 invalid。
+- **T4**（Java 迁移，不在事务内执行）：启动时只处理**空分区**，比如提前建好的下月分区和 default 分区。空分区上 `CREATE INDEX CONCURRENTLY`，确认 `pg_index.indisvalid` 为 true 后 `ATTACH PARTITION` 到父索引。**有数据的存量分区一律跳过，启动时不会同步建大索引。** T4 不会让启动失败：拿不到锁、出错或还有分区没补，都只写 WARN 日志并列出分区名。
+- **后台补建**：存量分区由后台任务在低峰期逐个补建，由分区维护任务的每小时调度触发，单独线程执行，不占调度线程。全部分区挂齐后，父索引自动变为 valid。补建期间查询照常可用：已补好的分区走新索引，没补到的分区走 T1 的旧索引。
+- **旧索引**：T1 的 `idx_event_user_timeline` 和 `idx_event_distinct_timeline` 保留，本次不删。
+
+### 配置
+
+```yaml
+mugsun:
+  track:
+    timeline-index:
+      backfill-enabled: true   # MUGSUN_TRACK_TIMELINE_INDEX_BACKFILL_ENABLED
+      pause-millis: 5000       # 两个分区之间停多久
+      window-enabled: true     # MUGSUN_TRACK_TIMELINE_INDEX_WINDOW_ENABLED
+      window-start: "02:00"
+      window-end: "06:00"
+      window-zone: Asia/Shanghai
+```
+
+- `backfill-enabled=false` 时不补存量分区。新分区和空分区仍由 T4 和分区维护任务处理。想自己在维护窗口手工建索引时，可以关掉它。
+- 只在运行时段内**开始**新分区；已经开始的分区会建完，可能超出 `window-end`。
+- 每补完一个分区，在 `track_rollup_cursor` 写一行（`job_key = timeline_index`，`app_key` 为分区名）。中断后下次从 `pg_index` 的现状接着补；中断留下的 invalid 索引会先 `DROP INDEX CONCURRENTLY` 再重建。
+- T4、后台补建和分区维护任务共用一把 PG 会话级 advisory 锁（`hashtext('track_timeline_index')`），多实例同一时刻只有一个在建。
+
+### 预计耗时
+
+每个分区建两条索引，各需对分区做两遍扫描，耗时大致与分区大小成正比。在 Mac mini 上、空闲的 PG 16 中，300 万行（507 MB）的月分区：`user_id` 索引 27 秒，`distinct_id` 索引 11 秒，合计约 40 秒。按这个比例，1 亿行的月分区约 20–30 分钟；线上有写入负载时会更慢，以日志 `时间线索引后台补建：分区 … 完成（… ms）` 的实际耗时为准。建索引期间会多占一份索引大小的磁盘空间和 IO。
+
+### 连接要求
+
+埋点库的 Flyway 和上面的 advisory 锁都是**会话级**锁，所以埋点库连接要直连 PostgreSQL，或使用 PgBouncer **session** 模式。**不支持 PgBouncer transaction pooling。** 多实例同时启动时，后启动的实例最多等迁移锁约 10 分钟（`lockRetryCount = 600`）。
+
+### 检查进度
+
+父索引的状态（`indisvalid = t` 表示所有分区都已挂齐）：
+
+```sql
+SELECT c.relname AS parent_index, x.indisvalid
+FROM pg_index x JOIN pg_class c ON c.oid = x.indexrelid
+WHERE c.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline');
+```
+
+每条父索引已挂接的子索引（按 `pg_inherits` 查，不靠名字猜）：
+
+```sql
+SELECT p.relname AS parent_index, t.relname AS partition, ci.relname AS child_index, x.indisvalid
+FROM pg_inherits i
+JOIN pg_class p  ON p.oid = i.inhparent
+JOIN pg_class ci ON ci.oid = i.inhrelid
+JOIN pg_index x  ON x.indexrelid = i.inhrelid
+JOIN pg_class t  ON t.oid = x.indrelid
+WHERE p.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline')
+ORDER BY 1, 2;
+```
+
+还没挂接的分区（就是后台任务待补的）：
+
+```sql
+SELECT p.relname AS parent_index, part.relname AS partition
+FROM pg_class p
+CROSS JOIN pg_inherits pi
+JOIN pg_class part ON part.oid = pi.inhrelid
+WHERE p.relname IN ('idx_event_user_ts_timeline', 'idx_event_distinct_ts_timeline')
+  AND pi.inhparent = 'track_event'::regclass
+  AND NOT EXISTS (
+    SELECT 1 FROM pg_inherits ii JOIN pg_index x ON x.indexrelid = ii.inhrelid
+    WHERE ii.inhparent = p.oid AND x.indrelid = part.oid)
+ORDER BY 1, 2;
+```
+
+后台补建已完成的分区：
+
+```sql
+SELECT app_key AS partition, last_bucket AS done_at
+FROM track_rollup_cursor WHERE job_key = 'timeline_index' ORDER BY 1;
+```
+
+### 停机与超时
+
+- **停应用会中断补建**：应用关闭时，任务会停止，并取消正在执行的 `CREATE INDEX CONCURRENTLY`，不再开始下一个分区。被中断的分区会留下一个 invalid 索引，下次运行时先删掉再重建，不需要手工处理。
+- **前提：数据库没有全局 `statement_timeout`**。任务在自己的会话里执行 `SET statement_timeout = 0`，结束后再 `RESET`。如果角色、数据库或 PgBouncer 层面强制了语句超时，并且会覆盖会话设置，大分区会建到一半被杀掉，反复重试。这种情况下请对埋点库的连接放开超时，或者关掉后台补建，在维护窗口手工建索引。
+- 用户时间线按用户 ID 查询时，最多合并最近活跃的 1000 个匿名设备。超过时，接口返回 `devicesTruncated: true` 和 `deviceCount`，这时请改用访客标识查询。管理端「用户细查」会在时间线上方显示同样的提示。
+
+### 是否需要 flyway repair
+
+从已发布版本升级**不需要**。T3 和 T4 都是新增迁移，`T2` 归 UV 回填备份表。
+
+只有部署过 boot#25 合并前预览构建的库才需要处理。这类库的 `flyway_schema_history` 里有 `2 | track event timeline index`，或者有一条早于 UV 备份 T2 的 3/4 记录，启动时会报校验失败或 ignored migration。**不要用 `flyway repair`**：repair 会把旧记录改成新的 T2，UV 备份表就不会再建。
+
+正确做法是删掉这几条历史记录再重启。**以下 SQL 要在埋点库执行，也就是 `mybatis-flex.datasource.track.url` 指向的库，不是业务主库。** 主库也有 `flyway_schema_history`，版本号同样是 2/3/4，连错库会删掉主库的迁移记录。先用 SELECT 确认要删的行：
+
+```sql
+-- 1) 确认当前连的是埋点库（应能看到 track_event）
+SELECT current_database(), to_regclass('track_event') IS NOT NULL AS is_track_db;
+
+-- 2) 看要删哪些行（script 应以 T 开头）
+SELECT installed_rank, version, description, script, success
+FROM flyway_schema_history
+WHERE script LIKE 'T%'
+  AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
+
+-- 3) 确认无误后删除
+DELETE FROM flyway_schema_history
+WHERE script LIKE 'T%'
+  AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
+```
+
+T4 是 Java 迁移，`script` 列是类名 `db.track.migration.T4__…`，不以 `T` 开头。如果第 2 步没有列出 T4，请先确认它确实在埋点库里，再单独删：`… WHERE version = '4' AND script LIKE 'db.track.migration.T4%'`。
+
+重启后会依次执行 T2、T3、T4。三个迁移都可以安全重跑：已有的索引会跳过，已挂好的分区也会跳过。
 
 ## 下一步
 

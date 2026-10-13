@@ -28,14 +28,14 @@ Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`.
   <ms-drawer
     :visible="showTitled"
     :items="baseItems"
-    title="菜单"
+    title="Menu"
     @update:visible="onTitledVisible"
     @item-click="onPick"
   />
   <ms-drawer
     :visible="showIcon"
     :items="iconItems"
-    title="快捷入口"
+    title="Shortcuts"
     @update:visible="onIconVisible"
     @item-click="onPick"
   />
@@ -43,16 +43,16 @@ Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`.
 
 <script setup lang="uts">
 const baseItems = ref([
-  { title: '菜单一' } as UTSJSONObject,
-  { title: '菜单二' } as UTSJSONObject,
-  { title: '菜单三' } as UTSJSONObject,
-  { title: '菜单四' } as UTSJSONObject,
+  { title: 'Menu 1' } as UTSJSONObject,
+  { title: 'Menu 2' } as UTSJSONObject,
+  { title: 'Menu 3' } as UTSJSONObject,
+  { title: 'Menu 4' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const iconItems = ref([
-  { title: '首页', icon: 'home-3-line' } as UTSJSONObject,
-  { title: '消息', icon: 'notification-line' } as UTSJSONObject,
-  { title: '设置', icon: 'settings-3-line' } as UTSJSONObject,
+  { title: 'Home', icon: 'home-3-line' } as UTSJSONObject,
+  { title: 'Messages', icon: 'notification-line' } as UTSJSONObject,
+  { title: 'Settings', icon: 'settings-3-line' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const showBase = ref(false)

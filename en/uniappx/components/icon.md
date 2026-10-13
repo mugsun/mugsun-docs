@@ -19,19 +19,19 @@ Snippets below are taken from the demo source `pages/demo/basic/icon.uvue`. To s
 
 ```vue
 <template>
-  <!-- 常用 -->
+  <!-- Common -->
   <ms-icon name="search-line" tone="primary" />
   <ms-icon name="add-line" tone="primary" />
   <ms-icon name="home-3-line" tone="primary" />
-  <!-- 尺寸 -->
+  <!-- Sizes -->
   <ms-icon name="settings-3-line" size="sm" tone="secondary" />
   <ms-icon name="settings-3-line" size="md" tone="secondary" />
   <ms-icon name="settings-3-line" size="lg" tone="secondary" />
-  <!-- 方向 -->
+  <!-- Direction -->
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" />
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="90" />
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="180" />
-  <!-- 旋转 -->
+  <!-- Rotation -->
   <ms-icon name="loader-line" size="lg" tone="primary" :spin="true" />
   <ms-icon name="refresh-line" size="lg" tone="secondary" :spin="true" :spin-duration="3000" />
 </template>

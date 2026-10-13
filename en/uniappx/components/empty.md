@@ -19,20 +19,20 @@ Snippets below are taken from the demo source `pages/demo/basic/empty.uvue`. To 
 
 ```vue
 <template>
-  <!-- 图标 -->
-  <ms-empty icon="information-line" description="图标空态" />
-  <!-- 图片 -->
-  <ms-empty image="/static/empty-illustration.svg" description="图片空态" />
-  <!-- 操作 -->
-  <ms-empty icon="inbox-line" description="描述文字" action-text="操作按钮" @action="onAction" />
-  <!-- 场景切换 -->
+  <!-- Icon -->
+  <ms-empty icon="information-line" description="Empty state with icon" />
+  <!-- Image -->
+  <ms-empty image="/static/empty-illustration.svg" description="Empty state with image" />
+  <!-- Action -->
+  <ms-empty icon="inbox-line" description="Description" action-text="Action" @action="onAction" />
+  <!-- Scenarios -->
   <ms-empty
     :status="sceneStatus"
-    title="当前没有数据"
-    description="可以下拉或点按钮重试"
-    error-text="出错啦~"
-    more-text="没有更多数据啦"
-    action-text="点击重试"
+    title="No data yet"
+    description="Pull down or tap the button to retry"
+    error-text="Something went wrong~"
+    more-text="No more data"
+    action-text="Tap to retry"
     @action="onRetry"
   />
 </template>

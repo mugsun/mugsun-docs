@@ -19,20 +19,20 @@ Snippets below are taken from the demo source `pages/demo/nav/backtop.uvue`. To 
 
 ```vue
 <template>
-  <!-- 主题样式 -->
+  <!-- Theme styles -->
   <ms-backtop
     :scroll-top="999"
     :visibility-height="0"
     :fixed="false"
     theme="round"
-    text="顶部"
+    text="Top"
   />
   <ms-backtop
     :scroll-top="999"
     :visibility-height="0"
     :fixed="false"
     theme="half-round"
-    text="返回"
+    text="Back"
   />
   <ms-backtop
     :scroll-top="999"
@@ -40,14 +40,14 @@ Snippets below are taken from the demo source `pages/demo/nav/backtop.uvue`. To 
     :fixed="false"
     theme="round-dark"
   />
-  <!-- 内容 -->
+  <!-- Content -->
   <ms-backtop
     :scroll-top="999"
     :visibility-height="0"
     :fixed="false"
     theme="round"
   />
-  <!-- 局部滚动 -->
+  <!-- Scoped scrolling -->
   <ms-backtop
     :scroll-top="localScrollY"
     :visibility-height="40"

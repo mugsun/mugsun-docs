@@ -19,15 +19,15 @@ Snippets below are taken from the demo source `pages/demo/display/countdown.uvue
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-countdown :time="demoTime" />
   <ms-countdown :time="demoTime" format="HH:mm:ss:SSS" millisecond />
   <ms-countdown :time="demoTime" theme="square" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-countdown :time="demoTime" size="sm" theme="square" />
   <ms-countdown :time="demoTime" size="md" theme="square" />
   <ms-countdown :time="demoTime" size="lg" theme="square" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-countdown :time="90000" format="mm:ss" />
   <ms-countdown ref="finishCountdown" :time="5000" format="ss" @finish="onFinish" />
   <ms-countdown

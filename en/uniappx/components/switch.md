@@ -19,26 +19,26 @@ Snippets below are taken from the demo source `pages/demo/form/switch.uvue`. To 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-switch v-model="vBase" />
-  <ms-switch v-model="vLabel" :label="['开', '关']" />
+  <ms-switch v-model="vLabel" :label="['On', 'Off']" />
   <ms-switch v-model="vIcon" active-icon="check-line" void-icon="close-line" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-switch :model-value="true" loading />
   <ms-switch :model-value="false" disabled />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-switch v-model="vSize" size="sm" />
   <ms-switch v-model="vSize" size="md" />
   <ms-switch v-model="vSize" size="lg" />
-  <!-- 组件深度 -->
-  <ms-switch v-model="vDepthLabel" size="lg" :label="['开', '关']" />
+  <!-- Advanced -->
+  <ms-switch v-model="vDepthLabel" size="lg" :label="['On', 'Off']" />
   <ms-switch
     :model-value="true"
     loading
     active-icon="check-line"
     void-icon="close-line"
   />
-  <ms-switch :model-value="true" disabled :label="['开', '关']" />
+  <ms-switch :model-value="true" disabled :label="['On', 'Off']" />
 </template>
 
 <script setup lang="uts">

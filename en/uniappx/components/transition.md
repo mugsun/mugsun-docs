@@ -19,21 +19,21 @@ Snippets below are taken from the demo source `pages/demo/basic/transition.uvue`
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-transition :visible="fadeVisible">
     <view>
-      <text>淡入淡出内容</text>
+      <text>Fade in/out content</text>
     </view>
   </ms-transition>
   <ms-transition :visible="slideVisible" name="slide-right" :duration="300">
     <view>
-      <text>右侧滑入内容</text>
+      <text>Slide in from right</text>
     </view>
   </ms-transition>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-transition :visible="true" :appear="true" name="zoom">
     <view>
-      <text>打开即缩放进场</text>
+      <text>Zooms in when opened</text>
     </view>
   </ms-transition>
   <ms-transition
@@ -43,23 +43,23 @@ Snippets below are taken from the demo source `pages/demo/basic/transition.uvue`
     @after-leave="onDestroyed"
   >
     <view>
-      <text>隐藏后不留内容</text>
+      <text>Leaves no content when hidden</text>
     </view>
   </ms-transition>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-transition :visible="leftVisible" name="slide-left" :duration="300">
     <view>
-      <text>左侧滑入内容</text>
+      <text>Slide in from left</text>
     </view>
   </ms-transition>
   <ms-transition :visible="downVisible" name="slide-down" :duration="300">
     <view>
-      <text>下沉内容</text>
+      <text>Slide down content</text>
     </view>
   </ms-transition>
   <ms-transition :visible="zoomVisible" name="zoom" :duration="300">
     <view>
-      <text>缩放过渡内容</text>
+      <text>Zoom transition content</text>
     </view>
   </ms-transition>
 </template>
