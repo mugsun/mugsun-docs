@@ -31,6 +31,25 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 | `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | empty | Audit-signing key pair, kept separate from transport keys |
 | `MUGSUN_STRICT_KEYS` | `false` (`true` in prod) | When `true`, any missing key stops startup |
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | empty | CIDR list of trusted reverse proxies; see [Open API](/en/boot/open-api#client-ip-and-trusted-proxies) |
+| `MUGSUN_FILE_SIGN_SECRET` | empty | Signing key for local file download links (at least 32 characters); see "Local file access" below |
+
+## Local file access
+
+With the default (dev) settings, the app serves locally stored files directly under `/file/**`. So that nobody can download a private attachment just by knowing its address:
+
+- Public files under `mugsun/public/` (such as avatars) can still be fetched without signing in.
+- Every other file needs a short-lived signature. After signing in, `GET /system/file/download/{id}` returns an address with `e` (expiry) and `s` (signature) parameters, valid for 300 seconds by default. Requests with no signature, a wrong one or an expired one get a 404.
+
+```yaml
+mugsun:
+  file:
+    local-access:
+      public-prefixes: [mugsun/public/]   # path prefixes anyone can fetch
+      sign-secret: ${MUGSUN_FILE_SIGN_SECRET:}
+      expire-seconds: 300
+```
+
+If `sign-secret` is empty, a random key is generated on every start, which only works for a single instance. With several instances, give them all the same value, or an address signed by one instance will 404 on another. The `prod` profile turns off direct `/file/**` serving by default and private attachments go through the authorized download endpoint, so this setting doesn't affect it.
 
 ## Optional modules
 
