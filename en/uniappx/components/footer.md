@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`. To s
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-footer text="Copyright © 2026 Mugsun. All Rights Reserved" />
   <ms-footer
     text="Copyright © 2026 Mugsun"
@@ -31,7 +31,7 @@ Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`. To s
     :links="multiLinks"
     @link="onLink"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-footer
     logo-title="Mugsun"
     logo-icon="/static/logo.png"
@@ -41,18 +41,18 @@ Snippets below are taken from the demo source `pages/demo/nav/footer.uvue`. To s
     @link="onLink"
   />
   <ms-footer>
-    <text>自定义内容 · 页脚插槽</text>
+    <text>Custom content · footer slot</text>
   </ms-footer>
   <ms-footer :links="multiLinks" @link="onLink" />
 </template>
 
 <script setup lang="uts">
 const multiLinks = [
-  { name: '用户协议' } as UTSJSONObject,
-  { name: '隐私政策' } as UTSJSONObject,
+  { name: 'Terms of Service' } as UTSJSONObject,
+  { name: 'Privacy Policy' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
-const singleLinks = [{ name: '用户协议' } as UTSJSONObject] as UTSJSONObject[]
+const singleLinks = [{ name: 'Terms of Service' } as UTSJSONObject] as UTSJSONObject[]
 
 function onLink(index: number) : void {
   console.log('onLink')
