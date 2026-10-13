@@ -71,6 +71,10 @@ Session replay and visual tagging screenshots are in
 
 `/track/*` endpoints are anonymous. The `appKey` is visible in the browser and isn't a secret; the server relies on existence checks, rate limiting, back-pressure and event validation.
 
+## Dashboard trend
+
+When you pick 3 days or more, the overview visit trend has one point per day, and the x-axis always shows every day in the range (UTC dates). A day with no data is drawn as 0 instead of being skipped (since [mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28)). For 1–2 days the chart uses 5-minute points and only shows periods that have data.
+
 ## Upgrading: backfill historical UV
 
 Dashboard UV (unique visitors) counts one per device ID (`distinct_id`). After upgrading from 0.1.0, today's numbers and every daily summary built from then on use this rule, but days that were already summarized before the upgrade still use the old one, so past days on the trend chart won't match. Run the backfill once:
