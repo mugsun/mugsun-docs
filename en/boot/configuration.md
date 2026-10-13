@@ -51,7 +51,9 @@ mugsun:
       expire-seconds: 300
 ```
 
-If `sign-secret` is empty, a random key is generated on every start, which only works for a single instance. With several instances, give them all the same value, or an address signed by one instance will 404 on another. The `prod` profile turns off direct `/file/**` serving by default and private attachments go through the authorized download endpoint, so this setting doesn't affect it.
+If `sign-secret` is empty, a random key is generated on every start, which only works for a single instance. With several instances, give them all the same value, or an address signed by one instance will 404 on another. The `prod` profile turns off direct `/file/**` serving by default and private attachments go through the authorized download endpoint, so this setting doesn't affect it. If you turn direct serving on under `prod`, `sign-secret` must be at least 32 characters; an empty or shorter value stops startup.
+
+Every directly served file carries `X-Content-Type-Options: nosniff`. Types a browser might execute, such as HTML and SVG, and PDFs are always sent as attachments to download rather than opened in the browser. HTML, SVG and similar types also get `Content-Security-Policy: sandbox`.
 
 ## Optional modules
 
