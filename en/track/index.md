@@ -22,9 +22,29 @@ mugsun track is **embedded** product analytics: the browser SDK [`@mugsun/track-
 
 The console's Analytics section has Overview, Events, Performance, Errors, Integrations, Session replay, User lookup, Funnels and Retention.
 
-![Overview (demo data)](/screenshots/track-overview.png)
+The screenshots below come from a local boot + pc run. The data was reported for real by a demo shop page through `@mugsun/track-web` 0.2.0 (about 110 visitors, all on the same day). The console UI is shown in Chinese.
 
-![Events and live stream (demo data)](/screenshots/track-event.png)
+**Overview**: page views, visitors, sessions, events, average session duration and bounce rate, plus top pages and source, device and browser breakdowns. A session settles after 30 minutes of silence; duration and bounce rate count settled sessions only.
+
+![Overview (demo data)](/screenshots/track/track-overview.png)
+
+**Events**: counts, sessions and UV per event name. Names starting with `$` are built-in; the rest are custom events or events produced by visual-tagging rules.
+
+![Events (demo data)](/screenshots/track/track-event.png)
+
+**Funnels**: pick 2–5 ordered steps and a conversion window to see users per step, step-to-step and overall conversion.
+
+![Funnels (demo data)](/screenshots/track/track-funnel.png)
+
+**Performance**: P75 and percentile breakdown for each Web Vitals metric, rated good / needs improvement / poor against thresholds.
+
+![Performance (demo data)](/screenshots/track/track-perf.png)
+
+**Errors**: JS errors grouped by fingerprint with counts, affected sessions and first/last seen; drill down to occurrences and linked replays.
+
+![Errors (demo data)](/screenshots/track/track-error.png)
+
+Session replay and visual tagging screenshots are in [Plugins · Session replay](/en/track/plugins#session-replay) and [Plugins · Visual tagging and geolocation](/en/track/plugins#visual-tagging-and-geolocation).
 
 ## Reliability
 

@@ -22,9 +22,29 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 管理台「埋点分析」包含数据概览、事件分析、性能分析、错误监控、接入管理、会话回放、用户细查、漏斗分析与留存分析。
 
-![数据概览（演示数据）](/screenshots/track-overview.png)
+以下截图来自本地实跑的 boot + pc，数据由演示商城页面经 `@mugsun/track-web` 0.2.0 真实上报（约 110 个访客，同一天内）。
 
-![事件分析与实时事件流（演示数据）](/screenshots/track-event.png)
+**数据概览**：浏览量、访客、会话、事件数与平均会话时长、跳出率，下方是 Top 页面和来源、设备、浏览器分布。会话在静默 30 分钟后结算，时长与跳出率只统计已结算会话。
+
+![数据概览（演示数据）](/screenshots/track/track-overview.png)
+
+**事件分析**：按事件名汇总次数、会话数与 UV，`$` 开头为内置事件，其余为业务自定义事件或圈选规则产生的事件。
+
+![事件分析（演示数据）](/screenshots/track/track-event.png)
+
+**漏斗分析**：选 2–5 个有序步骤和转化窗口，查看每步人数、相对上一步与总转化率。
+
+![漏斗分析（演示数据）](/screenshots/track/track-funnel.png)
+
+**性能分析**：Web Vitals 各指标的 P75 与分位明细，按阈值标记良好/待改进/差。
+
+![性能分析（演示数据）](/screenshots/track/track-perf.png)
+
+**错误监控**：JS 错误按指纹聚合，显示次数、影响会话与首末次时间，可下钻到明细和关联回放。
+
+![错误监控（演示数据）](/screenshots/track/track-error.png)
+
+会话回放与圈选的截图见 [插件 · 会话回放](/track/plugins#会话回放) 和 [插件 · 圈选与地理位置](/track/plugins#圈选与地理位置)。
 
 ## 可靠性
 
