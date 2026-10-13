@@ -9,7 +9,7 @@ demo: pages/demo/media/chat
 
 属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-chat`（源码仓暂未公开）。
+源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-chat`（商业版，源码不公开）。
 演示路由：`#/pages/demo/media/chat`。
 
 ## 基础用法

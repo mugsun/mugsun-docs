@@ -9,7 +9,7 @@ demo: pages/demo/basic/badge
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-badge` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-badge` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/badge`.
 
 ## Basic usage

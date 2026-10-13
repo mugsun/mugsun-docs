@@ -9,7 +9,7 @@ demo: pages/demo/basic/divider
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-divider` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-divider` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/divider`.
 
 ## Basic usage

@@ -9,7 +9,7 @@ demo: pages/demo/media/markdown
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-markdown/components/ms-markdown` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-markdown/components/ms-markdown` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-markdown` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/markdown`.
 

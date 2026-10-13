@@ -9,7 +9,7 @@ demo: pages/demo/form/rate
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-rate` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-rate` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/rate`.
 
 ## Basic usage

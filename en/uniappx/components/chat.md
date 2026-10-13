@@ -9,7 +9,7 @@ demo: pages/demo/media/chat
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-chat` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-chat` (commercial edition; source not public).
 Demo route: `#/pages/demo/media/chat`.
 
 ## Basic usage

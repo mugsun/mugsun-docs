@@ -9,7 +9,7 @@ demo: pages/demo/display/virtual-list
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-virtual-list` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-virtual-list` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/virtual-list`.
 
 ## Basic usage

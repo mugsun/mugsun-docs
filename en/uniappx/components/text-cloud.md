@@ -9,7 +9,7 @@ demo: pages/demo/display/text-cloud
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-text-cloud` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-text-cloud` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/text-cloud`.
 
 ## Basic usage

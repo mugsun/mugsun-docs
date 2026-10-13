@@ -14,7 +14,7 @@ mugsun 是一套面向中小团队、**可完整私有化部署**的中后台底
 | [mugsun-core](https://github.com/mugsun/mugsun-core) | BOM 与 Starter | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · BouncyCastle | Apache-2.0 |
 | [mugsun-pc](https://github.com/mugsun/mugsun-pc) | 管理台 | Vue 3.5 · Vite 7 · Element Plus 2.11 · Pinia · Vue Router | MIT |
 | [mugsun-track](https://github.com/mugsun/mugsun-track) | 浏览器埋点 SDK `@mugsun/track-web` | TypeScript · 插件化内核 | MIT |
-| ms-ui（`mugsun-uniappx-ui`） | uni-app x 跨端组件库 | uvue · uts | 源码暂未公开，文档与演示开放 |
+| ms-ui（`mugsun-uniappx-ui`） | uni-app x 跨端组件库 | uvue · uts | 商业版（源码不公开），文档与演示开放 |
 
 ## 设计取舍
 

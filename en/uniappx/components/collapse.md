@@ -9,7 +9,7 @@ demo: pages/demo/display/collapse
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-collapse` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-collapse` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/collapse`.
 
 ## Basic usage

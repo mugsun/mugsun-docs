@@ -9,7 +9,7 @@ demo: pages/demo/nav/backtop
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-backtop` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-backtop` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/backtop`.
 
 ## Basic usage

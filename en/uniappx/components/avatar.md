@@ -9,7 +9,7 @@ demo: pages/demo/display/avatar
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-avatar` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-avatar` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/avatar`.
 
 ## Basic usage

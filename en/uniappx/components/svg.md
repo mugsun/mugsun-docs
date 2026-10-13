@@ -9,7 +9,7 @@ demo: pages/demo/media/svg
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-svg/components/ms-svg` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-svg/components/ms-svg` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-svg` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/svg`.
 

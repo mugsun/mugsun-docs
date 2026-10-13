@@ -9,7 +9,7 @@ demo: pages/demo/display/image-resizer
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-resizer` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-resizer` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/image-resizer`.
 
 ## Basic usage
