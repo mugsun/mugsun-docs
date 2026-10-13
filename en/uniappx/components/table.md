@@ -9,13 +9,13 @@ demo: pages/demo/display/table
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-table` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-table` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/table`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/table.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/table.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>

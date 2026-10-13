@@ -9,13 +9,13 @@ demo: pages/demo/basic/cell
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-cell` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-cell` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/cell.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>

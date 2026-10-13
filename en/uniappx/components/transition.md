@@ -9,13 +9,13 @@ demo: pages/demo/basic/transition
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-transition` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-transition` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/transition`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/transition.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/transition.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
