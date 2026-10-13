@@ -36,6 +36,16 @@ In older versions, running `mvn -pl mugsun-boot-server -am spring-boot:run` from
 
 The path is `optional:file:./config/application-local.yml`, so the working directory must be the boot repository root. Create it with `cp config/application-local.yml.example config/application-local.yml`.
 
+
+### Startup fails with `Migration checksum mismatch for version 1`
+
+The released 0.1.0 `V1__baseline_0_1.sql` is now identical on main (since [mugsun-boot #15](https://github.com/mugsun/mugsun-boot/pull/15); CI checks it against `db/RELEASED.sha256`, so it won't change again). This error means your dev database was created from main before 0.1.0 was released, or from main between #11 and #15, so it recorded an older V1 checksum.
+
+- **Dev database, data not needed (recommended):** `docker compose down -v && docker compose up -d`, then start the backend to rebuild from the current migrations. This deletes the dev data volume only; never run it against a shared database.
+- **Keep the data:** back up first, check the schema matches the current V1, then record the released V1 checksum (what `flyway repair` would do for V1): `docker exec mugsun-pg psql -U mugsun -d mugsun -c "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"`. This only updates the history table; it doesn't add columns or menus the older V1 lacked, so rebuilding is safer when the schema differs.
+
+Databases created from the 0.1.0 release are not affected and upgrade normally.
+
 ### The app exits immediately with the `prod` profile
 
 `prod` refuses to start without an injected initial password (`MUGSUN_INIT_PASSWORD`). This is a deliberate safety default.
