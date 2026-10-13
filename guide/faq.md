@@ -58,7 +58,7 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 ### 埋点会采集输入框内容吗？
 
-不会。SDK 不采集 `input` / `textarea` 的值，`password` 与 `maskSelectors` 命中区域整块屏蔽，回放默认遮罩输入。详见 [隐私与合规](/track/privacy)。
+不会。SDK 不采集 `input` / `textarea` 的值，`password` 与 `maskSelectors` 命中区域整块屏蔽，回放默认遮罩输入与页面文本（0.2.0 起）。详见 [隐私与合规](/track/privacy)。
 
 ### URL 里的 token 会被上报吗？
 

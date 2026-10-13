@@ -1,23 +1,34 @@
 # Introduction
 
-mugsun is a **self-hosted** admin foundation for small teams: multi-tenant tenancy, SM crypto & audit, and embedded product analytics (SDK → ingest → dashboard), with GIS / AI as optional modules.
+mugsun is an admin platform for small and mid-sized teams that you can **deploy entirely on your own infrastructure**. It puts three things that are usually assembled separately into one codebase and one database:
 
-## What it is
+1. **A business backend**: users, roles, menus, departments, data permissions, multi-tenancy, workflow, files and an open platform.
+2. **An admin console**: permissions come from the backend; system management pages work out of the box, with optional GIS, analytics and AI pages.
+3. **Product analytics**: browser SDK → backend ingestion → dashboards in the console, with no dependency on a hosted analytics service.
 
-- [mugsun-boot](https://github.com/mugsun/mugsun-boot) — JDK 21 + Spring Boot 3.5 (core / gis / track / ai modules)
-- [mugsun-pc](https://github.com/mugsun/mugsun-pc) — Vue 3 + TypeScript + Element Plus
-- [mugsun-track](https://github.com/mugsun/mugsun-track) — pluginized web SDK (core gzip target ≤ 8KB)
-- [mugsun-core](https://github.com/mugsun/mugsun-core) — BOM and starters
-- **ms-ui** (uni-app x) — component docs: [ms-ui](/en/uniappx/); source repo `mugsun-uniappx-ui` is currently private
+## What's in the box
 
-## What it is not
+| Repository | Role | Stack | License |
+| --- | --- | --- | --- |
+| [mugsun-boot](https://github.com/mugsun/mugsun-boot) | Modular monolith backend | JDK 21 · Spring Boot 3.5.13 · MyBatis-Flex · Sa-Token · JetCache · Warm-Flow · Flyway · Spring AI 1.1.2 | Apache-2.0 |
+| [mugsun-core](https://github.com/mugsun/mugsun-core) | BOM and starters | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · BouncyCastle | Apache-2.0 |
+| [mugsun-pc](https://github.com/mugsun/mugsun-pc) | Admin console | Vue 3.5 · Vite 7 · Element Plus 2.11 · Pinia · Vue Router | MIT |
+| [mugsun-track](https://github.com/mugsun/mugsun-track) | Browser analytics SDK `@mugsun/track-web` | TypeScript · plugin-based core | MIT |
+| ms-ui (`mugsun-uniappx-ui`) | Component library for uni-app x | uvue · uts | Source not yet public; docs and demo are |
 
-- Not a kitchen-sink low-code platform
-- Not a hosted analytics SaaS (you take the pipeline with you)
-- **cloud** (microservices edition) remains *planned*—this site will not pretend it ships as an open install guide today
+## Design choices
 
-## How it differs
+- **Monolith first, modules on demand.** One JAR plus PostgreSQL and Redis is enough to run. GIS, analytics and AI are Maven modules: profiles decide whether they are packaged, environment variables decide whether they are enabled. A microservices edition (cloud) is planned.
+- **One source of truth for permissions.** The console has no permission model of its own; menus, button permission codes and user info all come from boot (`/auth/info` and related endpoints).
+- **Secure defaults live in code, not in an appendix.** A missing initial password stops startup; attachments are scoped to their uploader and tenant; AI outbound requests pass an SSRF check; the SDK honors Do Not Track, never records input values, and redacts sensitive URL parameters before sending.
+- **Your data stays with you.** Events, replays and configuration are stored in your database. The SDK's `appKey` only identifies an app; it is not a credential.
 
-Instead of a feature-wall checklist, mugsun emphasizes one verifiable slice: **SDK → ingest → dashboard**, with security defaults (secrets, redaction, replay masking) documented up front.
+## What it isn't
 
-See [Architecture](/en/guide/architecture). To run locally: [Getting started](/en/guide/getting-started).
+- Not a drag-and-drop low-code platform, and it doesn't compete on the length of its feature list.
+- Not a hosted analytics SaaS; there are no hosted accounts.
+- There is no public demo of the console and analytics yet. ms-ui has a [live H5 demo](/en/demo).
+
+## Next
+
+[Getting started](/en/guide/getting-started) · [Architecture](/en/guide/architecture) · [FAQ](/en/guide/faq)

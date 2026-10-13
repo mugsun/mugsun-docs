@@ -1,76 +1,129 @@
-# Getting Started
+# Getting started
 
-Goal: bring up **Postgres + Redis + boot** from an empty machine, sign in to the admin console, and smoke-test once. Commands follow the [mugsun-boot README](https://github.com/mugsun/mugsun-boot/blob/main/README_EN.md); this page is the shortest honest path.
+This guide takes you from an empty machine to three verifiable results: **the backend health check passes → you can sign in to the console → your first analytics event shows up on a dashboard.** Each step ends with a way to check it worked.
 
-## Prerequisites
+## Requirements
 
-- JDK 21, Maven 3.9+, Docker / Docker Compose
-- Clone [mugsun-core](https://github.com/mugsun/mugsun-core) as a **sibling** of `mugsun-boot` (not on Maven Central yet—local `mvn install` required)
-- Optional: Node.js ≥ 20.19 and pnpm for [mugsun-pc](https://github.com/mugsun/mugsun-pc)
+| Tool | Version | Used for |
+| --- | --- | --- |
+| JDK | 21 | Running boot |
+| Maven | 3.9+ | Building boot (pulls `com.mugsun:mugsun-*:0.1.0` from Maven Central) |
+| Docker / Docker Compose | Recent | PostgreSQL 16 (with PostGIS and pgvector) and Redis 7 |
+| Node.js | ≥ 20.19 | Console and SDK (optional) |
+| pnpm | ≥ 8.8 (the console pins `pnpm@11.9.0`) | Same as above |
 
-Suggested layout:
+Recommended layout. The console references the SDK as `file:../mugsun-track`, so the repositories must sit side by side:
 
 ```text
 mugsun/
-  mugsun-core/
-  mugsun-boot/
-  mugsun-pc/      # optional
-  mugsun-track/   # clone when wiring analytics
+  mugsun-boot/    # backend, :8080
+  mugsun-pc/      # console, :3006 (optional)
+  mugsun-track/   # SDK, needed when the console's analytics module is on
 ```
 
-## 1. Install core
+::: tip No need to install core locally
+`mugsun-core` 0.1.0 is on [Maven Central](https://central.sonatype.com/search?q=com.mugsun), so Maven resolves it while building boot. Clone core and run `mvn clean install -DskipTests` only if you are offline.
+:::
 
-```bash
-git clone https://github.com/mugsun/mugsun-core.git
-cd mugsun-core
-mvn clean install -DskipTests
-```
-
-## 2. Start infrastructure + boot
-
-`docker compose` starts **PostgreSQL (5432) and Redis (6379) only**. The app runs as a JAR / `spring-boot:run`—not a single compose that brings up the full stack.
+## Step 1: Start the backend
 
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git
 cd mugsun-boot
 docker compose up -d
 cp config/application-local.yml.example config/application-local.yml
-mvn -pl mugsun-boot-server -am spring-boot:run
+mvn -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-Health check: `http://localhost:8080/ping`.
+- `docker compose up -d` starts only PostgreSQL (5432) and Redis (6379). The first run builds a database image with PostGIS and pgvector.
+- The package uses the default `full` profile (core + gis + track + ai).
+- Run `java -jar` from the repository root, otherwise `config/application-local.yml` is not picked up. Make sure `java -version` reports 21.
 
-OpenAPI (dev): `http://localhost:8080/swagger-ui/index.html` (disabled under `prod`).
-
-::: warning Credentials
-Default initial account (per boot README): `admin` / `123456` (override with `MUGSUN_INIT_PASSWORD`). **Change the password immediately after login.** Never expose demo credentials on the public internet. The `prod` profile refuses to start without an injected initial password.
+::: details Why not `mvn -pl mugsun-boot-server -am spring-boot:run`?
+Run from the repository root, that command also applies `spring-boot:run` to the parent POM and fails with `Unable to find a suitable main class`. Packaging first and running the JAR is the reliable path for now.
 :::
 
-Dev DB credentials default to the JDBC settings (`mugsun` / `mugsun`). Without Docker, see `scripts/init-db.sql` in the boot repo. Always trust the current [mugsun-boot](https://github.com/mugsun/mugsun-boot) README if anything drifts.
+**Check:**
 
-## 3. (Optional) Admin console
+- `curl http://localhost:8080/ping` returns a success response.
+- The OpenAPI UI is at `http://localhost:8080/swagger-ui/index.html` (disabled in `prod`).
 
-With boot healthy on `:8080`:
+::: warning Initial password
+The default account is `admin` / `123456`; override it with `MUGSUN_INIT_PASSWORD`. In `prod`, boot refuses to start without an injected initial password. Change the password right after you sign in, and never expose the demo password publicly.
+:::
+
+If startup fails, see the [FAQ](/en/guide/faq#startup-and-build).
+
+## Step 2: Start the console (optional)
+
+From the directory that contains `mugsun-boot`:
 
 ```bash
+git clone https://github.com/mugsun/mugsun-track.git
 git clone https://github.com/mugsun/mugsun-pc.git
-# If Track is enabled, keep mugsun-track as a sibling and run pnpm setup:sdk first (see pc README)
 cd mugsun-pc
+pnpm setup:sdk
 pnpm install
 pnpm dev
 ```
 
-Open `http://localhost:3006` (`VITE_PORT`). Dev `/api` proxies to boot `:8080`. Sign-in credentials match boot.
+- `pnpm setup:sdk` builds the sibling `mugsun-track`. Skip it if you set `VITE_ENABLE_TRACK=false`.
+- `pnpm dev` serves the console at `http://localhost:3006` and opens a browser.
 
-## 4. Smoke test
+During development, Vite proxies `/api/**` to `VITE_API_PROXY_URL` in `.env.development` (default `http://localhost:8080`).
 
-1. Sign in and open any system admin list page.
-2. If Track is enabled, verify with [First event](/en/track/first-event).
-3. Before production, walk through the [Security checklist](/en/boot/security-checklist).
+**Check:** sign in with the account from step 1. The local config echoes the captcha, so it is filled in for you. You should land on the workbench, with menus such as Analytics and System in the top bar.
 
-## Links
+![Sign-in page](/screenshots/pc-login.png)
 
-- [mugsun-boot](https://github.com/mugsun/mugsun-boot) · [Configuration](/en/boot/configuration)
-- [mugsun-pc](https://github.com/mugsun/mugsun-pc) · [Development](/en/pc/development)
-- [mugsun-track](https://github.com/mugsun/mugsun-track) · [Install Track](/en/track/install)
-- [Demo notes](/en/demo)
+![Workbench](/screenshots/pc-workbench.png)
+
+::: info Sessions are per tab
+Since 0.1.0, `accessToken` and `refreshToken` live in `sessionStorage` rather than `localStorage`. A new tab asks you to sign in again; that is intentional.
+:::
+
+## Step 3: Send your first event (optional)
+
+1. In the console, open **Analytics → Integrations** (埋点分析 → 接入管理), create an app and copy its `appKey`.
+2. Install and initialize the SDK in any web project:
+
+::: code-group
+
+```bash [pnpm]
+pnpm add @mugsun/track-web
+```
+
+```bash [npm]
+npm install @mugsun/track-web
+```
+
+```bash [yarn]
+yarn add @mugsun/track-web
+```
+
+:::
+
+```ts
+import { createTracker } from '@mugsun/track-web'
+
+const track = createTracker({
+  endpoint: 'http://localhost:8080', // events go to {endpoint}/track/collect
+  appKey: '<your appKey>',
+})
+
+track.track('hello_mugsun', { from: 'getting-started' })
+```
+
+**Check:** in the browser's network panel, `/track/collect` returns 2xx. In **Analytics → Overview**, pick your app and the data appears.
+
+![Analytics overview (demo data)](/screenshots/track-overview.png)
+
+Troubleshooting steps are in [Your first event](/en/track/first-event).
+
+## Next steps
+
+- How the repositories fit together: [Architecture](/en/guide/architecture)
+- Modules, data sources and security settings: [Boot configuration](/en/boot/configuration)
+- Before going live: [Security checklist](/en/boot/security-checklist)
+- Extending the console: [Console development](/en/pc/development)
