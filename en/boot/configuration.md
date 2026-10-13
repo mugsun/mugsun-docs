@@ -89,6 +89,8 @@ mugsun:
       global-challenge-per-second: 200   # global per-second cap (shared across nodes with Redis)
       sms-phone-per-day: 10        # SMS codes per phone number per day
       sms-ip-per-hour: 20          # SMS codes per IP per hour
+      sms-phone-per-minute: 5      # short window: per phone per minute (every request counts, recovers on its own)
+      sms-ip-per-minute: 30        # short window: per IP per minute
 ```
 
 See `mugsun.captcha` in `application.yml` for every key and default.
@@ -111,15 +113,15 @@ Errors come back as HTTP 200 with `R.code`:
 | --- | --- |
 | `40010` | Challenge expired; fetch a new one |
 | `40011` | Failed; fetch a new one (no reason given) |
-| `40012` | Too many attempts; retry after `data.retryAfter` seconds. The failure that triggers the lock (the 5th pointer or 3rd keyboard failure) already returns `40012`, as do challenge and verify while locked |
+| `40012` | Too many attempts; retry after `data.retryAfter` seconds. The failure that triggers the lock (the 5th pointer or 3rd keyboard failure) already returns `40012`, as does any failed verify when the IP is already locked (including by a concurrent request or the other input mode). Challenge and verify also return `40012` while locked |
 | `40013` | Missing or invalid `captchaToken` |
 | `40014` | Verification is not needed right now |
 
 The verify request body is capped at 32KB, chunked uploads included; an oversized body also gets HTTP 200 with `40011`.
 
-**Forgotten password:** `/auth/forget-code` returns the same success message whether the account is missing, has no email, the mail channel is not configured, or sending failed. The actual reason only goes to the server log, so the response reveals neither the account nor the channel state. Check the mail channel after deploying, or users will see "sent" and get nothing.
+**Forgotten password:** `/auth/forget-code` sends its email asynchronously, so response time does not depend on whether the account exists, and it returns the same success message ("如账号存在，验证码已发送至绑定邮箱"; the admin site shows it in English as "If the account exists, a verification code has been sent to its linked email.") whether the account is missing, has no email, the mail channel is not configured, or sending failed. The actual reason only goes to the server log, so the response reveals neither the account nor the channel state. Check the mail channel after deploying, or users will see "sent" and get nothing.
 
-**Sending SMS:** `/auth/sms-code` checks the phone and IP limits before consuming the `captchaToken`, so an over-limit request does not burn the token. The phone number has spaces and `-` removed and any `+86`/`0086`/`86` prefix stripped, and the limits, sending and SMS login all use that form.
+**Sending SMS:** `/auth/sms-code` runs these steps in order: (1) a short-window limit of 5 per phone and 30 per IP per minute, which counts every request, including ones without a token, and recovers after 60 seconds; (2) a read-only check of the daily quotas (per phone per day, per IP per hour), so an over-quota request does not burn the token; (3) consume the `captchaToken`; (4) atomically count against the daily quotas only if they are not yet full; (5) send. Requests with no token or a bad token only count toward the short window, never the daily quota, so nobody can use up a number's quota for the day on its owner's behalf. A failed send still counts and is written to the audit log. Every limit returns `40012` with `retryAfter`. The phone number has spaces and `-` removed and any `+86`/`0086`/`86` prefix stripped, and the limits, sending and SMS login all use that form.
 
 **Redis keys:** captcha state lives under the prefix `mugsun:captcha:v2:` (with `store: memory` the same keys live in-process):
 
@@ -130,7 +132,8 @@ The verify request body is capped at 32KB, chunked uploads included; an oversize
 | `rl:challenge:<ip>` | Challenges per IP per minute | 60 s |
 | `rl:keyboard:<ip>` | Keyboard verifies per IP per minute | 60 s |
 | `rl:global:<second>` | Global challenges per second | 2 s |
-| `rl:sms-phone:<phone hash>` / `rl:sms-ip:<ip>` | SMS send limits | 1 day / 1 hour |
+| `rl:sms-phone:<phone hash>` / `rl:sms-ip:<ip>` | SMS daily quotas (counted only after the token is consumed) | 1 day / 1 hour |
+| `rl:sms-burst-phone:<phone hash>` / `rl:sms-burst-ip:<ip>` | SMS short-window limit | 60 s |
 | `fail:<pointer\|keyboard>:<ip>` | Failure counter | `fail-window-seconds` |
 | `lock:<ip>` | IP lock; its remaining TTL is `retryAfter` | `lock-seconds` |
 
