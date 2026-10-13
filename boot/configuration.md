@@ -49,7 +49,9 @@ mugsun:
       expire-seconds: 300
 ```
 
-`sign-secret` 留空时每次启动随机生成，只适合单实例；多实例部署必须给所有实例配置同一个值，否则一个实例签发的地址在另一个实例上会 404。`prod` profile 默认关闭 `/file/**` 直出，私有附件走授权下载接口，不受此项影响。
+`sign-secret` 留空时每次启动随机生成，只适合单实例；多实例部署必须给所有实例配置同一个值，否则一个实例签发的地址在另一个实例上会 404。`prod` profile 默认关闭 `/file/**` 直出，私有附件走授权下载接口，不受此项影响；如果在 `prod` 下手动开启直出，必须配置至少 32 个字符的 `sign-secret`，留空或过短都会拒绝启动。
+
+直出的文件都带 `X-Content-Type-Options: nosniff`。HTML、SVG 等浏览器可能执行的类型以及 PDF 一律作为附件下载，不在浏览器里直接打开；HTML、SVG 等还会附加 `Content-Security-Policy: sandbox`。
 
 ## 可选模块
 
