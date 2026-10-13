@@ -39,7 +39,7 @@ docker compose up -d
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-The backend also reads `MUGSUN_DB_HOST`, `MUGSUN_DB_NAME`, `MUGSUN_DB_USERNAME`, `MUGSUN_DB_PASSWORD`, `MUGSUN_REDIS_HOST`, or a full `MUGSUN_DB_URL`. The track database `mugsun_track` follows the same host and port by default; `TRACK_JDBC_URL` still overrides it. `prod` ignores these variables; see [Configuration](/en/boot/configuration).
+The backend also reads `MUGSUN_DB_HOST`, `MUGSUN_DB_NAME`, `MUGSUN_DB_USERNAME`, `MUGSUN_DB_PASSWORD`, `MUGSUN_REDIS_HOST`, or a full `MUGSUN_DB_URL`. The track database `mugsun_track` resolves its URL in this order: `TRACK_JDBC_URL` → `MUGSUN_DB_URL` → `MUGSUN_DB_HOST`/`MUGSUN_DB_PORT`. When it uses `MUGSUN_DB_URL`, it keeps that URL's host, port and parameters and only swaps the database name for `mugsun_track`. Under `prod` the business database reads only `JDBC_URL`, but the track database follows the same order, so without `TRACK_JDBC_URL` it reads `MUGSUN_DB_*`; see [Configuration](/en/boot/configuration). The `MUGSUN_DB_URL` step requires [mugsun-boot #38](https://github.com/mugsun/mugsun-boot/pull/38); earlier versions only use the host and port.
 
 ### The first `docker compose up -d` is slow on Apple Silicon
 
