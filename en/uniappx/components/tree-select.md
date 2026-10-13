@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/display/tree-select.uv
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-tree-select
     :options="goodsOptions"
     :value="baseValue"
@@ -34,14 +34,14 @@ Snippets below are taken from the demo source `pages/demo/display/tree-select.uv
     @update:value="onMultiPath"
     @update:leafValues="onMultiLeaves"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-tree-select
     :options="areaOptions"
     :value="areaValue"
     @update:value="onAreaValue"
     @change="onAreaChange"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-tree-select
     :options="areaOptions"
     :value="depthPath"
@@ -67,39 +67,39 @@ Snippets below are taken from the demo source `pages/demo/display/tree-select.uv
 <script setup lang="uts">
 const areaOptions = [
   {
-    label: '北京市',
+    label: 'Beijing',
     value: '110000',
     children: [
       {
-        label: '北京市',
+        label: 'Beijing',
         value: '110100',
         children: [
-          { label: '东城区', value: '110101' } as UTSJSONObject,
-          { label: '西城区', value: '110102' } as UTSJSONObject,
-          { label: '朝阳区', value: '110105' } as UTSJSONObject,
+          { label: 'Dongcheng', value: '110101' } as UTSJSONObject,
+          { label: 'Xicheng', value: '110102' } as UTSJSONObject,
+          { label: 'Chaoyang', value: '110105' } as UTSJSONObject,
         ] as UTSJSONObject[],
       } as UTSJSONObject,
     ] as UTSJSONObject[],
   } as UTSJSONObject,
   {
-    label: '广东省',
+    label: 'Guangdong',
     value: '440000',
     children: [
       {
-        label: '广州市',
+        label: 'Guangzhou',
         value: '440100',
         children: [
-          { label: '越秀区', value: '440104' } as UTSJSONObject,
-          { label: '天河区', value: '440106' } as UTSJSONObject,
+          { label: 'Yuexiu', value: '440104' } as UTSJSONObject,
+          { label: 'Tianhe', value: '440106' } as UTSJSONObject,
         ] as UTSJSONObject[],
       } as UTSJSONObject,
       {
-        label: '深圳市',
+        label: 'Shenzhen',
         value: '440300',
         children: [
-          { label: '福田区', value: '440304' } as UTSJSONObject,
-          { label: '南山区', value: '440305' } as UTSJSONObject,
-          { label: '盐田区', value: '440308', disabled: true } as UTSJSONObject,
+          { label: 'Futian', value: '440304' } as UTSJSONObject,
+          { label: 'Nanshan', value: '440305' } as UTSJSONObject,
+          { label: 'Yantian', value: '440308', disabled: true } as UTSJSONObject,
         ] as UTSJSONObject[],
       } as UTSJSONObject,
     ] as UTSJSONObject[],
@@ -120,29 +120,29 @@ const emptyValue = ref([] as string[])
 
 const goodsOptions = [
   {
-    label: '数码',
+    label: 'Digital',
     value: 'digital',
     children: [
-      { label: '手机', value: 'phone' } as UTSJSONObject,
-      { label: '平板', value: 'pad' } as UTSJSONObject,
-      { label: '耳机', value: 'earphone' } as UTSJSONObject,
+      { label: 'Phone', value: 'phone' } as UTSJSONObject,
+      { label: 'Tablet', value: 'pad' } as UTSJSONObject,
+      { label: 'Earphones', value: 'earphone' } as UTSJSONObject,
     ] as UTSJSONObject[],
   } as UTSJSONObject,
   {
-    label: '家电',
+    label: 'Appliances',
     value: 'home',
     children: [
-      { label: '冰箱', value: 'fridge' } as UTSJSONObject,
-      { label: '空调', value: 'ac' } as UTSJSONObject,
-      { label: '洗衣机', value: 'washer', disabled: true } as UTSJSONObject,
+      { label: 'Fridge', value: 'fridge' } as UTSJSONObject,
+      { label: 'Air conditioner', value: 'ac' } as UTSJSONObject,
+      { label: 'Washer', value: 'washer', disabled: true } as UTSJSONObject,
     ] as UTSJSONObject[],
   } as UTSJSONObject,
   {
-    label: '服饰',
+    label: 'Apparel',
     value: 'cloth',
     children: [
-      { label: '外套', value: 'coat' } as UTSJSONObject,
-      { label: '鞋靴', value: 'shoes' } as UTSJSONObject,
+      { label: 'Coats', value: 'coat' } as UTSJSONObject,
+      { label: 'Shoes', value: 'shoes' } as UTSJSONObject,
     ] as UTSJSONObject[],
   } as UTSJSONObject,
 ] as UTSJSONObject[]
@@ -153,28 +153,28 @@ const multiPath = ref(['fe'] as string[])
 
 const teamOptions = [
   {
-    label: '前端',
+    label: 'Frontend',
     value: 'fe',
     children: [
-      { label: '组件库', value: 'fe-ui' } as UTSJSONObject,
-      { label: '构建', value: 'fe-build' } as UTSJSONObject,
-      { label: '可视化', value: 'fe-chart' } as UTSJSONObject,
+      { label: 'Component library', value: 'fe-ui' } as UTSJSONObject,
+      { label: 'Build', value: 'fe-build' } as UTSJSONObject,
+      { label: 'Visualization', value: 'fe-chart' } as UTSJSONObject,
     ] as UTSJSONObject[],
   } as UTSJSONObject,
   {
-    label: '后端',
+    label: 'Backend',
     value: 'be',
     children: [
-      { label: '网关', value: 'be-gw' } as UTSJSONObject,
-      { label: '存储', value: 'be-store' } as UTSJSONObject,
+      { label: 'Gateway', value: 'be-gw' } as UTSJSONObject,
+      { label: 'Storage', value: 'be-store' } as UTSJSONObject,
     ] as UTSJSONObject[],
   } as UTSJSONObject,
   {
-    label: '设计',
+    label: 'Design',
     value: 'ui',
     children: [
-      { label: '规范', value: 'ui-spec' } as UTSJSONObject,
-      { label: '插画', value: 'ui-art', disabled: true } as UTSJSONObject,
+      { label: 'Guidelines', value: 'ui-spec' } as UTSJSONObject,
+      { label: 'Illustration', value: 'ui-art', disabled: true } as UTSJSONObject,
     ] as UTSJSONObject[],
   } as UTSJSONObject,
 ] as UTSJSONObject[]

@@ -20,32 +20,32 @@ Snippets below are taken from the demo source `pages/demo/media/camera.uvue`. To
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-camera
     :device-position="position"
     flash="auto"
     :height="180"
-    tip="真机可取景；不支持时显示占位"
+    tip="Live preview on a real device; shows a placeholder when unsupported"
     @photo="onPhoto"
     @error="onError"
     @position-change="onPositionChange"
   />
   <ms-camera device-position="front" flash="off" :height="140" :show-toolbar="false" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-camera :height="120" :show-toolbar="false" resolution="low" />
-  <ms-camera :height="120" resolution="high" tip="拍照与翻转两个动作" />
-  <!-- 组件深度 -->
+  <ms-camera :height="120" resolution="high" tip="Two actions: capture and flip" />
+  <!-- Advanced -->
   <ms-camera
     flash="torch"
     :height="120"
     :show-toolbar="false"
-    tip="常亮闪光"
+    tip="Torch on"
   />
   <ms-camera
     flash="on"
     resolution="medium"
     :height="120"
-    tip="拍照时强制开灯"
+    tip="Flash forced on capture"
   />
   <ms-camera
     ref="cmdCamera"

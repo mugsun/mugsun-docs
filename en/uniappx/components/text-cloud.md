@@ -19,13 +19,13 @@ Snippets below are taken from the demo source `pages/demo/display/text-cloud.uvu
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-text-cloud :list="baseList" @complete="onComplete" />
   <ms-text-cloud :list="colorList" @complete="onComplete" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-text-cloud :list="baseList" :height="200" :min-font-size="14" :max-font-size="40" />
   <ms-text-cloud :list="baseList" :height="120" :min-font-size="10" :max-font-size="20" :gap="1" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-text-cloud :list="baseList" :height="160" :gap="8" :min-font-size="12" :max-font-size="28" />
   <ms-text-cloud :list="[]" :height="100" />
   <ms-text-cloud :list="shortList" :height="120" :min-font-size="14" :max-font-size="32" />
@@ -39,11 +39,11 @@ const colorList = ref(build(8, ['#dc2626', '#0d9488', '#f59e0b', '#0369a1'] as s
 const shortList = ref(((): UTSJSONObject[] => {
   const rows: UTSJSONObject[] = []
   const items = [
-    ['跨端', 20, '#1d4ed8'],
-    ['适配', 14, '#64748b'],
-    ['组件', 10, '#94a3b8'],
-    ['布局', 8, '#475569'],
-    ['主题', 6, '#cbd5e1'],
+    ['Cross-platform', 20, '#1d4ed8'],
+    ['Adaptive', 14, '#64748b'],
+    ['Components', 10, '#94a3b8'],
+    ['Layout', 8, '#475569'],
+    ['Themes', 6, '#cbd5e1'],
   ] as (string | number)[][]
   for (let i = 0; i < items.length; i++) {
     const row = new UTSJSONObject()

@@ -19,10 +19,10 @@ Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`. To
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-weekbar v-model="basicDate" @change="onBasicChange" @weekchange="onWeekChange" />
   <ms-weekbar v-model="plainDate" :show-action="false" mode="none" @change="onPlainChange" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-weekbar v-model="circleDate" mode="circular" :first-day="6" @change="onCircleChange" />
   <ms-weekbar
     v-model="rangeDate"
@@ -32,7 +32,7 @@ Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`. To
     @change="onRangeChange"
   />
   <ms-weekbar v-model="basicDate" :disabled="true" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-weekbar
     v-model="banDate"
     :disabled-dates="banned"
