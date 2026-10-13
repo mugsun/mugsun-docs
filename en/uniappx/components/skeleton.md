@@ -19,16 +19,16 @@ Snippets below are taken from the demo source `pages/demo/display/skeleton.uvue`
 
 ```vue
 <template>
-  <!-- 骨架屏类型 -->
+  <!-- Skeleton types -->
   <ms-skeleton theme="avatar" />
   <ms-skeleton theme="image" />
   <ms-skeleton theme="text" />
-  <!-- 组合布局 -->
+  <!-- Composite layout -->
   <ms-skeleton theme="paragraph" />
-  <!-- 组件动效 -->
+  <!-- Animation -->
   <ms-skeleton theme="paragraph" animation="none" />
   <ms-skeleton theme="paragraph" animation="flashed" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-skeleton theme="card" :row="3" animation="flashed" />
   <ms-skeleton theme="paragraph" :row="5" />
   <ms-skeleton theme="text" :row="2" :delay="400" :loading="true" />

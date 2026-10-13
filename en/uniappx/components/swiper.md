@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. 
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-swiper :items="slides" :height="150" @change="onDotsChange" />
   <ms-swiper
     :items="slides"
@@ -33,7 +33,7 @@ Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. 
     navigation="fraction"
     @change="onFractionChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-swiper
     :items="slides"
     :height="150"
@@ -42,14 +42,14 @@ Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. 
     @change="onAutoChange"
   />
   <ms-swiper :items="slides" :height="120" navigation="none" />
-  <!-- 方向 -->
+  <!-- Direction -->
   <ms-swiper
     :items="slides"
     :height="160"
     vertical
     @change="onVerticalChange"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-swiper :items="slides" :height="120" :loop="false" navigation="fraction" />
   <ms-swiper :items="imageSlides" :height="120" navigation="dots" />
   <ms-swiper :items="slides" :height="120" :duration="200" navigation="dots" />
@@ -57,14 +57,14 @@ Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. 
 
 <script setup lang="uts">
 const imageSlides = [
-  { image: '/static/demo-cover.png', label: '封面一' } as UTSJSONObject,
-  { image: '/static/logo.png', label: '封面二' } as UTSJSONObject,
+  { image: '/static/demo-cover.png', label: 'Cover 1' } as UTSJSONObject,
+  { image: '/static/logo.png', label: 'Cover 2' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const slides = [
-  { label: '第一屏', tone: 'brand' } as UTSJSONObject,
-  { label: '第二屏', tone: 'success' } as UTSJSONObject,
-  { label: '第三屏', tone: 'warning' } as UTSJSONObject,
+  { label: 'Slide 1', tone: 'brand' } as UTSJSONObject,
+  { label: 'Slide 2', tone: 'success' } as UTSJSONObject,
+  { label: 'Slide 3', tone: 'warning' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onDotsChange(current: number) : void {

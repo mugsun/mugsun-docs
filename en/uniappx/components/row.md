@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/nav/row.uvue`. To see 
 
 ```vue
 <template>
-  <!-- 基础 -->
+  <!-- Basic -->
   <ms-row>
     <ms-col :span="8">
       <view>

@@ -19,7 +19,7 @@ Snippets below are taken from the demo source `pages/demo/display/table.uvue`. T
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-table
     :columns="baseColumns"
     :data="baseData"
@@ -30,7 +30,7 @@ Snippets below are taken from the demo source `pages/demo/display/table.uvue`. T
     :data="scrollData"
     @cell-click="onCellClick"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-table
     :columns="baseColumns"
     :data="styleData"
@@ -43,7 +43,7 @@ Snippets below are taken from the demo source `pages/demo/display/table.uvue`. T
     bordered
     @cell-click="onCellClick"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-table
     :columns="sortColumns"
     :data="sortData"
@@ -58,49 +58,49 @@ Snippets below are taken from the demo source `pages/demo/display/table.uvue`. T
     @selection-change="onSelectionChange"
     @cell-click="onCellClick"
   />
-  <ms-table :columns="baseColumns" :data="emptyData" empty-text="暂无表格数据" />
+  <ms-table :columns="baseColumns" :data="emptyData" empty-text="No table data" />
 </template>
 
 <script setup lang="uts">
 const baseColumns = [
-  { key: 'name', title: '姓名', width: 96 },
-  { key: 'role', title: '角色', width: 120 },
-  { key: 'city', title: '城市', width: 96 },
+  { key: 'name', title: 'Name', width: 96 },
+  { key: 'role', title: 'Role', width: 120 },
+  { key: 'city', title: 'City', width: 96 },
 ] as UTSJSONObject[]
 
 const baseData = [
-  { id: '1', name: '张三', role: '产品', city: '上海' },
-  { id: '2', name: '李四', role: '设计', city: '北京' },
-  { id: '3', name: '王五', role: '开发', city: '杭州' },
+  { id: '1', name: 'Zhang San', role: 'Product', city: 'Shanghai' },
+  { id: '2', name: 'Li Si', role: 'Design', city: 'Beijing' },
+  { id: '3', name: 'Wang Wu', role: 'Developer', city: 'Hangzhou' },
 ] as UTSJSONObject[]
 
 const emptyData = ref([] as UTSJSONObject[])
 
 const scrollColumns = [
-  { key: 'name', title: '姓名', width: 88 },
-  { key: 'dept', title: '部门', width: 110 },
-  { key: 'role', title: '岗位', width: 100 },
-  { key: 'city', title: '城市', width: 96 },
-  { key: 'phone', title: '手机', width: 120 },
-  { key: 'mail', title: '邮箱', width: 160 },
+  { key: 'name', title: 'Name', width: 88 },
+  { key: 'dept', title: 'Department', width: 110 },
+  { key: 'role', title: 'Position', width: 100 },
+  { key: 'city', title: 'City', width: 96 },
+  { key: 'phone', title: 'Phone', width: 120 },
+  { key: 'mail', title: 'Email', width: 160 },
 ] as UTSJSONObject[]
 
 const scrollData = [
   {
     id: 's1',
-    name: '张三',
-    dept: '产品中心',
-    role: '经理',
-    city: '上海',
+    name: 'Zhang San',
+    dept: 'Product Center',
+    role: 'Manager',
+    city: 'Shanghai',
     phone: '13800001111',
     mail: 'zhang@example.com',
   },
   {
     id: 's2',
-    name: '李四',
-    dept: '设计组',
-    role: '主设',
-    city: '北京',
+    name: 'Li Si',
+    dept: 'Design Team',
+    role: 'Lead Designer',
+    city: 'Beijing',
     phone: '13800002222',
     mail: 'li@example.com',
   },
@@ -109,22 +109,22 @@ const scrollData = [
 const selectedKeys = ref([] as string[])
 
 const sortColumns = [
-  { key: 'name', title: '姓名', width: 96, sortable: true },
-  { key: 'score', title: '分数', width: 96, sortable: true },
-  { key: 'city', title: '城市', width: 96 },
+  { key: 'name', title: 'Name', width: 96, sortable: true },
+  { key: 'score', title: 'Score', width: 96, sortable: true },
+  { key: 'city', title: 'City', width: 96 },
 ] as UTSJSONObject[]
 
 const sortData = [
-  { id: 'p1', name: '周七', score: '88', city: '成都' },
-  { id: 'p2', name: '吴八', score: '95', city: '南京' },
-  { id: 'p3', name: '郑九', score: '76', city: '苏州' },
+  { id: 'p1', name: 'Zhou Qi', score: '88', city: 'Chengdu' },
+  { id: 'p2', name: 'Wu Ba', score: '95', city: 'Nanjing' },
+  { id: 'p3', name: 'Zheng Jiu', score: '76', city: 'Suzhou' },
 ] as UTSJSONObject[]
 
 const styleData = [
-  { id: 'a', name: '张三', role: '产品', city: '上海' },
-  { id: 'b', name: '李四', role: '设计', city: '北京' },
-  { id: 'c', name: '王五', role: '开发', city: '杭州' },
-  { id: 'd', name: '赵六', role: '测试', city: '深圳' },
+  { id: 'a', name: 'Zhang San', role: 'Product', city: 'Shanghai' },
+  { id: 'b', name: 'Li Si', role: 'Design', city: 'Beijing' },
+  { id: 'c', name: 'Wang Wu', role: 'Developer', city: 'Hangzhou' },
+  { id: 'd', name: 'Zhao Liu', role: 'QA', city: 'Shenzhen' },
 ] as UTSJSONObject[]
 
 function onCellClick(rowKey: string, columnKey: string) : void {
