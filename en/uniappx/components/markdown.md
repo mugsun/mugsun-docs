@@ -9,7 +9,7 @@ demo: pages/demo/media/markdown
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-markdown/components/ms-markdown`).
+Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-markdown/components/ms-markdown`).
 Optional plugin: install `uni_modules/ms-markdown` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/markdown`.
 
@@ -43,7 +43,7 @@ const tableDoc = ref('| 列A | 列B | 列C |\n| --- | --- | --- |\n| 1 | 甲 | �
 ```
 <!-- demo-snippets:end -->
 
-With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
+Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
 
 ## Props
 

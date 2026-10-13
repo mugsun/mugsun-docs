@@ -9,7 +9,7 @@ demo: pages/demo/media/svg
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-svg/components/ms-svg`).
+Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-svg/components/ms-svg`).
 Optional plugin: install `uni_modules/ms-svg` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/svg`.
 
@@ -40,7 +40,7 @@ const tint = ref('#2563eb')
 ```
 <!-- demo-snippets:end -->
 
-With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
+Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
 
 ## Props
 

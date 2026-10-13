@@ -9,7 +9,7 @@ demo: pages/demo/media/camera
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-camera/components/ms-camera`).
+Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-camera/components/ms-camera`).
 Optional plugin: install `uni_modules/ms-camera` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/camera`.
 
@@ -63,7 +63,7 @@ const cmdCamera = ref(null)
 ```
 <!-- demo-snippets:end -->
 
-With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
+Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
 
 ## Props
 

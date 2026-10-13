@@ -40,7 +40,8 @@ const track = createTracker({
 - 独立入口 `@mugsun/track-web/replay`，基于 rrweb，在插件启用时才懒加载，不进入默认首包。
 - 同时满足三点才录制：注册了 `replayPlugin()`、`replayEnabled` 为 `true`（本地或远端下发）、主采样命中且用户未 `optOut`。
 - `replaySampleRate` 只决定**是否上传**本会话的回放，录制使用环形缓冲（默认 5 分钟 / 10MB 上限）。
-- 内置整块屏蔽 `input[type="password"]` 与带 `data-track-mask` 属性的元素，默认遮罩所有输入内容。
+- 默认遮罩：所有输入值、**页面文本**（rrweb `maskTextSelector: '*'`）；`input[type="password"]` 与带 `data-track-mask` 属性的元素整块不录。
+- 仅调试时可放开文本遮罩：`replayPlugin({ maskTextSelector: false })`，或传入更窄的选择器。
 
 ```html
 <!-- 整块不录 -->
@@ -55,7 +56,7 @@ const track = createTracker({
 | --- | --- | --- |
 | `apiMonitorEnabled` | 关 | 总开关 |
 | `apiBodyEnabled` | 关 | 采集响应体，经独立通道 `/track/api-body` 上传，不进事件队列 |
-| `apiBodyMaskEnabled` | 关（见下方说明） | 响应体中敏感字段值替换为 `***` |
+| `apiBodyMaskEnabled` | **开**（0.2.0 起） | 响应体中敏感字段值替换为 `***` |
 | `apiBodyMaxBytes` | 1MB | 超限不采集并标记 `body_skipped=size` |
 
 内置保护（不可关闭）：
@@ -64,8 +65,8 @@ const track = createTracker({
 - 凭证端点（路径含 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`）**永不采集响应体**。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
-::: warning 默认值即将调整
-[mugsun-track#3](https://github.com/mugsun/mugsun-track/pull/3) 将把「回放默认遮罩文本」与「响应体脱敏默认开启」设为默认行为，合并发布后本页同步更新。在此之前，开启 `apiBodyEnabled` 时请同时显式设置 `apiBodyMaskEnabled: true`。
+::: warning 0.2.0 行为变更
+自 0.2.0 起回放默认遮罩页面文本、`apiBodyMaskEnabled` 默认开启。依赖响应体原文的接入须显式设置 `apiBodyMaskEnabled: false`；需要可读文本回放（仅调试）时传 `maskTextSelector: false`。0.2.0 尚未发布到 npm，以仓内版本为准。
 :::
 
 ## 圈选与地理位置

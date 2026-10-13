@@ -9,7 +9,7 @@ demo: pages/demo/nav/row
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source: [mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui) (`uni_modules/ms-ui/components/ms-row`).
+Source location: `mugsun-uniappx-ui` (repository not yet public) (`uni_modules/ms-ui/components/ms-row`).
 Demo route: `#/pages/demo/nav/row`.
 
 ## Basic usage
@@ -58,7 +58,7 @@ Snippets below are taken from the demo source `pages/demo/nav/row.uvue`; see the
 ```
 <!-- demo-snippets:end -->
 
-With easycom scanning the matching `uni_modules/.../components`, no manual registration is needed.
+Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
 
 ## Props
 
