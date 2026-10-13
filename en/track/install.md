@@ -5,18 +5,20 @@
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web
+pnpm add @mugsun/track-web@^0.2.0
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web
+npm install @mugsun/track-web@^0.2.0
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web
+yarn add @mugsun/track-web@^0.2.0
 ```
 
 :::
+
+The latest version on npm is `0.2.0`. If you are upgrading from 0.1.x, note the privacy default changes; see the [changelog](/en/guide/changelog) and [Plugins](/en/track/plugins#api-monitoring).
 
 ## Vanilla JS / any framework
 
@@ -112,6 +114,16 @@ track.reset()
 | `debug` | `boolean` | `false` | Log SDK activity to the console |
 
 For options that can be set remotely, an explicit local value wins; otherwise the value from `/track/config` applies **from the next start**.
+
+## Versions and releases
+
+The SDK is published automatically from the [mugsun-track](https://github.com/mugsun/mugsun-track) repository by GitHub Actions (`.github/workflows/release.yml`) via npm Trusted Publishing; no local npm token is needed:
+
+1. In a PR, bump `version` in `package.json` (and `SDK_VERSION` in `src/version.ts`) and describe the change in `CHANGELOG.md` (with migration notes for behavior changes).
+2. Merge the PR into `main`.
+3. A `package.json` change on `main` triggers the release workflow: if that version is not on npm yet, it runs `typecheck` / `test` / `build` and then `npm publish --provenance`; versions already on npm are skipped.
+
+See the repository's [CONTRIBUTING.md](https://github.com/mugsun/mugsun-track/blob/main/CONTRIBUTING.md).
 
 ## Next
 

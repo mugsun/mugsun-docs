@@ -1,6 +1,6 @@
 # Privacy
 
-Principle: **private by default**. This page describes what the SDK on `main` actually does. If the docs and the code ever disagree, the stricter behavior is the intended one; please open an issue on [mugsun-track](https://github.com/mugsun/mugsun-track/issues).
+Principle: **private by default**. This page describes what `@mugsun/track-web@0.2.0` (latest on npm) actually does. If the docs and the code ever disagree, the stricter behavior is the intended one; please open an issue on [mugsun-track](https://github.com/mugsun/mugsun-track/issues).
 
 ## Defaults
 

@@ -23,7 +23,7 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 ### mugsun-track
 
 - **URL redaction**: in API monitoring events, values of sensitive query parameters such as `token` and `access_token` become `***`; other parameters are kept. ([#2](https://github.com/mugsun/mugsun-track/pull/2))
-- **0.2.0 privacy defaults (breaking)**: replays mask page text by default, and `apiBodyMaskEnabled` now defaults to `true`. See [Plugins](/en/track/plugins#api-monitoring) for migration. 0.2.0 is not on npm yet. ([#3](https://github.com/mugsun/mugsun-track/pull/3))
+- **0.2.0 privacy defaults (breaking)**: replays mask page text by default, and `apiBodyMaskEnabled` now defaults to `true`. Migration: for readable replays (debugging only) pass `replayPlugin({ maskTextSelector: false })`; if you rely on raw response bodies set `apiBodyMaskEnabled: false` (or `0` from remote config). See [Plugins](/en/track/plugins#api-monitoring). Published to npm as `@mugsun/track-web@0.2.0`. ([#3](https://github.com/mugsun/mugsun-track/pull/3))
 
 ### All repositories
 

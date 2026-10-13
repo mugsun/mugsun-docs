@@ -97,7 +97,7 @@ track.track('button_click', { name: 'buy' })
 | [boot](/boot/) 后端 | JDK 21 · Spring Boot 3.5.13 · MyBatis-Flex · Sa-Token · Flyway | Apache-2.0 | 0.1.0 开源 |
 | [core](/core/) 共享内核 | BOM · Web / MyBatis Starter | Apache-2.0 | 0.1.0 · Maven Central |
 | [pc](/pc/) 管理台 | Vue 3.5 · Vite 7 · Element Plus 2.11 · Pinia | MIT | 0.1.0 开源 |
-| [track](/track/) 埋点 SDK | TypeScript · 插件化内核 · rrweb 回放（独立入口） | MIT | 0.2.0（npm 当前 0.1.0） |
+| [track](/track/) 埋点 SDK | TypeScript · 插件化内核 · rrweb 回放（独立入口） | MIT | 0.2.0 · npm |
 | [ms-ui](/uniappx/) 跨端组件 | uni-app x（uvue / uts） | — | 文档与 H5 演示开放 |
 | cloud 微服务版 | — | — | <span class="soon">规划中</span> |
 

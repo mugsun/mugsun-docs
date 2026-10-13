@@ -23,7 +23,7 @@
 ### mugsun-track
 
 - **URL 敏感参数剥离**：接口监控上报的 URL 中，`token`、`access_token` 等敏感 query 值替换为 `***`，业务参数保留。（[#2](https://github.com/mugsun/mugsun-track/pull/2)）
-- **0.2.0 隐私默认值（Breaking）**：回放默认遮罩页面文本；`apiBodyMaskEnabled` 默认改为 `true`。迁移方式见 [插件](/track/plugins#接口监控)。0.2.0 尚未发布到 npm。（[#3](https://github.com/mugsun/mugsun-track/pull/3)）
+- **0.2.0 隐私默认值（Breaking）**：回放默认遮罩页面文本；`apiBodyMaskEnabled` 默认改为 `true`。迁移：需要可读文本回放（仅调试）时传 `replayPlugin({ maskTextSelector: false })`；依赖响应体原文时显式设置 `apiBodyMaskEnabled: false`（或远端下发 `0`）。详见 [插件](/track/plugins#接口监控)。已发布至 npm：`@mugsun/track-web@0.2.0`。（[#3](https://github.com/mugsun/mugsun-track/pull/3)）
 
 ### 全部仓库
 
