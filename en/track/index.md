@@ -51,20 +51,40 @@ Dashboard UV (unique visitors) counts one per device ID (`distinct_id`). After u
 
 - **What changes**: only rows in `track_stats_day` whose `uv` differs from the recomputed value. No other column changes and no rows are added. Days whose raw events are already past retention (no events left for that day) keep their old value.
 - **Backup first**: before a row changes, its old value goes into `track_stats_day_uv_backup` (created by the new `T2` migration). You can restore a whole run using the `run_id` from the log.
-- **Safe to re-run**: a second run leaves rows that already match alone. Each SQL statement handles one app for one day, so tables aren't locked for long, and with several instances only one runs it at a time.
-- **Range**: the last 90 complete days by default (UTC, not including today). Change it with `MUGSUN_TRACK_UV_BACKFILL_DAYS` (1–3660).
+- **Safe to re-run**: a second run leaves rows that already match alone.
+- **Range**: the last 90 complete days by default (UTC, not including today), newest first. Change it with `MUGSUN_TRACK_UV_BACKFILL_DAYS` (1–3660).
 
-Run it one of two ways:
+### Load on the production database
 
-1. In PowerJob, create a job with processor `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor` and run it once by hand. Leave the parameters empty, or pass `{"days": 180}` or `{"days": 30, "appKey": "your-app"}`.
-2. Without PowerJob, set `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` and restart. When the log shows `UV 回填完成：run_id=...`, set it back to `false`.
+- Each app-and-day is one transaction that scans that day's raw events once, with `statement_timeout` set to 120 seconds by default. It pauses 300 ms between days by default (`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`).
+- By default it only runs **between 02:00 and 07:00 Beijing time** and pauses when the window ends. Progress is stored in `track_rollup_cursor` (`job_key = uv_backfill`), so the next run picks up where it stopped. Set `MUGSUN_TRACK_UV_BACKFILL_WINDOW_ENABLED=false` to remove the time limit.
+- It holds its own Redis lock and renews it after each day, so with several instances only one runs at a time. **If Redis is unavailable it doesn't run.**
 
-To restore one run:
+### Trial run before production
+
+1. On a replica, run `EXPLAIN (ANALYZE, BUFFERS)` for one day of a large app. Check that it reads only that month's partition, uses an index on `app_key, received_at`, and takes far less than 120 seconds. The query is in `docs/upgrade/track-uv-backfill.md` in the boot repository.
+2. Try one day on a small app: `{"days": 1, "appKey": "small-app"}`. Run it again with the same parameters; the log should report 0 rows changed.
+3. Then run the default 90 days off-peak.
+
+The migration doesn't create an index. If you need one, create it off-peak on each monthly partition separately, for example `CREATE INDEX CONCURRENTLY ... ON track_event_2026_09 (app_key, received_at)` (the partitioned parent doesn't support `CONCURRENTLY`), then repeat step 1 to confirm it's used.
+
+### Running it
+
+**Don't turn on `on-startup` during peak hours.** Pick one:
+
+1. In PowerJob, create a job with processor `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor` and run it inside the time window (or schedule it daily at 02:10 until the log says it's done). Leave the parameters empty, or pass `{"days": 180}` or `{"days": 30, "appKey": "your-app"}`.
+2. Without PowerJob, set `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` and restart off-peak. When the log shows `UV 回填完成：run_id=...`, set it back to `false`.
+
+### Restore and clean up
 
 ```sql
+-- Restore one run
 UPDATE track_stats_day d SET uv = b.old_uv, update_time = now()
 FROM track_stats_day_uv_backup b
 WHERE b.run_id = 'run_id from the log' AND d.id = b.stats_day_id;
+
+-- Once you're satisfied, clean up the backup
+DELETE FROM track_stats_day_uv_backup WHERE backup_time < now() - interval '30 days';
 ```
 
 ## Next

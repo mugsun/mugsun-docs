@@ -51,20 +51,40 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 - **改什么**：只改 `track_stats_day` 里 `uv` 与重算结果不一致的行，其它列不动、不新增行；明细已过保留期（当天没有事件）的日子保留原值。
 - **先备份**：每改一行，旧值先写入 `track_stats_day_uv_backup`（新迁移 `T2` 建表），按日志里的 `run_id` 可整批还原。
-- **可重复执行**：再跑一次时已经一致的行不会再改。每条 SQL 只处理一个应用的一天，不会长时间锁表；多实例时同一时刻只有一个实例在跑。
-- **范围**：默认最近 90 个闭合日（UTC，不含今天），用 `MUGSUN_TRACK_UV_BACKFILL_DAYS` 调整（1–3660）。
+- **可重复执行**：再跑一次时已经一致的行不会再改。
+- **范围**：默认最近 90 个闭合日（UTC，不含今天），从昨天往前倒序，用 `MUGSUN_TRACK_UV_BACKFILL_DAYS` 调整（1–3660）。
 
-执行方式二选一：
+### 对线上库的影响
 
-1. PowerJob 里新建任务，处理器填 `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor`，手动运行一次。参数可留空，或写 `{"days": 180}`、`{"days": 30, "appKey": "你的应用"}`。
-2. 没有 PowerJob 时，设 `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` 重启，日志出现 `UV 回填完成：run_id=...` 后改回 `false`。
+- 每个「应用 × 天」一个事务，只扫一次当天明细，事务内 `statement_timeout` 默认 120 秒；两天之间默认停 300 毫秒（`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`）。
+- 默认只在**北京时间 02:00–07:00** 运行，到点自动暂停；进度记在 `track_rollup_cursor`（`job_key = uv_backfill`），下次从断点继续。`MUGSUN_TRACK_UV_BACKFILL_WINDOW_ENABLED=false` 可取消时段限制。
+- 使用独立 Redis 锁并逐天续期，多实例同一时刻只有一个在跑；**Redis 不可用时不执行**。
 
-还原某一批：
+### 上线前实跑
+
+1. 在从库上对一个大应用的一天跑 `EXPLAIN (ANALYZE, BUFFERS)`，确认只扫当月分区、走 `app_key, received_at` 相关索引、耗时远小于 120 秒。查询语句见 boot 仓库 `docs/upgrade/track-uv-backfill.md`。
+2. 用小应用试跑一天：`{"days": 1, "appKey": "小应用"}`；同样参数再跑一次，日志应为「改动 0 行」。
+3. 低峰期再按默认 90 天跑全量。
+
+迁移里不建索引。确需索引时，在低峰期对每个月分区单独 `CREATE INDEX CONCURRENTLY ... ON track_event_2026_09 (app_key, received_at)`（分区父表不支持 `CONCURRENTLY`），建完重跑第 1 步确认用上。
+
+### 执行
+
+**高峰期不要打开 `on-startup`。** 二选一：
+
+1. PowerJob 里新建任务，处理器填 `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor`，在运行时段内运行（可配成每天 02:10，直到日志显示完成）。参数可留空，或写 `{"days": 180}`、`{"days": 30, "appKey": "你的应用"}`。
+2. 没有 PowerJob 时，低峰期设 `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` 重启，日志出现 `UV 回填完成：run_id=...` 后改回 `false`。
+
+### 还原与清理
 
 ```sql
+-- 还原某一批
 UPDATE track_stats_day d SET uv = b.old_uv, update_time = now()
 FROM track_stats_day_uv_backup b
 WHERE b.run_id = '日志里的 run_id' AND d.id = b.stats_day_id;
+
+-- 确认无误后清理备份
+DELETE FROM track_stats_day_uv_backup WHERE backup_time < now() - interval '30 days';
 ```
 
 ## 下一步
