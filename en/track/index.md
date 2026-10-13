@@ -45,6 +45,28 @@ The console's Analytics section has Overview, Events, Performance, Errors, Integ
 
 `/track/*` endpoints are anonymous. The `appKey` is visible in the browser and isn't a secret; the server relies on existence checks, rate limiting, back-pressure and event validation.
 
+## Upgrading: backfill historical UV
+
+Dashboard UV (unique visitors) counts one per device ID (`distinct_id`). After upgrading from 0.1.0, today's numbers and every daily summary built from then on use this rule, but days that were already summarized before the upgrade still use the old one, so past days on the trend chart won't match. Run the backfill once:
+
+- **What changes**: only rows in `track_stats_day` whose `uv` differs from the recomputed value. No other column changes and no rows are added. Days whose raw events are already past retention (no events left for that day) keep their old value.
+- **Backup first**: before a row changes, its old value goes into `track_stats_day_uv_backup` (created by the new `T2` migration). You can restore a whole run using the `run_id` from the log.
+- **Safe to re-run**: a second run leaves rows that already match alone. Each SQL statement handles one app for one day, so tables aren't locked for long, and with several instances only one runs it at a time.
+- **Range**: the last 90 complete days by default (UTC, not including today). Change it with `MUGSUN_TRACK_UV_BACKFILL_DAYS` (1–3660).
+
+Run it one of two ways:
+
+1. In PowerJob, create a job with processor `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor` and run it once by hand. Leave the parameters empty, or pass `{"days": 180}` or `{"days": 30, "appKey": "your-app"}`.
+2. Without PowerJob, set `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` and restart. When the log shows `UV 回填完成：run_id=...`, set it back to `false`.
+
+To restore one run:
+
+```sql
+UPDATE track_stats_day d SET uv = b.old_uv, update_time = now()
+FROM track_stats_day_uv_backup b
+WHERE b.run_id = 'run_id from the log' AND d.id = b.stats_day_id;
+```
+
 ## Next
 
 [Install & setup](/en/track/install) → [Your first event](/en/track/first-event) → [Plugins](/en/track/plugins) → [Privacy](/en/track/privacy)

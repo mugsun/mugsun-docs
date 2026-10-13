@@ -45,6 +45,28 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 `/track/*` 为匿名端点。`appKey` 在浏览器可见，不是密钥；服务端通过存在性校验、限流、背压与事件校验防护。
 
+## 升级：历史 UV 回填
+
+看板的 UV（独立访客）按设备 ID（`distinct_id`）去重。从 0.1.0 升级后，今天的数据和以后每天新生成的日统计都用这个口径，但升级前已经算好的历史日子还是旧口径，趋势图上过去几天的 UV 会对不上。需要回填一次：
+
+- **改什么**：只改 `track_stats_day` 里 `uv` 与重算结果不一致的行，其它列不动、不新增行；明细已过保留期（当天没有事件）的日子保留原值。
+- **先备份**：每改一行，旧值先写入 `track_stats_day_uv_backup`（新迁移 `T2` 建表），按日志里的 `run_id` 可整批还原。
+- **可重复执行**：再跑一次时已经一致的行不会再改。每条 SQL 只处理一个应用的一天，不会长时间锁表；多实例时同一时刻只有一个实例在跑。
+- **范围**：默认最近 90 个闭合日（UTC，不含今天），用 `MUGSUN_TRACK_UV_BACKFILL_DAYS` 调整（1–3660）。
+
+执行方式二选一：
+
+1. PowerJob 里新建任务，处理器填 `com.mugsun.boot.track.powerjob.TrackUvBackfillProcessor`，手动运行一次。参数可留空，或写 `{"days": 180}`、`{"days": 30, "appKey": "你的应用"}`。
+2. 没有 PowerJob 时，设 `MUGSUN_TRACK_UV_BACKFILL_ON_STARTUP=true` 重启，日志出现 `UV 回填完成：run_id=...` 后改回 `false`。
+
+还原某一批：
+
+```sql
+UPDATE track_stats_day d SET uv = b.old_uv, update_time = now()
+FROM track_stats_day_uv_backup b
+WHERE b.run_id = '日志里的 run_id' AND d.id = b.stats_day_id;
+```
+
 ## 下一步
 
 [安装与初始化](/track/install) → [第一个事件](/track/first-event) → [插件](/track/plugins) → [隐私与合规](/track/privacy)
