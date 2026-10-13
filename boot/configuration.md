@@ -133,6 +133,19 @@ mugsun:
 
 `scene` 取 `login`、`register`、`sms`（发送短信验证码）、`forget`。取题时用 `inputMode` 声明鼠标/触屏（`pointer`）还是键盘（`keyboard`），校验时必须一致；键盘题会返回 `keyboardStep`，按键次数要与落点对得上。拿到的 `captchaToken` 放进 `/auth/login`、`/auth/register`、`/auth/sms-code`、`/auth/forget-code` 的请求体，只能用一次，且必须与取题时的场景、客户端、租户一致。服务端会自行判断是否需要验证，不以 `config` 的结果为准。
 
+**题型：** 除滑块（`SLIDER`）外，还支持旋转（`ROTATE`）、文字点选（`WORD_CLICK`，依次点 3 个字）、图标点选（`ICON_CLICK`，依次点 3 个图标）和拼图还原（`JIGSAW`，2×2）。每次取题由服务端从该租户启用的题型里随机选一种，前端按响应里的 `type` 渲染，请求里传 `type` 无效。键盘模式（`inputMode: keyboard`）只会出滑块或旋转，两者都没启用时回落为滑块。`config` 返回的 `type` 为 `RANDOM`（启用了两种及以上）或具体题型名。全部在服务端校验，答案只存在题目记录里，校验一次即作废；错误码、失败次数和锁定规则对所有题型相同。
+
+```yaml
+mugsun:
+  captcha:
+    default-types: [SLIDER]   # 租户没单独设置时启用的题型；可列 SLIDER, ROTATE, WORD_CLICK, ICON_CLICK, JIGSAW
+    rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 12, keyboard-step: 5 }
+    click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000 }
+    jigsaw: { rows: 2, cols: 2 }
+```
+
+容差按“普通人 1–2 秒能过”设定：旋转 ±12°，点选命中半径为字号或图标边长的 0.75 倍（至少 22 像素），点选和拼图的操作时长需在 0.4–30 秒之间。文字用内置的思源黑体常用字子集（SIL OFL 1.1）在服务端渲染并加干扰；外形容易混淆的图标不会出现在同一题里。默认素材的来源与许可见 boot 仓库 `captcha/SOURCES.md`。
+
 错误码通过 HTTP 200 + `R.code` 返回：
 
 | code | 含义 |
@@ -165,7 +178,7 @@ mugsun:
 
 IPv6 地址中的 `:` 写成 `_`。手动解锁某 IP：`DEL mugsun:captcha:v2:lock:<ip>`。
 
-**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。滑块模式下客户端开关（`sys_client.captcha_enabled`）不能关闭验证码，因为 clientId 由调用方填写；它只在旧数字码模式下对登录生效。新建的租户一律开启。
+**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。滑块模式下客户端开关（`sys_client.captcha_enabled`）不能关闭验证码，因为 clientId 由调用方填写；它只在旧数字码模式下对登录生效。新建的租户一律开启。 平台超管还可以在同一接口里传 `types`（如 `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`）设置该租户启用的题型，至少一种，取值只能是上面五种；不传 `types` 则不改。没设置过的租户使用 `default-types`。该设置保存在 `sys_tenant.captcha_types`（迁移 `V5__tenant_captcha_types.sql`）。
 
 ## 生产环境
 
