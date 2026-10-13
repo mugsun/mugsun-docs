@@ -60,7 +60,8 @@ mugsun:
 
 ```bash
 export SPRING_PROFILES_ACTIVE=prod
-export JDBC_URL=jdbc:postgresql://db:5432/mugsun JDBC_USERNAME=mugsun JDBC_PASSWORD=******
+export JDBC_URL=jdbc:postgresql://db:5432/mugsun
+export JDBC_USERNAME=mugsun JDBC_PASSWORD=******
 export REDIS_HOST=redis MUGSUN_FRONT_URL=https://admin.example.com
 export MUGSUN_INIT_PASSWORD=****** MUGSUN_SM4_KEY=****** MUGSUN_API_KEY=******
 export MUGSUN_SM2_PRIVATE_KEY=... MUGSUN_SM2_PUBLIC_KEY=...

@@ -30,10 +30,19 @@ mugsun/
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git
 cd mugsun-boot
-docker compose up -d                                              # 仅 PostgreSQL:5432 + Redis:6379
+docker compose up -d
 cp config/application-local.yml.example config/application-local.yml
-mvn -pl mugsun-boot-server -am spring-boot:run                    # 默认 profile = full
+mvn -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
+
+- `docker compose up -d` 只启动 PostgreSQL（5432）与 Redis（6379），首次会构建带 PostGIS + pgvector 的数据库镜像。
+- 打包默认使用 `full` profile（core + gis + track + ai）。
+- `java -jar` 必须在仓库根目录执行，才能读到 `config/application-local.yml`。确认 `java -version` 输出 21。
+
+::: details 为什么不用 `mvn -pl mugsun-boot-server -am spring-boot:run`？
+在仓库根目录这样执行时，`spring-boot:run` 也会作用于父工程并报 `Unable to find a suitable main class`。先打包再 `java -jar` 是当前最稳的方式。
+:::
 
 **验收：**
 
@@ -48,18 +57,27 @@ mvn -pl mugsun-boot-server -am spring-boot:run                    # 默认 profi
 
 ## 第 2 步：启动管理台（可选）
 
+在与 `mugsun-boot` 同级的目录执行：
+
 ```bash
-git clone https://github.com/mugsun/mugsun-track.git   # 与 mugsun-pc 平级
+git clone https://github.com/mugsun/mugsun-track.git
 git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc
-pnpm setup:sdk     # 构建平级 mugsun-track；VITE_ENABLE_TRACK=false 时可跳过
+pnpm setup:sdk
 pnpm install
-pnpm dev           # http://localhost:3006
+pnpm dev
 ```
+
+- `pnpm setup:sdk` 会构建平级的 `mugsun-track`；设置 `VITE_ENABLE_TRACK=false` 时可跳过。
+- `pnpm dev` 启动在 `http://localhost:3006` 并自动打开浏览器。
 
 开发期 `/api/**` 由 Vite 代理到 `.env.development` 中的 `VITE_API_PROXY_URL`（默认 `http://localhost:8080`）。
 
-**验收：** 用第 1 步的账号登录，侧边栏出现「系统管理」等菜单，打开任一列表页能加载数据。
+**验收：** 用第 1 步的账号登录（本地配置开启了验证码回显，验证码会自动填好），进入工作台，顶栏出现「埋点分析」「系统管理」等菜单。
+
+![管理台登录页](/screenshots/pc-login.png)
+
+![管理台工作台](/screenshots/pc-workbench.png)
 
 ::: info 登录态只在当前标签页
 自 0.1.0 起，`accessToken` / `refreshToken` 存于 `sessionStorage`，不再写入 `localStorage`。新开标签页需要重新登录，这是预期行为。
@@ -97,7 +115,9 @@ const track = createTracker({
 track.track('hello_mugsun', { from: 'getting-started' })
 ```
 
-**验收：** 浏览器网络面板中 `/track/collect` 返回 2xx；管理台埋点看板出现该应用的新事件。完整排查步骤见 [第一个事件](/track/first-event)。
+**验收：** 浏览器网络面板中 `/track/collect` 返回 2xx；管理台「埋点分析 → 数据概览」选择该应用后出现数据。
+
+![埋点数据概览（演示数据）](/screenshots/track-overview.png)完整排查步骤见 [第一个事件](/track/first-event)。
 
 ## 下一步
 

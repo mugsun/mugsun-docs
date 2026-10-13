@@ -37,11 +37,11 @@ mugsun-boot/
 ```bash
 docker compose up -d
 cp config/application-local.yml.example config/application-local.yml
-mvn -pl mugsun-boot-server -am spring-boot:run
-
-# 打包，产物 mugsun-boot-server/target/mugsun-boot.jar
 mvn -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
+
+打包产物为 `mugsun-boot-server/target/mugsun-boot.jar`，需在仓库根目录运行。
 
 只要核心模块：`mvn -pl mugsun-boot-server -am package -Pbasic,'!full'`。
 

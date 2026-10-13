@@ -26,7 +26,11 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 ### `docker compose up -d` 会把应用也起起来吗？
 
-不会。compose 只启动 PostgreSQL（5432）与 Redis（6379），应用用 `mvn -pl mugsun-boot-server -am spring-boot:run` 或打包后的 `mugsun-boot.jar` 运行。
+不会。compose 只启动 PostgreSQL（5432）与 Redis（6379），应用打包后用 `java -jar mugsun-boot-server/target/mugsun-boot.jar` 运行。
+
+### `spring-boot:run` 报 `Unable to find a suitable main class`？
+
+在仓库根目录执行 `mvn -pl mugsun-boot-server -am spring-boot:run` 时，插件也会作用于父工程而报错。请先 `mvn -pl mugsun-boot-server -am package -DskipTests`，再在仓库根目录 `java -jar mugsun-boot-server/target/mugsun-boot.jar`。
 
 ### 启动时读不到本地配置？
 

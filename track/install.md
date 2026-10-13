@@ -24,13 +24,17 @@ yarn add @mugsun/track-web
 import { createTracker } from '@mugsun/track-web'
 
 const track = createTracker({
-  endpoint: 'https://your-host',  // 实际上报 {endpoint}/track/collect，不要再拼 /track/collect
-  appKey: 'your-app-key',         // 管理台「埋点分析 → 接入管理」创建
-  release: '1.4.2',               // 可选：错误事件携带版本
+  endpoint: 'https://your-host',
+  appKey: 'your-app-key',
+  release: '1.4.2',
 })
 
 track.track('button_click', { name: 'buy' })
 ```
+
+- `endpoint` 只填服务根地址，SDK 实际上报 `{endpoint}/track/collect`，不要自己再拼路径。
+- `appKey` 在管理台「埋点分析 → 接入管理」创建。
+- `release` 可选，错误事件会携带该版本号。
 
 ## Vue 3
 
@@ -41,8 +45,10 @@ import router from './router'
 
 const app = createApp(App)
 app.use(router)
-app.use(MugsunTrack, { endpoint, appKey, router }) // 传 router 启用路由模板聚合
+app.use(MugsunTrack, { endpoint, appKey, router })
 ```
+
+传入 `router` 后，页面事件会按路由模板（如 `/order/:id`）聚合。
 
 安装后可通过 `inject(TRACK_INJECT_KEY)` 或模板中的 `$track` 拿到实例，并使用指令：
 

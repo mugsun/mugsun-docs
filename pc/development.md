@@ -9,10 +9,12 @@
 ## 启动
 
 ```bash
-pnpm setup:sdk   # 对 ../mugsun-track 执行 install + build；VITE_ENABLE_TRACK=false 时可跳过
+pnpm setup:sdk
 pnpm install
-pnpm dev         # http://localhost:3006（VITE_PORT）
+pnpm dev
 ```
+
+`pnpm setup:sdk` 对 `../mugsun-track` 执行 install + build，`VITE_ENABLE_TRACK=false` 时可跳过。开发地址 `http://localhost:3006`（`VITE_PORT`）。
 
 `/api/**` 代理至 `.env.development` 的 `VITE_API_PROXY_URL`（默认 `http://localhost:8080`）。登录账号与 boot 一致。
 
