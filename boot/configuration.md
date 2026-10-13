@@ -101,7 +101,7 @@ mugsun:
       tolerance-px: 6      # 落点容差（底图原始像素，底图 320×180）
       expire-seconds: 120  # 挑战有效期
       token-expire-seconds: 120
-      decoy-count: 1       # 假缺口 0–2
+      decoy-count: 2       # 假缺口数（与真缺口同轮廓）0–3
       keyboard-step-px: 4  # 键盘模式每次按键移动的原始像素
       bind-ip: false       # 令牌强制绑定 IP / UA（关闭时只记录）
       bind-ua: false       # prod 默认 true
@@ -133,24 +133,32 @@ mugsun:
 
 `scene` 取 `login`、`register`、`sms`（发送短信验证码）、`forget`。取题时用 `inputMode` 声明鼠标/触屏（`pointer`）还是键盘（`keyboard`），校验时必须一致；键盘题会返回 `keyboardStep`，按键次数要与落点对得上。拿到的 `captchaToken` 放进 `/auth/login`、`/auth/register`、`/auth/sms-code`、`/auth/forget-code` 的请求体，只能用一次，且必须与取题时的场景、客户端、租户一致。服务端会自行判断是否需要验证，不以 `config` 的结果为准。
 
-**题型：** 除滑块（`SLIDER`）外，还支持旋转（`ROTATE`）、文字点选（`WORD_CLICK`，依次点 3 个字）、图标点选（`ICON_CLICK`，依次点 3 个图标）和拼图还原（`JIGSAW`，2×2）。每次取题由服务端从该租户启用的题型里随机选一种，前端按响应里的 `type` 渲染，请求里传 `type` 无效。键盘模式（`inputMode: keyboard`）只会从该租户已启用的滑块和旋转里选；两者都没启用时取题返回 `40015`（未启用无障碍验证方式），不会改出其他题型。键盘取题另有更严的单 IP 限流（`rate-limit.keyboard-challenge-per-minute`），并单独计入审计。`config` 返回的 `type` 为 `RANDOM`（启用了两种及以上）或具体题型名。全部在服务端校验，答案只存在题目记录里，校验一次即作废；错误码、失败次数和锁定规则对所有题型相同。
+**题型：** 除滑块（`SLIDER`）外，还支持旋转（`ROTATE`）、词语点选（`WORD_CLICK`，按字序依次点一个 3–4 字的常用词语或成语）、图标点选（`ICON_CLICK`，依次点 3 个图标）和拼图还原（`JIGSAW`，2×2）。每次取题由服务端从该租户启用的题型里随机选一种，前端按响应里的 `type` 渲染，请求里传 `type` 无效。键盘模式（`inputMode: keyboard`）只会从该租户已启用的滑块和旋转里选；两者都没启用时取题返回 `40015`（未启用无障碍验证方式），不会改出其他题型。键盘取题先计一个更严的单 IP 限流（`rate-limit.keyboard-challenge-per-minute`，被 `40015` 拒绝的请求也计入），再判断是否返回 `40015`；按租户的键盘取题数只在 Redis 里计数，不写审计，只有 `40015` 会写审计日志，并且同一租户、同一 IP 10 分钟内只记一条。`config` 返回的 `type` 为 `RANDOM`（启用了两种及以上）或具体题型名。全部在服务端校验，答案只存在题目记录里，校验一次即作废；错误码、失败次数和锁定规则对所有题型相同。
 
 ```yaml
 mugsun:
   captcha:
     default-types: [SLIDER]   # 租户没单独设置时启用的题型；可列 SLIDER, ROTATE, WORD_CLICK, ICON_CLICK, JIGSAW
+    slider: { expire-seconds: 120, decoy-count: 2 }   # 题目有效期（秒）；滑块假缺口数（与真缺口同轮廓，0–3）
     rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 10, keyboard-step: 5 }
-    click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000 }
+    click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000 }  # count/decoys 只用于图标点选
     jigsaw: { rows: 2, cols: 2 }
     icon-dir: classpath:captcha/icons/   # 图标目录，须含 manifest.json 与 <slug>.png
     render-max-concurrent: 16           # 本节点同时出图上限，超限返回 40012；≤0 不限
+    render-acquire-timeout-ms: 200      # 等待出图许可的最长毫秒数，超时返回 40012
     rate-limit:
       keyboard-challenge-per-minute: 10 # 键盘模式单 IP 每分钟取题上限
 ```
 
-容差按“普通人 1–2 秒能过”设定：旋转 ±10°（服务端施加的角度是 `keyboard-step` 的整数倍，且在 30°–330° 之间），点选命中半径为字号或图标边长的 0.75 倍（至少 22 像素），点选和拼图的操作时长需在 0.4–30 秒之间。文字用内置的思源黑体常用字子集（SIL OFL 1.1）在服务端渲染并加干扰；外形容易混淆的图标不会出现在同一题里。默认素材的来源与许可见 boot 仓库 `captcha/SOURCES.md`。
+容差按“普通人 1–2 秒能过”设定：旋转 ±10°（服务端施加的角度是 `keyboard-step` 的整数倍，且在 30°–330° 之间），点选命中半径为字号或图标边长的 0.75 倍（至少 22 像素），点选元素两两之间的距离不小于两个命中半径之和再加 6 像素。旋转以提交的角度判对错，拖动轨迹只用来判断是否为人在操作，前端可以做低速精调。旋转容差没有收到更窄：触屏松手通常会偏 3–8 像素，而连续失败会锁定，收紧容易误锁；也不按 `pointerType` 区分容差，因为它由客户端自报。盲猜的风险由失败锁定、限流和每题底图随机化兜底。点选和拼图的操作时长 0.4–30 秒从第一次操作算起；打开题目到第一次操作之间不计时，只受题目有效期 `slider.expire-seconds`（默认 120 秒）约束，过期校验返回 `40010`。
 
-**生产环境建议用私有图库：** 默认的旋转图（16 张）和图标（44 个）随开源仓库公开，攻击者可以据此预先做答案表，旋转和图标点选的强度会明显下降。对外开启 `ROTATE` 或 `ICON_CLICK` 前，请把 `background.dir`、`rotate.dir`、`icon-dir` 换成自己的目录（`file:` 或 `classpath:`）并定期更换；图标目录须带 `manifest.json`（`slug`、`name_zh`、`confusable`）。
+词语点选的词来自内置词库（自行整理的 477 条常用词语和成语，只用《通用规范汉字表》一级字）。画面里另有 1–2 个干扰字，优先取形近字或同音字；点到干扰字或顺序不对即不通过。文字用内置的思源黑体子集（SIL OFL 1.1）在服务端渲染并加干扰；外形容易混淆的图标不会出现在同一题里。图标清单缺失或损坏时，启动日志会给出警告，图标点选自动停用，不影响其他题型。
+
+每题都会对底图和旋转图做随机缩放、裁切、镜像和调色，拼图块另加噪声和色偏，滑块的假缺口与真缺口轮廓相同（默认 2 个）。
+
+**素材来源与许可：** 背景图和旋转图是本项目自有素材，由 AI 生图工具生成后再经后期处理，不含第三方素材；图标、词库和干扰字映射由本项目自行整理。这些素材随仓库发布，许可证与仓库一致（Apache License 2.0）；字体子集为 SIL OFL 1.1。详见 boot 仓库 `captcha/SOURCES.md`。
+
+**生产环境必须换私有图库：** 默认的底图（12 张）、旋转图（16 张）和图标（44 个）随开源仓库公开，攻击者可以拿公开原图和题图做差定位缺口，或预先做旋转、图标的答案表。生产部署请把 `background.dir`、`rotate.dir`、`icon-dir` 都换成自己的目录（`file:` 或 `classpath:`），并定期更换；图标目录须带 `manifest.json`（`slug`、`name_zh`、`confusable`）。`prod` 环境下仍在使用仓库自带素材时（按目录或文件哈希判断），启动日志会给出警告。
 
 错误码通过 HTTP 200 + `R.code` 返回：
 

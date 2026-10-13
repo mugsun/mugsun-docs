@@ -102,7 +102,7 @@ mugsun:
       tolerance-px: 6      # drop tolerance in native background pixels (background is 320×180)
       expire-seconds: 120  # challenge lifetime
       token-expire-seconds: 120
-      decoy-count: 1       # fake gaps, 0–2
+      decoy-count: 2       # fake gaps (same outline as the real gap), 0–3
       keyboard-step-px: 4  # native pixels moved per key press in keyboard mode
       bind-ip: false       # enforce token binding to IP / UA (recorded either way)
       bind-ua: false       # true by default in prod
@@ -134,24 +134,32 @@ See `mugsun.captcha` in `application.yml` for every key and default.
 
 `scene` is `login`, `register`, `sms` (sending the SMS code) or `forget`. The challenge request declares `inputMode` (`pointer` for mouse/touch or `keyboard`), and verify must use the same one; keyboard challenges return `keyboardStep`, and the number of key presses must match the drop position. Put the `captchaToken` in the body of `/auth/login`, `/auth/register`, `/auth/sms-code` or `/auth/forget-code`. It works once and must match the scene, client and tenant used for the challenge. The server decides on its own whether verification is needed; it does not rely on `config`.
 
-**Challenge types:** besides the slider (`SLIDER`), there are rotate (`ROTATE`), word click (`WORD_CLICK`, click 3 characters in order), icon click (`ICON_CLICK`, click 3 icons in order) and jigsaw (`JIGSAW`, 2×2). For every challenge the server picks one at random from the types enabled for the tenant, and the front end renders whatever `type` comes back; a `type` in the request is ignored. In keyboard mode (`inputMode: keyboard`) the server picks only from the slider and rotate types the tenant has enabled; if neither is enabled, the challenge request returns `40015` (no accessible challenge type enabled) instead of issuing another type. Keyboard challenges have their own stricter per-IP limit (`rate-limit.keyboard-challenge-per-minute`) and are counted separately in the audit log. The `type` from `config` is `RANDOM` when two or more types are enabled, otherwise the type name. Everything is checked on the server, the answer is kept only in the challenge record and is gone after one verify attempt, and error codes, failure counts and lockouts are the same for every type.
+**Challenge types:** besides the slider (`SLIDER`), there are rotate (`ROTATE`), word click (`WORD_CLICK`, click the characters of a common 3–4 character word or idiom in order), icon click (`ICON_CLICK`, click 3 icons in order) and jigsaw (`JIGSAW`, 2×2). For every challenge the server picks one at random from the types enabled for the tenant, and the front end renders whatever `type` comes back; a `type` in the request is ignored. In keyboard mode (`inputMode: keyboard`) the server picks only from the slider and rotate types the tenant has enabled; if neither is enabled, the challenge request returns `40015` (no accessible challenge type enabled) instead of issuing another type. Keyboard challenge requests first count against a stricter per-IP limit (`rate-limit.keyboard-challenge-per-minute`, including requests that end in `40015`), and only then is `40015` decided. The per-tenant keyboard challenge count is kept in Redis only and is not audited; only `40015` writes an audit log entry, at most one per tenant and IP every 10 minutes. The `type` from `config` is `RANDOM` when two or more types are enabled, otherwise the type name. Everything is checked on the server, the answer is kept only in the challenge record and is gone after one verify attempt, and error codes, failure counts and lockouts are the same for every type.
 
 ```yaml
 mugsun:
   captcha:
     default-types: [SLIDER]   # types enabled for tenants without their own setting; any of SLIDER, ROTATE, WORD_CLICK, ICON_CLICK, JIGSAW
+    slider: { expire-seconds: 120, decoy-count: 2 }   # challenge lifetime (s); slider decoy gaps (same outline as the real gap, 0–3)
     rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 10, keyboard-step: 5 }
-    click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000 }
+    click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000 }  # count/decoys apply to icon click only
     jigsaw: { rows: 2, cols: 2 }
     icon-dir: classpath:captcha/icons/   # icon directory; must contain manifest.json and <slug>.png
     render-max-concurrent: 16           # max concurrent image renders on this node, 40012 when exceeded; ≤0 means no limit
+    render-acquire-timeout-ms: 200      # longest wait for a render permit, 40012 on timeout
     rate-limit:
       keyboard-challenge-per-minute: 10 # per-IP keyboard challenges per minute
 ```
 
-Tolerances are set so an ordinary user passes in 1–2 seconds: ±10° for rotate (the applied angle is a whole multiple of `keyboard-step` between 30° and 330°), a hit radius of 0.75 × the character or icon size (at least 22 px) for clicks, and 0.4–30 seconds of interaction for click and jigsaw. Characters are drawn on the server from a bundled Noto Sans SC subset (SIL OFL 1.1) with added noise, and icons that look alike never appear in the same challenge. Sources and licences of the default assets are in `captcha/SOURCES.md` in the boot repository.
+Tolerances are set so an ordinary user passes in 1–2 seconds: ±10° for rotate (the applied angle is a whole multiple of `keyboard-step` between 30° and 330°), a hit radius of 0.75 × the character or icon size (at least 22 px) for clicks, and any two click items are at least the sum of their hit radii plus 6 px apart. Rotate is judged on the submitted angle; the drag track only shows that a person is operating it, so the front end may offer slow fine-tuning. The rotate tolerance was deliberately not narrowed: a touch release is usually 3–8 px off and repeated failures lock the IP, so a tighter tolerance causes false lockouts. It is not varied by `pointerType` either, because the client reports that itself. Blind guessing is covered by lockouts, rate limits and per-challenge background randomisation. The 0.4–30 second limit for click and jigsaw counts from the first interaction; the time between opening the challenge and the first interaction is not counted and is bounded only by the challenge lifetime `slider.expire-seconds` (120 seconds by default), after which verify returns `40010`.
 
-**Use a private asset library in production:** the default rotate images (16) and icons (44) ship with the open-source repository, so an attacker can build an answer table in advance, which noticeably weakens rotate and icon click. Before enabling `ROTATE` or `ICON_CLICK` publicly, point `background.dir`, `rotate.dir` and `icon-dir` at your own directories (`file:` or `classpath:`) and rotate them regularly; the icon directory needs a `manifest.json` (`slug`, `name_zh`, `confusable`).
+Word click words come from a bundled list (477 common words and idioms compiled by the project, using only level-1 characters of the Table of General Standard Chinese Characters). The image also contains 1–2 decoy characters, preferably look-alikes or homophones; clicking a decoy or the wrong order fails. Characters are drawn on the server from a bundled Noto Sans SC subset (SIL OFL 1.1) with added noise, and icons that look alike never appear in the same challenge. If the icon manifest is missing or broken, a warning is logged at startup and icon click is disabled without affecting other types.
+
+Every challenge randomly scales, crops, mirrors and recolours the background and rotate images, slider pieces get extra noise and a colour shift, and the slider decoy gaps share the real gap's outline (2 by default).
+
+**Asset sources and licence:** the background and rotate images are the project's own assets, generated with an AI image tool and then edited, with no third-party material; the icons, word list and decoy character map were compiled by the project. They ship with the repository under the same licence (Apache License 2.0); the font subset is SIL OFL 1.1. See `captcha/SOURCES.md` in the boot repository.
+
+**Production must use a private asset library:** the default backgrounds (12), rotate images (16) and icons (44) ship with the open-source repository, so an attacker can diff a challenge against the public original to find the gap, or build answer tables for rotate and icons in advance. In production, point `background.dir`, `rotate.dir` and `icon-dir` at your own directories (`file:` or `classpath:`) and rotate them regularly; the icon directory needs a `manifest.json` (`slug`, `name_zh`, `confusable`). With the `prod` profile, a warning is logged at startup while the bundled assets are still in use (detected by directory or file hash).
 
 Errors come back as HTTP 200 with `R.code`:
 
