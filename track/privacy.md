@@ -1,21 +1,38 @@
 # 隐私与合规
 
-产品原则：**默认安全**，而不是「能录再说」。以下为 `@mugsun/track-web` 0.2.0 起的默认行为。
+原则：**默认安全**。本页列出 SDK 当前（`origin/main`）的实际行为；若文档与实现不一致，以更严格的隐私行为为准，并请在 [mugsun-track](https://github.com/mugsun/mugsun-track/issues) 提 issue。
 
-| 能力 | 默认 | 如何调整 |
-| --- | --- | --- |
-| 输入框 / 密码 | 不采集 `input` / `textarea` 的 `value`；`password` 及 `maskSelectors` 命中区域屏蔽 | 用 `maskSelectors` 追加屏蔽区域 |
-| 会话回放 | 遮罩输入内容与页面文本（`maskTextSelector: '*'`） | 调试时 `replayPlugin({ maskTextSelector: false })` 或传更窄的选择器 |
-| 上报 URL | 剥离敏感 query：`token` / `access_token` / `authorization` / `id_token` / `refresh_token` 等（大小写不敏感），值替换为 `***`，业务参数保留 | — |
-| 接口响应体（apiBody） | 开启采集时按内置敏感键清单脱敏（`apiBodyMaskEnabled: true`） | 确需原文时显式 `apiBodyMaskEnabled: false` |
-| DNT / 退出 | 尊重 DNT；提供 `optOut()` / `optIn()` | — |
+## 默认行为
 
-::: tip 从 0.1.x 升级
-0.2.0 起回放默认遮罩页面文本、apiBody 默认脱敏，属于行为变更。依赖可读回放或 body 原文的接入，请按上表显式关闭。详见 [CHANGELOG](https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md)。
-:::
+| 项 | 行为 |
+| --- | --- |
+| Do Not Track | 默认尊重（`respectDnt: true`），开启 DNT 的浏览器不采集 |
+| 用户拒绝 | `optOut()` 后停止采集与回放，`optIn()` 恢复 |
+| 输入内容 | 不采集 `input` / `textarea` 的 `value` |
+| 密码与敏感区域 | `input[type="password"]`、`maskSelectors` 命中区域与 `data-track-mask` 元素整块屏蔽 |
+| 会话回放 | 默认关闭；开启后默认遮罩所有输入 |
+| 响应体 | 默认不采集；凭证端点永不采集 |
 
-::: warning
-若文档与实际行为不一致，以「更严格的隐私行为」为准，并在 [mugsun-track](https://github.com/mugsun/mugsun-track) 提 issue。
-:::
+## URL 敏感参数
 
-相关：[安装](/track/install) · [第一个事件](/track/first-event) · [安全清单](/boot/security-checklist)
+接口监控上报的 URL 保留查询串，但以下键（**小写归一后精确匹配**）的值替换为 `***`，业务参数保留：
+
+```text
+token  access_token  authorization  id_token  refresh_token
+api_key  apikey  auth  secret  password
+```
+
+```text
+/api/order?id=42&token=abc123   →   /api/order?id=42&token=***
+```
+
+非法 URL 原样返回；相对 URL 保持相对形态。
+
+## 合规建议
+
+- 在隐私政策中说明采集范围，并为用户提供拒绝入口（调用 `optOut()`）。
+- 包含个人信息的区域加 `data-track-mask` 或写入 `maskSelectors`。
+- 开启响应体采集前评估必要性，并显式开启 `apiBodyMaskEnabled`（[默认值即将调整](/track/plugins#接口监控)）。
+- 数据存储在你自己的 PostgreSQL 中，保留周期与访问权限按企业制度配置。
+
+相关：[插件](/track/plugins) · [安全清单](/boot/security-checklist)
