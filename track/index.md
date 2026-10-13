@@ -38,7 +38,7 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 **性能分析**：Web Vitals 各指标的 P75 与分位明细，按阈值标记良好/待改进/差。
 
-![性能分析：限速（类 Fast 3G + 4 倍 CPU 降速）下真实采集的 Web Vitals。INP 只记录耗时 40ms 以上的交互，演示页点击都很轻，所以没有样本，显示「-」（演示数据）](/screenshots/track/track-perf.png)
+![性能分析：限速（类 Fast 3G + 4 倍 CPU 降速）下真实采集的 Web Vitals。INP 只记录耗时 40ms 以上的交互，演示页点击都很轻，所以没有样本，显示「-」。指标由浏览器在限速下真实测得，上报由脚本模拟页面隐藏触发（演示数据）](/screenshots/track/track-perf.png)
 
 **错误监控**：JS 错误按指纹聚合，显示次数、影响会话与首末次时间，可下钻到明细和关联回放。
 

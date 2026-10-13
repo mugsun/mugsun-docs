@@ -38,7 +38,7 @@ The screenshots below come from a local boot + pc run. The data was reported for
 
 **Performance**: P75 and percentile breakdown for each Web Vitals metric, rated good / needs improvement / poor against thresholds.
 
-![Performance: Web Vitals collected for real under throttling (Fast-3G-like network, 4x CPU slowdown). INP only records interactions of 40 ms or longer; the demo page's clicks are all light, so it has no samples and shows "-" (demo data)](/screenshots/track/track-perf.png)
+![Performance: Web Vitals collected for real under throttling (Fast-3G-like network, 4x CPU slowdown). INP only records interactions of 40 ms or longer; the demo page's clicks are all light, so it has no samples and shows "-". The metrics were measured by the browser under throttling; reporting was triggered by a script simulating the page becoming hidden (demo data)](/screenshots/track/track-perf.png)
 
 **Errors**: JS errors grouped by fingerprint with counts, affected sessions and first/last seen; drill down to occurrences and linked replays.
 
