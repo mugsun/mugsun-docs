@@ -9,7 +9,7 @@
 
 mugsun 官方文档站。用 [VitePress](https://vitepress.dev/) 构建，**根路径为简体中文**，英文在 `/en/`。线上地址：[https://docs.mugsun.com/](https://docs.mugsun.com/)。
 
-**对外状态**：boot · core · pc · track 免费开源；uni-app x 组件库（包名 ms-ui，源码私有）仅开放文档与 H5 演示，入口 `/uniappx/`（旧 `/ms-ui/` 自动跳转）。
+**对外状态**：boot · core · pc · track 免费开源；uni-app x 组件库（包名 ms-ui，商业版，源码不公开）仅开放文档与 H5 演示，入口 `/uniappx/`（旧 `/ms-ui/` 自动跳转）。
 
 本仓只放文档与站点配置，不包含业务运行时。平台后端、管理台、埋点 SDK 分别在兄弟仓。
 
@@ -25,7 +25,7 @@ mugsun 官方文档站。用 [VitePress](https://vitepress.dev/) 构建，**根�
 | `/demo` | `/en/demo` | 本地演示说明（无公网 Demo 时的替代） |
 | `/changelog` | `/en/changelog` | 站点与产品相关更新记录 |
 
-免费开源产品线：`boot` · `core` · `pc` · `track`。`cloud`（微服务）与 `uniappx-ui` 在文中标为规划中 / 商业意向，不写成已交付安装包。
+免费开源产品线：`boot` · `core` · `pc` · `track`。`cloud`（微服务）仍在规划中，不写成已交付安装包；`uniappx-ui`（ms-ui）为商业版，源码不公开，组件文档与 H5 演示在本站开放。
 
 ## 本地预览
 
@@ -132,7 +132,7 @@ mugsun-docs/
 
 ## License
 
-[MIT](LICENSE) · © 2026 北京定旭晨 / mugsun
+[MIT](LICENSE) · © 2026 mugsun
 
 ---
 

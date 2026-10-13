@@ -260,7 +260,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
     langMenuLabel: 'Language',
     footer: {
       message: 'boot and core are released under Apache-2.0; pc and track under MIT.',
-      copyright: 'Copyright © 2026 北京定旭晨信息科技工作室 (mugsun)',
+      copyright: '© 2026 mugsun',
     },
   },
 }
