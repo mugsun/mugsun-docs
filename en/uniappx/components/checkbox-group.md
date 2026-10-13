@@ -9,38 +9,38 @@ demo: pages/demo/form/checkbox
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-checkbox-group` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-checkbox-group` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/checkbox`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件分组 -->
+  <!-- Groups -->
   <ms-checkbox-group v-model="groupValue" :max="2" @change="onGroupChange">
-    <ms-checkbox value="a" label="选项 A" block />
-    <ms-checkbox value="b" label="选项 B" block />
-    <ms-checkbox value="c" label="选项 C" block />
+    <ms-checkbox value="a" label="Option A" block />
+    <ms-checkbox value="b" label="Option B" block />
+    <ms-checkbox value="c" label="Option C" block />
   </ms-checkbox-group>
   <ms-checkbox-group v-model="rowValue" horizontal>
     <view>
-      <ms-checkbox value="x" label="横排一" />
+      <ms-checkbox value="x" label="Inline 1" />
     </view>
     <view>
-      <ms-checkbox value="y" label="横排二" />
+      <ms-checkbox value="y" label="Inline 2" />
     </view>
   </ms-checkbox-group>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-checkbox-group v-model="disabledGroup" disabled>
-    <ms-checkbox value="1" label="禁用组甲" block />
-    <ms-checkbox value="2" label="禁用组乙" block />
+    <ms-checkbox value="1" label="Disabled group A" block />
+    <ms-checkbox value="2" label="Disabled group B" block />
   </ms-checkbox-group>
   <ms-checkbox-group v-model="childValue" @change="onChildChange">
-    <ms-checkbox value="a" label="子项 A" block />
-    <ms-checkbox value="b" label="子项 B" block />
+    <ms-checkbox value="a" label="Child A" block />
+    <ms-checkbox value="b" label="Child B" block />
   </ms-checkbox-group>
 </template>
 

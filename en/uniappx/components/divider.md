@@ -9,29 +9,29 @@ demo: pages/demo/basic/divider
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-divider` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-divider` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/divider`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/divider.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/divider.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 纯分割 -->
+  <!-- Plain divider -->
   <ms-divider />
-  <!-- 对齐 -->
-  <ms-divider text="左对齐" align="left" />
-  <ms-divider text="居中" align="center" />
-  <ms-divider text="右对齐" align="right" />
-  <!-- 垂直 -->
+  <!-- Alignment -->
+  <ms-divider text="Left" align="left" />
+  <ms-divider text="Center" align="center" />
+  <ms-divider text="Right" align="right" />
+  <!-- Vertical -->
   <ms-divider layout="vertical" />
   <ms-divider layout="vertical" />
-  <!-- 虚线 -->
+  <!-- Dashed -->
   <ms-divider dashed />
-  <ms-divider dashed text="文字信息" align="left" />
-  <ms-divider dashed text="文字信息" align="center" />
+  <ms-divider dashed text="Text" align="left" />
+  <ms-divider dashed text="Text" align="center" />
 </template>
 ```
 <!-- demo-snippets:end -->

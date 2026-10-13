@@ -9,17 +9,17 @@ demo: pages/demo/feedback/pull-refresh
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pull-refresh` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pull-refresh` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/pull-refresh`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-pull-refresh
     v-model="baseRefreshing"
     :height="220"
@@ -32,28 +32,28 @@ Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.
   </ms-pull-refresh>
   <ms-pull-refresh v-model="customRefreshing" :height="180" @refresh="onCustomRefresh">
     <template #refresher>
-      <text>自定义刷新提示</text>
+      <text>Custom refresh hint</text>
     </template>
     <view v-for="row in customRows" :key="row">
       <text>{{ row }}</text>
     </view>
   </ms-pull-refresh>
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-pull-refresh :disabled="true" :height="140">
     <view>
-      <text>禁用下拉的内容</text>
+      <text>Pull-to-refresh disabled</text>
     </view>
     <view>
-      <text>下拉手势不生效</text>
+      <text>Pull gesture has no effect</text>
     </view>
   </ms-pull-refresh>
-  <!-- 阈值与高度 -->
+  <!-- Threshold and height -->
   <ms-pull-refresh :threshold="100" :height="160" @refresh="onLargeRefresh">
     <view>
-      <text>需下拉 100px 才触发</text>
+      <text>Triggers after pulling 100px</text>
     </view>
     <view>
-      <text>容器高 160px</text>
+      <text>Container height 160px</text>
     </view>
   </ms-pull-refresh>
 </template>
@@ -61,11 +61,11 @@ Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.
 <script setup lang="uts">
 const baseRefreshing = ref(false)
 
-const baseRows = ['列表项 1', '列表项 2', '列表项 3', '列表项 4', '列表项 5']
+const baseRows = ['List item 1', 'List item 2', 'List item 3', 'List item 4', 'List item 5']
 
 const customRefreshing = ref(false)
 
-const customRows = ['自定义列表 A', '自定义列表 B', '自定义列表 C']
+const customRows = ['Custom list A', 'Custom list B', 'Custom list C']
 
 function onBaseRefresh() : void {
   console.log('onBaseRefresh')

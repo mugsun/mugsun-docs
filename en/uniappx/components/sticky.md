@@ -9,40 +9,40 @@ demo: pages/demo/nav/sticky
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-sticky` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-sticky` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/sticky`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/sticky.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/sticky.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-sticky :scroll-top="baseScrollTop" :anchor-top="80" @change="onBaseStuck">
     <view>
-      <text>基础吸顶条</text>
+      <text>Basic sticky bar</text>
     </view>
   </ms-sticky>
   <ms-sticky :scroll-top="boxScrollTop" :anchor-top="80">
     <view>
-      <text>容器内吸顶条</text>
+      <text>Sticky bar in container</text>
     </view>
   </ms-sticky>
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-sticky :scroll-top="disabledScrollTop" :anchor-top="80" :disabled="true">
     <view>
-      <text>禁用吸顶条</text>
+      <text>Disabled sticky bar</text>
     </view>
   </ms-sticky>
-  <!-- 吸顶距离 -->
+  <!-- Offset top -->
   <ms-sticky :scroll-top="offsetScrollTop" :anchor-top="80" :offset-top="40">
     <view>
-      <text>距顶 40px 的吸顶条</text>
+      <text>Sticky bar 40px from top</text>
     </view>
   </ms-sticky>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-sticky
     :scroll-top="depthScrollTop"
     :anchor-top="80"
@@ -51,12 +51,12 @@ Snippets below are taken from the demo source `pages/demo/nav/sticky.uvue`; see 
     @change="onDepthStuck"
   >
     <view>
-      <text>高层吸顶条</text>
+      <text>Higher z-index sticky bar</text>
     </view>
   </ms-sticky>
   <ms-sticky :scroll-top="stackScrollTop" :anchor-top="80" :height="40" :z-index="20">
     <view>
-      <text>上层条</text>
+      <text>Upper bar</text>
     </view>
   </ms-sticky>
   <ms-sticky
@@ -67,7 +67,7 @@ Snippets below are taken from the demo source `pages/demo/nav/sticky.uvue`; see 
     :z-index="19"
   >
     <view>
-      <text>下层偏 40</text>
+      <text>Lower bar, offset 40</text>
     </view>
   </ms-sticky>
 </template>

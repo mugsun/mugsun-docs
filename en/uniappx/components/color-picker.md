@@ -9,24 +9,24 @@ demo: pages/demo/form/color-picker
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-color-picker` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-color-picker` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/color-picker`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/color-picker.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/color-picker.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-color-picker v-model="baseColor" type="base" @change="onBaseChange" />
   <ms-color-picker v-model="fullColor" type="multiple" @change="onFullChange" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-color-picker v-model="alphaColor" :enable-alpha="true" format="rgb" @change="onAlphaChange" />
   <ms-color-picker v-model="hslColor" format="hsl" :columns="6" @change="onHslChange" />
   <ms-color-picker v-model="disabledColor" type="base" :disabled="true" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-color-picker
     v-model="swatchColor"
     type="base"

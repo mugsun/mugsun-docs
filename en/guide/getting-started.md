@@ -9,8 +9,8 @@ This guide takes you from an empty machine to three verifiable results: **the ba
 | JDK | 21 | Running boot |
 | Maven | 3.9+ | Building boot (pulls `com.mugsun:mugsun-*:0.1.0` from Maven Central) |
 | Docker / Docker Compose | Recent | PostgreSQL 16 (with PostGIS and pgvector) and Redis 7 |
-| Node.js | ≥ 20.19 | Console and SDK (optional) |
-| pnpm | ≥ 8.8 (the console pins `pnpm@11.9.0`) | Same as above |
+| Node.js | ≥ 22.13 | Console and SDK (optional) |
+| pnpm | ≥ 11.11 (the console pins `pnpm@11.28.2`) | Same as above |
 
 Recommended layout. The console references the SDK as `file:../mugsun-track`, so the repositories must sit side by side:
 
@@ -41,6 +41,21 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 - `docker compose up -d` starts only PostgreSQL (5432) and Redis (6379). The first run builds a database image with PostGIS and pgvector.
 - The package uses the default `full` profile (core + gis + track + ai).
 - Run `java -jar` from the repository root, otherwise `config/application-local.yml` is not picked up. Make sure `java -version` reports 21.
+
+::: details Port 5432 is already in use?
+If `docker compose up -d` reports a port conflict, a local PostgreSQL is usually running:
+
+- Find it: `lsof -nP -iTCP:5432 -sTCP:LISTEN` on macOS / Linux, `netstat -ano | findstr :5432` on Windows.
+- Option 1: stop the local PostgreSQL (e.g. `brew services stop postgresql@16`, `sudo systemctl stop postgresql`), then run `docker compose up -d` again.
+- Option 2: change the host port. In `docker-compose.yml`, change the postgres mapping `"5432:5432"` to e.g. `"5433:5432"`, and override the connection URL in `config/application-local.yml`:
+
+```yaml
+mybatis-flex:
+  datasource:
+    primary:
+      url: jdbc:postgresql://localhost:5433/mugsun
+```
+:::
 
 ::: details Can I use `mvn -pl mugsun-boot-server -am spring-boot:run`?
 Yes. For development you can run it from the repository root (since [mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13)). Packaging and running the JAR is still recommended for deployment and verification.

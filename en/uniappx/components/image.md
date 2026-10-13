@@ -9,28 +9,28 @@ demo: pages/demo/basic/image
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/image`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/image.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/image.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 裁切 -->
+  <!-- Fit -->
   <ms-image :src="demoSrc" mode="aspectFill" />
   <ms-image :src="demoSrc" mode="heightFix" />
   <ms-image :src="demoSrc" mode="scaleToFill" />
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-image :src="demoSrc" shape="square" />
   <ms-image :src="demoSrc" shape="round" />
   <ms-image :src="demoSrc" shape="circle" />
-  <!-- 状态 -->
+  <!-- States -->
   <ms-image :src="demoSrc" />
   <ms-image src="https://invalid.ms-ui.example/error.png" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-image :src="demoSrc" width="120px" height="80px" shape="round" />
   <ms-image :src="demoSrc" :lazy="true" />
   <ms-image :src="demoSrc" :show-menu-by-longpress="true" />

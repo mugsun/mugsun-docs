@@ -9,17 +9,17 @@ demo: pages/demo/form/slide-verify
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-slide-verify` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-slide-verify` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/slide-verify`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/slide-verify.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/slide-verify.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-slide-verify @success="onDefaultSuccess" @fail="onDefaultFail" />
   <ms-slide-verify
     ref="targetRef"
@@ -28,14 +28,14 @@ Snippets below are taken from the demo source `pages/demo/form/slide-verify.uvue
     @success="onTargetSuccess"
     @fail="onTargetFail"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-slide-verify
-    tips="按住拖到最右"
-    success-tips="校验通过"
+    tips="Hold and drag to the far right"
+    success-tips="Verified"
     @success="onTipsSuccess"
   />
-  <ms-slide-verify disabled tips="已禁用" />
-  <ms-slide-verify :tolerance="24" tips="容差更大更易过" @success="onLooseSuccess" />
+  <ms-slide-verify disabled tips="Disabled" />
+  <ms-slide-verify :tolerance="24" tips="Larger tolerance, easier to pass" @success="onLooseSuccess" />
 </template>
 
 <script setup lang="uts">

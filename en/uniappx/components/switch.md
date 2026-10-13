@@ -9,36 +9,36 @@ demo: pages/demo/form/switch
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-switch` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-switch` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/switch`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/switch.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/switch.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-switch v-model="vBase" />
-  <ms-switch v-model="vLabel" :label="['开', '关']" />
+  <ms-switch v-model="vLabel" :label="['On', 'Off']" />
   <ms-switch v-model="vIcon" active-icon="check-line" void-icon="close-line" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-switch :model-value="true" loading />
   <ms-switch :model-value="false" disabled />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-switch v-model="vSize" size="sm" />
   <ms-switch v-model="vSize" size="md" />
   <ms-switch v-model="vSize" size="lg" />
-  <!-- 组件深度 -->
-  <ms-switch v-model="vDepthLabel" size="lg" :label="['开', '关']" />
+  <!-- Advanced -->
+  <ms-switch v-model="vDepthLabel" size="lg" :label="['On', 'Off']" />
   <ms-switch
     :model-value="true"
     loading
     active-icon="check-line"
     void-icon="close-line"
   />
-  <ms-switch :model-value="true" disabled :label="['开', '关']" />
+  <ms-switch :model-value="true" disabled :label="['On', 'Off']" />
 </template>
 
 <script setup lang="uts">

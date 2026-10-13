@@ -9,57 +9,57 @@ demo: pages/demo/nav/col
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-col` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-col` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/col`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/col.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/col.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 占比 -->
+  <!-- Span -->
   <ms-col :span="8">
     <view>
-      <text>八栏</text>
+      <text>8 columns</text>
     </view>
   </ms-col>
   <ms-col :span="16">
     <view>
-      <text>十六栏</text>
+      <text>16 columns</text>
     </view>
   </ms-col>
   <ms-col :span="24">
     <view>
-      <text>全宽</text>
+      <text>Full width</text>
     </view>
   </ms-col>
-  <!-- 偏移 -->
+  <!-- Offset -->
   <ms-col :span="8" :offset="4">
     <view>
-      <text>偏移四</text>
+      <text>Offset 4</text>
     </view>
   </ms-col>
   <ms-col :span="12" :offset="12">
     <view>
-      <text>偏移十二</text>
+      <text>Offset 12</text>
     </view>
   </ms-col>
-  <!-- 间距 -->
+  <!-- Gutter -->
   <ms-col :span="8">
     <view>
-      <text>带间距列</text>
-    </view>
-  </ms-col>
-  <ms-col :span="8">
-    <view>
-      <text>带间距列</text>
+      <text>Column with gutter</text>
     </view>
   </ms-col>
   <ms-col :span="8">
     <view>
-      <text>带间距列</text>
+      <text>Column with gutter</text>
+    </view>
+  </ms-col>
+  <ms-col :span="8">
+    <view>
+      <text>Column with gutter</text>
     </view>
   </ms-col>
 </template>
