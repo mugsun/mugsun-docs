@@ -83,17 +83,25 @@ Dashboard UV (unique visitors) counts one per device ID (`distinct_id`). After u
 ### Load on the production database
 
 - Each app-and-day is one transaction that scans that day's raw events once, with `statement_timeout` set to 120 seconds and `work_mem` to 256MB by default (`MUGSUN_TRACK_UV_BACKFILL_WORK_MEM`). It pauses 300 ms between days by default (`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`).
-- If one app-and-day times out, only that day is rolled back and a WARN is logged. That app's progress isn't advanced and its remaining days wait for the next run, while other apps carry on. If a large app times out every day, raise its limit alone with `mugsun.track.uv-backfill.app-statement-timeout.<appKey>` (for example `600s`).
+- If one app-and-day hits a database error (a 57014 timeout, or an occasional deadlock, lock wait or dropped connection), only that day is rolled back and a WARN with the SQLState is logged. That app's progress isn't advanced and its remaining days wait for the next run, while other apps carry on. If the same app and day keeps timing out, raise the limit for that app alone. The key must be in brackets:
+
+  ```yaml
+  mugsun:
+    track:
+      uv-backfill:
+        app-statement-timeout:
+          "[MyApp_1]": 600s
+  ```
 - By default it only runs **between 02:00 and 07:00 Beijing time** and pauses when the window ends. Progress is stored in `track_rollup_cursor` (`job_key = uv_backfill`), so the next run picks up where it stopped. Set `MUGSUN_TRACK_UV_BACKFILL_WINDOW_ENABLED=false` to remove the time limit.
 - It holds its own Redis lock and renews it after each day, so with several instances only one runs at a time. **If Redis is unavailable it doesn't run.**
 
 ### Trial run before production
 
-1. On a replica, run `EXPLAIN (ANALYZE, BUFFERS)` for one day of a large app. Run `SET work_mem = '256MB'` first, then check that it reads a single monthly partition, uses an index on `app_key, received_at`, shows no `external merge` and little or no temp I/O, and takes far less than 120 seconds. The query is in `docs/upgrade/track-uv-backfill.md` in the boot repository.
+1. On a replica, run `EXPLAIN (ANALYZE, BUFFERS)` for one day of a large app. Run `SET work_mem = '256MB'` first, then check that it reads a single monthly partition. A default database has no `app_key, received_at` index, so a BRIN bitmap scan or a sequential scan of that one partition is normal. Use the run time, temp I/O and shared reads to decide whether you need an index. The query is in `docs/upgrade/track-uv-backfill.md` in the boot repository.
 2. Try one day on a small app: `{"days": 1, "appKey": "small-app"}`. Run it again with the same parameters; the log should report 0 rows changed.
 3. Then run the default 90 days off-peak.
 
-The migration doesn't create an index. If you need one, create it off-peak on each monthly partition separately, for example `CREATE INDEX CONCURRENTLY ... ON track_event_2026_09 (app_key, received_at)` (the partitioned parent doesn't support `CONCURRENTLY`), then repeat step 1 to confirm it's used.
+The migration doesn't create an index. If you need one, create it off-peak with `CREATE INDEX CONCURRENTLY` on each monthly partition you're backfilling. It's a temporary index for the backfill only: it isn't attached to the parent, new partitions won't have it, and you drop it afterwards. A failed concurrent build leaves an INVALID index, so check `pg_index.indisvalid`; if it's false, run `DROP INDEX CONCURRENTLY` and build it again. The full steps and SQL are in `docs/upgrade/track-uv-backfill.md` in the boot repository.
 
 ### Running it
 

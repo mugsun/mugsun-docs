@@ -83,17 +83,25 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 ### 对线上库的影响
 
 - 每个「应用 × 天」一个事务，只扫一次当天明细，事务内 `statement_timeout` 默认 120 秒、`work_mem` 默认 256MB（`MUGSUN_TRACK_UV_BACKFILL_WORK_MEM`）；两天之间默认停 300 毫秒（`MUGSUN_TRACK_UV_BACKFILL_SLEEP_MILLIS`）。
-- 某个「应用 × 天」超时只回滚这一天并打 WARN 日志，该应用游标不推进、其余日子留到下次，其它应用照常继续。大应用每天都超时时，用 `mugsun.track.uv-backfill.app-statement-timeout.<appKey>`（如 `600s`）单独放宽。
+- 某个「应用 × 天」遇到数据库错误（超时 57014，或死锁、锁等待、连接中断等偶发错误）只回滚这一天，WARN 日志带 SQLState，该应用游标不推进、其余日子留到下次，其它应用照常继续。同一个应用的同一天连续超时时，只给这个应用放宽超时（键要加中括号）：
+
+  ```yaml
+  mugsun:
+    track:
+      uv-backfill:
+        app-statement-timeout:
+          "[MyApp_1]": 600s
+  ```
 - 默认只在**北京时间 02:00–07:00** 运行，到点自动暂停；进度记在 `track_rollup_cursor`（`job_key = uv_backfill`），下次从断点继续。`MUGSUN_TRACK_UV_BACKFILL_WINDOW_ENABLED=false` 可取消时段限制。
 - 使用独立 Redis 锁并逐天续期，多实例同一时刻只有一个在跑；**Redis 不可用时不执行**。
 
 ### 上线前实跑
 
-1. 在从库上对一个大应用的一天跑 `EXPLAIN (ANALYZE, BUFFERS)`，先 `SET work_mem = '256MB'`，确认：只扫单个月分区、走 `app_key, received_at` 相关索引；没有 `external merge`、几乎没有 temp 读写；耗时远小于 120 秒。查询语句见 boot 仓库 `docs/upgrade/track-uv-backfill.md`。
+1. 在从库上对一个大应用的一天跑 `EXPLAIN (ANALYZE, BUFFERS)`，先 `SET work_mem = '256MB'`，确认只扫单个月分区。默认库没有 `app_key, received_at` 索引，BRIN 位图扫描或单分区顺序扫描都正常；再看耗时、temp 读写和 shared read，决定要不要加索引。查询语句见 boot 仓库 `docs/upgrade/track-uv-backfill.md`。
 2. 用小应用试跑一天：`{"days": 1, "appKey": "小应用"}`；同样参数再跑一次，日志应为「改动 0 行」。
 3. 低峰期再按默认 90 天跑全量。
 
-迁移里不建索引。确需索引时，在低峰期对每个月分区单独 `CREATE INDEX CONCURRENTLY ... ON track_event_2026_09 (app_key, received_at)`（分区父表不支持 `CONCURRENTLY`），建完重跑第 1 步确认用上。
+迁移里不建索引。确需索引时，在低峰期对要回填的月分区单独 `CREATE INDEX CONCURRENTLY`，这是只为回填建的单分区临时索引：不挂父表、新分区不会有、回填后删掉。并发建索引失败会留下 INVALID 索引，要查 `pg_index.indisvalid`，为 false 时先 `DROP INDEX CONCURRENTLY` 再重建。详细步骤和 SQL 见 boot 仓库 `docs/upgrade/track-uv-backfill.md`。
 
 ### 执行
 
