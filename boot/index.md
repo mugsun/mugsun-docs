@@ -43,6 +43,21 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 打包产物为 `mugsun-boot-server/target/mugsun-boot.jar`，需在仓库根目录运行。
 
+::: details 5432 端口被占用怎么办？
+`docker compose up -d` 报端口冲突，通常是本机已有 PostgreSQL 在跑：
+
+- 查占用：macOS / Linux 用 `lsof -nP -iTCP:5432 -sTCP:LISTEN`，Windows 用 `netstat -ano | findstr :5432`。
+- 方案一：停掉本机 PostgreSQL（如 `brew services stop postgresql@16`、`sudo systemctl stop postgresql`），再 `docker compose up -d`。
+- 方案二：改映射端口。把 `docker-compose.yml` 中 postgres 的 `"5432:5432"` 改为如 `"5433:5432"`，并在 `config/application-local.yml` 中覆盖连接地址：
+
+```yaml
+mybatis-flex:
+  datasource:
+    primary:
+      url: jdbc:postgresql://localhost:5433/mugsun
+```
+:::
+
 只要核心模块：`mvn -pl mugsun-boot-server -am package -Pbasic,'!full'`。
 
 ## 下一步

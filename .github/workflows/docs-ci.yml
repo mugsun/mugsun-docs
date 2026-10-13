@@ -1,0 +1,51 @@
+name: Docs CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # lastUpdated needs git history
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        # version comes from package.json "packageManager"
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build (VitePress fails on internal dead links)
+        run: pnpm run docs:build
+
+      - name: Check internal links (offline)
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          fail: true
+          args: >-
+            --offline --no-progress
+            --root-dir ${{ github.workspace }}/.vitepress/dist
+            --fallback-extensions html
+            --index-files index.html
+            --exclude-path .vitepress/dist/demo
+            --exclude-path .vitepress/dist/public
+            '.vitepress/dist/**/*.html'

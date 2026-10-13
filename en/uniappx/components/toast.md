@@ -9,29 +9,29 @@ demo: pages/demo/feedback/toast
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-toast` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-toast` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/toast`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
   <ms-toast
     :visible="showPlain"
-    message="操作成功"
+    message="Success"
     @update:visible="onPlainVisible"
   />
   <ms-toast
     :visible="showMultiLine"
-    message="这是一条比较长的提示文案，会折行显示，最多两三行"
+    message="This is a longer message that wraps onto two or three lines at most"
     @update:visible="onMultiVisible"
   />
   <ms-toast
     :visible="showRowIcon"
-    message="横向图标"
+    message="Horizontal icon"
     icon="star-line"
     @update:visible="onRowVisible"
   />

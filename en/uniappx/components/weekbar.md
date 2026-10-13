@@ -9,20 +9,20 @@ demo: pages/demo/form/weekbar
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-weekbar` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-weekbar` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/weekbar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-weekbar v-model="basicDate" @change="onBasicChange" @weekchange="onWeekChange" />
   <ms-weekbar v-model="plainDate" :show-action="false" mode="none" @change="onPlainChange" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-weekbar v-model="circleDate" mode="circular" :first-day="6" @change="onCircleChange" />
   <ms-weekbar
     v-model="rangeDate"
@@ -32,7 +32,7 @@ Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`; se
     @change="onRangeChange"
   />
   <ms-weekbar v-model="basicDate" :disabled="true" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-weekbar
     v-model="banDate"
     :disabled-dates="banned"

@@ -9,45 +9,45 @@ demo: pages/demo/media/blur
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-blur/components/ms-blur` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-blur/components/ms-blur` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-blur` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/blur`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/blur.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/blur.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-blur :blur="blur" tint="light" :radius="12">
-    <text>工具条底衬</text>
-    <text>半透明底 + 模糊，用于浮层与工具条</text>
+    <text>Toolbar backdrop</text>
+    <text>Translucent fill + blur, for overlays and toolbars</text>
   </ms-blur>
   <ms-blur :blur="blur" tint="dark" :radius="12" :opacity="0.7">
-    <text>深色底衬</text>
-    <text>用于图片上的说明条</text>
+    <text>Dark backdrop</text>
+    <text>For caption bars over images</text>
   </ms-blur>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-blur :blur="4" tint="light" :radius="8" :padding="8">
-    <text>轻度模糊 4</text>
+    <text>Light blur 4</text>
   </ms-blur>
   <ms-blur :blur="20" tint="light" :radius="8" :padding="8">
-    <text>中度模糊 20</text>
+    <text>Medium blur 20</text>
   </ms-blur>
   <ms-blur :blur="12" tint="light" :radius="0" :padding="16">
-    <text>直角 · 内边距 16</text>
+    <text>Square corners · padding 16</text>
   </ms-blur>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-blur :blur="16" tint="light" :opacity="0.4" :radius="12" :padding="12">
-    <text>透明度 0.4</text>
+    <text>Opacity 0.4</text>
   </ms-blur>
   <ms-blur :blur="12" tint="dark" :opacity="0.75" :radius="24" :padding="12">
-    <text>圆角 24</text>
+    <text>Radius 24</text>
   </ms-blur>
   <ms-blur :blur="20" tint="light" :opacity="0.92" :radius="12" :padding="12">
-    <text>透明度 0.92</text>
+    <text>Opacity 0.92</text>
   </ms-blur>
 </template>
 

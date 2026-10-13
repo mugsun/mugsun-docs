@@ -17,7 +17,7 @@ cp config/application-local.yml.example config/application-local.yml
 | `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | 主库连接 |
 | `REDIS_HOST` / `REDIS_PORT`（默认 6379）/ `REDIS_PASSWORD` / `REDIS_DB`（prod 默认 0） | Redis |
 | `FILE_STORAGE_PATH`（默认 `/var/lib/mugsun/files/`）/ `FILE_DOMAIN` | 本地文件存储与访问域名 |
-| `MUGSUN_FRONT_URL` | 管理端 origin，用于 OAuth 回跳等；开发默认 `http://localhost:3006`，prod 必填 |
+| `MUGSUN_FRONT_URL` | 管理台 origin，用于 OAuth 回跳等；开发默认 `http://localhost:3006`，prod 必填 |
 
 ## 安全与密钥
 
@@ -49,7 +49,9 @@ mugsun:
       expire-seconds: 300
 ```
 
-`sign-secret` 留空时每次启动随机生成，只适合单实例；多实例部署必须给所有实例配置同一个值，否则一个实例签发的地址在另一个实例上会 404。`prod` profile 默认关闭 `/file/**` 直出，私有附件走授权下载接口，不受此项影响。
+`sign-secret` 留空时每次启动随机生成，只适合单实例；多实例部署必须给所有实例配置同一个值，否则一个实例签发的地址在另一个实例上会 404。`prod` profile 默认关闭 `/file/**` 直出，私有附件走授权下载接口，不受此项影响；如果在 `prod` 下手动开启直出，必须配置至少 32 个字符的 `sign-secret`，留空或过短都会拒绝启动。
+
+直出的文件都带 `X-Content-Type-Options: nosniff`。HTML、SVG 等浏览器可能执行的类型以及 PDF 一律作为附件下载，不在浏览器里直接打开；HTML、SVG 等还会附加 `Content-Security-Policy: sandbox`。
 
 ## 可选模块
 

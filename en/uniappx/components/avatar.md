@@ -9,31 +9,31 @@ demo: pages/demo/display/avatar
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-avatar` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-avatar` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/avatar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/avatar.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/avatar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-avatar :src="demoSrc" />
   <ms-avatar text="Mug" />
   <ms-avatar />
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-avatar :src="demoSrc" shape="circle" />
   <ms-avatar :src="demoSrc" shape="round" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-avatar text="S" size="sm" />
   <ms-avatar text="M" size="md" />
   <ms-avatar text="L" size="lg" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-avatar icon="customer-service-line" size="lg" />
-  <ms-avatar text="圆" shape="round" size="lg" />
-  <ms-avatar src="/static/not-exist.png" text="退" @error="onAvatarError" />
+  <ms-avatar text="R" shape="round" size="lg" />
+  <ms-avatar src="/static/not-exist.png" text="F" @error="onAvatarError" />
 </template>
 
 <script setup lang="uts">

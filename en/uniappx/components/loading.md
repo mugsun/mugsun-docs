@@ -9,24 +9,24 @@ demo: pages/demo/basic/loading
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-loading` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-loading` (commercial edition; source not public).
 Demo route: `#/pages/demo/basic/loading`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/loading.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/basic/loading.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 纯图标 -->
+  <!-- Icon only -->
   <ms-loading text="" />
-  <!-- 横向 -->
-  <ms-loading layout="horizontal" text="加载中…" />
-  <!-- 竖向 -->
-  <ms-loading layout="vertical" text="加载中…" />
-  <!-- 纯文字 -->
-  <ms-loading :indicator="false" text="加载中…" />
+  <!-- Horizontal -->
+  <ms-loading layout="horizontal" text="Loading…" />
+  <!-- Vertical -->
+  <ms-loading layout="vertical" text="Loading…" />
+  <!-- Text only -->
+  <ms-loading :indicator="false" text="Loading…" />
 </template>
 ```
 <!-- demo-snippets:end -->

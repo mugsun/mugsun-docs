@@ -9,8 +9,8 @@
 | JDK | 21 | 运行 boot |
 | Maven | 3.9+ | 构建 boot（自动从 Maven Central 拉取 `com.mugsun:mugsun-*:0.1.0`） |
 | Docker / Docker Compose | 近期版本 | 启动 PostgreSQL 16（含 PostGIS、pgvector）与 Redis 7 |
-| Node.js | ≥ 20.19 | 管理台与埋点 SDK（可选） |
-| pnpm | ≥ 8.8（管理台锁定 `pnpm@11.9.0`） | 同上 |
+| Node.js | ≥ 22.13 | 管理台与埋点 SDK（可选） |
+| pnpm | ≥ 11.11（管理台锁定 `pnpm@11.28.2`） | 同上 |
 
 推荐目录结构（管理台以 `file:../mugsun-track` 引用 SDK，因此需平级）：
 
@@ -39,6 +39,21 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 - `docker compose up -d` 只启动 PostgreSQL（5432）与 Redis（6379），首次会构建带 PostGIS + pgvector 的数据库镜像。本机端口被占用时见 [常见问题](/guide/faq#本机-5432-6379-已被占用)。
 - 打包默认使用 `full` profile（core + gis + track + ai）。
 - `java -jar` 必须在仓库根目录执行，才能读到 `config/application-local.yml`。确认 `java -version` 输出 21。
+
+::: details 5432 端口被占用怎么办？
+`docker compose up -d` 报端口冲突，通常是本机已有 PostgreSQL 在跑：
+
+- 查占用：macOS / Linux 用 `lsof -nP -iTCP:5432 -sTCP:LISTEN`，Windows 用 `netstat -ano | findstr :5432`。
+- 方案一：停掉本机 PostgreSQL（如 `brew services stop postgresql@16`、`sudo systemctl stop postgresql`），再 `docker compose up -d`。
+- 方案二：改映射端口。把 `docker-compose.yml` 中 postgres 的 `"5432:5432"` 改为如 `"5433:5432"`，并在 `config/application-local.yml` 中覆盖连接地址：
+
+```yaml
+mybatis-flex:
+  datasource:
+    primary:
+      url: jdbc:postgresql://localhost:5433/mugsun
+```
+:::
 
 ::: details 能用 `mvn -pl mugsun-boot-server -am spring-boot:run` 吗？
 可以，开发时可在仓库根目录直接运行（[mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) 起）。部署与验收仍推荐先打包再 `java -jar`。

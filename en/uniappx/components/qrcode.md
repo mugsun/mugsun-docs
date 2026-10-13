@@ -9,28 +9,28 @@ demo: pages/demo/display/qrcode
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-qrcode` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-qrcode` (commercial edition; source not public).
 Demo route: `#/pages/demo/display/qrcode`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/qrcode.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/display/qrcode.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-qrcode :value="demoValue" />
   <ms-qrcode :value="demoValue" logo="/static/logo.png" level="H" />
-  <!-- 纠错等级 -->
+  <!-- Error correction level -->
   <ms-qrcode :value="demoValue" level="L" size="sm" />
   <ms-qrcode :value="demoValue" level="M" size="sm" />
   <ms-qrcode :value="demoValue" level="Q" size="sm" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-qrcode :value="demoValue" status="expired" size="sm" />
   <ms-qrcode :value="demoValue" status="loading" size="sm" />
   <ms-qrcode :value="demoValue" status="scanned" size="sm" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-qrcode :value="demoValue" size="sm" />
   <ms-qrcode :value="demoValue" size="md" />
   <ms-qrcode :value="demoValue" size="lg" />

@@ -9,20 +9,20 @@ demo: pages/demo/feedback/action-sheet
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-action-sheet` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-action-sheet` (commercial edition; source not public).
 Demo route: `#/pages/demo/feedback/action-sheet`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/action-sheet.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/feedback/action-sheet.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
   <ms-action-sheet
     :visible="showRecipeShare"
     :items="shareItems"
-    description="分享到"
+    description="Share to"
     @update:visible="onRecipeShareVisible"
     @select="onRecipeShareSelect"
   />
@@ -42,22 +42,22 @@ Snippets below are taken from the demo source `pages/demo/feedback/action-sheet.
 
 <script setup lang="uts">
 const iconItems = ref([
-  { label: '分享', icon: 'share-line' } as UTSJSONObject,
-  { label: '收藏', icon: 'star-line' } as UTSJSONObject,
-  { label: '删除', icon: 'delete-bin-line' } as UTSJSONObject,
+  { label: 'Share', icon: 'share-line' } as UTSJSONObject,
+  { label: 'Favorite', icon: 'star-line' } as UTSJSONObject,
+  { label: 'Delete', icon: 'delete-bin-line' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const plainItems = ref([
-  { label: '移动' } as UTSJSONObject,
-  { label: '标为重要' } as UTSJSONObject,
-  { label: '退订' } as UTSJSONObject,
+  { label: 'Move' } as UTSJSONObject,
+  { label: 'Mark as important' } as UTSJSONObject,
+  { label: 'Unsubscribe' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const shareItems = ref([
-  { label: '微信好友', icon: 'share-line' } as UTSJSONObject,
-  { label: '收藏', icon: 'star-line' } as UTSJSONObject,
-  { label: '复制链接', icon: 'links-line' } as UTSJSONObject,
-  { label: '删除', icon: 'delete-bin-line', tone: 'danger' } as UTSJSONObject,
+  { label: 'WeChat friends', icon: 'share-line' } as UTSJSONObject,
+  { label: 'Favorite', icon: 'star-line' } as UTSJSONObject,
+  { label: 'Copy link', icon: 'links-line' } as UTSJSONObject,
+  { label: 'Delete', icon: 'delete-bin-line', tone: 'danger' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const showIcon = ref(false)

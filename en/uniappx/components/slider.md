@@ -9,27 +9,27 @@ demo: pages/demo/form/slider
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-slider` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-slider` (commercial edition; source not public).
 Demo route: `#/pages/demo/form/slider`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/slider.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/form/slider.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-slider v-model="vBase" />
   <ms-slider v-model="vCapsule" theme="capsule" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-slider v-model="vLabel" label />
   <ms-slider :model-value="35" disabled />
-  <!-- 组件刻度 -->
+  <!-- Marks -->
   <ms-slider v-model="vStep" :step="20" :marks="marks" />
   <ms-slider v-model="vExtreme" show-extreme-value />
   <ms-slider v-model="vRangeMin" :min="20" :max="100" :step="20" label />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-slider v-model="vDepthCap" theme="capsule" label show-extreme-value />
   <ms-slider v-model="vDecimal" :min="0" :max="1" :step="0.1" label />
   <ms-slider range v-model:range-value="vRange" label />
