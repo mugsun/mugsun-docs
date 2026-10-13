@@ -9,14 +9,14 @@ demo: pages/demo/media/webview
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-webview/components/ms-webview` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-webview/components/ms-webview` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-webview` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/webview`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/webview.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/webview.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>

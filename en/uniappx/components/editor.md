@@ -9,14 +9,14 @@ demo: pages/demo/media/editor
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-editor/components/ms-editor` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-editor/components/ms-editor` (commercial edition; source not public).
 Optional plugin: install `uni_modules/ms-editor` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/editor`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/editor.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/media/editor.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>

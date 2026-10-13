@@ -9,13 +9,13 @@ demo: pages/demo/nav/grid
 
 Part of **uni-app x (ms-ui)** (not the PC admin UI).
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-grid` (repository not yet public).
+Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-grid` (commercial edition; source not public).
 Demo route: `#/pages/demo/nav/grid`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/grid.uvue`; see them running in the phone frame.
+Snippets below are taken from the demo source `pages/demo/nav/grid.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
 
 ```vue
 <template>
