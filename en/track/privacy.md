@@ -1,21 +1,38 @@
 # Privacy
 
-Principle: **safe by default**—not “record first, ask later”. Defaults below apply from `@mugsun/track-web` 0.2.0.
+Principle: **private by default**. This page describes what the SDK on `main` actually does. If the docs and the code ever disagree, the stricter behavior is the intended one; please open an issue on [mugsun-track](https://github.com/mugsun/mugsun-track/issues).
 
-| Capability | Default | How to change |
-| --- | --- | --- |
-| Inputs / passwords | `input` / `textarea` values are never read; `password` trees and `maskSelectors` matches are masked | Add areas via `maskSelectors` |
-| Session replay | Masks inputs and page text (`maskTextSelector: '*'`) | For debugging, `replayPlugin({ maskTextSelector: false })` or a narrower selector |
-| Collected URLs | Sensitive query keys are stripped: `token` / `access_token` / `authorization` / `id_token` / `refresh_token`, etc. (case-insensitive), values replaced with `***`; business params kept | — |
-| API response body (apiBody) | When collected, redacted by the built-in sensitive-key list (`apiBodyMaskEnabled: true`) | Set `apiBodyMaskEnabled: false` only if you truly need raw bodies |
-| DNT / opt-out | DNT honored; `optOut()` / `optIn()` available | — |
+## Defaults
 
-::: tip Upgrading from 0.1.x
-Since 0.2.0, replay masks page text and apiBody is redacted by default—this is a behavior change. If you rely on readable replay or raw bodies, opt out explicitly as shown above. See the [CHANGELOG](https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md).
-:::
+| Item | Behavior |
+| --- | --- |
+| Do Not Track | Honored by default (`respectDnt: true`); browsers with DNT on are not tracked |
+| User opt-out | `optOut()` stops collection and replay; `optIn()` resumes |
+| Input values | `input` / `textarea` values are never captured |
+| Passwords and sensitive areas | `input[type="password"]`, `maskSelectors` matches and `data-track-mask` elements are blocked entirely |
+| Session replay | Off by default; when on, inputs and page text are masked (since 0.2.0) |
+| Response bodies | Not captured by default; when enabled, sensitive fields are masked as `***` (since 0.2.0); credential endpoints are never captured |
 
-::: warning
-If docs and behavior disagree, prefer the stricter privacy behavior and file an issue on [mugsun-track](https://github.com/mugsun/mugsun-track).
-:::
+## URL redaction
 
-Related: [Install](/en/track/install) · [First event](/en/track/first-event) · [Security checklist](/en/boot/security-checklist)
+API monitoring keeps query strings, but values for these keys (**exact match after lowercasing**) become `***`. Other parameters are kept:
+
+```text
+token  access_token  authorization  id_token  refresh_token
+api_key  apikey  auth  secret  password
+```
+
+```text
+/api/order?id=42&token=abc123   →   /api/order?id=42&token=***
+```
+
+Invalid URLs are returned unchanged, and relative URLs stay relative.
+
+## Compliance tips
+
+- Describe what you collect in your privacy policy and give users a way to opt out (call `optOut()`).
+- Add `data-track-mask` or a `maskSelectors` entry to areas that show personal data.
+- Capture response bodies only when you need them, and keep `apiBodyMaskEnabled` on; don't leave it off after debugging.
+- Data lives in your own PostgreSQL; set retention and access according to your policies.
+
+Related: [Plugins](/en/track/plugins) · [Security checklist](/en/boot/security-checklist)

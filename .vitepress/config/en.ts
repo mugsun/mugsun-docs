@@ -11,8 +11,8 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'Track', link: '/en/track/', activeMatch: '/en/track/' },
       { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
       { text: 'uni-app x (ms-ui)', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
-      { text: 'Demo notes', link: '/en/demo' },
-      { text: 'Changelog', link: '/en/changelog' },
+      { text: 'Live demo', link: '/en/demo' },
+      { text: 'Changelog', link: '/en/guide/changelog' },
     ],
     sidebar: {
       '/en/uniappx/': [
@@ -189,9 +189,10 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: 'Guide',
           items: [
             { text: 'Introduction', link: '/en/guide/introduction' },
-            { text: 'Getting Started', link: '/en/guide/getting-started' },
+            { text: 'Getting started', link: '/en/guide/getting-started' },
             { text: 'Architecture', link: '/en/guide/architecture' },
             { text: 'FAQ', link: '/en/guide/faq' },
+            { text: 'Changelog', link: '/en/guide/changelog' },
           ],
         },
       ],
@@ -201,7 +202,9 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           items: [
             { text: 'Overview', link: '/en/boot/' },
             { text: 'Configuration', link: '/en/boot/configuration' },
-            { text: 'Security Checklist', link: '/en/boot/security-checklist' },
+            { text: 'Permissions & attachments', link: '/en/boot/permissions' },
+            { text: 'Open API', link: '/en/boot/open-api' },
+            { text: 'Security checklist', link: '/en/boot/security-checklist' },
           ],
         },
       ],
@@ -219,8 +222,9 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: 'Track',
           items: [
             { text: 'Overview', link: '/en/track/' },
-            { text: 'Install', link: '/en/track/install' },
-            { text: 'First Event', link: '/en/track/first-event' },
+            { text: 'Install & setup', link: '/en/track/install' },
+            { text: 'Your first event', link: '/en/track/first-event' },
+            { text: 'Plugins', link: '/en/track/plugins' },
             { text: 'Privacy', link: '/en/track/privacy' },
           ],
         },
@@ -232,8 +236,18 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
         },
       ],
     },
-    outline: { label: 'On this page' },
-    lastUpdated: { text: 'Last updated' },
+    outline: { label: 'On this page', level: [2, 3] },
+    lastUpdated: { text: 'Last updated', formatOptions: { dateStyle: 'medium', timeStyle: 'short' } },
+    editLink: {
+      pattern: 'https://github.com/mugsun/mugsun-docs/edit/main/:path',
+      text: 'Edit this page on GitHub',
+    },
+    notFound: {
+      title: 'Page not found',
+      quote: 'The link may be out of date or the page may have moved. Try search, or start again from Getting started.',
+      linkLabel: 'Back to home',
+      linkText: 'Back to home',
+    },
     docFooter: { prev: 'Previous', next: 'Next' },
     returnToTopLabel: 'Return to top',
     sidebarMenuLabel: 'Menu',
@@ -242,8 +256,8 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
     darkModeSwitchTitle: 'Switch to dark',
     langMenuLabel: 'Language',
     footer: {
-      message: 'Open source: boot · core · pc · track. ms-ui (uni-app x) component docs available in English and Chinese.',
-      copyright: 'Copyright © 2026 mugsun',
+      message: 'boot and core are released under Apache-2.0; pc and track under MIT.',
+      copyright: 'Copyright © 2026 北京定旭晨信息科技工作室 (mugsun)',
     },
   },
 }

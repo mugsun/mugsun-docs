@@ -1,19 +1,71 @@
 # FAQ
 
-**Is there a live demo?**  
-No public full-stack demo yet—use [Getting started](/en/guide/getting-started). ms-ui component pages include an H5 phone preview. See [Demo notes](/en/demo).
+## Product and licensing
 
-**What is mugsun’s positioning?**  
-A full-stack platform focused on embedded analytics plus optional GIS/AI—not a feature-wall low-code suite. Do not market “compatible with / drop-in replacement for” commercial kits.
+### What kind of project is mugsun for?
 
-**How do I install cloud / uniappx-ui / ms-ui?**  
-cloud remains planned (no install guide). **ms-ui** is the uni-app x cross-platform UI kit (not the PC admin); docs: [ms-ui](/en/uniappx/). The `mugsun-uniappx-ui` source repo is currently private.
+Admin systems that must be deployed on-premises and also need product analytics. It is neither a drag-and-drop low-code tool nor a hosted analytics service. See the [Introduction](/en/guide/introduction).
 
-**Does replay capture on-screen text by default?**  
-The product goal is privacy-safe defaults (masking, redaction, DNT). See [Privacy](/en/track/privacy).
+### What are the licenses?
 
-**Licenses?**  
-boot/core Apache-2.0; pc/track mostly MIT (pc derives from art-design-pro—keep NOTICE). Always trust each repo’s LICENSE file.
+boot and core are Apache-2.0; pc and track are MIT. The console's UI foundation is derived from art-design-pro (MIT), so keep the repository's `NOTICE` when you redistribute it. Each repository's `LICENSE` is authoritative.
 
-**Does compose start the app too?**  
-No. Boot’s `docker compose` starts PostgreSQL and Redis only; the app runs via Maven / JAR. See [Getting started](/en/guide/getting-started).
+### Is there a live demo?
+
+ms-ui has a [live H5 demo](/en/demo). There is no public environment for the console and analytics yet; run them locally with [Getting started](/en/guide/getting-started).
+
+### When will cloud and the ms-ui source be released?
+
+cloud is still planned, so this site has no install guide for it. The ms-ui docs and H5 demo are public; the `mugsun-uniappx-ui` source repository is not yet.
+
+## Startup and build
+
+### Do I still need to `mvn install` mugsun-core?
+
+No. `com.mugsun:mugsun-*:0.1.0` is on Maven Central. Clone core and run `mvn clean install -DskipTests` only in an offline environment.
+
+### Does `docker compose up -d` start the application too?
+
+No. Compose starts PostgreSQL (5432) and Redis (6379) only. Package the app and run it with `java -jar mugsun-boot-server/target/mugsun-boot.jar`.
+
+### `spring-boot:run` fails with `Unable to find a suitable main class`
+
+Run from the repository root, `mvn -pl mugsun-boot-server -am spring-boot:run` also targets the parent POM. Run `mvn -pl mugsun-boot-server -am package -DskipTests` and then `java -jar mugsun-boot-server/target/mugsun-boot.jar` from the repository root.
+
+### The local config file isn't picked up
+
+The path is `optional:file:./config/application-local.yml`, so the working directory must be the boot repository root. Create it with `cp config/application-local.yml.example config/application-local.yml`.
+
+### The app exits immediately with the `prod` profile
+
+`prod` refuses to start without an injected initial password (`MUGSUN_INIT_PASSWORD`). This is a deliberate safety default.
+
+### I only want the core backend, without GIS or AI
+
+Package with `-Pbasic,'!full'`, or keep `full` and set `MUGSUN_GIS_ENABLED=false` / `MUGSUN_AI_ENABLED=false` at runtime. See [Architecture](/en/guide/architecture#two-layers-of-module-switches).
+
+## Console
+
+### Why do I have to sign in again in a new tab?
+
+Since 0.1.0, tokens live in `sessionStorage` (per tab) instead of `localStorage`, which limits what an XSS bug could steal. Non-sensitive data such as language and user info stays in `localStorage`.
+
+### `pnpm install` can't find `@mugsun/track-web`
+
+The console references the SDK as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`. Clone mugsun-track next to mugsun-pc and run `pnpm setup:sdk`, or set `VITE_ENABLE_TRACK=false` if you don't need analytics.
+
+## Analytics
+
+### Does the SDK record what users type?
+
+No. Input and textarea values are never captured; password fields, `maskSelectors` matches and `data-track-mask` elements are blocked entirely; replays mask inputs and page text by default. See [Privacy](/en/track/privacy).
+
+### Are tokens in URLs sent to the server?
+
+API monitoring keeps query strings but replaces the values of `token`, `access_token`, `authorization`, `id_token`, `refresh_token`, `api_key`, `apikey`, `auth`, `secret` and `password` (case-insensitive) with `***`.
+
+### What if my `appKey` leaks?
+
+It's visible in the browser by design and isn't a secret. The server relies on existence checks, rate limiting, back-pressure and event validation.
+
+Still stuck? Open an [issue](https://github.com/mugsun) on the relevant repository.
