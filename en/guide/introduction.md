@@ -6,13 +6,13 @@ They are separate repositories, all deployed on your own servers, with no depend
 
 ## Modules
 
-| <span style="white-space:nowrap">Module</span> | Description | Stack | License | <span style="white-space:nowrap">Version</span> |
+| <span style="white-space:nowrap">Module</span> | Description | Stack | <span style="white-space:nowrap">License</span> | <span style="white-space:nowrap">Version</span> |
 | --- | --- | --- | --- | --- |
-| <span style="white-space:nowrap">[boot](/en/boot/)</span> | Backend, a single runnable JAR | JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token | Apache-2.0 | <span style="white-space:nowrap">0.1.0</span> |
-| <span style="white-space:nowrap">[core](/en/core/)</span> | BOM and starters, published on Maven Central | MyBatis-Flex, Sa-Token | Apache-2.0 | <span style="white-space:nowrap">0.1.0</span> |
-| <span style="white-space:nowrap">[pc](/en/pc/)</span> | Admin console | Vue 3, Vite 7, Element Plus, Pinia | MIT | <span style="white-space:nowrap">0.1.0</span> |
-| <span style="white-space:nowrap">[track](/en/track/)</span> | Browser analytics SDK, published on npm | TypeScript, replay based on rrweb | MIT | <span style="white-space:nowrap">0.2.0</span> |
-| <span style="white-space:nowrap">[ms-ui](/en/uniappx/)</span> | uni-app x cross-platform components | uvue, uts | Commercial edition | <span style="white-space:nowrap">—</span> |
+| <span style="white-space:nowrap">[boot](/en/boot/)</span> | Backend, a single runnable JAR | JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token | <span style="white-space:nowrap">Apache-2.0</span> | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[core](/en/core/)</span> | BOM and starters, published on Maven Central | MyBatis-Flex, Sa-Token | <span style="white-space:nowrap">Apache-2.0</span> | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[pc](/en/pc/)</span> | Admin console | Vue 3, Vite 7, Element Plus, Pinia | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[track](/en/track/)</span> | Browser analytics SDK, published on npm | TypeScript, replay based on rrweb | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.2.0</span> |
+| <span style="white-space:nowrap">[ms-ui](/en/uniappx/)</span> | uni-app x cross-platform components | uvue, uts | <span style="white-space:nowrap">Commercial edition</span> | <span style="white-space:nowrap">—</span> |
 
 The ms-ui source is not public. Its docs and H5 demo are open to everyone.
 
