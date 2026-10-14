@@ -5,17 +5,17 @@ demo: pages/demo/basic/loading
 
 # Loading 加载
 
-`ms-loading`：加载：原生 `<loading>` + 文案；横/竖布局；tone；默认插槽优先于 text。
+`ms-loading` 是加载指示，由原生 `<loading>` 和文字组成，支持横向和纵向布局以及 tone 设置；默认插槽的优先级高于 text。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-loading`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-loading`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/basic/loading`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/loading.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/basic/loading.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

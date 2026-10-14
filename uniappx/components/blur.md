@@ -5,18 +5,18 @@ demo: pages/demo/media/blur
 
 # Blur 磨砂
 
-`ms-blur`：磨砂遮罩层：半透明底 + 明暗两档，用于浮层、工具条、图片说明条这类**功能性遮罩**（不做装饰性玻璃拟态）。
+`ms-blur` 是磨砂遮罩层，提供半透明底色和明、暗两种强度，用于浮层、工具栏和图片说明栏等功能性遮罩，不用于装饰性的玻璃拟态效果。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-blur/components/ms-blur`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-blur/components/ms-blur`。ms-ui 为商业版，源码不公开。
 可选插件：需单独安装 `uni_modules/ms-blur`，并依赖 `ms-ui`。
 演示路由：`#/pages/demo/media/blur`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/blur.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/media/blur.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

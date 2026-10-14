@@ -5,17 +5,17 @@ demo: pages/demo/form/search
 
 # Search
 
-`ms-search` — Search for uni-app x.
+`ms-search` is a search bar. It supports shape, action and leftIcon, and exposes focus, blur and clear.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-search` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-search`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/form/search`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/search.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/search.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

@@ -1,21 +1,21 @@
 ---
-title: Config Provider 主题提供
+title: Config Provider 主题配置
 demo: pages/demo/basic/config-provider
 ---
 
-# Config Provider 主题提供
+# Config Provider 主题配置
 
-`ms-config-provider`：局部主题容器：把 `themeVars` 写成子树内联 CSS 变量，可整段切暗色。
+`ms-config-provider` 是局部主题容器，把 `themeVars` 写成子元素的内联 CSS 变量，可以让一整块区域切换为暗色。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-config-provider`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-config-provider`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/basic/config-provider`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/config-provider.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/basic/config-provider.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

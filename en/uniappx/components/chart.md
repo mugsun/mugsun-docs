@@ -5,18 +5,18 @@ demo: pages/demo/media/chart
 
 # Chart
 
-`ms-chart`: Native canvas chart subset: line / area / bar / pie / ring / radar / scatter / funnel; stacking and multi-series legend toggle.
+`ms-chart` draws common charts on a native canvas: line, area, bar, pie, ring, radar, scatter and funnel. It supports stacking and multiple series, and clicking a legend item hides that series.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-chart/components/ms-chart` (commercial edition; source not public).
+Component directory: `uni_modules/ms-chart/components/ms-chart`. ms-ui is a commercial edition and its source is not public.
 Optional plugin: install `uni_modules/ms-chart` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/chart`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/chart.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/chart.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

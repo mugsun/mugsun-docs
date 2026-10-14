@@ -5,17 +5,17 @@ demo: pages/demo/display/tree-select
 
 # Tree Select 树选择
 
-`ms-tree-select`：多列树形选择：按 `options` 实际深度渲染 2~3 列（最多 3 列），左栏导航 + 中间列下钻 + 末列单选/多选。
+`ms-tree-select` 是多列树形选择器，按 `options` 的实际层级显示 2 到 3 列（最多 3 列）：左列用于导航，中间列逐级展开，最后一列支持单选或多选。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-tree-select`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-tree-select`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/display/tree-select`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/tree-select.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/tree-select.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

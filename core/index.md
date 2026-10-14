@@ -46,7 +46,7 @@
 </dependencies>
 ```
 
-离线环境回退：克隆本仓后执行 `mvn clean install -DskipTests`。
+离线环境：克隆本仓库后执行 `mvn clean install -DskipTests`。
 
 ## 下一步
 

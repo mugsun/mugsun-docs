@@ -5,17 +5,17 @@ demo: pages/demo/display/countdown
 
 # Countdown
 
-`ms-countdown` — Countdown for uni-app x.
+`ms-countdown` is a countdown set by `time` (ms) and `format`. It supports theme and size and exposes `start`, `pause`, `reset` and `getStatus`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-countdown` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-countdown`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/display/countdown`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/countdown.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/countdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
