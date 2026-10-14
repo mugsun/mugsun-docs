@@ -51,3 +51,11 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 :::
 
 下一步：[快速开始](/guide/getting-started) · [安全清单](/boot/security-checklist) · [ms-ui](/uniappx/)
+
+### 访问日志留存
+
+演示模式下后端每个请求写一行访问日志到单独文件 `<日志目录>/mugsun-boot-access.log`，内容是 IP、方法、路径、状态码、耗时、用户 ID 和 traceId，**不记录 query 和请求体**。文件按天滚动并 gzip 压缩，默认保留 200 天、总量上限 20GB，不受日志库清理任务影响。依据是《网络安全法》第二十一条：留存网络日志不少于六个月。
+
+- **挂载卷**：日志目录必须挂到持久卷（容器重建不丢），可用 `MUGSUN_DEMO_ACCESS_LOG_PATH` 改目录，`MUGSUN_DEMO_ACCESS_LOG_MAX_HISTORY`、`MUGSUN_DEMO_ACCESS_LOG_TOTAL_SIZE_CAP` 改保留天数和总量；保留天数不要低于 180。
+- **磁盘估算**：每行约 200 字节，gzip 后约为十分之一。日均 100 万次请求约 20MB/天，200 天约 4GB；按峰值流量留出余量，达到总量上限时最早的文件会被删除。
+- **备份**：把访问日志目录纳入定期备份（至少每周异地一份）。数据库里的接口日志、登录日志在演示模式下保留期不低于 180 天。

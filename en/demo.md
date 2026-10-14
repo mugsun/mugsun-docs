@@ -51,3 +51,11 @@ A read-only database account (SELECT only on the business database; a separate I
 :::
 
 Next: [Getting started](/en/guide/getting-started) · [Security checklist](/en/boot/security-checklist) · [ms-ui](/en/uniappx/)
+
+### Access log retention
+
+In demo mode the backend writes one line per request to a separate file, `<log dir>/mugsun-boot-access.log`: IP, method, path, status, duration, user ID and traceId. **Query strings and request bodies are not logged.** Files roll daily and are gzipped; by default they are kept for 200 days with a 20GB total cap, independent of the log-table cleanup job. This follows Article 21 of China's Cybersecurity Law, which requires network logs to be kept for at least six months.
+
+- **Volume**: mount the log directory on a persistent volume so it survives container rebuilds. Override the directory with `MUGSUN_DEMO_ACCESS_LOG_PATH`, and retention with `MUGSUN_DEMO_ACCESS_LOG_MAX_HISTORY` / `MUGSUN_DEMO_ACCESS_LOG_TOTAL_SIZE_CAP`; keep retention at 180 days or more.
+- **Disk estimate**: about 200 bytes per line, roughly a tenth of that after gzip. One million requests a day is about 20MB/day, or about 4GB for 200 days. Leave headroom for peak traffic; once the cap is reached the oldest files are deleted.
+- **Backup**: include the access log directory in regular backups (at least one off-site copy a week). In demo mode the API and login logs in the database are also kept for at least 180 days.
