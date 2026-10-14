@@ -75,6 +75,12 @@ The process exits with code 0 after the migrations and startup initialisation. T
 
 A wrong password on the public demo account locks that account only from that IP; other IPs can still log in.
 
+Deployment notes:
+
+- **Reverse proxy**: per-IP lockout and rate limiting need the visitor's real IP. By default demo mode trusts `X-Forwarded-For` from loopback and private ranges (`127.0.0.0/8`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `::1`, `fc00::/7`). If a public CDN or cloud gateway sits in front, you must set `MUGSUN_OPENAPI_TRUSTED_PROXIES` to its egress ranges; otherwise every visitor shares the proxy's IP and one wrong password locks everyone out. Startup logs a WARN when no trusted proxy is configured.
+- **Redis outage**: if Redis goes down while running, rate limiting lets requests through and login fails (sessions and captchas live in Redis). If Redis is unreachable at startup, demo mode won't start.
+- **Tracking database size**: above `MUGSUN_DEMO_TRACK_WARN_MB` (default 2048) the app logs a WARN; above `MUGSUN_DEMO_TRACK_MAX_MB` (default 4096) tracking collection returns 503. Only the tracking database is measured, not replay data kept in file storage.
+
 ::: tip Work in progress
 A daily sample-data reset at 04:00 Beijing time, sensitive-word filtering (word list loaded from an external path, empty by default), output escaping, six-month access-log retention, and read-only hints in the admin console arrive in later releases. Until then, don't treat demo mode as your only line of defence.
 :::
