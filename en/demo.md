@@ -41,7 +41,7 @@ With demo mode on (`mugsun.demo.enabled=true`), the backend denies by default:
 | Tracking collection `/track/collect`, `/track/replay`, `/track/api-body` | Rejected by default; allowed with `MUGSUN_DEMO_TRACK_COLLECT=true`, rate-limited per IP (120 a minute by default), and answered with 503 `DEMO_CAPACITY` once the tracking database passes its size cap. Keep it off until output escaping and sensitive-word filtering are in place |
 | Every other POST / PUT / DELETE / PATCH (registration, password change/reset, uploads, imports, AI, codegen and low-code DDL, job admin, system settings, …) | HTTP 403 with `msg` "演示环境只读" (demo is read-only) and `errorCode` `DEMO_READONLY` |
 | `/open/**`, `/oauth2/**`, `/v1/**`, `/system/crypto/**`, `/auth/social/**`, `/system/ai/**` | Rejected for every method |
-| Exports, downloads, SSE streams | Allowed, at most 2 at a time across the server (`MUGSUN_DEMO_HEAVY_CONCURRENCY`), then 429 `DEMO_BUSY` |
+| Exports, downloads, SSE streams | Allowed, at most 2 at a time per instance (`MUGSUN_DEMO_HEAVY_CONCURRENCY`), then 429 `DEMO_BUSY` |
 | Requests carrying method-override headers such as `X-HTTP-Method-Override`, or a `_method` parameter | Rejected |
 | WebSocket | Inbound messages dropped (heartbeat only), push-only; handshakes accepted only from `MUGSUN_DEMO_WS_ALLOWED_ORIGINS` (defaults to the admin console URL `mugsun.web.front-url`) |
 
@@ -71,9 +71,9 @@ The process exits with code 0 after the migrations and startup initialisation. T
 | Rejected | The write requests in the table above (403 `DEMO_READONLY`). A write that slips through fails on database permissions and also returns 403 `DEMO_READONLY` |
 | Internal writes | Login, API, error and operation logs → the log account (a failed write only logs a WARN and never blocks login); login-lock counters, tokens and captchas → a separate Redis db (4 by default, `MUGSUN_DEMO_REDIS_DB`); per-IP rate-limit buckets → the same Redis db; tracking events → the tracking account (insert only) |
 | Off in demo mode | Startup tasks and scheduled jobs that write to the database (log cleanup, notification retries, tracking rollups, partitions and cleanup, …); two-factor; SMS, email and in-app notifications; social login; the AI model channel |
-| Not guaranteed | Tracking session stats only record the first batch of events and don't add up later batches (the tracking account has no UPDATE privilege), so session data on the demo site is inaccurate. With tracking collection on, anonymous writes still carry a stored-XSS risk until output escaping and sensitive-word filtering land. Captchas still write to Redis |
+| Not guaranteed | Tracking session stats only record the first batch of events and don't add up later batches (the tracking account has no UPDATE privilege), so session data on the demo site is inaccurate. With tracking collection on, anonymous writes still carry a stored-XSS risk until output escaping and sensitive-word filtering land. Captchas still write to Redis. Rate limiting depends on Redis: if Redis is down, requests are not rate-limited |
 
-A wrong password on the public demo account only locks out the IP that typed it, not every visitor.
+A wrong password on the public demo account locks that account only from that IP; other IPs can still log in.
 
 ::: tip Work in progress
 A daily sample-data reset at 04:00 Beijing time, sensitive-word filtering (word list loaded from an external path, empty by default), output escaping, six-month access-log retention, and read-only hints in the admin console arrive in later releases. Until then, don't treat demo mode as your only line of defence.

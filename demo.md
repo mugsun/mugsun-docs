@@ -41,7 +41,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 | 埋点采集 `/track/collect`、`/track/replay`、`/track/api-body` | 默认拒绝；`MUGSUN_DEMO_TRACK_COLLECT=true` 时放行，按 IP 限流（默认每分钟 120 次），埋点库超过容量上限时返回 503 `DEMO_CAPACITY`。在输出转义和敏感词就绪前请保持关闭 |
 | 其余 POST / PUT / DELETE / PATCH（注册、改密/找回密码、上传、导入、AI、代码生成与低代码 DDL、任务调度、系统参数等） | HTTP 403，`msg` 为「演示环境只读」，`errorCode` 为 `DEMO_READONLY` |
 | `/open/**`、`/oauth2/**`、`/v1/**`、`/system/crypto/**`、`/auth/social/**`、`/system/ai/**` | 任何方法都拒绝 |
-| 导出、下载、SSE 流 | 放行，全局同时最多 2 个（`MUGSUN_DEMO_HEAVY_CONCURRENCY`），超出 429 `DEMO_BUSY` |
+| 导出、下载、SSE 流 | 放行，每个实例同时最多 2 个（`MUGSUN_DEMO_HEAVY_CONCURRENCY`），超出 429 `DEMO_BUSY` |
 | 带 `X-HTTP-Method-Override` 等方法覆盖头或 `_method` 参数的请求 | 拒绝 |
 | WebSocket | 入站消息丢弃（只保留心跳），通道只用于服务端推送；只接受 `MUGSUN_DEMO_WS_ALLOWED_ORIGINS`（默认管理端地址 `mugsun.web.front-url`）来源的握手 |
 
@@ -71,9 +71,9 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 | 拒绝 | 上表列出的写请求（403 `DEMO_READONLY`）；漏网的写在数据库层报权限不足，也返回 403 `DEMO_READONLY` |
 | 内部写入 | 登录、接口、错误、操作日志 → 日志账号（写失败只记 WARN，不影响登录）；登录锁定计数、token、验证码 → Redis 独立 db（默认 4，`MUGSUN_DEMO_REDIS_DB`）；按 IP 限流的令牌桶 → 同一 Redis db；埋点事件 → 埋点账号（只插入） |
 | 演示环境关闭 | 写库的启动任务和定时任务（日志清理、通知重试、埋点汇总/分区/清理等）；两步验证；短信、邮件、站内通知发送；社交登录；AI 模型通道 |
-| 不保证 | 埋点会话统计只记第一批事件，之后的批次不累加（埋点账号没有 UPDATE 权限），演示站的会话数据不准；打开埋点采集后匿名写入仍有存储型 XSS 风险，等输出转义和敏感词过滤；验证码仍会写 Redis |
+| 不保证 | 埋点会话统计只记第一批事件，之后的批次不累加（埋点账号没有 UPDATE 权限），演示站的会话数据不准；打开埋点采集后匿名写入仍有存储型 XSS 风险，等输出转义和敏感词过滤；验证码仍会写 Redis；限流依赖 Redis，Redis 故障时不限流 |
 
-公开的演示账号输错密码只锁定输错的那个 IP，不会把账号锁给所有访客。
+公开的演示账号输错密码时，只锁定该 IP 上的这个账号，其他 IP 仍可登录。
 
 ::: tip 建设中
 每日 04:00（北京时间）重置样例数据、敏感词过滤（词表从外部路径加载，默认空表）、输出转义、访问日志留存 6 个月、管理台的只读提示，会在后续版本陆续提供。在这些就绪之前，请不要把演示环境当作唯一防线。
