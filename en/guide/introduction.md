@@ -1,34 +1,54 @@
 # Introduction
 
-mugsun is an admin platform for small and mid-sized teams that you can **deploy entirely on your own infrastructure**. It puts three things that are usually assembled separately into one codebase and one database:
+mugsun is a self-hosted business system with a backend, an admin console and product analytics.
 
-1. **A business backend**: users, roles, menus, departments, data permissions, multi-tenancy, workflow, files and an open platform.
-2. **An admin console**: permissions come from the backend; system management pages work out of the box, with optional GIS, analytics and AI pages.
-3. **Product analytics**: browser SDK → backend ingestion → dashboards in the console, with no dependency on a hosted analytics service.
+All three share one codebase and one database, with no dependency on public cloud services.
 
-## What's in the box
+## Modules
 
-| Repository | Role | Stack | License |
-| --- | --- | --- | --- |
-| [mugsun-boot](https://github.com/mugsun/mugsun-boot) | Modular monolith backend | JDK 21 · Spring Boot 3.5.13 · MyBatis-Flex · Sa-Token · JetCache · Warm-Flow · Flyway · Spring AI 1.1.2 | Apache-2.0 |
-| [mugsun-core](https://github.com/mugsun/mugsun-core) | BOM and starters | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · BouncyCastle | Apache-2.0 |
-| [mugsun-pc](https://github.com/mugsun/mugsun-pc) | Admin console | Vue 3.5 · Vite 7 · Element Plus 2.11 · Pinia · Vue Router | MIT |
-| [mugsun-track](https://github.com/mugsun/mugsun-track) | Browser analytics SDK `@mugsun/track-web` | TypeScript · plugin-based core | MIT |
-| ms-ui (`mugsun-uniappx-ui`) | Component library for uni-app x | uvue · uts | Commercial edition (source not public); docs and demo are |
+| Module | Description | Stack | License | Version |
+| --- | --- | --- | --- | --- |
+| [boot](/en/boot/) | Backend, a single runnable JAR | JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token | Apache-2.0 | 0.1.0 |
+| [core](/en/core/) | BOM and starters, published on Maven Central | MyBatis-Flex, Sa-Token | Apache-2.0 | 0.1.0 |
+| [pc](/en/pc/) | Admin console | Vue 3, Vite 7, Element Plus, Pinia | MIT | 0.1.0 |
+| [track](/en/track/) | Browser analytics SDK, published on npm | TypeScript, replay based on rrweb | MIT | 0.2.0 |
+| [ms-ui](/en/uniappx/) | uni-app x cross-platform components | uvue, uts | Commercial edition | — |
 
-## Design choices
+The ms-ui source is not public. Its docs and H5 demo are open to everyone. A microservice edition is still planned.
 
-- **Monolith first, modules on demand.** One JAR plus PostgreSQL and Redis is enough to run. GIS, analytics and AI are Maven modules: profiles decide whether they are packaged, environment variables decide whether they are enabled. A microservices edition (cloud) is planned.
-- **One source of truth for permissions.** The console has no permission model of its own; menus, button permission codes and user info all come from boot (`/auth/info` and related endpoints).
-- **Secure defaults live in code, not in an appendix.** A missing initial password stops startup; attachments are scoped to their uploader and tenant; AI outbound requests pass an SSRF check; the SDK honors Do Not Track, never records input values, and redacts sensitive URL parameters before sending.
-- **Your data stays with you.** Events, replays and configuration are stored in your database. The SDK's `appKey` only identifies an app; it is not a credential.
+## Architecture
 
-## What it isn't
+The backend is one JAR and needs PostgreSQL and Redis at runtime:
 
-- Not a drag-and-drop low-code platform, and it doesn't compete on the length of its feature list.
-- Not a hosted analytics SaaS; there are no hosted accounts.
-- There is no public demo of the console and analytics yet. ms-ui has a [live H5 demo](/en/demo).
+```text
+browser ──> pc console ──/api──> boot ──> PostgreSQL + Redis
+web pages ──@mugsun/track-web──> boot /track/*
+```
 
-## Next
+GIS, analytics and AI are optional Maven modules. A build profile decides whether each one is included.
 
-[Getting started](/en/guide/getting-started) · [Architecture](/en/guide/architecture) · [FAQ](/en/guide/faq)
+The console's menus and button permissions come from the backend `/auth/info` endpoint. The frontend keeps no separate permission data.
+
+Analytics events, replays and settings are stored in your own database.
+
+![Admin console workbench](/screenshots/pc-workbench.png)
+
+## Is it a good fit?
+
+| Good fit | Not a good fit |
+| --- | --- |
+| Business systems that must be delivered on-premises with data kept inside the network | Drag-and-drop, no-code platforms |
+| Projects that need an admin console and analytics without another cloud analytics service | Frontend-only templates with no backend |
+| Projects that require Kingbase, Dameng or Chinese national cryptography (SM2/SM3/SM4) | Projects that need microservices today |
+
+## Online demo
+
+You can preview ms-ui components in the phone frame on the right of each component page, or from the bottom bar on narrow screens. The [full H5 demo](/demo) is also available.
+
+There is no public demo of the console and analytics yet. Follow [Getting started](/en/guide/getting-started) to run the full stack locally.
+
+## Next steps
+
+- [Getting started](/en/guide/getting-started)
+- [Architecture](/en/guide/architecture)
+- [FAQ](/en/guide/faq)
