@@ -39,7 +39,15 @@ docker compose up -d
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-后端还认 `MUGSUN_DB_HOST`、`MUGSUN_DB_NAME`、`MUGSUN_DB_USERNAME`、`MUGSUN_DB_PASSWORD`、`MUGSUN_REDIS_HOST`，或整条 `MUGSUN_DB_URL`。埋点库 `mugsun_track` 默认跟随同一主机和端口，`TRACK_JDBC_URL` 仍可单独覆盖。`prod` 不读这些变量，见 [配置](/boot/configuration)。
+后端还认 `MUGSUN_DB_HOST`、`MUGSUN_DB_NAME`、`MUGSUN_DB_USERNAME`、`MUGSUN_DB_PASSWORD`、`MUGSUN_REDIS_HOST`，或整条 `MUGSUN_DB_URL`。埋点库 `mugsun_track` 的地址按 `TRACK_JDBC_URL` → `MUGSUN_DB_URL` → `MUGSUN_DB_HOST`/`MUGSUN_DB_PORT` 的顺序回落：走 `MUGSUN_DB_URL` 时沿用它的主机、端口和参数，只把库名换成 `mugsun_track`。`prod` 的业务库只读 `JDBC_URL`，但埋点库同样按上面的顺序回落，所以 prod 没设 `TRACK_JDBC_URL` 时会读 `MUGSUN_DB_*`，见 [配置](/boot/configuration)。`MUGSUN_DB_URL` 这一级回落需要 [mugsun-boot #38](https://github.com/mugsun/mugsun-boot/pull/38)，之前的版本只认主机和端口。
+
+### Apple Silicon 上首次 `docker compose up -d` 很慢？
+
+数据库镜像在本地构建，基础镜像 `postgis/postgis` 官方只有 amd64，Apple Silicon 上走仿真，首次构建要多几分钟，运行也慢。想原生运行可换多架构基础镜像：
+
+```bash
+MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 docker compose up -d --build
+```
 
 ### `spring-boot:run` 报 `Unable to find a suitable main class`？
 

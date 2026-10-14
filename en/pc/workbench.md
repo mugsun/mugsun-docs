@@ -8,6 +8,7 @@
 ## Narrow screens (≤ 640px)
 
 - The "Help" tab on the right shrinks to a translucent icon-only strip, and the "AI" button at the bottom right becomes smaller and moves closer to the edge, so they cover less of the cards.
+- In Tracking → User lookup, the time range box takes the full row and shows minutes only, so the seconds are no longer cut off.
 - On the map page, the status bar at the bottom right drops the long usage hint and shows only coordinates and place names. It keeps clear of the zoom buttons and scale bar at the bottom left and of the AI button at the bottom right.
 
 ## Editing changelog entries
