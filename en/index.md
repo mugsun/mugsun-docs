@@ -13,9 +13,6 @@ hero:
       text: Get started
       link: /en/guide/getting-started
     - theme: alt
-      text: Introduction
-      link: /en/guide/introduction
-    - theme: alt
       text: GitHub
       link: https://github.com/mugsun
 features:
@@ -31,19 +28,4 @@ features:
     details: GIS, analytics and AI are separate modules you can leave out.
     link: /en/boot/
     linkText: Backend
-  - title: Cross-platform components
-    details: uni-app x component docs with a live H5 demo for each component.
-    link: /en/uniappx/
-    linkText: Components
 ---
-
-## Try it with Docker
-
-You only need Docker. The database, Redis, backend and admin console all run in containers.
-
-```bash
-git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
-docker compose -f docker-compose.full.yml up -d --build
-```
-
-Open <http://localhost:8088> and sign in. To find the admin password or set up local development, see [Getting started](/en/guide/getting-started).

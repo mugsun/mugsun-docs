@@ -2,6 +2,8 @@
 
 ## Try it with Docker only
 
+You only need Docker. The database, Redis, backend and admin console all run in containers.
+
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose -f docker-compose.full.yml up -d --build

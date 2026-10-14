@@ -13,9 +13,6 @@ hero:
       text: 快速开始
       link: /guide/getting-started
     - theme: alt
-      text: 介绍
-      link: /guide/introduction
-    - theme: alt
       text: GitHub
       link: https://github.com/mugsun
 features:
@@ -31,19 +28,4 @@ features:
     details: GIS、埋点、AI 是独立模块，不用的可以不打进包。
     link: /boot/
     linkText: 后端
-  - title: 跨端组件
-    details: uni-app x 组件文档，每个组件都能直接看 H5 演示。
-    link: /uniappx/
-    linkText: 组件
 ---
-
-## 用 Docker 试一下
-
-机器上只要有 Docker。数据库、Redis、后端和管理台都在容器里启动。
-
-```bash
-git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
-docker compose -f docker-compose.full.yml up -d --build
-```
-
-打开 <http://localhost:8088> 登录。管理员密码怎么查、怎么本地开发，见 [快速开始](/guide/getting-started)。

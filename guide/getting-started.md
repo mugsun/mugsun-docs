@@ -2,6 +2,8 @@
 
 ## 只用 Docker 试用
 
+机器上只要有 Docker。数据库、Redis、后端和管理台都在容器里启动。
+
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose -f docker-compose.full.yml up -d --build
