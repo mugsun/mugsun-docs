@@ -86,7 +86,7 @@ mugsun:
         "[000000]": Asia/Shanghai   # keys need brackets and quotes
 ```
 
-Since [mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36), overview cards, pages, performance, funnels and retention cut days in the same timezone, so "today" starts at local midnight on those dashboards. The event list under event analysis and the geo map still use UTC days for their time range.
+Since [mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36), overview cards, pages, performance, funnels and retention cut days in the same timezone, and since [mugsun-boot #46](https://github.com/mugsun/mugsun-boot/pull/46) so do the event list under event analysis and the geo map. "Today" starts at local midnight on every dashboard.
 
 What counts differently:
 

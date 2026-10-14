@@ -86,7 +86,7 @@ mugsun:
         "[000000]": Asia/Shanghai   # 键要加中括号和引号
 ```
 
-[mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36) 起，概览卡片、页面、性能、漏斗、留存也按同一时区切日，这些看板的「今天」都从当地 0 点开始。事件分析的事件列表和地理分布的时间范围仍按 UTC 日计算。
+[mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36) 起，概览卡片、页面、性能、漏斗、留存也按同一时区切日；[mugsun-boot #46](https://github.com/mugsun/mugsun-boot/pull/46) 起，事件分析的事件列表和地理分布也一样。所有看板的「今天」都从当地 0 点开始。
 
 口径变化：
 
