@@ -40,7 +40,9 @@ const track = createTracker({
 - 独立入口 `@mugsun/track-web/replay`，基于 rrweb，在插件启用时才懒加载，不进入默认首包。
 - 同时满足三点才录制：注册了 `replayPlugin()`、`replayEnabled` 为 `true`（本地或远端下发）、主采样命中且用户未 `optOut`。
 - `replaySampleRate` 只决定**是否上传**本会话的回放，录制使用环形缓冲（默认 5 分钟 / 10MB 上限）。
-- 离开页面：页面转到后台时（切标签、锁屏、移动端切应用），剩余缓冲先压缩，再用 `sendBeacon` / `fetch keepalive` 发出；页面关闭（`pagehide`）时只剩少量尾巴，按每块 44KB 以内的明文发出。浏览器在卸载期只允许约 64KB 的请求在途，所以收尾总量约 88KB 封顶，超出的最晚事件会丢弃。（mugsun-track [#14](https://github.com/mugsun/mugsun-track/pull/14) 之前，收尾时整个缓冲合成一块发送，超过 64KB 就会整块丢失）
+- 离开页面：页面转到后台时（切标签、锁屏、移动端切应用），剩余缓冲先压缩，再用 `sendBeacon` / `fetch keepalive` 发出；如果压缩还没完成页面就关闭了，这部分改为不压缩直接发出，不会重复上传。页面关闭（`pagehide`）时剩下的尾巴按每块 32KB 以内的明文发出，所有收尾块合计不超过 **44KB**，放不下的较晚事件会丢弃。（mugsun-track [#14](https://github.com/mugsun/mugsun-track/pull/14)、[#15](https://github.com/mugsun/mugsun-track/pull/15) 之前，收尾时整个缓冲合成一块发送，超过 64KB 就会整块丢失）
+- 为什么是 44KB：`sendBeacon` 和 `fetch keepalive` 共用每个页面约 64KB 的在途额度，页面关闭时普通事件队列的收尾发送（同样走 beacon）和仍在途的回放块也占这份额度，回放收尾只取其中 44KB，给普通事件留出余量。
+- 回放块序号允许有空洞（上面丢弃的块不会上传）。管理台播放器按时间排序后从第一个全量快照开始播放；开头的块缺失、没有全量快照时，显示「回放缺少首屏快照」，不会白屏。（mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45)）
 - 默认遮罩：所有输入值、**页面文本**（rrweb `maskTextSelector: '*'`）；`input[type="password"]` 与带 `data-track-mask` 属性的元素整块不录。
 - 仅调试时可放开文本遮罩：`replayPlugin({ maskTextSelector: false })`，或传入更窄的选择器。
 
