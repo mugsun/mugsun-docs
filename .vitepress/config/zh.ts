@@ -44,6 +44,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
           items: [
             { text: '概述', link: '/pc/' },
             { text: '本地开发', link: '/pc/development' },
+            { text: 'UI 自检', link: '/pc/ui-check' },
             { text: 'Docker 部署', link: '/pc/deploy-docker' },
             { text: '内容安全策略（CSP）', link: '/pc/csp' },
             { text: 'GIS 与地图', link: '/pc/gis' },
