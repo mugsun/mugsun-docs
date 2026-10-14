@@ -7,11 +7,23 @@ The admin console image (nginx) generates its CSP headers in the startup script 
 | Variable | Default | Description |
 |---|---|---|
 | `MUGSUN_CSP_MODE` | `report-only` | `report-only`: sends only `Content-Security-Policy-Report-Only`. The browser reports violations but blocks nothing.<br>`enforce`: sends `Content-Security-Policy` and blocks violations. It also sends a stricter `Content-Security-Policy-Report-Only` to observe the next round of tightening. |
-| `MUGSUN_CSP_REPORT_URI` | empty | Where violation reports go. When empty, `report-uri`, `report-to` and `Reporting-Endpoints` are not sent. Spaces, quotes and semicolons are rejected and the container refuses to start. |
+| `MUGSUN_CSP_REPORT_URI` | empty | Where violation reports go. When empty, `report-uri`, `report-to` and `Reporting-Endpoints` are not sent. |
 | `MUGSUN_CSP_TILE_HOSTS` | empty | Extra map tile origins, space separated. Tiles go through the same-origin `/api/system/gis/tile` proxy by default, so this is usually empty. |
 | `MUGSUN_CSP_TRACK_HOSTS` | empty | Extra tracking report origins, space separated. |
 
-Any other value for `MUGSUN_CSP_MODE` makes the container refuse to start. The demo site uses `enforce`. For your own deployment, you can run `report-only` for a while and switch once the browser console shows no violations.
+::: warning Public deployments must use enforce
+The default `report-only` reports but blocks nothing, so it gives no CSP protection. The demo site and every deployment reachable from the internet must set `MUGSUN_CSP_MODE=enforce`. `report-only` is only for an internal trial run: run it for a while, confirm the browser console shows no violations, then switch to `enforce`.
+:::
+
+### Startup validation
+
+If any of these fails, the container refuses to start. The log line starting with `15-mugsun-gateway.sh:` gives the reason.
+
+| Variable | Rule | Examples |
+|---|---|---|
+| `MUGSUN_CSP_MODE` | Must be `report-only` or `enforce`. | `enforce` ✅; `x; script-src *` ❌ |
+| `MUGSUN_CSP_TILE_HOSTS`, `MUGSUN_CSP_TRACK_HOSTS` | Only letters, digits, `.`, `*`, `:`, `/`, `-` and spaces. Each space-separated entry must be `https://` or `wss://` followed by a concrete host name, optionally with a port and path. `*.` is allowed only at the start of the host, as a subdomain wildcard. A bare `*`, a scheme alone (`https:`, `http:`), `https://*` and plain `http://` addresses are rejected. | `https://tile.example.com` ✅; `https://*.example.com` ✅; `*` ❌; `https:` ❌; `http://tile.example.com` ❌ |
+| `MUGSUN_CSP_REPORT_URI` | Only `A-Z a-z 0-9 . _ ~ : / ? = & % @ + -`, with no spaces, quotes, semicolons or commas. It must also be an `https://` URL or a same-origin path starting with `/` (protocol-relative `//` is rejected). Reports contain page URLs, so they must not be sent in plain text or to an unencrypted origin. | `/api/csp-report` ✅; `https://csp.example.com/report` ✅; `http://csp.example.com` ❌ |
 
 ```bash
 docker run -e MUGSUN_CSP_MODE=enforce -e MUGSUN_CSP_REPORT_URI=https://csp.example.com/report mugsun/pc
@@ -53,3 +65,11 @@ The frontend was adjusted for enforce mode:
 ## Self-check
 
 The frontend repo ships an enforce-mode check (`playwright.csp.config.ts`). It must run against the nginx image, not vite dev or preview. It counts `securitypolicyviolation` events per menu, and checks the response headers, zh/en switching, offline icons, maps and WebSocket, plus an injection probe.
+
+::: warning Not in CI
+This check is not part of CI yet, because it needs a real backend and the nginx image. Before every release, start the nginx image with `MUGSUN_CSP_MODE=enforce` and run it by hand:
+
+```bash
+E2E_BASE_URL=http://localhost:<port> pnpm exec playwright test -c playwright.csp.config.ts
+```
+:::
