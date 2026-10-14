@@ -12,7 +12,9 @@ pnpm setup:sdk   # build the sibling mugsun-track repo
 pnpm dev         # open http://localhost:3006
 ```
 
-During development, `/api` requests are proxied to `http://localhost:8080`. The address is set by `VITE_API_PROXY_URL` in `.env.development`.
+During development, `/api` requests are proxied to `http://localhost:8080`.
+
+To change the address, edit `VITE_API_PROXY_URL` in `.env.development`.
 
 ![Workbench](/screenshots/pc-workbench.png)
 

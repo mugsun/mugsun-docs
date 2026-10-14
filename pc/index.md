@@ -12,7 +12,9 @@ pnpm setup:sdk   # 构建同级目录的 mugsun-track
 pnpm dev         # 打开 http://localhost:3006
 ```
 
-开发时 `/api` 请求代理到 `http://localhost:8080`，地址由 `.env.development` 的 `VITE_API_PROXY_URL` 设置。
+开发时 `/api` 请求转发到 `http://localhost:8080`。
+
+要改这个地址，编辑 `.env.development` 里的 `VITE_API_PROXY_URL`。
 
 ![工作台](/screenshots/pc-workbench.png)
 
