@@ -11,7 +11,7 @@ The SDK core handles only the queue, sessions, identity and transport; every kin
 | Autocapture | `autocapturePlugin()` | Clicks and similar interactions; skips `maskSelectors` and password fields |
 | Impressions | `exposurePlugin()` | Viewable impressions (pairs with `v-track:exposure`) |
 | Web Vitals | `webVitalsPlugin()` | Core performance metrics |
-| Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections |
+| Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections; the `stack` keeps up to 4,096 characters, other string properties 1,024 |
 
 ## Adding optional plugins
 

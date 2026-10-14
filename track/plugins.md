@@ -11,7 +11,7 @@ SDK 内核只负责队列、会话、身份与传输，采集能力全部由插�
 | 全埋点 | `autocapturePlugin()` | 点击等交互；跳过 `maskSelectors` 与密码框 |
 | 曝光 | `exposurePlugin()` | 元素有效曝光（配合 `v-track:exposure`） |
 | Web Vitals | `webVitalsPlugin()` | 核心性能指标 |
-| 错误 | `errorPlugin()` | JS 错误、资源加载错误与未处理的 Promise 拒绝 |
+| 错误 | `errorPlugin()` | JS 错误、资源加载错误与未处理的 Promise 拒绝；堆栈 `stack` 最多保留 4096 字符，其它字符串属性 1024 |
 
 ## 追加可选插件
 
