@@ -40,7 +40,7 @@ The screenshots below come from a local boot + pc run. The data was reported for
 
 ![Performance: Web Vitals collected for real under throttling (Fast-3G-like network, 4x CPU slowdown). INP only records interactions of 40 ms or longer; the demo page's clicks are all light, so it has no samples and shows "-". The metrics were measured by the browser under throttling; reporting was triggered by a script simulating the page becoming hidden (demo data)](/screenshots/track/track-perf.png)
 
-**Errors**: JS errors grouped by fingerprint with counts, affected sessions and first/last seen; drill down to occurrences and linked replays.
+**Errors**: JS errors grouped by fingerprint with counts, affected sessions and first/last seen; drill down to occurrences and linked replays. The console's own integration doesn't report request errors it has already handled (business validation failures, network failures and other HttpErrors already shown to the user); API monitoring records those.
 
 ![Errors (demo data)](/screenshots/track/track-error.png)
 

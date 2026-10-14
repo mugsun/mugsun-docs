@@ -83,7 +83,7 @@ pnpm install
 pnpm dev
 ```
 
-- `pnpm setup:sdk` builds the sibling `mugsun-track`. Skip it if you set `VITE_ENABLE_TRACK=false`.
+- `pnpm setup:sdk` builds the sibling `mugsun-track`. You can skip it if you set `VITE_ENABLE_TRACK=false`, but the sibling `mugsun-track` directory must still exist, or `pnpm install` fails.
 - `pnpm dev` serves the console at `http://localhost:3006` and opens a browser.
 
 During development, Vite proxies `/api/**` to `VITE_API_PROXY_URL` in `.env.development` (default `http://localhost:8080`).

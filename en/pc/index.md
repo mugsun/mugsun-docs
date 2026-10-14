@@ -38,7 +38,7 @@ mugsun-pc/
 | Variable | Default | Effect |
 | --- | --- | --- |
 | `VITE_ENABLE_GIS` | on | Registers GIS routes and aliases; when off, `modules/gis` can be deleted |
-| `VITE_ENABLE_TRACK` | on | Registers analytics routes and the SDK plugin; when off, skip `setup:sdk` and delete `modules/track` |
+| `VITE_ENABLE_TRACK` | on | Registers analytics routes and the SDK plugin; when off, skip `setup:sdk` and delete `modules/track` (the sibling `../mugsun-track` directory must still exist) |
 | `VITE_ENABLE_AI` | on | Registers AI routes and plugins; when off, `modules/ai` can be deleted |
 
 ## Request flow

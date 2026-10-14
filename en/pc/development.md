@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- Node.js ≥ 22.13 and pnpm ≥ 11.11
+- Node.js ≥ 22.13 and pnpm ≥ 11.11 (`packageManager` pins `pnpm@11.28.2`)
 - [mugsun-boot](/en/boot/) running on `:8080`
-- With the analytics module on (the default), [mugsun-track](https://github.com/mugsun/mugsun-track) cloned **next to** this repository: the SDK is referenced as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`
+- Whether or not the analytics module is on, [mugsun-track](https://github.com/mugsun/mugsun-track) cloned **next to** this repository: the SDK is referenced as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`
 
 ## Start
 
@@ -14,7 +14,7 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm setup:sdk` runs install and build in `../mugsun-track`; skip it with `VITE_ENABLE_TRACK=false`. The dev server runs at `http://localhost:3006` (`VITE_PORT`), and `/api/**` is proxied to `VITE_API_PROXY_URL` in `.env.development` (default `http://localhost:8080`). Sign in with your boot account.
+`pnpm setup:sdk` runs install and build in `../mugsun-track`; you can skip it with `VITE_ENABLE_TRACK=false`, but the sibling directory must still exist because `pnpm install` resolves it. The dev server runs at `http://localhost:3006` (`VITE_PORT`), and `/api/**` is proxied to `VITE_API_PROXY_URL` in `.env.development` (default `http://localhost:8080`). Sign in with your boot account.
 
 ## Scripts
 

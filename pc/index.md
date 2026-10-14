@@ -36,7 +36,7 @@ mugsun-pc/
 | 变量 | 默认 | 作用 |
 | --- | --- | --- |
 | `VITE_ENABLE_GIS` | 开启 | 注册 GIS 路由与相关别名；关闭后可删除 `modules/gis` |
-| `VITE_ENABLE_TRACK` | 开启 | 注册埋点路由与 SDK 插件；关闭后可跳过 `setup:sdk` 并删除 `modules/track` |
+| `VITE_ENABLE_TRACK` | 开启 | 注册埋点路由与 SDK 插件；关闭后可跳过 `setup:sdk` 并删除 `modules/track`（平级 `../mugsun-track` 目录仍须存在） |
 | `VITE_ENABLE_AI` | 开启 | 注册 AI 路由与插件；关闭后可删除 `modules/ai` |
 
 ## 请求链路

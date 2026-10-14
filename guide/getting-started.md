@@ -83,7 +83,7 @@ pnpm install
 pnpm dev
 ```
 
-- `pnpm setup:sdk` 会构建平级的 `mugsun-track`；设置 `VITE_ENABLE_TRACK=false` 时可跳过。
+- `pnpm setup:sdk` 会构建平级的 `mugsun-track`；设置 `VITE_ENABLE_TRACK=false` 时可跳过这一步，但平级的 `mugsun-track` 目录仍须存在，否则 `pnpm install` 会失败。
 - `pnpm dev` 启动在 `http://localhost:3006` 并自动打开浏览器。
 
 开发期 `/api/**` 由 Vite 代理到 `.env.development` 中的 `VITE_API_PROXY_URL`（默认 `http://localhost:8080`）。
