@@ -61,6 +61,8 @@ How the Java path works: everything is built on GeographicLib (Karney's algorith
 
 Radius and nearest-neighbor queries first prefilter by a longitude/latitude envelope with a generous meters-to-degrees margin; when the envelope crosses the 180° meridian it is split into two boxes, so features on the other side are not missed.
 
+Features already stored in a 180°-crossing form (such as `LINESTRING(179.9 0, -179.9 0)`: the planar envelope is wider than 180°, but no longer is after adding 360 to negative longitudes) are treated as crossing 180° in bbox, intersects, contains and radius queries: they no longer match ranges near 0°, and they are found near 180° (including a bbox with west > east). The default PostGIS path and the Java path behave the same, and storage is unchanged (mugsun-boot#64).
+
 Because edges are geodesics, long edges at high latitude that span many degrees of longitude bow toward the pole. For example, an edge along 75°N from longitude 0° to 170° rises to about 89°N in the middle. For such features, area, length and distance differ a lot from a "straight lines in longitude/latitude" reading; PostGIS `geography` is the reference.
 
 Java-path accuracy (relative error between the requested meters and the geodesic distance from each buffer-boundary vertex to the source feature, GeographicLib as ground truth, points, lines and polygons combined):
