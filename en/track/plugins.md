@@ -13,7 +13,7 @@ The SDK core handles only the queue, sessions, identity and transport; every kin
 | Web Vitals | `webVitalsPlugin()` | Core performance metrics |
 | Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections; the `stack` keeps up to 4,096 characters, other string properties 1,024; anything after `?` or `#` in script URLs inside the stack (often tokens or signatures) is removed, keeping `:line:column`; when an event's properties exceed 16 KB in total, the stack is shortened first |
 
-> **Error fingerprints change after upgrading**: the fingerprint is computed from the message and the first stack frame, and since [mugsun-track #16](https://github.com/mugsun/mugsun-track/pull/16) the query and hash of script URLs in that frame are removed first. The same error therefore lands in a different error group before and after the upgrade; errors whose first-frame URL carried a token, which used to form one group per token, are merged into one group.
+> **Error fingerprints change after upgrading**: the fingerprint is computed from the message and the first stack frame, and since [mugsun-track #16](https://github.com/mugsun/mugsun-track/pull/16) the query and hash of script URLs in that frame are removed first. Errors whose first-frame script URL has a `?` or `#` (for example CDN URLs with a version, token or signature) land in a different error group before and after the upgrade, and errors that used to form one group per token are merged into one. Errors whose first-frame URL has no query keep the same fingerprint.
 
 ## Adding optional plugins
 
