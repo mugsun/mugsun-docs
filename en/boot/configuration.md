@@ -65,9 +65,10 @@ mugsun:
     exclude-paths:          # Ant-style, matched against the path without the context path
       - /track/collect
       - /track/replay
+      - /track/api-body
 ```
 
-Setting this list replaces the default entirely, so include these two if you want to keep them; `exclude-paths: []` logs everything. Exclusions only affect automatic logging. Endpoints explicitly marked `@OperationLog` are still logged, and the admin endpoints under `/system/track/**` are unaffected.
+Setting this list replaces the default entirely, so include these three if you want to keep them; `exclude-paths: []` logs everything. Exclusions only affect automatic logging. Endpoints explicitly marked `@OperationLog` are still logged, and the admin endpoints under `/system/track/**` are unaffected.
 
 ## Optional modules
 
