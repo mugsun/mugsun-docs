@@ -24,7 +24,7 @@ mugsun track 是**嵌入式**的产品行为分析能力：浏览器 SDK [`@mugs
 
 以下截图来自本地实跑的 boot + pc，数据由演示商城页面经 `@mugsun/track-web` 0.2.0 真实上报（约 110 个访客，同一天内）。
 
-**数据概览**：浏览量、访客、会话、事件数与平均会话时长、跳出率，下方是 Top 页面和来源、设备、浏览器分布。会话在静默 30 分钟后结算，时长与跳出率只统计已结算会话。概览接口的 `cards.settledSessionCount` 是统计区间内已结算的会话数；它为 0 时时长与跳出率还没定稿，看板显示「—」而不是 0。
+**数据概览**：浏览量、访客、会话、事件数与平均会话时长、跳出率，下方是 Top 页面和来源、设备、浏览器分布。「来源」是来源页面的主机名（如 `www.baidu.com`），取自上报的 `referrer_domain`；Web SDK 只上报完整的 `referrer` 地址，服务端从中取主机名（小写，不去掉 `www.`）。直接访问没有来源。[mugsun-boot #47](https://github.com/mugsun/mugsun-boot/pull/47) 之前 Web 端的来源一直为空，升级后只对新事件生效，历史数据不回填。会话在静默 30 分钟后结算，时长与跳出率只统计已结算会话。概览接口的 `cards.settledSessionCount` 是统计区间内已结算的会话数；它为 0 时时长与跳出率还没定稿，看板显示「—」而不是 0。
 
 ![数据概览（演示数据）](/screenshots/track/track-overview.png)
 
