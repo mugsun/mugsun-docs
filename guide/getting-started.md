@@ -1,8 +1,8 @@
 # 快速开始
 
-## 只用 Docker 试用
+## 使用 Docker 试用
 
-机器上只要有 Docker。数据库、Redis、后端和管理台都在容器里启动。
+只需安装 Docker。数据库、Redis、后端和管理台都在容器里启动。
 
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
@@ -14,10 +14,10 @@ docker compose -f docker-compose.full.yml run --rm init show
 
 ![管理台工作台](/screenshots/pc-workbench.png)
 
-国内拉不到 Docker Hub 镜像时，在 Docker 的 `daemon.json` 里配置 `registry-mirrors` 后重启 Docker，或给 Docker 配置代理。
+国内服务器无法拉取 Docker Hub 镜像时，在 Docker 的 `daemon.json` 里配置 `registry-mirrors` 后重启 Docker，或给 Docker 配置代理。
 
 ::: warning
-登录后不会强制改密码，请到个人中心自己改。这套 compose 只用于试用，生产环境要注入的配置见 [Boot 配置](/boot/configuration)。
+登录后不会强制改密码，请登录后在个人中心修改密码。这套 compose 只用于试用，生产环境要注入的配置见 [Boot 配置](/boot/configuration)。
 :::
 
 ## 本地开发
@@ -34,7 +34,7 @@ mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-`curl http://localhost:8080/ping` 有响应即成功。默认账号 `admin` / `123456`。
+`curl http://localhost:8080/ping` 返回响应即表示后端启动成功。默认账号 `admin` / `123456`。
 
 ::: details 5432 或 6379 端口被占用
 换一个宿主机端口。在同一个终端里导出，后端启动时也会读到：
@@ -44,7 +44,7 @@ export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
 docker compose up -d
 ```
 
-其他办法见 [常见问题](/guide/faq)。
+其他解决方法见 [常见问题](/guide/faq)。
 :::
 
 ### 2. 启动管理台
@@ -57,11 +57,11 @@ git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc && pnpm setup:sdk && pnpm install && pnpm dev
 ```
 
-浏览器打开 <http://localhost:3006>，本地环境验证码会自动填好。
+浏览器打开 <http://localhost:3006>，本地环境下验证码会自动填入。
 
-### 3. 发第一条埋点
+### 3. 上报第一条埋点
 
-在管理台「埋点分析 → 接入管理」新建应用，拿到 `appKey`：
+在管理台「埋点分析 → 接入管理」新建应用，获取 `appKey`：
 
 ::: code-group
 ```bash [pnpm]
@@ -82,7 +82,7 @@ const track = createTracker({
 track.track('hello_mugsun')
 ```
 
-到「埋点分析 → 数据概览」选中这个应用，就能看到数据。
+到「埋点分析 → 数据概览」选中这个应用，即可查看上报的数据。
 
 ## 下一步
 

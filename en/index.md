@@ -16,16 +16,16 @@ hero:
       text: GitHub
       link: https://github.com/mugsun
 features:
-  - title: Admin built in
+  - title: Built-in admin console
     details: Users, roles, menus, tenants and approval flows, with permissions from the backend.
     link: /en/pc/
     linkText: Admin console
-  - title: Analytics included
-    details: Add one SDK and get page views, funnels, retention and session replay.
+  - title: Built-in analytics
+    details: Add the analytics SDK to your frontend to view page views, funnels, retention and session replay in the admin console.
     link: /en/track/
     linkText: Analytics
-  - title: Optional modules
-    details: GIS, analytics and AI are separate modules you can leave out.
+  - title: Optional feature modules
+    details: GIS, analytics and AI are separate modules; leave out the ones you don't need.
     link: /en/boot/
     linkText: Backend
 ---

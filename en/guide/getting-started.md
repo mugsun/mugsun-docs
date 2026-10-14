@@ -1,8 +1,8 @@
 # Getting started
 
-## Try it with Docker only
+## Try it with Docker
 
-You only need Docker. The database, Redis, backend and admin console all run in containers.
+All you need is Docker. The database, Redis, backend and admin console all run in containers.
 
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
@@ -14,10 +14,10 @@ The last command prints the admin password. Open <http://localhost:8088> and sig
 
 ![Admin console workbench](/screenshots/pc-workbench.png)
 
-If you can't pull from Docker Hub in mainland China, set `registry-mirrors` in Docker's `daemon.json` and restart Docker, or give Docker a proxy.
+If a server in mainland China can't pull images from Docker Hub, set `registry-mirrors` in Docker's `daemon.json` and restart Docker, or give Docker a proxy.
 
 ::: warning
-You are not forced to change the password after signing in, so change it yourself in your profile. This compose file is for trying things out. For production settings, see [Boot configuration](/en/boot/configuration).
+You are not forced to change the password after signing in, so sign in and change it in your profile. This compose file is for trying things out. For production settings, see [Boot configuration](/en/boot/configuration).
 :::
 
 ## Local development
@@ -34,7 +34,7 @@ mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-It works when `curl http://localhost:8080/ping` responds. The default account is `admin` / `123456`.
+The backend is running when `curl http://localhost:8080/ping` returns a response. The default account is `admin` / `123456`.
 
 ::: details Port 5432 or 6379 is already in use
 Pick other host ports. Export them in the same terminal so the backend reads them too:
@@ -44,7 +44,7 @@ export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
 docker compose up -d
 ```
 
-For other options, see the [FAQ](/en/guide/faq).
+For other solutions, see the [FAQ](/en/guide/faq).
 :::
 
 ### 2. Start the admin console
@@ -57,9 +57,9 @@ git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc && pnpm setup:sdk && pnpm install && pnpm dev
 ```
 
-Open <http://localhost:3006>. In local development the captcha is filled in for you.
+Open <http://localhost:3006>. In local development the captcha is filled in automatically.
 
-### 3. Send your first event
+### 3. Report your first event
 
 In the console, create an app under Analytics → Integrations and copy its `appKey`:
 
@@ -82,7 +82,7 @@ const track = createTracker({
 track.track('hello_mugsun')
 ```
 
-Select the app under Analytics → Overview to see the data.
+Select the app under Analytics → Overview to view the reported data.
 
 ## Next steps
 
