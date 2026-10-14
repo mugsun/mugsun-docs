@@ -16,11 +16,11 @@ mugsun:
 
 ## Images only
 
-Only png, jpeg, webp and gif responses are passed through, and the `Content-Type` must match the file's magic bytes. SVG, HTML and mismatched bodies are replaced with a blank tile. Every tile response carries `X-Content-Type-Options: nosniff`.
+Only png, jpeg, webp and gif responses are passed through, and the `Content-Type` must match the file's magic bytes. SVG, HTML and mismatched bodies get `502` (reason `bad-content-type`). Every tile response carries `X-Content-Type-Options: nosniff`.
 
 ## No redirects
 
-The four vendor engines (Tianditu, AMap, Baidu, Google: tiles, search, reverse geocoding and the Google session request) and custom XYZ basemaps **do not follow 3xx redirects**. A redirect is treated as a failure.
+The four vendor engines (Tianditu, AMap, Baidu, Google: tiles, search, reverse geocoding and the Google session request) and custom XYZ basemaps **do not follow 3xx redirects**. A redirect is treated as a failure (`502`, reason `upstream-status`).
 
 ## Blocked ranges (custom XYZ)
 
@@ -35,5 +35,18 @@ In addition to private, loopback and link-local addresses, three more ranges are
 When NAT64 or 6to4 is enabled, the embedded IPv4 address is still checked against the IPv4 rules.
 
 ::: tip fake-ip proxies
-If a fake-ip proxy resolves public domains to `198.18.x.x`, every custom XYZ tile comes back blank. Set `allow-benchmark-net: true` (or `MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET=true`), preferably on development machines only.
+If a fake-ip proxy resolves public domains to `198.18.x.x`, every custom XYZ tile gets `403` (reason `blocked-address`) and the map shows a tile failure banner. For the fixes (turn off fake-ip, route tile hosts directly, or enable `allow-benchmark-net` and its risks) see [Basemaps · Troubleshooting](./gis-basemap#troubleshooting).
 :::
+
+## Failure responses and logs {#failure-responses}
+
+When fetching a tile fails, the proxy no longer returns 200 with a transparent image. It returns an error status with an `X-Mugsun-Tile-Error` reason header, an empty body and `Cache-Control: no-store`:
+
+| Reason code | Status | WARN logged |
+| --- | --- | --- |
+| `upstream-status`, `bad-content-type`, `too-large`, `upstream-unreachable`, `bad-template` | 502 | yes |
+| `timeout` | 504 | yes |
+| `blocked-address`, `host-not-allowed` | 403 | yes |
+| `not-configured`, `disabled`, `out-of-range` | 404 | no |
+
+WARN logs are rate-limited per host and reason (at most one every 60 seconds, with the number suppressed in between). They contain only the provider, host, reason, upstream status and zoom level, never the URL, query string or key. The admin uses these responses to show the tile failure banner; see [Basemaps · Troubleshooting](./gis-basemap#troubleshooting).

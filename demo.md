@@ -20,6 +20,34 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 也可直接访问完整 H5 入口：[打开 ms-ui 演示](/demo/index.html)（新标签页）。
 
-## 对外展示
+## 对外展示：只读演示模式
 
-自行部署只读环境，使用非生产密钥。下一步：[快速开始](/guide/getting-started) · [安全清单](/boot/security-checklist) · [ms-ui](/uniappx/)
+对外展示请用 boot 的 `demo` profile 部署只读环境，并使用非生产密钥：
+
+```bash
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=prod,demo
+```
+
+::: warning 目前只支持 PostgreSQL
+演示模式暂时只支持 PostgreSQL 部署。达梦、人大金仓、openGauss、MySQL 暂不支持 demo。
+:::
+
+开启后（`mugsun.demo.enabled=true`），后端按「默认拒绝」处理请求：
+
+| 类别 | 处理 |
+|---|---|
+| GET / HEAD / OPTIONS 查询 | 放行 |
+| 登录、登出、双因子、验证码校验 | 放行 |
+| 埋点采集 `/track/collect`、`/track/replay`、`/track/api-body` | 放行（演示环境埋点保持开启；`mugsun.demo.track-collect=false` 可关） |
+| 其余 POST / PUT / DELETE / PATCH（注册、改密/找回密码、上传、导入、AI、代码生成与低代码 DDL、任务调度、系统参数等） | HTTP 403，`msg` 为「演示环境只读」，`errorCode` 为 `DEMO_READONLY` |
+| `/open/**`、`/oauth2/**`、`/v1/**`、`/system/crypto/**` | 任何方法都拒绝 |
+| 带 `X-HTTP-Method-Override` 等方法覆盖头或 `_method` 参数的请求 | 拒绝 |
+| WebSocket 入站消息 | 丢弃（只保留心跳），通道只用于服务端推送 |
+
+新增的写接口默认就被拒；boot 仓库的 `docs/demo/readonly-endpoints.md` 是自动生成的全量写端点清单，由测试保证与代码一致。
+
+::: tip 建设中
+只读数据库账号（业务库只授 SELECT，埋点库独立账号只授 INSERT/SELECT）、每日 04:00（北京时间）重置样例数据、敏感词过滤（词表从外部路径加载，默认空表）、访问日志留存 6 个月、管理台的只读提示，会在后续版本陆续提供。在这些就绪之前，请不要把演示环境当作唯一防线。
+:::
+
+下一步：[快速开始](/guide/getting-started) · [安全清单](/boot/security-checklist) · [ms-ui](/uniappx/)

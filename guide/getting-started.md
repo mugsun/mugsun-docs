@@ -2,6 +2,46 @@
 
 本页带你从空环境走到三个可验证的结果：**后端健康检查通过 → 管理台登录成功 → 看板出现第一条埋点事件**。每一步都给出验收方式，命令与各仓 README 保持一致。
 
+## 只有 Docker：一条命令起全套
+
+机器上只有 Docker（Compose v2.17+）时，可以在 `mugsun-boot` 仓库根目录一条命令起齐 PostgreSQL（PostGIS + pgvector）、Redis、后端和管理台：
+
+```bash
+git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
+docker compose -f docker-compose.full.yml up -d --build
+docker compose -f docker-compose.full.yml run --rm init show   # 查看首次生成的管理员口令
+```
+
+打开 <http://localhost:8088>，用 `admin` 和上面查到的口令登录。端口可用 `MUGSUN_HTTP_PORT` 修改；端口默认只绑 `127.0.0.1`，要让局域网访问需显式设 `MUGSUN_HTTP_BIND=0.0.0.0`。
+
+- **没有弱口令。** 首次启动时 `init` 服务随机生成数据库和 Redis 口令、管理员口令、SM4/SM2 密钥、审计签名密钥和至少 32 位的文件签名密钥，每个都校验长度，生成失败就停下。密钥按服务拆进三个卷（`secrets-boot`、`secrets-postgres`、`secrets-redis`），文件权限 0600、属主是对应服务的用户，每个服务只挂自己那一个：PostgreSQL 只拿到库口令，Redis 只拿到 `redis.conf`。重启不会变。管理员口令不写进 `init` 的启动日志，用 `docker compose -f docker-compose.full.yml run --rm init show` 查看。注意：`run` 起的容器同样走 Docker 日志驱动，如果配置了 journald、gelf 等会转发日志的驱动，`init show` 的输出也会被收集，查看前请确认，或查看后到日志系统里清理。
+- **首次登录不会强制改口令。** 后端目前只有按到期天数（`security.password.expire-days`，默认 0 即关闭）提示改密，没有首次登录强制改密。请登录后自己到个人中心修改管理员口令。
+- 后端以 `prod` profile 运行：缺任一密钥拒绝启动，登录要验证码，OpenAPI 文档关闭。
+- 只对外暴露管理台端口。数据库和 Redis 不映射到宿主机。管理台直接用 `mugsun-pc` 仓库自己的镜像：非 root 的 nginx、基础镜像固定 digest、带 CSP，把 `/api` 反代给后端时用真实来源地址覆盖 `X-Forwarded-For`，不保留客户端自带的值。
+- compose 网络与 `mugsun-pc` 一致，用固定子网（`MUGSUN_COMPOSE_SUBNET`，默认 `172.30.88.0/24`），管理台容器用固定 IP（`MUGSUN_PC_IP`，默认 `172.30.88.10`），其它容器只从 `MUGSUN_COMPOSE_IP_RANGE`（默认 `172.30.88.128/25`）分配地址；`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只信任管理台这一个 IP。前面再加一层网关时，把网关网段写进 `MUGSUN_GATEWAY_CIDRS`，由管理台的 nginx 判断。
+- 构建来源固定：本仓库的基础镜像和 Dockerfile 语法前端都固定 digest（`mugsun-pc` 仓库 Dockerfile 首行的 `# syntax=docker/dockerfile:1.7` 目前没有固定 digest），管理台和埋点 SDK 源码固定到提交 sha 并按锁文件安装依赖，自检脚本的 Python 依赖锁定版本和哈希。后端镜像内置人大金仓和达梦驱动。Redis 口令写在生成的 `redis.conf` 里，不出现在进程参数中。
+- 自检：`scripts/compose-full-smoke.sh` 会从零启动，登录，上报一条埋点并在管理端查到，打印耗时，最后 `down -v` 清理。它用独立的项目名，不碰机器上已有的容器。
+- 清空重来（会删除数据和密钥）只能用 `docker compose -f docker-compose.full.yml down -v`。不要只删 secrets 卷而保留数据卷：数据库口令只在首次初始化时写入，新生成的口令会对不上，后端连不上库。secrets 卷不完整时 `init` 会拒绝启动并提示用 `down -v`。从旧版本（boot#40，只有一个 `secrets` 卷）升级同样要先 `down -v`；如果当时用了别的方式清理，请确认旧卷已删除：`docker volume rm mugsun-full_secrets`。旧卷里的文件是 0644，存着全部密钥，不能留着。
+
+这套 compose 适合试用和演示。上生产时自己部署要注入的全部必填项：
+
+| 变量 | 说明 |
+| --- | --- |
+| `SPRING_PROFILES_ACTIVE=prod` | 生产 profile |
+| `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | 主库 |
+| `TRACK_JDBC_URL` / `TRACK_JDBC_USERNAME` / `TRACK_JDBC_PASSWORD` | 埋点库 `mugsun_track` 数据源 |
+| `REDIS_HOST` / `REDIS_PASSWORD`（可选 `REDIS_PORT` / `REDIS_DB`） | Redis |
+| `MUGSUN_FRONT_URL` / `FILE_DOMAIN` | 管理台 origin 与文件访问域名 |
+| `MUGSUN_INIT_PASSWORD` | 初始管理员口令，不能是内置默认值 |
+| `MUGSUN_SM4_KEY` / `MUGSUN_API_KEY` | 16 位 SM4 密钥 |
+| `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | SM2 传输密钥对（hex） |
+| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 审计签名密钥对 |
+| `MUGSUN_FILE_SIGN_SECRET` | 文件下载链接签名密钥，至少 32 个字符 |
+| `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 可信反向代理 CIDR，前面有反代时必须配 |
+| `SMTP_*` / `SMS_*` | 邮件与短信。compose 里填的是占位值，要用找回密码或短信登录时换成真实值 |
+
+密钥可用仓库里的 `scripts/gen-keys.sh --all >> .env` 生成（两对 SM2、两个 SM4、管理员口令、文件签名密钥，输出可直接贴进 `.env`；需 OpenSSL 1.1.1+），一键全栈的 `init` 也用它。各项含义见 [配置参考](/boot/configuration)。下面是逐个仓库本地开发的步骤。
+
 ## 环境要求
 
 | 工具 | 版本 | 用途 |
@@ -38,7 +78,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 > **请始终在仓库根目录、带 `-am` 构建**（或用 `mvn clean package -DskipTests` 构建整个工程）。只构建 server 模块（`-pl mugsun-boot-server` 不带 `-am`、在 `mugsun-boot-server` 目录里执行 `mvn package`，或 IDE 只构建该模块）时，`mugsun-boot-core` 会从本地 Maven 仓库 `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/` 取。所有分支和工作区共用这一个 0.1.0 版本，里面是最后一次 `mvn install` 的那个分支，打出的 jar 会带上别的分支的旧代码（例如旧的验证码返回结构），这跟加不加 `clean` 无关。拿不准时先在根目录执行一次 `mvn -B install -DskipTests`。
 
-- `docker compose up -d` 只启动 PostgreSQL（5432）与 Redis（6379），首次会构建带 PostGIS + pgvector 的数据库镜像。
+- `docker compose up -d` 只启动 PostgreSQL（5432）与 Redis（6379），首次会构建带 PostGIS + pgvector 的数据库镜像。本机端口被占用时见 [常见问题](/guide/faq#本机-5432-6379-已被占用)。
 - 打包默认使用 `full` profile（core + gis + track + ai）。
 - `java -jar` 必须在仓库根目录执行，才能读到 `config/application-local.yml`。确认 `java -version` 输出 21。
 

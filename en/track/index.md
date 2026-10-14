@@ -24,7 +24,7 @@ The console's Analytics section has Overview, Events, Performance, Errors, Integ
 
 The screenshots below come from a local boot + pc run. The data was reported for real by a demo shop page through `@mugsun/track-web` 0.2.0 (about 110 visitors, all on the same day). The console UI is shown in Chinese.
 
-**Overview**: page views, visitors, sessions, events, average session duration and bounce rate, plus top pages and source, device and browser breakdowns. A session settles after 30 minutes of silence; duration and bounce rate count settled sessions only. The overview API returns `cards.settledSessionCount`, the number of settled sessions in the range; while it is 0 those two figures are not final yet, and the dashboard shows "—" instead of 0.
+**Overview**: page views, visitors, sessions, events, average session duration and bounce rate, plus top pages and source, device and browser breakdowns. "Source" is the referring page's host name (for example `www.baidu.com`), taken from `referrer_domain` in the event. The web SDK only sends the full `referrer` URL, so the server takes the host name from it (lower-cased, `www.` kept). Direct visits have no source. Before [mugsun-boot #47](https://github.com/mugsun/mugsun-boot/pull/47) the source was always empty for the web SDK; the fix applies to new events only and history is not backfilled. A session settles after 30 minutes of silence; duration and bounce rate count settled sessions only. The overview API returns `cards.settledSessionCount`, the number of settled sessions in the range; while it is 0 those two figures are not final yet, and the dashboard shows "—" instead of 0.
 
 ![Overview (demo data)](/screenshots/track/track-overview.png)
 
@@ -44,7 +44,7 @@ The screenshots below come from a local boot + pc run. The data was reported for
 
 ![Errors (demo data)](/screenshots/track/track-error.png)
 
-**Retention**: a new-user retention grid. A visitor joins the cohort of the day they were first active (UTC day boundary). Rows are cohort dates with their size; columns D+0, D+1, … show the share of that cohort active again N days later, with darker cells meaning higher retention. Choose the last 7, 14 or 30 days; lookback is capped at 30 days so users active before that are not miscounted as new. Days are bucketed by server receive time, not client time, so D+1 and later only fill in after several consecutive days of real traffic. No screenshot here: the demo data covers a single day, so the grid only has D+0.
+**Retention**: a new-user retention grid. A visitor joins the cohort of the day they were first active (days start at midnight in the tenant timezone, `Asia/Shanghai` by default). Rows are cohort dates with their size; columns D+0, D+1, … show the share of that cohort active again N days later, with darker cells meaning higher retention. Choose the last 7, 14 or 30 days; lookback is capped at 30 days so users active before that are not miscounted as new. Days are bucketed by server receive time, not client time, so D+1 and later only fill in after several consecutive days of real traffic. No screenshot here: the demo data covers a single day, so the grid only has D+0.
 
 Session replay and visual tagging screenshots are in
 **Session replay**: sessions listed with start time, duration, page count (SPA route changes included), event count, size and whether they contain errors. Filter to sessions with errors, and play one from the action column.
@@ -63,13 +63,40 @@ Session replay and visual tagging screenshots are in
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /track/collect` | Batched events (gzip or plain JSON) |
+| `POST /track/collect` | Batched events (gzip or plain JSON); the SDK adds `app_key` to the query for rejection attribution |
 | `GET /track/config` | Remote SDK configuration |
 | `POST /track/replay` | Replay chunks |
 | `POST /track/api-body` | Response bodies (separate channel) |
 | `POST /track/visual/draft` | Visual-tagging drafts |
 
 `/track/*` endpoints are anonymous. The `appKey` is visible in the browser and isn't a secret; the server relies on existence checks, rate limiting, back-pressure and event validation.
+
+## Dashboard trend
+
+When you pick 3 days or more, the overview visit trend has one point per day, and the x-axis always shows every day in the range. A day with no data is drawn as 0 instead of being skipped (since [mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28)). For 1–2 days the chart uses 5-minute points and only shows periods that have data.
+
+The trend chart and the error monitoring list cut days in the tenant's timezone, so "today" starts at local midnight (since [mugsun-boot #31](https://github.com/mugsun/mugsun-boot/pull/31); before that days were cut in UTC, so at UTC+8 a new day only began at 8 a.m.). The default is `Asia/Shanghai`. You can change it globally or per tenant ID:
+
+```yaml
+mugsun:
+  track:
+    timezone:
+      default-zone: Asia/Shanghai   # or env MUGSUN_TRACK_TIMEZONE
+      tenants:
+        "[000000]": Asia/Shanghai   # keys need brackets and quotes
+```
+
+Since [mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36), overview cards, pages, performance, funnels and retention cut days in the same timezone, and since [mugsun-boot #46](https://github.com/mugsun/mugsun-boot/pull/46) so do the event list under event analysis and the geo map. "Today" starts at local midnight on every dashboard.
+
+What counts differently:
+
+- **UV**: each day's UV in the daily trend is the number of distinct devices (`distinct_id`) in that local day. Days used to be UTC days, and a dimension trend (events, pages and so on) without a specific value used to add up the UV of each value, so a device that visited several pages was counted several times. It is now deduplicated per device. The UV on the overview cards was already deduplicated per device over the whole range and is unchanged.
+- **Sessions**: the session count on the overview cards is the sum of each local day's active sessions.
+- **Funnels**: the window used to be a rolling last N×24 hours. It now starts at local midnight of the first day, so "last 1 day" means midnight today until now, and numbers early in the local morning are smaller than before.
+- **Retention**: first-visit and return days are local dates, so a first visit at 23:59 and a return at 00:01 the next day counts as day-2 retention. The retention response includes `zone` (the IANA timezone in effect) and `today` (the local date, `yyyy-MM-dd`).
+- **Day limits**: retention always reads raw events (plus a 30-day look-back to tell new visitors apart), so `days` above 30 is clamped to 30 rather than rejected; the response then has `clamped: true` and `days` is the value actually used. Missing or below 1 means 7. Funnels accept `days` 1–30 and the trend and other analytics endpoints 1–90; values outside those ranges return an error.
+
+When the timezone isn't UTC, the daily trend, overview cards and performance are counted straight from raw events (the daily summary tables use UTC days), which is slower on large data sets.
 
 ## Upgrading: backfill historical UV
 
@@ -207,7 +234,7 @@ FROM track_rollup_cursor WHERE job_key = 'timeline_index' ORDER BY 1;
 
 - **Stopping the app interrupts the backfill.** On shutdown the job stops, cancels any running `CREATE INDEX CONCURRENTLY`, and does not start another partition. The interrupted partition is left with an invalid index, which the next run drops and rebuilds. No manual cleanup is needed.
 - **Precondition: no global `statement_timeout`.** The job runs `SET statement_timeout = 0` in its own session and `RESET`s it afterwards. If a role, database or PgBouncer setting enforces a statement timeout that overrides the session, large partitions get killed partway and retried forever. In that case lift the timeout for the tracking database connection, or turn the backfill off and build the indexes by hand in a maintenance window.
-- When you look up the user timeline by user ID, it merges at most the 1000 most recently active anonymous devices. Beyond that, the API returns `devicesTruncated: true` and `deviceCount`; look the user up by visitor ID instead.
+- When you look up the user timeline by user ID, it merges at most the 1000 most recently active anonymous devices. Beyond that, the API returns `devicesTruncated: true` and `deviceCount`; look the user up by visitor ID instead. The admin "User lookup" page shows the same hint above the timeline.
 
 ### Is flyway repair needed?
 

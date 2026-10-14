@@ -214,6 +214,9 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           items: [
             { text: 'Overview', link: '/en/pc/' },
             { text: 'Development', link: '/en/pc/development' },
+            { text: 'UI self-check', link: '/en/pc/ui-check' },
+            { text: 'Docker deployment', link: '/en/pc/deploy-docker' },
+            { text: 'Content Security Policy', link: '/en/pc/csp' },
             { text: 'GIS & maps', link: '/en/pc/gis' },
             { text: 'Basemaps & allow-list', link: '/en/pc/gis-basemap' },
             { text: 'Tile proxy security', link: '/en/pc/gis-tile-security' },
