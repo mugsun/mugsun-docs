@@ -69,14 +69,18 @@ Points, lines and polygons are all within 0.5%, and the difference from the Post
 Earlier versions computed meters on the Web Mercator plane without a latitude correction: buffer radii and distances shrank by cos(latitude), and areas by cos²(latitude). A 500 m buffer in Beijing was really about 383 m, and at 72°N only about 31% of the requested size. After upgrading, the Java path differs from the PostGIS path by less than 0.5%.
 :::
 
-Java-path limits. "Polar" means a feature, or its buffered extent, reaches |latitude| > 85°; "crossing 180°" means a feature crosses the 180° meridian or its buffer extends past it:
+#### Java-path limits {#metric-limits}
+
+"Polar" means a feature, or its buffered extent, reaches |latitude| > 85°; "crossing 180°" means a feature crosses the 180° meridian or its buffer extends past it:
 
 - **Buffers near the poles are not supported.**
 - **Analyzing a single geometry** (the input to `/gis/analyze`, including geometries taken from the source layer when `engine=java` is set): a polar or 180°-crossing geometry makes buffer, distance, area and length return an error. Split the feature at 180° first.
 - **Layer queries** (radius, nearest neighbor, buffer, and the buffer / contains that `/gis/analyze` hands to the layer query): a few polar or 180°-crossing features do not make the whole query fail.
   - Radius and nearest neighbor: these features use the great-circle (haversine) distance to the closest point on the geometry; if even that cannot be computed, they are skipped.
+  - A feature crossing 180° (adjacent vertices more than 180° of longitude apart) first has 360 added to its negative longitudes, so it becomes one continuous piece instead of wrapping the long way around the globe; the query point is moved into the same longitude range, using whichever representation is closer to the feature. For example, `LINESTRING(179.9 0, -179.9 0)` is about 20,004 km from (0, 0) and about 11.1 km from (179.95, 0.1). Features still wider than 180° after the shift are skipped.
   - Buffer: these features are skipped.
   - `skipped` in the response is the number of features skipped; the server logs a WARN with feature ids and the count (at most one per layer and operation per minute).
+- **When spatial analysis hands off to a layer query**, the response also carries `skipped`; polar or 180°-crossing features among the hits are left out of the area and length totals, and their number is reported in `metrics.metricsSkipped`.
 - **Query point**: radius and nearest-neighbor queries return an error when the query point itself is in the polar zone. Query points near the 180° meridian are fine; for example a query point at longitude 179.9 finds a feature at -179.9.
 - **Empty geometries**: distance is treated as infinite (never matched by radius queries, sorted last by nearest neighbor), buffers are empty, and area and length are 0.
 
