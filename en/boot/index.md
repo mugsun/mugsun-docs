@@ -41,7 +41,7 @@ For Kingbase or Dameng databases, add `-Pkingbase` or `-Pdameng`.
 - Warm-Flow workflow
 - Attachments isolated by uploader and tenant
 - OAuth2 and API key access. See [Open API](/en/boot/open-api).
-- SM2, SM3 and SM4 national cryptography, switched together by `MUGSUN_GM_ENABLED`
+- SM2 transport encryption and SM3 digests, switched by `MUGSUN_GM_ENABLED`; the SM4 field-encryption key is set separately with `MUGSUN_SM4_KEY`
 - Code generation, online forms and in-app messages
 
 ## Stack

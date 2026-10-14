@@ -41,7 +41,7 @@ mvn -pl mugsun-boot-server -am package -Pbasic,'!full'
 - Warm-Flow 工作流
 - 附件按上传者和租户隔离
 - OAuth2 和 API Key 开放接口，见 [开放平台](/boot/open-api)
-- SM2、SM3、SM4 国密算法，由 `MUGSUN_GM_ENABLED` 统一开关
+- SM2 传输加密和 SM3 摘要由 `MUGSUN_GM_ENABLED` 开关，SM4 字段加密的密钥由 `MUGSUN_SM4_KEY` 单独配置
 - 代码生成、在线表单和站内消息
 
 ## 技术栈

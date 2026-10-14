@@ -7,8 +7,8 @@
 You need Node.js 22.13+ and pnpm 11.11+, with the [boot](/en/boot/) backend running on port 8080:
 
 ```bash
-pnpm install
 pnpm setup:sdk   # build the sibling mugsun-track repo
+pnpm install
 pnpm dev         # open http://localhost:3006
 ```
 

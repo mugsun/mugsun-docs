@@ -38,8 +38,8 @@ Analytics includes overview, events, performance, errors, session replay, user l
 ## Reliability
 
 - The event queue is stored in IndexedDB and resent after a network loss or page reload.
-- Sending tries `sendBeacon`, then `fetch keepalive`, then `XHR`.
-- Every event carries an `event_id`, and the server drops duplicates by it.
+- Events are normally sent with `fetch`, falling back to `XHR` on a network failure. When the page is hidden or closed, `sendBeacon` is tried first.
+- Every event carries an `event_id`. The server drops duplicates by `event_id` in Redis, and the database enforces a unique `(event_id, received_at)` constraint.
 
 ## Server endpoints
 

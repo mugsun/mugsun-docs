@@ -7,8 +7,8 @@
 需要 Node.js 22.13 以上和 pnpm 11.11 以上，后端 [boot](/boot/) 先在 8080 端口启动：
 
 ```bash
-pnpm install
 pnpm setup:sdk   # 构建同级目录的 mugsun-track
+pnpm install
 pnpm dev         # 打开 http://localhost:3006
 ```
 

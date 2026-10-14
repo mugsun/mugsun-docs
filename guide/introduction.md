@@ -2,7 +2,7 @@
 
 mugsun 是一套可以私有化部署的中后台系统，包含业务后端、管理后台和产品行为分析。
 
-三部分共用一套代码和一个数据库，不依赖公有云服务。
+三部分是独立的代码仓库，都部署在自己的服务器上，不依赖公有云服务。
 
 ## 模块
 
@@ -14,7 +14,7 @@ mugsun 是一套可以私有化部署的中后台系统，包含业务后端、�
 | <span style="white-space:nowrap">[track](/track/)</span> | 浏览器埋点 SDK，发布在 npm | TypeScript，回放基于 rrweb | MIT | <span style="white-space:nowrap">0.2.0</span> |
 | <span style="white-space:nowrap">[ms-ui](/uniappx/)</span> | uni-app x 跨端组件库 | uvue、uts | 商业版 | <span style="white-space:nowrap">—</span> |
 
-ms-ui 的源码不公开，文档和 H5 演示对所有人开放。微服务版本还在规划中。
+ms-ui 的源码不公开，文档和 H5 演示对所有人开放。
 
 ## 架构
 
@@ -29,7 +29,7 @@ GIS、埋点、AI 是可选的 Maven 模块，打包时用 Profile 选择是否�
 
 管理后台的菜单和按钮权限都由后端 `/auth/info` 接口返回，前端不另存权限数据。
 
-埋点事件、回放和配置都保存在自己的数据库中。
+埋点数据单独保存在 PostgreSQL 的 `mugsun_track` 库中，与业务库分开。
 
 ## 适合与不适合
 

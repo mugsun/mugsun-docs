@@ -2,7 +2,7 @@
 
 mugsun is a self-hosted business system with a backend, an admin console and product analytics.
 
-All three share one codebase and one database, with no dependency on public cloud services.
+They are separate repositories, all deployed on your own servers, with no dependency on public cloud services.
 
 ## Modules
 
@@ -14,7 +14,7 @@ All three share one codebase and one database, with no dependency on public clou
 | <span style="white-space:nowrap">[track](/en/track/)</span> | Browser analytics SDK, published on npm | TypeScript, replay based on rrweb | MIT | <span style="white-space:nowrap">0.2.0</span> |
 | <span style="white-space:nowrap">[ms-ui](/en/uniappx/)</span> | uni-app x cross-platform components | uvue, uts | Commercial edition | <span style="white-space:nowrap">—</span> |
 
-The ms-ui source is not public. Its docs and H5 demo are open to everyone. A microservice edition is still planned.
+The ms-ui source is not public. Its docs and H5 demo are open to everyone.
 
 ## Architecture
 
@@ -29,7 +29,7 @@ GIS, analytics and AI are optional Maven modules. A build profile decides whethe
 
 The console's menus and button permissions come from the backend `/auth/info` endpoint. The frontend keeps no separate permission data.
 
-Analytics events, replays and settings are stored in your own database.
+Analytics data is kept in a separate PostgreSQL database, `mugsun_track`, apart from the business database.
 
 ## Is it a good fit?
 

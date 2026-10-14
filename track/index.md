@@ -38,8 +38,8 @@ track.track('button_click', { name: 'buy' })
 ## 可靠性
 
 - 事件队列写入 IndexedDB，断网或刷新后重新发送。
-- 发送顺序是 `sendBeacon`、`fetch keepalive`、`XHR`，前一种不可用时换下一种。
-- 每条事件带 `event_id`，服务端按它去重。
+- 平时用 `fetch` 发送，网络失败时改用 `XHR`；页面隐藏或关闭时优先用 `sendBeacon`。
+- 每条事件带 `event_id`。服务端先在 Redis 里按 `event_id` 去重，数据库再按 `(event_id, received_at)` 唯一约束去重。
 
 ## 服务端接口
 
