@@ -99,6 +99,12 @@ In these cases:
 - **Query point**: query points in the polar regions, including on a pole, work. Query points near the 180° meridian are fine too; for example a query point at longitude 179.9 finds a feature at -179.9.
 - **Empty geometries**: distance is treated as infinite (never matched by radius queries, sorted last by nearest neighbor), buffers are empty, and area and length are 0.
 
+::: warning Known limitations
+- **Polygons that contain a pole are rejected**: a feature that is itself a polygon covering the North or South Pole (for example an ice-sheet extent that circles the pole) is still wider than 180° after being made continuous, so it errors or is skipped under the rules above. See [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63).
+- **Edges are geodesics, unlike the straight edges of RFC 7946**: RFC 7946 treats the edge between two vertices as a straight line in longitude/latitude, while this system uses ellipsoidal geodesics, so the same polygon gets a somewhat different area; the larger the extent, the bigger the gap. Measured with GeographicLib (straight lon/lat edges densified to 20,000 points versus geodesic edges): 1°×1° at the equator +0.003%, 10°×10° at 30°–40°N +0.004%, 10°×10° at the equator +0.25%, 10°×10° at 60°–70°N −0.37%, the extent of China (73°–135°E, 18°–54°N) −0.59%, 60°×60° from 0° to 60° +2.27%. The difference is negligible at city scale.
+- **Stored features that cross 180° can produce false hits in range queries**: the database prefilters by each feature's longitude/latitude envelope, and the envelope of a feature crossing 180° (such as `LINESTRING(179.9 0, -179.9 0)`) is treated as a wide box from −179.9° to 179.9°, so ranges it does not actually intersect may still match it. See [mugsun-boot#64](https://github.com/mugsun/mugsun-boot/issues/64).
+:::
+
 ## Control layout and narrow screens {#layout}
 
 - On the examples, layers, scenes, spatial analysis and basemap pages, the zoom buttons sit to the right of the left panel, so the panel no longer covers them. The workspace keeps its zoom buttons in the bottom-left corner.
