@@ -31,6 +31,12 @@ On failure the terminal lists each problem, for example:
 
 Screenshots and JSON results go to `e2e-ui-report/` (git-ignored). In CI the same folder is uploaded as the `ui-check-report` artifact when the job fails.
 
+## Limitations
+
+- It only checks a 1440px-wide viewport.
+- It doesn't cover the 390px narrow screen yet; that's left for a later PR. Until then, check narrow screens by hand using the PR template checklist.
+- Gaps count as failures: a button that can't be clicked, a dialog that still hasn't opened after two clicks, a page that won't load, or dialog / validation-message counts below the floor (currently 77 and 140) all fail the check. If you add or remove dialogs, update `MIN_DIALOGS` and `MIN_ERRORS` in `e2e-ui/form-layout.spec.ts`.
+
 ## Adding a standalone app
 
 The self-check finds standalone apps by `createApp(` and locates the mount node from `el.id = '...'` in the same file, then clicks the first visible button inside it. Follow that pattern for new standalone apps, or the test reports that it can't find the mount node.
