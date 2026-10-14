@@ -10,6 +10,7 @@
 - **趋势补 0**：按天的趋势图横轴固定为所选的每一天，没数据的日子画 0。（[#28](https://github.com/mugsun/mugsun-boot/pull/28)）
 - **UV 口径变化**：日趋势每天的 UV 是当地日内去重设备数；维度趋势不指定维度值时不再把各维度值的 UV 相加。
 - **漏斗窗口变化**：从「最近 N×24 小时」改为从第一天当地 0 点算起。
+- **留存接口**：返回 `zone`、`today`；`days` 超过 30 按 30 查并返回 `clamped: true`。（[#36](https://github.com/mugsun/mugsun-boot/pull/36)）
 
 详见 [埋点 · 看板趋势](/track/#看板趋势)。
 
