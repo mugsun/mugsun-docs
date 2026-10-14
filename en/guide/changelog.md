@@ -6,7 +6,7 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-boot
 
-- **Days cut in the tenant timezone**: the trend chart, error list, overview cards, pages, performance, funnels and retention all start "today" at local midnight. The default is `Asia/Shanghai`; change it per tenant with `mugsun.track.timezone`. Days used to be cut in UTC, so at UTC+8 a new day only began at 8 a.m. ([#31](https://github.com/mugsun/mugsun-boot/pull/31), [#36](https://github.com/mugsun/mugsun-boot/pull/36))
+- **Days cut in the tenant timezone**: the trend chart, error list, overview cards, pages, performance, funnels, retention, the event-analysis event list and the geo map all start "today" at local midnight. The default is `Asia/Shanghai`; change it per tenant with `mugsun.track.timezone`. Days used to be cut in UTC, so at UTC+8 a new day only began at 8 a.m. ([#31](https://github.com/mugsun/mugsun-boot/pull/31), [#36](https://github.com/mugsun/mugsun-boot/pull/36), [#46](https://github.com/mugsun/mugsun-boot/pull/46))
 - **Zero-filled trend**: the daily trend's x-axis always shows every day in the range, with 0 for days without data. ([#28](https://github.com/mugsun/mugsun-boot/pull/28))
 - **UV definition change**: each day's UV in the daily trend is distinct devices in that local day; a dimension trend without a specific value no longer adds up the UV of each value.
 - **Funnel window change**: from a rolling last N×24 hours to starting at local midnight of the first day.
