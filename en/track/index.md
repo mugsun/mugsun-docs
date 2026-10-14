@@ -44,7 +44,7 @@ The screenshots below come from a local boot + pc run. The data was reported for
 
 ![Errors (demo data)](/screenshots/track/track-error.png)
 
-**Retention**: a new-user retention grid. A visitor joins the cohort of the day they were first active (UTC day boundary). Rows are cohort dates with their size; columns D+0, D+1, … show the share of that cohort active again N days later, with darker cells meaning higher retention. Choose the last 7, 14 or 30 days; lookback is capped at 30 days so users active before that are not miscounted as new. Days are bucketed by server receive time, not client time, so D+1 and later only fill in after several consecutive days of real traffic. No screenshot here: the demo data covers a single day, so the grid only has D+0.
+**Retention**: a new-user retention grid. A visitor joins the cohort of the day they were first active (days start at midnight in the tenant timezone, `Asia/Shanghai` by default). Rows are cohort dates with their size; columns D+0, D+1, … show the share of that cohort active again N days later, with darker cells meaning higher retention. Choose the last 7, 14 or 30 days; lookback is capped at 30 days so users active before that are not miscounted as new. Days are bucketed by server receive time, not client time, so D+1 and later only fill in after several consecutive days of real traffic. No screenshot here: the demo data covers a single day, so the grid only has D+0.
 
 Session replay and visual tagging screenshots are in
 **Session replay**: sessions listed with start time, duration, page count (SPA route changes included), event count, size and whether they contain errors. Filter to sessions with errors, and play one from the action column.
@@ -73,7 +73,30 @@ Session replay and visual tagging screenshots are in
 
 ## Dashboard trend
 
-When you pick 3 days or more, the overview visit trend has one point per day, and the x-axis always shows every day in the range (UTC dates). A day with no data is drawn as 0 instead of being skipped (since [mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28)). For 1–2 days the chart uses 5-minute points and only shows periods that have data.
+When you pick 3 days or more, the overview visit trend has one point per day, and the x-axis always shows every day in the range. A day with no data is drawn as 0 instead of being skipped (since [mugsun-boot #28](https://github.com/mugsun/mugsun-boot/pull/28)). For 1–2 days the chart uses 5-minute points and only shows periods that have data.
+
+The trend chart and the error monitoring list cut days in the tenant's timezone, so "today" starts at local midnight (since [mugsun-boot #31](https://github.com/mugsun/mugsun-boot/pull/31); before that days were cut in UTC, so at UTC+8 a new day only began at 8 a.m.). The default is `Asia/Shanghai`. You can change it globally or per tenant ID:
+
+```yaml
+mugsun:
+  track:
+    timezone:
+      default-zone: Asia/Shanghai   # or env MUGSUN_TRACK_TIMEZONE
+      tenants:
+        "[000000]": Asia/Shanghai   # keys need brackets and quotes
+```
+
+Since [mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36), overview cards, pages, performance, funnels and retention cut days in the same timezone, so "today" starts at local midnight on those dashboards. The event list under event analysis and the geo map still use UTC days for their time range.
+
+What counts differently:
+
+- **UV**: each day's UV in the daily trend is the number of distinct devices (`distinct_id`) in that local day. Days used to be UTC days, and a dimension trend (events, pages and so on) without a specific value used to add up the UV of each value, so a device that visited several pages was counted several times. It is now deduplicated per device. The UV on the overview cards was already deduplicated per device over the whole range and is unchanged.
+- **Sessions**: the session count on the overview cards is the sum of each local day's active sessions.
+- **Funnels**: the window used to be a rolling last N×24 hours. It now starts at local midnight of the first day, so "last 1 day" means midnight today until now, and numbers early in the local morning are smaller than before.
+- **Retention**: first-visit and return days are local dates, so a first visit at 23:59 and a return at 00:01 the next day counts as day-2 retention. The retention response includes `zone` (the IANA timezone in effect) and `today` (the local date, `yyyy-MM-dd`).
+- **Day limits**: retention always reads raw events (plus a 30-day look-back to tell new visitors apart), so `days` above 30 is clamped to 30 rather than rejected; the response then has `clamped: true` and `days` is the value actually used. Missing or below 1 means 7. Funnels accept `days` 1–30 and the trend and other analytics endpoints 1–90; values outside those ranges return an error.
+
+When the timezone isn't UTC, the daily trend, overview cards and performance are counted straight from raw events (the daily summary tables use UTC days), which is slower on large data sets.
 
 ## Upgrading: backfill historical UV
 
