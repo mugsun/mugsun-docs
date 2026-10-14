@@ -13,6 +13,8 @@ The SDK core handles only the queue, sessions, identity and transport; every kin
 | Web Vitals | `webVitalsPlugin()` | Core performance metrics |
 | Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections; the `stack` keeps up to 4,096 characters, other string properties 1,024; anything after `?` or `#` in script URLs inside the stack (often tokens or signatures) is removed, keeping `:line:column`; when an event's properties exceed 16 KB in total, the stack is shortened first |
 
+> **Error fingerprints change after upgrading**: the fingerprint is computed from the message and the first stack frame, and since [mugsun-track #16](https://github.com/mugsun/mugsun-track/pull/16) the query and hash of script URLs in that frame are removed first. The same error therefore lands in a different error group before and after the upgrade; errors whose first-frame URL carried a token, which used to form one group per token, are merged into one group.
+
 ## Adding optional plugins
 
 ```ts
@@ -40,6 +42,7 @@ const track = createTracker({
 - A separate entry, `@mugsun/track-web/replay`, built on rrweb and loaded lazily only when the plugin is active, so it never lands in your main bundle.
 - Recording requires all three: `replayPlugin()` is registered, `replayEnabled` is `true` (locally or from remote config), and the session is sampled in and not opted out.
 - `replaySampleRate` decides only **whether the session is uploaded**. Recording uses a ring buffer capped at 5 minutes / 10 MB by default.
+- Leaving the page: when the page goes to the background (tab switch, screen lock, app switch on mobile), the remaining buffer is compressed and sent with `sendBeacon` / `fetch keepalive`. On close (`pagehide`) only a small tail is left, sent as plain-text chunks of at most 44 KB. Browsers allow only about 64 KB in flight while unloading, so the final flush is capped at about 88 KB and the latest events past that are dropped. (Before mugsun-track [#14](https://github.com/mugsun/mugsun-track/pull/14), the whole buffer went out as one chunk at close and was lost whenever it exceeded 64 KB.)
 - Masked by default: every input value and **all page text** (rrweb `maskTextSelector: '*'`). `input[type="password"]` and elements with `data-track-mask` are not recorded at all.
 - For debugging only, you can unmask text with `replayPlugin({ maskTextSelector: false })` or pass a narrower selector.
 

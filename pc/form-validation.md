@@ -30,14 +30,16 @@ import { requiredRule } from '../shared/formRules'
 
 ```vue
 <ElForm ref="formRef" :model="form">
-  <ElFormItem label="名称" prop="name" :rules="requiredRule('名称')">
+  <ElFormItem :label="$t('aiForm.name')" prop="name" :rules="requiredRule($t('aiForm.name'))">
     <ElInput v-model="form.name" />
   </ElFormItem>
-  <ElFormItem label="类型" prop="type" :rules="requiredRule('类型', true)">
+  <ElFormItem :label="$t('aiForm.type')" prop="type" :rules="requiredRule($t('aiForm.type'), true)">
     <ElSelect v-model="form.type" />
   </ElFormItem>
 </ElForm>
 ```
+
+字段名也要走 i18n（词条放在 `src/locales/langs/zh.json` / `en.json` 的 `aiForm` 下），不要直接传中文，否则英文界面会显示「Please enter 名称」。
 
 保存前先校验，失败直接返回：
 

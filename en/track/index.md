@@ -24,7 +24,7 @@ The console's Analytics section has Overview, Events, Performance, Errors, Integ
 
 The screenshots below come from a local boot + pc run. The data was reported for real by a demo shop page through `@mugsun/track-web` 0.2.0 (about 110 visitors, all on the same day). The console UI is shown in Chinese.
 
-**Overview**: page views, visitors, sessions, events, average session duration and bounce rate, plus top pages and source, device and browser breakdowns. A session settles after 30 minutes of silence; duration and bounce rate count settled sessions only. The overview API returns `cards.settledSessionCount`, the number of settled sessions in the range; while it is 0 those two figures are not final yet, and the dashboard shows "—" instead of 0.
+**Overview**: page views, visitors, sessions, events, average session duration and bounce rate, plus top pages and source, device and browser breakdowns. "Source" is the referring page's host name (for example `www.baidu.com`), taken from `referrer_domain` in the event. The web SDK only sends the full `referrer` URL, so the server takes the host name from it (lower-cased, `www.` kept). Direct visits have no source. Before [mugsun-boot #47](https://github.com/mugsun/mugsun-boot/pull/47) the source was always empty for the web SDK; the fix applies to new events only and history is not backfilled. A session settles after 30 minutes of silence; duration and bounce rate count settled sessions only. The overview API returns `cards.settledSessionCount`, the number of settled sessions in the range; while it is 0 those two figures are not final yet, and the dashboard shows "—" instead of 0.
 
 ![Overview (demo data)](/screenshots/track/track-overview.png)
 
@@ -86,7 +86,7 @@ mugsun:
         "[000000]": Asia/Shanghai   # keys need brackets and quotes
 ```
 
-Since [mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36), overview cards, pages, performance, funnels and retention cut days in the same timezone, so "today" starts at local midnight on those dashboards. The event list under event analysis and the geo map still use UTC days for their time range.
+Since [mugsun-boot #36](https://github.com/mugsun/mugsun-boot/pull/36), overview cards, pages, performance, funnels and retention cut days in the same timezone, and since [mugsun-boot #46](https://github.com/mugsun/mugsun-boot/pull/46) so do the event list under event analysis and the geo map. "Today" starts at local midnight on every dashboard.
 
 What counts differently:
 
