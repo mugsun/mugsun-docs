@@ -6,7 +6,7 @@
 
 ### mugsun-boot
 
-- **按租户时区切日**：趋势图、错误列表、概览卡片、页面、性能、漏斗、留存的「今天」都从当地 0 点开始，默认 `Asia/Shanghai`，可用 `mugsun.track.timezone` 按租户调整。之前按 UTC 切日，UTC+8 下要到早上 8 点才算新的一天。（[#31](https://github.com/mugsun/mugsun-boot/pull/31)、[#36](https://github.com/mugsun/mugsun-boot/pull/36)）
+- **按租户时区切日**：趋势图、错误列表、概览卡片、页面、性能、漏斗、留存、事件分析的事件列表、地理分布的「今天」都从当地 0 点开始，默认 `Asia/Shanghai`，可用 `mugsun.track.timezone` 按租户调整。之前按 UTC 切日，UTC+8 下要到早上 8 点才算新的一天。（[#31](https://github.com/mugsun/mugsun-boot/pull/31)、[#36](https://github.com/mugsun/mugsun-boot/pull/36)、[#46](https://github.com/mugsun/mugsun-boot/pull/46)）
 - **趋势补 0**：按天的趋势图横轴固定为所选的每一天，没数据的日子画 0。（[#28](https://github.com/mugsun/mugsun-boot/pull/28)）
 - **UV 口径变化**：日趋势每天的 UV 是当地日内去重设备数；维度趋势不指定维度值时不再把各维度值的 UV 相加。
 - **漏斗窗口变化**：从「最近 N×24 小时」改为从第一天当地 0 点算起。
