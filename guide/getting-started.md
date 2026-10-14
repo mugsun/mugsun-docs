@@ -2,6 +2,45 @@
 
 本页带你从空环境走到三个可验证的结果：**后端健康检查通过 → 管理台登录成功 → 看板出现第一条埋点事件**。每一步都给出验收方式，命令与各仓 README 保持一致。
 
+## 只有 Docker：一条命令起全套
+
+机器上只有 Docker（Compose v2.17+）时，可以在 `mugsun-boot` 仓库根目录一条命令起齐 PostgreSQL（PostGIS + pgvector）、Redis、后端和管理台：
+
+```bash
+git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
+docker compose -f docker-compose.full.yml up -d --build
+docker compose -f docker-compose.full.yml logs init   # 查看首次生成的管理员口令
+```
+
+打开 <http://localhost:8088>，用 `admin` 和上面打印的口令登录。端口可用 `MUGSUN_HTTP_PORT` 修改。
+
+- **没有弱口令。** 首次启动时 `init` 服务随机生成数据库和 Redis 口令、管理员口令、SM4/SM2 密钥、审计签名密钥和至少 32 位的文件签名密钥，存进 `secrets` 卷。重启不会变，`docker compose -f docker-compose.full.yml run --rm init show` 可再次查看管理员口令。
+- 后端以 `prod` profile 运行：缺任一密钥拒绝启动，登录要验证码，OpenAPI 文档关闭。
+- 只对外暴露管理台端口。数据库和 Redis 不映射到宿主机，管理台的 Nginx 把 `/api` 反代给后端。
+- compose 网络用固定子网（`MUGSUN_COMPOSE_SUBNET`，默认 `172.30.89.0/24`），管理台容器用固定 IP（`MUGSUN_PC_IP`，默认 `172.30.89.10`），`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只信任这一个 IP。前面再加一层反代时，把它的地址也加进去。
+- PostgreSQL 基础镜像和 Redis 镜像固定到 digest。Redis 口令写在生成的 `redis.conf` 里，不出现在进程参数中。
+- 自检：`scripts/compose-full-smoke.sh` 会从零启动，登录，上报一条埋点并在管理端查到，打印耗时，最后 `down -v` 清理。它用独立的项目名，不碰机器上已有的容器。
+- 清空重来（会删除数据和密钥）：`docker compose -f docker-compose.full.yml down -v`。
+
+这套 compose 适合试用和演示。上生产时自己部署要注入的全部必填项：
+
+| 变量 | 说明 |
+| --- | --- |
+| `SPRING_PROFILES_ACTIVE=prod` | 生产 profile |
+| `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | 主库 |
+| `TRACK_JDBC_URL` / `TRACK_JDBC_USERNAME` / `TRACK_JDBC_PASSWORD` | 埋点库 `mugsun_track` 数据源 |
+| `REDIS_HOST` / `REDIS_PASSWORD`（可选 `REDIS_PORT` / `REDIS_DB`） | Redis |
+| `MUGSUN_FRONT_URL` / `FILE_DOMAIN` | 管理台 origin 与文件访问域名 |
+| `MUGSUN_INIT_PASSWORD` | 初始管理员口令，不能是内置默认值 |
+| `MUGSUN_SM4_KEY` / `MUGSUN_API_KEY` | 16 位 SM4 密钥 |
+| `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | SM2 传输密钥对（hex） |
+| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 审计签名密钥对 |
+| `MUGSUN_FILE_SIGN_SECRET` | 文件下载链接签名密钥，至少 32 个字符 |
+| `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 可信反向代理 CIDR，前面有反代时必须配 |
+| `SMTP_*` / `SMS_*` | 邮件与短信。compose 里填的是占位值，要用找回密码或短信登录时换成真实值 |
+
+密钥可用仓库里的 `scripts/gen-keys.sh --all >> .env` 生成（两对 SM2、两个 SM4、管理员口令、文件签名密钥，输出可直接贴进 `.env`；需 OpenSSL 1.1.1+），一键全栈的 `init` 也用它。各项含义见 [配置参考](/boot/configuration)。下面是逐个仓库本地开发的步骤。
+
 ## 环境要求
 
 | 工具 | 版本 | 用途 |
@@ -36,7 +75,7 @@ mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-- `docker compose up -d` 只启动 PostgreSQL（5432）与 Redis（6379），首次会构建带 PostGIS + pgvector 的数据库镜像。
+- `docker compose up -d` 只启动 PostgreSQL（5432）与 Redis（6379），首次会构建带 PostGIS + pgvector 的数据库镜像。本机端口被占用时见 [常见问题](/guide/faq#本机-5432-6379-已被占用)。
 - 打包默认使用 `full` profile（core + gis + track + ai）。
 - `java -jar` 必须在仓库根目录执行，才能读到 `config/application-local.yml`。确认 `java -version` 输出 21。
 
