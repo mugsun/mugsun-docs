@@ -44,6 +44,7 @@ const track = createTracker({
 - 为什么是 44KB：`sendBeacon` 和 `fetch keepalive` 共用每个页面约 64KB 的在途额度，页面关闭时普通事件队列的收尾发送（同样走 beacon）和仍在途的回放块也占这份额度，回放收尾只取其中 44KB，给普通事件留出余量。
 - 回放块序号允许有空洞（上面丢弃的块不会上传）。管理台播放器按时间排序后从第一个全量快照开始播放；开头的块缺失、没有全量快照时，显示「回放缺少首屏快照」，不会白屏。（mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45)）
 - 定时全量快照：默认每 3 分钟做一次全量快照（rrweb 内置的 `checkoutEveryNms`），可用 `replayPlugin({ checkoutEveryNms: 60000 })` 调整，传 `false` 关闭。中间某块缺失时，播放器丢掉缺块之后的增量，从下一个全量快照接着播，丢一块最多跳过约 3 分钟。代价是每 3 分钟多上传一份页面快照（gzip 后通常几十 KB）。（mugsun-track [#18](https://github.com/mugsun/mugsun-track/pull/18)、mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45)）
+- 缺块提示：播放器顶部提示缺了几个块，包括拉取失败的块和服务端清单里没有的序号。缺块之后再没有全量快照时，显示「后续录制不完整」，不会悄悄提前结束。（mugsun-pc [#53](https://github.com/mugsun/mugsun-pc/pull/53)）
 - 默认遮罩：所有输入值、**页面文本**（rrweb `maskTextSelector: '*'`）；`input[type="password"]` 与带 `data-track-mask` 属性的元素整块不录。
 - 仅调试时可放开文本遮罩：`replayPlugin({ maskTextSelector: false })`，或传入更窄的选择器。
 
