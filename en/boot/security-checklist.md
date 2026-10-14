@@ -15,7 +15,6 @@ Work through every item before exposing a deployment to the internet.
 - [ ] Behind a reverse proxy, `MUGSUN_OPENAPI_TRUSTED_PROXIES` lists only the real proxy ranges ([Open API](/en/boot/open-api#client-ip-and-trusted-proxies))
 - [ ] Each API key's IP allowlist uses the narrowest CIDR that works
 - [ ] `MUGSUN_FRONT_URL` points to the production console domain
-- [ ] Human verification uses `type: SLIDER` and `store: redis`, with `show-code` set to `false`; any tenant with it turned off has a reason ([Configuration](/en/boot/configuration#human-verification-slider-captcha))
 
 ## Data and attachments
 

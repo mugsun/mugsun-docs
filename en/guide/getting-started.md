@@ -75,8 +75,6 @@ mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-> **Always build from the repository root with `-am`** (or build the whole project with `mvn clean package -DskipTests`). If you build only the server module (`-pl mugsun-boot-server` without `-am`, `mvn package` inside `mugsun-boot-server`, or an IDE building just that module), `mugsun-boot-core` comes from the local Maven repository at `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/`. Every branch and worktree shares that one 0.1.0 version, which holds whichever branch ran `mvn install` last, so the jar can carry another branch's old code (such as an old captcha response shape) whether or not you add `clean`. When in doubt, run `mvn -B install -DskipTests` from the root first.
-
 - `docker compose up -d` starts only PostgreSQL (5432) and Redis (6379). The first run builds a database image with PostGIS and pgvector. If those ports are taken, see the [FAQ](/en/guide/faq#ports-5432-6379-are-already-in-use).
 - The package uses the default `full` profile (core + gis + track + ai).
 - Run `java -jar` from the repository root, otherwise `config/application-local.yml` is not picked up. Make sure `java -version` reports 21.
@@ -129,7 +127,7 @@ pnpm dev
 
 During development, Vite proxies `/api/**` to `VITE_API_PROXY_URL` in `.env.development` (default `http://localhost:8080`).
 
-**Check:** sign in with the account from step 1, dragging the slider to pass the check. You should land on the workbench, with menus such as Analytics and System in the top bar.
+**Check:** sign in with the account from step 1. The local config echoes the captcha, so it is filled in for you. You should land on the workbench, with menus such as Analytics and System in the top bar.
 
 ![Sign-in page](/screenshots/pc-login.png)
 
