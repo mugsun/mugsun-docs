@@ -18,6 +18,9 @@ Above the "Help" tab on the right edge is a small "AI" tab that opens the AI ass
 - **Composer**: Press Enter to send and Shift+Enter for a new line. While a reply is being generated, the send button turns into a stop button. Below the input you can pick the model and knowledge base; when space is tight they move into a Settings button. If no model is configured yet, a notice appears at the top of the drawer, and accounts that can manage models see a "Configure" link.
 - **Empty state**: A new chat shows 4 example questions; click one to fill it in and send it.
 - **Keyboard**: When the drawer opens, focus is in the input. Tab moves through the title, New chat, Full screen, Close, the message list, the Copy button under each message (Retry on a failed answer), the input, model, knowledge base and Send. The Copy button on your own messages is hidden until it gets focus. Esc closes the drawer and returns focus to the AI button.
+- **Loading**: The drawer's content loads on demand. If it isn't ready within 200ms the first time you open the drawer, a spinner and "Loading AI assistant…" appear.
+- **Load failure and retry**: If loading fails, or takes longer than 15 seconds, the drawer shows an error message and a Retry button rather than just a toast. Click Retry to load the drawer again.
+- **Automatic reload fallback**: If loading fails twice in a row, or the file that failed is a stylesheet or another file the drawer depends on (usually right after a new release has replaced the old files), retrying can't fix it, so the page reloads once to pick up the new version. This happens at most once per browser tab. If loading still fails after the reload, the error message stays; check your network and click Retry, or reload the page yourself.
 
 ## Narrow screens (≤ 640px)
 
