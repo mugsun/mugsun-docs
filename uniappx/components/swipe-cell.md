@@ -1,11 +1,11 @@
 ---
-title: Swipe Cell 左滑
+title: Swipe Cell 滑动单元格
 demo: pages/demo/feedback/swipe-cell
 ---
 
-# Swipe Cell 左滑
+# Swipe Cell 滑动单元格
 
-`ms-swipe-cell` 是滑动操作单元格。操作面板绝对定位在左右两侧，内容层通过 `left` 偏移露出面板，不使用 transform。向右滑动打开左侧面板（`#left` 与 `openedLeft`），向左滑动打开右侧面板（`#actions` 与 `opened`）。小程序端使用 `translate3d` 位移容易出现问题，因此统一使用 `left`。
+`ms-swipe-cell` 是滑动操作单元格。操作面板绝对定位在左右两侧，内容层通过 `left` 偏移露出面板，不使用 transform。向右滑动打开左侧面板（`#left` 与 `openedLeft`），向左滑动打开右侧面板（`#actions` 与 `opened`）。小程序端使用 `translate3d` 位移容易出现问题，因此 ms-ui 规定统一使用 `left`。
 
 本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
@@ -15,7 +15,7 @@ demo: pages/demo/feedback/swipe-cell
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/swipe-cell.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/feedback/swipe-cell.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/nav/sidebar`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
+The snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -118,7 +118,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | value | `number` | `0` | Selected item index |
 | items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled |
-| height | `number` | `320` | Sidebar total height (px; percentage heights are not supported; use the token value) |
+| height | `number` | `320` | Sidebar total height (accepts numeric px values only; use the token value) |
 
 ## Events
 

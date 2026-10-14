@@ -5,7 +5,7 @@ demo: pages/demo/feedback/notice-bar
 
 # Notice Bar 通知栏
 
-`ms-notice-bar` 是顶部通知栏，支持主题色、单行省略、纵向 swiper 轮播和关闭按钮。由于当前渲染模式不支持 `@keyframes`，组件不提供 CSS 跑马灯动画。
+`ms-notice-bar` 是顶部通知栏，支持主题色、单行省略、纵向 swiper 轮播和关闭按钮。uni-app x 在 App 平台（包括蒸汽模式（Vapor））不支持 `@keyframes`，因此组件不提供 CSS 跑马灯动画。
 
 本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
@@ -15,7 +15,7 @@ demo: pages/demo/feedback/notice-bar
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/notice-bar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/feedback/notice-bar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

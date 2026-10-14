@@ -15,7 +15,7 @@ demo: pages/demo/display/swiper
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/swiper.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/swiper.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -98,7 +98,7 @@ function onVerticalChange(current: number) : void {
 | --- | --- | --- | --- |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / image / tone（brand / success / warning / muted） |
 | current | `number` | `0` | 当前项下标 |
-| height | `number` | `160` | 轮播高度（px），不支持百分比高度 |
+| height | `number` | `160` | 轮播高度（px），只接受数值（px） |
 | autoplay | `boolean` | `false` | 自动播放 |
 | interval | `number` | `3000` | 自动播放间隔 ms |
 | duration | `number` | `300` | 切换动画时长 ms |

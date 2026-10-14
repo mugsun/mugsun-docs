@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/display/swiper`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
+The snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -98,7 +98,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | items | `UTSJSONObject[]` | `[]` | Each item: label / image / tone (brand / success / warning / muted) |
 | current | `number` | `0` | Current item index |
-| height | `number` | `160` | Swiper height (px; percentage heights are not supported) |
+| height | `number` | `160` | Swiper height (accepts numeric px values only) |
 | autoplay | `boolean` | `false` | Autoplay |
 | interval | `number` | `3000` | Autoplay interval (ms) |
 | duration | `number` | `300` | Switch animation duration (ms) |

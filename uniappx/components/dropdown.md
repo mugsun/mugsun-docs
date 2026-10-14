@@ -15,7 +15,7 @@ demo: pages/demo/nav/dropdown
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/dropdown.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/nav/dropdown.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -133,7 +133,7 @@ function onColumnChange(index: number, values: string[]) : void {
 | --- | --- | --- | --- |
 | menus | `UTSJSONObject[]` | `[]` | 菜单栏：label / multiple / columns(1-3) / disabled |
 | options | `UTSJSONObject[]` | `[]` | 扁平选项：menu(下标) / label / value / disabled / checked |
-| height | `number` | `320` | 组件占位总高（不支持百分比高度；遮罩覆盖该区域） |
+| height | `number` | `320` | 组件占位总高（只接受数值（px）；遮罩覆盖该区域） |
 | showOverlay | `boolean` | `true` | 是否显示遮罩 |
 | closeOnClickOverlay | `boolean` | `true` | 点遮罩是否关闭 |
 

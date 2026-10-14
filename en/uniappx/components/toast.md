@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/feedback/toast`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
+The snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

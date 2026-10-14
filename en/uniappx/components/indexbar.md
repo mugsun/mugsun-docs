@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/nav/indexbar`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
+The snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -136,7 +136,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | items | `UTSJSONObject[]` | `[]` | Flat rows: { index, label, disabled }; same index = one group |
 | current | `string` | `''` | Active index char; empty uses the first group |
 | indexList | `UTSJSONObject[]` | `[]` | Index chars: { key, label }; empty = derived from items |
-| height | `number` | `360` | Container height (px; percentage heights are not supported) |
+| height | `number` | `360` | Container height (accepts numeric px values only) |
 | showTip | `boolean` | `true` | Show large bubble while dragging the index bar |
 | showAnchor | `boolean` | `true` | Whether to render group headers |
 

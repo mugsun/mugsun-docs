@@ -15,7 +15,7 @@ demo: pages/demo/nav/sidebar
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/sidebar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/nav/sidebar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -118,7 +118,7 @@ function onDisabledChange(index: number) : void {
 | --- | --- | --- | --- |
 | value | `number` | `0` | 选中项下标 |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled |
-| height | `number` | `320` | 侧栏总高，不支持百分比高度，请填写 token 对应的数值 |
+| height | `number` | `320` | 侧栏总高，只接受数值（px），请填写 token 对应的数值 |
 
 ## 事件
 

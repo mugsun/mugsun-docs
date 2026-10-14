@@ -1,9 +1,9 @@
 ---
-title: Editor 编辑
+title: Editor Markdown 编辑器
 demo: pages/demo/media/editor
 ---
 
-# Editor 编辑
+# Editor Markdown 编辑器
 
 `ms-editor` 是 Markdown 源码编辑器，由插入标记的工具栏、`textarea` 源码区和 `ms-markdown` 实时预览组成。
 
@@ -16,7 +16,7 @@ demo: pages/demo/media/editor
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/editor.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/media/editor.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

@@ -1,9 +1,9 @@
 ---
-title: Picker Selected 搜索选
+title: Picker Selected 搜索选择
 demo: pages/demo/form/picker-selected
 ---
 
-# Picker Selected 搜索选
+# Picker Selected 搜索选择
 
 `ms-picker-selected` 是弹层式搜索选择器，可以在本地过滤，也可以由使用它的页面异步搜索，支持单选和多选。
 
@@ -15,7 +15,7 @@ demo: pages/demo/form/picker-selected
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/picker-selected.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/form/picker-selected.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

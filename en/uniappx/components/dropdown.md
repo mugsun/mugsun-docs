@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/nav/dropdown`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/dropdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
+The snippets below are taken from the demo source `pages/demo/nav/dropdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -133,7 +133,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | menus | `UTSJSONObject[]` | `[]` | Menus: label / multiple / columns(1-3) / disabled |
 | options | `UTSJSONObject[]` | `[]` | Flat options: menu(index) / label / value / disabled / checked |
-| height | `number` | `320` | Component height (px; percentage heights are not supported; the overlay covers this area) |
+| height | `number` | `320` | Component height (accepts numeric px values only; the overlay covers this area) |
 | showOverlay | `boolean` | `true` | Whether to show the overlay |
 | closeOnClickOverlay | `boolean` | `true` | Whether clicking the overlay closes |
 

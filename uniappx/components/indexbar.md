@@ -15,7 +15,7 @@ demo: pages/demo/nav/indexbar
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/indexbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/nav/indexbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -136,7 +136,7 @@ function onControlledChange(index: string) : void {
 | items | `UTSJSONObject[]` | `[]` | 扁平行：{ index, label, disabled }，index 相同者归一组 |
 | current | `string` | `''` | 当前激活索引字符，空取首组 |
 | indexList | `UTSJSONObject[]` | `[]` | 侧栏字符表：{ key, label }，空则由 items 去重推导 |
-| height | `number` | `360` | 容器高 px，不支持百分比高度 |
+| height | `number` | `360` | 容器高 px，只接受数值（px） |
 | showTip | `boolean` | `true` | 拖动侧栏时显示大字气泡 |
 | showAnchor | `boolean` | `true` | 是否渲染分组头 |
 

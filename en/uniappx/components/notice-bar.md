@@ -5,7 +5,7 @@ demo: pages/demo/feedback/notice-bar
 
 # Notice Bar
 
-`ms-notice-bar` is a top notice bar with theme colors, single-line truncation, vertical swiper rotation and a close button. It has no CSS marquee animation because `@keyframes` is not supported in the current rendering mode.
+`ms-notice-bar` is a top notice bar with theme colors, single-line truncation, vertical swiper rotation and a close button. It has no CSS marquee animation because uni-app x does not support `@keyframes` on the App platform, including uni-app x Vapor mode.
 
 This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/feedback/notice-bar`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/notice-bar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
+The snippets below are taken from the demo source `pages/demo/feedback/notice-bar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

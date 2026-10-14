@@ -1,9 +1,9 @@
 ---
-title: Scroll X 横滚
+title: Scroll X 横向滚动
 demo: pages/demo/display/scroll-x
 ---
 
-# Scroll X 横滚
+# Scroll X 横向滚动
 
 `ms-scroll-x` 是横向滚动容器（`scroll-view direction="horizontal"`），底部带滚动进度指示条。
 
@@ -15,7 +15,7 @@ demo: pages/demo/display/scroll-x
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/scroll-x.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/scroll-x.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

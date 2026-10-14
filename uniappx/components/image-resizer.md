@@ -1,9 +1,9 @@
 ---
-title: Image Resizer 裁剪
+title: Image Resizer 图片裁剪
 demo: pages/demo/display/image-resizer
 ---
 
-# Image Resizer 裁剪
+# Image Resizer 图片裁剪
 
 `ms-image-resizer` 是图片裁剪组件，提供固定居中的裁剪框，支持拖动平移、滑条缩放、水平和垂直翻转、重置，以及取消或确认导出。
 
@@ -15,7 +15,7 @@ demo: pages/demo/display/image-resizer
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/image-resizer.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/image-resizer.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

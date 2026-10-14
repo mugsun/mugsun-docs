@@ -1,11 +1,11 @@
 ---
-title: Pull Refresh 刷新
+title: Pull Refresh 下拉刷新
 demo: pages/demo/feedback/pull-refresh
 ---
 
-# Pull Refresh 刷新
+# Pull Refresh 下拉刷新
 
-`ms-pull-refresh` 封装 `scroll-view` 内置的 `refresher-*` 下拉刷新，不自行处理触摸事件。原因是基于 `translate3d` 的位移方案在当前渲染模式下不允许使用，且 `refresher-max-drag-distance` 在 Web 和微信小程序上都不支持。
+`ms-pull-refresh` 封装 `scroll-view` 内置的 `refresher-*` 下拉刷新，不自行处理触摸事件。原因是 ms-ui 规定在 uni-app x 蒸汽模式（Vapor）下不使用基于 `translate3d` 的位移方案，而且 `refresher-max-drag-distance` 在 Web 和微信小程序上都不支持。
 
 本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
@@ -15,7 +15,7 @@ demo: pages/demo/feedback/pull-refresh
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/pull-refresh.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/feedback/pull-refresh.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -95,7 +95,7 @@ function onLargeRefresh() : void {
 | modelValue | `boolean` | `false` | 刷新中；业务处理完置 false 收起 |
 | disabled | `boolean` | `false` | 禁用下拉 |
 | threshold | `number` | `60` | 触发阈值 px，同时作 refresher 槽固定高 |
-| height | `number` | `360` | 容器固定高 px，不支持百分比高度 |
+| height | `number` | `360` | 容器固定高 px，只接受数值（px） |
 | texts | `UTSJSONObject[]` | `[]` | 覆盖四态文案：{ status, text } |
 | successDuration | `number` | `500` | 「刷新完成」停留 ms |
 

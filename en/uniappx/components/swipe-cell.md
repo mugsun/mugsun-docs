@@ -5,7 +5,7 @@ demo: pages/demo/feedback/swipe-cell
 
 # Swipe Cell
 
-`ms-swipe-cell` is a cell with swipe actions. The action panels are absolutely positioned on both sides, and the content layer is offset with `left` to reveal them, without transforms. Swipe right to open the left panel (`#left` and `openedLeft`), and swipe left to open the right panel (`#actions` and `opened`). `translate3d` offsets are unreliable in mini programs, so `left` is used everywhere.
+`ms-swipe-cell` is a cell with swipe actions. The action panels are absolutely positioned on both sides, and the content layer is offset with `left` to reveal them, without transforms. Swipe right to open the left panel (`#left` and `openedLeft`), and swipe left to open the right panel (`#actions` and `opened`). `translate3d` offsets are unreliable in mini programs, so ms-ui’s own rule is to use `left` everywhere.
 
 This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
@@ -15,7 +15,7 @@ Demo route: `#/pages/demo/feedback/swipe-cell`.
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/swipe-cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
+The snippets below are taken from the demo source `pages/demo/feedback/swipe-cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

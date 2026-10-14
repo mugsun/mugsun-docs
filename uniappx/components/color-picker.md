@@ -1,9 +1,9 @@
 ---
-title: Color Picker 颜色
+title: Color Picker 颜色选择
 demo: pages/demo/form/color-picker
 ---
 
-# Color Picker 颜色
+# Color Picker 颜色选择
 
 `ms-color-picker` 是颜色选择器，提供预设色板、分段色相条，以及饱和度、明度和透明度滑块。
 
@@ -15,7 +15,7 @@ demo: pages/demo/form/color-picker
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/color-picker.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/form/color-picker.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
