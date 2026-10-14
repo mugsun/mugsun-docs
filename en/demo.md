@@ -38,11 +38,12 @@ With demo mode on (`mugsun.demo.enabled=true`), the backend denies by default:
 |---|---|
 | GET / HEAD / OPTIONS queries | Allowed |
 | Login, logout, two-factor, captcha check | Allowed |
-| Tracking collection `/track/collect`, `/track/replay`, `/track/api-body` | Allowed (tracking stays on in demo; set `mugsun.demo.track-collect=false` to turn it off) |
+| Tracking collection `/track/collect`, `/track/replay`, `/track/api-body` | Rejected by default; allowed with `MUGSUN_DEMO_TRACK_COLLECT=true`. Keep it off until output escaping, sensitive-word filtering and quotas are in place |
 | Every other POST / PUT / DELETE / PATCH (registration, password change/reset, uploads, imports, AI, codegen and low-code DDL, job admin, system settings, …) | HTTP 403 with `msg` "演示环境只读" (demo is read-only) and `errorCode` `DEMO_READONLY` |
 | `/open/**`, `/oauth2/**`, `/v1/**`, `/system/crypto/**` | Rejected for every method |
 | Requests carrying method-override headers such as `X-HTTP-Method-Override`, or a `_method` parameter | Rejected |
-| Inbound WebSocket messages | Dropped (heartbeat only); the channel is push-only |
+| WebSocket | Inbound messages dropped (heartbeat only), push-only; handshakes accepted only from `MUGSUN_DEMO_WS_ALLOWED_ORIGINS` (defaults to the admin console URL `mugsun.web.front-url`) |
+| Known gaps (later releases) | ① Anyone can lock the public demo account by entering wrong passwords; ② with two-factor on, logins send SMS or email; ③ with tracking collection on, anyone can write anonymously, risking disk exhaustion and stored XSS; ④ captchas and social-login state write to Redis, AI chat and exports tie up connections and CPU, and AI read endpoints may call external models. None of these touch the business database, so a read-only database account can't stop them |
 
 New write endpoints are rejected by default. `docs/demo/readonly-endpoints.md` in the boot repo is a generated list of every write endpoint, kept in sync with the code by a test.
 
