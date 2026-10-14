@@ -5,17 +5,17 @@ demo: pages/demo/feedback/popup
 
 # Popup
 
-`ms-popup` — Popup for uni-app x.
+`ms-popup` is a popup container. `placement` supports `bottom/top/left/right/center`; it can have a title bar and a close button, and `round` applies rounded corners based on the position.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-popup` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-popup`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/feedback/popup`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/popup.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/popup.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

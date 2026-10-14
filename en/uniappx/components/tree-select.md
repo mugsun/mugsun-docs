@@ -5,17 +5,17 @@ demo: pages/demo/display/tree-select
 
 # Tree Select
 
-`ms-tree-select` — Tree Select for uni-app x.
+`ms-tree-select` is a multi-column tree selector that shows 2 or 3 columns (at most 3) based on the depth of `options`: the left column navigates, the middle column drills down, and the last column supports single or multiple selection.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-tree-select` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-tree-select`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/display/tree-select`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/tree-select.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/tree-select.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

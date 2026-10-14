@@ -5,17 +5,17 @@ demo: pages/demo/basic/link
 
 # Link
 
-`ms-link` — Link for uni-app x.
+`ms-link` is a text link with theme colors, underline, prefix and suffix icons, sizes and a disabled state. Set the text with `content` or the default slot, and optionally navigate within the app with `href` and `openType`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-link` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-link`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/basic/link`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/link.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/link.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

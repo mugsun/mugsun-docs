@@ -5,17 +5,17 @@ demo: pages/demo/form/input-tag
 
 # Input Tag
 
-`ms-input-tag` — Input Tag for uni-app x.
+`ms-input-tag` is a tag input. Press Enter or tap the button to add a tag; tap the close icon on a tag to remove it.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-input-tag` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-input-tag`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/form/input-tag`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/input-tag.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/input-tag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

@@ -5,17 +5,17 @@ demo: pages/demo/nav/segmented
 
 # Segmented
 
-`ms-segmented` — Segmented for uni-app x.
+`ms-segmented` is a segmented control built from `options`. It supports block and size, and the current value binds with `v-model:value`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-segmented` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-segmented`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/nav/segmented`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

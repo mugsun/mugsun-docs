@@ -5,17 +5,17 @@ demo: pages/demo/feedback/swipe-cell
 
 # Swipe Cell
 
-`ms-swipe-cell` — Swipe Cell for uni-app x.
+`ms-swipe-cell` is a cell with swipe actions. The action panels are absolutely positioned on both sides, and the content layer is offset with `left` to reveal them, without transforms. Swipe right to open the left panel (`#left` and `openedLeft`), and swipe left to open the right panel (`#actions` and `opened`). `translate3d` offsets are unreliable in mini programs, so `left` is used everywhere.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swipe-cell` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-swipe-cell`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/feedback/swipe-cell`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/swipe-cell.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/swipe-cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

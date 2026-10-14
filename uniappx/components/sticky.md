@@ -5,17 +5,17 @@ demo: pages/demo/nav/sticky
 
 # Sticky 吸顶
 
-`ms-sticky`：不是 CSS sticky。`reference/uni-app-x/docs/css/position.md` 明确 `position: sticky` 仅 Web 支持、App 全端 x，`css_diff_web.md` 有专节说明，本仓 `ms-uvue` 规则也直接禁用；官方 `sticky-header`/`sticky-section` 在 **微信小程序为 x** 且不可设 class/style，也不能当底座。
+`ms-sticky` 实现吸顶效果，但不使用 CSS sticky：uni-app x 的 `position: sticky` 只在 Web 上支持，App 端均不支持；官方的 `sticky-header` / `sticky-section` 在微信小程序上不支持，且不能设置 class 和 style，因此也不能作为实现基础。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-sticky`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-sticky`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/nav/sticky`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/sticky.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/nav/sticky.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -102,7 +102,7 @@ function onDepthStuck(next: boolean) : void {
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| scrollTop | `number` | `0` | 宿主 scroll-view @scroll 回传的 detail.scrollTop |
+| scrollTop | `number` | `0` | 父页面 scroll-view 的 @scroll 事件返回的 detail.scrollTop |
 | offsetTop | `number` | `0` | 吸顶后距容器顶 px（多吸顶叠放时给前一个的高） |
 | height | `number` | `0` | >0 时跳过测量直接用固定高 |
 | zIndex | `number` | `10` | 吸顶层级，远低于 $ms-overlay-z-index |

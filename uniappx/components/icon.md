@@ -5,17 +5,17 @@ demo: pages/demo/basic/icon
 
 # Icon 图标
 
-`ms-icon`：Remix 子集图标。`spin`：App/Web 用 `UniElement.animate`（宿主 view）；微信用 **text/image** 上 CSS `animation`（对齐 x-icon `faceSpinIcon`，勿挂宿主 view）。`rotate` 静态角度挂字形。
+`ms-icon` 提供 Remix 图标的子集。`spin` 旋转在 App 和 Web 上使用 `UniElement.animate`（作用于外层 view），在微信小程序上对 text 或 image 使用 CSS `animation`（与 x-icon 的 `faceSpinIcon` 一致，不要作用于外层 view）。`rotate` 设置字形的静态旋转角度。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-icon`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-icon`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/basic/icon`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/icon.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/basic/icon.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

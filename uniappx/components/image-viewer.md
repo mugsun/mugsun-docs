@@ -5,17 +5,17 @@ demo: pages/demo/display/image-viewer
 
 # Image Viewer 预览
 
-`ms-image-viewer`：全屏大图预览：swiper 翻页 + 可选页码/关闭/删除。
+`ms-image-viewer` 是全屏图片预览，使用 swiper 翻页，可选显示页码、关闭和删除按钮。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-image-viewer`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-image-viewer`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/display/image-viewer`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/image-viewer.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/image-viewer.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

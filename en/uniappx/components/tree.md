@@ -5,17 +5,17 @@ demo: pages/demo/display/tree
 
 # Tree
 
-`ms-tree` — Tree for uni-app x.
+`ms-tree` is a tree list that renders visible nodes as flat rows (without recursive components). It supports expanding and collapsing, checkbox selection, half-checked parents linked to their children, and disabling parent checkboxes.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-tree` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-tree`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/display/tree`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/tree.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/tree.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

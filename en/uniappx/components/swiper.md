@@ -5,17 +5,17 @@ demo: pages/demo/display/swiper
 
 # Swiper
 
-`ms-swiper` — Swiper for uni-app x.
+`ms-swiper` is a carousel with dots, fraction or controls indicators; the current slide binds with `v-model:current`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swiper` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-swiper`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/display/swiper`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -98,7 +98,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | items | `UTSJSONObject[]` | `[]` | Each item: label / image / tone (brand / success / warning / muted) |
 | current | `number` | `0` | Current item index |
-| height | `number` | `160` | Swiper height (px; vapor forbids %) |
+| height | `number` | `160` | Swiper height (px; percentage heights are not supported) |
 | autoplay | `boolean` | `false` | Autoplay |
 | interval | `number` | `3000` | Autoplay interval (ms) |
 | duration | `number` | `300` | Switch animation duration (ms) |

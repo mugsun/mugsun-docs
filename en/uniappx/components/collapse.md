@@ -5,17 +5,17 @@ demo: pages/demo/display/collapse
 
 # Collapse
 
-`ms-collapse` — Collapse for uni-app x.
+`ms-collapse` is a collapsible panel built from `items`. It supports `accordion`, `theme`, `expandIcon` and `defaultExpandAll`, and can be controlled through `value`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-collapse` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-collapse`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/display/collapse`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/collapse.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/collapse.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

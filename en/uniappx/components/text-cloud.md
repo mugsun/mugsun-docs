@@ -5,17 +5,17 @@ demo: pages/demo/display/text-cloud
 
 # Text Cloud
 
-`ms-text-cloud` — Text Cloud for uni-app x.
+`ms-text-cloud` is a word cloud. Font size follows weight; heavier words are placed first, packed outward from the center along an elliptical spiral without overlapping, and drawn on a 2d canvas.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-text-cloud` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-text-cloud`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/display/text-cloud`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/text-cloud.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/text-cloud.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

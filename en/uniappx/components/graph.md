@@ -5,18 +5,18 @@ demo: pages/demo/media/graph
 
 # Graph
 
-`ms-graph`: Native canvas graph subset: tree / force / layered DAG. F6-like layout semantics without embedding `@antv/f6`.
+`ms-graph` draws relationship graphs on a native canvas with tree, force-directed and layered DAG layouts. The layouts follow common F6 layouts, but `@antv/f6` is not included from npm.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-graph/components/ms-graph` (commercial edition; source not public).
+Component directory: `uni_modules/ms-graph/components/ms-graph`. ms-ui is a commercial edition and its source is not public.
 Optional plugin: install `uni_modules/ms-graph` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/graph`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/graph.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/graph.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

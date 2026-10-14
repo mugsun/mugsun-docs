@@ -5,18 +5,18 @@ demo: pages/demo/media/chart
 
 # Chart 图表
 
-`ms-chart`：原生 canvas 图表子集：折线 / 面积 / 柱状 / 饼图 / 环形 / **雷达 / 散点 / 漏斗**；支持堆叠与多系列图例点隐。
+`ms-chart` 基于原生 canvas 实现常用图表：折线图、面积图、柱状图、饼图、环形图、雷达图、散点图和漏斗图，支持堆叠和多系列，点击图例可隐藏对应系列。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-chart/components/ms-chart`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-chart/components/ms-chart`。ms-ui 为商业版，源码不公开。
 可选插件：需单独安装 `uni_modules/ms-chart`，并依赖 `ms-ui`。
 演示路由：`#/pages/demo/media/chart`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/chart.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/media/chart.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

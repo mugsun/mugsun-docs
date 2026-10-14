@@ -5,17 +5,17 @@ demo: pages/demo/basic/tag
 
 # Tag
 
-`ms-tag` — Tag for uni-app x.
+`ms-tag` is a category or status tag. It supports `theme`, `variant`, `size`, `shape`, `closable`, `disabled`, `icon`, `checkable` and `maxWidth`. Press feedback uses opacity, not scaling. When nesting ms-icon inside a tag, set `pressable=false` on the icon.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-tag` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-tag`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/basic/tag`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/tag.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/tag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

@@ -5,17 +5,17 @@ demo: pages/demo/feedback/alert
 
 # Alert 警告条
 
-`ms-alert`：页内警告条：主题 + 浅色/填充 + 可关闭。
+`ms-alert` 是页面内的警告条，支持主题色、浅色和填充两种样式，并可关闭。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-alert`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-alert`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/feedback/alert`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/alert.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/feedback/alert.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -64,7 +64,7 @@ function onAlertClose() : void {
 | icon | `string` | `''` | 图标名（icons.uts） |
 | showIcon | `boolean` | `true` | 不显示左侧图标 |
 | title | `string` | `''` | 标题（可选，与默认插槽正文并存） |
-| visible | `boolean` | `true` | 是否显示；配合 update:visible，关闭后可由宿主重开 |
+| visible | `boolean` | `true` | 是否显示；配合 update:visible，关闭后可由父页面重新打开 |
 
 ## 事件
 
