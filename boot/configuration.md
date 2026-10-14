@@ -8,6 +8,8 @@ boot 采用 Spring Boot 标准配置：`application.yml` 给默认值，`applica
 cp config/application-local.yml.example config/application-local.yml
 ```
 
+`config/application-local.yml` 最后加载，能覆盖 `application.yml` 和各模块自带配置（`mugsun-module-track.yml` 等）里的任意键，例如埋点库地址 `mybatis-flex.datasource.track.url`。[mugsun-boot #29](https://github.com/mugsun/mugsun-boot/pull/29) 之前它排在模块配置前面，模块键写在这里不生效，只能用环境变量（如 `TRACK_JDBC_URL`）覆盖；升级后原先被忽略的这些键会开始生效，请检查文件里是否留有旧值。
+
 示例文件已带本地密钥占位（`sm4-key`、`api-key`）与 mock 社交登录。SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
 
 ## 数据源与缓存（prod）
@@ -53,6 +55,20 @@ mugsun:
 
 直出的文件都带 `X-Content-Type-Options: nosniff`。HTML、SVG 等浏览器可能执行的类型以及 PDF 一律作为附件下载，不在浏览器里直接打开；HTML、SVG 等还会附加 `Content-Security-Policy: sandbox`。
 
+## 操作日志排除
+
+所有 Controller 的写接口（POST/PUT/DELETE/PATCH）会自动记一条操作日志（标题「自动留痕」）。浏览器高频调用、不属于管理操作的接口可以排除，不再写日志，也不参与操作日志的哈希链。默认排除埋点 SDK 的上报接口：
+
+```yaml
+mugsun:
+  oper-log:
+    exclude-paths:          # Ant 风格，按去掉 context-path 后的路径匹配
+      - /track/collect
+      - /track/replay
+```
+
+配置这个列表会整体替换默认值，要保留这两项请一并写上；写成 `exclude-paths: []` 则全部留痕。排除只影响自动留痕，显式标了 `@OperationLog` 的接口照常记录，管理端的 `/system/track/**` 也不受影响。
+
 ## 可选模块
 
 | 变量 | 默认 | 说明 |
@@ -85,6 +101,7 @@ mugsun:
 - 禁止网段包括私网、回环、链路本地、CGNAT（含云厂商元数据地址）、组播、保留与文档示例地址，IPv6 同样适用（含 `2001:db8::/32` 和 Teredo `2001::/32`），也包括内嵌这些 IPv4 地址的 IPv4-mapped、NAT64、6to4 地址。工作流 HTTP 节点不读 `allow-hosts`，一律禁止内网。
 - 不会自动跟随重定向：对方返回 3xx 时请求就此结束，不会再去请求 `Location` 指向的地址。Webhook、MCP 或模型地址如果会跳转，请直接填写跳转后的最终地址。
 - 默认 `allow-hosts: []`，即不放行任何内网地址；未命中白名单的公网主机不受影响。
+- 云元数据地址始终拒绝，即使所在主机在 `allow-hosts` 中也不放行：整个链路本地段 `169.254.0.0/16`（含 `169.254.169.254`、AWS ECS 任务凭证 `169.254.170.2`、腾讯云 `169.254.0.23` 等），以及 `100.100.100.200` 和 `fd00:ec2::254`。IPv6 中内嵌 IPv4 的写法（`::ffff:` 映射、`::a.b.c.d` 兼容、NAT64 `64:ff9b::/96`、6to4 `2002::/16`）会先解出内嵌的 IPv4 再判断。
 - `*.example.com` 匹配其任意子域名，不含 `example.com` 本身；`.local`、`.internal` 结尾的主机默认拒绝，需显式列出。只列确需访问的主机。
 
 ## 安全验证（滑块验证码）

@@ -8,6 +8,8 @@ boot follows standard Spring Boot conventions: `application.yml` holds defaults,
 cp config/application-local.yml.example config/application-local.yml
 ```
 
+`config/application-local.yml` is loaded last, so it can override any key from `application.yml` and from module configs such as `mugsun-module-track.yml`, for example the tracking database URL `mybatis-flex.datasource.track.url`. Before [mugsun-boot #29](https://github.com/mugsun/mugsun-boot/pull/29) it was loaded ahead of the module configs, so module keys set here were ignored and only environment variables (such as `TRACK_JDBC_URL`) worked. After upgrading, keys that used to be ignored take effect, so check the file for stale values.
+
 The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock social login. If you leave the SM2 key pair empty, a new pair is generated on every start and sign-in can break when it changes, so set a fixed local pair.
 
 ## Data sources and cache (prod)
@@ -53,6 +55,20 @@ If `sign-secret` is empty, a random key is generated on every start, which only 
 
 Every directly served file carries `X-Content-Type-Options: nosniff`. Types a browser might execute, such as HTML and SVG, and PDFs are always sent as attachments to download rather than opened in the browser. HTML, SVG and similar types also get `Content-Security-Policy: sandbox`.
 
+## Operation log exclusions
+
+Every controller write endpoint (POST/PUT/DELETE/PATCH) automatically gets an operation log entry (titled 「自动留痕」). Endpoints that browsers call constantly and that aren't admin actions can be excluded, so they write no log entry and stay out of the operation log hash chain. By default the analytics SDK's reporting endpoints are excluded:
+
+```yaml
+mugsun:
+  oper-log:
+    exclude-paths:          # Ant-style, matched against the path without the context path
+      - /track/collect
+      - /track/replay
+```
+
+Setting this list replaces the default entirely, so include these two if you want to keep them; `exclude-paths: []` logs everything. Exclusions only affect automatic logging. Endpoints explicitly marked `@OperationLog` are still logged, and the admin endpoints under `/system/track/**` are unaffected.
+
 ## Optional modules
 
 | Variable | Default | Purpose |
@@ -86,6 +102,7 @@ Example: a local Ollama listens on `http://localhost:11434` by default. Add `loc
 - Blocked ranges cover private, loopback, link-local, CGNAT (which includes cloud metadata addresses), multicast, reserved and documentation addresses. The same applies to IPv6 (including `2001:db8::/32` and Teredo `2001::/32`), including IPv4-mapped, NAT64 and 6to4 addresses that embed one of those IPv4 addresses. The workflow HTTP node ignores `allow-hosts` and always blocks internal addresses.
 - Redirects are not followed: when the other side answers with a 3xx, the request ends there and the `Location` address is never requested. If a webhook, MCP or model address redirects, enter the final address instead.
 - The default is `allow-hosts: []`, so no private address is allowed. Public hosts not on the list are unaffected.
+- Cloud metadata addresses are always refused, even when the host is on `allow-hosts`: the whole link-local range `169.254.0.0/16` (including `169.254.169.254`, the AWS ECS task credentials endpoint `169.254.170.2` and Tencent Cloud's `169.254.0.23`), plus `100.100.100.200` and `fd00:ec2::254`. IPv6 forms that embed an IPv4 address (`::ffff:` mapped, `::a.b.c.d` compatible, NAT64 `64:ff9b::/96` and 6to4 `2002::/16`) are decoded to the embedded IPv4 address before the check.
 - `*.example.com` matches any subdomain but not `example.com` itself. Hosts ending in `.local` or `.internal` are rejected unless listed explicitly. List only the hosts you actually need.
 
 ## Human verification (slider captcha)

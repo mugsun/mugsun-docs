@@ -2,6 +2,45 @@
 
 This guide takes you from an empty machine to three verifiable results: **the backend health check passes → you can sign in to the console → your first analytics event shows up on a dashboard.** Each step ends with a way to check it worked.
 
+## Docker only: the whole stack in one command
+
+If the machine only has Docker (Compose v2.17+), one command in the `mugsun-boot` repo root brings up PostgreSQL (PostGIS + pgvector), Redis, the backend and the console:
+
+```bash
+git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
+docker compose -f docker-compose.full.yml up -d --build
+docker compose -f docker-compose.full.yml logs init   # shows the generated admin password
+```
+
+Open <http://localhost:8088> and sign in as `admin` with the printed password. Change the port with `MUGSUN_HTTP_PORT`.
+
+- **No weak passwords.** On first start the `init` service generates random database and Redis passwords, the admin password, SM4/SM2 keys, the audit-signing key pair and a file-signing secret of at least 32 characters, and stores them in the `secrets` volume. They survive restarts; `docker compose -f docker-compose.full.yml run --rm init show` prints the admin password again.
+- The backend runs with the `prod` profile: it refuses to start if any key is missing, login requires a captcha, and the OpenAPI docs are off.
+- Only the console port is published. The database and Redis aren't mapped to the host; the console's Nginx proxies `/api` to the backend.
+- The compose network uses a fixed subnet (`MUGSUN_COMPOSE_SUBNET`, default `172.30.89.0/24`) and the console container a fixed IP (`MUGSUN_PC_IP`, default `172.30.89.10`); `MUGSUN_OPENAPI_TRUSTED_PROXIES` trusts only that one IP. If you put another proxy in front, add its address too.
+- The PostgreSQL base image and the Redis image are pinned to digests. The Redis password lives in a generated `redis.conf`, never in process arguments.
+- Self-check: `scripts/compose-full-smoke.sh` starts from scratch, signs in, sends one event and finds it in the console, prints the elapsed time, then runs `down -v`. It uses its own project name and leaves existing containers alone.
+- Start over (deletes data and secrets): `docker compose -f docker-compose.full.yml down -v`.
+
+This compose file is for trying things out and demos. For your own production deployment, these are all the required settings:
+
+| Variable | Purpose |
+| --- | --- |
+| `SPRING_PROFILES_ACTIVE=prod` | Production profile |
+| `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | Primary database |
+| `TRACK_JDBC_URL` / `TRACK_JDBC_USERNAME` / `TRACK_JDBC_PASSWORD` | Analytics database `mugsun_track` |
+| `REDIS_HOST` / `REDIS_PASSWORD` (optional `REDIS_PORT` / `REDIS_DB`) | Redis |
+| `MUGSUN_FRONT_URL` / `FILE_DOMAIN` | Console origin and file domain |
+| `MUGSUN_INIT_PASSWORD` | Initial admin password; can't be the built-in default |
+| `MUGSUN_SM4_KEY` / `MUGSUN_API_KEY` | 16-character SM4 keys |
+| `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | SM2 transport key pair (hex) |
+| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | Audit-signing key pair |
+| `MUGSUN_FILE_SIGN_SECRET` | File download link signing secret, at least 32 characters |
+| `MUGSUN_OPENAPI_TRUSTED_PROXIES` | Trusted reverse-proxy CIDRs; required when a proxy sits in front |
+| `SMTP_*` / `SMS_*` | Mail and SMS. The compose file uses placeholders; set real values to use password reset or SMS login |
+
+Generate the keys with `scripts/gen-keys.sh --all >> .env` from the repo (two SM2 key pairs, two SM4 keys, the admin password and the file-signing secret, in `.env` format; needs OpenSSL 1.1.1+). The one-command stack's `init` uses the same script. See [Configuration](/en/boot/configuration) for details. The steps below are for local development repo by repo.
+
 ## Requirements
 
 | Tool | Version | Used for |
@@ -38,7 +77,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 > **Always build from the repository root with `-am`** (or build the whole project with `mvn clean package -DskipTests`). If you build only the server module (`-pl mugsun-boot-server` without `-am`, `mvn package` inside `mugsun-boot-server`, or an IDE building just that module), `mugsun-boot-core` comes from the local Maven repository at `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/`. Every branch and worktree shares that one 0.1.0 version, which holds whichever branch ran `mvn install` last, so the jar can carry another branch's old code (such as an old captcha response shape) whether or not you add `clean`. When in doubt, run `mvn -B install -DskipTests` from the root first.
 
-- `docker compose up -d` starts only PostgreSQL (5432) and Redis (6379). The first run builds a database image with PostGIS and pgvector.
+- `docker compose up -d` starts only PostgreSQL (5432) and Redis (6379). The first run builds a database image with PostGIS and pgvector. If those ports are taken, see the [FAQ](/en/guide/faq#ports-5432-6379-are-already-in-use).
 - The package uses the default `full` profile (core + gis + track + ai).
 - Run `java -jar` from the repository root, otherwise `config/application-local.yml` is not picked up. Make sure `java -version` reports 21.
 
