@@ -68,7 +68,7 @@ font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'sel
 - 不包含 `unsafe-eval`。`style-src 'unsafe-inline'` 是 Element Plus 运行时内联样式所需；`worker-src blob:` 是 Cesium 所需。
 - 地图瓦片（天地图、高德等）全部经同源 `/api/system/gis/tile` 代理，密钥留在服务端，所以 `img-src`、`connect-src` 不放行任何厂商瓦片域。浏览器直连的自定义外部瓦片（如自定义 XYZ）或独立埋点上报域名，用 `MUGSUN_CSP_TILE_HOSTS`、`MUGSUN_CSP_TRACK_HOSTS` 追加。这两个变量只允许字母、数字、`.`、`*`、`:`、`/`、`-` 和空格，含 `;`、引号等字符时容器拒绝启动。
 
-## 一条命令起全套
+## 用一条命令启动完整环境
 
 `mugsun-pc/docker/compose.pc.yml` 编排了管理台、后端（mugsun-boot 的 Dockerfile）、PostgreSQL（PostGIS + pgvector）和 Redis。四个仓库（mugsun-core、mugsun-boot、mugsun-track、mugsun-pc）平级克隆后：
 
