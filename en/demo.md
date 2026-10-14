@@ -77,8 +77,9 @@ A wrong password on the public demo account locks that account only from that IP
 
 Deployment notes:
 
-- **Reverse proxy**: per-IP lockout and rate limiting need the visitor's real IP. By default demo mode trusts `X-Forwarded-For` from loopback and private ranges (`127.0.0.0/8`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `::1`, `fc00::/7`). If a public CDN or cloud gateway sits in front, you must set `MUGSUN_OPENAPI_TRUSTED_PROXIES` to its egress ranges; otherwise every visitor shares the proxy's IP and one wrong password locks everyone out. Startup logs a WARN when no trusted proxy is configured.
+- **Reverse proxy**: per-IP lockout and rate limiting need the visitor's real IP. By default demo mode trusts `X-Forwarded-For` **from loopback only** (`127.0.0.0/8`, `::1`). If Nginx or your gateway isn't on the same host, you must set `MUGSUN_OPENAPI_TRUSTED_PROXIES` to its address or range (in the one-command stack and the demo overlay that's the pc container, `172.30.88.10/32`; for a public CDN or cloud gateway, its egress ranges). Otherwise every visitor shares the proxy's IP and one wrong password locks everyone out. Don't trust whole private ranges: any private host that can reach the backend directly could forge XFF, bypass rate limits and impersonate other IPs. Startup logs a WARN when it isn't configured (only the loopback default) or is set to empty.
 - **Redis outage**: if Redis goes down while running, rate limiting lets requests through and login fails (sessions and captchas live in Redis). If Redis is unreachable at startup, demo mode won't start.
+- **Redis address**: demo mode connects to Redis using `REDIS_HOST` (with `REDIS_PORT` and `REDIS_PASSWORD`), same as prod; only the db changes to `MUGSUN_DEMO_REDIS_DB` (4 by default).
 - **Tracking database size**: above `MUGSUN_DEMO_TRACK_WARN_MB` (default 2048) the app logs a WARN; above `MUGSUN_DEMO_TRACK_MAX_MB` (default 4096) tracking collection returns 503. Only the tracking database is measured, not replay data kept in file storage.
 
 ::: tip Work in progress

@@ -77,8 +77,9 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 
 部署注意：
 
-- **反向代理**：按 IP 锁定和限流要拿到访客的真实 IP。demo 默认信任回环和私网段（`127.0.0.0/8`、`10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`、`::1`、`fc00::/7`）转发的 `X-Forwarded-For`；前面是公网 CDN 或云网关时，必须把 `MUGSUN_OPENAPI_TRUSTED_PROXIES` 设成它的出口网段，否则所有访客共用代理的 IP，一人输错会锁住所有人。没有配置可信代理时启动日志会打 WARN。
+- **反向代理**：按 IP 锁定和限流要拿到访客的真实 IP。demo 默认**只信任回环**（`127.0.0.0/8`、`::1`）转发的 `X-Forwarded-For`。Nginx 或网关不在本机时，必须把 `MUGSUN_OPENAPI_TRUSTED_PROXIES` 设成它的地址或网段（一键部署和演示叠加文件里是 pc 容器的 `172.30.88.10/32`；公网 CDN 或云网关就写它的出口网段），否则所有访客共用代理的 IP，一人输错会锁住所有人。不要整段信任私网：私网里任何能直连后端的主机都能伪造 XFF，绕过限流、冒充别人的 IP。没配（只有回环默认值）或设为空时，启动日志会打 WARN。
 - **Redis 故障**：运行中 Redis 不可用时，限流放行（不限流）、登录失败（登录态和验证码都在 Redis）；启动时连不上 Redis，demo 起不来。
+- **Redis 地址**：demo 读 `REDIS_HOST`（和 `REDIS_PORT`、`REDIS_PASSWORD`）连接 Redis，与 prod 相同，只是 db 换成 `MUGSUN_DEMO_REDIS_DB`（默认 4）。
 - **埋点库容量**：`MUGSUN_DEMO_TRACK_WARN_MB`（默认 2048）超过后打 WARN，`MUGSUN_DEMO_TRACK_MAX_MB`（默认 4096）超过后埋点采集返回 503。只统计埋点数据库大小，不含回放等落文件存储的数据。
 
 ::: tip 建设中
