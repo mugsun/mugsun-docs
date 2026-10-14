@@ -6,8 +6,8 @@ Create / edit dialogs in the admin console check required fields **in the browse
 
 | Case | Presentation | Message |
 | --- | --- | --- |
-| Required text input | Red text under the field, checked on blur; whitespace only counts as empty | "请输入" + field name, e.g. 「请输入名称」 (Enter name) |
-| Required select / radio | Red text under the field, checked on change | "请选择" + field name, e.g. 「请选择类型」 (Select type) |
+| Required text input | Red text under the field, checked on blur; whitespace only counts as empty | "请输入" + field name, e.g. 「请输入名称」; in English, "Please enter Name" |
+| Required select / radio | Red text under the field, checked on change | "请选择" + field name, e.g. 「请选择类型」; in English, "Please select Type" |
 | Format check (code length, URL, …) | Red text under the field, shown only after the required check passes | Describes the expected format |
 
 - An empty submit only says the field is required; it does not show the format hint first. For example, an empty region code shows "Enter the region code"; the "2 to 12 digits" hint appears only for a non-conforming value.
@@ -30,14 +30,16 @@ import { requiredRule } from '../shared/formRules'
 
 ```vue
 <ElForm ref="formRef" :model="form">
-  <ElFormItem label="名称" prop="name" :rules="requiredRule('名称')">
+  <ElFormItem :label="$t('aiForm.name')" prop="name" :rules="requiredRule($t('aiForm.name'))">
     <ElInput v-model="form.name" />
   </ElFormItem>
-  <ElFormItem label="类型" prop="type" :rules="requiredRule('类型', true)">
+  <ElFormItem :label="$t('aiForm.type')" prop="type" :rules="requiredRule($t('aiForm.type'), true)">
     <ElSelect v-model="form.type" />
   </ElFormItem>
 </ElForm>
 ```
+
+Pass the field name through i18n as well (entries live under `aiForm` in `src/locales/langs/zh.json` / `en.json`). A hard-coded Chinese name would show up in English as "Please enter 名称".
 
 Validate before saving and return on failure:
 
