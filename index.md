@@ -24,7 +24,7 @@ features:
     details: 前端接入埋点 SDK 后，可在管理台查看访问量、漏斗、留存和会话回放。
     link: /track/
     linkText: 埋点
-  - title: 功能模块可按需裁剪
+  - title: 模块按需裁剪
     details: GIS、埋点、AI 是独立模块，不需要的模块可以不打包进应用。
     link: /boot/
     linkText: 后端
