@@ -55,6 +55,20 @@ If `sign-secret` is empty, a random key is generated on every start, which only 
 
 Every directly served file carries `X-Content-Type-Options: nosniff`. Types a browser might execute, such as HTML and SVG, and PDFs are always sent as attachments to download rather than opened in the browser. HTML, SVG and similar types also get `Content-Security-Policy: sandbox`.
 
+## Operation log exclusions
+
+Every controller write endpoint (POST/PUT/DELETE/PATCH) automatically gets an operation log entry (titled 「自动留痕」). Endpoints that browsers call constantly and that aren't admin actions can be excluded, so they write no log entry and stay out of the operation log hash chain. By default the analytics SDK's reporting endpoints are excluded:
+
+```yaml
+mugsun:
+  oper-log:
+    exclude-paths:          # Ant-style, matched against the path without the context path
+      - /track/collect
+      - /track/replay
+```
+
+Setting this list replaces the default entirely, so include these two if you want to keep them; `exclude-paths: []` logs everything. Exclusions only affect automatic logging. Endpoints explicitly marked `@OperationLog` are still logged, and the admin endpoints under `/system/track/**` are unaffected.
+
 ## Optional modules
 
 | Variable | Default | Purpose |
