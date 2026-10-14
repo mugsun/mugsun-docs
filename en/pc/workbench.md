@@ -9,6 +9,16 @@
 
 Above the "Help" tab on the right edge is a small "AI" tab that opens the AI assistant drawer. It sits against the right edge of the screen and no longer covers the pager at the bottom right of lists or the coordinate readout at the bottom right of the map.
 
+### AI assistant drawer
+
+- **Width**: 560px by default. Drag the left edge to resize it between 420 and 800px; the width is remembered. When the window is 640px wide or less, the drawer fills the screen. The full screen button in the top bar also toggles full screen.
+- **Top bar**: Click the title to open your chat history, grouped into today, this week and earlier. You can search, rename, export, clear and delete chats there. On the right are New chat, Full screen and Close.
+- **Messages**: Your questions sit on a light primary-colour background; AI replies have no bubble. Code blocks show the language name and a copy button at the top, and long code scrolls sideways inside the block.
+- **Errors and retry**: When a reply fails, an error message and a Retry button appear under it, and retrying replaces that reply in place. There is no Regenerate button yet. If the reply failed partway through, the question has already been saved, so after a retry the history shows the same question twice when you reload it.
+- **Composer**: Press Enter to send and Shift+Enter for a new line. While a reply is being generated, the send button turns into a stop button. Below the input you can pick the model and knowledge base; when space is tight they move into a Settings button. If no model is configured yet, a notice appears at the top of the drawer, and accounts that can manage models see a "Configure" link.
+- **Empty state**: A new chat shows 4 example questions; click one to fill it in and send it.
+- **Keyboard**: When the drawer opens, focus is in the input. Tab moves through the title, New chat, Full screen, Close, the message list, the input, model, knowledge base and Send. Esc closes the drawer and returns focus to the AI button.
+
 ## Narrow screens (≤ 640px)
 
 - The "Help" and "AI" tabs shrink to translucent strips so they cover less of the cards.
