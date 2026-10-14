@@ -36,9 +36,53 @@ Runnable examples grouped by scenario: markers & overlays, tracks & fences, quer
 
 ## Spatial analysis `/gis/analyze`
 
-Runs server-side with JTS: input is normalized to WGS84 GeoJSON and computed in meters on Web Mercator. Results can be saved as a layer or overlaid. Below: a 500 m buffer around a point near Tiananmen.
+Runs server-side with JTS: input is normalized to WGS84 GeoJSON and measured in ground meters (see "Metric accuracy" below). Results can be saved as a layer or overlaid. Below: a 500 m buffer around a point near Tiananmen.
 
 ![Spatial analysis: buffer](/screenshots/gis/gis-analyze.png)
+
+### Metric accuracy {#metric-accuracy}
+
+Everything measured in meters uses **ground meters**, but different features take different paths:
+
+| Feature | With PostGIS | Without PostGIS (for example MySQL or Dameng) |
+|---|---|---|
+| Layer queries: radius, nearest neighbor, buffer | Computed in the database with `geography` (WGS84 ellipsoid) | Java path |
+| Spatial analysis `/gis/analyze`: buffer and contains with a source layer selected and no pasted data | Handed to the layer query, so computed in the database as above | Handed to the layer query's Java path |
+| Spatial analysis `/gis/analyze`: everything else (pasted data, or distance, area, length, intersects, difference, etc.), and any request with `engine=java` | Java path | Java path |
+
+Both layer queries and `/gis/analyze` accept `engine=java` to force the Java path (for diagnostics and comparison). With `engine=java`, `/gis/analyze` does not hand off to the layer query and analyzes the whole input in memory.
+
+How the Java path works: it projects with an azimuthal equidistant projection centered on the feature's envelope center (on the query point for distances) and computes on that plane, using the Gaussian radius of curvature at the center's latitude. For distances it first finds the closest pair of points on the plane (any pair: vertices or any point along an edge; a point inside a polygon gives 0), then recomputes the distance between those two points with the Vincenty formula on the WGS84 ellipsoid (falling back to great-circle distance when nearly antipodal points do not converge). Radius and nearest-neighbor queries first prefilter by a longitude/latitude envelope with a generous meters-to-degrees margin; when the envelope crosses the 180° meridian it is split into two boxes, so features on the other side are not missed.
+
+Java-path accuracy (distance from the buffer boundary to the source feature, measured against WGS84 geodesic distance and PostGIS `geography`):
+
+| Location | 500 m buffer | 20 km buffer | 200 km buffer |
+|---|---|---|---|
+| Equator | ±0.34% | −0.46% to +0.34% | −0.46% to +0.34% |
+| Beijing (39.9°N) | ±0.20% | −0.32% to +0.20% | −0.33% to +0.20% |
+| 72°N | ±0.03% | −0.15% to +0.03% | −0.17% to +0.03% |
+| 78°N | ±0.01% | −0.14% to +0.01% | −0.16% to +0.01% |
+
+Points, lines and polygons are all within 0.5%, and the difference from the PostGIS path is also within 0.5%. The remaining error comes from approximating the ellipsoid with a sphere and is largest near the equator.
+
+::: warning Earlier versions
+Earlier versions computed meters on the Web Mercator plane without a latitude correction: buffer radii and distances shrank by cos(latitude), and areas by cos²(latitude). A 500 m buffer in Beijing was really about 383 m, and at 72°N only about 31% of the requested size. After upgrading, the Java path differs from the PostGIS path by less than 0.5%.
+:::
+
+#### Java-path limits {#metric-limits}
+
+"Polar" means a feature, or its buffered extent, reaches |latitude| > 85°; "crossing 180°" means a feature crosses the 180° meridian or its buffer extends past it:
+
+- **Buffers near the poles are not supported.**
+- **Analyzing a single geometry** (the input to `/gis/analyze`, including geometries taken from the source layer when `engine=java` is set): a polar or 180°-crossing geometry makes buffer, distance, area and length return an error. Split the feature at 180° first.
+- **Layer queries** (radius, nearest neighbor, buffer, and the buffer / contains that `/gis/analyze` hands to the layer query): a few polar or 180°-crossing features do not make the whole query fail.
+  - Radius and nearest neighbor: these features use the great-circle (haversine) distance to the closest point on the geometry; if even that cannot be computed, they are skipped.
+  - A feature crossing 180° (adjacent vertices more than 180° of longitude apart) first has 360 added to its negative longitudes, so it becomes one continuous piece instead of wrapping the long way around the globe; the query point is moved into the same longitude range, using whichever representation is closer to the feature. For example, `LINESTRING(179.9 0, -179.9 0)` is about 20,004 km from (0, 0) and about 11.1 km from (179.95, 0.1). Features still wider than 180° after the shift are skipped.
+  - Buffer: these features are skipped.
+  - `skipped` in the response is the number of features skipped; the server logs a WARN with feature ids and the count (at most one per layer and operation per minute).
+- **When spatial analysis hands off to a layer query**, the response also carries `skipped`; polar or 180°-crossing features among the hits are left out of the area and length totals, and their number is reported in `metrics.metricsSkipped`.
+- **Query point**: radius and nearest-neighbor queries return an error when the query point itself is in the polar zone. Query points near the 180° meridian are fine; for example a query point at longitude 179.9 finds a feature at -179.9.
+- **Empty geometries**: distance is treated as infinite (never matched by radius queries, sorted last by nearest neighbor), buffers are empty, and area and length are 0.
 
 ## Control layout and narrow screens {#layout}
 
