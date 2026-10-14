@@ -48,7 +48,7 @@ Screenshots and JSON results go to `e2e-ui-report/` (git-ignored). In CI the sam
 
 ## Add buttons that aren't dialogs
 
-Buttons that read like "Add" but don't open a dialog are exempted in `NOT_DIALOG` in `e2e-ui/support/session.ts`. An exemption matches route + button text exactly, must cover both the Chinese and English text, and must give a reason. The current 4:
+Buttons that read like "Add" but don't open a dialog are exempted in `NOT_DIALOG` in `e2e-ui/support/session.ts`. An exemption matches the route exactly and the button text by regex. The regex must cover both the Chinese and English text, and must give a reason. The current 4:
 
 | Route | Button | Reason |
 | --- | --- | --- |
