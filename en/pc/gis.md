@@ -36,9 +36,33 @@ Runnable examples grouped by scenario: markers & overlays, tracks & fences, quer
 
 ## Spatial analysis `/gis/analyze`
 
-Runs server-side with JTS: input is normalized to WGS84 GeoJSON and computed in meters on Web Mercator. Results can be saved as a layer or overlaid. Below: a 500 m buffer around a point near Tiananmen.
+Runs server-side with JTS: input is normalized to WGS84 GeoJSON and measured in ground meters (see "Metric accuracy" below). Results can be saved as a layer or overlaid. Below: a 500 m buffer around a point near Tiananmen.
 
 ![Spatial analysis: buffer](/screenshots/gis/gis-analyze.png)
+
+### Metric accuracy {#metric-accuracy}
+
+Buffers, the distance between two features, area and length, as well as layer radius and nearest-neighbor queries, are all computed in **ground meters**:
+
+- **With PostGIS**: computed in the database with `geography`, giving geodesic distances on the WGS84 ellipsoid.
+- **Without PostGIS (for example MySQL or Dameng), or when the Java path is forced for diagnostics**: the server projects with an azimuthal equidistant projection centered on the feature's envelope center (on the query point for distances) and computes on that plane. The sphere radius is the Gaussian radius of curvature at the center's latitude.
+
+Java-path accuracy (distance from the buffer boundary to the source feature, checked against WGS84 geodesic distance and PostGIS `geography`):
+
+| Location | 500 m buffer | 20 km buffer |
+|---|---|---|
+| Equator | ±0.34% | −0.46% to +0.34% |
+| Beijing (39.9°N) | ±0.20% | −0.32% to +0.20% |
+| 72°N | ±0.03% | −0.15% to +0.03% |
+| 78°N | ±0.01% | −0.14% to +0.01% |
+
+Points, lines and polygons behave the same, all within 0.5%. The remaining error comes from approximating the ellipsoid with a sphere and is largest near the equator.
+
+::: warning Earlier versions
+Earlier versions computed meters on the Web Mercator plane without a latitude correction: buffer radii and distances shrank by cos(latitude), and areas by cos²(latitude). A 500 m buffer in Beijing was really about 383 m, and at 72°N only about 31% of the requested size. After upgrading, the Java path matches the PostGIS path.
+:::
+
+Features that cross the 180° meridian are not supported.
 
 ## Control layout and narrow screens {#layout}
 
