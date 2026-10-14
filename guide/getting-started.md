@@ -14,6 +14,8 @@ docker compose -f docker-compose.full.yml run --rm init show   # 查看首次生
 
 打开 <http://localhost:8088>，用 `admin` 和上面查到的口令登录。端口可用 `MUGSUN_HTTP_PORT` 修改；端口默认只绑 `127.0.0.1`，要让局域网访问需显式设 `MUGSUN_HTTP_BIND=0.0.0.0`。
 
+国内服务器拉不到 Docker Hub 镜像时，在 Docker 的 `daemon.json` 里配置 `registry-mirrors`（例如 `"registry-mirrors": ["https://docker.m.daocloud.io"]`）后重启 Docker，或给 Docker 配置代理。
+
 - **没有弱口令。** 首次启动时 `init` 服务随机生成数据库和 Redis 口令、管理员口令、SM4/SM2 密钥、审计签名密钥和至少 32 位的文件签名密钥，每个都校验长度，生成失败就停下。密钥按服务拆进三个卷（`secrets-boot`、`secrets-postgres`、`secrets-redis`），文件权限 0600、属主是对应服务的用户，每个服务只挂自己那一个：PostgreSQL 只拿到库口令，Redis 只拿到 `redis.conf`。重启不会变。管理员口令不写进 `init` 的启动日志，用 `docker compose -f docker-compose.full.yml run --rm init show` 查看。注意：`run` 起的容器同样走 Docker 日志驱动，如果配置了 journald、gelf 等会转发日志的驱动，`init show` 的输出也会被收集，查看前请确认，或查看后到日志系统里清理。
 - **首次登录不会强制改口令。** 后端目前只有按到期天数（`security.password.expire-days`，默认 0 即关闭）提示改密，没有首次登录强制改密。请登录后自己到个人中心修改管理员口令。
 - 后端以 `prod` profile 运行：缺任一密钥拒绝启动，登录要验证码，OpenAPI 文档关闭。
