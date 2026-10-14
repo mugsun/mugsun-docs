@@ -9,18 +9,18 @@
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose -f docker-compose.full.yml up -d --build
-docker compose -f docker-compose.full.yml logs init   # 查看首次生成的管理员口令
+docker compose -f docker-compose.full.yml run --rm init show   # 查看首次生成的管理员口令
 ```
 
-打开 <http://localhost:8088>，用 `admin` 和上面打印的口令登录。端口可用 `MUGSUN_HTTP_PORT` 修改。
+打开 <http://localhost:8088>，用 `admin` 和上面查到的口令登录，登录后请立即修改口令。端口可用 `MUGSUN_HTTP_PORT` 修改；端口默认只绑 `127.0.0.1`，要让局域网访问需显式设 `MUGSUN_HTTP_BIND=0.0.0.0`。
 
-- **没有弱口令。** 首次启动时 `init` 服务随机生成数据库和 Redis 口令、管理员口令、SM4/SM2 密钥、审计签名密钥和至少 32 位的文件签名密钥，存进 `secrets` 卷。重启不会变，`docker compose -f docker-compose.full.yml run --rm init show` 可再次查看管理员口令。
+- **没有弱口令。** 首次启动时 `init` 服务随机生成数据库和 Redis 口令、管理员口令、SM4/SM2 密钥、审计签名密钥和至少 32 位的文件签名密钥，每个都校验长度，生成失败就停下。密钥按服务拆进三个卷（`secrets-boot`、`secrets-postgres`、`secrets-redis`），文件权限 0600、属主是对应服务的用户，每个服务只挂自己那一个：PostgreSQL 只拿到库口令，Redis 只拿到 `redis.conf`。重启不会变。管理员口令不写进日志，用 `docker compose -f docker-compose.full.yml run --rm init show` 查看。
 - 后端以 `prod` profile 运行：缺任一密钥拒绝启动，登录要验证码，OpenAPI 文档关闭。
-- 只对外暴露管理台端口。数据库和 Redis 不映射到宿主机，管理台的 Nginx 把 `/api` 反代给后端。
-- compose 网络用固定子网（`MUGSUN_COMPOSE_SUBNET`，默认 `172.30.89.0/24`），管理台容器用固定 IP（`MUGSUN_PC_IP`，默认 `172.30.89.10`），`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只信任这一个 IP。前面再加一层反代时，把它的地址也加进去。
-- PostgreSQL 基础镜像和 Redis 镜像固定到 digest。Redis 口令写在生成的 `redis.conf` 里，不出现在进程参数中。
+- 只对外暴露管理台端口。数据库和 Redis 不映射到宿主机。管理台直接用 `mugsun-pc` 仓库自己的镜像：非 root 的 nginx、基础镜像固定 digest、带 CSP，把 `/api` 反代给后端时用真实来源地址覆盖 `X-Forwarded-For`，不保留客户端自带的值。
+- compose 网络与 `mugsun-pc` 一致，用固定子网（`MUGSUN_COMPOSE_SUBNET`，默认 `172.30.88.0/24`），管理台容器用固定 IP（`MUGSUN_PC_IP`，默认 `172.30.88.10`），其它容器只从 `MUGSUN_COMPOSE_IP_RANGE`（默认 `172.30.88.128/25`）分配地址；`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只信任管理台这一个 IP。前面再加一层网关时，把网关网段写进 `MUGSUN_GATEWAY_CIDRS`，由管理台的 nginx 判断。
+- 构建来源全部固定：所有基础镜像固定 digest，管理台和埋点 SDK 源码固定到提交 sha 并按锁文件安装依赖，自检脚本的 Python 依赖锁定版本和哈希。后端镜像内置人大金仓和达梦驱动。Redis 口令写在生成的 `redis.conf` 里，不出现在进程参数中。
 - 自检：`scripts/compose-full-smoke.sh` 会从零启动，登录，上报一条埋点并在管理端查到，打印耗时，最后 `down -v` 清理。它用独立的项目名，不碰机器上已有的容器。
-- 清空重来（会删除数据和密钥）：`docker compose -f docker-compose.full.yml down -v`。
+- 清空重来（会删除数据和密钥）只能用 `docker compose -f docker-compose.full.yml down -v`。不要只删 secrets 卷而保留数据卷：数据库口令只在首次初始化时写入，新生成的口令会对不上，后端连不上库。secrets 卷不完整时 `init` 会拒绝启动并提示用 `down -v`。从旧版本升级（只有一个 `secrets` 卷的版本）同样要先 `down -v`。
 
 这套 compose 适合试用和演示。上生产时自己部署要注入的全部必填项：
 

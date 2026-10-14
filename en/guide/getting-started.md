@@ -9,18 +9,18 @@ If the machine only has Docker (Compose v2.17+), one command in the `mugsun-boot
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose -f docker-compose.full.yml up -d --build
-docker compose -f docker-compose.full.yml logs init   # shows the generated admin password
+docker compose -f docker-compose.full.yml run --rm init show   # shows the generated admin password
 ```
 
-Open <http://localhost:8088> and sign in as `admin` with the printed password. Change the port with `MUGSUN_HTTP_PORT`.
+Open <http://localhost:8088>, sign in as `admin` with that password, and change it right away. Change the port with `MUGSUN_HTTP_PORT`. The port is bound to `127.0.0.1` by default; set `MUGSUN_HTTP_BIND=0.0.0.0` explicitly to expose it on your LAN.
 
-- **No weak passwords.** On first start the `init` service generates random database and Redis passwords, the admin password, SM4/SM2 keys, the audit-signing key pair and a file-signing secret of at least 32 characters, and stores them in the `secrets` volume. They survive restarts; `docker compose -f docker-compose.full.yml run --rm init show` prints the admin password again.
+- **No weak passwords.** On first start the `init` service generates random database and Redis passwords, the admin password, SM4/SM2 keys, the audit-signing key pair and a file-signing secret of at least 32 characters, checks the length of each one, and stops if any generation fails. The secrets are split per service into three volumes (`secrets-boot`, `secrets-postgres`, `secrets-redis`) with files at mode 0600 owned by that service's user, and each service mounts only its own: PostgreSQL gets only the database password and Redis only `redis.conf`. They survive restarts. The admin password is never written to the logs; read it with `docker compose -f docker-compose.full.yml run --rm init show`.
 - The backend runs with the `prod` profile: it refuses to start if any key is missing, login requires a captcha, and the OpenAPI docs are off.
-- Only the console port is published. The database and Redis aren't mapped to the host; the console's Nginx proxies `/api` to the backend.
-- The compose network uses a fixed subnet (`MUGSUN_COMPOSE_SUBNET`, default `172.30.89.0/24`) and the console container a fixed IP (`MUGSUN_PC_IP`, default `172.30.89.10`); `MUGSUN_OPENAPI_TRUSTED_PROXIES` trusts only that one IP. If you put another proxy in front, add its address too.
-- The PostgreSQL base image and the Redis image are pinned to digests. The Redis password lives in a generated `redis.conf`, never in process arguments.
+- Only the console port is published. The database and Redis aren't mapped to the host. The console uses the `mugsun-pc` repo's own image: non-root nginx, digest-pinned base image, a CSP, and when it proxies `/api` to the backend it overwrites `X-Forwarded-For` with the real peer address instead of keeping the client's value.
+- The compose network matches `mugsun-pc`: a fixed subnet (`MUGSUN_COMPOSE_SUBNET`, default `172.30.88.0/24`), a fixed console IP (`MUGSUN_PC_IP`, default `172.30.88.10`), and other containers are assigned only from `MUGSUN_COMPOSE_IP_RANGE` (default `172.30.88.128/25`); `MUGSUN_OPENAPI_TRUSTED_PROXIES` trusts only the console IP. If you put a gateway in front, list its CIDRs in `MUGSUN_GATEWAY_CIDRS` and the console's nginx decides what to trust.
+- All build sources are pinned: every base image by digest, the console and tracking SDK sources by commit sha with lockfile installs, and the self-check's Python dependencies by version and hash. The backend image includes the Kingbase and Dameng drivers. The Redis password lives in a generated `redis.conf`, never in process arguments.
 - Self-check: `scripts/compose-full-smoke.sh` starts from scratch, signs in, sends one event and finds it in the console, prints the elapsed time, then runs `down -v`. It uses its own project name and leaves existing containers alone.
-- Start over (deletes data and secrets): `docker compose -f docker-compose.full.yml down -v`.
+- To start over (deletes data and secrets), use only `docker compose -f docker-compose.full.yml down -v`. Don't delete just the secrets volumes and keep the data volume: the database password is set only on first initialization, so newly generated passwords won't match and the backend can't connect. If the secrets volumes are incomplete, `init` refuses to start and tells you to run `down -v`. Upgrading from the older single-`secrets`-volume layout also needs `down -v` first.
 
 This compose file is for trying things out and demos. For your own production deployment, these are all the required settings:
 
