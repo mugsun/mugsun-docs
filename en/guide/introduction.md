@@ -6,13 +6,13 @@ All three share one codebase and one database, with no dependency on public clou
 
 ## Modules
 
-| Module | Description | Stack | License | Version |
+| <span style="white-space:nowrap">Module</span> | Description | Stack | License | <span style="white-space:nowrap">Version</span> |
 | --- | --- | --- | --- | --- |
-| [boot](/en/boot/) | Backend, a single runnable JAR | JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token | Apache-2.0 | 0.1.0 |
-| [core](/en/core/) | BOM and starters, published on Maven Central | MyBatis-Flex, Sa-Token | Apache-2.0 | 0.1.0 |
-| [pc](/en/pc/) | Admin console | Vue 3, Vite 7, Element Plus, Pinia | MIT | 0.1.0 |
-| [track](/en/track/) | Browser analytics SDK, published on npm | TypeScript, replay based on rrweb | MIT | 0.2.0 |
-| [ms-ui](/en/uniappx/) | uni-app x cross-platform components | uvue, uts | Commercial edition | — |
+| <span style="white-space:nowrap">[boot](/en/boot/)</span> | Backend, a single runnable JAR | JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token | Apache-2.0 | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[core](/en/core/)</span> | BOM and starters, published on Maven Central | MyBatis-Flex, Sa-Token | Apache-2.0 | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[pc](/en/pc/)</span> | Admin console | Vue 3, Vite 7, Element Plus, Pinia | MIT | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[track](/en/track/)</span> | Browser analytics SDK, published on npm | TypeScript, replay based on rrweb | MIT | <span style="white-space:nowrap">0.2.0</span> |
+| <span style="white-space:nowrap">[ms-ui](/en/uniappx/)</span> | uni-app x cross-platform components | uvue, uts | Commercial edition | <span style="white-space:nowrap">—</span> |
 
 The ms-ui source is not public. Its docs and H5 demo are open to everyone. A microservice edition is still planned.
 
@@ -30,8 +30,6 @@ GIS, analytics and AI are optional Maven modules. A build profile decides whethe
 The console's menus and button permissions come from the backend `/auth/info` endpoint. The frontend keeps no separate permission data.
 
 Analytics events, replays and settings are stored in your own database.
-
-![Admin console workbench](/screenshots/pc-workbench.png)
 
 ## Is it a good fit?
 

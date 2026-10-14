@@ -45,11 +45,11 @@ Analytics includes overview, events, performance, errors, session replay, user l
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /track/collect` | Receive event batches |
-| `GET /track/config` | Serve remote SDK settings |
-| `POST /track/replay` | Receive replay data |
-| `POST /track/api-body` | Receive API response bodies |
-| `POST /track/visual/draft` | Save visual tagging drafts |
+| <span style="white-space:nowrap">`POST /track/collect`</span> | Receive event batches |
+| <span style="white-space:nowrap">`GET /track/config`</span> | Serve remote SDK settings |
+| <span style="white-space:nowrap">`POST /track/replay`</span> | Receive replay data |
+| <span style="white-space:nowrap">`POST /track/api-body`</span> | Receive API response bodies |
+| <span style="white-space:nowrap">`POST /track/visual/draft`</span> | Save visual tagging drafts |
 
 `/track/*` needs no login. The `appKey` is visible in the browser. It only identifies the app and is not a secret.
 

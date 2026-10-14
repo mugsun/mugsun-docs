@@ -6,13 +6,13 @@ mugsun 是一套可以私有化部署的中后台系统，包含业务后端、�
 
 ## 模块
 
-| 模块 | 说明 | 技术栈 | 许可 | 版本 |
+| <span style="white-space:nowrap">模块</span> | 说明 | 技术栈 | 许可 | <span style="white-space:nowrap">版本</span> |
 | --- | --- | --- | --- | --- |
-| [boot](/boot/) | 后端，一个可执行 JAR | JDK 21、Spring Boot 3、MyBatis-Flex、Sa-Token | Apache-2.0 | 0.1.0 |
-| [core](/core/) | BOM 与 Starter，发布在 Maven Central | MyBatis-Flex、Sa-Token | Apache-2.0 | 0.1.0 |
-| [pc](/pc/) | 管理后台 | Vue 3、Vite 7、Element Plus、Pinia | MIT | 0.1.0 |
-| [track](/track/) | 浏览器埋点 SDK，发布在 npm | TypeScript，回放基于 rrweb | MIT | 0.2.0 |
-| [ms-ui](/uniappx/) | uni-app x 跨端组件库 | uvue、uts | 商业版 | — |
+| <span style="white-space:nowrap">[boot](/boot/)</span> | 后端，一个可执行 JAR | JDK 21、Spring Boot 3、MyBatis-Flex、Sa-Token | Apache-2.0 | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[core](/core/)</span> | BOM 与 Starter，发布在 Maven Central | MyBatis-Flex、Sa-Token | Apache-2.0 | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[pc](/pc/)</span> | 管理后台 | Vue 3、Vite 7、Element Plus、Pinia | MIT | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[track](/track/)</span> | 浏览器埋点 SDK，发布在 npm | TypeScript，回放基于 rrweb | MIT | <span style="white-space:nowrap">0.2.0</span> |
+| <span style="white-space:nowrap">[ms-ui](/uniappx/)</span> | uni-app x 跨端组件库 | uvue、uts | 商业版 | <span style="white-space:nowrap">—</span> |
 
 ms-ui 的源码不公开，文档和 H5 演示对所有人开放。微服务版本还在规划中。
 
@@ -29,9 +29,7 @@ GIS、埋点、AI 是可选的 Maven 模块，打包时用 Profile 选择是否�
 
 管理后台的菜单和按钮权限都由后端 `/auth/info` 接口返回，前端不另存权限数据。
 
-埋点事件、回放和配置都存在你自己的数据库里。
-
-![管理后台工作台](/screenshots/pc-workbench.png)
+埋点事件、回放和配置都保存在自己的数据库中。
 
 ## 适合与不适合
 

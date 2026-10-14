@@ -45,11 +45,11 @@ track.track('button_click', { name: 'buy' })
 
 | 接口 | 用途 |
 | --- | --- |
-| `POST /track/collect` | 批量接收事件 |
-| `GET /track/config` | 下发 SDK 远端配置 |
-| `POST /track/replay` | 接收回放数据 |
-| `POST /track/api-body` | 接收接口响应体 |
-| `POST /track/visual/draft` | 保存圈选草稿 |
+| <span style="white-space:nowrap">`POST /track/collect`</span> | 批量接收事件 |
+| <span style="white-space:nowrap">`GET /track/config`</span> | 下发 SDK 远端配置 |
+| <span style="white-space:nowrap">`POST /track/replay`</span> | 接收回放数据 |
+| <span style="white-space:nowrap">`POST /track/api-body`</span> | 接收接口响应体 |
+| <span style="white-space:nowrap">`POST /track/visual/draft`</span> | 保存圈选草稿 |
 
 `/track/*` 不需要登录。`appKey` 在浏览器里可见，只用来标识应用，不能当密钥使用。
 

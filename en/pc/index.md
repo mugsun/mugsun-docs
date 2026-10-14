@@ -16,7 +16,7 @@ During development, `/api` requests are proxied to `http://localhost:8080`.
 
 To change the address, edit `VITE_API_PROXY_URL` in `.env.development`.
 
-![Workbench](/screenshots/pc-workbench.png)
+![User management (demo data)](/screenshots/pc-system-users.png)
 
 ## Layout
 

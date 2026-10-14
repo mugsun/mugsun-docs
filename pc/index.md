@@ -16,7 +16,7 @@ pnpm dev         # 打开 http://localhost:3006
 
 要改这个地址，编辑 `.env.development` 里的 `VITE_API_PROXY_URL`。
 
-![工作台](/screenshots/pc-workbench.png)
+![用户管理（示例数据）](/screenshots/pc-system-users.png)
 
 ## 目录
 
