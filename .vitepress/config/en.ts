@@ -6,18 +6,23 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/en/guide/introduction', activeMatch: '/en/guide/' },
-      { text: 'Boot', link: '/en/boot/', activeMatch: '/en/boot/' },
+      { text: 'Backend', link: '/en/boot/', activeMatch: '/en/boot/' },
       { text: 'Admin', link: '/en/pc/', activeMatch: '/en/pc/' },
-      { text: 'Track', link: '/en/track/', activeMatch: '/en/track/' },
-      { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
-      { text: 'uni-app x (ms-ui)', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
-      { text: 'Live demo', link: '/en/demo' },
-      { text: 'Changelog', link: '/en/guide/changelog' },
+      { text: 'Tracking', link: '/en/track/', activeMatch: '/en/track/' },
+      {
+        text: 'More',
+        items: [
+          { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
+          { text: 'uni-app x', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
+          { text: 'Live demo', link: '/en/demo' },
+          { text: 'Changelog', link: '/en/guide/changelog' },
+        ],
+      },
     ],
     sidebar: {
       '/en/uniappx/': [
         {
-          text: 'uni-app x (ms-ui)',
+          text: 'uni-app x',
           items: [
             { text: 'Overview', link: '/en/uniappx/' },
           ],

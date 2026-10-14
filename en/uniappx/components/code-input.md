@@ -5,17 +5,17 @@ demo: pages/demo/form/code-input
 
 # Code Input
 
-`ms-code-input` — Code Input for uni-app x.
+`ms-code-input` is a verification-code input. A transparent `input` covers the row of cells and opens the keyboard when tapped. It supports `skin`, `placeShape`, `password` and `autoFocus`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-code-input` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-code-input`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/form/code-input`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/code-input.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/code-input.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

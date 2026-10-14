@@ -5,17 +5,17 @@ demo: pages/demo/display/image-group
 
 # Image Group
 
-`ms-image-group` — Image Group for uni-app x.
+`ms-image-group` is an image grid for comments or detail pages. It supports multi-image layouts, optional tags, an overlay when there are more images than shown, and tap to preview.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-group` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-image-group`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/display/image-group`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/image-group.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/image-group.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

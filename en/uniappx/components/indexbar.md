@@ -5,17 +5,17 @@ demo: pages/demo/nav/indexbar
 
 # Indexbar
 
-`ms-indexbar` — Indexbar for uni-app x.
+`ms-indexbar` is an indexed list. Side index characters jump to sections with scroll-into-view, and the current index binds with `v-model:current`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-indexbar` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-indexbar`. ms-ui is a commercial edition and its source is not public.
 Demo route: `#/pages/demo/nav/indexbar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -136,7 +136,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | items | `UTSJSONObject[]` | `[]` | Flat rows: { index, label, disabled }; same index = one group |
 | current | `string` | `''` | Active index char; empty uses the first group |
 | indexList | `UTSJSONObject[]` | `[]` | Index chars: { key, label }; empty = derived from items |
-| height | `number` | `360` | Container height (px; vapor forbids %) |
+| height | `number` | `360` | Container height (accepts numeric px values only) |
 | showTip | `boolean` | `true` | Show large bubble while dragging the index bar |
 | showAnchor | `boolean` | `true` | Whether to render group headers |
 

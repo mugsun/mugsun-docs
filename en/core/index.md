@@ -46,7 +46,7 @@
 </dependencies>
 ```
 
-Offline fallback: clone this repository and run `mvn clean install -DskipTests`.
+Offline environments: clone this repository and run `mvn clean install -DskipTests`.
 
 ## Next
 

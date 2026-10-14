@@ -5,17 +5,17 @@ demo: pages/demo/basic/divider
 
 # Divider 分割线
 
-`ms-divider`：分割线。`layout` 水平/垂直；`align` 左中右；`dashed` 虚线；`text` 中间文案；默认插槽可替换文案（`useSlots` 有插槽即走带文布局）。
+`ms-divider` 是分割线。`layout` 设置水平或垂直方向，`align` 设置文字靠左、居中或靠右，`dashed` 显示虚线，`text` 设置中间文字；也可以用默认插槽替换文字，有插槽内容时使用带文字的布局。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-divider`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-divider`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/basic/divider`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/divider.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/basic/divider.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

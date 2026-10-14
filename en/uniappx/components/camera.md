@@ -5,18 +5,18 @@ demo: pages/demo/media/camera
 
 # Camera
 
-`ms-camera`: Controlled wrapper around official `<camera>`: fixed-height viewfinder + capture/flip toolbar; unsupported platforms show a placeholder.
+`ms-camera` is a controlled wrapper around the official `<camera>`, with a fixed-height viewfinder and a capture and flip toolbar. On unsupported platforms it shows a placeholder.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-camera/components/ms-camera` (commercial edition; source not public).
+Component directory: `uni_modules/ms-camera/components/ms-camera`. ms-ui is a commercial edition and its source is not public.
 Optional plugin: install `uni_modules/ms-camera` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/camera`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/camera.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/camera.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

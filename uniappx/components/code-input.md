@@ -5,17 +5,17 @@ demo: pages/demo/form/code-input
 
 # Code Input 验证码
 
-`ms-code-input`：验证码格：透明 `input` 盖住整排格子拉键盘；`skin` / `placeShape` / `password` / `autoFocus`。
+`ms-code-input` 是验证码输入框。一个透明的 `input` 覆盖整排格子，点击后唤起键盘；支持 `skin`、`placeShape`、`password` 和 `autoFocus`。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-code-input`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-code-input`。ms-ui 为商业版，源码不公开。
 演示路由：`#/pages/demo/form/code-input`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/code-input.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/form/code-input.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
