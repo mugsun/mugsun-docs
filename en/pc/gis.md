@@ -42,27 +42,38 @@ Runs server-side with JTS: input is normalized to WGS84 GeoJSON and measured in 
 
 ### Metric accuracy {#metric-accuracy}
 
-Buffers, the distance between two features, area and length, as well as layer radius and nearest-neighbor queries, are all computed in **ground meters**:
+Everything measured in meters uses **ground meters**, but different features take different paths:
 
-- **With PostGIS**: computed in the database with `geography`, giving geodesic distances on the WGS84 ellipsoid.
-- **Without PostGIS (for example MySQL or Dameng), or when the Java path is forced for diagnostics**: the server projects with an azimuthal equidistant projection centered on the feature's envelope center (on the query point for distances) and computes on that plane. The sphere radius is the Gaussian radius of curvature at the center's latitude.
-
-Java-path accuracy (distance from the buffer boundary to the source feature, checked against WGS84 geodesic distance and PostGIS `geography`):
-
-| Location | 500 m buffer | 20 km buffer |
+| Feature | With PostGIS | Without PostGIS (for example MySQL or Dameng) |
 |---|---|---|
-| Equator | ±0.34% | −0.46% to +0.34% |
-| Beijing (39.9°N) | ±0.20% | −0.32% to +0.20% |
-| 72°N | ±0.03% | −0.15% to +0.03% |
-| 78°N | ±0.01% | −0.14% to +0.01% |
+| Layer queries: radius, nearest neighbor, buffer | Computed in the database with `geography` (WGS84 ellipsoid) | Java path |
+| Spatial analysis `/gis/analyze`: buffer and contains with a source layer selected and no pasted data | Handed to the layer query, so computed in the database as above | Java path |
+| Spatial analysis `/gis/analyze`: everything else (pasted data, or distance, area, length, intersects, difference, etc.) | Java path | Java path |
 
-Points, lines and polygons behave the same, all within 0.5%. The remaining error comes from approximating the ellipsoid with a sphere and is largest near the equator.
+Layer queries can also be forced onto the Java path for diagnostics.
+
+How the Java path works: it projects with an azimuthal equidistant projection centered on the feature's envelope center (on the query point for distances) and computes on that plane, using the Gaussian radius of curvature at the center's latitude. Point-to-point and point-to-vertex distances are then recomputed with the Vincenty formula on the WGS84 ellipsoid (falling back to great-circle distance when nearly antipodal points do not converge). Radius and nearest-neighbor queries first prefilter by a longitude/latitude envelope with a generous meters-to-degrees margin, so no feature is missed.
+
+Java-path accuracy (distance from the buffer boundary to the source feature, measured against WGS84 geodesic distance and PostGIS `geography`):
+
+| Location | 500 m buffer | 20 km buffer | 200 km buffer |
+|---|---|---|---|
+| Equator | ±0.34% | −0.46% to +0.34% | −0.46% to +0.34% |
+| Beijing (39.9°N) | ±0.20% | −0.32% to +0.20% | −0.33% to +0.20% |
+| 72°N | ±0.03% | −0.15% to +0.03% | −0.17% to +0.03% |
+| 78°N | ±0.01% | −0.14% to +0.01% | −0.16% to +0.01% |
+
+Points, lines and polygons are all within 0.5%, and the difference from the PostGIS path is also within 0.5%. The remaining error comes from approximating the ellipsoid with a sphere and is largest near the equator.
 
 ::: warning Earlier versions
-Earlier versions computed meters on the Web Mercator plane without a latitude correction: buffer radii and distances shrank by cos(latitude), and areas by cos²(latitude). A 500 m buffer in Beijing was really about 383 m, and at 72°N only about 31% of the requested size. After upgrading, the Java path matches the PostGIS path.
+Earlier versions computed meters on the Web Mercator plane without a latitude correction: buffer radii and distances shrank by cos(latitude), and areas by cos²(latitude). A 500 m buffer in Beijing was really about 383 m, and at 72°N only about 31% of the requested size. After upgrading, the Java path differs from the PostGIS path by less than 0.5%.
 :::
 
-Features that cross the 180° meridian are not supported.
+Java-path limits:
+
+- **Buffers near the poles are not supported.** If a feature, or its buffered extent, reaches |latitude| > 85°, buffer, distance, area and length return the error "要素或缓冲范围进入极区" (the feature or buffer reaches the polar zone).
+- **Crossing the 180° meridian is not supported.** If a feature crosses the 180° meridian, or its buffer extends past it, an error is returned. Split the feature at 180° first.
+- **Empty geometries**: distance is treated as infinite (never matched by radius queries, sorted last by nearest neighbor), buffers are empty, and area and length are 0.
 
 ## Control layout and narrow screens {#layout}
 
