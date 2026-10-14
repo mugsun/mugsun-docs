@@ -2,7 +2,7 @@
 
 ## Workbench
 
-- **Users per tenant**: the x-axis shows the tenant name instead of the tenant code; the platform tenant `000000` is shown as "Platform". Only platform super admins or accounts that can view all data see this chart. If the tenant list cannot be loaded, the codes are shown and the chart still renders.
+- **Users per tenant**: the x-axis shows the tenant name instead of the tenant code. The name returned by the backend API is used first; when the API only returns a code, the name is looked up from the tenant list, and the platform tenant `000000` is shown as "Platform" if it has no name. Only platform super admins or accounts that can view all data see this chart. If the tenant list cannot be loaded, the codes are shown and the chart still renders.
 - **First-login settings tip**: a bubble saying "click here for theme styles and the top menu" appears once under the settings icon at the top right. It is right-aligned to the settings icon with a gap below the top bar, so it does not cover the notification or settings buttons. It closes, and does not come back, when you click "Got it", click anywhere on the page, open the settings panel, or leave it alone for 8 seconds. It is not shown on screens narrower than 640px.
 
 ## AI assistant entry

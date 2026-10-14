@@ -65,9 +65,10 @@ mugsun:
     exclude-paths:          # Ant 风格，按去掉 context-path 后的路径匹配
       - /track/collect
       - /track/replay
+      - /track/api-body
 ```
 
-配置这个列表会整体替换默认值，要保留这两项请一并写上；写成 `exclude-paths: []` 则全部留痕。排除只影响自动留痕，显式标了 `@OperationLog` 的接口照常记录，管理端的 `/system/track/**` 也不受影响。
+配置这个列表会整体替换默认值，要保留这三项请一并写上；写成 `exclude-paths: []` 则全部留痕。排除只影响自动留痕，显式标了 `@OperationLog` 的接口照常记录，管理端的 `/system/track/**` 也不受影响。
 
 ## 可选模块
 

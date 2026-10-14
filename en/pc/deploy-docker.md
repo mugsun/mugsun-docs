@@ -42,8 +42,13 @@ docker run -d -p 8088:8080 -e MUGSUN_API_UPSTREAM=http://<backend-host>:8080 mug
 
 The backend rate-limits (SMS, captcha, login) and audits by client IP. When proxying, nginx **overwrites** `X-Forwarded-For` and `X-Real-IP` with `$remote_addr` instead of appending what the client sent, so forged headers never reach the backend.
 
-- The compose network uses a fixed subnet, `MUGSUN_COMPOSE_SUBNET` (default `172.30.88.0/24`; change it if it clashes with your host network). The backend's `MUGSUN_OPENAPI_TRUSTED_PROXIES` is set to that subnet so it trusts the client IP that nginx passes on. Without it, every user looks like the nginx IP to the backend and per-IP limits become shared by the whole site.
-- If a TLS gateway or load balancer sits in front of the console, put its CIDRs in `MUGSUN_GATEWAY_CIDRS`. Only for requests from those CIDRs does nginx restore the real client from `X-Forwarded-For` (the first untrusted address from the right) and pass on the gateway's `X-Forwarded-Proto`. Compose also appends them to the backend's `MUGSUN_OPENAPI_TRUSTED_PROXIES`. The gateway must overwrite `X-Forwarded-For` rather than append to it, or at least make sure the rightmost entry is the peer it saw.
+- The compose network uses a fixed subnet, `MUGSUN_COMPOSE_SUBNET` (default `172.30.88.0/24`). The console container gets the fixed IP `MUGSUN_PC_IP` (default `172.30.88.10`), and other containers are assigned addresses only from `MUGSUN_COMPOSE_IP_RANGE` (default `172.30.88.128/25`). The backend's `MUGSUN_OPENAPI_TRUSTED_PROXIES` contains only the console container's IP, so the backend trusts the client IP that nginx passes on. Without it, every user looks like the nginx IP to the backend and per-IP limits become shared by the whole site. If the subnet clashes with your host network, change all three variables together.
+- If a TLS gateway or load balancer sits in front of the console, put its CIDRs in `MUGSUN_GATEWAY_CIDRS`. Only for requests from those CIDRs does nginx restore the real client from `X-Forwarded-For` (the first untrusted address from the right) and pass on the gateway's `X-Forwarded-Proto`. Compose also appends them to the backend's `MUGSUN_OPENAPI_TRUSTED_PROXIES` (nothing is appended when empty). The gateway must overwrite `X-Forwarded-For` rather than append to it, or at least make sure the rightmost entry is the peer it saw.
+- `MUGSUN_GATEWAY_CIDRS` is validated entry by entry at startup: **`0.0.0.0/0` and `::/0` are not allowed**, IPv4 prefixes must be `/8` or longer, IPv6 prefixes `/32` or longer, and addresses must be valid. If any entry fails, the container refuses to start. A range that is too wide lets anyone forge their IP, bypass rate limits and pollute audit logs.
+
+::: warning Do not add untrusted containers to the mugsun network
+Containers on the same network can reach the backend directly, bypassing nginx. The backend only trusts the console container's fixed IP, but the database and Redis on that network should not be exposed to untrusted sidecars either. Put other services on a separate network.
+:::
 
 ```bash
 MUGSUN_GATEWAY_CIDRS=10.0.0.0/16,192.168.10.5/32
@@ -55,13 +60,13 @@ The policy is sent as `Content-Security-Policy-Report-Only` for now: browsers re
 
 ```text
 default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
-img-src 'self' data: blob: https://*.tianditu.gov.cn https://*.autonavi.com https://*.amap.com <MUGSUN_CSP_TILE_HOSTS>;
-connect-src 'self' https://*.tianditu.gov.cn https://*.autonavi.com https://*.amap.com <MUGSUN_CSP_TILE_HOSTS> <MUGSUN_CSP_TRACK_HOSTS>;
+img-src 'self' data: blob: <MUGSUN_CSP_TILE_HOSTS>;
+connect-src 'self' <MUGSUN_CSP_TILE_HOSTS> <MUGSUN_CSP_TRACK_HOSTS>;
 font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'
 ```
 
 - No `unsafe-eval`. `style-src 'unsafe-inline'` is needed for Element Plus runtime inline styles; `worker-src blob:` is needed for Cesium.
-- `img-src` and `connect-src` only allow the Tianditu and AMap tile origins and the analytics endpoint. For other tile services (Baidu, custom XYZ) or a separate analytics domain, add them with `MUGSUN_CSP_TILE_HOSTS` and `MUGSUN_CSP_TRACK_HOSTS`.
+- Map tiles (Tianditu, AMap and others) all go through the same-origin `/api/system/gis/tile` proxy, which keeps the keys on the server, so `img-src` and `connect-src` allow no vendor tile origins. For external tiles the browser loads directly (such as custom XYZ) or a separate analytics domain, add them with `MUGSUN_CSP_TILE_HOSTS` and `MUGSUN_CSP_TRACK_HOSTS`. These variables accept only letters, digits, `.`, `*`, `:`, `/`, `-` and spaces; the container refuses to start if they contain `;`, quotes or other characters.
 
 ## The whole stack in one command
 
@@ -79,7 +84,7 @@ Compose ships no default passwords or keys. It refuses to start if any of these 
 | --- | --- |
 | `MUGSUN_DB_PASSWORD` | Database password of the `mugsun` app account (main and analytics databases) |
 | `MUGSUN_POSTGRES_SUPER_PASSWORD` | PostgreSQL superuser password |
-| `MUGSUN_REDIS_PASSWORD` | Redis `requirepass`; it is embedded in a connection URI, so use letters and digits only |
+| `MUGSUN_REDIS_PASSWORD` | Redis password; it is embedded in a connection URI, so use letters and digits only. At startup it is written to a config file readable only by the redis user, so it never appears in process arguments |
 | `MUGSUN_INIT_PASSWORD` | Initial administrator password |
 | `MUGSUN_SM4_KEY`, `MUGSUN_API_KEY` | 16-character SM4 keys |
 | `MUGSUN_SM2_PRIVATE_KEY`, `MUGSUN_SM2_PUBLIC_KEY` | SM2 transport key pair (hex) |

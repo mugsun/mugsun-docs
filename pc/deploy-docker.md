@@ -42,8 +42,13 @@ docker run -d -p 8088:8080 -e MUGSUN_API_UPSTREAM=http://<后端地址>:8080 mug
 
 后端按客户端 IP 做限流（短信、验证码、登录）和审计。nginx 转发时用 `$remote_addr` **覆盖** `X-Forwarded-For` 和 `X-Real-IP`，不会追加客户端自己带来的值，因此伪造的头不会传到后端。
 
-- compose 网络固定子网 `MUGSUN_COMPOSE_SUBNET`（默认 `172.30.88.0/24`，与宿主机网段冲突时修改），后端的 `MUGSUN_OPENAPI_TRUSTED_PROXIES` 设为该子网，后端才会采信 nginx 传来的客户端 IP。不配置时，所有用户在后端看来都是 nginx 的 IP，按 IP 的限流会变成全站共享。
-- 管理台前面还有 TLS 网关或负载均衡时，把网关所在网段写进 `MUGSUN_GATEWAY_CIDRS`。nginx 只对来自这些网段的请求按 `X-Forwarded-For` 还原真实客户端（自右向左取第一个非可信地址），并透传网关的 `X-Forwarded-Proto`；compose 也会把它追加到后端的 `MUGSUN_OPENAPI_TRUSTED_PROXIES`。网关必须自己覆盖（而不是追加）`X-Forwarded-For`，或至少保证最右侧是它看到的对端地址。
+- compose 网络固定子网 `MUGSUN_COMPOSE_SUBNET`（默认 `172.30.88.0/24`），管理台容器固定 IP `MUGSUN_PC_IP`（默认 `172.30.88.10`），其他容器只从 `MUGSUN_COMPOSE_IP_RANGE`（默认 `172.30.88.128/25`）动态分配。后端的 `MUGSUN_OPENAPI_TRUSTED_PROXIES` 只包含管理台容器这一个 IP，后端才会采信 nginx 传来的客户端 IP。不配置时，所有用户在后端看来都是 nginx 的 IP，按 IP 的限流会变成全站共享。与宿主机网段冲突时，三个变量要一起改。
+- 管理台前面还有 TLS 网关或负载均衡时，把网关所在网段写进 `MUGSUN_GATEWAY_CIDRS`。nginx 只对来自这些网段的请求按 `X-Forwarded-For` 还原真实客户端（自右向左取第一个非可信地址），并透传网关的 `X-Forwarded-Proto`；compose 也会把它追加到后端的 `MUGSUN_OPENAPI_TRUSTED_PROXIES`（为空时不追加）。网关必须自己覆盖（而不是追加）`X-Forwarded-For`，或至少保证最右侧是它看到的对端地址。
+- `MUGSUN_GATEWAY_CIDRS` 启动时逐项校验：**不能填 `0.0.0.0/0` 或 `::/0`**，IPv4 前缀不能短于 `/8`，IPv6 前缀不能短于 `/32`，地址必须合法。任一项不合格，容器直接拒绝启动。填得过宽等于让任何人都能伪造 IP，绕过限流、污染审计。
+
+::: warning 不要把不可信的容器加入 mugsun 网络
+同一网络里的容器可以绕过 nginx 直连后端。后端虽然只信任管理台容器的固定 IP，但网络里的数据库、Redis 也不应暴露给不可信的 sidecar。需要接入其他服务时，另建网络。
+:::
 
 ```bash
 MUGSUN_GATEWAY_CIDRS=10.0.0.0/16,192.168.10.5/32
@@ -55,13 +60,13 @@ MUGSUN_GATEWAY_CIDRS=10.0.0.0/16,192.168.10.5/32
 
 ```text
 default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
-img-src 'self' data: blob: https://*.tianditu.gov.cn https://*.autonavi.com https://*.amap.com <MUGSUN_CSP_TILE_HOSTS>;
-connect-src 'self' https://*.tianditu.gov.cn https://*.autonavi.com https://*.amap.com <MUGSUN_CSP_TILE_HOSTS> <MUGSUN_CSP_TRACK_HOSTS>;
+img-src 'self' data: blob: <MUGSUN_CSP_TILE_HOSTS>;
+connect-src 'self' <MUGSUN_CSP_TILE_HOSTS> <MUGSUN_CSP_TRACK_HOSTS>;
 font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'
 ```
 
 - 不包含 `unsafe-eval`。`style-src 'unsafe-inline'` 是 Element Plus 运行时内联样式所需；`worker-src blob:` 是 Cesium 所需。
-- `img-src`、`connect-src` 只放行天地图、高德的瓦片域和埋点域。使用其他瓦片服务（百度、自定义 XYZ）或独立埋点上报域名时，用 `MUGSUN_CSP_TILE_HOSTS`、`MUGSUN_CSP_TRACK_HOSTS` 追加。
+- 地图瓦片（天地图、高德等）全部经同源 `/api/system/gis/tile` 代理，密钥留在服务端，所以 `img-src`、`connect-src` 不放行任何厂商瓦片域。浏览器直连的自定义外部瓦片（如自定义 XYZ）或独立埋点上报域名，用 `MUGSUN_CSP_TILE_HOSTS`、`MUGSUN_CSP_TRACK_HOSTS` 追加。这两个变量只允许字母、数字、`.`、`*`、`:`、`/`、`-` 和空格，含 `;`、引号等字符时容器拒绝启动。
 
 ## 一条命令起全套
 
@@ -79,7 +84,7 @@ compose 不提供任何默认口令或密钥，下列变量缺少时会直接拒
 | --- | --- |
 | `MUGSUN_DB_PASSWORD` | 应用账号 `mugsun` 的数据库密码（主库与埋点库） |
 | `MUGSUN_POSTGRES_SUPER_PASSWORD` | PostgreSQL 超级用户密码 |
-| `MUGSUN_REDIS_PASSWORD` | Redis `requirepass`，会拼进连接 URI，只用字母数字 |
+| `MUGSUN_REDIS_PASSWORD` | Redis 口令，会拼进连接 URI，只用字母数字。启动时写入仅 redis 用户可读的配置文件，不出现在进程参数里 |
 | `MUGSUN_INIT_PASSWORD` | 初始管理员口令 |
 | `MUGSUN_SM4_KEY`、`MUGSUN_API_KEY` | 16 字符 SM4 密钥 |
 | `MUGSUN_SM2_PRIVATE_KEY`、`MUGSUN_SM2_PUBLIC_KEY` | SM2 传输密钥对（hex） |
