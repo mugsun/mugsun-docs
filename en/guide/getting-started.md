@@ -12,6 +12,8 @@ The last command prints the admin password. Open <http://localhost:8088> and sig
 
 ![Admin console workbench](/screenshots/pc-workbench.png)
 
+If you can't pull from Docker Hub in mainland China, set `registry-mirrors` in Docker's `daemon.json` and restart Docker, or give Docker a proxy.
+
 ::: warning
 You are not forced to change the password after signing in, so change it yourself in your profile. This compose file is for trying things out. For production settings, see [Boot configuration](/en/boot/configuration).
 :::

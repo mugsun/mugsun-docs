@@ -12,6 +12,8 @@ docker compose -f docker-compose.full.yml run --rm init show
 
 ![管理台工作台](/screenshots/pc-workbench.png)
 
+国内拉不到 Docker Hub 镜像时，在 Docker 的 `daemon.json` 里配置 `registry-mirrors` 后重启 Docker，或给 Docker 配置代理。
+
 ::: warning
 登录后不会强制改密码，请到个人中心自己改。这套 compose 只用于试用，生产环境要注入的配置见 [Boot 配置](/boot/configuration)。
 :::

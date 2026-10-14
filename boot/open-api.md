@@ -25,8 +25,8 @@ boot 的开放平台提供 OAuth2（含 PKCE）与 API Key 两种接入方式。
 部署在反向代理或负载均衡之后时，**必须**把代理地址加入可信列表，否则所有请求的来源都会被识别为代理地址，按 IP 白名单的 API Key 将全部被拒绝或失去意义：
 
 ```bash
-# CIDR 列表，逗号分隔
-MUGSUN_OPENAPI_TRUSTED_PROXIES=10.0.0.0/8,::1/128
+# CIDR 列表，逗号分隔；只写反向代理自己的地址（单个代理用 /32），不要放行整段内网
+MUGSUN_OPENAPI_TRUSTED_PROXIES=172.30.88.10/32,::1/128
 ```
 
 对应配置键 `mugsun.openapi.trusted-proxies`。只有当 `remoteAddr` 落在列表内时，才从 `X-Forwarded-For` **从右往左**取第一个不在列表内的地址作为客户端 IP。接口调用记录使用同一套规则。解析细节：
