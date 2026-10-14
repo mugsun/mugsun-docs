@@ -40,6 +40,20 @@
 
 ![空间分析：缓冲](/screenshots/gis/gis-analyze.png)
 
+## 控件布局与窄屏 {#layout}
+
+- 示例、图层、场景、空间分析、底图几页的缩放按钮放在左侧面板右边，不会被面板盖住。工作台的缩放仍在左下角。
+- 视口宽度不超过 768px 时（如 390 宽的手机）：
+  - 图层、场景、空间分析、底图页的底部操作提示变成整行横条，右侧有 × 可以收起。收起只在本次进入页面时有效。
+  - 工作台顶部的三组工具条改成整行堆叠：视图与底图、场景与保存、搜索。「二维 / 三维」固定在最左边。底部状态条也变成整行横条，缩放按钮移到右上角。
+
+![带左侧面板的页面：缩放按钮在面板右侧（1440×900）](/screenshots/gis/gis-zoom-beside-panel.png)
+
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+<img src="/screenshots/gis/gis-narrow-hint.png" alt="390 宽：图层页底部提示横条" width="300" />
+<img src="/screenshots/gis/gis-workspace-narrow.png" alt="390 宽：工作台工具条堆叠" width="300" />
+</div>
+
 ## 埋点地理
 
 埋点「数据概览」`/track/overview` 提供地域分布（基于 IP 属地）与访问热力（基于精确坐标）。两者数据来源不同，不要混为一谈。
