@@ -59,3 +59,4 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 - **挂载卷**：日志目录必须挂到持久卷（容器重建不丢），可用 `MUGSUN_DEMO_ACCESS_LOG_PATH` 改目录，`MUGSUN_DEMO_ACCESS_LOG_MAX_HISTORY`、`MUGSUN_DEMO_ACCESS_LOG_TOTAL_SIZE_CAP` 改保留天数和总量；保留天数不要低于 180。
 - **磁盘估算**：每行约 200 字节，gzip 后约为十分之一。日均 100 万次请求约 20MB/天，200 天约 4GB；按峰值流量留出余量，达到总量上限时最早的文件会被删除。
 - **备份**：把访问日志目录纳入定期备份（至少每周异地一份）。数据库里的接口日志、登录日志在演示模式下保留期不低于 180 天。
+- **应用之外的请求**：真实 IP 与登录锁定、限流同一口径（只信任 `MUGSUN_OPENAPI_TRUSTED_PROXIES` 里的代理传来的 X-Forwarded-For）。在到达应用之前就失败的请求（Nginx 拒绝、400、超时等）不进这个文件，由 Nginx（管理台镜像或前置网关）的访问日志覆盖，同样按 ≥6 个月留存。
