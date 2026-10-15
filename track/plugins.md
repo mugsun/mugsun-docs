@@ -11,7 +11,9 @@ SDK 内核只负责队列、会话、身份与传输，采集能力全部由插�
 | 全埋点 | `autocapturePlugin()` | 点击等交互；跳过 `maskSelectors` 与密码框 |
 | 曝光 | `exposurePlugin()` | 元素有效曝光（配合 `v-track:exposure`） |
 | Web Vitals | `webVitalsPlugin()` | 核心性能指标 |
-| 错误 | `errorPlugin()` | JS 错误、资源加载错误与未处理的 Promise 拒绝；堆栈 `stack` 最多保留 4096 字符，其它字符串属性 1024 |
+| 错误 | `errorPlugin()` | JS 错误、资源加载错误与未处理的 Promise 拒绝；堆栈 `stack` 最多保留 4096 字符，其它字符串属性 1024；堆栈里脚本地址的 `?` / `#` 之后部分（常带 token、签名）会去掉，只留 `:行:列`；单个事件的属性合计超过 16KB 时先缩短堆栈 |
+
+> **升级后错误指纹会变化**：错误指纹按 message 和堆栈首帧计算，[mugsun-track #16](https://github.com/mugsun/mugsun-track/pull/16) 起首帧里脚本地址的 query 和 hash 会先去掉。首帧脚本地址带 `?` 或 `#` 的错误（例如带版本号、token、签名的 CDN 地址），升级前后会落到不同的错误分组；原来每个 token 各成一组的，升级后会合并成一组。首帧地址不带 query 的错误，指纹不变。
 
 ## 追加可选插件
 
