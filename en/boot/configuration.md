@@ -35,6 +35,14 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | empty | CIDR list of trusted reverse proxies; see [Open API](/en/boot/open-api#client-ip-and-trusted-proxies) |
 | `MUGSUN_FILE_SIGN_SECRET` | empty | Signing key for local file download links (at least 32 characters); see "Local file access" below |
 
+## Audit log
+
+| Setting | Default | Purpose |
+| --- | --- | --- |
+| `mugsun.audit.anonymous-max-pending` (env `MUGSUN_AUDIT_ANONYMOUS_MAX_PENDING`) | `64` | How many operation-log entries from unauthenticated requests may be queued at once. Extra entries are dropped and the running count is logged as a warning (on the 1st and every 100th). Entries from signed-in requests are never limited or dropped |
+
+Operation logs are written as a hash chain. With several instances, each one locks the same chain-head row inside its transaction before writing, and a unique index backs this up, so the chain can't fork. No extra setup is needed.
+
 ## Local file access
 
 With the default (dev) settings, the app serves locally stored files directly under `/file/**`. So that nobody can download a private attachment just by knowing its address:
