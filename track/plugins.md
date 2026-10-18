@@ -45,8 +45,8 @@ const track = createTracker({
 - 回放块序号允许有空洞（上面丢弃的块不会上传）。管理台播放器按时间排序后从第一个全量快照开始播放；开头的块缺失、没有全量快照时，显示「回放缺少首屏快照」，不会白屏。（mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45)）
 - 定时全量快照：默认每 3 分钟做一次全量快照（rrweb 内置的 `checkoutEveryNms`），可用 `replayPlugin({ checkoutEveryNms: 60000 })` 调整，传 `false` 关闭。中间某块缺失时，播放器丢掉缺块之后的增量，从下一个全量快照接着播，丢一块最多跳过约 3 分钟。代价是每 3 分钟多上传一份页面快照（gzip 后通常几十 KB）。（mugsun-track [#18](https://github.com/mugsun/mugsun-track/pull/18)、mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45)）
 - 缺块提示：播放器顶部提示缺了几个块，包括拉取失败的块和服务端清单里没有的序号。缺块之后再没有全量快照时，显示「后续录制不完整」，不会悄悄提前结束。（mugsun-pc [#53](https://github.com/mugsun/mugsun-pc/pull/53)）
-- 默认遮罩：所有输入值、**页面文本**（rrweb `maskTextSelector: '*'`）；`input[type="password"]` 与带 `data-track-mask` 属性的元素整块不录。
-- 仅调试时可放开文本遮罩：`replayPlugin({ maskTextSelector: false })`，或传入更窄的选择器。
+- 默认**页面文本显示原文**（0.3.0 起不再默认传 `maskTextSelector: '*'`）；输入框的值仍替换为 `***`，`input[type="password"]` 与带 `data-track-mask` 属性的元素整块不录。
+- 需要遮罩页面文本时：`replayPlugin({ maskTextSelector: '*' })` 遮全部文本，或传更窄的选择器，如 `'.user-info'`。见 [隐私与合规](/track/privacy#开启遮罩与过滤)。
 
 ```html
 <!-- 整块不录 -->
@@ -65,7 +65,7 @@ const track = createTracker({
 | --- | --- | --- |
 | `apiMonitorEnabled` | 关 | 总开关 |
 | `apiBodyEnabled` | 关 | 采集响应体，经独立通道 `/track/api-body` 上传，不进事件队列 |
-| `apiBodyMaskEnabled` | **开**（0.2.0 起） | 响应体中敏感字段值替换为 `***` |
+| `apiBodyMaskEnabled` | 关（0.3.0 起） | 设 `true` 时，响应体中敏感字段值替换为 `***`；默认原文上传 |
 | `apiBodyMaxBytes` | 1MB | 超限不采集并标记 `body_skipped=size` |
 
 内置保护（不可关闭）：
@@ -74,8 +74,8 @@ const track = createTracker({
 - 凭证端点（路径含 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`）**永不采集响应体**。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
-::: warning 0.2.0 行为变更
-自 0.2.0 起回放默认遮罩页面文本、`apiBodyMaskEnabled` 默认开启。依赖响应体原文的接入须显式设置 `apiBodyMaskEnabled: false`；需要可读文本回放（仅调试）时传 `maskTextSelector: false`。0.2.0 已发布到 npm。
+::: warning 0.3.0 行为变更
+从 0.3.0（计划版本）起，回放默认显示页面原文、`apiBodyMaskEnabled` 默认关闭，回到不遮罩的默认值（0.2.0 默认遮罩）。需要遮罩的接入请显式传 `replayPlugin({ maskTextSelector: '*' })`、设置 `apiBodyMaskEnabled: true`。
 :::
 
 ## 圈选与地理位置

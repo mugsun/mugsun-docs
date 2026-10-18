@@ -45,8 +45,8 @@ const track = createTracker({
 - Replay block numbers may have gaps (the dropped chunks above are never uploaded). The console player sorts events by time and starts at the first full snapshot. If the first blocks are missing and there is no full snapshot, it says the replay has no full snapshot instead of showing a blank screen. ([mugsun-pc #45](https://github.com/mugsun/mugsun-pc/pull/45))
 - Periodic full snapshots: a full snapshot is taken every 3 minutes by default (rrweb's built-in `checkoutEveryNms`). Change it with `replayPlugin({ checkoutEveryNms: 60000 })`, or pass `false` to turn it off. When a block in the middle is missing, the player drops the incremental events after the gap and continues from the next full snapshot, so one lost block skips at most about 3 minutes. The cost is one extra page snapshot upload every 3 minutes (usually a few dozen KB gzipped). (mugsun-track [#18](https://github.com/mugsun/mugsun-track/pull/18), mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45))
 - Missing-block notice: the player shows how many blocks are missing at the top, counting both blocks that failed to load and sequence numbers absent from the server's block list. If no full snapshot follows a missing block, it says the later recording is incomplete instead of silently ending early. (mugsun-pc [#53](https://github.com/mugsun/mugsun-pc/pull/53))
-- Masked by default: every input value and **all page text** (rrweb `maskTextSelector: '*'`). `input[type="password"]` and elements with `data-track-mask` are not recorded at all.
-- For debugging only, you can unmask text with `replayPlugin({ maskTextSelector: false })` or pass a narrower selector.
+- **Page text is shown as-is by default** (from 0.3.0, `maskTextSelector: '*'` is no longer passed by default). Input values are still replaced with `***`, and `input[type="password"]` and elements with `data-track-mask` are not recorded at all.
+- To mask page text, pass `replayPlugin({ maskTextSelector: '*' })` for all text, or a narrower selector such as `'.user-info'`. See [Privacy](/en/track/privacy#turning-on-masking-and-filtering).
 
 ```html
 <!-- never recorded -->
@@ -65,7 +65,7 @@ This is what it looks like in the console's Session replay player: a demo sessio
 | --- | --- | --- |
 | `apiMonitorEnabled` | off | Master switch |
 | `apiBodyEnabled` | off | Capture response bodies, sent over a separate `/track/api-body` channel rather than the event queue |
-| `apiBodyMaskEnabled` | **on** (since 0.2.0) | Replace sensitive field values in bodies with `***` |
+| `apiBodyMaskEnabled` | off (from 0.3.0) | When `true`, replace sensitive field values in bodies with `***`; bodies are uploaded as-is by default |
 | `apiBodyMaxBytes` | 1MB | Larger bodies are skipped and marked `body_skipped=size` |
 
 Built-in protections that can't be turned off:
@@ -74,8 +74,8 @@ Built-in protections that can't be turned off:
 - Credential endpoints (paths containing `/auth/login`, `/auth/refresh`, `/oauth/token` or `/auth/social`) **never have their bodies captured**.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
-::: warning Behavior change in 0.2.0
-From 0.2.0, replays mask page text and `apiBodyMaskEnabled` defaults to `true`. If you depend on raw response bodies, set `apiBodyMaskEnabled: false` explicitly; for readable replays (debugging only), pass `maskTextSelector: false`. 0.2.0 is available on npm.
+::: warning Behavior change in 0.3.0
+From 0.3.0 (planned), replays show the original page text and `apiBodyMaskEnabled` defaults to `false`, going back to unmasked defaults (0.2.0 masked by default). If you need masking, pass `replayPlugin({ maskTextSelector: '*' })` and set `apiBodyMaskEnabled: true` explicitly.
 :::
 
 ## Visual tagging and geolocation

@@ -110,14 +110,14 @@ track.reset()
 | `headers` | `object \| () => object` | — | 额外请求头（如 `Authorization`）；`sendBeacon` 场景无法携带 |
 | `plugins` | `TrackPlugin[]` | 默认插件集 | 见 [插件](/track/plugins) |
 | `replayEnabled` / `replaySampleRate` | `boolean` / `number` | `false` / `10` | 回放开关与会话采样率 |
-| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | 关 / 关 / **开** / 1MB | 接口监控链开关，见 [插件](/track/plugins#接口监控) |
+| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | 关 / 关 / 关 / 1MB | 接口监控链开关（`apiBodyMaskEnabled` 默认不脱敏，响应体原文上传），见 [插件](/track/plugins#接口监控) |
 | `visualRules` | `VisualRule[]` | — | 圈选规则 |
 | `geoEnabled` | `boolean` | `false` | 精确位置采集 |
 | `debug` | `boolean` | `false` | 控制台输出调试日志 |
 | `beforeSend` | `(event) => event \| null \| false` | — | 事件入队前改写 `props` 或丢弃（返回 `null`/`false` 丢弃） |
 | `beforeSendOnError` | `'drop' \| 'keep'` | `'drop'` | `beforeSend` 抛错时丢弃事件，或发送钩子处理前的原事件 |
 | `ignoreErrors` | `(string \| RegExp)[] \| (error, message) => boolean` | — | 不上报的错误 |
-| `skipHandledErrors` | `boolean` | `true`（**行为变更**） | 跳过 `HttpError` 与标记 `handled`/`expected` 的错误 |
+| `skipHandledErrors` | `boolean` | `false` | 设 `true` 时跳过 `HttpError` 与标记 `handled`/`expected` 的错误；默认全部上报 |
 
 带「远端下发」说明的选项：本地显式设置优先，未设置时使用 `/track/config` 下发值，**下次启动生效**。
 
@@ -133,15 +133,15 @@ const tracker = createTracker({
   appKey: 'your-app-key',
   beforeSend: (e) => (e.event === 'debug_only' ? null : e),
   ignoreErrors: ['ResizeObserver loop', /^AbortError/],
-  skipHandledErrors: true // 默认值
+  skipHandledErrors: true // 默认 false（全部上报），这里显式打开
 })
 ```
 
 - **`beforeSend(event)`**：每个业务事件（含 `$identify`）入队前调用；返回 `null` 或 `false` 丢弃。返回对象时只取其 `props` 合并回事件，`event_id`、`distinct_id`、事件名等不可改；非对象返回值视为不改。
 - **钩子抛错默认丢弃事件**（`beforeSendOnError: 'drop'`），避免脱敏钩子出错时把未脱敏数据发出；设为 `'keep'` 则发送钩子处理前的原事件。
-- **`beforeSend` 不覆盖**：`$session_start` / `$session_end`、会话回放块、接口响应体上传。回放用 `maskTextSelector` / `maskSelectors` 遮罩，响应体用 `apiBodyMaskEnabled`（默认开启）脱敏。
+- **`beforeSend` 不覆盖**：`$session_start` / `$session_end`、会话回放块、接口响应体上传。回放用 `maskTextSelector` / `maskSelectors` 遮罩，响应体用 `apiBodyMaskEnabled`（默认关闭，需显式设 `true`）脱敏。
 - **`ignoreErrors`**：字符串按错误 message 子串匹配，`RegExp` 按 message 测试；也可传谓词 `(error, message) => boolean`，返回 `true` 表示忽略（谓词抛错按不忽略处理）。
-- **`skipHandledErrors`**（默认 `true`，**行为变更**：升级后这类错误不再上报为 `$error`，`$error` 数量可能下降）：跳过 `error.name === 'HttpError'` 以及 `error.handled === true` / `error.expected === true` 的错误——通常是请求拦截器已经提示过用户的接口错误。设为 `false` 则全部上报。
+- **`skipHandledErrors`**（默认 `false`：**所有错误都上报**为 `$error`，包括 `HttpError` 和已处理的错误）：设为 `true` 时跳过 `error.name === 'HttpError'` 以及 `error.handled === true` / `error.expected === true` 的错误——通常是请求拦截器已经提示过用户的接口错误。
 - 以上过滤同时作用于 `error` 插件（`window` error、`unhandledrejection`）和 Vue 集成的 `app.config.errorHandler`；被过滤时原有 errorHandler 仍会被调用。
 
 跳过的接口错误如果仍想统计，在拦截器里手动上报：
