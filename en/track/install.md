@@ -110,7 +110,7 @@ track.reset()
 | `headers` | `object \| () => object` | — | Extra request headers (such as `Authorization`); not sent with `sendBeacon` |
 | `plugins` | `TrackPlugin[]` | default set | See [Plugins](/en/track/plugins) |
 | `replayEnabled` / `replaySampleRate` | `boolean` / `number` | `false` / `10` | Replay switch and per-session sample rate |
-| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | off / off / off / 1MB | API monitoring switches (`apiBodyMaskEnabled` is off, so bodies are uploaded as-is); see [Plugins](/en/track/plugins#api-monitoring) |
+| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | off / off / off / 1MB | API monitoring switches (`apiBodyMaskEnabled` is off, so personal-data fields are uploaded as-is; credential keys are always masked); see [Plugins](/en/track/plugins#api-monitoring) |
 | `visualRules` | `VisualRule[]` | — | Visual-tagging rules |
 | `geoEnabled` | `boolean` | `false` | Precise location |
 | `debug` | `boolean` | `false` | Log SDK activity to the console |

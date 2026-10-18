@@ -19,7 +19,7 @@
 | 输入内容 | 不采集 `input` / `textarea` 的 `value` |
 | 密码与敏感区域 | `input[type="password"]`、`maskSelectors` 命中区域与 `data-track-mask` 元素整块屏蔽 |
 | 会话回放 | 默认关闭。开启后**页面文本默认显示原文**（`maskTextSelector` 默认不设置）；输入框的值仍替换为 `***` |
-| 响应体 | 默认不采集。开启采集后**默认原文上传**（`apiBodyMaskEnabled` 默认 `false`）；凭证端点永不采集 |
+| 响应体 | 默认不采集。开启采集后个人信息**默认原文上传**（`apiBodyMaskEnabled` 默认 `false`）；凭证类键（`token`、`refresh_token`、`password`、`cookie` 等）始终替换为 `***`；凭证端点永不采集 |
 | 错误 | **默认全部上报**，包括 `HttpError` 和标记 `handled` / `expected` 的错误（`skipHandledErrors` 默认 `false`） |
 | 普通事件 | 默认原样上报；`beforeSend` 默认不设置 |
 
@@ -38,6 +38,17 @@ api_key  apikey  auth  secret  password
 
 非法 URL 原样返回；相对 URL 保持相对形态。
 
+## 响应体中的凭证字段
+
+响应体 JSON 里下面这些键（**小写归一后精确匹配**，任意层级）的值**始终**替换为 `***`，不受 `apiBodyMaskEnabled` 控制，和 URL 敏感参数的键清单一致：
+
+```text
+token  access_token  refresh_token  id_token  authorization
+api_key  apikey  auth  secret  password  pwd  cookie
+```
+
+`apiBodyMaskEnabled` 只控制个人信息类键（`phone`、`mobile`、`email`、`idcard`、`bankcard`），默认原文上传。键名不在清单里的令牌（例如 `jwt`、`sessionKey`）不会被识别，非 JSON 的响应体也原样上传，需要时用 `apiBodyEnabled: false` 关掉响应体采集。
+
 ## 开启遮罩与过滤
 
 默认什么都不遮、不过滤。需要时按下面的方式逐项打开：
@@ -49,7 +60,7 @@ import { replayPlugin } from '@mugsun/track-web/replay'
 const tracker = createTracker({
   endpoint: 'https://api.example.com',
   appKey: 'your-app-key',
-  // 响应体：按内置敏感键清单（password、token、phone、email 等）把值替换为 ***
+  // 响应体：个人信息键（phone、email、idcard 等）也替换为 ***（凭证类键不设也会替换）
   apiBodyMaskEnabled: true,
   // 错误：跳过 HttpError 和标记 handled / expected 的错误
   skipHandledErrors: true,
@@ -76,12 +87,34 @@ const tracker = createTracker({
 - `beforeSend` 不经过回放块和响应体上传，这两类数据只能用 `maskTextSelector` / `maskSelectors` / `data-track-mask` 和 `apiBodyMaskEnabled` 处理。
 - 整块不想录的区域（含个人信息的卡片、表格等），加 `data-track-mask` 属性或写进 `maskSelectors`，回放里直接不录这块。
 
+## 从 0.2.0 升级、保留原来的遮罩
+
+0.2.0 默认遮住回放里的全部页面文本，并对响应体里的敏感键脱敏。0.2.0 没有 `skipHandledErrors`，错误本来就全部上报，所以不用设。升级后想保持 0.2.0 的行为，加两项配置：
+
+```ts
+import { createTracker } from '@mugsun/track-web'
+import { replayPlugin } from '@mugsun/track-web/replay'
+
+const tracker = createTracker({
+  endpoint: 'https://api.example.com',
+  appKey: 'your-app-key',
+  apiBodyMaskEnabled: true, // 0.2.0 的默认值：手机号、邮箱、身份证号等也替换为 ***
+  plugins: [
+    // ...你原来的插件
+    replayPlugin({ maskTextSelector: '*' }) // 0.2.0 的默认值：遮住全部页面文本
+  ]
+})
+```
+
+0.3.0 计划里曾把 `skipHandledErrors` 默认设为 `true`，但没有发布过。想跳过 `HttpError` 和已处理的错误时，再加 `skipHandledErrors: true`。
+
 ## 合规建议
 
 - 在隐私政策中说明采集范围，并为用户提供拒绝入口（调用 `optOut()`）。
 - 包含个人信息的区域加 `data-track-mask` 或写入 `maskSelectors`。
 - 开启响应体采集前评估必要性；响应体可能含个人信息时设 `apiBodyMaskEnabled: true`。
 - 页面上展示个人信息时，回放用 `maskTextSelector` 遮住对应区域。
+- 错误默认全部上报，`$error` 的 message 可能带手机号、订单号或后端异常文本，需要时用 `beforeSend` 改写。
 - 数据存储在你自己的 PostgreSQL 中，保留周期与访问权限按企业制度配置。
 
 相关：[插件](/track/plugins) · [安全清单](/boot/security-checklist)

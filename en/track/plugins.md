@@ -65,7 +65,7 @@ This is what it looks like in the console's Session replay player: a demo sessio
 | --- | --- | --- |
 | `apiMonitorEnabled` | off | Master switch |
 | `apiBodyEnabled` | off | Capture response bodies, sent over a separate `/track/api-body` channel rather than the event queue |
-| `apiBodyMaskEnabled` | off (from 0.3.0) | When `true`, replace sensitive field values in bodies with `***`; bodies are uploaded as-is by default |
+| `apiBodyMaskEnabled` | off (from 0.3.0) | When `true`, replace personal-data field values in bodies with `***`; credential keys are always replaced regardless, see [Privacy](/en/track/privacy#credential-fields-in-response-bodies) |
 | `apiBodyMaxBytes` | 1MB | Larger bodies are skipped and marked `body_skipped=size` |
 
 Built-in protections that can't be turned off:

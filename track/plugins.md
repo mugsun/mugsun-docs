@@ -65,7 +65,7 @@ const track = createTracker({
 | --- | --- | --- |
 | `apiMonitorEnabled` | 关 | 总开关 |
 | `apiBodyEnabled` | 关 | 采集响应体，经独立通道 `/track/api-body` 上传，不进事件队列 |
-| `apiBodyMaskEnabled` | 关（0.3.0 起） | 设 `true` 时，响应体中敏感字段值替换为 `***`；默认原文上传 |
+| `apiBodyMaskEnabled` | 关（0.3.0 起） | 设 `true` 时，响应体中的个人信息字段值替换为 `***`；凭证类键不论开关始终替换，见 [隐私与合规](/track/privacy#响应体中的凭证字段) |
 | `apiBodyMaxBytes` | 1MB | 超限不采集并标记 `body_skipped=size` |
 
 内置保护（不可关闭）：

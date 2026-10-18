@@ -110,7 +110,7 @@ track.reset()
 | `headers` | `object \| () => object` | — | 额外请求头（如 `Authorization`）；`sendBeacon` 场景无法携带 |
 | `plugins` | `TrackPlugin[]` | 默认插件集 | 见 [插件](/track/plugins) |
 | `replayEnabled` / `replaySampleRate` | `boolean` / `number` | `false` / `10` | 回放开关与会话采样率 |
-| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | 关 / 关 / 关 / 1MB | 接口监控链开关（`apiBodyMaskEnabled` 默认不脱敏，响应体原文上传），见 [插件](/track/plugins#接口监控) |
+| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | 关 / 关 / 关 / 1MB | 接口监控链开关（`apiBodyMaskEnabled` 默认不脱敏个人信息字段；凭证类键始终脱敏），见 [插件](/track/plugins#接口监控) |
 | `visualRules` | `VisualRule[]` | — | 圈选规则 |
 | `geoEnabled` | `boolean` | `false` | 精确位置采集 |
 | `debug` | `boolean` | `false` | 控制台输出调试日志 |
