@@ -54,7 +54,7 @@ const track = createTracker({
 - **Page text and input values are shown as-is by default** (from 0.3.0, `maskTextSelector: '*'` is no longer passed by default and `maskAllInputs` defaults to `false`).
 - Never recorded: `input[type="password"]`, elements with `data-track-mask`, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`).
 - To mask, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` for all text and input values; for text you can also pass a narrower selector such as `'.user-info'`. See [Privacy](/en/track/privacy#turning-on-masking-and-filtering).
-- Input values are recorded as plain text by default. Under China's Personal Information Protection Law (PIPL), collecting sensitive personal information requires the user's separate consent; without that consent, set `maskAllInputs: true`. See [Privacy](/en/track/privacy).
+- Processing sensitive personal information requires separate consent. Until you have it, do not record inputs that contain such information (you can set `maskAllInputs`, and use `maskTextSelector` for page text). Follow your legal counsel's advice on the details.
 
 ```html
 <!-- never recorded -->
