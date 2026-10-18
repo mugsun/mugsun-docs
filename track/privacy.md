@@ -3,7 +3,12 @@
 本页列出 SDK `@mugsun/track-web` 的实际行为。若文档与实现不一致，请在 [mugsun-track](https://github.com/mugsun/mugsun-track/issues) 提 issue。
 
 ::: warning 0.3.0 起默认显示原文、全部上报
-从 0.3.0（计划版本，见仓库 CHANGELOG「Unreleased」）起，SDK **默认不遮罩、不过滤**：回放显示页面原文，响应体原文上传，已处理的错误和 `HttpError` 也照常上报。需要遮罩或过滤的，由接入方自己打开，见下方 [开启遮罩与过滤](#开启遮罩与过滤)。0.2.0 默认遮罩回放文本和响应体敏感字段。
+- 适用版本：0.3.0 起（计划版本，见仓库 CHANGELOG「Unreleased」）。
+- 回放默认显示页面原文。输入框的值仍然遮成 `***`。
+- 响应体里的个人信息字段默认原文上传。凭证类键（`token`、`password`、`cookie` 等）始终替换为 `***`，见 [响应体中的凭证字段](#响应体中的凭证字段)。
+- 错误默认全部上报，包括 `HttpError` 和已处理的错误。这一点和 0.2.0 一样，0.2.0 没有 `skipHandledErrors`。
+- 0.2.0 默认遮罩回放文本和响应体敏感字段。想保持原来的行为，见 [从 0.2.0 升级、保留原来的遮罩](#从-0-2-0-升级、保留原来的遮罩)。
+- 其他遮罩和过滤由接入方自己打开，见 [开启遮罩与过滤](#开启遮罩与过滤)。
 :::
 
 ::: danger 告知与单独同意（《个人信息保护法》）
@@ -105,6 +110,8 @@ const tracker = createTracker({
   ]
 })
 ```
+
+远端配置也要看：mugsun-boot 的「响应体脱敏」默认关，`/track/config` 下发 `apiBodyMaskEnabled: false`，本地没设置时 SDK 用这个远端值（下次启动生效）。所以要确保脱敏，就在本地显式设 `apiBodyMaskEnabled: true`（本地优先），或在管理后台打开「响应体脱敏」。
 
 0.3.0 计划里曾把 `skipHandledErrors` 默认设为 `true`，但没有发布过。想跳过 `HttpError` 和已处理的错误时，再加 `skipHandledErrors: true`。
 

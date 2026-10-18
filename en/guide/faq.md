@@ -89,7 +89,7 @@ The console references the SDK as `file:../mugsun-track`, and the SDK repository
 
 ### Does the SDK record what users type?
 
-No. Input and textarea values are never captured; password fields, `maskSelectors` matches and `data-track-mask` elements are blocked entirely; replays mask inputs and page text by default. See [Privacy](/en/track/privacy).
+No. Input and textarea values are never captured; password fields, `maskSelectors` matches and `data-track-mask` elements are blocked entirely; replays mask input values by default, and page text is shown as-is by default (from 0.3.0). To mask page text, pass `maskTextSelector`; see [Privacy · Turning on masking and filtering](/en/track/privacy#turning-on-masking-and-filtering).
 
 ### Are tokens in URLs sent to the server?
 

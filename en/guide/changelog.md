@@ -2,6 +2,16 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## track 0.3.0 (planned)
+
+### mugsun-track
+
+Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.com/mugsun/mugsun-track/pull/19))
+
+- **No masking or filtering by default (behavior change)**: replays show the original page text (`maskTextSelector` no longer defaults to `'*'`); `apiBodyMaskEnabled` defaults to `false`, so personal-data fields in response bodies are uploaded as-is; `skipHandledErrors` defaults to `false`, so every error is reported. Input values are still masked as `***`.
+- **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie` and similar keys in response bodies are replaced with `***` regardless of the switch.
+- **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*' })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
+
 ## 2026-10-18 · Built-in MCP Server removed
 
 ### mugsun-boot

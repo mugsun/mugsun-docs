@@ -2,6 +2,16 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## track 0.3.0（计划）
+
+### mugsun-track
+
+尚未发布，见仓库 CHANGELOG「Unreleased」。（[#19](https://github.com/mugsun/mugsun-track/pull/19)）
+
+- **默认不遮罩、不过滤（行为变更）**：回放默认显示页面原文（`maskTextSelector` 不再默认 `'*'`）；`apiBodyMaskEnabled` 默认 `false`，响应体里的个人信息字段原文上传；`skipHandledErrors` 默认 `false`，错误全部上报。输入框的值仍然遮成 `***`。
+- **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie` 等键不论开关都替换为 `***`。
+- **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*' })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
+
 ## 2026-10-18 · 移除内置 MCP Server
 
 ### mugsun-boot

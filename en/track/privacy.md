@@ -3,7 +3,12 @@
 This page describes what `@mugsun/track-web` actually does. If the docs and the code disagree, please open an issue on [mugsun-track](https://github.com/mugsun/mugsun-track/issues).
 
 ::: warning From 0.3.0, original text is shown and everything is reported by default
-From 0.3.0 (planned; see "Unreleased" in the repo CHANGELOG), the SDK **masks and filters nothing by default**: replays show the original page text, response bodies are uploaded as-is, and handled errors and `HttpError` are reported too. Integrators turn on masking or filtering themselves; see [Turning on masking and filtering](#turning-on-masking-and-filtering) below. In 0.2.0, replay text and sensitive response body fields were masked by default.
+- Applies from 0.3.0 (planned; see "Unreleased" in the repo CHANGELOG).
+- Replays show the original page text by default. Input values are still masked as `***`.
+- Personal-data fields in response bodies are uploaded as-is by default. Credential keys (`token`, `password`, `cookie`, …) are always replaced with `***`; see [Credential fields in response bodies](#credential-fields-in-response-bodies).
+- Every error is reported by default, including `HttpError` and handled errors. This is the same as 0.2.0, which had no `skipHandledErrors`.
+- 0.2.0 masked replay text and sensitive response body fields by default. To keep that behavior, see [Upgrading from 0.2.0 and keeping the old masking](#upgrading-from-0-2-0-and-keeping-the-old-masking).
+- Integrators turn on any other masking or filtering themselves; see [Turning on masking and filtering](#turning-on-masking-and-filtering).
 :::
 
 ::: danger Notice and separate consent (PIPL)
@@ -105,6 +110,8 @@ const tracker = createTracker({
   ]
 })
 ```
+
+Check remote config too: mugsun-boot's "response body masking" switch is off by default, so `/track/config` sends `apiBodyMaskEnabled: false`, and the SDK uses that value when nothing is set locally (on the next start). To be sure bodies are masked, set `apiBodyMaskEnabled: true` locally (local settings win) or turn on "response body masking" in the admin UI.
 
 A `skipHandledErrors` default of `true` was planned for 0.3.0 but never released. Add `skipHandledErrors: true` if you want to skip `HttpError` and handled errors.
 
