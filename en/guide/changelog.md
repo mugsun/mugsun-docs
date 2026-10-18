@@ -2,13 +2,33 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
-## 2026-10-18 · Built-in MCP Server removed
+## 2026-10-18 · Duplicate submissions return 400
+
+### mugsun-core
+
+- **Duplicate submissions return 400 instead of 500**: when a unique constraint conflict occurs, the app returns HTTP 400 with `code` 400 and the message 「数据已存在，请勿重复提交」, with no SQL, constraint name or field values. These errors do not call `ErrorLogListener` (so boot's `sys_error_log` no longer records them); the server logs one WARN line instead. Other database errors still return 500. This applies to Servlet web apps that use `mugsun-starter-mybatis`. ([#6](https://github.com/mugsun/mugsun-core/pull/6))
+- **Dameng unique-constraint conflicts also return 400**: `mugsun-starter-mybatis` ships a `sql-error-codes.xml` at the classpath root that adds Dameng error codes -6602, -6612 and -6625. If your app also puts a `sql-error-codes.xml` at the classpath root, it shadows this one, so copy the Dameng entry into yours.
+
+## 2026-10-18 · Stricter module switch values
 
 ### mugsun-boot
 
-- **Built-in MCP Server removed (breaking)**: Spring AI and the MCP SDK are gone from the dependencies. `/sse`, `/mcp` and `/mcp/message` return 404 under any configuration, and related variables such as `MUGSUN_AI_MCP_SERVER` no longer have any effect. These endpoints bypassed the project's authentication. If you used it to expose tools, run your own MCP server instead. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
+- **A bad environment variable stops startup (breaking)**: `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` (and `mugsun.<module>.enabled` in yml) accept only `true` or `false` (case-insensitive, no surrounding spaces), and unset means on; see the [value table](/en/guide/architecture#two-layers-of-module-switches) for other values. These values used to count as off; now startup fails, and the error names the variable and its value. ([#96](https://github.com/mugsun/mugsun-boot/pull/96))
+- **System parameters are checked on save**: `gis.module.enabled` and `ai.module.enabled` are read the same way as before. A bad value is rejected on save, and `1` and `0` are deprecated; they trigger a notice on save and a warning in the runtime log. A bad value left from before the upgrade counts as off and logs a warning.
+
+To upgrade:
+
+1. Find the three variables above (and `mugsun.<module>.enabled`) in your compose files, `.env`, systemd or K8s configuration and yml.
+2. Change any value that is empty, `1`, `0`, padded with spaces, or `yes`, `on`, `no` or `off` to `true` or `false`. These values used to mean off, so write `false` to keep the old behavior.
+3. Or remove the variable to keep the default (on).
+
+## 2026-10-18 · Built-in MCP Server temporarily offline (breaking change)
+
+### mugsun-boot
+
+- **The built-in MCP Server is temporarily offline and will return with authentication**: `/sse`, `/mcp` and `/mcp/message` bypassed the project's authentication. While it is offline, these endpoints return 404 under any configuration and `MUGSUN_AI_MCP_SERVER` has no effect. The changelog entry for its return will describe the switch and credential setup. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
 - **Calling external MCP tools still works**: the MCP toolbox and the workflow MCP node are unchanged.
-- **Guard against re-adding them**: a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
+- **Dependency check**: while it is offline, a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
 
 ## 2026-10-14 · Tracking dashboards cut days in local time
 

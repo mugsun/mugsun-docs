@@ -2,13 +2,33 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
-## 2026-10-18 · 移除内置 MCP Server
+## 2026-10-18 · 重复提交返回 400
+
+### mugsun-core
+
+- **重复提交从 500 改为 400**：遇到唯一约束冲突时返回 HTTP 400，`code` 为 400，提示「数据已存在，请勿重复提交」，不带 SQL、约束名和字段值。这类错误不回调 `ErrorLogListener`（boot 的 `sys_error_log` 因此不再记录），服务端只记一条 WARN。其它数据库异常仍是 500。需要引入 `mugsun-starter-mybatis`，且是 Servlet Web 应用。（[#6](https://github.com/mugsun/mugsun-core/pull/6)）
+- **达梦唯一约束冲突同样返回 400**：`mugsun-starter-mybatis` 在 classpath 根目录带了一份 `sql-error-codes.xml`，补上达梦错误码 -6602、-6612、-6625。应用自己在 classpath 根目录也放了 `sql-error-codes.xml` 时会遮住这份，需要把达梦条目抄过去。
+
+## 2026-10-18 · 模块开关取值收紧
 
 ### mugsun-boot
 
-- **内置 MCP Server 已移除（破坏性变更）**：Spring AI 与 MCP SDK 整体移出依赖。`/sse`、`/mcp`、`/mcp/message` 在任何配置下都返回 404，`MUGSUN_AI_MCP_SERVER` 等相关变量不再有作用。原因是这些端点不经过本项目鉴权。曾用它对外提供工具的部署，需要改为自建 MCP 服务。（[#89](https://github.com/mugsun/mugsun-boot/pull/89)）
+- **环境变量写错会启动失败（破坏性变更）**：`MUGSUN_GIS_ENABLED`、`MUGSUN_TRACK_ENABLED`、`MUGSUN_AI_ENABLED`（以及 yml 里的 `mugsun.<模块>.enabled`）只接受 `true` 或 `false`（不区分大小写，前后不能有空格），不设置按开启，其它值见 [取值表](/guide/architecture#模块装配-两层开关)。这些值以前都按关闭处理，现在启动失败，报错里会写出变量名和原值。（[#96](https://github.com/mugsun/mugsun-boot/pull/96)）
+- **系统参数保存时校验**：`gis.module.enabled`、`ai.module.enabled` 的判定规则不变。写错的值保存时被拒绝，`1`、`0` 已弃用，保存时和运行时日志都会提示。升级前留下的错误值按关闭处理，日志里会出现警告。
+
+升级步骤：
+
+1. 在 compose 文件、`.env`、systemd 或 K8s 配置和 yml 里找出上面三个变量（以及 `mugsun.<模块>.enabled`）。
+2. 值为空、`1`、`0`、带首尾空格，或是 `yes`、`on`、`no`、`off` 的，改成 `true` 或 `false`。这些值以前都按关闭处理，想保持原状就写 `false`。
+3. 也可以删掉这个变量，按默认开启。
+
+## 2026-10-18 · 内置 MCP Server（暂时下线，破坏性变更）
+
+### mugsun-boot
+
+- **内置 MCP Server 暂时下线，正在加鉴权后恢复**：原因是 `/sse`、`/mcp`、`/mcp/message` 不经过本项目鉴权。下线期间这三个端点在任何配置下都返回 404，`MUGSUN_AI_MCP_SERVER` 不起作用。恢复后的开关和凭据配置，以届时的更新日志为准。（[#89](https://github.com/mugsun/mugsun-boot/pull/89)）
 - **调用外部 MCP 工具不受影响**：「MCP 工具箱」和工作流的 MCP 节点照常可用。
-- **禁止重新引入**：根 POM 的 maven-enforcer 规则拦下 Spring AI 与 MCP SDK，包括传递依赖；pom 里不允许写 `enforcer.skip`。（[#91](https://github.com/mugsun/mugsun-boot/pull/91)）
+- **依赖检查**：下线期间，根 POM 的 maven-enforcer 规则拦下 Spring AI 与 MCP SDK，包括传递依赖；pom 里不允许写 `enforcer.skip`。（[#91](https://github.com/mugsun/mugsun-boot/pull/91)）
 
 ## 2026-10-14 · 埋点看板按当地时区切日
 
