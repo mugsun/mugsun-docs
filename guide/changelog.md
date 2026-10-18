@@ -40,6 +40,15 @@
 - **调用外部 MCP 工具不受影响**：「MCP 工具箱」和工作流的 MCP 节点照常可用。
 - **依赖检查**：下线期间，根 POM 的 maven-enforcer 规则拦下 Spring AI 与 MCP SDK，包括传递依赖；pom 里不允许写 `enforcer.skip`。（[#91](https://github.com/mugsun/mugsun-boot/pull/91)）
 
+## 2026-10-14 · 错误堆栈去掉脚本地址 query
+
+### mugsun-track
+
+- **堆栈里的脚本地址去掉 query 和 hash**：`?`、`#` 之后的部分（常带 token、签名）会去掉，保留 `:行:列`。单个事件的属性合计超过 16KB 时，先缩短堆栈。（[#16](https://github.com/mugsun/mugsun-track/pull/16)）
+- **错误分组会断开一次**：错误指纹按 message 和堆栈首帧的脚本地址计算，现在按去掉 query 后的地址计算。首帧脚本地址带 `?` 或 `#` 的错误，升级后归入新的错误分组，已有分组不会与新分组合并；首帧地址不带 query 的错误不受影响。
+
+详见 [埋点 · 插件](/track/plugins)。
+
 ## 2026-10-14 · 埋点看板按当地时区切日
 
 ### mugsun-boot

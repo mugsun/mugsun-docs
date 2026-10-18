@@ -11,7 +11,13 @@ The SDK core handles only the queue, sessions, identity and transport; every kin
 | Autocapture | `autocapturePlugin()` | Clicks and similar interactions; skips `maskSelectors` and password fields |
 | Impressions | `exposurePlugin()` | Viewable impressions (pairs with `v-track:exposure`) |
 | Web Vitals | `webVitalsPlugin()` | Core performance metrics |
-| Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections; the `stack` keeps up to 4,096 characters, other string properties 1,024 |
+| Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections; the `stack` keeps up to 4,096 characters, other string properties 1,024; anything after `?` or `#` in script URLs inside the stack (often tokens or signatures) is removed, keeping `:line:column`; when an event's properties exceed 16 KB in total, the stack is shortened first |
+
+The error fingerprint is computed from the message and the script URL of the first stack frame, without line and column numbers. The query and hash of that URL are removed first, so the same error is no longer split into several groups by different tokens or signatures.
+
+::: warning Error grouping breaks once after upgrading
+Errors whose first-frame script URL has a `?` or `#` (for example CDN URLs with a version, token or signature) get a new fingerprint after the upgrade and go into new error groups; existing groups are not merged with the new ones. Errors whose first-frame URL has no query keep the same fingerprint.
+:::
 
 ## Adding optional plugins
 
