@@ -2,6 +2,13 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-18 · 下线 AI「对外暴露」页
+
+### mugsun-boot
+
+- **「MCP 工具箱」不再有「对外暴露」页**：内置 MCP Server 移除后，这一页只改工具的启用状态，不对外提供任何服务。`/system/ai/mcp/server/list`、`/system/ai/mcp/server/toggle` 现在返回 404。（[#92](https://github.com/mugsun/mugsun-boot/pull/92)）
+- **升级时自动隐藏按钮**：新的数据库迁移删除「对外暴露」按钮和角色上的该授权（逻辑删除）。已登记的 MCP 工具保留，工具的启用状态仍可在编辑表单里修改。
+
 ## 2026-10-14 · 埋点看板按当地时区切日
 
 ### mugsun-boot
