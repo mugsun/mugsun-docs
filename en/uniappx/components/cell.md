@@ -9,7 +9,7 @@ demo: pages/demo/basic/cell
 
 This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Component directory: `uni_modules/ms-ui/components/ms-cell`. ms-ui is a commercial edition and its source is not public.
+Component directory: `uni_modules/ms-ui/components/ms-cell`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage

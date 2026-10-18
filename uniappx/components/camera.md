@@ -9,7 +9,7 @@ demo: pages/demo/media/camera
 
 本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-组件目录：`uni_modules/ms-camera/components/ms-camera`。ms-ui 为商业版，源码不公开。
+组件目录：`uni_modules/ms-camera/components/ms-camera`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 可选插件：需单独安装 `uni_modules/ms-camera`，并依赖 `ms-ui`。
 演示路由：`#/pages/demo/media/camera`。
 
