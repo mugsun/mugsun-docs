@@ -30,6 +30,15 @@ To upgrade:
 - **Calling external MCP tools still works**: the MCP toolbox and the workflow MCP node are unchanged.
 - **Dependency check**: while it is offline, a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
 
+## 2026-10-14 · Error stacks drop script URL queries
+
+### mugsun-track
+
+- **Script URLs in stacks lose their query and hash**: everything after `?` or `#` (often tokens or signatures) is removed, keeping `:line:column`. When an event's properties exceed 16 KB in total, the stack is shortened first. ([#16](https://github.com/mugsun/mugsun-track/pull/16))
+- **Error grouping breaks once**: the error fingerprint is computed from the message and the script URL of the first stack frame, now with the query removed. Errors whose first-frame script URL has a `?` or `#` go into new error groups after the upgrade, and existing groups are not merged with the new ones. Errors whose first-frame URL has no query are not affected.
+
+See [Analytics · Plugins](/en/track/plugins).
+
 ## 2026-10-14 · Tracking dashboards cut days in local time
 
 ### mugsun-boot
