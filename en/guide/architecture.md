@@ -67,7 +67,7 @@ A few more points:
 - The system parameters `gis.module.enabled` and `ai.module.enabled` are on when empty, `true` (case-insensitive) or `1`. Leading and trailing spaces are ignored. Any other value counts as off.
 - The environment variables `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` are on when unset. Once set, only `true` counts as on (case-insensitive; surrounding spaces are not ignored), and `1`, `yes` or an empty value count as off. For an emergency shutdown, set `false` explicitly.
 - On multi-server deployments, each server caches system parameters locally for up to 1 hour, so the other servers turn the module off only after their cache expires.
-- The built-in MCP Server has been removed, and its related variables (such as `MUGSUN_AI_MCP_SERVER`) no longer have any effect.
+- The built-in MCP Server is temporarily offline and will return with authentication. While it is offline, `MUGSUN_AI_MCP_SERVER` has no effect.
 - The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.
 
 The console has build-time counterparts, `VITE_ENABLE_GIS`, `VITE_ENABLE_TRACK` and `VITE_ENABLE_AI`; turning one off skips its routes and plugins.

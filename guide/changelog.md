@@ -2,13 +2,13 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
-## 2026-10-18 · 移除内置 MCP Server
+## 2026-10-18 · 内置 MCP Server 暂时下线
 
 ### mugsun-boot
 
-- **内置 MCP Server 已移除（破坏性变更）**：Spring AI 与 MCP SDK 整体移出依赖。`/sse`、`/mcp`、`/mcp/message` 在任何配置下都返回 404，`MUGSUN_AI_MCP_SERVER` 等相关变量不再有作用。原因是这些端点不经过本项目鉴权。曾用它对外提供工具的部署，需要改为自建 MCP 服务。（[#89](https://github.com/mugsun/mugsun-boot/pull/89)）
+- **内置 MCP Server 暂时下线，正在加鉴权后恢复**：原因是 `/sse`、`/mcp`、`/mcp/message` 不经过本项目鉴权。下线期间这三个端点在任何配置下都返回 404，`MUGSUN_AI_MCP_SERVER` 不起作用。恢复后的开关和凭据配置，以届时的更新日志为准。（[#89](https://github.com/mugsun/mugsun-boot/pull/89)）
 - **调用外部 MCP 工具不受影响**：「MCP 工具箱」和工作流的 MCP 节点照常可用。
-- **禁止重新引入**：根 POM 的 maven-enforcer 规则拦下 Spring AI 与 MCP SDK，包括传递依赖；pom 里不允许写 `enforcer.skip`。（[#91](https://github.com/mugsun/mugsun-boot/pull/91)）
+- **依赖检查**：下线期间，根 POM 的 maven-enforcer 规则拦下 Spring AI 与 MCP SDK，包括传递依赖；pom 里不允许写 `enforcer.skip`。（[#91](https://github.com/mugsun/mugsun-boot/pull/91)）
 
 ## 2026-10-14 · 埋点看板按当地时区切日
 

@@ -2,13 +2,13 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
-## 2026-10-18 · Built-in MCP Server removed
+## 2026-10-18 · Built-in MCP Server temporarily offline
 
 ### mugsun-boot
 
-- **Built-in MCP Server removed (breaking)**: Spring AI and the MCP SDK are gone from the dependencies. `/sse`, `/mcp` and `/mcp/message` return 404 under any configuration, and related variables such as `MUGSUN_AI_MCP_SERVER` no longer have any effect. These endpoints bypassed the project's authentication. If you used it to expose tools, run your own MCP server instead. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
+- **The built-in MCP Server is temporarily offline and will return with authentication**: `/sse`, `/mcp` and `/mcp/message` bypassed the project's authentication. While it is offline, these endpoints return 404 under any configuration and `MUGSUN_AI_MCP_SERVER` has no effect. The changelog entry for its return will describe the switch and credential setup. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
 - **Calling external MCP tools still works**: the MCP toolbox and the workflow MCP node are unchanged.
-- **Guard against re-adding them**: a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
+- **Dependency check**: while it is offline, a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
 
 ## 2026-10-14 · Tracking dashboards cut days in local time
 
