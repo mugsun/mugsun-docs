@@ -9,7 +9,7 @@ demo: pages/demo/media/svg
 
 This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Component directory: `uni_modules/ms-svg/components/ms-svg`. ms-ui is a commercial edition and its source is not public.
+Component directory: `uni_modules/ms-svg/components/ms-svg`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-svg` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/svg`.
 

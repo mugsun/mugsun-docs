@@ -12,9 +12,9 @@ mugsun 是一套可以私有化部署的中后台系统，包含业务后端、�
 | <span style="white-space:nowrap">[core](/core/)</span> | BOM 与 Starter，发布在 Maven Central | MyBatis-Flex、Sa-Token | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.1.0</span> |
 | <span style="white-space:nowrap">[pc](/pc/)</span> | 管理后台 | Vue 3、Vite 7、Element Plus、Pinia | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.1.0</span> |
 | <span style="white-space:nowrap">[track](/track/)</span> | 浏览器埋点 SDK，发布在 npm | TypeScript，回放基于 rrweb | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.2.0</span> |
-| <span style="white-space:nowrap">[ms-ui](/uniappx/)</span> | uni-app x 跨端组件库 | uvue、uts | <span style="white-space:nowrap">商业版</span> | <span style="white-space:nowrap">—</span> |
+| <span style="white-space:nowrap">[ms-ui](/uniappx/)</span> | uni-app x 跨端组件库 | uvue、uts | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">—</span> |
 
-ms-ui 的源码不公开，文档和 H5 演示对所有人开放。
+ms-ui 的源码仓库暂未公开，文档和 H5 演示对所有人开放。
 
 ## 架构
 

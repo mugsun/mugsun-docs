@@ -7,7 +7,7 @@ demo: pages/demo/display/scroll-x
 
 `ms-scroll-x-item` 是 `ms-scroll-x` 中的子项。
 
-组件目录：`uni_modules/ms-ui/components/ms-scroll-x-item`。ms-ui 为商业版，源码不公开。
+组件目录：`uni_modules/ms-ui/components/ms-scroll-x-item`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/scroll-x`。
 
 ## 基础用法
