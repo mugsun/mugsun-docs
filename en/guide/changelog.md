@@ -6,12 +6,12 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-boot
 
-- **A bad environment variable stops startup (breaking)**: `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` accept only `true` or `false` (case-insensitive, no surrounding spaces), and unset means on. An empty value, `1`, `0`, a value with spaces, or `yes`, `on`, `no` and `off` used to count silently as off. Now the service fails to start, and the error names the variable and its value. ([#96](https://github.com/mugsun/mugsun-boot/pull/96))
+- **A bad environment variable stops startup (breaking)**: `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` (and `mugsun.<module>.enabled` in yml) accept only `true` or `false` (case-insensitive, no surrounding spaces), and unset means on. An empty value, `1`, `0`, a value with spaces, or `yes`, `on`, `no` and `off` used to count silently as off. Now the service fails to start, and the error names the variable and its value. ([#96](https://github.com/mugsun/mugsun-boot/pull/96))
 - **System parameters are checked on save**: `gis.module.enabled` and `ai.module.enabled` are read the same way as before. A bad value is rejected on save, and `1` or `0` saves with a deprecation notice. A bad value left from before the upgrade counts as off and logs a warning.
 
 To upgrade:
 
-1. Find the three variables above in your compose files, `.env`, systemd or K8s configuration.
+1. Find the three variables above (and `mugsun.<module>.enabled`) in your compose files, `.env`, systemd or K8s configuration and yml.
 2. Change any value that is empty, `1`, `0`, padded with spaces, or `yes`, `on`, `no` or `off` to `true` or `false`. These values used to mean off, so write `false` to keep the old behavior.
 3. Or remove the variable to keep the default (on).
 
