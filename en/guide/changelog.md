@@ -6,7 +6,7 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-boot
 
-- **A bad environment variable stops startup (breaking)**: `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` (and `mugsun.<module>.enabled` in yml) accept only `true` or `false` (case-insensitive, no surrounding spaces), and unset means on. An empty value, `1`, `0`, a value with spaces, or `yes`, `on`, `no` and `off`: these values used to count as off. Now the service fails to start, and the error names the variable and its value. ([#96](https://github.com/mugsun/mugsun-boot/pull/96))
+- **A bad environment variable stops startup (breaking)**: `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` (and `mugsun.<module>.enabled` in yml) accept only `true` or `false` (case-insensitive, no surrounding spaces), and unset means on; see the [value table](/en/guide/architecture#two-layers-of-module-switches) for other values. These values used to count as off; now startup fails, and the error names the variable and its value. ([#96](https://github.com/mugsun/mugsun-boot/pull/96))
 - **System parameters are checked on save**: `gis.module.enabled` and `ai.module.enabled` are read the same way as before. A bad value is rejected on save, and `1` and `0` are deprecated; they trigger a notice on save and a warning in the runtime log. A bad value left from before the upgrade counts as off and logs a warning.
 
 To upgrade:
