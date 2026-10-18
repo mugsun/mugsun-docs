@@ -8,7 +8,7 @@ Admin systems that must be deployed on-premises and also need product analytics.
 
 ### What are the licenses?
 
-boot and core are Apache-2.0; pc and track are MIT. The console's UI foundation is derived from art-design-pro (MIT), so keep the repository's `NOTICE` when you redistribute it. Each repository's `LICENSE` is authoritative.
+boot, core, pc and track are all MIT-licensed. The console's UI foundation is derived from art-design-pro (MIT), so keep the repository's `NOTICE` when you redistribute it. Each repository's `LICENSE` is authoritative.
 
 ### Is there a live demo?
 

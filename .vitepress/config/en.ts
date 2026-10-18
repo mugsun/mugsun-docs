@@ -267,7 +267,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
     darkModeSwitchTitle: 'Switch to dark',
     langMenuLabel: 'Language',
     footer: {
-      message: 'boot and core are released under Apache-2.0; pc and track under MIT.',
+      message: 'boot, core, pc and track are released under the MIT License.',
       copyright:
         '© 2026 mugsun · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2025148372号-2</a>',
     },

@@ -8,7 +8,7 @@
 
 ### 许可证是什么？
 
-boot、core 为 Apache-2.0；pc、track 为 MIT。pc 的 UI 基座衍生自 art-design-pro（MIT），对外分发须保留仓内 `NOTICE`。以各仓 `LICENSE` 为准。
+boot、core、pc、track 均为 MIT。pc 的 UI 基座衍生自 art-design-pro（MIT），对外分发须保留仓内 `NOTICE`。以各仓 `LICENSE` 为准。
 
 ### 有在线演示吗？
 

@@ -51,7 +51,7 @@ mvn -pl mugsun-boot-server -am package -Pbasic,'!full'
 | 框架 | Spring Boot 3、MyBatis-Flex、Sa-Token、Flyway |
 | 数据库 | PostgreSQL 16（含 PostGIS、pgvector）、Redis 7 |
 | AI 模块 | Spring AI |
-| 许可 | Apache-2.0 |
+| 许可 | MIT |
 
 ## 下一步
 

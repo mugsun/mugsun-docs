@@ -51,7 +51,7 @@ For Kingbase or Dameng databases, add `-Pkingbase` or `-Pdameng`.
 | Frameworks | Spring Boot 3, MyBatis-Flex, Sa-Token, Flyway |
 | Databases | PostgreSQL 16 (with PostGIS and pgvector), Redis 7 |
 | AI module | Spring AI |
-| License | Apache-2.0 |
+| License | MIT |
 
 ## Next steps
 
