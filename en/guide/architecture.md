@@ -60,13 +60,12 @@ If you turn a module off only with the system parameter `gis.module.enabled` or 
 
 The one exception is `/system/gis/status`. The switch doesn't block it, so with GIS off only by the parameter it still returns `{enabled:false}`.
 
-Roles keep their existing grants for that module. While the module is off, admins can't see or revoke those grants in the role permission tree; the grants apply again once it's back on.
+Roles keep their existing grants for that module. While the module is off, admins can't see those grants in the role permission tree or revoke them, so to revoke them you turn the module back on first; the grants apply again once it's back on.
 
 A few more points:
 
 - On multi-server deployments, each server caches system parameters locally for up to 1 hour, so the other servers turn the module off only after their cache expires.
-- To revoke a module's grants, turn the module back on first.
-- Once AI is off, the MCP Server switch `MUGSUN_AI_MCP_SERVER` has no effect, and the MCP endpoints return 404 as well.
+- The built-in MCP Server has been removed, and its related variables (such as `MUGSUN_AI_MCP_SERVER`) no longer have any effect.
 - The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.
 
 The console has build-time counterparts, `VITE_ENABLE_GIS`, `VITE_ENABLE_TRACK` and `VITE_ENABLE_AI`; turning one off skips its routes and plugins.
