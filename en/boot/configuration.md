@@ -80,6 +80,8 @@ Setting this list replaces the default entirely, so include these three if you w
 | `POWERJOB_ENABLED` | `false` | PowerJob worker; requires a separate server and `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / empty | IP-to-region lookup |
 
+The three module switches accept only `true` or `false` (case-insensitive). Empty means on, and any other value stops the service from starting. See [Architecture](/en/guide/architecture#two-layers-of-module-switches) for the full rules.
+
 ## AI outbound allowlist
 
 Model calls (chat, streaming chat and embeddings), knowledge-base fetches, channel webhooks, remote MCP calls and the workflow HTTP node are checked for SSRF before any request goes out; private, loopback and cloud-metadata addresses are rejected by default. To reach an internal service, such as a local model server or an internal MCP endpoint, allow it explicitly:

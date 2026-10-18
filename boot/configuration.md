@@ -80,6 +80,8 @@ mugsun:
 | `POWERJOB_ENABLED` | `false` | PowerJob Worker；启用须独立部署 Server 并设置 `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / 空 | IP 归属地解析 |
 
+三个模块开关只接受 `true` 或 `false`（不区分大小写），留空按开启，写错会导致启动失败。完整规则见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
+
 ## AI 出站白名单
 
 模型调用（对话、流式对话、向量）、知识库抓取、渠道 Webhook、MCP 远程调用和工作流 HTTP 节点在发起请求前统一做 SSRF 校验，默认拒绝内网、回环与云元数据地址。需要访问内网服务（如本地模型服务、内网 MCP）时显式放行：

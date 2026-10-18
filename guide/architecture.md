@@ -64,8 +64,15 @@ MUGSUN_AI_ENABLED=false
 
 另外几点：
 
-- 系统参数 `gis.module.enabled`、`ai.module.enabled` 留空、为 `true`（不区分大小写）或 `1` 时开启，首尾空格忽略；其它值一律按关闭处理。
-- 环境变量 `MUGSUN_GIS_ENABLED`、`MUGSUN_TRACK_ENABLED`、`MUGSUN_AI_ENABLED` 不设置时开启。设置后只认 `true`（不区分大小写，首尾空格不忽略），`1`、`yes` 或空值都按关闭。紧急关停请显式写 `false`。
+- 环境变量 `MUGSUN_GIS_ENABLED`、`MUGSUN_TRACK_ENABLED`、`MUGSUN_AI_ENABLED` 和系统参数 `gis.module.enabled`、`ai.module.enabled` 的取值规则相同。先去掉首尾空格，再按下表判断。
+- 关闭模块请写 `false`。`1`、`0` 仍然有效，但已弃用，日志里会出现警告。
+
+| 取值 | 结果 |
+| --- | --- |
+| 未设置或留空 | 开启 |
+| `true` / `false`（不区分大小写） | 开启 / 关闭 |
+| `1` / `0` | 开启 / 关闭，并在日志里警告已弃用 |
+| 其它值，如 `yes`、`on` | 环境变量：服务启动失败。系统参数：保存时被拒绝；已有的旧值按关闭处理，并在日志里警告 |
 - 多台服务器部署时，系统参数在每台服务器本地缓存最长 1 小时，其他服务器上要等缓存过期才会关闭模块。
 - 内置 MCP Server 已移除，与它相关的变量（如 `MUGSUN_AI_MCP_SERVER`）不再有任何作用。
 - 埋点模块没有系统参数开关，只能用 `MUGSUN_TRACK_ENABLED` 关闭。

@@ -2,6 +2,14 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-18 · 模块开关取值统一
+
+### mugsun-boot
+
+- **环境变量和系统参数按同一套规则读取**：先去掉首尾空格，`true`、`false` 不区分大小写，留空按开启。`1`、`0` 仍有效，但已弃用。（[#96](https://github.com/mugsun/mugsun-boot/pull/96)）
+- **写错的值不再被悄悄当成关闭**：环境变量写错时服务启动失败；系统参数写错时保存会被拒绝。升级前已存在的错误参数值按关闭处理，日志里会出现警告。
+- **升级前请检查环境变量**：`MUGSUN_GIS_ENABLED`、`MUGSUN_TRACK_ENABLED`、`MUGSUN_AI_ENABLED` 设为空值时，以前按关闭，现在按开启；设为 `1` 时，以前按关闭，现在按开启；设为 `yes`、`on` 等值会导致启动失败。要关闭模块，请写 `false`。
+
 ## 2026-10-18 · 移除内置 MCP Server
 
 ### mugsun-boot
