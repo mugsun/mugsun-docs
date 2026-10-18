@@ -268,7 +268,8 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
     langMenuLabel: 'Language',
     footer: {
       message: 'boot and core are released under Apache-2.0; pc and track under MIT.',
-      copyright: '© 2026 mugsun',
+      copyright:
+        '© 2026 mugsun · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2025148372号-2</a>',
     },
   },
 }
