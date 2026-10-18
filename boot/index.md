@@ -22,7 +22,7 @@ mugsun-boot/
   mugsun-boot-core/     # 认证、系统管理、流程、租户、文件、开放平台
   mugsun-boot-gis/      # 可选：图层、空间查询、矢量瓦片
   mugsun-boot-track/    # 可选：埋点接收、配置下发、统计、回放
-  mugsun-boot-ai/       # 可选：模型、对话、知识库、MCP
+  mugsun-boot-ai/       # 可选：模型、对话、知识库、调用外部 MCP 工具
   mugsun-boot-server/   # 启动模块，默认使用 full profile
 ```
 
