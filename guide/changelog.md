@@ -2,7 +2,7 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
-## 2026-10-18 · 内置 MCP Server 暂时下线
+## 2026-10-18 · 内置 MCP Server（暂时下线，破坏性变更）
 
 ### mugsun-boot
 

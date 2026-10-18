@@ -2,7 +2,7 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
-## 2026-10-18 · Built-in MCP Server temporarily offline
+## 2026-10-18 · Built-in MCP Server temporarily offline (breaking change)
 
 ### mugsun-boot
 
