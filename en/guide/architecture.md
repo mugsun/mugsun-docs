@@ -56,7 +56,7 @@ MUGSUN_AI_ENABLED=false
 
 When a module is off, its endpoints aren't registered (requests return 404), and its menus no longer appear in the user's menu, Menu Management or the role permission tree.
 
-If you turn a module off only with the system parameter `gis.module.enabled` or `ai.module.enabled`, its endpoints stay registered and return the "module not enabled" business error instead of 404.
+If you turn a module off only with the system parameter `gis.module.enabled` or `ai.module.enabled`, its endpoints return 404 as well.
 
 Roles keep their existing grants for that module. While the module is off, admins can't see or revoke those grants in the role permission tree; the grants apply again once it's back on.
 
