@@ -33,9 +33,10 @@
 接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、回放 Meta 事件里的页面地址都保留查询串，但以下键的值替换为 `***`，业务参数保留：
 
 ```text
-token  access_token  authorization  id_token  refresh_token
-api_key  apikey  auth  secret  password
-code  sign  signature  ticket  session  otp
+token  access_token  refresh_token  id_token  authorization  auth  jwt
+api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
+password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
+code  sign  signature  ticket  otp
 ```
 
 匹配时忽略大小写与 `_`、`-`，`accessToken`、`Refresh-Token` 也算；归一后精确匹配，`tokenCount`、`sessionTimeout` 不算。hash 里的参数同样处理，覆盖 OAuth 隐式流和 hash 路由：
@@ -52,14 +53,17 @@ code  sign  signature  ticket  session  otp
 
 ## 响应体中的凭证字段
 
-响应体 JSON 里下面这些键的值**始终**替换为 `***`，不受 `apiBodyMaskEnabled` 控制。清单在 [URL 敏感参数](#url-敏感参数) 的基础上去掉 `code`、`sign`、`signature`、`ticket`（响应体里常是业务字段，例如错误码），另加 `x-api-key`、`client_secret`、`private_key`、`access_key`、`secret_key`、`jwt`、`passwd`、`pwd`、`cookie`、`set-cookie`、`session_id`、`jsessionid`，匹配时忽略大小写与 `_`、`-`，所以 `accessToken`、`Access-Token`、`sessionId` 都能识别：
+响应体 JSON 里的键与 [URL 敏感参数](#url-敏感参数) **共用同一份清单**，命中的值**始终**替换为 `***`，不受 `apiBodyMaskEnabled` 控制。匹配规则也一样：忽略大小写与 `_`、`-`（`accessToken`、`sessionId` 都算），归一后精确匹配（`codeType`、`errCode`、`ticketCount` 不算）。
+
+::: warning 业务字段 code、sign 也会被替换
+`code`、`sign` 在响应体里常是业务字段，同样会被替换：
 
 ```text
-token  access_token  refresh_token  id_token  authorization
-api_key  apikey  x-api-key  auth  secret  client_secret  private_key
-access_key  secret_key  jwt  otp
-password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
+{"code":0,"msg":"ok","data":{"sign":true}}   →   {"code":"***","msg":"ok","data":{"sign":"***"}}
 ```
+
+需要业务结果码时，用 `trackApiError({ bizCode })` 上报（事件属性 `biz_code`），或在接口里换个键名。
+:::
 
 - **层级**：对象和数组逐层检查，最多 8 层；更深的子树整体替换为 `***`，不会原样上传。
 - **非 JSON**：只采集 content-type 为 JSON 的响应体，其他类型（HTML、文本、二进制、SSE）一律不采集。
@@ -67,7 +71,7 @@ password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
 
 `apiBodyMaskEnabled` 只控制个人信息类键（`phone`、`mobile`、`email`、`idcard`、`bankcard`），默认原文上传。
 
-键名不在清单里的令牌（例如 `sessionKey`、`code`）不会被识别。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
+键名不在清单里的令牌（例如 `sessionKey`）不会被识别。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
 
 ## 开启遮罩与过滤
 

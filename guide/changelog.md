@@ -14,7 +14,7 @@
   - 默认尊重 Global Privacy Control（`respectGpc: true`），与 DNT 一致。
   - URL 敏感参数新增 `code`、`sign`、`signature`、`ticket`、`session`、`otp`，忽略大小写与 `_`、`-`，hash 参数也处理；`referrer`、链接 `href`、资源错误地址、回放页面地址也脱敏。
   - 注册、找回 / 修改密码、短信 / 验证码 / MFA 接口不采集响应体。
-  - 响应体凭证键新增 `jwt`、`otp`、`access_key`、`secret_key`。
+  - URL 与响应体共用一份敏感键清单：响应体里的 `code`、`sign`、`ticket` 等也替换为 `***`，业务响应 `{"code":0}` 的 `code` 同样会变成 `***`。
 - **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
 
 ## 2026-10-18 · 重复提交返回 400

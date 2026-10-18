@@ -14,7 +14,7 @@ Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.
   - Global Privacy Control is honored by default (`respectGpc: true`), like DNT.
   - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`, ignores case, `_` and `-`, and covers hash parameters; `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
   - Sign-up, password reset / change, SMS / captcha / MFA endpoints never have their response bodies captured.
-  - Response body credential keys add `jwt`, `otp`, `access_key` and `secret_key`.
+  - URL and response body redaction share one key list: `code`, `sign`, `ticket` and others are now replaced in bodies too, so the `code` in a business response such as `{"code":0}` becomes `***`.
 - **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
 
 ## 2026-10-18 · Duplicate submissions return 400
