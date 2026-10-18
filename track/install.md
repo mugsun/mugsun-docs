@@ -103,6 +103,7 @@ track.reset()
 | `queueMaxAge` | `number` | 24h | 队列事件超龄丢弃（ms） |
 | `retryBaseDelay` / `retryMaxDelay` | `number` | `1000` / `30000` | 补发退避基数 / 上限（ms） |
 | `respectDnt` | `boolean` | `true` | 尊重浏览器 Do Not Track |
+| `respectGpc` | `boolean` | `true` | 尊重浏览器 Global Privacy Control |
 | `maskSelectors` | `string[]` | `[]` | 自动采集屏蔽的选择器（与远端下发合并） |
 | `sessionTimeout` | `number` | 30min | 会话滑动过期（ms） |
 | `storagePrefix` | `string` | `'mst'` | 本地存储 key 前缀 |

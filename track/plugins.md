@@ -72,7 +72,7 @@ const track = createTracker({
 内置保护（不可关闭）：
 
 - SDK 自身端点（`/track/collect`、`/track/config`、`/track/replay`、`/track/api-body` 等）不采集，防止循环。
-- 凭证端点（路径含 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`）**永不采集响应体**。
+- 凭证端点**永不采集响应体**，事件标记 `body_skipped: 'credential'`。路径（小写后）含以下片段即算：登录与令牌 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`；注册 `/register`、`/signup`、`/sign-up`；密码 `/password`、`/forgot`、`/reset-password`、`/change-password`；验证码与多因素 `/otp`、`/sms`、`/captcha`、`/mfa`、`/2fa`、`/totp`、`/verify-code`、`/verification-code`。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
 ::: warning 0.3.0 行为变更

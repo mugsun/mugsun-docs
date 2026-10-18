@@ -37,7 +37,7 @@
 
 | 现象 | 排查 |
 | --- | --- |
-| 没有任何 `/track/collect` 请求 | 浏览器开启了 Do Not Track（`respectDnt` 默认 `true`）；或调用过 `optOut()`；或 `enabled: false` / 采样率为 0 |
+| 没有任何 `/track/collect` 请求 | 浏览器开启了 Do Not Track 或 Global Privacy Control（`respectDnt` / `respectGpc` 默认 `true`）；或调用过 `optOut()`；或 `enabled: false` / 采样率为 0 |
 | 请求地址是 `…/track/collect/track/collect` | `endpoint` 只填服务根地址，SDK 会自动拼接 `/track/collect` |
 | 请求 4xx | `appKey` 不存在或应用被停用；在接入管理中核对 |
 | 请求成功但看板为空 | 确认看板选中了正确的应用与时间范围 |
@@ -59,7 +59,7 @@ console.table(report.items)
 | `config.endpoint` / `config.appKey` | endpoint 是否合法 http(s)、是否误带 `/track` 路径、HTTPS 页面是否上报到 HTTP；appKey 格式 |
 | `config.conflict` / `config.enabled` | 冲突选项（如 `batchSize > maxBatchSize`、开启接口监控却未加载 `api-monitor`）；总开关 |
 | `ping` | 真实请求一次 `GET /track/config?app_key=`（不带 cookie，5 秒超时）：网络/CORS、应用不存在、应用已停用 |
-| `sampling` / `consent` | 采样率与本机是否在样本内；DNT、`optOut()` |
+| `sampling` / `consent` | 采样率与本机是否在样本内；DNT、GPC、`optOut()` |
 | `privacy` | 隐私默认值是否被关闭（如开启响应体采集却关闭脱敏） |
 | `queue` | 本地队列积压（≥80% 告警） |
 | `replay` | 开启回放但未加载回放插件 |

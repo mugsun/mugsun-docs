@@ -19,6 +19,7 @@ Tighten access and retention for replay and body data accordingly.
 | Item | Behavior |
 | --- | --- |
 | Do Not Track | Honored by default (`respectDnt: true`); browsers with DNT on are not tracked |
+| Global Privacy Control | Honored by default (`respectGpc: true`); browsers where `navigator.globalPrivacyControl` is `true` are not tracked |
 | User opt-out | `optOut()` stops collection and replay; `optIn()` resumes |
 | Input values (autocapture) | Autocaptured events such as clicks never include `input` / `textarea` values; for replay see the next rows |
 | Never recorded | `input[type="password"]`, `maskSelectors` matches, `data-track-mask` elements, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`) are blocked entirely in replays; canvas is not recorded |
@@ -29,26 +30,34 @@ Tighten access and retention for replay and body data accordingly.
 
 ## URL redaction
 
-API monitoring keeps query strings, but values for these keys (**exact match after lowercasing**) become `***`. Other parameters are kept:
+API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s and the page address in replay Meta events all keep query strings, but values for these keys become `***`. Other parameters are kept:
 
 ```text
 token  access_token  authorization  id_token  refresh_token
 api_key  apikey  auth  secret  password
+code  sign  signature  ticket  session  otp
 ```
+
+Matching ignores case, `_` and `-`, so `accessToken` and `Access-Token` count too. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
 
 ```text
 /api/order?id=42&token=abc123   →   /api/order?id=42&token=***
+/cb#access_token=abc&state=x    →   /cb#access_token=***&state=x
+/#/login?code=abc               →   /#/login?code=***
 ```
+
+`url_path` holds the pathname only, without the query string or hash.
 
 Invalid URLs are returned unchanged, and relative URLs stay relative.
 
 ## Credential fields in response bodies
 
-The values of these keys in JSON response bodies are **always** replaced with `***`, regardless of `apiBodyMaskEnabled`. On top of the [URL redaction](#url-redaction) list it adds `x-api-key`, `client_secret`, `private_key`, `passwd`, `pwd`, `cookie`, `set-cookie`, `session`, `session_id` and `jsessionid`, and matching ignores case, `_` and `-`, so `accessToken`, `Access-Token` and `sessionId` are all recognized:
+The values of these keys in JSON response bodies are **always** replaced with `***`, regardless of `apiBodyMaskEnabled`. On top of the [URL redaction](#url-redaction) list it drops `code`, `sign`, `signature` and `ticket` (often business fields in bodies, such as error codes) and adds `x-api-key`, `client_secret`, `private_key`, `access_key`, `secret_key`, `jwt`, `passwd`, `pwd`, `cookie`, `set-cookie`, `session_id` and `jsessionid`, and matching ignores case, `_` and `-`, so `accessToken`, `Access-Token` and `sessionId` are all recognized:
 
 ```text
 token  access_token  refresh_token  id_token  authorization
 api_key  apikey  x-api-key  auth  secret  client_secret  private_key
+access_key  secret_key  jwt  otp
 password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
 ```
 
@@ -58,7 +67,7 @@ password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
 
 `apiBodyMaskEnabled` only controls personal-data keys (`phone`, `mobile`, `email`, `idcard`, `bankcard`), which are uploaded as-is by default.
 
-Tokens under other key names (such as `jwt` or `sessionKey`) are not recognized. Turn body capture off with `apiBodyEnabled: false` if that matters.
+Tokens under other key names (such as `sessionKey` or `code`) are not recognized. Turn body capture off with `apiBodyEnabled: false` if that matters.
 
 ## Turning on masking and filtering
 
