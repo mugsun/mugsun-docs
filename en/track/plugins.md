@@ -45,17 +45,18 @@ const track = createTracker({
 - Replay block numbers may have gaps (the dropped chunks above are never uploaded). The console player sorts events by time and starts at the first full snapshot. If the first blocks are missing and there is no full snapshot, it says the replay has no full snapshot instead of showing a blank screen. ([mugsun-pc #45](https://github.com/mugsun/mugsun-pc/pull/45))
 - Periodic full snapshots: a full snapshot is taken every 3 minutes by default (rrweb's built-in `checkoutEveryNms`). Change it with `replayPlugin({ checkoutEveryNms: 60000 })`, or pass `false` to turn it off. When a block in the middle is missing, the player drops the incremental events after the gap and continues from the next full snapshot, so one lost block skips at most about 3 minutes. The cost is one extra page snapshot upload every 3 minutes (usually a few dozen KB gzipped). (mugsun-track [#18](https://github.com/mugsun/mugsun-track/pull/18), mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45))
 - Missing-block notice: the player shows how many blocks are missing at the top, counting both blocks that failed to load and sequence numbers absent from the server's block list. If no full snapshot follows a missing block, it says the later recording is incomplete instead of silently ending early. (mugsun-pc [#53](https://github.com/mugsun/mugsun-pc/pull/53))
-- **Page text is shown as-is by default** (from 0.3.0, `maskTextSelector: '*'` is no longer passed by default). Input values are still replaced with `***`, and `input[type="password"]` and elements with `data-track-mask` are not recorded at all.
-- To mask page text, pass `replayPlugin({ maskTextSelector: '*' })` for all text, or a narrower selector such as `'.user-info'`. See [Privacy](/en/track/privacy#turning-on-masking-and-filtering).
+- **Page text and input values are shown as-is by default** (from 0.3.0, `maskTextSelector: '*'` is no longer passed by default and `maskAllInputs` defaults to `false`).
+- Never recorded: `input[type="password"]`, elements with `data-track-mask`, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`).
+- To mask, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` for all text and input values; for text you can also pass a narrower selector such as `'.user-info'`. See [Privacy](/en/track/privacy#turning-on-masking-and-filtering).
 
 ```html
 <!-- never recorded -->
 <div data-track-mask>ID number: …</div>
 ```
 
-This is what it looks like in the console's Session replay player: a demo session recorded with 0.2.0 defaults. Navigation, headings, body text and button labels all render as `*`; only page structure and interaction are kept. The marker bar below shows clicks, page changes and errors.
+This is what it looks like in the console's Session replay player: a demo session recorded with text masking on (`maskTextSelector: '*'`). Navigation, headings, body text and button labels all render as `*`; only page structure and interaction are kept. The marker bar below shows clicks, page changes and errors.
 
-![Session replay with default text masking (demo data)](/screenshots/track/track-replay-masked.png)
+![Session replay with text masking on (maskTextSelector: '*', demo data)](/screenshots/track/track-replay-masked.png)
 
 ## API monitoring
 
@@ -75,7 +76,7 @@ Built-in protections that can't be turned off:
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0
-From 0.3.0 (planned), replays show the original page text and `apiBodyMaskEnabled` defaults to `false`, going back to unmasked defaults (0.2.0 masked by default). If you need masking, pass `replayPlugin({ maskTextSelector: '*' })` and set `apiBodyMaskEnabled: true` explicitly.
+From 0.3.0 (planned), replays show page text and input values as-is, and `apiBodyMaskEnabled` defaults to `false` (0.2.0 masked by default). If you need masking, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and set `apiBodyMaskEnabled: true` explicitly.
 :::
 
 ## Visual tagging and geolocation

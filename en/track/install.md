@@ -139,7 +139,7 @@ const tracker = createTracker({
 
 - **`beforeSend(event)`** runs before each business event (including `$identify`) is queued. Return `null` / `false` to drop it. When it returns an object, only its `props` are merged back; `event_id`, `distinct_id` and the event name can't be changed, and non-object return values mean "unchanged".
 - **A throwing hook drops the event by default** (`beforeSendOnError: 'drop'`) so a broken masking hook can't leak unmasked data; `'keep'` sends the original event instead.
-- **Not covered by `beforeSend`**: `$session_start` / `$session_end`, session replay chunks and API response body uploads. Mask replay with `maskTextSelector` / `maskSelectors` and bodies with `apiBodyMaskEnabled` (off by default; set it to `true`).
+- **Not covered by `beforeSend`**: `$session_start` / `$session_end`, session replay chunks and API response body uploads. Mask replay with `maskTextSelector` / `maskAllInputs` / `maskSelectors` and bodies with `apiBodyMaskEnabled` (off by default; set it to `true`).
 - **`ignoreErrors`**: strings match a substring of the error message, `RegExp`s test the message, or pass a predicate `(error, message) => boolean` that returns `true` to ignore (a throwing predicate means "don't ignore").
 - **`skipHandledErrors`** (default `false`: **every error is reported** as `$error`, including `HttpError` and handled errors). Set it to `true` to skip errors with `name === 'HttpError'` or `handled === true` / `expected === true`, typically API errors your request interceptor already showed to the user.
 - These filters apply to the `error` plugin (`window` error, `unhandledrejection`) and the Vue integration's `app.config.errorHandler`; your existing errorHandler is still called.
