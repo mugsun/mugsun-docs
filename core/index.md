@@ -8,7 +8,7 @@
 | 运行时 | JDK 21 · Maven 3.9+ |
 | 父工程 | Spring Boot 3.5.13 |
 | 主要依赖 | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · JetCache · Hutool Crypto / BouncyCastle · FastExcel（版本由 `mugsun-bom` 锁定） |
-| 许可 | Apache-2.0 |
+| 许可 | MIT |
 
 ## 模块
 

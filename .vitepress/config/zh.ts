@@ -266,7 +266,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     lightModeSwitchTitle: '切换到浅色',
     darkModeSwitchTitle: '切换到深色',
     footer: {
-      message: 'boot · core 基于 Apache-2.0，pc · track 基于 MIT 发布。',
+      message: 'boot · core · pc · track 均基于 MIT 发布。',
       copyright:
         '© 2026 mugsun · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2025148372号-2</a>',
     },

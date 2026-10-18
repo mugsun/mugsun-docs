@@ -8,7 +8,7 @@
 | Runtime | JDK 21 · Maven 3.9+ |
 | Parent | Spring Boot 3.5.13 |
 | Key dependencies | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · JetCache · Hutool Crypto / BouncyCastle · FastExcel (versions pinned by `mugsun-bom`) |
-| License | Apache-2.0 |
+| License | MIT |
 
 ## Modules
 
