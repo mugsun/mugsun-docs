@@ -54,6 +54,8 @@ MUGSUN_TRACK_ENABLED=false
 MUGSUN_AI_ENABLED=false
 ```
 
+When a module is off, its endpoints aren't registered (requests return 404), and its menus no longer appear in the user's menu, Menu Management or the role permission tree. Roles keep their existing grants for that module, which apply again once it's back on.
+
 The console has build-time counterparts, `VITE_ENABLE_GIS`, `VITE_ENABLE_TRACK` and `VITE_ENABLE_AI`; turning one off skips its routes and plugins.
 
 ## Analytics pipeline

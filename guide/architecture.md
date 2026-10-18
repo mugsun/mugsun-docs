@@ -54,6 +54,8 @@ MUGSUN_TRACK_ENABLED=false
 MUGSUN_AI_ENABLED=false
 ```
 
+关闭后，该模块的接口不再注册（访问返回 404），当前用户菜单、菜单管理和角色授权树也都不再显示它的菜单。角色已有的该模块授权会保留，重新开启后恢复。
+
 管理台对应的是构建期变量 `VITE_ENABLE_GIS` / `VITE_ENABLE_TRACK` / `VITE_ENABLE_AI`，关闭后不注册路由与插件。
 
 ## 埋点链路
