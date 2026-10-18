@@ -56,9 +56,18 @@ MUGSUN_AI_ENABLED=false
 
 关闭后，该模块的接口不再注册（访问返回 404），当前用户菜单、菜单管理和角色授权树也都不再显示它的菜单。
 
-只用系统参数 `gis.module.enabled` 或 `ai.module.enabled` 关闭时，接口仍然注册，访问返回业务错误「模块未启用」，不返回 404。
+只用系统参数 `gis.module.enabled` 或 `ai.module.enabled` 关闭时，接口同样返回 404。管理台按 `/auth/info` 返回的 `gisEnabled`、`aiEnabled` 决定是否显示入口。
+
+`/system/gis/status` 是例外：它不受开关拦截，GIS 只用参数关闭时仍返回 `{enabled:false}`。
 
 角色已有的该模块授权会保留。模块关闭期间，管理员在角色授权树里看不到这些授权，也无法撤销；重新开启后授权恢复生效。
+
+另外几点：
+
+- 多台服务器部署时，系统参数在每台服务器本地缓存最长 1 小时，其他服务器上要等缓存过期才会关闭模块。
+- 要撤销某个模块的授权，先把模块重新开启。
+- AI 关闭后，MCP Server 开关 `MUGSUN_AI_MCP_SERVER` 不再生效，MCP 端点同样返回 404。
+- 埋点模块没有系统参数开关，只能用 `MUGSUN_TRACK_ENABLED` 关闭。
 
 管理台对应的是构建期变量 `VITE_ENABLE_GIS` / `VITE_ENABLE_TRACK` / `VITE_ENABLE_AI`，关闭后不注册路由与插件。
 
