@@ -66,7 +66,7 @@ A few more points:
 
 - The system parameters `gis.module.enabled` and `ai.module.enabled` are on when empty, `true` (case-insensitive) or `1`. Leading and trailing spaces are ignored. `1` and `0` are deprecated; they trigger a notice on save and a warning in the runtime log. Any other value is rejected on save; an old value left from before the upgrade counts as off and logs a warning.
 - The environment variables `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` follow the same rules as `mugsun.gis.enabled`, `mugsun.track.enabled` and `mugsun.ai.enabled` in yml. They are on when unset. Once set, only `true` or `false` is accepted (case-insensitive, no surrounding spaces).
-- Any other value fails startup; see the table below for all values. That includes an empty value (a bare `enabled:` in yml counts), `1`, `0`, a value with leading or trailing spaces, and `yes`, `on`, `no` or `off`. The error names the setting, the environment variable and the value, and says how to fix it. For an emergency shutdown, set `false` explicitly.
+- Any other value fails startup; see the table below for all values. The error names the setting, the environment variable and the value, and says how to fix it. For an emergency shutdown, set `false` explicitly.
 
 | Value | Environment variable / yml | System parameter |
 | --- | --- | --- |

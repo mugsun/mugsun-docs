@@ -66,7 +66,7 @@ MUGSUN_AI_ENABLED=false
 
 - 系统参数 `gis.module.enabled`、`ai.module.enabled` 留空、为 `true`（不区分大小写）或 `1` 时开启，首尾空格忽略。`1`、`0` 已弃用，保存时和运行时日志都会提示。其它值保存时被拒绝；升级前留下的旧值按关闭处理，并在日志里警告。
 - 环境变量 `MUGSUN_GIS_ENABLED`、`MUGSUN_TRACK_ENABLED`、`MUGSUN_AI_ENABLED` 与 yml 里的 `mugsun.gis.enabled`、`mugsun.track.enabled`、`mugsun.ai.enabled` 规则相同。不设置时开启；设置后只接受 `true` 或 `false`（不区分大小写，前后不能有空格）。
-- 其它值都会启动失败，完整取值见下表。包括空值（yml 里只写 `enabled:` 也算）、`1`、`0`、带首尾空格的值，以及 `yes`、`on`、`no`、`off`。报错会写出配置项、环境变量名和原值，并说明改法。紧急关停请显式写 `false`。
+- 其它值都会启动失败，完整取值见下表。报错会写出配置项、环境变量名和原值，并说明改法。紧急关停请显式写 `false`。
 
 | 取值 | 环境变量 / yml | 系统参数 |
 | --- | --- | --- |
