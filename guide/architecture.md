@@ -80,7 +80,7 @@ MUGSUN_AI_ENABLED=false
 - 模块没有打进包时（例如用 `-Pbasic,'!full'` 打包），不会读取它的环境变量和 yml 开关，写了非法值也不会启动失败。系统参数保存时照常校验。
 - 删掉系统参数 `gis.module.enabled` 或 `ai.module.enabled` 后，按默认开启。前提是环境变量或 yml 没有关闭这个模块。
 - 多台服务器部署时，系统参数在每台服务器本地缓存最长 1 小时。修改或删除参数后，其他服务器要等缓存过期才会生效。
-- 内置 MCP Server 已移除，与它相关的变量（如 `MUGSUN_AI_MCP_SERVER`）不再有任何作用。
+- 内置 MCP Server 暂时下线，正在加鉴权后恢复。下线期间 `MUGSUN_AI_MCP_SERVER` 不起作用。
 - 埋点模块没有系统参数开关，只能用 `MUGSUN_TRACK_ENABLED` 关闭。
 
 管理台对应的是构建期变量 `VITE_ENABLE_GIS` / `VITE_ENABLE_TRACK` / `VITE_ENABLE_AI`，关闭后不注册路由与插件。
