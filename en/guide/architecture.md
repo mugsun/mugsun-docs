@@ -54,7 +54,19 @@ MUGSUN_TRACK_ENABLED=false
 MUGSUN_AI_ENABLED=false
 ```
 
-When a module is off, its endpoints aren't registered (requests return 404), and its menus no longer appear in the user's menu, Menu Management or the role permission tree. Roles keep their existing grants for that module, which apply again once it's back on.
+When a module is off, its endpoints aren't registered (requests return 404), and its menus no longer appear in the user's menu, Menu Management or the role permission tree.
+
+If you turn a module off only with the system parameter `gis.module.enabled` or `ai.module.enabled`, its endpoints return 404 as well. The console uses `gisEnabled` and `aiEnabled` from `/auth/info` to decide which entries to show.
+
+The one exception is `/system/gis/status`. The switch doesn't block it, so with GIS off only by the parameter it still returns `{enabled:false}`.
+
+Roles keep their existing grants for that module. While the module is off, admins can't see those grants in the role permission tree or revoke them, so to revoke them you turn the module back on first; the grants apply again once it's back on.
+
+A few more points:
+
+- On multi-server deployments, each server caches system parameters locally for up to 1 hour, so the other servers turn the module off only after their cache expires.
+- The built-in MCP Server has been removed, and its related variables (such as `MUGSUN_AI_MCP_SERVER`) no longer have any effect.
+- The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.
 
 The console has build-time counterparts, `VITE_ENABLE_GIS`, `VITE_ENABLE_TRACK` and `VITE_ENABLE_AI`; turning one off skips its routes and plugins.
 
