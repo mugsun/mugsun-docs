@@ -12,7 +12,7 @@
  │ mugsun-boot-core   认证 · 系统 · 租户 · 流程 · 文件 · 开放平台   │
  │ mugsun-boot-track  采集摄入 · 配置下发 · 聚合 · 回放（可选）     │
  │ mugsun-boot-gis    图层 · 空间查询 · 矢量瓦片（可选）            │
- │ mugsun-boot-ai     模型 · 对话 · 知识库 · MCP（可选）            │
+ │ mugsun-boot-ai     模型 · 对话 · 知识库 · 调用外部 MCP（可选）   │
  │ mugsun-boot-server 装配壳（默认 profile = full）                 │
  └───────────────┬──────────────────────────────┬──────────────────┘
                  ▼                              ▼
@@ -58,12 +58,13 @@ MUGSUN_AI_ENABLED=false
 
 只用系统参数 `gis.module.enabled` 或 `ai.module.enabled` 关闭时，接口同样返回 404。管理台按 `/auth/info` 返回的 `gisEnabled`、`aiEnabled` 决定是否显示入口。
 
-`/system/gis/status` 是例外：它不受开关拦截，GIS 只用参数关闭时仍返回 `{enabled:false}`。
+`/system/gis/status` 是例外：它不受开关拦截，GIS 只用参数关闭时仍返回 `{enabled:false}`。它仍然需要登录，未登录返回 401。
 
-角色已有的该模块授权会保留：模块关闭期间，管理员在角色授权树里看不到这些授权，也无法撤销，要撤销须先把模块重新开启；重新开启后授权恢复生效。
+角色已有的该模块授权会保留。模块关闭期间，管理员在角色授权树里看不到这些授权，也无法撤销。要撤销，须先把模块重新开启。重新开启后，授权恢复生效。
 
 另外几点：
 
+- 系统参数 `gis.module.enabled`、`ai.module.enabled` 留空表示开启；值为 `true`（不区分大小写）或 `1` 才算开启，其它值（包括拼错的值）一律按关闭处理。
 - 多台服务器部署时，系统参数在每台服务器本地缓存最长 1 小时，其他服务器上要等缓存过期才会关闭模块。
 - 内置 MCP Server 已移除，与它相关的变量（如 `MUGSUN_AI_MCP_SERVER`）不再有任何作用。
 - 埋点模块没有系统参数开关，只能用 `MUGSUN_TRACK_ENABLED` 关闭。
