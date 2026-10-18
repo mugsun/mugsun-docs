@@ -59,3 +59,4 @@ Analytics includes overview, events, performance, errors, session replay, user l
 - [First event](/en/track/first-event)
 - [Plugins](/en/track/plugins)
 - [Privacy](/en/track/privacy)
+- [Upgrade guide](/en/track/upgrade)
