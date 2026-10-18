@@ -5,17 +5,17 @@ demo: pages/demo/nav/dropdown
 
 # Dropdown 下拉
 
-`ms-dropdown`：下拉筛选菜单。`menus`（菜单栏）+ 扁平 `options`（用 `menu` 下标关联）驱动，单组件无子组件注册。
+`ms-dropdown` 是下拉筛选菜单，由 `menus`（菜单栏）和扁平的 `options`（通过 `menu` 下标关联到菜单）生成，不需要注册子组件。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-dropdown`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-dropdown`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/nav/dropdown`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/dropdown.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/nav/dropdown.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -133,7 +133,7 @@ function onColumnChange(index: number, values: string[]) : void {
 | --- | --- | --- | --- |
 | menus | `UTSJSONObject[]` | `[]` | 菜单栏：label / multiple / columns(1-3) / disabled |
 | options | `UTSJSONObject[]` | `[]` | 扁平选项：menu(下标) / label / value / disabled / checked |
-| height | `number` | `320` | 组件占位总高（蒸汽禁百分比高度，遮罩铺满该区域） |
+| height | `number` | `320` | 组件占位总高（只接受数值（px）；遮罩覆盖该区域） |
 | showOverlay | `boolean` | `true` | 是否显示遮罩 |
 | closeOnClickOverlay | `boolean` | `true` | 点遮罩是否关闭 |
 

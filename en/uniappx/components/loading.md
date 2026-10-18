@@ -5,17 +5,17 @@ demo: pages/demo/basic/loading
 
 # Loading
 
-`ms-loading` — Loading for uni-app x.
+`ms-loading` is a loading indicator made of the native `<loading>` and text. It supports horizontal and vertical layouts and a tone setting; the default slot takes precedence over text.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-loading` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-loading`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/loading`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/loading.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/loading.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

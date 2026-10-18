@@ -5,17 +5,17 @@ demo: pages/demo/feedback/pull-refresh
 
 # Pull Refresh
 
-`ms-pull-refresh` — Pull Refresh for uni-app x.
+`ms-pull-refresh` wraps the built-in `refresher-*` pull-to-refresh of `scroll-view` instead of handling touch events itself. ms-ui’s own rules rule out a `translate3d`-based approach in uni-app x Vapor mode, and `refresher-max-drag-distance` is not supported on Web or WeChat mini programs.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pull-refresh` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-pull-refresh`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/pull-refresh`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -95,7 +95,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | modelValue | `boolean` | `false` | Refreshing; set false when done to collapse |
 | disabled | `boolean` | `false` | Disable pull-to-refresh |
 | threshold | `number` | `60` | Trigger distance (px); also fixed refresher slot height |
-| height | `number` | `360` | Fixed container height (px; vapor forbids %) |
+| height | `number` | `360` | Fixed container height (accepts numeric px values only) |
 | texts | `UTSJSONObject[]` | `[]` | Override four-state texts: { status, text } |
 | successDuration | `number` | `500` | How long (ms) to keep the “refresh done” state |
 

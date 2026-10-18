@@ -5,17 +5,17 @@ demo: pages/demo/basic/icon
 
 # Icon
 
-`ms-icon` — Icon for uni-app x.
+`ms-icon` provides a subset of Remix icons. `spin` uses `UniElement.animate` on the host view in App and Web, and CSS `animation` on the text or image in WeChat mini programs (matching x-icon `faceSpinIcon`; do not apply it to the host view). `rotate` sets a static rotation angle on the glyph.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-icon` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-icon`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/icon`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/icon.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/icon.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

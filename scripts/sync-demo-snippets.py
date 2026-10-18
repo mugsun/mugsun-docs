@@ -194,8 +194,8 @@ def main():
             if not demo.exists(): print('skip (no demo):', md.name); continue
             code = build('ms-' + md.stem, demo.read_text(), lang)
             if not code: print('skip (no tag in demo):', md.name); continue
-            note = ('以下片段摘自演示源码 `%s.uvue`，可在右侧手机框中查看运行效果。' % dm.group(1)) if lang == 'zh' else \
-                   ('Snippets below are taken from the demo source `%s.uvue`; see them running in the phone frame.' % dm.group(1))
+            note = ('以下片段摘自演示源码 `%s.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；在手机上，请点击底栏的「打开 H5 演示」。' % dm.group(1)) if lang == 'zh' else \
+                   ('The snippets below are taken from the demo source `%s.uvue`. On wide screens, the running demo appears in the phone frame on the right. On phones, tap the H5 demo bar at the bottom.' % dm.group(1))
             miss = unresolved(code)
             if miss and lang == 'zh': print('  unresolved in', md.name, miss)
             block = '%s\n%s\n\n```vue\n%s\n```\n%s' % (START, note, code, END)

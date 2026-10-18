@@ -5,17 +5,17 @@ demo: pages/demo/display/card
 
 # Card 卡片
 
-`ms-card`：结构化内容卡：头图 + 标题/副标题 + 正文 + 可选 statusIcon + footer 插槽。
+`ms-card` 是结构化内容卡片，包含头图、标题和副标题、正文、可选的 statusIcon 以及 footer 插槽。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-card`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-card`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/card`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/card.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/card.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
