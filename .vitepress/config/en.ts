@@ -237,6 +237,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Your first event', link: '/en/track/first-event' },
             { text: 'Plugins', link: '/en/track/plugins' },
             { text: 'Privacy', link: '/en/track/privacy' },
+            { text: 'Upgrade guide', link: '/en/track/upgrade' },
           ],
         },
       ],

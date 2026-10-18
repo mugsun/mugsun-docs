@@ -67,6 +67,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '第一个事件', link: '/track/first-event' },
             { text: '插件', link: '/track/plugins' },
             { text: '隐私与合规', link: '/track/privacy' },
+            { text: '升级指南', link: '/track/upgrade' },
           ],
         },
       ],
