@@ -5,18 +5,18 @@ demo: pages/demo/media/blur
 
 # Blur
 
-`ms-blur`: Frosted overlay: translucent tint (light/dark) for functional masks on sheets, toolbars, and image captions (not decorative glassmorphism).
+`ms-blur` is a frosted overlay with a translucent tint in light and dark strengths. It is meant for functional masks on sheets, toolbars and image captions, not for decorative glassmorphism.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-blur/components/ms-blur` (commercial edition; source not public).
+Component directory: `uni_modules/ms-blur/components/ms-blur`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-blur` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/blur`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/blur.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/blur.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

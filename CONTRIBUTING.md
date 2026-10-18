@@ -12,6 +12,7 @@
 - 提交信息：Conventional Commits，主题中文；详见 [`.github/COMMIT_CONVENTION.md`](https://github.com/mugsun/mugsun-docs/blob/main/.github/COMMIT_CONVENTION.md)
 - 变更记录：见 [CHANGELOG.md](https://github.com/mugsun/mugsun-docs/blob/main/CHANGELOG.md)
 - 文档：[docs.mugsun.com](https://docs.mugsun.com/)
+- 写作规范：改页面前先读 [docs/STYLE.md](docs/STYLE.md)，提交前按文末清单自查
 - 文档站源码（VitePress），站点：https://docs.mugsun.com/
 - 内容变更直接推 `main`；GitHub Pages 自动部署
 - 站点内「更新日志」页：`changelog.md`；本文件为仓库级变更记录

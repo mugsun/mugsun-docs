@@ -5,18 +5,18 @@ demo: pages/demo/media/markdown
 
 # Markdown
 
-`ms-markdown`: Native Markdown subset renderer (no third-party deps, no webview).
+`ms-markdown` renders common Markdown syntax natively, with no third-party dependencies and no webview.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-markdown/components/ms-markdown` (commercial edition; source not public).
+Component directory: `uni_modules/ms-markdown/components/ms-markdown`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-markdown` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/markdown`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/markdown.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/markdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

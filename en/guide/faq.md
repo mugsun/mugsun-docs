@@ -8,7 +8,7 @@ Admin systems that must be deployed on-premises and also need product analytics.
 
 ### What are the licenses?
 
-boot and core are Apache-2.0; pc and track are MIT. The console's UI foundation is derived from art-design-pro (MIT), so keep the repository's `NOTICE` when you redistribute it. Each repository's `LICENSE` is authoritative.
+boot, core, pc, track and ms-ui are all MIT-licensed. The console's UI foundation is derived from art-design-pro (MIT), so keep the repository's `NOTICE` when you redistribute it. Each repository's `LICENSE` is authoritative.
 
 ### Is there a live demo?
 
@@ -16,7 +16,7 @@ ms-ui has a [live H5 demo](/en/demo). There is no public environment for the con
 
 ### When will cloud and the ms-ui source be released?
 
-cloud is still planned, so this site has no install guide for it. The ms-ui docs and H5 demo are public; the source is part of the commercial edition and is not public.
+cloud is still planned, so this site has no install guide for it. The ms-ui docs and H5 demo are open to everyone; its source repository is not yet public.
 
 ## Startup and build
 

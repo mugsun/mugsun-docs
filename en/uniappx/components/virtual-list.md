@@ -5,17 +5,17 @@ demo: pages/demo/display/virtual-list
 
 # Virtual List
 
-`ms-virtual-list` — Virtual List for uni-app x.
+`ms-virtual-list` is a fixed-row-height virtual list that renders only the visible window plus buffer rows before and after it. It can show a loading bar when scrolled to the bottom, and provides an empty-state slot and a scoped slot for the visible window.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-virtual-list` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-virtual-list`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/virtual-list`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/virtual-list.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/virtual-list.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

@@ -5,18 +5,18 @@ demo: pages/demo/media/webview
 
 # Webview 网页
 
-`ms-webview`：官方 `<web-view>` 的受控封装：定高容器 + 导航工具条（后退/前进/刷新）+ 一行状态文案。
+`ms-webview` 是对官方 `<web-view>` 的受控封装，提供固定高度的容器、后退、前进和刷新导航栏，以及一行状态文字。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-webview/components/ms-webview`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-webview/components/ms-webview`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 可选插件：需单独安装 `uni_modules/ms-webview`，并依赖 `ms-ui`。
 演示路由：`#/pages/demo/media/webview`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/webview.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/media/webview.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

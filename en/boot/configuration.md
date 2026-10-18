@@ -65,9 +65,10 @@ mugsun:
     exclude-paths:          # Ant-style, matched against the path without the context path
       - /track/collect
       - /track/replay
+      - /track/api-body
 ```
 
-Setting this list replaces the default entirely, so include these two if you want to keep them; `exclude-paths: []` logs everything. Exclusions only affect automatic logging. Endpoints explicitly marked `@OperationLog` are still logged, and the admin endpoints under `/system/track/**` are unaffected.
+Setting this list replaces the default entirely, so include these three if you want to keep them; `exclude-paths: []` logs everything. Exclusions only affect automatic logging. Endpoints explicitly marked `@OperationLog` are still logged, and the admin endpoints under `/system/track/**` are unaffected.
 
 ## Optional modules
 
@@ -78,6 +79,8 @@ Setting this list replaces the default entirely, so include these two if you wan
 | `MUGSUN_AI_ENABLED` | `true` | AI module |
 | `POWERJOB_ENABLED` | `false` | PowerJob worker; requires a separate server and `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / empty | IP-to-region lookup |
+
+The three module switches are on when unset. Once set, they accept only `true` or `false` (case-insensitive, no surrounding spaces); an empty value, `1`, `0` or anything else stops the service from starting. See [Architecture](/en/guide/architecture#two-layers-of-module-switches) for the full rules.
 
 ## AI outbound allowlist
 

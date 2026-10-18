@@ -5,17 +5,17 @@ demo: pages/demo/basic/badge
 
 # Badge 徽标
 
-`ms-badge`：角标：包裹 default 插槽，右上角展示红点 / 数字 / 文案。`label` 优先于 `count` / `dot`；`standalone` 可独立展示。禁止 color / fontSize 等样式 props。
+`ms-badge` 是徽标组件，包裹默认插槽，在右上角显示红点、数字或文字。`label` 的优先级高于 `count` 和 `dot`；设置 `standalone` 后可单独显示。组件不提供 color、fontSize 等样式属性。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-badge`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-badge`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/basic/badge`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/badge.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/basic/badge.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

@@ -5,17 +5,17 @@ demo: pages/demo/form/calendar
 
 # Calendar 日历
 
-`ms-calendar`：月网格日历。`type`：`single` / `multiple` / `range`。`value` 为 `YYYY-MM-DD` 逗号串。`marks` 扁平上下标。`switchMode=month` 翻月；`none` 平铺。弹层 `ms-popup`；`usePopup=false` 内嵌。
+`ms-calendar` 是按月显示的网格日历。`type` 可选 `single`、`multiple` 或 `range`；`value` 是以逗号分隔的 `YYYY-MM-DD` 字符串；`marks` 用于设置日期上下方的标记。`switchMode=month` 时按月翻页，`none` 时平铺显示。默认在 `ms-popup` 弹层中打开，`usePopup=false` 时内嵌在页面中。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-calendar`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-calendar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/form/calendar`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/calendar.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/form/calendar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

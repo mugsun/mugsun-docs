@@ -5,17 +5,17 @@ demo: pages/demo/display/collapse
 
 # Collapse 折叠
 
-`ms-collapse`：折叠面板：`items` 驱动；`accordion` / `theme` / `expandIcon` / `defaultExpandAll`；受控 `value`。
+`ms-collapse` 是折叠面板，由 `items` 生成面板项，支持 `accordion`、`theme`、`expandIcon` 和 `defaultExpandAll`，也可以通过 `value` 受控。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-collapse`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-collapse`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/collapse`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/collapse.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/collapse.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

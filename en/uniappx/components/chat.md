@@ -5,17 +5,17 @@ demo: pages/demo/media/chat
 
 # Chat
 
-`ms-chat` — Chat for uni-app x.
+`ms-chat` is a chat message list with role-based bubbles, Markdown content, collapsible reasoning, an assistant action bar and a streaming state. It can optionally use a fixed height and scroll to the bottom automatically.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-chat` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-chat`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/media/chat`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/chat.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/chat.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

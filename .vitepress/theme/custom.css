@@ -1,21 +1,28 @@
 :root {
-  --vp-c-brand-1: #c45c26;
+  /* One brand orange. Light: links and button bg share brand-1 (white text >= 4.5:1). */
+  --vp-c-brand-1: #b4501c;
   --vp-c-brand-2: #a84a1c;
   --vp-c-brand-3: #8a3c16;
-  --vp-c-brand-soft: rgba(196, 92, 38, 0.12);
+  --vp-c-brand-soft: rgba(180, 80, 28, 0.12);
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-active-text: #ffffff;
+  --vp-button-brand-bg: var(--vp-c-brand-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-active-bg: var(--vp-c-brand-3);
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(
-    120deg,
-    #c45c26 30%,
-    #e08a4f 70%
-  );
+  --vp-home-hero-name-background: linear-gradient(120deg, #b4501c 30%, #e08a4f 70%);
 }
 
 .dark {
+  /* Dark: links use a lighter tint of the same orange; buttons keep the light-mode orange so white text stays >= 4.5:1. */
   --vp-c-brand-1: #e08a4f;
-  --vp-c-brand-2: #c45c26;
+  --vp-c-brand-2: #b4501c;
   --vp-c-brand-3: #a84a1c;
   --vp-c-brand-soft: rgba(224, 138, 79, 0.14);
+  --vp-button-brand-bg: var(--vp-c-brand-2);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-3);
+  --vp-button-brand-active-bg: #8a3c16;
 }
 
 .VPNavBarTitle .logo {
@@ -30,27 +37,20 @@
   max-height: 220px;
 }
 
-.soon {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 0 6px;
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 18px;
-  border-radius: 4px;
-  background: var(--vp-c-default-soft);
-  color: var(--vp-c-text-2);
-  vertical-align: middle;
-  letter-spacing: 0.02em;
-}
+/* Navbar already shows the logo; drop the hero image on narrow screens. */
+@media (max-width: 640px) {
+  .VPHome .VPHero .image {
+    display: none;
+  }
 
-.VPDoc table td .soon {
-  margin-left: 0;
-}
+  .VPHome .VPHero.has-image .container {
+    flex-direction: column;
+  }
 
-/* Keep home module table readable without chrome clutter */
-.VPHome .vp-doc table {
-  margin-top: 0.5rem;
+  /* Admin screenshot is unreadable at phone width. */
+  .vp-doc img[src*="pc-workbench"] {
+    display: none;
+  }
 }
 
 /* Right-floating phone preview for uni-app x component demos */
@@ -148,8 +148,6 @@
   background: rgba(225, 29, 72, 0.1);
   border-color: rgba(225, 29, 72, 0.25);
 }
-
-
 
 .ms-demo-phone__bezel {
   position: relative;
@@ -281,39 +279,4 @@
   body:has(.ms-demo-mobile-bar) .VPDocFooter {
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
   }
-}
-
-/* Home body: constrain markdown sections under hero/features */
-.home-body {
-  max-width: 1152px;
-  margin: 0 auto;
-  padding: 24px 24px 64px;
-}
-.home-body h2 {
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--vp-c-divider);
-}
-@media (min-width: 640px) {
-  .home-body { padding: 24px 48px 64px; }
-}
-
-/* Home: screenshot grid */
-.shot-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin: 16px 0 8px;
-}
-.shot-grid figure { margin: 0; }
-.shot-grid img,
-.vp-doc img[src^="/screenshots/"] {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-}
-.shot-grid figcaption {
-  margin-top: 6px;
-  font-size: 13px;
-  color: var(--vp-c-text-2);
 }

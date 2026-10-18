@@ -1,21 +1,21 @@
 ---
-title: Color Picker 颜色
+title: Color Picker 颜色选择
 demo: pages/demo/form/color-picker
 ---
 
-# Color Picker 颜色
+# Color Picker 颜色选择
 
-`ms-color-picker`：颜色选择：预设色板 + 离散色相条 + 饱和度/明度/透明度滑块。
+`ms-color-picker` 是颜色选择器，提供预设色板、分段色相条，以及饱和度、明度和透明度滑块。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-color-picker`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-color-picker`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/form/color-picker`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/color-picker.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/form/color-picker.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
