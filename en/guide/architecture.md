@@ -64,15 +64,18 @@ Roles keep their existing grants for that module. While the module is off, admin
 
 A few more points:
 
-- The environment variables `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` follow the same rules as the system parameters `gis.module.enabled` and `ai.module.enabled`. Leading and trailing spaces are removed first, then the value is read as in the table below.
-- To turn a module off, set `false`. `1` and `0` still work but are deprecated and log a warning.
+- The system parameters `gis.module.enabled` and `ai.module.enabled` are on when empty, `true` (case-insensitive) or `1`. Leading and trailing spaces are ignored. `1` and `0` are deprecated and trigger a notice on save. Any other value is rejected on save; an old value left from before the upgrade counts as off and logs a warning.
+- The environment variables `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` are on when unset. Once set, only `true` or `false` is accepted (case-insensitive, no surrounding spaces). An empty value, `1`, `0`, a value with spaces, or `yes`, `on` and the like stop the service from starting. For an emergency shutdown, set `false` explicitly.
 
-| Value | Result |
-| --- | --- |
-| Unset or empty | On |
-| `true` / `false` (case-insensitive) | On / off |
-| `1` / `0` | On / off, with a deprecation warning in the log |
-| Anything else, such as `yes` or `on` | Environment variable: the service fails to start. System parameter: rejected on save; an existing old value counts as off and logs a warning |
+| Value | Environment variable / yml | System parameter |
+| --- | --- | --- |
+| Unset | On | On |
+| Set but empty | Fails to start | On |
+| `true` / `false` (case-insensitive) | On / off | On / off |
+| With surrounding spaces, such as `" true"` | Fails to start | Spaces removed, then read |
+| `1` / `0` | Fails to start | On / off, with a deprecation notice |
+| Anything else, such as `yes` or `on` | Fails to start | Rejected on save; an old value counts as off |
+
 - On multi-server deployments, each server caches system parameters locally for up to 1 hour, so the other servers turn the module off only after their cache expires.
 - The built-in MCP Server has been removed, and its related variables (such as `MUGSUN_AI_MCP_SERVER`) no longer have any effect.
 - The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.

@@ -80,7 +80,7 @@ Setting this list replaces the default entirely, so include these three if you w
 | `POWERJOB_ENABLED` | `false` | PowerJob worker; requires a separate server and `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / empty | IP-to-region lookup |
 
-The three module switches accept only `true` or `false` (case-insensitive). Empty means on, and any other value stops the service from starting. See [Architecture](/en/guide/architecture#two-layers-of-module-switches) for the full rules.
+The three module switches are on when unset. Once set, they accept only `true` or `false` (case-insensitive, no surrounding spaces); an empty value, `1`, `0` or anything else stops the service from starting. See [Architecture](/en/guide/architecture#two-layers-of-module-switches) for the full rules.
 
 ## AI outbound allowlist
 

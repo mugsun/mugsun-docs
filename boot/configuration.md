@@ -80,7 +80,7 @@ mugsun:
 | `POWERJOB_ENABLED` | `false` | PowerJob Worker；启用须独立部署 Server 并设置 `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / 空 | IP 归属地解析 |
 
-三个模块开关只接受 `true` 或 `false`（不区分大小写），留空按开启，写错会导致启动失败。完整规则见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
+三个模块开关不设置时开启；设置后只接受 `true` 或 `false`（不区分大小写，前后不能有空格），空值、`1`、`0` 等其它值会导致启动失败。完整规则见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
 
 ## AI 出站白名单
 
