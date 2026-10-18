@@ -48,6 +48,7 @@ const track = createTracker({
 - 默认**页面文本和输入框的值显示原文**（0.3.0 起不再默认传 `maskTextSelector: '*'`，`maskAllInputs` 默认 `false`）。
 - 始终整块不录：`input[type="password"]`、带 `data-track-mask` 属性的元素、银行卡字段（`autocomplete` 以 `cc-` 开头）、一次性验证码字段（`autocomplete="one-time-code"`）。
 - 需要遮罩时：`replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 遮全部文本和输入值，文本也可以传更窄的选择器，如 `'.user-info'`。见 [隐私与合规](/track/privacy#开启遮罩与过滤)。
+- 输入框的值默认按原文录制。按《个人信息保护法》，采集敏感个人信息须取得用户的单独同意；未取得同意时，请设 `maskAllInputs: true`。见 [隐私与合规](/track/privacy)。
 
 ```html
 <!-- 整块不录 -->
