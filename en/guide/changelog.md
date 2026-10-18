@@ -6,8 +6,8 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-core
 
-- **Duplicate submissions return 400 instead of 500**: a unique-constraint conflict returns HTTP 400 with `code` 400 and the message 「数据已存在，请勿重复提交」, with no SQL, constraint name or field values. These errors are no longer recorded in `sys_error_log`; the server logs one WARN line instead. Other database errors still return 500. This applies to Servlet web apps that use `mugsun-starter-mybatis`. ([#6](https://github.com/mugsun/mugsun-core/pull/6))
-- **Dameng unique-constraint conflicts also return 400**: `mugsun-starter-mybatis` ships a `sql-error-codes.xml` at the classpath root that adds the Dameng unique-key error codes. If your app also puts a `sql-error-codes.xml` at the classpath root, it shadows this one, so copy the Dameng entry into yours.
+- **Duplicate submissions return 400 instead of 500**: when a unique constraint conflict occurs, the app returns HTTP 400 with `code` 400 and the message 「数据已存在，请勿重复提交」, with no SQL, constraint name or field values. These errors do not call `ErrorLogListener` (so boot's `sys_error_log` no longer records them); the server logs one WARN line instead. Other database errors still return 500. This applies to Servlet web apps that use `mugsun-starter-mybatis`. ([#6](https://github.com/mugsun/mugsun-core/pull/6))
+- **Dameng unique-constraint conflicts also return 400**: `mugsun-starter-mybatis` ships a `sql-error-codes.xml` at the classpath root that adds Dameng error codes -6602, -6612 and -6625. If your app also puts a `sql-error-codes.xml` at the classpath root, it shadows this one, so copy the Dameng entry into yours.
 
 ## 2026-10-18 · Built-in MCP Server removed
 

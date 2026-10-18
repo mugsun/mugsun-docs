@@ -19,7 +19,9 @@
 | `mugsun-starter-web` | Global exception handling, Sa-Token annotation interceptor, ApiCrypto request encryption, SafeNumber, Excel |
 | `mugsun-starter-mybatis` | MyBatis-Flex starter and `BaseEntity` (snowflake IDs, audit timestamps, logical delete) |
 
-In a Servlet web app that uses `mugsun-starter-mybatis`, a unique-constraint conflict returns HTTP 400 with `code` 400 and the message 「数据已存在，请勿重复提交」 ("this data already exists, don't submit it twice"). The response carries no SQL, constraint name or field values, and the error is not written to the error log table. Dameng unique-key error codes are included. If your app puts its own `sql-error-codes.xml` at the classpath root, it shadows the one in this module, so copy the Dameng entry into yours.
+In a Servlet web app that uses `mugsun-starter-mybatis`, when a unique constraint conflict occurs the app returns HTTP 400 with `code` 400 and the message 「数据已存在，请勿重复提交」 ("this data already exists, don't submit it twice"). The response carries no SQL, constraint name or field values, and the app does not call `ErrorLogListener` (so boot's `sys_error_log` no longer records it).
+
+Dameng error codes -6602, -6612 and -6625 are included. If your app puts its own `sql-error-codes.xml` at the classpath root, it shadows the one in this module, so copy the Dameng entry into yours.
 
 ## Using it in your project
 
