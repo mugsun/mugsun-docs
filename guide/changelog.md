@@ -9,6 +9,19 @@
 - **重复提交从 500 改为 400**：遇到唯一约束冲突时返回 HTTP 400，`code` 为 400，提示「数据已存在，请勿重复提交」，不带 SQL、约束名和字段值。这类错误不回调 `ErrorLogListener`（boot 的 `sys_error_log` 因此不再记录），服务端只记一条 WARN。其它数据库异常仍是 500。需要引入 `mugsun-starter-mybatis`，且是 Servlet Web 应用。（[#6](https://github.com/mugsun/mugsun-core/pull/6)）
 - **达梦唯一约束冲突同样返回 400**：`mugsun-starter-mybatis` 在 classpath 根目录带了一份 `sql-error-codes.xml`，补上达梦错误码 -6602、-6612、-6625。应用自己在 classpath 根目录也放了 `sql-error-codes.xml` 时会遮住这份，需要把达梦条目抄过去。
 
+## 2026-10-18 · 模块开关取值收紧
+
+### mugsun-boot
+
+- **环境变量写错会启动失败（破坏性变更）**：`MUGSUN_GIS_ENABLED`、`MUGSUN_TRACK_ENABLED`、`MUGSUN_AI_ENABLED`（以及 yml 里的 `mugsun.<模块>.enabled`）只接受 `true` 或 `false`（不区分大小写，前后不能有空格），不设置按开启，其它值见 [取值表](/guide/architecture#模块装配-两层开关)。这些值以前都按关闭处理，现在启动失败，报错里会写出变量名和原值。（[#96](https://github.com/mugsun/mugsun-boot/pull/96)）
+- **系统参数保存时校验**：`gis.module.enabled`、`ai.module.enabled` 的判定规则不变。写错的值保存时被拒绝，`1`、`0` 已弃用，保存时和运行时日志都会提示。升级前留下的错误值按关闭处理，日志里会出现警告。
+
+升级步骤：
+
+1. 在 compose 文件、`.env`、systemd 或 K8s 配置和 yml 里找出上面三个变量（以及 `mugsun.<模块>.enabled`）。
+2. 值为空、`1`、`0`、带首尾空格，或是 `yes`、`on`、`no`、`off` 的，改成 `true` 或 `false`。这些值以前都按关闭处理，想保持原状就写 `false`。
+3. 也可以删掉这个变量，按默认开启。
+
 ## 2026-10-18 · 移除内置 MCP Server
 
 ### mugsun-boot

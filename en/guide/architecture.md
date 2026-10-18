@@ -64,9 +64,22 @@ Roles keep their existing grants for that module. While the module is off, admin
 
 A few more points:
 
-- The system parameters `gis.module.enabled` and `ai.module.enabled` are on when empty, `true` (case-insensitive) or `1`. Leading and trailing spaces are ignored. Any other value counts as off.
-- The environment variables `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` are on when unset. Once set, only `true` counts as on (case-insensitive; surrounding spaces are not ignored), and `1`, `yes` or an empty value count as off. For an emergency shutdown, set `false` explicitly.
-- On multi-server deployments, each server caches system parameters locally for up to 1 hour, so the other servers turn the module off only after their cache expires.
+- The system parameters `gis.module.enabled` and `ai.module.enabled` are on when empty, `true` (case-insensitive) or `1`. Leading and trailing spaces are ignored. `1` and `0` are deprecated; they trigger a notice on save and a warning in the runtime log. Any other value is rejected on save; an old value left from before the upgrade counts as off and logs a warning.
+- The environment variables `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` follow the same rules as `mugsun.gis.enabled`, `mugsun.track.enabled` and `mugsun.ai.enabled` in yml. They are on when unset. Once set, only `true` or `false` is accepted (case-insensitive, no surrounding spaces).
+- Any other value fails startup; see the table below for all values. The error names the setting, the environment variable and the value, and says how to fix it. For an emergency shutdown, set `false` explicitly.
+
+| Value | Environment variable / yml | System parameter |
+| --- | --- | --- |
+| Unset | On | On |
+| Set but empty | Fails to start | On |
+| `true` / `false` (case-insensitive) | On / off | On / off |
+| With surrounding spaces, such as `" true"` | Fails to start | Spaces removed, then read |
+| `1` / `0` | Fails to start | On / off, with a deprecation notice |
+| Anything else, such as `yes` or `on` | Fails to start | Rejected on save; an old value counts as off |
+
+- If a module isn't packaged (for example, built with `-Pbasic,'!full'`), its environment variable and yml switch are never read, so an invalid value doesn't stop startup. System parameters are still checked on save.
+- Deleting the system parameter `gis.module.enabled` or `ai.module.enabled` returns the module to the default, which is on, as long as the environment variable or yml hasn't turned it off.
+- On multi-server deployments, each server caches system parameters locally for up to 1 hour. After you change or delete a parameter, the other servers pick it up only when their cache expires.
 - The built-in MCP Server has been removed, and its related variables (such as `MUGSUN_AI_MCP_SERVER`) no longer have any effect.
 - The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.
 
