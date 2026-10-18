@@ -2,9 +2,13 @@
 
 从 0.1.0 升级 boot 的埋点模块后，按本页做两件事：回填历史 UV，确认用户时间线索引建完。
 
+本页只适用于 PostgreSQL 埋点库。关闭了 `mugsun.track.flyway-enabled` 的部署，需要手工执行 T2、T3 的 SQL；T4 不会运行，分区索引由后台补建任务补齐，后台补建也关闭时要自建分区索引。
+
 ## 回填历史 UV
 
-看板的 UV 按设备 ID（`distinct_id`）去重。升级前已经汇总好的日子还是旧口径，趋势图上过去几天的 UV 会对不上，需要回填一次。
+看板的 UV 按设备 ID（`distinct_id`）去重。只有看板时区是 UTC 时，日趋势和概览才读按日汇总表 `track_stats_day`，升级前汇总好的日子还是旧口径，需要回填一次。
+
+默认时区 `Asia/Shanghai` 和其它非 UTC 时区直接按明细统计，不读这张表，不受影响，可以跳过本节。时区由 `mugsun.track.timezone.default-zone` 和按租户的 `mugsun.track.timezone.tenants` 决定。
 
 先在低峰期用小应用试跑一天：
 
@@ -55,7 +59,7 @@ mugsun:
 3. 迁移里不建索引。确需索引时，在低峰期对要回填的月分区单独 `CREATE INDEX CONCURRENTLY`，回填后删掉。
 4. 并发建索引失败会留下 INVALID 索引。`pg_index.indisvalid` 为 false 时，先 `DROP INDEX CONCURRENTLY` 再重建。
 
-查询语句和完整步骤见 boot 仓库的 `docs/upgrade/track-uv-backfill.md`。
+查询语句和完整步骤见 boot 仓库的 [docs/upgrade/track-uv-backfill.md](https://github.com/mugsun/mugsun-boot/blob/main/docs/upgrade/track-uv-backfill.md)。
 :::
 
 ### 还原与清理
@@ -119,7 +123,7 @@ mugsun:
 
 ### 耗时与停机
 
-每个分区要建两条索引，耗时大致与分区大小成正比。实测 300 万行（507 MB）的月分区约 40 秒，1 亿行约 20 到 30 分钟，线上有写入时更慢。实际耗时看日志 `时间线索引后台补建：分区 … 完成（… ms）`。
+每个分区要建两条索引，耗时大致与分区大小成正比。在空闲的 PostgreSQL 16 上实测，300 万行（507 MB）的月分区约 40 秒。按这个比例估算，1 亿行约 20 到 30 分钟，线上有写入时更慢。实际耗时看日志 `时间线索引后台补建：分区 … 完成（… ms）`。
 
 停应用会取消正在建的索引。被中断的分区留下的 invalid 索引，下次运行会先删掉再重建，不需要手工处理。
 
@@ -179,7 +183,7 @@ repair 会把旧记录改成新的 T2，UV 备份表就不会再建。
 -- 1) 确认当前连的是埋点库（应能看到 track_event）
 SELECT current_database(), to_regclass('track_event') IS NOT NULL AS is_track_db;
 
--- 2) 看要删哪些行（script 应以 T 开头）
+-- 2) 看要删哪些 SQL 迁移记录（script 以 T 开头）
 SELECT installed_rank, version, description, script, success
 FROM flyway_schema_history
 WHERE script LIKE 'T%'
@@ -191,9 +195,17 @@ WHERE script LIKE 'T%'
   AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
 ```
 
-T4 是 Java 迁移，`script` 列是类名 `db.track.migration.T4__…`。如果第 2 步没有列出 T4，先确认它在埋点库里，再单独删：`… WHERE version = '4' AND script LIKE 'db.track.migration.T4%'`。
+第 2、3 步只覆盖 SQL 迁移。T4 是 Java 迁移，`script` 列是类名 `db.track.migration.T4__…`，要单独查和删：
 
-重启后依次执行 T2、T3、T4。三个迁移都可以安全重跑。
+```sql
+SELECT installed_rank, version, script FROM flyway_schema_history
+WHERE version = '4' AND script LIKE 'db.track.migration.T4%';
+
+DELETE FROM flyway_schema_history
+WHERE version = '4' AND script LIKE 'db.track.migration.T4%';
+```
+
+重启后依次执行 T2、T3、T4。三个迁移都可以安全重跑：T2、T3 用 `IF NOT EXISTS`，T4 跳过已挂好的分区。
 :::
 
 ## 用户时间线的设备上限

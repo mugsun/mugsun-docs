@@ -2,9 +2,13 @@
 
 After upgrading the boot tracking module from 0.1.0, do two things on this page: backfill historical UV, and confirm the user timeline indexes are built.
 
+This page applies only to a PostgreSQL tracking database. If you turned off `mugsun.track.flyway-enabled`, run the T2 and T3 SQL by hand. T4 won't run, so the background backfill builds the partition indexes; if that is off too, build them yourself.
+
 ## Backfill historical UV
 
-Dashboard UV counts one per device ID (`distinct_id`). Days summarized before the upgrade still use the old rule, so past days on the trend chart won't match. Run the backfill once.
+Dashboard UV counts one per device ID (`distinct_id`). Only when the dashboard timezone is UTC do the daily trend and overview read the daily summary table `track_stats_day`, whose pre-upgrade days still use the old rule. Run the backfill once in that case.
+
+The default `Asia/Shanghai` and any other non-UTC timezone compute from raw events and never read this table, so they are unaffected and can skip this section. The timezone comes from `mugsun.track.timezone.default-zone` and the per-tenant `mugsun.track.timezone.tenants`.
 
 First, try one day on a small app off-peak:
 
@@ -55,7 +59,7 @@ mugsun:
 3. The migration doesn't create an index. If you need one, run `CREATE INDEX CONCURRENTLY` off-peak on each monthly partition you're backfilling, and drop it afterwards.
 4. A failed concurrent build leaves an INVALID index. If `pg_index.indisvalid` is false, run `DROP INDEX CONCURRENTLY` and build it again.
 
-The query and full steps are in `docs/upgrade/track-uv-backfill.md` in the boot repository.
+The query and full steps are in [docs/upgrade/track-uv-backfill.md](https://github.com/mugsun/mugsun-boot/blob/main/docs/upgrade/track-uv-backfill.md) in the boot repository.
 :::
 
 ### Restore and clean up
@@ -119,7 +123,7 @@ mugsun:
 
 ### Duration and shutdown
 
-Each partition gets two indexes, and time grows roughly with partition size. A 3M-row (507 MB) monthly partition took about 40 seconds in testing; a 100M-row month takes roughly 20 to 30 minutes, and longer under write load. Check the log line `时间线索引后台补建：分区 … 完成（… ms）` for real numbers.
+Each partition gets two indexes, and time grows roughly with partition size. On an idle PostgreSQL 16, a 3M-row (507 MB) monthly partition took about 40 seconds. At that rate, a 100M-row month is estimated at 20 to 30 minutes, and longer under write load. Check the log line `时间线索引后台补建：分区 … 完成（… ms）` for real numbers.
 
 Stopping the app cancels the index build in progress. The next run drops the invalid index left behind and rebuilds it, with no manual cleanup.
 
@@ -179,7 +183,7 @@ Run this SQL against the tracking database, the one `mybatis-flex.datasource.tra
 -- 1) Confirm you are on the tracking database (track_event exists)
 SELECT current_database(), to_regclass('track_event') IS NOT NULL AS is_track_db;
 
--- 2) See which rows would be deleted (script should start with T)
+-- 2) See which SQL migration rows would be deleted (script starts with T)
 SELECT installed_rank, version, description, script, success
 FROM flyway_schema_history
 WHERE script LIKE 'T%'
@@ -191,9 +195,17 @@ WHERE script LIKE 'T%'
   AND (version IN ('3', '4') OR (version = '2' AND description = 'track event timeline index'));
 ```
 
-T4 is a Java migration, so its `script` column is the class name `db.track.migration.T4__…`. If step 2 doesn't list T4, confirm it is on the tracking database, then delete it separately: `… WHERE version = '4' AND script LIKE 'db.track.migration.T4%'`.
+Steps 2 and 3 only cover SQL migrations. T4 is a Java migration, so its `script` column is the class name `db.track.migration.T4__…`. Check and delete it separately:
 
-On restart, T2, T3 and T4 run in order. All three are safe to re-run.
+```sql
+SELECT installed_rank, version, script FROM flyway_schema_history
+WHERE version = '4' AND script LIKE 'db.track.migration.T4%';
+
+DELETE FROM flyway_schema_history
+WHERE version = '4' AND script LIKE 'db.track.migration.T4%';
+```
+
+On restart, T2, T3 and T4 run in order. All three are safe to re-run: T2 and T3 use `IF NOT EXISTS`, and T4 skips partitions that are already attached.
 :::
 
 ## Device limit on the user timeline
