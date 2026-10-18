@@ -8,7 +8,7 @@
 
 ### 许可证是什么？
 
-boot、core、pc、track 均为 MIT。pc 的 UI 基座衍生自 art-design-pro（MIT），对外分发须保留仓内 `NOTICE`。以各仓 `LICENSE` 为准。
+boot、core、pc、track、ms-ui 均为 MIT。pc 的 UI 基座衍生自 art-design-pro（MIT），对外分发须保留仓内 `NOTICE`。以各仓 `LICENSE` 为准。
 
 ### 有在线演示吗？
 
@@ -16,7 +16,7 @@ ms-ui 组件有 [H5 在线演示](/demo)。管理台与埋点全链路目前没�
 
 ### cloud 微服务版和 ms-ui 源码什么时候开放？
 
-cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H5 演示已开放，源码属于商业版，不公开。
+cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H5 演示已开放，源码仓库暂未公开。
 
 ## 启动与构建
 

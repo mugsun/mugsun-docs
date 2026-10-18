@@ -7,7 +7,7 @@ demo: pages/demo/nav/grid
 
 `ms-grid-item` 是 `ms-grid` 中的宫格项。
 
-组件目录：`uni_modules/ms-ui/components/ms-grid-item`。ms-ui 为商业版，源码不公开。
+组件目录：`uni_modules/ms-ui/components/ms-grid-item`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/nav/grid`。
 
 ## 基础用法
