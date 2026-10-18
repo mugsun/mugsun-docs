@@ -38,7 +38,7 @@ api_key  apikey  auth  secret  password
 code  sign  signature  ticket  session  otp
 ```
 
-匹配时忽略大小写与 `_`、`-`，`accessToken`、`Access-Token` 也算。hash 里的参数同样处理，覆盖 OAuth 隐式流和 hash 路由：
+匹配时忽略大小写与 `_`、`-`，`accessToken`、`Refresh-Token` 也算；归一后精确匹配，`tokenCount`、`sessionTimeout` 不算。hash 里的参数同样处理，覆盖 OAuth 隐式流和 hash 路由：
 
 ```text
 /api/order?id=42&token=abc123   →   /api/order?id=42&token=***

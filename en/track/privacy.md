@@ -38,7 +38,7 @@ api_key  apikey  auth  secret  password
 code  sign  signature  ticket  session  otp
 ```
 
-Matching ignores case, `_` and `-`, so `accessToken` and `Access-Token` count too. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
+Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count too; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
 
 ```text
 /api/order?id=42&token=abc123   →   /api/order?id=42&token=***
