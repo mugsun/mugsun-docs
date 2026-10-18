@@ -29,7 +29,7 @@ Tighten access and retention for replay and body data accordingly.
 
 ## URL redaction
 
-API monitoring keeps query strings, but values for these keys (**exact match after lowercasing**) become `***`. Other parameters are kept:
+API monitoring keeps query strings, but values for these keys become `***` (matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not). Other parameters are kept:
 
 ```text
 token  access_token  authorization  id_token  refresh_token

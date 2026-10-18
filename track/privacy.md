@@ -29,7 +29,7 @@
 
 ## URL 敏感参数
 
-接口监控上报的 URL 保留查询串，但以下键（**小写归一后精确匹配**）的值替换为 `***`，业务参数保留：
+接口监控上报的 URL 保留查询串，但以下键的值替换为 `***`（匹配时忽略大小写与 `_`、`-`，`accessToken`、`Refresh-Token` 也算；归一后精确匹配，`tokenCount`、`sessionTimeout` 不算），业务参数保留：
 
 ```text
 token  access_token  authorization  id_token  refresh_token

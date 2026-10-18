@@ -93,7 +93,7 @@ Autocaptured events such as clicks never include `input` / `textarea` values. Fr
 
 ### Are tokens in URLs sent to the server?
 
-API monitoring keeps query strings but replaces the values of `token`, `access_token`, `authorization`, `id_token`, `refresh_token`, `api_key`, `apikey`, `auth`, `secret` and `password` (case-insensitive) with `***`.
+API monitoring keeps query strings but replaces the values of `token`, `access_token`, `authorization`, `id_token`, `refresh_token`, `api_key`, `apikey`, `auth`, `secret` and `password` (ignoring case, `_` and `-`, so `accessToken` counts too) with `***`.
 
 ### What if my `appKey` leaks?
 

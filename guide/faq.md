@@ -93,7 +93,7 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 ### URL 里的 token 会被上报吗？
 
-接口监控事件中的 URL 会剥离敏感 query：`token`、`access_token`、`authorization`、`id_token`、`refresh_token`、`api_key`、`apikey`、`auth`、`secret`、`password`（大小写不敏感），值替换为 `***`。
+接口监控事件中的 URL 会剥离敏感 query：`token`、`access_token`、`authorization`、`id_token`、`refresh_token`、`api_key`、`apikey`、`auth`、`secret`、`password`（忽略大小写与 `_`、`-`，`accessToken` 也算），值替换为 `***`。
 
 ### `appKey` 泄露了怎么办？
 
