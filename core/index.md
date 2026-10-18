@@ -19,6 +19,8 @@
 | `mugsun-starter-web` | 全局异常、Sa-Token 注解拦截、ApiCrypto 接口加解密、SafeNumber、Excel |
 | `mugsun-starter-mybatis` | MyBatis-Flex starter 与 `BaseEntity`（雪花主键、审计时间、逻辑删除） |
 
+引入 `mugsun-starter-mybatis` 的 Servlet Web 应用，撞上数据库唯一约束时返回 HTTP 400，`code` 为 400，提示「数据已存在，请勿重复提交」。响应里不带 SQL、约束名和字段值，这类错误也不写入错误日志表。达梦的唯一键错误码已经包含在内。应用自己在 classpath 根目录放了 `sql-error-codes.xml` 时，会遮住本模块的那份，需要把达梦条目抄过去。
+
 ## 在自己的工程中使用
 
 ```xml

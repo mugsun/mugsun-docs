@@ -2,6 +2,13 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-18 · 重复提交返回 400
+
+### mugsun-core
+
+- **重复提交从 500 改为 400**：撞上数据库唯一约束时返回 HTTP 400，`code` 为 400，提示「数据已存在，请勿重复提交」，不带 SQL、约束名和字段值。这类错误不再写入 `sys_error_log`，服务端只记一条 WARN。其它数据库异常仍是 500。需要引入 `mugsun-starter-mybatis`，且是 Servlet Web 应用。（[#6](https://github.com/mugsun/mugsun-core/pull/6)）
+- **达梦唯一约束冲突同样返回 400**：`mugsun-starter-mybatis` 在 classpath 根目录带了一份 `sql-error-codes.xml`，补上达梦的唯一键错误码。应用自己在 classpath 根目录也放了 `sql-error-codes.xml` 时会遮住这份，需要把达梦条目抄过去。
+
 ## 2026-10-18 · 移除内置 MCP Server
 
 ### mugsun-boot
