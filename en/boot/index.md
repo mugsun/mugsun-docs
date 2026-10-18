@@ -22,7 +22,7 @@ mugsun-boot/
   mugsun-boot-core/     # auth, system pages, workflow, tenants, files, open API
   mugsun-boot-gis/      # optional: layers, spatial queries, vector tiles
   mugsun-boot-track/    # optional: event intake, remote config, stats, replay
-  mugsun-boot-ai/       # optional: models, chat, knowledge base, MCP
+  mugsun-boot-ai/       # optional: models, chat, knowledge base, calling external MCP tools
   mugsun-boot-server/   # startup module, uses the full profile by default
 ```
 

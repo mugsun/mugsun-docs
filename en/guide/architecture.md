@@ -12,7 +12,7 @@
  │ mugsun-boot-core   auth · system · tenants · workflow · files   │
  │ mugsun-boot-track  ingestion · remote config · rollups · replay │
  │ mugsun-boot-gis    layers · spatial queries · vector tiles      │
- │ mugsun-boot-ai     models · chat · knowledge base · MCP         │
+ │ mugsun-boot-ai     models · chat · KB · calls external MCP      │
  │ mugsun-boot-server assembly (default profile: full)             │
  └───────────────┬──────────────────────────────┬─────────────────┘
                  ▼                              ▼
@@ -58,12 +58,14 @@ When a module is off, its endpoints aren't registered (requests return 404), and
 
 If you turn a module off only with the system parameter `gis.module.enabled` or `ai.module.enabled`, its endpoints return 404 as well. The console uses `gisEnabled` and `aiEnabled` from `/auth/info` to decide which entries to show.
 
-The one exception is `/system/gis/status`. The switch doesn't block it, so with GIS off only by the parameter it still returns `{enabled:false}`.
+The one exception is `/system/gis/status`. The switch doesn't block it, so with GIS off only by the parameter it still returns `{enabled:false}`. It still requires sign-in and returns 401 without it.
 
-Roles keep their existing grants for that module. While the module is off, admins can't see those grants in the role permission tree or revoke them, so to revoke them you turn the module back on first; the grants apply again once it's back on.
+Roles keep their existing grants for that module. While the module is off, admins can't see those grants in the role permission tree or revoke them. To revoke them, turn the module back on first. Once it's back on, the grants apply again.
 
 A few more points:
 
+- The system parameters `gis.module.enabled` and `ai.module.enabled` are on when empty, `true` (case-insensitive) or `1`. Leading and trailing spaces are ignored. Any other value counts as off.
+- The environment variables `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` are on when unset. Once set, only `true` counts as on (case-insensitive; surrounding spaces are not ignored), and `1`, `yes` or an empty value count as off. For an emergency shutdown, set `false` explicitly.
 - On multi-server deployments, each server caches system parameters locally for up to 1 hour, so the other servers turn the module off only after their cache expires.
 - The built-in MCP Server has been removed, and its related variables (such as `MUGSUN_AI_MCP_SERVER`) no longer have any effect.
 - The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.

@@ -2,10 +2,13 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
-## 2026-10-18 · AI "Exposed" page taken offline
+## 2026-10-18 · Built-in MCP Server removed
 
 ### mugsun-boot
 
+- **Built-in MCP Server removed (breaking)**: Spring AI and the MCP SDK are gone from the dependencies. `/sse`, `/mcp` and `/mcp/message` return 404 under any configuration, and related variables such as `MUGSUN_AI_MCP_SERVER` no longer have any effect. These endpoints bypassed the project's authentication. If you used it to expose tools, run your own MCP server instead. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
+- **Calling external MCP tools still works**: the MCP toolbox and the workflow MCP node are unchanged.
+- **Guard against re-adding them**: a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
 - **The MCP toolbox no longer has an "Exposed" page**: with the built-in MCP Server removed, this page only changed a tool's enabled flag and served nothing. `/system/ai/mcp/server/list` and `/system/ai/mcp/server/toggle` now return 404. ([#92](https://github.com/mugsun/mugsun-boot/pull/92))
 - **The button is hidden on upgrade**: a new database migration soft-deletes the "Exposed" button and its role grants. Registered MCP tools stay, and you can still change a tool's enabled flag in its edit form.
 
