@@ -6,7 +6,9 @@
 
 ## 前端行为
 
-- 页面先调 `GET /api/auth/captcha/config` 判断是否需要验证码。返回的 `type` 只是提示，实际题型以 `challenge` 响应中的 `type` 为准。遇到前端不认识的题型时，回退到旧的数字验证码。
+- 页面先调 `GET /api/auth/captcha/config` 判断是否需要验证码。返回的 `type` 只是提示，实际题型以 `challenge` 响应中的 `type` 为准。
+- 数字验证码已移除，没有任何回落。`config` 拿不到时（网络错误、非 2xx，或返回前端不认识的类型），表单里验证码的位置显示错误态：一句说明、「重试」按钮和错误编号。错误编号就是这次请求的 `X-Trace-Id`，可以直接对上后端日志。错误态不弹提示框，读屏会播报一次。验证码就绪前，登录、注册按钮和发短信、发邮件验证码的按钮都不可用。
+- `challenge` 返回前端不认识的题型时，弹层显示「验证方式暂不可用」，点「换一张」可以重新取题。
 - 弹层是 `CaptchaDialog`，它根据 `type` 切换到滑块、旋转、点选或拼图面板。验证成功后拿到一次性的 `captchaToken`，随业务请求一起提交。
 - 所有坐标都用显示像素，原点在底图左上角，服务端按 `bgWidth / bgDisplayWidth` 换算回原图像素。上报的 `bgDisplayWidth` 不小于 260：容器比 260px 窄时，弹层整体按比例缩放，不会上报更小的宽度。
 - 旋转题的拖动条与底图等宽，按滑块左边缘的位移计算，拖到最右等于 360°，容差 ±10°。拖动很慢时进入精调：位移按 0.5 倍累加，方便对准。
@@ -41,5 +43,6 @@ VITE_CAPTCHA_MOCK=true pnpm dev
 
 - 在 URL 上加 `?captchaType=ROTATE` 可以指定题型（仅 mock 模式有效）。
 - 设置 `sessionStorage.captchaMockNoKeyboard = '1'` 可以模拟 40015。
+- 设置 `sessionStorage.captchaMockConfig = 'error'` 可以模拟 `config` 请求失败，设成 `'unknown'` 可以模拟返回未知类型，用来查看错误态。
 
 mock 只在 `DEV` 模式下、且 `VITE_CAPTCHA_MOCK=true` 时才会加载，生产构建不包含 mock 代码。mock 的旋转容差默认 10°，和服务端一致，可以用 `sessionStorage.captchaMockRotateTol` 调整；用 `sessionStorage.captchaMockWord` 可以指定成语。判定结果以服务端为准。用 mock 模式录的截图或录屏须标注「前端 mock、服务端校验未接」。

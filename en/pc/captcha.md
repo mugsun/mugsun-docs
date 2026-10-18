@@ -6,7 +6,9 @@ The server issues and checks every challenge. The server also picks the type: on
 
 ## Frontend behavior
 
-- The page first calls `GET /api/auth/captcha/config` to check whether a captcha is needed. The `type` it returns is only a hint; the type in the `challenge` response is the one that counts. If the frontend gets a type it does not recognize, it falls back to the legacy numeric captcha.
+- The page first calls `GET /api/auth/captcha/config` to check whether a captcha is needed. The `type` it returns is only a hint; the type in the `challenge` response is the one that counts.
+- The numeric captcha has been removed, and there is no fallback. If `config` cannot be loaded (network error, non-2xx response, or a type the frontend does not recognize), the form shows an error state where the captcha would be: a short message, a "Retry" button and an error ID. The error ID is the request's `X-Trace-Id`, so it matches the backend logs. The error state does not pop up a message, and screen readers announce it once. Until the captcha is ready, the login and register buttons and the buttons that send SMS or email codes are disabled.
+- If `challenge` returns a type the frontend does not recognize, the dialog shows "Verification is temporarily unavailable"; "New puzzle" fetches a new challenge.
 - `CaptchaDialog` switches to the slider, rotate, click or jigsaw panel based on `type`. On success it gets a one-time `captchaToken`, which is sent with the business request.
 - All coordinates are in display pixels, with the origin at the top-left corner of the background image. The server converts them back with `bgWidth / bgDisplayWidth`. The reported `bgDisplayWidth` is at least 260: when the container is narrower than 260px, the dialog is scaled down as a whole and a smaller width is never reported.
 - For rotate challenges, the slider track is as wide as the image. Travel is measured from the handle's left edge, and dragging to the far right equals 360°. The tolerance is ±10°. When the drag is very slow, fine-tuning kicks in: travel accumulates at 0.5×, which makes it easier to line up.
@@ -41,5 +43,6 @@ VITE_CAPTCHA_MOCK=true pnpm dev
 
 - Add `?captchaType=ROTATE` to the URL to force a type (mock mode only).
 - Set `sessionStorage.captchaMockNoKeyboard = '1'` to simulate 40015.
+- Set `sessionStorage.captchaMockConfig = 'error'` to simulate a failed `config` request, or `'unknown'` to simulate an unknown type, to see the error state.
 
 The mock is loaded only in `DEV` mode with `VITE_CAPTCHA_MOCK=true`, and production builds do not include it. The mock's rotate tolerance defaults to 10°, the same as the server, and can be changed with `sessionStorage.captchaMockRotateTol`; `sessionStorage.captchaMockWord` forces a specific idiom. The server's result is what counts. Screenshots or recordings made in mock mode must be labelled "frontend mock, server verification not connected".
