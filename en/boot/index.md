@@ -50,7 +50,7 @@ For Kingbase or Dameng databases, add `-Pkingbase` or `-Pdameng`.
 | --- | --- |
 | Frameworks | Spring Boot 3, MyBatis-Flex, Sa-Token, Flyway |
 | Databases | PostgreSQL 16 (with PostGIS and pgvector), Redis 7 |
-| AI module | The module's own model client and pgvector retrieval, without Spring AI; the built-in MCP Server has been removed |
+| AI module | The module's own model client and pgvector retrieval, without Spring AI; the built-in MCP Server is temporarily offline and will return with authentication |
 | License | MIT |
 
 ## Next steps

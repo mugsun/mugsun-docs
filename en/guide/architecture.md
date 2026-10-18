@@ -80,7 +80,7 @@ A few more points:
 - If a module isn't packaged (for example, built with `-Pbasic,'!full'`), its environment variable and yml switch are never read, so an invalid value doesn't stop startup. System parameters are still checked on save.
 - Deleting the system parameter `gis.module.enabled` or `ai.module.enabled` returns the module to the default, which is on, as long as the environment variable or yml hasn't turned it off.
 - On multi-server deployments, each server caches system parameters locally for up to 1 hour. After you change or delete a parameter, the other servers pick it up only when their cache expires.
-- The built-in MCP Server has been removed, and its related variables (such as `MUGSUN_AI_MCP_SERVER`) no longer have any effect.
+- The built-in MCP Server is temporarily offline and will return with authentication. While it is offline, `MUGSUN_AI_MCP_SERVER` has no effect.
 - The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.
 
 The console has build-time counterparts, `VITE_ENABLE_GIS`, `VITE_ENABLE_TRACK` and `VITE_ENABLE_AI`; turning one off skips its routes and plugins.
