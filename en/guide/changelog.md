@@ -8,7 +8,7 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 - **Built-in MCP Server removed (breaking)**: Spring AI and the MCP SDK are gone from the dependencies. `/sse`, `/mcp` and `/mcp/message` return 404 under any configuration, and related variables such as `MUGSUN_AI_MCP_SERVER` no longer have any effect. These endpoints bypassed the project's authentication. If you used it to expose tools, run your own MCP server instead. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
 - **Calling external MCP tools still works**: the MCP toolbox and the workflow MCP node are unchanged.
-- **No way back in**: a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and no pom may skip the enforcer. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
+- **Guard against re-adding them**: a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
 
 ## 2026-10-14 · Tracking dashboards cut days in local time
 
