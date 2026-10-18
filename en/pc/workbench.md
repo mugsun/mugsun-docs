@@ -3,6 +3,13 @@
 ## Workbench
 
 - **Users per tenant**: the x-axis shows the tenant name instead of the tenant code. The name returned by the backend API is used first; when the API only returns a code, the name is looked up from the tenant list, and the platform tenant `000000` is shown as "Platform" if it has no name. Only platform super admins or accounts that can view all data see this chart. If the tenant list cannot be loaded, the codes are shown and the chart still renders.
+- **Changelog card**:
+  - **Current version and link**: the top shows the current version, taken from the `version` in the admin console's `package.json` at build time. "View changelog ↗" at the top right opens the mugsun-pc [CHANGELOG.md](https://github.com/mugsun/mugsun-pc/blob/main/CHANGELOG.md) on GitHub in a new tab.
+  - **List**: the latest 6 records from System → Changelog, newest first. Each shows its date, type (New / Improved / Fixed; any other value shows as "Other"), version and title.
+  - **Not installed and new version available**: when a record's version is newer than the current version, the record gets a grey "Not installed" tag and "vX available" appears to the right of the current version, where vX is the highest newer version in the list. Versions may carry a `v` prefix; records whose version is not in a valid format get no tag.
+  - **Loading, empty and error states**: a skeleton is shown while loading, and with no records yet the card says "No release notes yet. New releases will appear here." If loading fails, the card shows an error message, an error ID and a "Retry" button instead of a global toast; the current version does not depend on the API and is still shown.
+  - **Error ID**: the request's `X-Trace-Id`. If the request reached the backend, you can use it to find the request in the backend logs; requests that never left the browser (for example, when offline) cannot be found.
+  - **Data source and permissions**: the data comes from `GET /system/changelog/recent`, which any signed-in user can read without a menu permission, regardless of their tenant package. Records are maintained under System → Changelog, which only super admins and admins can open.
 - **First-login settings tip**: a bubble saying "click here for theme styles and the top menu" appears once under the settings icon at the top right. It is right-aligned to the settings icon with a gap below the top bar, so it does not cover the notification or settings buttons. It closes, and does not come back, when you click "Got it", click anywhere on the page, open the settings panel, or leave it alone for 8 seconds. It is not shown on screens narrower than 640px.
 
 ## AI assistant entry
