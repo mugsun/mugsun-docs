@@ -12,6 +12,19 @@
 - **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie`、`session` 等键不论开关都替换为 `***`，匹配时忽略大小写与 `_`、`-`；声明为 JSON 但解析失败的响应体不上传。
 - **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
 
+## 2026-10-18 · 模块开关取值收紧
+
+### mugsun-boot
+
+- **环境变量写错会启动失败（破坏性变更）**：`MUGSUN_GIS_ENABLED`、`MUGSUN_TRACK_ENABLED`、`MUGSUN_AI_ENABLED`（以及 yml 里的 `mugsun.<模块>.enabled`）只接受 `true` 或 `false`（不区分大小写，前后不能有空格），不设置按开启，其它值见 [取值表](/guide/architecture#模块装配-两层开关)。这些值以前都按关闭处理，现在启动失败，报错里会写出变量名和原值。（[#96](https://github.com/mugsun/mugsun-boot/pull/96)）
+- **系统参数保存时校验**：`gis.module.enabled`、`ai.module.enabled` 的判定规则不变。写错的值保存时被拒绝，`1`、`0` 已弃用，保存时和运行时日志都会提示。升级前留下的错误值按关闭处理，日志里会出现警告。
+
+升级步骤：
+
+1. 在 compose 文件、`.env`、systemd 或 K8s 配置和 yml 里找出上面三个变量（以及 `mugsun.<模块>.enabled`）。
+2. 值为空、`1`、`0`、带首尾空格，或是 `yes`、`on`、`no`、`off` 的，改成 `true` 或 `false`。这些值以前都按关闭处理，想保持原状就写 `false`。
+3. 也可以删掉这个变量，按默认开启。
+
 ## 2026-10-18 · 移除内置 MCP Server
 
 ### mugsun-boot
