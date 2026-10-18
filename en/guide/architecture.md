@@ -54,7 +54,11 @@ MUGSUN_TRACK_ENABLED=false
 MUGSUN_AI_ENABLED=false
 ```
 
-When a module is off, its endpoints aren't registered (requests return 404), and its menus no longer appear in the user's menu, Menu Management or the role permission tree. Roles keep their existing grants for that module, which apply again once it's back on.
+When a module is off, its endpoints aren't registered (requests return 404), and its menus no longer appear in the user's menu, Menu Management or the role permission tree.
+
+If you turn a module off only with the system parameter `gis.module.enabled` or `ai.module.enabled`, its endpoints stay registered and return the "module not enabled" business error instead of 404.
+
+Roles keep their existing grants for that module. While the module is off, admins can't see or revoke those grants in the role permission tree; the grants apply again once it's back on.
 
 The console has build-time counterparts, `VITE_ENABLE_GIS`, `VITE_ENABLE_TRACK` and `VITE_ENABLE_AI`; turning one off skips its routes and plugins.
 
