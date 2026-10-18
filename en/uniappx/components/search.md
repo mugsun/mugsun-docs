@@ -5,47 +5,47 @@ demo: pages/demo/form/search
 
 # Search
 
-`ms-search` — Search for uni-app x.
+`ms-search` is a search bar. It supports shape, action and leftIcon, and exposes focus, blur and clear.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-search` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-search`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/search`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/search.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/search.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
-  <ms-search v-model="baseValue" placeholder="搜索预设文案" />
+  <!-- Types -->
+  <ms-search v-model="baseValue" placeholder="Search placeholder" />
   <ms-search
     v-model="limitValue"
-    placeholder="最多输入 10 个字符"
+    placeholder="Up to 10 characters"
     :maxlength="10"
   />
   <ms-search
     v-model="actionValue"
-    placeholder="输入后点右侧搜索"
-    action="搜索"
+    placeholder="Type, then tap Search"
+    action="Search"
     @action="onSearchAction"
   />
-  <!-- 组件样式 -->
-  <ms-search v-model="squareValue" placeholder="方形搜索框" shape="square" />
-  <ms-search v-model="roundValue" placeholder="圆形搜索框" shape="round" />
-  <!-- 组件状态 -->
-  <ms-search v-model="centerValue" placeholder="居中占位" shape="round" center />
-  <ms-search model-value="" placeholder="禁用状态" disabled />
-  <!-- 组件深度 -->
-  <ms-search model-value="只读关键字" readonly shape="round" />
-  <ms-search v-model="noClearValue" placeholder="无清空按钮" :clearable="false" />
-  <ms-search v-model="filterValue" placeholder="筛选关键字" left-icon="filter" />
+  <!-- Styles -->
+  <ms-search v-model="squareValue" placeholder="Square search box" shape="square" />
+  <ms-search v-model="roundValue" placeholder="Round search box" shape="round" />
+  <!-- States -->
+  <ms-search v-model="centerValue" placeholder="Centered placeholder" shape="round" center />
+  <ms-search model-value="" placeholder="Disabled" disabled />
+  <!-- Advanced -->
+  <ms-search model-value="Read-only keyword" readonly shape="round" />
+  <ms-search v-model="noClearValue" placeholder="No clear button" :clearable="false" />
+  <ms-search v-model="filterValue" placeholder="Filter keyword" left-icon="filter" />
 </template>
 
 <script setup lang="uts">
-const actionValue = ref('关键词')
+const actionValue = ref('keyword')
 
 const baseValue = ref('')
 
@@ -55,7 +55,7 @@ const filterValue = ref('')
 
 const limitValue = ref('')
 
-const noClearValue = ref('保留')
+const noClearValue = ref('kept')
 
 const roundValue = ref('')
 

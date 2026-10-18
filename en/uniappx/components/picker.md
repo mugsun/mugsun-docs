@@ -5,96 +5,96 @@ demo: pages/demo/form/picker
 
 # Picker
 
-`ms-picker` — Picker for uni-app x.
+`ms-picker` is a picker. Pass flat `options` (split into columns by `column`, each with `label` and `value`); internally it uses the native `picker-view` and `picker-view-column`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-picker`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/picker`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/picker.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/picker.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-picker
     ref="probePicker"
     :options="cityOptions"
     :value="cityValue"
-    title="选择城市"
+    title="Select city"
     @change="onCityChange"
     @confirm="onCityConfirm"
     @cancel="onCityCancel"
   >
-    <ms-cell title="选择城市" :note="cityLabel" arrow :bordered="false" />
+    <ms-cell title="Select city" :note="cityLabel" arrow :bordered="false" />
   </ms-picker>
   <ms-picker
     :options="seasonOptions"
     :value="seasonValue"
-    title="选择时间"
+    title="Select period"
     @confirm="onSeasonConfirm"
     @cancel="onSeasonCancel"
   >
-    <ms-cell title="选择时间" :note="seasonLabel" arrow :bordered="false" />
+    <ms-cell title="Select period" :note="seasonLabel" arrow :bordered="false" />
   </ms-picker>
   <ms-picker
     :options="cityOptions"
     :value="inlineValue"
-    title="内嵌"
+    title="Inline"
     :use-popup="false"
     @change="onInlineChange"
     @confirm="onInlineConfirm"
   />
-  <!-- 样式 -->
+  <!-- Styles -->
   <ms-picker
     :options="cityOptions"
     :value="cityValue"
-    title="选择城市"
+    title="Select city"
     @confirm="onCityConfirm"
   >
-    <ms-cell title="带标题选择器" :note="cityLabel" arrow :bordered="false" />
+    <ms-cell title="Picker with title" :note="cityLabel" arrow :bordered="false" />
   </ms-picker>
   <ms-picker
     :options="cityOptions"
     :value="plainValue"
     @confirm="onPlainConfirm"
   >
-    <ms-cell title="无标题选择器" :note="plainLabel" arrow :bordered="false" />
+    <ms-cell title="Picker without title" :note="plainLabel" arrow :bordered="false" />
   </ms-picker>
 </template>
 
 <script setup lang="uts">
-const cityLabel = ref('上海')
+const cityLabel = ref('Shanghai')
 
 const cityOptions = [
-  { column: 0, label: '北京', value: 'bj' } as UTSJSONObject,
-  { column: 0, label: '上海', value: 'sh' } as UTSJSONObject,
-  { column: 0, label: '广州', value: 'gz' } as UTSJSONObject,
-  { column: 0, label: '深圳', value: 'sz' } as UTSJSONObject,
-  { column: 0, label: '杭州', value: 'hz' } as UTSJSONObject,
+  { column: 0, label: 'Beijing', value: 'bj' } as UTSJSONObject,
+  { column: 0, label: 'Shanghai', value: 'sh' } as UTSJSONObject,
+  { column: 0, label: 'Guangzhou', value: 'gz' } as UTSJSONObject,
+  { column: 0, label: 'Shenzhen', value: 'sz' } as UTSJSONObject,
+  { column: 0, label: 'Hangzhou', value: 'hz' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const cityValue = [1] as number[]
 
 const inlineValue = [2] as number[]
 
-const plainLabel = ref('北京')
+const plainLabel = ref('Beijing')
 
 const plainValue = [0] as number[]
 
-const seasonLabel = ref('2025 年 第三季度')
+const seasonLabel = ref('2025 Q3')
 
 const seasonOptions = [
-  { column: 0, label: '2024 年', value: '2024' } as UTSJSONObject,
-  { column: 0, label: '2025 年', value: '2025' } as UTSJSONObject,
-  { column: 0, label: '2026 年', value: '2026' } as UTSJSONObject,
-  { column: 1, label: '第一季度', value: 'q1' } as UTSJSONObject,
-  { column: 1, label: '第二季度', value: 'q2' } as UTSJSONObject,
-  { column: 1, label: '第三季度', value: 'q3' } as UTSJSONObject,
-  { column: 1, label: '第四季度', value: 'q4' } as UTSJSONObject,
+  { column: 0, label: '2024', value: '2024' } as UTSJSONObject,
+  { column: 0, label: '2025', value: '2025' } as UTSJSONObject,
+  { column: 0, label: '2026', value: '2026' } as UTSJSONObject,
+  { column: 1, label: 'Q1', value: 'q1' } as UTSJSONObject,
+  { column: 1, label: 'Q2', value: 'q2' } as UTSJSONObject,
+  { column: 1, label: 'Q3', value: 'q3' } as UTSJSONObject,
+  { column: 1, label: 'Q4', value: 'q4' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const seasonValue = [1, 2] as number[]

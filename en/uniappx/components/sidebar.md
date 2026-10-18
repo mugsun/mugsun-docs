@@ -5,17 +5,17 @@ demo: pages/demo/nav/sidebar
 
 # Sidebar
 
-`ms-sidebar` — Sidebar for uni-app x.
+`ms-sidebar` is a side category navigation used with `items` and a content slot; the current item binds with `v-model:value`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-sidebar` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-sidebar`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/sidebar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -35,7 +35,7 @@ Snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. To 
     @change="onIconChange"
   >
     <text>{{ iconTitle }}</text>
-    <text>带图标侧边导航内容区</text>
+    <text>Sidebar with icons: content area</text>
   </ms-sidebar>
   <ms-sidebar
     :items="badgeItems"
@@ -44,7 +44,7 @@ Snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. To 
     @change="onBadgeChange"
   >
     <text>{{ badgeTitle }}</text>
-    <text>徽标用于未读提示</text>
+    <text>Badges indicate unread items</text>
   </ms-sidebar>
   <ms-sidebar
     :items="disabledItems"
@@ -53,7 +53,7 @@ Snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. To 
     @change="onDisabledChange"
   >
     <text>{{ disabledTitle }}</text>
-    <text>禁用项不可点选</text>
+    <text>Disabled items cannot be selected</text>
   </ms-sidebar>
 </template>
 
@@ -61,34 +61,34 @@ Snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. To 
 const badgeIndex = ref(0)
 
 const badgeItems = [
-  { label: '消息', dot: true } as UTSJSONObject,
-  { label: '通知', count: 6 } as UTSJSONObject,
-  { label: '其他' } as UTSJSONObject,
+  { label: 'Messages', dot: true } as UTSJSONObject,
+  { label: 'Notifications', count: 6 } as UTSJSONObject,
+  { label: 'Other' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const baseIndex = ref(0)
 
 const baseItems = [
-  { label: '选项一' } as UTSJSONObject,
-  { label: '选项二' } as UTSJSONObject,
-  { label: '选项三' } as UTSJSONObject,
-  { label: '选项四' } as UTSJSONObject,
+  { label: 'Option 1' } as UTSJSONObject,
+  { label: 'Option 2' } as UTSJSONObject,
+  { label: 'Option 3' } as UTSJSONObject,
+  { label: 'Option 4' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const disabledIndex = ref(0)
 
 const disabledItems = [
-  { label: '可选' } as UTSJSONObject,
-  { label: '停用', disabled: true } as UTSJSONObject,
-  { label: '可选二' } as UTSJSONObject,
+  { label: 'Enabled' } as UTSJSONObject,
+  { label: 'Disabled', disabled: true } as UTSJSONObject,
+  { label: 'Enabled 2' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const iconIndex = ref(0)
 
 const iconItems = [
-  { label: '首页', icon: 'home-3-line' } as UTSJSONObject,
-  { label: '发现', icon: 'search-line' } as UTSJSONObject,
-  { label: '我的', icon: 'user-3-fill' } as UTSJSONObject,
+  { label: 'Home', icon: 'home-3-line' } as UTSJSONObject,
+  { label: 'Discover', icon: 'search-line' } as UTSJSONObject,
+  { label: 'Me', icon: 'user-3-fill' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onBaseChange(index: number) : void {
@@ -118,7 +118,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | value | `number` | `0` | Selected item index |
 | items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled |
-| height | `number` | `320` | Sidebar total height (px; vapor forbids % height) |
+| height | `number` | `320` | Sidebar total height (accepts numeric px values only; use the token value) |
 
 ## Events
 

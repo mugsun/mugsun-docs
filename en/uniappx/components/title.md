@@ -5,34 +5,34 @@ demo: pages/demo/nav/title
 
 # Title
 
-`ms-title` — Title for uni-app x.
+`ms-title` is a heading with levels `h1` to `h6` and optional truncation by line count.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-title` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-title`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/title`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/title.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/nav/title.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
-  <ms-title content="一级标题" level="h1" @click="onTitleClick" />
-  <ms-title content="二级标题" level="h2" />
-  <ms-title content="三级标题" level="h3" />
-  <!-- 组件状态 -->
+  <!-- Types -->
+  <ms-title content="Heading 1" level="h1" @click="onTitleClick" />
+  <ms-title content="Heading 2" level="h2" />
+  <ms-title content="Heading 3" level="h3" />
+  <!-- States -->
   <ms-title
     level="h4"
     :lines="1"
-    content="这是一段很长的标题文案用来演示单行省略截断效果请不要折行"
+    content="This is a very long heading that demonstrates single-line truncation and should not wrap"
   />
-  <!-- 组件深度 -->
-  <ms-title content="四级标题" level="h4" />
-  <ms-title content="五级标题" level="h5" />
-  <ms-title content="六级标题" level="h6" />
+  <!-- Advanced -->
+  <ms-title content="Heading 4" level="h4" />
+  <ms-title content="Heading 5" level="h5" />
+  <ms-title content="Heading 6" level="h6" />
 </template>
 
 <script setup lang="uts">

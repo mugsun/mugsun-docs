@@ -5,40 +5,40 @@ demo: pages/demo/form/switch
 
 # Switch
 
-`ms-switch` — Switch for uni-app x.
+`ms-switch` is a toggle whose track and thumb are built from views. It supports text or icons, a loading state, disabled and three sizes; the demo shows combinations such as text with large size, icon with loading, disabled with text, and small size with icon.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-switch` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-switch`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/switch`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/switch.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/switch.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-switch v-model="vBase" />
-  <ms-switch v-model="vLabel" :label="['开', '关']" />
+  <ms-switch v-model="vLabel" :label="['On', 'Off']" />
   <ms-switch v-model="vIcon" active-icon="check-line" void-icon="close-line" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-switch :model-value="true" loading />
   <ms-switch :model-value="false" disabled />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-switch v-model="vSize" size="sm" />
   <ms-switch v-model="vSize" size="md" />
   <ms-switch v-model="vSize" size="lg" />
-  <!-- 组件深度 -->
-  <ms-switch v-model="vDepthLabel" size="lg" :label="['开', '关']" />
+  <!-- Advanced -->
+  <ms-switch v-model="vDepthLabel" size="lg" :label="['On', 'Off']" />
   <ms-switch
     :model-value="true"
     loading
     active-icon="check-line"
     void-icon="close-line"
   />
-  <ms-switch :model-value="true" disabled :label="['开', '关']" />
+  <ms-switch :model-value="true" disabled :label="['On', 'Off']" />
 </template>
 
 <script setup lang="uts">

@@ -5,35 +5,35 @@ demo: pages/demo/basic/transition
 
 # Transition
 
-`ms-transition` — Transition for uni-app x.
+`ms-transition` is an enter and leave transition container controlled by `visible`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-transition` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-transition`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/transition`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/transition.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/transition.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-transition :visible="fadeVisible">
     <view>
-      <text>淡入淡出内容</text>
+      <text>Fade in/out content</text>
     </view>
   </ms-transition>
   <ms-transition :visible="slideVisible" name="slide-right" :duration="300">
     <view>
-      <text>右侧滑入内容</text>
+      <text>Slide in from right</text>
     </view>
   </ms-transition>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-transition :visible="true" :appear="true" name="zoom">
     <view>
-      <text>打开即缩放进场</text>
+      <text>Zooms in when opened</text>
     </view>
   </ms-transition>
   <ms-transition
@@ -43,23 +43,23 @@ Snippets below are taken from the demo source `pages/demo/basic/transition.uvue`
     @after-leave="onDestroyed"
   >
     <view>
-      <text>隐藏后不留内容</text>
+      <text>Leaves no content when hidden</text>
     </view>
   </ms-transition>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-transition :visible="leftVisible" name="slide-left" :duration="300">
     <view>
-      <text>左侧滑入内容</text>
+      <text>Slide in from left</text>
     </view>
   </ms-transition>
   <ms-transition :visible="downVisible" name="slide-down" :duration="300">
     <view>
-      <text>下沉内容</text>
+      <text>Slide down content</text>
     </view>
   </ms-transition>
   <ms-transition :visible="zoomVisible" name="zoom" :duration="300">
     <view>
-      <text>缩放过渡内容</text>
+      <text>Zoom transition content</text>
     </view>
   </ms-transition>
 </template>

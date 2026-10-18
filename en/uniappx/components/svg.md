@@ -5,30 +5,30 @@ demo: pages/demo/media/svg
 
 # Svg
 
-`ms-svg`: SVG display: fixed-size container + official `<image>`; supports inline source and recoloring.
+`ms-svg` displays vector graphics by rendering SVG with the official `<image>` in a fixed-size container. It supports inline SVG source and recoloring.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-svg/components/ms-svg` (commercial edition; source not public).
+Component directory: `uni_modules/ms-svg/components/ms-svg`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-svg` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/svg`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/svg.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/svg.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-svg :source="check" :size="32" color="#2563eb" @load="onLoad" @error="onError" />
   <ms-svg :source="star" :size="32" color="#f59e0b" />
   <ms-svg src="/static/demo-vector.svg" :size="32" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-svg :source="check" :size="16" :color="tint" />
   <ms-svg :source="check" :size="24" :color="tint" />
   <ms-svg :source="check" :size="40" :color="tint" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-svg :source="star" :width="64" :height="32" mode="aspectFill" color="#2563eb" />
   <ms-svg :source="check" :width="64" :height="32" mode="aspectFill" :color="tint" />
   <ms-svg :source="star" :width="72" :height="28" mode="scaleToFill" color="#0f766e" />

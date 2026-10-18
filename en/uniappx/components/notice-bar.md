@@ -5,37 +5,37 @@ demo: pages/demo/feedback/notice-bar
 
 # Notice Bar
 
-`ms-notice-bar` — Notice Bar for uni-app x.
+`ms-notice-bar` is a top notice bar with theme colors, single-line truncation, vertical swiper rotation and a close button. It has no CSS marquee animation because uni-app x does not support `@keyframes` on the App platform, including uni-app x Vapor mode.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-notice-bar` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-notice-bar`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/notice-bar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/notice-bar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/notice-bar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 主题 -->
-  <ms-notice-bar theme="default" content="默认公告" />
-  <ms-notice-bar theme="primary" content="主色公告" />
-  <ms-notice-bar theme="success" content="成功公告" />
-  <!-- 长文本 -->
+  <!-- Themes -->
+  <ms-notice-bar theme="default" content="Default notice" />
+  <ms-notice-bar theme="primary" content="Primary notice" />
+  <ms-notice-bar theme="success" content="Success notice" />
+  <!-- Long text -->
   <ms-notice-bar
     theme="primary"
-    content="这是一条很长的公告文案，超出宽度时应省略显示而不是撑破布局"
+    content="This is a very long notice that should be truncated with an ellipsis instead of breaking the layout"
   />
-  <!-- 竖向 -->
+  <!-- Vertical -->
   <ms-notice-bar direction="vertical" theme="primary" :list="verticalList" />
-  <!-- 可关闭 -->
-  <ms-notice-bar theme="warning" content="可关闭公告" closable @close="onNoticeClose" />
+  <!-- Closable -->
+  <ms-notice-bar theme="warning" content="Closable notice" closable @close="onNoticeClose" />
 </template>
 
 <script setup lang="uts">
-const verticalList = ['轮播公告一', '轮播公告二', '轮播公告三'] as string[]
+const verticalList = ['Rotating notice 1', 'Rotating notice 2', 'Rotating notice 3'] as string[]
 
 function onNoticeClose() : void {
   console.log('onNoticeClose')

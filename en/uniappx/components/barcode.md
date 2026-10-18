@@ -5,32 +5,32 @@ demo: pages/demo/display/barcode
 
 # Barcode
 
-`ms-barcode` — Barcode for uni-app x.
+`ms-barcode` renders text as a one-dimensional barcode. The code tables are implemented in-house to the standard, and the bars are drawn with views.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-barcode` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-barcode`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/barcode`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/barcode.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/barcode.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-barcode value="6970980210024" encode="ean13" />
   <ms-barcode value="abc125698" encode="code128" />
-  <!-- 其它制式 -->
+  <!-- Other formats -->
   <ms-barcode value="96385074" encode="ean8" size="sm" />
   <ms-barcode value="012345678905" encode="upca" size="sm" />
   <ms-barcode value="CODE39" encode="code39" size="sm" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-barcode value="6970980210024" encode="ean13" size="sm" />
   <ms-barcode value="6970980210024" encode="ean13" size="md" />
   <ms-barcode value="6970980210024" encode="ean13" size="lg" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-barcode value="6970980210024" encode="ean13" :show-text="false" size="sm" />
   <ms-barcode value="MS2026" encode="code128" size="lg" />
   <ms-barcode value="CODE39" encode="code39" :show-text="false" size="md" />

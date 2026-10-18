@@ -5,40 +5,40 @@ demo: pages/demo/form/rate
 
 # Rate
 
-`ms-rate` — Rate for uni-app x.
+`ms-rate` is a rating control. Tap to set a score; it supports read-only, disabled, half stars, clearing, a description and score on the right, and a brief tip above or below on tap (`placement`).
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-rate` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-rate`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/rate`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/rate.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/rate.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-rate v-model="vSolid" />
   <ms-rate v-model="vCustom" active-icon="heart-fill" void-icon="heart-line" />
   <ms-rate v-model="vCount" :count="3" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-rate v-model="vActive" />
   <ms-rate :model-value="4" readonly />
   <ms-rate :model-value="3" disabled />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-rate v-model="vSize" size="sm" />
   <ms-rate v-model="vSize" size="md" />
   <ms-rate v-model="vSize" size="lg" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-rate v-model="vHalf" allow-half show-score />
   <ms-rate v-model="vClear" clearable show-text />
   <ms-rate v-model="vTexts" show-text :texts="customTexts" />
 </template>
 
 <script setup lang="uts">
-const customTexts = ['很差', '较差', '一般', '不错', '很棒'] as string[]
+const customTexts = ['Terrible', 'Poor', 'Okay', 'Good', 'Great'] as string[]
 
 const vActive = ref(3)
 

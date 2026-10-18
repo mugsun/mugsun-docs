@@ -5,17 +5,17 @@ demo: pages/demo/form/cascader
 
 # Cascader
 
-`ms-cascader` — Cascader for uni-app x.
+`ms-cascader` is a cascading selector. Pass flat `options` (with value, label and parent) and choose level by level in a popup.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-cascader` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-cascader`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/cascader`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/cascader.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/cascader.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -23,7 +23,7 @@ Snippets below are taken from the demo source `pages/demo/form/cascader.uvue`. T
     :visible="stepVisible"
     :options="areaOptions"
     :value="stepValue"
-    title="请选择地址"
+    title="Select an address"
     @update:visible="onStepVisible"
     @change="onStepChange"
     @pick="onStepPick"
@@ -32,7 +32,7 @@ Snippets below are taken from the demo source `pages/demo/form/cascader.uvue`. T
     :visible="tabVisible"
     :options="areaOptions"
     theme="tab"
-    title="请选择地址"
+    title="Select an address"
     @update:visible="onTabVisible"
     @change="onTabChange"
   />
@@ -41,7 +41,7 @@ Snippets below are taken from the demo source `pages/demo/form/cascader.uvue`. T
     :options="areaOptions"
     check-strictly
     :close-btn="false"
-    title="请选择地址"
+    title="Select an address"
     @update:visible="onLooseVisible"
     @change="onLooseChange"
   />
@@ -49,20 +49,20 @@ Snippets below are taken from the demo source `pages/demo/form/cascader.uvue`. T
 
 <script setup lang="uts">
 const areaOptions = [
-  { value: '110000', label: '北京市', parent: '' } as UTSJSONObject,
-  { value: '120000', label: '天津市', parent: '' } as UTSJSONObject,
-  { value: '330000', label: '浙江省', parent: '' } as UTSJSONObject,
-  { value: '110100', label: '北京市', parent: '110000' } as UTSJSONObject,
-  { value: '120100', label: '天津市', parent: '120000' } as UTSJSONObject,
-  { value: '330100', label: '杭州市', parent: '330000' } as UTSJSONObject,
-  { value: '330200', label: '宁波市', parent: '330000' } as UTSJSONObject,
-  { value: '110101', label: '东城区', parent: '110100' } as UTSJSONObject,
-  { value: '110105', label: '朝阳区', parent: '110100' } as UTSJSONObject,
-  { value: '110108', label: '海淀区', parent: '110100' } as UTSJSONObject,
-  { value: '120101', label: '和平区', parent: '120100' } as UTSJSONObject,
-  { value: '330102', label: '上城区', parent: '330100' } as UTSJSONObject,
-  { value: '330106', label: '西湖区', parent: '330100' } as UTSJSONObject,
-  { value: '330203', label: '海曙区', parent: '330200' } as UTSJSONObject,
+  { value: '110000', label: 'Beijing', parent: '' } as UTSJSONObject,
+  { value: '120000', label: 'Tianjin', parent: '' } as UTSJSONObject,
+  { value: '330000', label: 'Zhejiang', parent: '' } as UTSJSONObject,
+  { value: '110100', label: 'Beijing', parent: '110000' } as UTSJSONObject,
+  { value: '120100', label: 'Tianjin', parent: '120000' } as UTSJSONObject,
+  { value: '330100', label: 'Hangzhou', parent: '330000' } as UTSJSONObject,
+  { value: '330200', label: 'Ningbo', parent: '330000' } as UTSJSONObject,
+  { value: '110101', label: 'Dongcheng', parent: '110100' } as UTSJSONObject,
+  { value: '110105', label: 'Chaoyang', parent: '110100' } as UTSJSONObject,
+  { value: '110108', label: 'Haidian', parent: '110100' } as UTSJSONObject,
+  { value: '120101', label: 'Heping', parent: '120100' } as UTSJSONObject,
+  { value: '330102', label: 'Shangcheng', parent: '330100' } as UTSJSONObject,
+  { value: '330106', label: 'Xihu', parent: '330100' } as UTSJSONObject,
+  { value: '330203', label: 'Haishu', parent: '330200' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const looseVisible = ref(false)

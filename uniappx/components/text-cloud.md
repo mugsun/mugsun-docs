@@ -5,17 +5,17 @@ demo: pages/demo/display/text-cloud
 
 # Text Cloud 词云
 
-`ms-text-cloud`：词云：按权重定字号，大词优先从中心椭圆螺旋向外紧凑排布，互不重叠，canvas 2d 绘制。
+`ms-text-cloud` 是词云，按权重决定字号，权重大的词优先从中心沿椭圆螺旋向外紧凑排列，词与词互不重叠，使用 2d canvas 绘制。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-text-cloud`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-text-cloud`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/text-cloud`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/text-cloud.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/text-cloud.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

@@ -5,65 +5,65 @@ demo: pages/demo/feedback/swipe-cell
 
 # Swipe Cell
 
-`ms-swipe-cell` — Swipe Cell for uni-app x.
+`ms-swipe-cell` is a cell with swipe actions. The action panels are absolutely positioned on both sides, and the content layer is offset with `left` to reveal them, without transforms. Swipe right to open the left panel (`#left` and `openedLeft`), and swipe left to open the right panel (`#actions` and `opened`). `translate3d` offsets are unreliable in mini programs, so ms-ui’s own rule is to use `left` everywhere.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swipe-cell` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-swipe-cell`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/swipe-cell`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/swipe-cell.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/swipe-cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-swipe-cell :bordered="false" v-model:opened="singleOpened" @open="onOpen" @close="onClose">
     <template #actions>
-      <view @click="onAction('删除')">
-        <text>删除</text>
+      <view @click="onAction('Delete')">
+        <text>Delete</text>
       </view>
     </template>
     <view>
-      <text>单行内容 · 左滑显示删除</text>
+      <text>Single row · swipe left to delete</text>
     </view>
   </ms-swipe-cell>
   <ms-swipe-cell :bordered="false">
     <template #actions>
-      <view @click="onAction('收藏')">
-        <text>收藏</text>
+      <view @click="onAction('Favorite')">
+        <text>Favorite</text>
       </view>
-      <view @click="onAction('删除')">
-        <text>删除</text>
+      <view @click="onAction('Delete')">
+        <text>Delete</text>
       </view>
     </template>
     <view>
-      <text>双操作行</text>
-      <text>辅助信息</text>
+      <text>Row with two actions</text>
+      <text>Extra info</text>
     </view>
   </ms-swipe-cell>
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-swipe-cell :bordered="false" :disabled="true">
     <template #actions>
       <view>
-        <text>删除</text>
+        <text>Delete</text>
       </view>
     </template>
     <view>
-      <text>禁用滑动的行</text>
+      <text>Row with swipe disabled</text>
     </view>
   </ms-swipe-cell>
-  <!-- 内容规格 -->
+  <!-- Content sizes -->
   <ms-swipe-cell v-for="row in rows" :key="row" :bordered="row < rows.length">
     <template #actions>
-      <view @click="onAction('删除')">
-        <text>删除</text>
+      <view @click="onAction('Delete')">
+        <text>Delete</text>
       </view>
     </template>
     <view>
-      <text>大列表内容 {{ row }}</text>
+      <text>Large list item {{ row }}</text>
     </view>
   </ms-swipe-cell>
 </template>

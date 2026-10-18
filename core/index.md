@@ -8,7 +8,7 @@
 | 运行时 | JDK 21 · Maven 3.9+ |
 | 父工程 | Spring Boot 3.5.13 |
 | 主要依赖 | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · JetCache · Hutool Crypto / BouncyCastle · FastExcel（版本由 `mugsun-bom` 锁定） |
-| 许可 | Apache-2.0 |
+| 许可 | MIT |
 
 ## 模块
 
@@ -18,6 +18,10 @@
 | `mugsun-core-tool` | `R` 统一响应、`ResultCode`、业务异常、`TreeUtil` |
 | `mugsun-starter-web` | 全局异常、Sa-Token 注解拦截、ApiCrypto 接口加解密、SafeNumber、Excel |
 | `mugsun-starter-mybatis` | MyBatis-Flex starter 与 `BaseEntity`（雪花主键、审计时间、逻辑删除） |
+
+引入 `mugsun-starter-mybatis` 的 Servlet Web 应用，遇到唯一约束冲突时返回 HTTP 400，`code` 为 400，提示「数据已存在，请勿重复提交」。响应里不带 SQL、约束名和字段值，也不回调 `ErrorLogListener`（boot 的 `sys_error_log` 因此不再记录）。
+
+达梦错误码 -6602、-6612、-6625 已经包含在内。应用自己在 classpath 根目录放了 `sql-error-codes.xml` 时，会遮住本模块的那份，需要把达梦条目抄过去。
 
 ## 在自己的工程中使用
 
@@ -46,7 +50,7 @@
 </dependencies>
 ```
 
-离线环境回退：克隆本仓后执行 `mvn clean install -DskipTests`。
+离线环境：克隆本仓库后执行 `mvn clean install -DskipTests`。
 
 ## 下一步
 

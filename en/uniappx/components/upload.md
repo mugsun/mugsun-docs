@@ -5,31 +5,31 @@ demo: pages/demo/feedback/upload
 
 # Upload
 
-`ms-upload` — Upload for uni-app x.
+`ms-upload` is a grid-style image uploader.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-upload` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-upload`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/upload`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/upload.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/upload.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-upload v-model:fileList="basicList" :max="9" @remove="onRemove" />
   <ms-upload v-model:fileList="namedList" :column="3" :show-name="true" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-upload :file-list="loadingList" :addable="false" />
   <ms-upload :file-list="failedList" :addable="false" />
   <ms-upload :file-list="basicList" :disabled="true" />
-  <!-- 规格与数量 -->
+  <!-- Size and count -->
   <ms-upload :file-list="namedList" :column="3" />
   <ms-upload :file-list="fullList" :max="2" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-upload :file-list="cameraList" source="camera" :removable="false" :addable="false" />
   <ms-upload :file-list="namedList" :column="2" />
   <ms-upload :file-list="namedList" :addable="false" :preview="true" @click="onPreviewClick" />
@@ -42,7 +42,7 @@ const basicList = ref([
   { url: COVER, status: 'done' } as UTSJSONObject,
 ])
 
-const cameraList = [{ url: COVER, name: '现场拍照.jpg', status: 'done' } as UTSJSONObject]
+const cameraList = [{ url: COVER, name: 'site-photo.jpg', status: 'done' } as UTSJSONObject]
 
 const failedList = [{ url: CROP, status: 'failed' } as UTSJSONObject]
 
@@ -57,8 +57,8 @@ const loadingList = [
 ]
 
 const namedList = ref([
-  { url: CROP, name: '合同扫描件.png', status: 'done' } as UTSJSONObject,
-  { url: COVER, name: '身份证正面.png', status: 'done' } as UTSJSONObject,
+  { url: CROP, name: 'contract-scan.png', status: 'done' } as UTSJSONObject,
+  { url: COVER, name: 'id-card-front.png', status: 'done' } as UTSJSONObject,
 ])
 
 function onRemove(index: number) : void {

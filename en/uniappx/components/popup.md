@@ -5,76 +5,76 @@ demo: pages/demo/feedback/popup
 
 # Popup
 
-`ms-popup` — Popup for uni-app x.
+`ms-popup` is a popup container. `placement` supports `bottom/top/left/right/center`; it can have a title bar and a close button, and `round` applies rounded corners based on the position.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-popup` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-popup`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/popup`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/popup.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/popup.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
   <ms-popup
     :visible="showRecipeSelect"
     placement="bottom"
-    title="选择城市"
+    title="Select city"
     close-btn
     @update:visible="onRecipeSelectVisible"
   >
     <view>
-      <ms-cell title="北京" :note="cityNote('北京')" arrow @click="pickCity('北京')" />
-      <ms-cell title="上海" :note="cityNote('上海')" arrow @click="pickCity('上海')" />
-      <ms-cell title="广州" :note="cityNote('广州')" arrow @click="pickCity('广州')" />
-      <ms-cell title="深圳" :note="cityNote('深圳')" arrow @click="pickCity('深圳')" />
-      <ms-cell title="杭州" :note="cityNote('杭州')" arrow :bordered="false" @click="pickCity('杭州')" />
+      <ms-cell title="Beijing" :note="cityNote('Beijing')" arrow @click="pickCity('Beijing')" />
+      <ms-cell title="Shanghai" :note="cityNote('Shanghai')" arrow @click="pickCity('Shanghai')" />
+      <ms-cell title="Guangzhou" :note="cityNote('Guangzhou')" arrow @click="pickCity('Guangzhou')" />
+      <ms-cell title="Shenzhen" :note="cityNote('Shenzhen')" arrow @click="pickCity('Shenzhen')" />
+      <ms-cell title="Hangzhou" :note="cityNote('Hangzhou')" arrow :bordered="false" @click="pickCity('Hangzhou')" />
     </view>
   </ms-popup>
   <ms-popup
     :visible="showRecipeForm"
     placement="bottom"
-    title="通知设置"
+    title="Notification settings"
     close-btn
     @update:visible="onRecipeFormVisible"
   >
     <view>
       <view>
-        <ms-cell title="消息通知" :bordered="true">
+        <ms-cell title="Message notifications" :bordered="true">
           <template #note>
             <ms-switch v-model="formNotify" />
           </template>
         </ms-cell>
-        <ms-cell title="营销推送" :bordered="false">
+        <ms-cell title="Marketing push" :bordered="false">
           <template #note>
             <ms-switch v-model="formPromo" />
           </template>
         </ms-cell>
       </view>
       <view>
-        <ms-input v-model="formRemark" placeholder="备注（可选）" />
+        <ms-input v-model="formRemark" placeholder="Remark (optional)" />
       </view>
       <view>
-        <ms-button block theme="primary" @click="saveRecipeForm">保存</ms-button>
+        <ms-button block theme="primary" @click="saveRecipeForm">Save</ms-button>
       </view>
     </view>
   </ms-popup>
   <ms-popup
     :visible="showClose"
     placement="bottom"
-    title="使用说明"
+    title="How to use"
     close-btn
     @update:visible="onCloseVisible"
   >
     <view>
-      <text>弹出层自带标题、关闭按钮和遮罩，中间区域可放任意内容。</text>
-      <text>常见用法：放列表做选择，放开关和输入框做设置。</text>
-      <text>点右上角关闭按钮或遮罩即可收起。</text>
+      <text>The popup has a built-in title, close button and overlay; the body can hold any content.</text>
+      <text>Common uses: a list for selection, or switches and inputs for settings.</text>
+      <text>Tap the close button in the top-right corner or the overlay to dismiss.</text>
       <view>
-        <ms-cell title="下一步" note="去选择城市" arrow :bordered="false" @click="fromCloseToSelect" />
+        <ms-cell title="Next" note="Go select a city" arrow :bordered="false" @click="fromCloseToSelect" />
       </view>
     </view>
   </ms-popup>
@@ -82,7 +82,7 @@ Snippets below are taken from the demo source `pages/demo/feedback/popup.uvue`. 
 
 <script setup lang="uts">
 function cityNote(name: string): string {
-  return selectedCity.value == name ? '已选' : ''
+  return selectedCity.value == name ? 'Selected' : ''
 }
 
 const formNotify = ref(true)

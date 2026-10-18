@@ -79,6 +79,47 @@ mugsun:
 
 开关、限流和 fake-ip 代理环境的处理见 [底图瓦片代理安全](./gis-tile-security)。
 
+## 排障 {#troubleshooting}
+
+### 地图整块灰，顶部提示「底图没有加载出来」
+
+连续多张瓦片加载失败（默认连续 8 张，或首屏一张都没成功）时，地图上方会出现提示，并给出后端返回的原因代码。点「重试」会重新请求瓦片；有底图配置权限的用户还可以点「切换底图」，没有权限的用户会提示联系管理员。只要有一张瓦片加载成功，提示就会自动消失。三维视图同样会提示。
+
+![瓦片加载失败提示](/screenshots/gis/gis-tile-error.png)
+
+![三维视图中的瓦片加载失败提示](/screenshots/gis/gis-tile-error-3d.png)
+
+后端瓦片代理在失败时返回错误码和 `X-Mugsun-Tile-Error` 原因头，常见原因：
+
+| 原因代码 | 状态码 | 含义 |
+| --- | --- | --- |
+| `blocked-address` | 403 | 瓦片域名解析到内网、保留地址或默认拦截的地址段 |
+| `host-not-allowed` | 403 | 域名不在白名单 |
+| `timeout` | 504 | 上游超时 |
+| `upstream-status` / `upstream-unreachable` | 502 | 上游报错或连不上 |
+| `bad-content-type` | 502 | 上游返回的不是 png、jpeg、webp、gif |
+
+后端会按「域名 + 原因」限频打 WARN 日志（每分钟最多一条，日志里没有 URL 和密钥），可以按 `GIS tile proxy failed` 搜索。完整列表见 [底图瓦片代理安全](./gis-tile-security#failure-responses)。
+
+### 原因是 `blocked-address`：fake-ip 代理把瓦片域名解析到了 198.18.x.x
+
+Surge、Clash 等代理的 fake-ip 模式会把公网域名（例如 `tile.openstreetmap.org`）解析成 `198.18.0.0/15` 段的假地址。这一段默认被拦截，所以每张瓦片都会失败。任选一种办法处理：
+
+1. **关闭 fake-ip**：在运行 mugsun-boot 的机器上把代理切到 redir-host 或普通模式，或者让 boot 进程不走代理。
+2. **给瓦片域名配置直连**：在代理规则里把瓦片域名（例如 `tile.openstreetmap.org`、`*.tianditu.gov.cn`）设为 DIRECT，并加入 fake-ip 排除列表，让它解析到真实地址。
+3. **显式开启 `allow-benchmark-net`**：
+
+   ```yaml
+   mugsun:
+     gis:
+       xyz:
+         allow-benchmark-net: true   # 或环境变量 MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET=true
+   ```
+
+   ::: danger 风险
+   开启后，凡是解析到 `198.18.0.0/15` 的瓦片域名都会放行。这一段属于基准测试保留地址，在部分网络里可能是内部服务，开启会削弱 SSRF 防护。只建议在开发机上使用，生产环境请用前两种办法。这个开关只影响自定义 XYZ 底图。
+   :::
+
 ## 瓦片使用条款注意事项
 
 ::: warning OpenStreetMap
