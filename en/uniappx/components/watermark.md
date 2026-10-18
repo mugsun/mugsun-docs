@@ -5,57 +5,57 @@ demo: pages/demo/display/watermark
 
 # Watermark
 
-`ms-watermark` — Watermark for uni-app x.
+`ms-watermark` shows a text watermark over an area, tiled with views rather than drawn on a canvas.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-watermark` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-watermark`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/watermark`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/watermark.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/watermark.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
-  <ms-watermark content="仅内部使用" density="md">
+  <!-- Types -->
+  <ms-watermark content="Internal use only" density="md">
     <view>
-      <text>业务卡片</text>
-      <text>水印覆盖内容区，不影响点击与滚动。</text>
+      <text>Business card</text>
+      <text>The watermark covers the content without affecting taps or scrolling.</text>
     </view>
   </ms-watermark>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-watermark content="Mugsun" density="md">
     <view>
-      <text>中等间距平铺</text>
+      <text>Medium-spaced tiling</text>
     </view>
   </ms-watermark>
-  <ms-watermark content="密" density="sm">
+  <ms-watermark content="Dense" density="sm">
     <view>
-      <text>更密的文字水印</text>
+      <text>Denser text watermark</text>
     </view>
   </ms-watermark>
-  <ms-watermark content="错位" density="md" layout="stagger">
+  <ms-watermark content="Stagger" density="md" layout="stagger">
     <view>
-      <text>奇数行错位布局</text>
+      <text>Odd rows staggered</text>
     </view>
   </ms-watermark>
-  <!-- 组件深度 -->
-  <ms-watermark content="稀疏" density="lg">
+  <!-- Advanced -->
+  <ms-watermark content="Sparse" density="lg">
     <view>
-      <text>大间距平铺</text>
+      <text>Wide-spaced tiling</text>
     </view>
   </ms-watermark>
-  <ms-watermark content="交错" density="lg" layout="stagger">
+  <ms-watermark content="Staggered" density="lg" layout="stagger">
     <view>
-      <text>稀疏 + 奇数行错位</text>
+      <text>Sparse + odd rows staggered</text>
     </view>
   </ms-watermark>
-  <ms-watermark content="内部资料请勿外传" density="md">
+  <ms-watermark content="Confidential: do not share" density="md">
     <view>
-      <text>较长 content 仍按网格平铺</text>
+      <text>Longer content still tiles on the grid</text>
     </view>
   </ms-watermark>
 </template>

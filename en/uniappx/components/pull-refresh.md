@@ -5,21 +5,21 @@ demo: pages/demo/feedback/pull-refresh
 
 # Pull Refresh
 
-`ms-pull-refresh` — Pull Refresh for uni-app x.
+`ms-pull-refresh` wraps the built-in `refresher-*` pull-to-refresh of `scroll-view` instead of handling touch events itself. ms-ui’s own rules rule out a `translate3d`-based approach in uni-app x Vapor mode, and `refresher-max-drag-distance` is not supported on Web or WeChat mini programs.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pull-refresh` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-pull-refresh`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/pull-refresh`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-pull-refresh
     v-model="baseRefreshing"
     :height="220"
@@ -32,28 +32,28 @@ Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.
   </ms-pull-refresh>
   <ms-pull-refresh v-model="customRefreshing" :height="180" @refresh="onCustomRefresh">
     <template #refresher>
-      <text>自定义刷新提示</text>
+      <text>Custom refresh hint</text>
     </template>
     <view v-for="row in customRows" :key="row">
       <text>{{ row }}</text>
     </view>
   </ms-pull-refresh>
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-pull-refresh :disabled="true" :height="140">
     <view>
-      <text>禁用下拉的内容</text>
+      <text>Pull-to-refresh disabled</text>
     </view>
     <view>
-      <text>下拉手势不生效</text>
+      <text>Pull gesture has no effect</text>
     </view>
   </ms-pull-refresh>
-  <!-- 阈值与高度 -->
+  <!-- Threshold and height -->
   <ms-pull-refresh :threshold="100" :height="160" @refresh="onLargeRefresh">
     <view>
-      <text>需下拉 100px 才触发</text>
+      <text>Triggers after pulling 100px</text>
     </view>
     <view>
-      <text>容器高 160px</text>
+      <text>Container height 160px</text>
     </view>
   </ms-pull-refresh>
 </template>
@@ -61,11 +61,11 @@ Snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.
 <script setup lang="uts">
 const baseRefreshing = ref(false)
 
-const baseRows = ['列表项 1', '列表项 2', '列表项 3', '列表项 4', '列表项 5']
+const baseRows = ['List item 1', 'List item 2', 'List item 3', 'List item 4', 'List item 5']
 
 const customRefreshing = ref(false)
 
-const customRows = ['自定义列表 A', '自定义列表 B', '自定义列表 C']
+const customRows = ['Custom list A', 'Custom list B', 'Custom list C']
 
 function onBaseRefresh() : void {
   console.log('onBaseRefresh')
@@ -95,7 +95,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | modelValue | `boolean` | `false` | Refreshing; set false when done to collapse |
 | disabled | `boolean` | `false` | Disable pull-to-refresh |
 | threshold | `number` | `60` | Trigger distance (px); also fixed refresher slot height |
-| height | `number` | `360` | Fixed container height (px; vapor forbids %) |
+| height | `number` | `360` | Fixed container height (accepts numeric px values only) |
 | texts | `UTSJSONObject[]` | `[]` | Override four-state texts: { status, text } |
 | successDuration | `number` | `500` | How long (ms) to keep the “refresh done” state |
 

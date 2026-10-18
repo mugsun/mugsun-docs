@@ -5,61 +5,61 @@ demo: pages/demo/form/picker-date
 
 # Picker Date
 
-`ms-picker-date` — Picker Date for uni-app x.
+`ms-picker-date` is a date and time picker. `mode` sets the finest column shown, in the order `year`, `month`, `date`, `hour`, `minute`, `second`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker-date` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-picker-date`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/picker-date`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/picker-date.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/picker-date.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-picker-date
     :value="dateText"
     mode="date"
-    title="选择日期"
+    title="Select date"
     @change="onDateChange"
     @confirm="onDateConfirm"
     @cancel="onDateCancel"
   >
-    <ms-cell title="选择日期" :note="dateText" arrow :bordered="false" />
+    <ms-cell title="Select date" :note="dateText" arrow :bordered="false" />
   </ms-picker-date>
   <ms-picker-date
     :value="monthText"
     mode="month"
-    title="选择月份"
+    title="Select month"
     @confirm="onMonthConfirm"
   >
-    <ms-cell title="选择月份" :note="monthText" arrow :bordered="false" />
+    <ms-cell title="Select month" :note="monthText" arrow :bordered="false" />
   </ms-picker-date>
   <ms-picker-date
     :value="minuteText"
     mode="minute"
-    title="选择时分"
+    title="Select time"
     @confirm="onMinuteConfirm"
   >
-    <ms-cell title="选择时分" :note="minuteText" arrow :bordered="false" />
+    <ms-cell title="Select time" :note="minuteText" arrow :bordered="false" />
   </ms-picker-date>
-  <!-- 组件用法 -->
+  <!-- Usage -->
   <ms-picker-date
     :value="stepText"
     mode="minute"
     :minute-step="5"
-    title="五分钟步长"
+    title="5-minute step"
     @confirm="onStepConfirm"
   >
-    <ms-cell title="五分钟步长" :note="stepText" arrow :bordered="false" />
+    <ms-cell title="5-minute step" :note="stepText" arrow :bordered="false" />
   </ms-picker-date>
   <ms-picker-date
     value="2026-03-15"
     mode="date"
-    title="内嵌日期"
+    title="Inline date"
     :use-popup="false"
     @change="onInlineChange"
     @confirm="onInlineConfirm"

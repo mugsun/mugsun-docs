@@ -5,22 +5,22 @@ demo: pages/demo/media/webview
 
 # Webview
 
-`ms-webview`: Controlled wrapper around official `<web-view>`: fixed-height container + nav toolbar (back/forward/reload) + status line.
+`ms-webview` is a controlled wrapper around the official `<web-view>`, with a fixed-height container, a navigation bar for back, forward and reload, and a one-line status text.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-webview/components/ms-webview` (commercial edition; source not public).
+Component directory: `uni_modules/ms-webview/components/ms-webview`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-webview` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/webview`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/webview.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/webview.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-webview
     :src="src"
     :height="200"
@@ -29,14 +29,14 @@ Snippets below are taken from the demo source `pages/demo/media/webview.uvue`. T
     @navigate="onNavigate"
   />
   <ms-webview :src="src" :height="160" :show-toolbar="false" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-webview :src="src" :height="120" :show-status="false" />
   <ms-webview src="" :height="100" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-webview
     :src="src"
     :height="120"
-    loading-text="页面打开中…"
+    loading-text="Opening page…"
     :show-toolbar="false"
   />
   <ms-webview
@@ -44,7 +44,7 @@ Snippets below are taken from the demo source `pages/demo/media/webview.uvue`. T
     :height="140"
     :show-toolbar="true"
     :show-status="true"
-    loading-text="拉取中…"
+    loading-text="Fetching…"
   />
   <ms-webview ref="reloadRef" :src="src" :height="120" :show-toolbar="false" />
 </template>

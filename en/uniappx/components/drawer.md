@@ -5,17 +5,17 @@ demo: pages/demo/feedback/drawer
 
 # Drawer
 
-`ms-drawer` — Drawer for uni-app x.
+`ms-drawer` is a side drawer with a title, a scrollable menu list and a footer slot. It slides in from the left or right.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-drawer` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-drawer`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/drawer`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -28,14 +28,14 @@ Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`.
   <ms-drawer
     :visible="showTitled"
     :items="baseItems"
-    title="菜单"
+    title="Menu"
     @update:visible="onTitledVisible"
     @item-click="onPick"
   />
   <ms-drawer
     :visible="showIcon"
     :items="iconItems"
-    title="快捷入口"
+    title="Shortcuts"
     @update:visible="onIconVisible"
     @item-click="onPick"
   />
@@ -43,16 +43,16 @@ Snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`.
 
 <script setup lang="uts">
 const baseItems = ref([
-  { title: '菜单一' } as UTSJSONObject,
-  { title: '菜单二' } as UTSJSONObject,
-  { title: '菜单三' } as UTSJSONObject,
-  { title: '菜单四' } as UTSJSONObject,
+  { title: 'Menu 1' } as UTSJSONObject,
+  { title: 'Menu 2' } as UTSJSONObject,
+  { title: 'Menu 3' } as UTSJSONObject,
+  { title: 'Menu 4' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const iconItems = ref([
-  { title: '首页', icon: 'home-3-line' } as UTSJSONObject,
-  { title: '消息', icon: 'notification-line' } as UTSJSONObject,
-  { title: '设置', icon: 'settings-3-line' } as UTSJSONObject,
+  { title: 'Home', icon: 'home-3-line' } as UTSJSONObject,
+  { title: 'Messages', icon: 'notification-line' } as UTSJSONObject,
+  { title: 'Settings', icon: 'settings-3-line' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const showBase = ref(false)

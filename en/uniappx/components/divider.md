@@ -5,33 +5,33 @@ demo: pages/demo/basic/divider
 
 # Divider
 
-`ms-divider` — Divider for uni-app x.
+`ms-divider` is a divider line. `layout` sets horizontal or vertical, `align` places the text left, center or right, `dashed` draws a dashed line, and `text` sets the label. The default slot can replace the label; when the slot has content, the labeled layout is used.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-divider` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-divider`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/divider`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/divider.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/divider.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 纯分割 -->
+  <!-- Plain divider -->
   <ms-divider />
-  <!-- 对齐 -->
-  <ms-divider text="左对齐" align="left" />
-  <ms-divider text="居中" align="center" />
-  <ms-divider text="右对齐" align="right" />
-  <!-- 垂直 -->
+  <!-- Alignment -->
+  <ms-divider text="Left" align="left" />
+  <ms-divider text="Center" align="center" />
+  <ms-divider text="Right" align="right" />
+  <!-- Vertical -->
   <ms-divider layout="vertical" />
   <ms-divider layout="vertical" />
-  <!-- 虚线 -->
+  <!-- Dashed -->
   <ms-divider dashed />
-  <ms-divider dashed text="文字信息" align="left" />
-  <ms-divider dashed text="文字信息" align="center" />
+  <ms-divider dashed text="Text" align="left" />
+  <ms-divider dashed text="Text" align="center" />
 </template>
 ```
 <!-- demo-snippets:end -->

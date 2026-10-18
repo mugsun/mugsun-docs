@@ -5,27 +5,27 @@ demo: pages/demo/display/rolling-number
 
 # Rolling Number
 
-`ms-rolling-number` — Rolling Number for uni-app x.
+`ms-rolling-number` displays a number with a rolling animation; when `value` changes it animates from the current value to the new one.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-rolling-number` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-rolling-number`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/rolling-number`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/rolling-number.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/rolling-number.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-rolling-number :value="decimalVal" />
   <ms-rolling-number :value="intVal" :duration="1100" :decimals="0" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-rolling-number :value="moneyVal" :grouping="true" prefix="¥" :decimals="2" />
   <ms-rolling-number :value="bigVal" size="lg" :decimals="0" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-rolling-number :value="suffixVal" suffix="%" :decimals="1" />
   <ms-rolling-number :value="staticVal" :animated="false" :decimals="0" />
   <ms-rolling-number :value="startVal" :start="10" :decimals="0" />

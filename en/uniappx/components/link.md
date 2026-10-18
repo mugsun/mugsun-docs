@@ -5,34 +5,34 @@ demo: pages/demo/basic/link
 
 # Link
 
-`ms-link` — Link for uni-app x.
+`ms-link` is a text link with theme colors, underline, prefix and suffix icons, sizes and a disabled state. Set the text with `content` or the default slot, and optionally navigate within the app with `href` and `openType`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-link` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-link`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/link`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/link.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/link.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 主题 -->
-  <ms-link theme="default">默认</ms-link>
-  <ms-link theme="primary">主色</ms-link>
-  <ms-link theme="danger">危险</ms-link>
-  <!-- 下划线 -->
-  <ms-link theme="primary">无下划线</ms-link>
-  <ms-link theme="primary" :underline="true">下划线</ms-link>
-  <!-- 图标 -->
-  <ms-link theme="primary" icon="links-line">前缀</ms-link>
-  <ms-link theme="primary" suffix-icon="arrow-right-s-line">后缀</ms-link>
-  <!-- 尺寸 -->
-  <ms-link size="sm" theme="primary">小号</ms-link>
-  <ms-link size="md" theme="primary">中号</ms-link>
-  <ms-link size="lg" theme="primary">大号</ms-link>
+  <!-- Themes -->
+  <ms-link theme="default">Default</ms-link>
+  <ms-link theme="primary">Primary</ms-link>
+  <ms-link theme="danger">Danger</ms-link>
+  <!-- Underline -->
+  <ms-link theme="primary">No underline</ms-link>
+  <ms-link theme="primary" :underline="true">Underline</ms-link>
+  <!-- Icon -->
+  <ms-link theme="primary" icon="links-line">Prefix</ms-link>
+  <ms-link theme="primary" suffix-icon="arrow-right-s-line">Suffix</ms-link>
+  <!-- Sizes -->
+  <ms-link size="sm" theme="primary">Small</ms-link>
+  <ms-link size="md" theme="primary">Medium</ms-link>
+  <ms-link size="lg" theme="primary">Large</ms-link>
 </template>
 ```
 <!-- demo-snippets:end -->

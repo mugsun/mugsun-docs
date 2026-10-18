@@ -5,32 +5,32 @@ demo: pages/demo/feedback/modal-page
 
 # Modal Page
 
-`ms-modal-page` — Modal Page for uni-app x.
+`ms-modal-page` is a full-page modal layer that covers the screen with `position: fixed` and does not depend on the x-design native `xModalPage`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-modal-page` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-modal-page`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/modal-page`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/modal-page.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/modal-page.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <ms-modal-page v-model:visible="basicVisible" title="整页详情" @open="onOpen" @close="onClose">
-    <text>这是基础整页模态内容。可滚动长文区域。</text>
-    <text>第二段说明：盖住宿主页，不走原生独立窗口。</text>
+  <ms-modal-page v-model:visible="basicVisible" title="Full-page details" @open="onOpen" @close="onClose">
+    <text>This is basic full-page modal content. The long text area scrolls.</text>
+    <text>Second paragraph: it covers the host page instead of opening a native window.</text>
   </ms-modal-page>
-  <ms-modal-page v-model:visible="footerVisible" title="带底栏">
-    <text>内容区下方有确认操作。</text>
+  <ms-modal-page v-model:visible="footerVisible" title="With footer">
+    <text>There is a confirm action below the content.</text>
     <template #footer>
-      <ms-button block theme="primary" @click="footerVisible = false">完成</ms-button>
+      <ms-button block theme="primary" @click="footerVisible = false">Done</ms-button>
     </template>
   </ms-modal-page>
-  <ms-modal-page v-model:visible="customVisible" title="订单确认 · 自定义">
-    <text>自定义标题示例。</text>
+  <ms-modal-page v-model:visible="customVisible" title="Order confirmation · custom">
+    <text>Custom title example.</text>
   </ms-modal-page>
 </template>
 

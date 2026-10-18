@@ -5,33 +5,33 @@ demo: pages/demo/display/progress
 
 # Progress
 
-`ms-progress` — Progress for uni-app x.
+`ms-progress` is a progress indicator in line, inner-label and circle styles, set through `percentage`, `status` and an optional `label`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-progress` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-progress`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/progress`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/progress.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/display/progress.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-progress variant="line" :percentage="80" />
   <ms-progress variant="plump" :percentage="80" />
   <ms-progress variant="circle" :percentage="30" />
-  <!-- 线性状态 -->
+  <!-- Linear states -->
   <ms-progress variant="line" :percentage="88" status="warning" />
   <ms-progress variant="line" :percentage="88" status="error" />
   <ms-progress variant="line" :percentage="88" status="success" />
-  <!-- 内显状态 -->
+  <!-- Inner label states -->
   <ms-progress variant="plump" :percentage="88" status="warning" />
   <ms-progress variant="plump" :percentage="88" status="error" />
   <ms-progress variant="plump" :percentage="88" status="success" />
-  <!-- 环形状态 -->
+  <!-- Circle states -->
   <ms-progress variant="circle" :percentage="88" status="warning" />
   <ms-progress variant="circle" :percentage="88" status="error" />
   <ms-progress variant="circle" :percentage="88" status="success" />

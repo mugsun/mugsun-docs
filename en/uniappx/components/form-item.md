@@ -5,49 +5,49 @@ demo: pages/demo/form/form
 
 # Form Item
 
-`ms-form-item` — Form Item for uni-app x.
+`ms-form-item` is a form field with a label, a content slot, help text and an error message. It can show a required asterisk and a right arrow.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-form-item` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-form-item`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/form`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/form.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/form.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-form label-align="right" :label-width="72">
-    <ms-form-item label="用户名" name="name" :value="hName">
-      <ms-input v-model="hName" placeholder="请输入用户名" :bordered="false" />
+    <ms-form-item label="Username" name="name" :value="hName">
+      <ms-input v-model="hName" placeholder="Enter username" :bordered="false" />
     </ms-form-item>
-    <ms-form-item label="密码" name="password" :value="hPassword" :bordered="false">
+    <ms-form-item label="Password" name="password" :value="hPassword" :bordered="false">
       <ms-input
         v-model="hPassword"
         type="password"
-        placeholder="请输入密码"
+        placeholder="Enter password"
         :bordered="false"
       />
     </ms-form-item>
   </ms-form>
   <ms-form label-align="top">
-    <ms-form-item label="昵称" name="nick" :value="vNick" :bordered="false">
-      <ms-input v-model="vNick" placeholder="请输入昵称" />
+    <ms-form-item label="Nickname" name="nick" :value="vNick" :bordered="false">
+      <ms-input v-model="vNick" placeholder="Enter nickname" />
     </ms-form-item>
   </ms-form>
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-form label-align="left" :label-width="72" colon>
-    <ms-form-item label="必填" name="req" :value="sReq" required help="必填项带红色星号">
-      <ms-input v-model="sReq" placeholder="请输入内容" :bordered="false" />
+    <ms-form-item label="Required" name="req" :value="sReq" required help="Required fields show a red asterisk">
+      <ms-input v-model="sReq" placeholder="Enter content" :bordered="false" />
     </ms-form-item>
-    <ms-form-item label="说明" name="help" :value="sHelp" help="下方为辅助说明文案">
-      <ms-input v-model="sHelp" placeholder="可不填" :bordered="false" />
+    <ms-form-item label="Help" name="help" :value="sHelp" help="Helper text appears below">
+      <ms-input v-model="sHelp" placeholder="Optional" :bordered="false" />
     </ms-form-item>
-    <ms-form-item label="箭头" name="arrow" :value="sArrow" arrow :bordered="false">
-      <ms-input v-model="sArrow" placeholder="点选类字段" readonly :bordered="false" />
+    <ms-form-item label="Arrow" name="arrow" :value="sArrow" arrow :bordered="false">
+      <ms-input v-model="sArrow" placeholder="Tap to select" readonly :bordered="false" />
     </ms-form-item>
   </ms-form>
 </template>
@@ -76,7 +76,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | label | `string` | `''` | Label text |
 | name | `string` | `''` | Name / field name |
-| value | `string` | `''` | Value under validation (host passes form data in) |
+| value | `string` | `''` | Value under validation (passed in by the parent page) |
 | required | `boolean` | `false` | Whether required |
 | requiredMark | `boolean` | `true` | Whether to show a red asterisk when required |
 | rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | Built-in validation: none / phone / email / number |

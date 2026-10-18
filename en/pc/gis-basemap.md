@@ -63,6 +63,47 @@ Every tile fetch is checked on the server:
 
 See [Tile proxy security](./gis-tile-security) for the switches, rate limits and fake-ip proxy setups.
 
+## Troubleshooting {#troubleshooting}
+
+### The map is grey and a banner says "The basemap didn't load"
+
+When several tiles in a row fail (8 by default, or no tile on the first screen succeeds), a banner appears above the map with the reason code returned by the backend. **Retry** requests the tiles again. Users who can configure basemaps also see **Switch basemap**; other users are asked to contact an administrator. The banner disappears as soon as any tile loads. The 3D view shows the banner too.
+
+![Tile load failure banner](/screenshots/gis/gis-tile-error.png)
+
+![Tile load failure banner in 3D](/screenshots/gis/gis-tile-error-3d.png)
+
+On failure, the backend tile proxy returns an error status with an `X-Mugsun-Tile-Error` reason header. Common reasons:
+
+| Reason code | Status | Meaning |
+| --- | --- | --- |
+| `blocked-address` | 403 | The tile host resolved to a private, reserved or blocked-by-default range |
+| `host-not-allowed` | 403 | The host is not on the allow-list |
+| `timeout` | 504 | Upstream timed out |
+| `upstream-status` / `upstream-unreachable` | 502 | Upstream returned an error or could not be reached |
+| `bad-content-type` | 502 | Upstream did not return png, jpeg, webp or gif |
+
+The backend logs a rate-limited WARN per host and reason (at most one per minute, with no URL or key); search for `GIS tile proxy failed`. See [Tile proxy security](./gis-tile-security#failure-responses) for the full list.
+
+### Reason `blocked-address`: a fake-ip proxy resolved the tile host to 198.18.x.x
+
+The fake-ip mode of proxies such as Surge or Clash resolves public hosts (for example `tile.openstreetmap.org`) to fake addresses in `198.18.0.0/15`. That range is blocked by default, so every tile fails. Pick one fix:
+
+1. **Turn off fake-ip** on the machine running mugsun-boot (switch to redir-host or normal mode), or keep the boot process off the proxy.
+2. **Route tile hosts directly**: set the tile hosts (for example `tile.openstreetmap.org`, `*.tianditu.gov.cn`) to DIRECT and add them to the fake-ip filter so they resolve to real addresses.
+3. **Explicitly enable `allow-benchmark-net`**:
+
+   ```yaml
+   mugsun:
+     gis:
+       xyz:
+         allow-benchmark-net: true   # or MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET=true
+   ```
+
+   ::: danger Risk
+   Any tile host that resolves into `198.18.0.0/15` is then allowed. The range is reserved for benchmarking and may host internal services on some networks, so enabling it weakens SSRF protection. Use it on development machines only; prefer the first two options in production. The switch only affects custom XYZ basemaps.
+   :::
+
 ## Tile usage terms
 
 ::: warning OpenStreetMap

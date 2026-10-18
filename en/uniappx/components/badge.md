@@ -5,21 +5,21 @@ demo: pages/demo/basic/badge
 
 # Badge
 
-`ms-badge` — Badge for uni-app x.
+`ms-badge` wraps the default slot and shows a dot, a number or text in the top-right corner. `label` takes precedence over `count` and `dot`; with `standalone` the badge is shown on its own. The component has no style props such as color or fontSize.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-badge` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-badge`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/badge`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 红点 -->
+  <!-- Dot -->
   <ms-badge dot>
     <view />
   </ms-badge>
@@ -28,7 +28,7 @@ Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. To 
       <ms-icon name="notification-line" size="lg" tone="secondary" />
     </view>
   </ms-badge>
-  <!-- 数字 -->
+  <!-- Count -->
   <ms-badge :count="8">
     <view />
   </ms-badge>
@@ -37,11 +37,11 @@ Snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. To 
       <ms-icon name="notification-line" size="lg" tone="secondary" />
     </view>
   </ms-badge>
-  <!-- 自定义 -->
+  <!-- Custom -->
   <ms-badge label="NEW">
-    <ms-button size="sm" variant="outline" theme="default">按钮</ms-button>
+    <ms-button size="sm" variant="outline" theme="default">Button</ms-button>
   </ms-badge>
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-badge :count="2" shape="circle">
     <view>
       <ms-icon name="notification-line" size="lg" tone="secondary" />

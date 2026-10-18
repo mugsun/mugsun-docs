@@ -5,18 +5,18 @@ demo: pages/demo/media/svg
 
 # Svg 矢量
 
-`ms-svg`：矢量图显示：定尺寸容器 + 官方 `<image>` 渲染 SVG，支持内联源码与着色。
+`ms-svg` 用于显示矢量图，在固定尺寸的容器中用官方 `<image>` 渲染 SVG，支持内联 SVG 源码和着色。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-svg/components/ms-svg`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-svg/components/ms-svg`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 可选插件：需单独安装 `uni_modules/ms-svg`，并依赖 `ms-ui`。
 演示路由：`#/pages/demo/media/svg`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/svg.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/media/svg.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

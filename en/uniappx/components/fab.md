@@ -5,35 +5,35 @@ demo: pages/demo/feedback/fab
 
 # Fab
 
-`ms-fab` — Fab for uni-app x.
+`ms-fab` is a floating action button with preset positions. It can be expandable, and the expanded state binds with `v-model:expanded`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-fab` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-fab`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/fab`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/fab.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/fab.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 基础用法 -->
+  <!-- Basic usage -->
   <ms-fab local inset="sm" @click="onFabClick" />
-  <ms-fab local inset="sm" text="新建" @click="onFabClick" />
-  <!-- 定位 -->
+  <ms-fab local inset="sm" text="New" @click="onFabClick" />
+  <!-- Position -->
   <ms-fab local inset="sm" position="bottom-right" />
   <ms-fab local inset="sm" position="bottom-left" />
   <ms-fab local inset="sm" position="bottom-center" />
-  <!-- 状态 -->
+  <!-- States -->
   <ms-fab local inset="sm" expandable @expand-change="onExpandChange">
-    <text @click="onMenuTap('添加')">添加</text>
-    <text @click="onMenuTap('收藏')">收藏</text>
-    <text @click="onMenuTap('分享')">分享</text>
+    <text @click="onMenuTap('Add')">Add</text>
+    <text @click="onMenuTap('Favorite')">Favorite</text>
+    <text @click="onMenuTap('Share')">Share</text>
   </ms-fab>
   <ms-fab local inset="sm" disabled @click="onFabClick" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-fab local inset="lg" position="top-right" icon="edit-line" @click="onFabClick" />
   <ms-fab local inset="lg" position="top-left" icon="customer-service-line" />
   <ms-fab
@@ -43,8 +43,8 @@ Snippets below are taken from the demo source `pages/demo/feedback/fab.uvue`. To
     v-model:expanded="modelExpanded"
     @expand-change="onExpandChange"
   >
-    <text @click="onMenuTap('添加')">添加</text>
-    <text @click="onMenuTap('收藏')">收藏</text>
+    <text @click="onMenuTap('Add')">Add</text>
+    <text @click="onMenuTap('Favorite')">Favorite</text>
   </ms-fab>
 </template>
 

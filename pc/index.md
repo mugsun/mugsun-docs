@@ -1,48 +1,62 @@
 # 管理台概述
 
-[mugsun-pc](https://github.com/mugsun/mugsun-pc) 是 mugsun 的管理台：系统管理开箱可用，GIS、埋点看板、AI 管理页作为可选模块装配。
+[mugsun-pc](https://github.com/mugsun/mugsun-pc) 是 mugsun 的管理后台，自带系统管理页面，GIS、埋点看板和 AI 管理页可以按需开启。
 
-| 项 | 说明 |
-| --- | --- |
-| 技术栈 | Vue 3.5 · Vite 7 · TypeScript · Element Plus 2.11（按需加载）· Pinia · Vue Router |
-| 运行时 | Node.js ≥ 22.13 · pnpm ≥ 11.11（`packageManager` 锁定 `pnpm@11.28.2`） |
-| 后端 | [mugsun-boot](/boot/)，开发期 `/api` 代理到 `http://localhost:8080` |
-| 版本 | 0.1.0 |
-| 许可 | MIT；UI 基座衍生自 [art-design-pro](https://github.com/Daymychen/art-design-pro)（MIT），分发须保留 `NOTICE` |
+## 本地启动
 
-![工作台](/screenshots/pc-workbench.png)
+需要 Node.js 22.13 以上和 pnpm 11.11 以上，后端 [boot](/boot/) 先在 8080 端口启动：
 
-## 设计要点
+```bash
+pnpm setup:sdk   # 构建同级目录的 mugsun-track
+pnpm install
+pnpm dev         # 打开 http://localhost:3006
+```
 
-- **权限只来自后端。** 侧边栏菜单、按钮权限码与用户信息来自 boot 的 `/api/auth/info` 等接口，前端不维护独立权限模型。
-- **模块可拆。** 构建期变量关闭模块后不注册路由与插件，删掉对应目录即可去除源码。
-- **类型来自 OpenAPI。** `pnpm gen:api` 从 boot 的 `/v3/api-docs` 生成 `src/types/api/openapi.d.ts`，减少手写类型。
-- **首包更轻。** Element Plus 不再全量注册与引入全量 CSS，组件和样式按需加载。
-- **凭证不落盘。** token 只存 `sessionStorage`（当前标签页有效），不写入 `localStorage`。
+开发时 `/api` 请求转发到 `http://localhost:8080`。
+
+要改这个地址，编辑 `.env.development` 里的 `VITE_API_PROXY_URL`。
+
+![用户管理（示例数据）](/screenshots/pc-system-users.png)
 
 ## 目录
 
 ```text
 mugsun-pc/
-  src/                 # 壳层：路由、鉴权、系统管理视图、API 封装
+  src/             # 路由、登录鉴权、系统管理页面、接口封装
   modules/
-    gis/               # 可选：图层、场景、空间分析等
-    track/             # 可选：接入管理与分析看板（依赖 @mugsun/track-web）
-    ai/                # 可选：模型、对话、知识库、MCP 等管理页
+    gis/           # 可选：图层、场景、空间分析
+    track/         # 可选：埋点接入管理与分析看板
+    ai/            # 可选：模型、对话、知识库、MCP 管理
 ```
 
-## 可选模块开关
+## 关闭可选模块
 
-| 变量 | 默认 | 作用 |
-| --- | --- | --- |
-| `VITE_ENABLE_GIS` | 开启 | 注册 GIS 路由与相关别名；关闭后可删除 `modules/gis` |
-| `VITE_ENABLE_TRACK` | 开启 | 注册埋点路由与 SDK 插件；关闭后可跳过 `setup:sdk` 并删除 `modules/track`（平级 `../mugsun-track` 目录仍须存在） |
-| `VITE_ENABLE_AI` | 开启 | 注册 AI 路由与插件；关闭后可删除 `modules/ai` |
+在 `.env` 里把对应变量改成 `false`，构建时就不注册这个模块的路由：
 
-## 请求链路
+```ini
+VITE_ENABLE_GIS = true
+VITE_ENABLE_TRACK = true
+VITE_ENABLE_AI = true
+```
 
-视图与 hooks 经 axios 访问 `/api`，开发期由 Vite 代理至 boot。接口出错时优先展示后端返回的业务消息。管理台自身的埋点经同源 `/api/track/collect` 上报，同样进入 boot 的 track 模块。
+关闭后可以删掉对应的 `modules/` 目录。关闭埋点后不需要运行 `pnpm setup:sdk`，但同级的 `mugsun-track` 目录仍须存在，`pnpm install` 要解析它。
+
+## 权限和接口类型
+
+菜单、按钮权限码和用户信息都来自后端 `/api/auth/info` 接口，前端不另存权限数据。
+
+接口类型从后端 OpenAPI 文档生成：
+
+```bash
+pnpm gen:api   # 读取 http://localhost:8080/v3/api-docs
+```
+
+## 许可
+
+MIT。界面部分衍生自 [art-design-pro](https://github.com/Daymychen/art-design-pro)（MIT），分发时需要保留 `NOTICE` 文件。
 
 ## 下一步
 
-[GIS 与地图](/pc/gis) · [本地开发](/pc/development) · [快速开始](/guide/getting-started)
+- [本地开发](/pc/development)
+- [GIS 与地图](/pc/gis)
+- [Docker 部署](/pc/deploy-docker)

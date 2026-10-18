@@ -5,34 +5,34 @@ demo: pages/demo/form/input
 
 # Input
 
-`ms-input` — Input for uni-app x.
+`ms-input` is a single-line input bound with `v-model`. It supports `label`, `placeholder`, `prefixIcon`, `clearable`, `type="password"`, `status`, `tips`, `align` and `disabled`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-input` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-input`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/input`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/input.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/input.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 基础 -->
-  <ms-input v-model="baseValue" label="标签文字" placeholder="请输入文字" />
-  <!-- 前置图标 -->
-  <ms-input v-model="searchValue" label="搜索" placeholder="请输入关键字" prefix-icon="search" />
-  <!-- 可清空 -->
-  <ms-input v-model="clearValue" label="可清空" placeholder="输入后点右侧清空" clearable />
-  <!-- 状态 -->
-  <ms-input model-value="禁用文案" label="禁用" placeholder="不可编辑" disabled />
+  <!-- Basic -->
+  <ms-input v-model="baseValue" label="Label" placeholder="Enter text" />
+  <!-- Prefix icon -->
+  <ms-input v-model="searchValue" label="Search" placeholder="Enter keywords" prefix-icon="search" />
+  <!-- Clearable -->
+  <ms-input v-model="clearValue" label="Clearable" placeholder="Type, then tap the clear icon" clearable />
+  <!-- States -->
+  <ms-input model-value="Disabled text" label="Disabled" placeholder="Not editable" disabled />
   <ms-input
     v-model="errorValue"
-    label="错误"
-    placeholder="请输入"
+    label="Error"
+    placeholder="Enter"
     status="error"
-    tips="错误提示"
+    tips="Error message"
     clearable
   />
 </template>
@@ -40,7 +40,7 @@ Snippets below are taken from the demo source `pages/demo/form/input.uvue`. To s
 <script setup lang="uts">
 const baseValue = ref('')
 
-const clearValue = ref('可清空')
+const clearValue = ref('Clearable')
 
 const errorValue = ref('')
 

@@ -5,17 +5,17 @@ demo: pages/demo/basic/overlay
 
 # Overlay
 
-`ms-overlay` — Overlay for uni-app x.
+`ms-overlay` is a full-screen translucent mask and the base component for popups.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-overlay` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-overlay`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/overlay`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -26,17 +26,17 @@ Snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`. T
   />
   <ms-overlay :visible="showContent" @update:visible="onContentVisible">
     <ms-sheet margin="page" radius="lg" shadow>
-      <ms-text>遮罩上的内容块</ms-text>
+      <ms-text>Content on the overlay</ms-text>
       <view>
-        <ms-button size="sm" theme="primary" @click="closeContent">关闭</ms-button>
+        <ms-button size="sm" theme="primary" @click="closeContent">Close</ms-button>
       </view>
     </ms-sheet>
   </ms-overlay>
   <ms-overlay :visible="showLock" :closable="false" @update:visible="onLockVisible">
     <ms-sheet margin="page" radius="lg">
-      <ms-text>点遮罩不会关闭</ms-text>
+      <ms-text>Tapping the overlay will not close it</ms-text>
       <view>
-        <ms-button size="sm" theme="primary" @click="closeLock">知道了</ms-button>
+        <ms-button size="sm" theme="primary" @click="closeLock">Got it</ms-button>
       </view>
     </ms-sheet>
   </ms-overlay>
