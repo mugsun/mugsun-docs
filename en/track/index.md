@@ -33,6 +33,8 @@ Session replay, API monitoring, visual tagging and geolocation need their plugin
 
 Analytics includes overview, events, performance, errors, session replay, user lookup, funnels and retention.
 
+The console's own integration reports request errors it has already handled by default (business validation failures, network failures and other HttpErrors already shown to the user). To skip them, set the build variable `VITE_TRACK_SKIP_HANDLED_ERRORS=true` or pass `skipHandledErrors` to `setupTrack`. Canceled requests are not reported. This behavior depends on mugsun-track#19.
+
 ![Overview (demo data)](/screenshots/track/track-overview.png)
 
 ## Reliability

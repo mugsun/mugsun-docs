@@ -33,6 +33,8 @@ track.track('button_click', { name: 'buy' })
 
 「埋点分析」包含数据概览、事件分析、性能分析、错误监控、会话回放、用户细查、漏斗分析和留存分析。
 
+管理台自身接入时默认上报已处理的请求错误（业务校验失败、网络失败等已提示给用户的 HttpError）；可用构建变量 `VITE_TRACK_SKIP_HANDLED_ERRORS=true` 或 `setupTrack` 的 `skipHandledErrors` 跳过。主动取消的请求不上报。此行为依赖 mugsun-track#19。
+
 ![数据概览（演示数据）](/screenshots/track/track-overview.png)
 
 ## 可靠性
