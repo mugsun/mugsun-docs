@@ -2,12 +2,12 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
-## 2026-10-18 · AI "Expose" page taken offline
+## 2026-10-18 · AI "Exposed" page taken offline
 
 ### mugsun-boot
 
-- **The MCP toolbox no longer has an "Expose" page**: with the built-in MCP Server removed, this page only changed a tool's enabled flag and served nothing. `/system/ai/mcp/server/list` and `/system/ai/mcp/server/toggle` now return 404. ([#92](https://github.com/mugsun/mugsun-boot/pull/92))
-- **The button is hidden on upgrade**: a new database migration soft-deletes the "Expose" button and its role grants. Registered MCP tools stay, and you can still change a tool's enabled flag in its edit form.
+- **The MCP toolbox no longer has an "Exposed" page**: with the built-in MCP Server removed, this page only changed a tool's enabled flag and served nothing. `/system/ai/mcp/server/list` and `/system/ai/mcp/server/toggle` now return 404. ([#92](https://github.com/mugsun/mugsun-boot/pull/92))
+- **The button is hidden on upgrade**: a new database migration soft-deletes the "Exposed" button and its role grants. Registered MCP tools stay, and you can still change a tool's enabled flag in its edit form.
 
 ## 2026-10-14 · Tracking dashboards cut days in local time
 
