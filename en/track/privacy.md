@@ -30,13 +30,20 @@ Tighten access and retention for replay and body data accordingly.
 
 ## URL redaction
 
-API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s and the page address in replay Meta events all keep query strings, but values for these keys become `***`. Other parameters are kept:
+API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s and the page address in replay Meta events all keep query strings, but values for these keys become `***`. Other parameters are kept.
+
+Credential keys, shared by URLs and response bodies:
 
 ```text
 token  access_token  refresh_token  id_token  authorization  auth  jwt
 api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
-password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
-code  sign  signature  ticket  otp
+password  passwd  pwd  cookie  set-cookie  session_id  jsessionid
+```
+
+Keys replaced only in URLs and kept as-is in response bodies:
+
+```text
+code  sign  signature  ticket  session  otp
 ```
 
 Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count too; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
@@ -53,17 +60,13 @@ Invalid URLs are returned unchanged, and relative URLs stay relative.
 
 ## Credential fields in response bodies
 
-Keys in JSON response bodies **share one list** with [URL redaction](#url-redaction); matching values are **always** replaced with `***`, regardless of `apiBodyMaskEnabled`. Matching works the same way: case, `_` and `-` are ignored (`accessToken` and `sessionId` count), and it is an exact match after that (`codeType`, `errCode` and `ticketCount` do not).
+JSON response bodies only have the **credential keys** from [URL redaction](#url-redaction) replaced; matching values are **always** replaced with `***`, regardless of `apiBodyMaskEnabled`. Matching works as in URLs: case, `_` and `-` are ignored (`accessToken` and `sessionId` count), and it is an exact match after that (`tokenCount` and `sessionTimeout` do not).
 
-::: warning Business fields named code or sign are replaced too
-`code` and `sign` are often business fields in response bodies, and they are replaced as well:
+`code`, `sign`, `signature`, `ticket`, `session` and `otp` are often business fields in response bodies, so they are kept as-is, which helps you see API errors and reproduce them:
 
 ```text
-{"code":0,"msg":"ok","data":{"sign":true}}   →   {"code":"***","msg":"ok","data":{"sign":"***"}}
+{"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
 ```
-
-If you need business result codes, report them with `trackApiError({ bizCode })` (event property `biz_code`), or use a different key name in the API.
-:::
 
 - **Depth**: objects and arrays are checked level by level, up to 8 levels; deeper subtrees are replaced with `***` as a whole rather than uploaded as-is.
 - **Non-JSON**: only bodies with a JSON content type are captured; other types (HTML, text, binary, SSE) are never captured.
@@ -71,7 +74,7 @@ If you need business result codes, report them with `trackApiError({ bizCode })`
 
 `apiBodyMaskEnabled` only controls personal-data keys (`phone`, `mobile`, `email`, `idcard`, `bankcard`), which are uploaded as-is by default.
 
-Tokens under other key names (such as `sessionKey`) are not recognized. Turn body capture off with `apiBodyEnabled: false` if that matters.
+Tokens under key names outside the credential list (such as `sessionKey`, or `code` and `ticket` in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
 
 ## Turning on masking and filtering
 
