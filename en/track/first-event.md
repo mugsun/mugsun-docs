@@ -37,7 +37,7 @@ Goal: go from integration to **at least one** event on a console dashboard.
 
 | Symptom | What to check |
 | --- | --- |
-| No `/track/collect` requests at all | The browser has Do Not Track on (`respectDnt` defaults to `true`), `optOut()` was called, or `enabled: false` / a sample rate of 0 is set |
+| No `/track/collect` requests at all | The browser has Do Not Track or Global Privacy Control on (`respectDnt` / `respectGpc` default to `true`), `optOut()` was called, or `enabled: false` / a sample rate of 0 is set |
 | Requests go to `…/track/collect/track/collect` | Set `endpoint` to the base URL only; the SDK appends `/track/collect` |
 | 4xx responses | The `appKey` doesn't exist or the app is disabled; check Integrations |
 | Requests succeed but the dashboard is empty | Make sure the right app and time range are selected |
@@ -59,7 +59,7 @@ The report is `{ status, at, sdkVersion, items }`, where `status` is the worst i
 | `config.endpoint` / `config.appKey` | Valid http(s) endpoint, no stray `/track` path, no HTTPS page posting to HTTP; appKey format |
 | `config.conflict` / `config.enabled` | Conflicting options (e.g. `batchSize > maxBatchSize`, API monitoring on without the `api-monitor` plugin); master switch |
 | `ping` | One real `GET /track/config?app_key=` (no cookies, 5 s timeout): network/CORS, unknown app, disabled app |
-| `sampling` / `consent` | Sample rate and whether this device is sampled; DNT, `optOut()` |
+| `sampling` / `consent` | Sample rate and whether this device is sampled; DNT, GPC, `optOut()` |
 | `privacy` | Privacy defaults turned off (e.g. body capture on with masking off) |
 | `queue` | Local queue backlog (warns at ≥80%) |
 | `replay` | Replay enabled but the replay plugin isn't loaded |

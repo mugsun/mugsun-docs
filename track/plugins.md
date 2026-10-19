@@ -54,7 +54,7 @@ const track = createTracker({
 - 默认**页面文本和输入框的值显示原文**（0.3.0 起不再默认传 `maskTextSelector: '*'`，`maskAllInputs` 默认 `false`）。
 - 始终整块不录：`input[type="password"]`、带 `data-track-mask` 属性的元素、银行卡字段（`autocomplete` 以 `cc-` 开头）、一次性验证码字段（`autocomplete="one-time-code"`）。
 - 需要遮罩时：`replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 遮全部文本和输入值，文本也可以传更窄的选择器，如 `'.user-info'`。见 [隐私与合规](/track/privacy#开启遮罩与过滤)。
-- 处理敏感个人信息须取得单独同意；未取得前不要录制含此类信息的输入（可设 `maskAllInputs`，页面文本另用 `maskTextSelector`），具体以法务意见为准。
+- 输入框的值默认按原文录制。按《个人信息保护法》，采集敏感个人信息须取得用户的单独同意；未取得前不要录制含此类信息的输入（可设 `maskAllInputs: true`，页面文本另用 `maskTextSelector`），具体以法务意见为准。见 [隐私与合规](/track/privacy)。
 
 ```html
 <!-- 整块不录 -->
@@ -79,7 +79,7 @@ const track = createTracker({
 内置保护（不可关闭）：
 
 - SDK 自身端点（`/track/collect`、`/track/config`、`/track/replay`、`/track/api-body` 等）不采集，防止循环。
-- 凭证端点（路径含 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`）**永不采集响应体**。
+- 凭证端点**永不采集响应体**，事件标记 `body_skipped: 'credential'`。路径（小写后）含以下片段即算：登录与令牌 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`；注册 `/register`、`/signup`、`/sign-up`；密码 `/password`、`/forgot`、`/reset-password`、`/change-password`；验证码与多因素 `/otp`、`/sms`、`/captcha`、`/mfa`、`/2fa`、`/totp`、`/verify-code`、`/verification-code`。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
 ::: warning 0.3.0 行为变更

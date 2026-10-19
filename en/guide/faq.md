@@ -93,7 +93,7 @@ Autocaptured events such as clicks never include `input` / `textarea` values. Fr
 
 ### Are tokens in URLs sent to the server?
 
-API monitoring keeps query strings but replaces the values of `token`, `access_token`, `authorization`, `id_token`, `refresh_token`, `api_key`, `apikey`, `auth`, `secret` and `password` (ignoring case, `_` and `-`, so `accessToken` counts too) with `***`.
+Not as-is. In API monitoring URLs, `referrer`, link `href`s, resource error URLs and page addresses in replays, the values of sensitive parameters such as `token`, `access_token`, `code`, `ticket` and `otp` become `***`, including parameters in the hash. See [Privacy · URL redaction](/en/track/privacy#url-redaction) for the full list.
 
 ### What if my `appKey` leaks?
 

@@ -9,7 +9,12 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.com/mugsun/mugsun-track/pull/19))
 
 - **No masking or filtering by default (behavior change)**: replays show page text and input values as-is (`maskTextSelector` no longer defaults to `'*'`, and the new `maskAllInputs` defaults to `false`); `apiBodyMaskEnabled` defaults to `false`, so personal-data fields in response bodies are uploaded as-is; `skipHandledErrors` defaults to `false`, so every error is reported. Password fields, `data-track-mask` areas, card fields and one-time-code fields are never recorded.
-- **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.
+- **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session_id` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.
+- **Credential hardening** ([#20](https://github.com/mugsun/mugsun-track/pull/20)):
+  - Global Privacy Control is honored by default (`respectGpc: true`), like DNT.
+  - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`, ignores case, `_` and `-`, and covers hash parameters; `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
+  - Sign-up, password reset / change, SMS / captcha / MFA endpoints never have their response bodies captured.
+  - Two key lists: credential keys are shared by URLs and response bodies; `code`, `sign`, `signature`, `ticket`, `session` and `otp` are replaced only in URLs and kept as-is in bodies (such as `{"code":0}`).
 - **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
 
 ## 2026-10-18 · Duplicate submissions return 400
