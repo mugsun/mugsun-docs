@@ -39,7 +39,7 @@ VITE_ENABLE_TRACK = true
 VITE_ENABLE_AI = true
 ```
 
-关闭后可以删掉对应的 `modules/` 目录。关闭埋点后不需要运行 `pnpm setup:sdk`。
+关闭后可以删掉对应的 `modules/` 目录。关闭埋点后不需要运行 `pnpm setup:sdk`，但同级的 `mugsun-track` 目录仍须存在，`pnpm install` 要解析它。
 
 ## 权限和接口类型
 

@@ -11,7 +11,13 @@ SDK 内核只负责队列、会话、身份与传输，采集能力全部由插�
 | 全埋点 | `autocapturePlugin()` | 点击等交互；跳过 `maskSelectors` 与密码框 |
 | 曝光 | `exposurePlugin()` | 元素有效曝光（配合 `v-track:exposure`） |
 | Web Vitals | `webVitalsPlugin()` | 核心性能指标 |
-| 错误 | `errorPlugin()` | JS 错误、资源加载错误与未处理的 Promise 拒绝；堆栈 `stack` 最多保留 4096 字符，其它字符串属性 1024 |
+| 错误 | `errorPlugin()` | JS 错误、资源加载错误与未处理的 Promise 拒绝；堆栈 `stack` 最多保留 4096 字符，其它字符串属性 1024；堆栈里脚本地址的 `?` / `#` 之后部分（常带 token、签名）会去掉，只留 `:行:列`；单个事件的属性合计超过 16KB 时先缩短堆栈 |
+
+错误指纹按 message 和堆栈首帧的脚本地址（不含行列号）计算。计算前会先去掉这个地址的 query 和 hash，同一错误不会再因 token、签名不同分成多组。
+
+::: warning 升级后错误分组会断开一次
+首帧脚本地址带 `?` 或 `#` 的错误（例如带版本号、token、签名的 CDN 地址），升级后生成新的指纹，归入新的错误分组，已有分组不会与新分组合并。首帧地址不带 query 的错误，指纹不变。
+:::
 
 ## 追加可选插件
 
@@ -48,7 +54,7 @@ const track = createTracker({
 - 默认**页面文本和输入框的值显示原文**（0.3.0 起不再默认传 `maskTextSelector: '*'`，`maskAllInputs` 默认 `false`）。
 - 始终整块不录：`input[type="password"]`、带 `data-track-mask` 属性的元素、银行卡字段（`autocomplete` 以 `cc-` 开头）、一次性验证码字段（`autocomplete="one-time-code"`）。
 - 需要遮罩时：`replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 遮全部文本和输入值，文本也可以传更窄的选择器，如 `'.user-info'`。见 [隐私与合规](/track/privacy#开启遮罩与过滤)。
-- 输入框的值默认按原文录制。按《个人信息保护法》，采集敏感个人信息须取得用户的单独同意；未取得同意时，请设 `maskAllInputs: true`。见 [隐私与合规](/track/privacy)。
+- 输入框的值默认按原文录制。按《个人信息保护法》，采集敏感个人信息须取得用户的单独同意；未取得前不要录制含此类信息的输入（可设 `maskAllInputs: true`，页面文本另用 `maskTextSelector`），具体以法务意见为准。见 [隐私与合规](/track/privacy)。
 
 ```html
 <!-- 整块不录 -->

@@ -74,7 +74,7 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 
 `apiBodyMaskEnabled` only controls personal-data keys (`phone`, `mobile`, `email`, `idcard`, `bankcard`), which are uploaded as-is by default.
 
-Tokens under key names outside the credential list (such as `sessionKey`, or `code` and `ticket` in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
+Tokens under key names outside the credential list (such as `jwt` or `sessionKey`, or `code` and `ticket` in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
 
 ## Turning on masking and filtering
 

@@ -74,7 +74,7 @@ code  sign  signature  ticket  session  otp
 
 `apiBodyMaskEnabled` 只控制个人信息类键（`phone`、`mobile`、`email`、`idcard`、`bankcard`），默认原文上传。
 
-键名不在凭证清单里的令牌（例如 `sessionKey`，以及响应体里的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
+键名不在凭证清单里的令牌（例如 `jwt`、`sessionKey`，以及响应体里的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
 
 ## 开启遮罩与过滤
 

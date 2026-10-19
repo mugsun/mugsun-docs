@@ -39,7 +39,7 @@ VITE_ENABLE_TRACK = true
 VITE_ENABLE_AI = true
 ```
 
-After turning one off you can delete its `modules/` folder. With analytics off you don't need `pnpm setup:sdk`.
+After turning one off you can delete its `modules/` folder. With analytics off you don't need `pnpm setup:sdk`, but the sibling `mugsun-track` directory must still exist because `pnpm install` resolves it.
 
 ## Permissions and API types
 
