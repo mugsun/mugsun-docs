@@ -103,6 +103,7 @@ track.reset()
 | `queueMaxAge` | `number` | 24h | Drop queued events older than this (ms) |
 | `retryBaseDelay` / `retryMaxDelay` | `number` | `1000` / `30000` | Retry backoff base / cap (ms) |
 | `respectDnt` | `boolean` | `true` | Honor the browser's Do Not Track |
+| `respectGpc` | `boolean` | `true` | Honor the browser's Global Privacy Control |
 | `maskSelectors` | `string[]` | `[]` | Selectors excluded from autocapture (merged with remote config) |
 | `sessionTimeout` | `number` | 30min | Sliding session timeout (ms) |
 | `storagePrefix` | `string` | `'mst'` | Prefix for local storage keys |
@@ -110,14 +111,14 @@ track.reset()
 | `headers` | `object \| () => object` | — | Extra request headers (such as `Authorization`); not sent with `sendBeacon` |
 | `plugins` | `TrackPlugin[]` | default set | See [Plugins](/en/track/plugins) |
 | `replayEnabled` / `replaySampleRate` | `boolean` / `number` | `false` / `10` | Replay switch and per-session sample rate |
-| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | off / off / **on** / 1MB | API monitoring switches; see [Plugins](/en/track/plugins#api-monitoring) |
+| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | off / off / off / 1MB | API monitoring switches (`apiBodyMaskEnabled` is off, so personal-data fields are uploaded as-is; credential keys are always masked); see [Plugins](/en/track/plugins#api-monitoring) |
 | `visualRules` | `VisualRule[]` | — | Visual-tagging rules |
 | `geoEnabled` | `boolean` | `false` | Precise location |
 | `debug` | `boolean` | `false` | Log SDK activity to the console |
 | `beforeSend` | `(event) => event \| null \| false` | — | Rewrite `props` or drop events before queueing (`null`/`false` drops) |
 | `beforeSendOnError` | `'drop' \| 'keep'` | `'drop'` | When `beforeSend` throws, drop the event or send the original |
 | `ignoreErrors` | `(string \| RegExp)[] \| (error, message) => boolean` | — | Errors not to report |
-| `skipHandledErrors` | `boolean` | `true` (**behavior change**) | Skip `HttpError` and errors flagged `handled`/`expected` |
+| `skipHandledErrors` | `boolean` | `false` | When `true`, skip `HttpError` and errors flagged `handled`/`expected`; by default everything is reported |
 
 For options that can be set remotely, an explicit local value wins; otherwise the value from `/track/config` applies **from the next start**.
 
@@ -133,15 +134,15 @@ const tracker = createTracker({
   appKey: 'your-app-key',
   beforeSend: (e) => (e.event === 'debug_only' ? null : e),
   ignoreErrors: ['ResizeObserver loop', /^AbortError/],
-  skipHandledErrors: true // default
+  skipHandledErrors: true // default is false (report everything); turned on here
 })
 ```
 
 - **`beforeSend(event)`** runs before each business event (including `$identify`) is queued. Return `null` / `false` to drop it. When it returns an object, only its `props` are merged back; `event_id`, `distinct_id` and the event name can't be changed, and non-object return values mean "unchanged".
 - **A throwing hook drops the event by default** (`beforeSendOnError: 'drop'`) so a broken masking hook can't leak unmasked data; `'keep'` sends the original event instead.
-- **Not covered by `beforeSend`**: `$session_start` / `$session_end`, session replay chunks and API response body uploads. Mask replay with `maskTextSelector` / `maskSelectors` and bodies with `apiBodyMaskEnabled` (on by default).
+- **Not covered by `beforeSend`**: `$session_start` / `$session_end`, session replay chunks and API response body uploads. Mask replay with `maskTextSelector` / `maskAllInputs` / `maskSelectors` and bodies with `apiBodyMaskEnabled` (off by default; set it to `true`).
 - **`ignoreErrors`**: strings match a substring of the error message, `RegExp`s test the message, or pass a predicate `(error, message) => boolean` that returns `true` to ignore (a throwing predicate means "don't ignore").
-- **`skipHandledErrors`** (default `true`; **behavior change**: after upgrading these errors are no longer reported as `$error`, so `$error` counts may drop) skips errors with `name === 'HttpError'` or `handled === true` / `expected === true`, typically API errors your request interceptor already showed to the user. Set it to `false` to report everything.
+- **`skipHandledErrors`** (default `false`: **every error is reported** as `$error`, including `HttpError` and handled errors). Set it to `true` to skip errors with `name === 'HttpError'` or `handled === true` / `expected === true`, typically API errors your request interceptor already showed to the user.
 - These filters apply to the `error` plugin (`window` error, `unhandledrejection`) and the Vue integration's `app.config.errorHandler`; your existing errorHandler is still called.
 
 To still count skipped API errors, report them from the interceptor:

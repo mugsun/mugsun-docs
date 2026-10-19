@@ -5,17 +5,17 @@ demo: pages/demo/media/devtool
 
 # Devtool
 
-`ms-devtool` — Devtool for uni-app x.
+`ms-devtool` is an in-page debug panel with a log list, environment info and a clear button, and it can be collapsed or expanded. Log entries are supplied by the page that uses it.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-devtool` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-devtool`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/media/devtool`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/media/devtool.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

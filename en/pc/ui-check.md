@@ -8,8 +8,9 @@ The admin console ships a Playwright self-check that needs no backend. It is a r
 | --- | --- |
 | `e2e-ui/form-layout.spec.ts` | Finds every page from the router, opens each page's Add and Edit dialogs and every page-level form with required fields, then clicks save with the form empty. Every red validation message must be fully visible: it can't overlap any other field in the same form (in multi-column layouts, fields to the right, below and diagonally below are all compared), can't be clipped by an ancestor's `overflow`, and must sit fully inside the viewport. Form labels must not overflow either. |
 | `e2e-ui/standalone-apps.spec.ts` | Scans the source for every app mounted with its own `createApp` (for example the AI assistant drawer), opens each one once, and fails on any console error or pageerror. |
+| `e2e-ui/ai-drawer-focus.spec.ts` | Opens the AI assistant drawer and checks that focus lands in the input. Tab moves to the model picker, and the focused element has a 2px `:focus-visible` outline. Esc closes the drawer and focus returns to the AI button. It also intercepts the drawer chunk to simulate loading (no response) and load failure (abort), and checks that the drawer can be closed in both states too: the 48px top bar is still there, the Close button works, and focus returns to the AI button. |
 
-Both run in four combinations: Chinese / English × light / dark. All API calls are mocked in the browser, so no backend or database is needed.
+All three run in four combinations: Chinese / English × light / dark. All API calls are mocked in the browser, so no backend or database is needed.
 
 ## Run it locally
 
@@ -48,7 +49,7 @@ Screenshots and JSON results go to `e2e-ui-report/` (git-ignored). In CI the sam
 
 ## Add buttons that aren't dialogs
 
-Buttons that read like "Add" but don't open a dialog are exempted in `NOT_DIALOG` in `e2e-ui/support/session.ts`. An exemption matches route + button text exactly, must cover both the Chinese and English text, and must give a reason. The current 4:
+Buttons that read like "Add" but don't open a dialog are exempted in `NOT_DIALOG` in `e2e-ui/support/session.ts`. An exemption matches the route exactly and the button text by regex. The regex must cover both the Chinese and English text, and must give a reason. The current 4:
 
 | Route | Button | Reason |
 | --- | --- | --- |

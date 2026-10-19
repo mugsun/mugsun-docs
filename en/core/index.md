@@ -8,7 +8,7 @@
 | Runtime | JDK 21 · Maven 3.9+ |
 | Parent | Spring Boot 3.5.13 |
 | Key dependencies | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · JetCache · Hutool Crypto / BouncyCastle · FastExcel (versions pinned by `mugsun-bom`) |
-| License | Apache-2.0 |
+| License | MIT |
 
 ## Modules
 
@@ -18,6 +18,10 @@
 | `mugsun-core-tool` | `R` response envelope, `ResultCode`, business exceptions, `TreeUtil` |
 | `mugsun-starter-web` | Global exception handling, Sa-Token annotation interceptor, ApiCrypto request encryption, SafeNumber, Excel |
 | `mugsun-starter-mybatis` | MyBatis-Flex starter and `BaseEntity` (snowflake IDs, audit timestamps, logical delete) |
+
+In a Servlet web app that uses `mugsun-starter-mybatis`, when a unique constraint conflict occurs the app returns HTTP 400 with `code` 400 and the message 「数据已存在，请勿重复提交」 ("this data already exists, don't submit it twice"). The response carries no SQL, constraint name or field values, and the app does not call `ErrorLogListener` (so boot's `sys_error_log` no longer records it).
+
+Dameng error codes -6602, -6612 and -6625 are included. If your app puts its own `sql-error-codes.xml` at the classpath root, it shadows the one in this module, so copy the Dameng entry into yours.
 
 ## Using it in your project
 
@@ -46,7 +50,7 @@
 </dependencies>
 ```
 
-Offline fallback: clone this repository and run `mvn clean install -DskipTests`.
+Offline environments: clone this repository and run `mvn clean install -DskipTests`.
 
 ## Next
 

@@ -22,10 +22,11 @@ Since 2026-10-13, matching uses real CIDR prefixes for IPv4 and IPv6 rather than
 
 By default only the TCP peer address (`remoteAddr`) is used and `X-Forwarded-For` is ignored, so callers can't spoof their origin to get past the allowlist.
 
-If boot sits behind a reverse proxy or load balancer, you **must** add the proxy addresses to the trusted list as comma-separated CIDRs. Otherwise every request appears to come from the proxy, and IP allowlists on API keys either reject everything or stop meaning anything:
+If boot sits behind a reverse proxy or load balancer, you **must** add the proxy addresses to the trusted list as comma-separated CIDRs. Otherwise every request appears to come from the proxy, and IP allowlists on API keys either reject every request or no longer have any effect:
 
 ```bash
-MUGSUN_OPENAPI_TRUSTED_PROXIES=10.0.0.0/8,::1/128
+# Only your reverse proxy's own address (/32 for a single proxy); don't trust a whole private range
+MUGSUN_OPENAPI_TRUSTED_PROXIES=172.30.88.10/32,::1/128
 ```
 
 The matching key is `mugsun.openapi.trusted-proxies`. Only when `remoteAddr` falls inside the list does boot read `X-Forwarded-For`, taking the first address **from the right** that isn't itself a trusted proxy. API call logs use the same rule. In detail:

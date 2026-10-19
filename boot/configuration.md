@@ -35,6 +35,14 @@ cp config/application-local.yml.example config/application-local.yml
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
 | `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
 
+## 审计日志
+
+| 配置项 | 默认 | 说明 |
+| --- | --- | --- |
+| `mugsun.audit.anonymous-max-pending`（环境变量 `MUGSUN_AUDIT_ANONYMOUS_MAX_PENDING`） | `64` | 未登录请求的操作日志最多同时排队多少条。超出的直接丢弃，并在日志里告警累计条数（第 1 条和每 100 条记一次）。已登录请求的审计不受限，不会丢 |
+
+操作日志按哈希链落库。多实例部署时，各实例会在事务里锁住同一行链头再写入，并由唯一索引兜底，所以链不会分叉，不需要额外配置。
+
 ## 本地文件访问
 
 开发环境（默认配置）下，本地存储的文件由应用在 `/file/**` 下直接提供。为避免私有附件被人拿着地址匿名下载：
@@ -79,6 +87,8 @@ mugsun:
 | `MUGSUN_AI_ENABLED` | `true` | AI 模块 |
 | `POWERJOB_ENABLED` | `false` | PowerJob Worker；启用须独立部署 Server 并设置 `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / 空 | IP 归属地解析 |
+
+三个模块开关不设置时开启；设置后只接受 `true` 或 `false`（不区分大小写，前后不能有空格），空值、`1`、`0` 等其它值会导致启动失败。完整规则见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
 
 ## AI 出站白名单
 
@@ -216,7 +226,7 @@ mugsun:
 
 IPv6 地址中的 `:` 写成 `_`。手动解锁某 IP：`DEL mugsun:captcha:v2:lock:<ip>`。
 
-**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。滑块模式下客户端开关（`sys_client.captcha_enabled`）不能关闭验证码，因为 clientId 由调用方填写；它只在旧数字码模式下对登录生效。新建的租户一律开启。 平台超管还可以在同一接口里传 `types`（如 `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`）设置该租户启用的题型，至少一种，取值只能是上面五种；不传 `types` 则不改；传 `null` 或 `[]` 清回平台默认（`default-types`）。设置里不含 `SLIDER` 和 `ROTATE` 时仍会保存，但响应 `data.warning` 会提示键盘用户将收到 `40015`。没设置过的租户使用 `default-types`。该设置保存在 `sys_tenant.captcha_types`（迁移 `V5__tenant_captcha_types.sql`）。
+**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。滑块模式下客户端开关（`sys_client.captcha_enabled`）不能关闭验证码，因为 clientId 由调用方填写；它只在旧数字码模式下对登录生效。新建的租户一律开启。 平台超管还可以在同一接口里传 `types`（如 `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`）设置该租户启用的题型，至少一种，取值只能是上面五种；不传 `types` 则不改；传 `null` 或 `[]` 清回平台默认（`default-types`）。设置里不含 `SLIDER` 和 `ROTATE` 时仍会保存，但响应 `data.warning` 会提示键盘用户将收到 `40015`。没设置过的租户使用 `default-types`。该设置保存在 `sys_tenant.captcha_types`（迁移 `V10__tenant_captcha_types.sql`）。
 
 ## 生产环境
 

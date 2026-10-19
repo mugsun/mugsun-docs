@@ -5,17 +5,17 @@ demo: pages/demo/nav/steps
 
 # Steps 步骤
 
-`ms-steps`：步骤条。`items` 驱动（`title` / `content` / `icon` / `status`），单组件无子组件注册。
+`ms-steps` 是步骤条，由 `items`（`title` / `content` / `icon` / `status`）生成，不需要注册子组件。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-steps`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-steps`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/nav/steps`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/steps.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/nav/steps.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -127,7 +127,7 @@ function onDepthChange(current: number, previous: number) : void {
 | currentStatus | `string` | `'process'` | current 指向步骤的状态：process / error / finish / default |
 | layout | `string` | `'horizontal'` | 方向：horizontal / vertical |
 | theme | `string` | `'default'` | 风格：default 序号圈 / dot 简略圆点 |
-| readonly | `boolean` | `false` | 只读：不抛 change |
+| readonly | `boolean` | `false` | 只读，不触发 change 事件 |
 
 ## 事件
 

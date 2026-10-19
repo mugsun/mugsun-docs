@@ -1,50 +1,116 @@
-# Admin console overview
+# Console overview
 
-[mugsun-pc](https://github.com/mugsun/mugsun-pc) is mugsun's admin console. System management works out of the box; GIS, analytics dashboards and AI management pages are optional modules.
+[mugsun-pc](https://github.com/mugsun/mugsun-pc) is the mugsun admin console. It ships with system management pages, and the GIS, analytics dashboard and AI management pages can be turned on as needed.
 
-| Item | Details |
-| --- | --- |
-| Stack | Vue 3.5 · Vite 7 · TypeScript · Element Plus 2.11 (on demand) · Pinia · Vue Router |
-| Runtime | Node.js ≥ 22.13 · pnpm ≥ 11.11 (`packageManager` pins `pnpm@11.28.2`) |
-| Backend | [mugsun-boot](/en/boot/); `/api` is proxied to `http://localhost:8080` in development |
-| Version | 0.1.0 |
-| License | MIT. The UI foundation is derived from [art-design-pro](https://github.com/Daymychen/art-design-pro) (MIT); keep `NOTICE` when redistributing |
+## Run locally
 
-![Workbench](/screenshots/pc-workbench.png)
+You need Node.js 22.13+ and pnpm 11.11+, with the [boot](/en/boot/) backend running on port 8080:
 
-The console UI is in Chinese.
+```bash
+pnpm setup:sdk   # build the sibling mugsun-track repo
+pnpm install
+pnpm dev         # open http://localhost:3006
+```
 
-## Design notes
+During development, `/api` requests are proxied to `http://localhost:8080`.
 
-- **Permissions come only from the backend.** Sidebar menus, button permission codes and user info come from boot's `/api/auth/info` and related endpoints; the front end has no permission model of its own.
-- **Modules can be removed.** Turning a module off at build time skips its routes and plugins, and you can delete its directory to drop the source.
-- **Types come from OpenAPI.** `pnpm gen:api` generates `src/types/api/openapi.d.ts` from boot's `/v3/api-docs`, so you write fewer types by hand.
-- **A lighter first load.** Element Plus is no longer registered globally with its full CSS; components and styles load on demand.
-- **Credentials don't touch disk.** Tokens live only in `sessionStorage` (per tab), never in `localStorage`.
+To change the address, edit `VITE_API_PROXY_URL` in `.env.development`.
+
+![User management (demo data)](/screenshots/pc-system-users.png)
 
 ## Layout
 
 ```text
 mugsun-pc/
-  src/                 # shell: routing, auth, system pages, API layer
+  src/             # routing, sign-in, system pages, API wrappers
   modules/
-    gis/               # optional: layers, scenes, spatial analysis
-    track/             # optional: integrations and dashboards (uses @mugsun/track-web)
-    ai/                # optional: models, chat, knowledge base, MCP
+    gis/           # optional: layers, scenes, spatial analysis
+    track/         # optional: analytics apps and dashboards
+    ai/            # optional: models, chat, knowledge base, MCP
 ```
 
-## Module flags
+## Turn off optional modules
 
-| Variable | Default | Effect |
-| --- | --- | --- |
-| `VITE_ENABLE_GIS` | on | Registers GIS routes and aliases; when off, `modules/gis` can be deleted |
-| `VITE_ENABLE_TRACK` | on | Registers analytics routes and the SDK plugin; when off, skip `setup:sdk` and delete `modules/track` |
-| `VITE_ENABLE_AI` | on | Registers AI routes and plugins; when off, `modules/ai` can be deleted |
+Set the variable to `false` in `.env`, and the build skips that module's routes:
+
+```ini
+VITE_ENABLE_GIS = true
+VITE_ENABLE_TRACK = true
+VITE_ENABLE_AI = true
+```
+
+After turning one off you can delete its `modules/` folder. With analytics off you don't need `pnpm setup:sdk`, but the sibling `mugsun-track` directory must still exist because `pnpm install` resolves it.
+
+## Modules at a glance
+
+These screenshots come from boot + pc running locally against a demo database (all data is sample data), at a 1440×900 viewport.
+
+### System management
+
+Users, departments, roles and menus are managed in one place; menus and button permission codes come from the backend, and the sidebar renders from the grants.
+
+![Users](/screenshots/pc/system-users.png)
+![Departments](/screenshots/pc/system-departments.png)
+![Roles](/screenshots/pc/system-roles.png)
+![Menus](/screenshots/pc/system-menus.png)
+
+### Low-code
+
+The form designer list holds form definitions (name, key, status). Open the designer to drag in fields; once designed, the form can be filled in online.
+
+![Form designer list](/screenshots/pc/lowcode-forms.png)
+
+### Workflow
+
+A published flow definition can be started right away. The approval center splits tasks into to-do, to-claim, started by me, done and CC'd; running instances can be suspended or terminated.
+
+![Flow definitions](/screenshots/pc/workflow-definitions.png)
+![Approval center](/screenshots/pc/workflow-approval-center.png)
+![Running instances](/screenshots/pc/workflow-running.png)
+
+### Monitoring
+
+Server monitoring shows JVM memory, CPU, threads and request stats. Online sessions can be kicked out (tokens are masked). The login log records the method, client and result of every sign-in.
+
+![Server monitoring](/screenshots/pc/monitor-server.png)
+![Online sessions](/screenshots/pc/monitor-online-sessions.png)
+![Login log](/screenshots/pc/monitor-login-log.png)
+
+### Open platform
+
+Generate API keys for third-party systems and limit the paths they may call. OAuth clients support authorization code and client credentials. Keys and client IDs in the screenshots are replaced with placeholders.
+
+![API keys](/screenshots/pc/open-platform-api-keys.png)
+![OAuth clients](/screenshots/pc/open-platform-oauth-clients.png)
+
+### Tenants
+
+Creating a tenant initializes its default department, post, role and admin in one step; the tenant package decides which menus the tenant can use.
+
+![Tenants](/screenshots/pc/tenant-list.png)
+![Tenant packages](/screenshots/pc/tenant-packages.png)
 
 ## Request flow
 
 Views and hooks call `/api` through axios, and Vite proxies it to boot during development. When a request fails, the backend's business message is shown first. The console's own analytics events go to same-origin `/api/track/collect`, which also lands in boot's track module.
 
-## Next
 
-[GIS & maps](/en/pc/gis) · [Development](/en/pc/development) · [Getting started](/en/guide/getting-started)
+## Permissions and API types
+
+Menus, button permission codes and user info all come from the backend `/api/auth/info` endpoint. The frontend keeps no separate permission data.
+
+API types are generated from the backend's OpenAPI document:
+
+```bash
+pnpm gen:api   # reads http://localhost:8080/v3/api-docs
+```
+
+## License
+
+MIT. Parts of the UI derive from [art-design-pro](https://github.com/Daymychen/art-design-pro) (MIT). Keep the `NOTICE` file when you redistribute.
+
+## Next steps
+
+- [Local development](/en/pc/development)
+- [GIS and maps](/en/pc/gis)
+- [Docker deployment](/en/pc/deploy-docker)

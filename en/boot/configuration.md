@@ -35,6 +35,14 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | empty | CIDR list of trusted reverse proxies; see [Open API](/en/boot/open-api#client-ip-and-trusted-proxies) |
 | `MUGSUN_FILE_SIGN_SECRET` | empty | Signing key for local file download links (at least 32 characters); see "Local file access" below |
 
+## Audit log
+
+| Setting | Default | Purpose |
+| --- | --- | --- |
+| `mugsun.audit.anonymous-max-pending` (env `MUGSUN_AUDIT_ANONYMOUS_MAX_PENDING`) | `64` | How many operation-log entries from unauthenticated requests may be queued at once. Extra entries are dropped and the running count is logged as a warning (on the 1st and every 100th). Entries from signed-in requests are never limited or dropped |
+
+Operation logs are written as a hash chain. With several instances, each one locks the same chain-head row inside its transaction before writing, and a unique index backs this up, so the chain can't fork. No extra setup is needed.
+
 ## Local file access
 
 With the default (dev) settings, the app serves locally stored files directly under `/file/**`. So that nobody can download a private attachment just by knowing its address:
@@ -79,6 +87,8 @@ Setting this list replaces the default entirely, so include these three if you w
 | `MUGSUN_AI_ENABLED` | `true` | AI module |
 | `POWERJOB_ENABLED` | `false` | PowerJob worker; requires a separate server and `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / empty | IP-to-region lookup |
+
+The three module switches are on when unset. Once set, they accept only `true` or `false` (case-insensitive, no surrounding spaces); an empty value, `1`, `0` or anything else stops the service from starting. See [Architecture](/en/guide/architecture#two-layers-of-module-switches) for the full rules.
 
 ## AI outbound allowlist
 
@@ -217,7 +227,7 @@ The verify request body is capped at 32KB, chunked uploads included; an oversize
 
 `:` in IPv6 addresses is written as `_`. To unlock an IP by hand: `DEL mugsun:captcha:v2:lock:<ip>`.
 
-**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. In slider mode the client switch (`sys_client.captcha_enabled`) cannot turn verification off, because the caller chooses the clientId; it only applies to login in legacy IMAGE mode. New tenants always start with verification on. The platform super admin can also pass `types` on the same endpoint (for example `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`) to choose the tenant's challenge types: at least one, from the five above. Leaving `types` out keeps the current setting, passing `null` or `[]` resets it to the platform default (`default-types`), and tenants that never set it use `default-types`. A setting without `SLIDER` and `ROTATE` is still saved, but `data.warning` in the response says keyboard users will get `40015`. The setting lives in `sys_tenant.captcha_types` (migration `V5__tenant_captcha_types.sql`).
+**Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. In slider mode the client switch (`sys_client.captcha_enabled`) cannot turn verification off, because the caller chooses the clientId; it only applies to login in legacy IMAGE mode. New tenants always start with verification on. The platform super admin can also pass `types` on the same endpoint (for example `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`) to choose the tenant's challenge types: at least one, from the five above. Leaving `types` out keeps the current setting, passing `null` or `[]` resets it to the platform default (`default-types`), and tenants that never set it use `default-types`. A setting without `SLIDER` and `ROTATE` is still saved, but `data.warning` in the response says keyboard users will get `40015`. The setting lives in `sys_tenant.captcha_types` (migration `V10__tenant_captcha_types.sql`).
 
 ## Production
 

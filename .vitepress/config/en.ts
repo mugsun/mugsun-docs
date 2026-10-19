@@ -6,18 +6,23 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/en/guide/introduction', activeMatch: '/en/guide/' },
-      { text: 'Boot', link: '/en/boot/', activeMatch: '/en/boot/' },
+      { text: 'Backend', link: '/en/boot/', activeMatch: '/en/boot/' },
       { text: 'Admin', link: '/en/pc/', activeMatch: '/en/pc/' },
-      { text: 'Track', link: '/en/track/', activeMatch: '/en/track/' },
-      { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
-      { text: 'uni-app x (ms-ui)', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
-      { text: 'Live demo', link: '/en/demo' },
-      { text: 'Changelog', link: '/en/guide/changelog' },
+      { text: 'Tracking', link: '/en/track/', activeMatch: '/en/track/' },
+      {
+        text: 'More',
+        items: [
+          { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
+          { text: 'uni-app x', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
+          { text: 'Live demo', link: '/en/demo' },
+          { text: 'Changelog', link: '/en/guide/changelog' },
+        ],
+      },
     ],
     sidebar: {
       '/en/uniappx/': [
         {
-          text: 'uni-app x (ms-ui)',
+          text: 'uni-app x',
           items: [
             { text: 'Overview', link: '/en/uniappx/' },
           ],
@@ -205,6 +210,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Permissions & attachments', link: '/en/boot/permissions' },
             { text: 'Open API', link: '/en/boot/open-api' },
             { text: 'Security checklist', link: '/en/boot/security-checklist' },
+            { text: 'Upgrade guide', link: '/en/boot/upgrade' },
           ],
         },
       ],
@@ -232,6 +238,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Your first event', link: '/en/track/first-event' },
             { text: 'Plugins', link: '/en/track/plugins' },
             { text: 'Privacy', link: '/en/track/privacy' },
+            { text: 'Upgrade guide', link: '/en/track/upgrade' },
           ],
         },
       ],
@@ -262,8 +269,9 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
     darkModeSwitchTitle: 'Switch to dark',
     langMenuLabel: 'Language',
     footer: {
-      message: 'boot and core are released under Apache-2.0; pc and track under MIT.',
-      copyright: '© 2026 mugsun',
+      message: 'boot, core, pc, track and ms-ui are released under the MIT License.',
+      copyright:
+        '© 2026 mugsun · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2025148372号-2</a>',
     },
   },
 }

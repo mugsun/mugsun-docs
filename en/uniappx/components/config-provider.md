@@ -5,17 +5,17 @@ demo: pages/demo/basic/config-provider
 
 # Config Provider
 
-`ms-config-provider` — Config Provider for uni-app x.
+`ms-config-provider` is a scoped theme container. It writes `themeVars` as inline CSS variables on its subtree, so a whole section can switch to dark mode.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-config-provider` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-config-provider`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/config-provider`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/config-provider.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/basic/config-provider.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

@@ -5,17 +5,17 @@ demo: pages/demo/form/picker-selected
 
 # Picker Selected
 
-`ms-picker-selected` — Picker Selected for uni-app x.
+`ms-picker-selected` is a searchable picker in a popup. It filters locally or lets the page run an asynchronous search, and supports single and multiple selection.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker-selected` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-picker-selected`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/picker-selected`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/picker-selected.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/form/picker-selected.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

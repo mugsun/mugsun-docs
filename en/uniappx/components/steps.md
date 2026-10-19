@@ -5,17 +5,17 @@ demo: pages/demo/nav/steps
 
 # Steps
 
-`ms-steps` — Steps for uni-app x.
+`ms-steps` is a step indicator built from `items` (`title` / `content` / `icon` / `status`). No child components need to be registered.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-steps` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-steps`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/steps`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/nav/steps.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -127,7 +127,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | currentStatus | `string` | `'process'` | Status of the step at current: process / error / finish / default |
 | layout | `string` | `'horizontal'` | Direction: horizontal / vertical |
 | theme | `string` | `'default'` | Style: default numbered circle / dot |
-| readonly | `boolean` | `false` | Read-only; does not emit change |
+| readonly | `boolean` | `false` | Read-only; the change event is not emitted |
 
 ## Events
 

@@ -1,22 +1,22 @@
 ---
-title: Editor 编辑
+title: Editor Markdown 编辑器
 demo: pages/demo/media/editor
 ---
 
-# Editor 编辑
+# Editor Markdown 编辑器
 
-`ms-editor`：Markdown 源码编辑器：工具条插入标记 + `textarea` 源码 + `ms-markdown` 实时预览。
+`ms-editor` 是 Markdown 源码编辑器，由插入标记的工具栏、`textarea` 源码区和 `ms-markdown` 实时预览组成。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-editor/components/ms-editor`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-editor/components/ms-editor`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 可选插件：需单独安装 `uni_modules/ms-editor`，并依赖 `ms-ui`。
 演示路由：`#/pages/demo/media/editor`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/editor.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/media/editor.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
