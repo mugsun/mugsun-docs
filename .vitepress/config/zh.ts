@@ -56,6 +56,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'GIS 与地图', link: '/pc/gis' },
             { text: '底图配置与白名单', link: '/pc/gis-basemap' },
             { text: '底图瓦片代理安全', link: '/pc/gis-tile-security' },
+            { text: '行为验证码', link: '/pc/captcha' },
           ],
         },
       ],
