@@ -89,11 +89,11 @@ The console references the SDK as `file:../mugsun-track`, and the SDK repository
 
 ### Does the SDK record what users type?
 
-No. Input and textarea values are never captured; password fields, `maskSelectors` matches and `data-track-mask` elements are blocked entirely; replays mask inputs and page text by default. See [Privacy](/en/track/privacy).
+Autocaptured events such as clicks never include `input` / `textarea` values. From 0.3.0, session replays show input values and page text as-is by default; password fields, `maskSelectors` and `data-track-mask` areas, card fields and one-time-code fields are never recorded. To mask them, pass `maskAllInputs: true` and `maskTextSelector`; see [Privacy · Turning on masking and filtering](/en/track/privacy#turning-on-masking-and-filtering).
 
 ### Are tokens in URLs sent to the server?
 
-API monitoring keeps query strings but replaces the values of `token`, `access_token`, `authorization`, `id_token`, `refresh_token`, `api_key`, `apikey`, `auth`, `secret` and `password` (case-insensitive) with `***`.
+API monitoring keeps query strings but replaces the values of `token`, `access_token`, `authorization`, `id_token`, `refresh_token`, `api_key`, `apikey`, `auth`, `secret` and `password` (ignoring case, `_` and `-`, so `accessToken` counts too) with `***`.
 
 ### What if my `appKey` leaks?
 

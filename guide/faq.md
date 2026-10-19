@@ -89,11 +89,11 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 ### 埋点会采集输入框内容吗？
 
-不会。SDK 不采集 `input` / `textarea` 的值，`password` 与 `maskSelectors` 命中区域整块屏蔽，回放默认遮罩输入与页面文本（0.2.0 起）。详见 [隐私与合规](/track/privacy)。
+自动采集的点击等事件不带 `input` / `textarea` 的值。会话回放从 0.3.0 起默认显示输入框的值和页面文本原文；密码框、`maskSelectors` 与 `data-track-mask` 区域、银行卡和一次性验证码字段始终不录。需要遮罩时传 `maskAllInputs: true` 和 `maskTextSelector`，见 [隐私与合规 · 开启遮罩与过滤](/track/privacy#开启遮罩与过滤)。
 
 ### URL 里的 token 会被上报吗？
 
-接口监控事件中的 URL 会剥离敏感 query：`token`、`access_token`、`authorization`、`id_token`、`refresh_token`、`api_key`、`apikey`、`auth`、`secret`、`password`（大小写不敏感），值替换为 `***`。
+接口监控事件中的 URL 会剥离敏感 query：`token`、`access_token`、`authorization`、`id_token`、`refresh_token`、`api_key`、`apikey`、`auth`、`secret`、`password`（忽略大小写与 `_`、`-`，`accessToken` 也算），值替换为 `***`。
 
 ### `appKey` 泄露了怎么办？
 
