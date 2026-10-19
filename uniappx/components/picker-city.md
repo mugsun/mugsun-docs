@@ -5,17 +5,17 @@ demo: pages/demo/form/picker-city
 
 # Picker City 城市
 
-`ms-picker-city`：滚轮式**联动**行政区选择（省 → 市 → 区）。数据入口与 `ms-cascader` 同形的扁平 `options`（`value`/`label`/`parent`），不内置全国区划表——真源是后端 `sys_region`。
+`ms-picker-city` 是滚轮式省、市、区三级联动选择器。数据格式与 `ms-cascader` 相同，为扁平的 `options`（`value`/`label`/`parent`）。组件不内置全国行政区划数据，数据来源是后端的 `sys_region`。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-picker-city`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-picker-city`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/form/picker-city`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/picker-city.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/form/picker-city.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

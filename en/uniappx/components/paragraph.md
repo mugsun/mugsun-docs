@@ -5,38 +5,38 @@ demo: pages/demo/display/paragraph
 
 # Paragraph
 
-`ms-paragraph` — Paragraph for uni-app x.
+`ms-paragraph` displays body text, with an optional secondary color and truncation by line count.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-paragraph` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-paragraph`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/paragraph`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/paragraph.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/paragraph.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-paragraph
-    content="Mugsun 是一套面向移动端的组件库，强调设计令牌驱动与多端表现一致。"
+    content="Mugsun is a mobile-first component library driven by design tokens with consistent behavior across platforms."
     @click="onParaClick"
   />
   <ms-paragraph
     tone="secondary"
-    content="次要说明用于补充上下文，字色更弱，不抢主信息。"
+    content="Secondary text adds context in a lighter color without competing with the main content."
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-paragraph
     :lines="2"
-    content="这是一段很长的段落文案，用来演示多行省略截断效果。超过指定行数后应以省略号收尾，避免把卡片撑得过高，也方便在列表场景里保持节奏。"
+    content="This is a long paragraph that demonstrates multi-line truncation. Beyond the set number of lines it ends with an ellipsis, so cards do not grow too tall and lists keep a steady rhythm."
   />
-  <!-- 组件深度 -->
-  <ms-paragraph tone="success" content="成功提示：资料已保存。" />
-  <ms-paragraph tone="warning" content="警告提示：请核对必填项。" />
-  <ms-paragraph tone="danger" content="危险提示：操作不可撤销。" />
+  <!-- Advanced -->
+  <ms-paragraph tone="success" content="Success: your profile has been saved." />
+  <ms-paragraph tone="warning" content="Warning: please check the required fields." />
+  <ms-paragraph tone="danger" content="Danger: this action cannot be undone." />
 </template>
 
 <script setup lang="uts">

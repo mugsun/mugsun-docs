@@ -5,22 +5,22 @@ demo: pages/demo/media/chart
 
 # Chart
 
-`ms-chart`: Native canvas chart subset: line / area / bar / pie / ring / radar / scatter / funnel; stacking and multi-series legend toggle.
+`ms-chart` draws common charts on a native canvas: line, area, bar, pie, ring, radar, scatter and funnel. It supports stacking and multiple series, and clicking a legend item hides that series.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-chart/components/ms-chart` (repository not yet public).
+Component directory: `uni_modules/ms-chart/components/ms-chart`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-chart` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/chart`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/chart.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/media/chart.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-chart
     type="line"
     :list="gmvTrend"
@@ -32,7 +32,7 @@ Snippets below are taken from the demo source `pages/demo/media/chart.uvue`; see
   />
   <ms-chart type="bar" :list="channelSales" :height="260" show-tip @item-click="onItem" />
   <ms-chart type="pie" :list="categoryShare" :height="280" @item-click="onItem" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-chart type="area" :list="dauTrend" :height="240" smooth :show-label="false" show-tip />
   <ms-chart
     type="ring"
@@ -41,13 +41,13 @@ Snippets below are taken from the demo source `pages/demo/media/chart.uvue`; see
     show-legend
     :show-label="false"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-chart
     type="line"
     :list="gmvThisYear"
     :compare-list="gmvLastYear"
-    series-name="今年"
-    compare-name="去年"
+    series-name="This year"
+    compare-name="Last year"
     show-tip
     :show-label="false"
     @item-click="onItem"
@@ -56,8 +56,8 @@ Snippets below are taken from the demo source `pages/demo/media/chart.uvue`; see
     type="bar"
     :list="storeEast"
     :compare-list="storeSouth"
-    series-name="华东"
-    compare-name="华南"
+    series-name="East China"
+    compare-name="South China"
     show-tip
     :show-label="false"
     @item-click="onItem"
@@ -76,21 +76,21 @@ Snippets below are taken from the demo source `pages/demo/media/chart.uvue`; see
 const aovTrend = ref(seriesFrom(aovWave, 0))
 
 const categoryShare = ref([
-  row('数码配件', 286),
-  row('家居日用', 214),
-  row('美妆个护', 198),
-  row('母婴食品', 156),
-  row('运动户外', 132),
-  row('其它', 88),
+  row('Digital accessories', 286),
+  row('Home goods', 214),
+  row('Beauty & personal care', 198),
+  row('Baby & food', 156),
+  row('Sports & outdoors', 132),
+  row('Other', 88),
 ] as UTSJSONObject[])
 
 const channelSales = ref([
-  row('品牌旗舰', 186),
-  row('自营商城', 142),
-  row('直播间', 218),
-  row('私域社群', 96),
-  row('线下门店', 128),
-  row('经销批发', 74),
+  row('Brand flagship', 186),
+  row('Own store', 142),
+  row('Live stream', 218),
+  row('Private community', 96),
+  row('Offline stores', 128),
+  row('Wholesale', 74),
 ] as UTSJSONObject[])
 
 const dauTrend = ref(seriesFrom(dauWave, 0))
@@ -102,26 +102,26 @@ const gmvThisYear = ref(seriesFrom(gmvWave, 0))
 const gmvTrend = ref(seriesFrom(gmvWave, 0))
 
 const stockHealth = ref([
-  row('周转健康', 62),
-  row('预警', 23),
-  row('滞销', 11),
-  row('缺货', 4),
+  row('Healthy turnover', 62),
+  row('Warning', 23),
+  row('Slow-moving', 11),
+  row('Out of stock', 4),
 ] as UTSJSONObject[])
 
 const storeEast = ref([
-  row('上海', 96),
-  row('杭州', 84),
-  row('南京', 71),
-  row('苏州', 68),
-  row('宁波', 55),
+  row('Shanghai', 96),
+  row('Hangzhou', 84),
+  row('Nanjing', 71),
+  row('Suzhou', 68),
+  row('Ningbo', 55),
 ] as UTSJSONObject[])
 
 const storeSouth = ref([
-  row('广州', 88),
-  row('深圳', 92),
-  row('佛山', 61),
-  row('东莞', 58),
-  row('珠海', 47),
+  row('Guangzhou', 88),
+  row('Shenzhen', 92),
+  row('Foshan', 61),
+  row('Dongguan', 58),
+  row('Zhuhai', 47),
 ] as UTSJSONObject[])
 
 function onItem(payload: UTSJSONObject) : void {

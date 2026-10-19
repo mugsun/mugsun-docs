@@ -5,36 +5,36 @@ demo: pages/demo/basic/button
 
 # Button
 
-`ms-button` — Button for uni-app x.
+`ms-button` is a semantic button. It supports `theme`, `variant`, `size`, `block`, `disabled`, `loading`, `loadingText`, `formType`, `ghost`, `icon` / `iconOnly`, `shape` and `haptic`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-button` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-button`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/button`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/button.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/button.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 形态 -->
-  <ms-button block theme="primary">填充</ms-button>
-  <ms-button block variant="outline" theme="primary">描边</ms-button>
-  <ms-button block variant="dashed" theme="primary">虚框</ms-button>
-  <!-- 主题 -->
-  <ms-button block theme="default" @click="onThemeClick('default')">默认</ms-button>
-  <ms-button block theme="primary" @click="onThemeClick('primary')">主色</ms-button>
-  <ms-button block theme="danger" @click="onThemeClick('danger')">危险</ms-button>
-  <!-- 尺寸 -->
-  <ms-button theme="primary" size="lg">大号</ms-button>
-  <ms-button theme="primary" size="md">中号</ms-button>
-  <ms-button theme="primary" size="sm">小号</ms-button>
-  <!-- 状态 -->
-  <ms-button block disabled theme="primary">禁用填充</ms-button>
-  <ms-button block disabled variant="dashed" theme="primary">禁用虚框</ms-button>
-  <ms-button block disabled theme="light">禁用浅色</ms-button>
+  <!-- Variants -->
+  <ms-button block theme="primary">Solid</ms-button>
+  <ms-button block variant="outline" theme="primary">Outline</ms-button>
+  <ms-button block variant="dashed" theme="primary">Dashed</ms-button>
+  <!-- Themes -->
+  <ms-button block theme="default" @click="onThemeClick('default')">Default</ms-button>
+  <ms-button block theme="primary" @click="onThemeClick('primary')">Primary</ms-button>
+  <ms-button block theme="danger" @click="onThemeClick('danger')">Danger</ms-button>
+  <!-- Sizes -->
+  <ms-button theme="primary" size="lg">Large</ms-button>
+  <ms-button theme="primary" size="md">Medium</ms-button>
+  <ms-button theme="primary" size="sm">Small</ms-button>
+  <!-- States -->
+  <ms-button block disabled theme="primary">Disabled solid</ms-button>
+  <ms-button block disabled variant="dashed" theme="primary">Disabled dashed</ms-button>
+  <ms-button block disabled theme="light">Disabled light</ms-button>
 </template>
 
 <script setup lang="uts">

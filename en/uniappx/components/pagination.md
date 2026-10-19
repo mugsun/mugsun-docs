@@ -5,21 +5,21 @@ demo: pages/demo/nav/pagination
 
 # Pagination
 
-`ms-pagination` — Pagination for uni-app x.
+`ms-pagination` is a pager with a full page-number mode and a simple previous/next mode. `showPrevNext` and `showJumper` control the buttons, and the current page binds with `v-model:value`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-pagination` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-pagination`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/pagination`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-pagination
     :value="fullPage"
     :total="1000"
@@ -31,13 +31,13 @@ Snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`; 
     simple
     @change="onSimpleChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-pagination
     :value="3"
     :total="50"
     disabled
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-pagination
     :value="navPage"
     :total="200"

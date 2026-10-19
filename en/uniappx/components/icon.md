@@ -5,33 +5,33 @@ demo: pages/demo/basic/icon
 
 # Icon
 
-`ms-icon` — Icon for uni-app x.
+`ms-icon` provides a subset of Remix icons. `spin` uses `UniElement.animate` on the host view in App and Web, and CSS `animation` on the text or image in WeChat mini programs (matching x-icon `faceSpinIcon`; do not apply it to the host view). `rotate` sets a static rotation angle on the glyph.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-icon` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-icon`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/icon`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/icon.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/icon.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 常用 -->
+  <!-- Common -->
   <ms-icon name="search-line" tone="primary" />
   <ms-icon name="add-line" tone="primary" />
   <ms-icon name="home-3-line" tone="primary" />
-  <!-- 尺寸 -->
+  <!-- Sizes -->
   <ms-icon name="settings-3-line" size="sm" tone="secondary" />
   <ms-icon name="settings-3-line" size="md" tone="secondary" />
   <ms-icon name="settings-3-line" size="lg" tone="secondary" />
-  <!-- 方向 -->
+  <!-- Direction -->
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" />
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="90" />
   <ms-icon name="arrow-up-s-line" size="lg" tone="primary" :rotate="180" />
-  <!-- 旋转 -->
+  <!-- Rotation -->
   <ms-icon name="loader-line" size="lg" tone="primary" :spin="true" />
   <ms-icon name="refresh-line" size="lg" tone="secondary" :spin="true" :spin-duration="3000" />
 </template>

@@ -1,34 +1,52 @@
 # 介绍
 
-mugsun 是一套面向中小团队、**可完整私有化部署**的中后台底座。它把三件通常要分别拼装的东西放进同一套代码和同一个数据库里：
+mugsun 是一套可以私有化部署的中后台系统，包含业务后端、管理后台和产品行为分析。
 
-1. **业务后端**：用户、角色、菜单、部门、数据权限、多租户、工作流、文件、开放平台。
-2. **管理台**：权限由后端下发，开箱即有系统管理页面，可选 GIS / 埋点看板 / AI 管理页。
-3. **产品行为分析**：浏览器 SDK 采集 → 后端摄入 → 管理台看板，不依赖公有云分析服务。
+三部分是独立的代码仓库，都部署在自己的服务器上，不依赖公有云服务。
 
-## 组成
+## 模块
 
-| 仓库 | 角色 | 技术栈 | 许可 |
-| --- | --- | --- | --- |
-| [mugsun-boot](https://github.com/mugsun/mugsun-boot) | 模块化单体后端 | JDK 21 · Spring Boot 3.5.13 · MyBatis-Flex · Sa-Token · JetCache · Warm-Flow · Flyway · Spring AI 1.1.2 | Apache-2.0 |
-| [mugsun-core](https://github.com/mugsun/mugsun-core) | BOM 与 Starter | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · BouncyCastle | Apache-2.0 |
-| [mugsun-pc](https://github.com/mugsun/mugsun-pc) | 管理台 | Vue 3.5 · Vite 7 · Element Plus 2.11 · Pinia · Vue Router | MIT |
-| [mugsun-track](https://github.com/mugsun/mugsun-track) | 浏览器埋点 SDK `@mugsun/track-web` | TypeScript · 插件化内核 | MIT |
-| ms-ui（`mugsun-uniappx-ui`） | uni-app x 跨端组件库 | uvue · uts | 源码暂未公开，文档与演示开放 |
+| <span style="white-space:nowrap">模块</span> | 说明 | 技术栈 | <span style="white-space:nowrap">许可</span> | <span style="white-space:nowrap">版本</span> |
+| --- | --- | --- | --- | --- |
+| <span style="white-space:nowrap">[boot](/boot/)</span> | 后端，一个可执行 JAR | JDK 21、Spring Boot 3、MyBatis-Flex、Sa-Token | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[core](/core/)</span> | BOM 与 Starter，发布在 Maven Central | MyBatis-Flex、Sa-Token | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[pc](/pc/)</span> | 管理后台 | Vue 3、Vite 7、Element Plus、Pinia | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.1.0</span> |
+| <span style="white-space:nowrap">[track](/track/)</span> | 浏览器埋点 SDK，发布在 npm | TypeScript，回放基于 rrweb | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">0.2.0</span> |
+| <span style="white-space:nowrap">[ms-ui](/uniappx/)</span> | uni-app x 跨端组件库 | uvue、uts | <span style="white-space:nowrap">MIT</span> | <span style="white-space:nowrap">—</span> |
 
-## 设计取舍
+ms-ui 的源码仓库暂未公开，文档和 H5 演示对所有人开放。
 
-- **单体优先，按模块装配。** 一个 JAR、一套 PostgreSQL + Redis 即可运行；GIS、埋点、AI 是 Maven 模块，用 Profile 决定是否打进包，用环境变量决定是否启用。微服务版 cloud 仍在规划中。
-- **权限只有一份。** 管理台不维护独立权限模型，菜单、按钮权限码与用户信息都来自 boot 的 `/auth/info` 等接口。
-- **安全默认值写进代码而不是附录。** 缺初始口令拒绝启动；附件按上传者与租户隔离；AI 出站请求统一过 SSRF 校验；埋点 SDK 尊重 DNT、不采集输入框的值、上报前剥离 URL 中的敏感参数。
-- **数据带得走。** 埋点事件、回放与配置都落在你自己的库里，SDK 的 `appKey` 只用于标识应用，不承担鉴权。
+## 架构
 
-## 不是什么
+后端是一个 JAR，运行时需要 PostgreSQL 和 Redis：
 
-- 不是拖拽式低代码平台，也不追求功能清单的长度。
-- 不是公有云埋点 SaaS，没有托管账号服务。
-- 目前没有管理台与埋点全链路的公网演示环境；ms-ui 组件有 [H5 在线演示](/demo)。
+```text
+浏览器 ──> pc 管理后台 ──/api──> boot ──> PostgreSQL + Redis
+业务页面 ──@mugsun/track-web──> boot /track/*
+```
+
+GIS、埋点、AI 是可选的 Maven 模块，打包时用 Profile 选择是否包含。
+
+管理后台的菜单和按钮权限都由后端 `/auth/info` 接口返回，前端不另存权限数据。
+
+埋点数据单独保存在 PostgreSQL 的 `mugsun_track` 库中，与业务库分开。
+
+## 适合与不适合
+
+| 适合 | 不适合 |
+| --- | --- |
+| 需要私有化交付、数据不能出内网的中后台项目 | 拖拽生成页面、不写代码的低代码平台 |
+| 既要管理后台又要行为分析，不想再接一套公有云分析服务 | 只需要纯前端模板、不需要后端的项目 |
+| 要求人大金仓、达梦数据库或国密算法的项目 | 现在就需要拆分成微服务的项目 |
+
+## 在线演示
+
+ms-ui 组件可以在文档页右侧的手机框里预览，窄屏下点底栏入口，也可以打开 [完整 H5 演示](/demo)。
+
+管理后台和埋点目前没有公网演示环境，按 [快速开始](/guide/getting-started) 可以在本地完整启动。
 
 ## 下一步
 
-[快速开始](/guide/getting-started) · [架构全景](/guide/architecture) · [常见问题](/guide/faq)
+- [快速开始](/guide/getting-started)
+- [架构](/guide/architecture)
+- [常见问题](/guide/faq)

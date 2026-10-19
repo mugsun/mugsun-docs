@@ -5,32 +5,32 @@ demo: pages/demo/display/qrcode
 
 # Qrcode
 
-`ms-qrcode` — Qrcode for uni-app x.
+`ms-qrcode` renders text as a QR code. The encoding matrix is implemented in-house following the Nayuki approach, and modules are drawn with views.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-qrcode` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-qrcode`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/qrcode`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/qrcode.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/qrcode.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-qrcode :value="demoValue" />
   <ms-qrcode :value="demoValue" logo="/static/logo.png" level="H" />
-  <!-- 纠错等级 -->
+  <!-- Error correction level -->
   <ms-qrcode :value="demoValue" level="L" size="sm" />
   <ms-qrcode :value="demoValue" level="M" size="sm" />
   <ms-qrcode :value="demoValue" level="Q" size="sm" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-qrcode :value="demoValue" status="expired" size="sm" />
   <ms-qrcode :value="demoValue" status="loading" size="sm" />
   <ms-qrcode :value="demoValue" status="scanned" size="sm" />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-qrcode :value="demoValue" size="sm" />
   <ms-qrcode :value="demoValue" size="md" />
   <ms-qrcode :value="demoValue" size="lg" />

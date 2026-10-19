@@ -5,18 +5,18 @@ demo: pages/demo/media/graph
 
 # Graph 关系图
 
-`ms-graph`：原生 canvas 关系图子集：树 / 力导 / 层次 DAG。学 F6 常用布局语义，**不** npm 嵌入 `@antv/f6`。
+`ms-graph` 基于原生 canvas 绘制关系图，支持树形、力导向和分层 DAG 布局。布局方式参考 F6 的常用布局，但不通过 npm 引入 `@antv/f6`。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-graph/components/ms-graph`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-graph/components/ms-graph`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 可选插件：需单独安装 `uni_modules/ms-graph`，并依赖 `ms-ui`。
 演示路由：`#/pages/demo/media/graph`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/graph.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/media/graph.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

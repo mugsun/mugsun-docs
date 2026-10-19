@@ -5,63 +5,63 @@ demo: pages/demo/media/barrage
 
 # Barrage
 
-`ms-barrage` — Barrage for uni-app x.
+`ms-barrage` is a bullet-comment layer displayed on top of the default slot content.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-barrage` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-barrage`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/media/barrage`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/barrage.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/media/barrage.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-barrage :list="list" :height="120" :rows="3" :paused="paused" @complete="onComplete">
     <view>
-      <text>多行轨道 · 营销滚动示例</text>
+      <text>Multiple tracks · promo scroll example</text>
     </view>
   </ms-barrage>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-barrage :list="slowList" :height="96" :rows="2" :speed="40">
     <view>
-      <text>双轨 · 慢速</text>
+      <text>2 tracks · slow</text>
     </view>
   </ms-barrage>
   <ms-barrage :list="fastList" :height="140" :rows="4" :speed="120">
     <view>
-      <text>四轨 · 快速</text>
+      <text>4 tracks · fast</text>
     </view>
   </ms-barrage>
   <ms-barrage :list="singleList" :height="56" :rows="1" :speed="60">
     <view>
-      <text>单轨 · 单行滚动</text>
+      <text>1 track · single-line scroll</text>
     </view>
   </ms-barrage>
 </template>
 
 <script setup lang="uts">
 const fastList = [
-  '快速 A',
-  '快速 B',
-  '快速 C',
-  '快速 D',
-  '快速 E',
-  '快速 F',
-  '快速 G',
-  '快速 H',
+  'Fast A',
+  'Fast B',
+  'Fast C',
+  'Fast D',
+  'Fast E',
+  'Fast F',
+  'Fast G',
+  'Fast H',
 ] as string[]
 
 const list = ref(seed.slice(0) as string[])
 
 const paused = ref(false)
 
-const singleList = ['单轨弹幕 A', '单轨弹幕 B', '单轨弹幕 C'] as string[]
+const singleList = ['Single-track bullet A', 'Single-track bullet B', 'Single-track bullet C'] as string[]
 
-const slowList = ['慢速弹幕一', '慢速弹幕二', '慢速弹幕三', '慢速弹幕四'] as string[]
+const slowList = ['Slow bullet 1', 'Slow bullet 2', 'Slow bullet 3', 'Slow bullet 4'] as string[]
 
 function onComplete() : void {
   console.log('onComplete')

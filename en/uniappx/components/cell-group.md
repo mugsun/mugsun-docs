@@ -5,30 +5,30 @@ demo: pages/demo/basic/cell
 
 # Cell Group
 
-`ms-cell-group` — Cell Group for uni-app x.
+`ms-cell-group` is a container for cells. Set `theme` (default or card) and `title`, and place ms-cell items in the default slot.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-cell-group` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-cell-group`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/cell.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
   <ms-cell-group theme="card">
-    <ms-cell title="单行标题" icon="customer-service-line" arrow />
-    <ms-cell title="单行标题" icon="global-line" arrow />
-    <ms-cell title="单行标题" icon="lock-line" arrow :bordered="false" />
+    <ms-cell title="Single-line title" icon="customer-service-line" arrow />
+    <ms-cell title="Single-line title" icon="global-line" arrow />
+    <ms-cell title="Single-line title" icon="lock-line" arrow :bordered="false" />
   </ms-cell-group>
   <ms-cell-group>
-    <ms-cell title="常见能力" icon="apps-line" description="高质量组件库" arrow />
-    <ms-cell title="价格设置" icon="price-tag-3-line" note="+￥32" arrow />
-    <ms-cell title="消息通知" icon="customer-service-line" note="测试" arrow />
-    <ms-cell title="标签页面" icon="gift-line" note="测试" arrow :bordered="false" />
+    <ms-cell title="Common features" icon="apps-line" description="High-quality component library" arrow />
+    <ms-cell title="Pricing" icon="price-tag-3-line" note="+￥32" arrow />
+    <ms-cell title="Message notifications" icon="customer-service-line" note="Test" arrow />
+    <ms-cell title="Tag page" icon="gift-line" note="Test" arrow :bordered="false" />
   </ms-cell-group>
 </template>
 ```

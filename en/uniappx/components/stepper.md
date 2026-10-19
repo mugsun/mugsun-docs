@@ -5,33 +5,33 @@ demo: pages/demo/form/stepper
 
 # Stepper
 
-`ms-stepper` — Stepper for uni-app x.
+`ms-stepper` is a numeric stepper with filled, outlined and plain styles in three sizes. It supports step, minimum and maximum values, and decimal places.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-stepper` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-stepper`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/stepper`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/stepper.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/stepper.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-stepper v-model="vFilled" theme="filled" />
   <ms-stepper v-model="vOutline" theme="outline" />
   <ms-stepper v-model="vNormal" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-stepper v-model="vMin" theme="filled" :min="0" :max="9" />
   <ms-stepper v-model="vMax" theme="filled" :min="5" :max="9" />
   <ms-stepper :model-value="3" theme="filled" disabled />
-  <!-- 组件尺寸 -->
+  <!-- Sizes -->
   <ms-stepper v-model="vSize" theme="filled" size="sm" />
   <ms-stepper v-model="vSize" theme="filled" size="md" />
   <ms-stepper v-model="vSize" theme="filled" size="lg" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-stepper v-model="vDecimal" theme="filled" :step="0.1" :precision="1" :min="0" :max="10" />
   <ms-stepper v-model="vDepth" theme="outline" size="lg" :min="1" :max="99" />
   <ms-stepper v-model="vHold" theme="filled" :long-press="true" :min="0" :max="99" />

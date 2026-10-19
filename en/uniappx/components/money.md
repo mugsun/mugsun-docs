@@ -5,27 +5,27 @@ demo: pages/demo/display/money
 
 # Money
 
-`ms-money` — Money for uni-app x.
+`ms-money` displays amounts with configurable decimal places, thousands separators, currency symbols, Chinese uppercase numerals and semantic colors.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-money` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-money`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/money`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/money.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/money.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-money :value="0.01" />
   <ms-money :value="15568.398" :digit="3" thousand size="lg" />
   <ms-money :value="1568" symbol="$" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-money :value="moneyValue" :digit="4" show-cn />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-money :value="1288.5" thousand tone="success" size="lg" />
   <ms-money :value="-86.2" thousand tone="danger" />
   <ms-money :value="9.9" size="sm" tone="primary" />

@@ -5,17 +5,17 @@ demo: pages/demo/nav/navbar
 
 # Navbar 顶栏
 
-`ms-navbar`：自定义顶栏。左侧返回/首页 + 中间标题 + 右侧操作，三插槽 `left` / `title` / `right`。
+`ms-navbar` 是自定义顶部导航栏，左侧为返回或首页按钮，中间为标题，右侧为操作区，提供 `left`、`title` 和 `right` 三个插槽。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-navbar`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-navbar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/nav/navbar`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/navbar.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/nav/navbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

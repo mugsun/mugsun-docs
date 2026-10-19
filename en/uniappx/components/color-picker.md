@@ -5,28 +5,28 @@ demo: pages/demo/form/color-picker
 
 # Color Picker
 
-`ms-color-picker` — Color Picker for uni-app x.
+`ms-color-picker` is a color picker with preset swatches, a stepped hue bar, and sliders for saturation, brightness and opacity.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-color-picker` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-color-picker`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/color-picker`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/color-picker.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/color-picker.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-color-picker v-model="baseColor" type="base" @change="onBaseChange" />
   <ms-color-picker v-model="fullColor" type="multiple" @change="onFullChange" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-color-picker v-model="alphaColor" :enable-alpha="true" format="rgb" @change="onAlphaChange" />
   <ms-color-picker v-model="hslColor" format="hsl" :columns="6" @change="onHslChange" />
   <ms-color-picker v-model="disabledColor" type="base" :disabled="true" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-color-picker
     v-model="swatchColor"
     type="base"

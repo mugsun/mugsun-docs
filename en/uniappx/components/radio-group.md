@@ -5,42 +5,42 @@ demo: pages/demo/form/radio
 
 # Radio Group
 
-`ms-radio-group` — Radio Group for uni-app x.
+`ms-radio-group` groups radio buttons. Its `v-model` is a `string`, options are mutually exclusive, and it supports disabling the whole group and horizontal layout with wrapping.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-radio-group` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-radio-group`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/radio`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/radio.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/radio.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件分组 -->
+  <!-- Groups -->
   <ms-radio-group v-model="groupValue">
-    <ms-radio value="a" label="选项 A" block />
-    <ms-radio value="b" label="选项 B" block />
-    <ms-radio value="c" label="选项 C" block />
+    <ms-radio value="a" label="Option A" block />
+    <ms-radio value="b" label="Option B" block />
+    <ms-radio value="c" label="Option C" block />
   </ms-radio-group>
   <ms-radio-group v-model="rowValue" horizontal>
     <view>
-      <ms-radio value="x" label="横排一" />
+      <ms-radio value="x" label="Inline 1" />
     </view>
     <view>
-      <ms-radio value="y" label="横排二" />
+      <ms-radio value="y" label="Inline 2" />
     </view>
   </ms-radio-group>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-radio-group v-model="disabledGroup" disabled>
-    <ms-radio value="1" label="禁用组甲" block />
-    <ms-radio value="2" label="禁用组乙" block />
+    <ms-radio value="1" label="Disabled group A" block />
+    <ms-radio value="2" label="Disabled group B" block />
   </ms-radio-group>
   <ms-radio-group v-model="uncheckGroup" allow-uncheck>
-    <ms-radio value="a" label="组内 A" block />
-    <ms-radio value="b" label="组内 B" block />
+    <ms-radio value="a" label="In group A" block />
+    <ms-radio value="b" label="In group B" block />
   </ms-radio-group>
 </template>
 

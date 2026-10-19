@@ -5,44 +5,44 @@ demo: pages/demo/form/picker-city
 
 # Picker City
 
-`ms-picker-city` — Picker City for uni-app x.
+`ms-picker-city` is a wheel picker for linked province, city and district selection. Its data uses the same flat `options` format as `ms-cascader` (`value`/`label`/`parent`). It does not bundle national region data; the data comes from the backend `sys_region` table.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker-city` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-picker-city`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/picker-city`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/picker-city.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/picker-city.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-picker-city
     :value="popupValue"
     :options="regions"
-    title="选择地区"
+    title="Select region"
     @confirm="onPopupConfirm"
     @change="onChange"
   >
-    <ms-cell title="所在地区" :note="popupLabel" arrow :bordered="false" />
+    <ms-cell title="Region" :note="popupLabel" arrow :bordered="false" />
   </ms-picker-city>
   <ms-picker-city
     :value="inlineValue"
     :options="regions"
     :use-popup="false"
-    title="常驻选择"
+    title="Always visible"
     @confirm="onInlineConfirm"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-picker-city
     :value="twoValue"
     :options="regions"
     :level="2"
     :use-popup="false"
-    title="省市两级"
+    title="Province and city only"
     @confirm="onTwoConfirm"
   />
 </template>

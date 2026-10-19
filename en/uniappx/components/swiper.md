@@ -5,21 +5,21 @@ demo: pages/demo/display/swiper
 
 # Swiper
 
-`ms-swiper` — Swiper for uni-app x.
+`ms-swiper` is a carousel with dots, fraction or controls indicators; the current slide binds with `v-model:current`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swiper` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-swiper`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/swiper`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-swiper :items="slides" :height="150" @change="onDotsChange" />
   <ms-swiper
     :items="slides"
@@ -33,7 +33,7 @@ Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`; 
     navigation="fraction"
     @change="onFractionChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-swiper
     :items="slides"
     :height="150"
@@ -42,14 +42,14 @@ Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`; 
     @change="onAutoChange"
   />
   <ms-swiper :items="slides" :height="120" navigation="none" />
-  <!-- 方向 -->
+  <!-- Direction -->
   <ms-swiper
     :items="slides"
     :height="160"
     vertical
     @change="onVerticalChange"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-swiper :items="slides" :height="120" :loop="false" navigation="fraction" />
   <ms-swiper :items="imageSlides" :height="120" navigation="dots" />
   <ms-swiper :items="slides" :height="120" :duration="200" navigation="dots" />
@@ -57,14 +57,14 @@ Snippets below are taken from the demo source `pages/demo/display/swiper.uvue`; 
 
 <script setup lang="uts">
 const imageSlides = [
-  { image: '/static/demo-cover.png', label: '封面一' } as UTSJSONObject,
-  { image: '/static/logo.png', label: '封面二' } as UTSJSONObject,
+  { image: '/static/demo-cover.png', label: 'Cover 1' } as UTSJSONObject,
+  { image: '/static/logo.png', label: 'Cover 2' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const slides = [
-  { label: '第一屏', tone: 'brand' } as UTSJSONObject,
-  { label: '第二屏', tone: 'success' } as UTSJSONObject,
-  { label: '第三屏', tone: 'warning' } as UTSJSONObject,
+  { label: 'Slide 1', tone: 'brand' } as UTSJSONObject,
+  { label: 'Slide 2', tone: 'success' } as UTSJSONObject,
+  { label: 'Slide 3', tone: 'warning' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onDotsChange(current: number) : void {
@@ -98,7 +98,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | items | `UTSJSONObject[]` | `[]` | Each item: label / image / tone (brand / success / warning / muted) |
 | current | `number` | `0` | Current item index |
-| height | `number` | `160` | Swiper height (px; vapor forbids %) |
+| height | `number` | `160` | Swiper height (accepts numeric px values only) |
 | autoplay | `boolean` | `false` | Autoplay |
 | interval | `number` | `3000` | Autoplay interval (ms) |
 | duration | `number` | `300` | Switch animation duration (ms) |

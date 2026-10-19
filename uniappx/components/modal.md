@@ -5,17 +5,17 @@ demo: pages/demo/feedback/modal
 
 # Modal 对话框
 
-`ms-modal`：对话框：标题 + 正文居中，底部一或两个按钮，可竖排；`theme="danger"` 给危险操作。
+`ms-modal` 是对话框，标题和正文居中显示，底部有一个或两个按钮，按钮可以纵向排列；危险操作使用 `theme="danger"`。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-modal`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-modal`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/feedback/modal`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/modal.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/feedback/modal.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

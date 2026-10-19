@@ -5,17 +5,17 @@ demo: pages/demo/display/swiper
 
 # Swiper 轮播
 
-`ms-swiper`：轮播：dots/fraction/controls；`v-model:current`。
+`ms-swiper` 是轮播，指示器支持圆点（dots）、页码（fraction）和控制按钮（controls），当前页用 `v-model:current` 绑定。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-swiper`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-swiper`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/swiper`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/swiper.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/display/swiper.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -98,7 +98,7 @@ function onVerticalChange(current: number) : void {
 | --- | --- | --- | --- |
 | items | `UTSJSONObject[]` | `[]` | 每项支持 label / image / tone（brand / success / warning / muted） |
 | current | `number` | `0` | 当前项下标 |
-| height | `number` | `160` | 轮播高度（px），蒸汽禁百分比高度 |
+| height | `number` | `160` | 轮播高度（px），只接受数值（px） |
 | autoplay | `boolean` | `false` | 自动播放 |
 | interval | `number` | `3000` | 自动播放间隔 ms |
 | duration | `number` | `300` | 切换动画时长 ms |

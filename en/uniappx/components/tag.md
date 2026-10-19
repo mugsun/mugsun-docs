@@ -5,36 +5,36 @@ demo: pages/demo/basic/tag
 
 # Tag
 
-`ms-tag` — Tag for uni-app x.
+`ms-tag` is a category or status tag. It supports `theme`, `variant`, `size`, `shape`, `closable`, `disabled`, `icon`, `checkable` and `maxWidth`. Press feedback uses opacity, not scaling. When nesting ms-icon inside a tag, set `pressable=false` on the icon.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-tag` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-tag`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/tag`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/tag.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/tag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 形态 -->
-  <ms-tag variant="light" theme="primary">浅色</ms-tag>
-  <ms-tag variant="solid" theme="primary">填充</ms-tag>
-  <ms-tag variant="outline" theme="primary">描边</ms-tag>
-  <!-- 主题 -->
-  <ms-tag variant="light" theme="default">默认</ms-tag>
-  <ms-tag variant="light" theme="primary">主色</ms-tag>
-  <ms-tag variant="light" theme="danger">危险</ms-tag>
-  <!-- 尺寸 -->
-  <ms-tag size="sm" theme="primary">小号</ms-tag>
-  <ms-tag size="md" theme="primary">中号</ms-tag>
-  <ms-tag size="lg" theme="primary">大号</ms-tag>
-  <!-- 形状 -->
-  <ms-tag shape="square" theme="primary">方形</ms-tag>
-  <ms-tag shape="round" theme="primary">圆角</ms-tag>
-  <ms-tag shape="mark" variant="outline" theme="primary">标记</ms-tag>
+  <!-- Variants -->
+  <ms-tag variant="light" theme="primary">Light</ms-tag>
+  <ms-tag variant="solid" theme="primary">Solid</ms-tag>
+  <ms-tag variant="outline" theme="primary">Outline</ms-tag>
+  <!-- Themes -->
+  <ms-tag variant="light" theme="default">Default</ms-tag>
+  <ms-tag variant="light" theme="primary">Primary</ms-tag>
+  <ms-tag variant="light" theme="danger">Danger</ms-tag>
+  <!-- Sizes -->
+  <ms-tag size="sm" theme="primary">Small</ms-tag>
+  <ms-tag size="md" theme="primary">Medium</ms-tag>
+  <ms-tag size="lg" theme="primary">Large</ms-tag>
+  <!-- Shapes -->
+  <ms-tag shape="square" theme="primary">Square</ms-tag>
+  <ms-tag shape="round" theme="primary">Round</ms-tag>
+  <ms-tag shape="mark" variant="outline" theme="primary">Mark</ms-tag>
 </template>
 ```
 <!-- demo-snippets:end -->

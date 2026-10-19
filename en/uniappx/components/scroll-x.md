@@ -5,21 +5,21 @@ demo: pages/demo/display/scroll-x
 
 # Scroll X
 
-`ms-scroll-x` — Scroll X for uni-app x.
+`ms-scroll-x` is a horizontal scroll container (`scroll-view direction="horizontal"`) with a scroll progress indicator at the bottom.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-scroll-x` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-scroll-x`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/scroll-x`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 基础用法 -->
+  <!-- Basic usage -->
   <ms-scroll-x @scroll="onScroll">
     <ms-scroll-x-item v-for="item in baseItems" :key="item">
       <view>
@@ -27,7 +27,7 @@ Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`
       </view>
     </ms-scroll-x-item>
   </ms-scroll-x>
-  <!-- 滚动指示 -->
+  <!-- Scroll indicator -->
   <ms-scroll-x>
     <ms-scroll-x-item v-for="item in baseItems" :key="item">
       <view>
@@ -42,7 +42,7 @@ Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`
       </view>
     </ms-scroll-x-item>
   </ms-scroll-x>
-  <!-- 间距布局 -->
+  <!-- Spacing -->
   <ms-scroll-x gap="sm" :indicator="false">
     <ms-scroll-x-item v-for="item in baseItems" :key="item">
       <view>
@@ -60,7 +60,7 @@ Snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`
 </template>
 
 <script setup lang="uts">
-const baseItems = ['卡片一', '卡片二', '卡片三', '卡片四', '卡片五', '卡片六'] as string[]
+const baseItems = ['Card 1', 'Card 2', 'Card 3', 'Card 4', 'Card 5', 'Card 6'] as string[]
 
 function onScroll() : void {
   console.log('onScroll')

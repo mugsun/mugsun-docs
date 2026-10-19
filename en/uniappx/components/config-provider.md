@@ -5,52 +5,52 @@ demo: pages/demo/basic/config-provider
 
 # Config Provider
 
-`ms-config-provider` — Config Provider for uni-app x.
+`ms-config-provider` is a scoped theme container. It writes `themeVars` as inline CSS variables on its subtree, so a whole section can switch to dark mode.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-config-provider` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-config-provider`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/config-provider`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/config-provider.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/config-provider.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-config-provider :theme-vars="greenVars" @change="onChange">
-    <ms-button theme="primary" block>容器内按钮</ms-button>
+    <ms-button theme="primary" block>Button inside provider</ms-button>
   </ms-config-provider>
   <ms-config-provider theme="dark">
     <view>
-      <text>暗色区块内文字</text>
-      <ms-button theme="primary" block>暗色按钮</ms-button>
+      <text>Text inside dark section</text>
+      <ms-button theme="primary" block>Dark button</ms-button>
     </view>
   </ms-config-provider>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-config-provider :theme-vars="orangeVars">
-    <ms-button theme="primary" block>橙色主色</ms-button>
+    <ms-button theme="primary" block>Orange primary</ms-button>
   </ms-config-provider>
   <ms-config-provider :theme-vars="textVars">
-    <ms-cell title="标题文字" note="说明文字" />
+    <ms-cell title="Title text" note="Description text" />
   </ms-config-provider>
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-config-provider :theme-vars="pinkVars" :block="false">
-    <ms-button theme="primary" size="sm">行内按钮</ms-button>
+    <ms-button theme="primary" size="sm">Inline button</ms-button>
   </ms-config-provider>
   <ms-config-provider theme="dark" :theme-vars="darkPrimaryVars">
     <view>
-      <text>暗色 + 自定义主色</text>
-      <ms-button theme="primary" block>暗色换色按钮</ms-button>
+      <text>Dark + custom primary</text>
+      <ms-button theme="primary" block>Dark recolored button</ms-button>
     </view>
   </ms-config-provider>
   <ms-config-provider :theme-vars="greenVars">
-    <ms-button theme="primary" block>外层主色</ms-button>
+    <ms-button theme="primary" block>Outer primary</ms-button>
     <view>
       <ms-config-provider :theme-vars="orangeVars">
-        <ms-button theme="primary" block>内层覆盖</ms-button>
+        <ms-button theme="primary" block>Inner override</ms-button>
       </ms-config-provider>
     </view>
   </ms-config-provider>

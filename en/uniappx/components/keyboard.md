@@ -5,17 +5,17 @@ demo: pages/demo/form/keyboard
 
 # Keyboard
 
-`ms-keyboard` — Keyboard for uni-app x.
+`ms-keyboard` is a custom keyboard. `type` is `number`, `password`, `idcard` or `car`, and it opens from the bottom in an `ms-popup`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-keyboard` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-keyboard`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/keyboard`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/keyboard.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/keyboard.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

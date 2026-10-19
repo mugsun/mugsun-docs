@@ -5,97 +5,97 @@ demo: pages/demo/form/picker-selected
 
 # Picker Selected
 
-`ms-picker-selected` — Picker Selected for uni-app x.
+`ms-picker-selected` is a searchable picker in a popup. It filters locally or lets the page run an asynchronous search, and supports single and multiple selection.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-picker-selected` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-picker-selected`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/picker-selected`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/picker-selected.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/picker-selected.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-picker-selected
     ref="localPickerRef"
     :value="localValue"
     :options="companies"
-    title="本地搜索"
+    title="Local search"
     @open="onLocalOpen"
     @confirm="onLocalConfirm"
   >
-    <ms-cell title="合作公司" :note="localLabel" arrow :bordered="false" />
+    <ms-cell title="Partner company" :note="localLabel" arrow :bordered="false" />
   </ms-picker-selected>
   <ms-picker-selected
     :value="remoteValue"
     :options="remoteOptions"
     :local-search="false"
-    title="异步搜索"
+    title="Async search"
     @open="onRemoteOpen"
     @search="onRemoteSearch"
     @confirm="onRemoteConfirm"
   >
-    <ms-cell title="搜索公司" :note="remoteLabel" arrow :bordered="false" />
+    <ms-cell title="Search companies" :note="remoteLabel" arrow :bordered="false" />
   </ms-picker-selected>
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-picker-selected
     :value="multiValue"
     :options="companies"
     :multiple="true"
-    title="多选公司"
+    title="Multiple companies"
     @open="onMultiOpen"
     @confirm="onMultiConfirm"
   >
-    <ms-cell title="多选公司" :note="multiLabel" arrow :bordered="false" />
+    <ms-cell title="Multiple companies" :note="multiLabel" arrow :bordered="false" />
   </ms-picker-selected>
   <ms-picker-selected
     :value="singleValue"
     :options="companies"
     :multiple="false"
     :required="true"
-    title="单选公司"
+    title="Single company"
     @open="onSingleOpen"
     @confirm="onSingleConfirm"
   >
-    <ms-cell title="单选公司" :note="singleLabel" arrow :bordered="false" />
+    <ms-cell title="Single company" :note="singleLabel" arrow :bordered="false" />
   </ms-picker-selected>
 </template>
 
 <script setup lang="uts">
 const companies = ref([
-  { id: '1', name: '广州信瑞化妆品公司' },
-  { id: '2', name: '深圳市创明展览设计有限公司' },
-  { id: '3', name: '上海盟威实业发展有限公司' },
-  { id: '4', name: '国都期货有限公司' },
-  { id: '5', name: '山西宇达集团' },
-  { id: '6', name: '博达网络有限公司' },
-  { id: '7', name: '新贸易有限公司' },
-  { id: '8', name: '东莞市东辉仪器有限公司' },
-  { id: '9', name: '古兰电子科技有限责任公司' },
-  { id: '10', name: '邦达礼品公司' },
-  { id: '11', name: '明珠盘艺有限公司' },
-  { id: '12', name: '福建古拉特商贸公司' },
+  { id: '1', name: 'Xinrui Cosmetics (Guangzhou)' },
+  { id: '2', name: 'Chuangming Exhibition Design (Shenzhen)' },
+  { id: '3', name: 'Mengwei Industrial (Shanghai)' },
+  { id: '4', name: 'Guodu Futures' },
+  { id: '5', name: 'Yuda Group (Shanxi)' },
+  { id: '6', name: 'Boda Networks' },
+  { id: '7', name: 'Xin Trading' },
+  { id: '8', name: 'Donghui Instruments (Dongguan)' },
+  { id: '9', name: 'Gulan Electronics' },
+  { id: '10', name: 'Bangda Gifts' },
+  { id: '11', name: 'Mingzhu Crafts' },
+  { id: '12', name: 'Gulate Trading (Fujian)' },
 ] as UTSJSONObject[])
 
-const localLabel = ref('已选 2 项')
+const localLabel = ref('2 selected')
 
 const localValue = ref(['2', '8'] as string[])
 
-const multiLabel = ref('广州信瑞化妆品公司')
+const multiLabel = ref('Xinrui Cosmetics (Guangzhou)')
 
 const multiValue = ref(['1'] as string[])
 
-const remoteLabel = ref('未选择')
+const remoteLabel = ref('None selected')
 
 const remoteOptions = ref([] as UTSJSONObject[])
 
 const remoteValue = ref([] as string[])
 
-const singleLabel = ref('国都期货有限公司')
+const singleLabel = ref('Guodu Futures')
 
 const singleValue = ref(['4'] as string[])
 

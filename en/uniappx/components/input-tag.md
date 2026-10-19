@@ -5,85 +5,85 @@ demo: pages/demo/form/input-tag
 
 # Input Tag
 
-`ms-input-tag` — Input Tag for uni-app x.
+`ms-input-tag` is a tag input. Press Enter or tap the button to add a tag; tap the close icon on a tag to remove it.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-input-tag` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-input-tag`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/input-tag`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/input-tag.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/input-tag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-input-tag
     v-model="outsideTags"
-    placeholder="输入后回车添加"
+    placeholder="Press Enter to add"
     @add="onAdd"
     @remove="onRemove"
   />
   <ms-input-tag
     v-model="insideTags"
     position="inside"
-    placeholder="继续输入"
+    placeholder="Keep typing"
     @add="onAdd"
     @remove="onRemove"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-input-tag
     v-model="limitTags"
     :max-count="3"
-    placeholder="最多 3 个"
+    placeholder="Up to 3"
     @add="onAdd"
     @exceed="onExceed"
   />
   <ms-input-tag
     v-model="disabledTags"
     disabled
-    placeholder="已禁用"
+    placeholder="Disabled"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-input-tag
     v-model="buttonTags"
-    button-text="加入"
-    placeholder="输入后点加入"
+    button-text="Add"
+    placeholder="Type, then tap Add"
     @add="onAdd"
     @remove="onRemove"
   />
   <ms-input-tag
     v-model="noBtnTags"
     :show-button="false"
-    placeholder="仅回车添加"
+    placeholder="Enter only"
     @add="onAdd"
     @remove="onRemove"
   />
   <ms-input-tag
     v-model="confirmTags"
     confirm-type="go"
-    placeholder="键盘确认键为 go"
+    placeholder="Keyboard confirm key: go"
     @add="onAdd"
     @remove="onRemove"
   />
 </template>
 
 <script setup lang="uts">
-const buttonTags = ref(['标签'] as string[])
+const buttonTags = ref(['Tag'] as string[])
 
 const confirmTags = ref([] as string[])
 
-const disabledTags = ref(['只读标签'] as string[])
+const disabledTags = ref(['Read-only tag'] as string[])
 
-const insideTags = ref(['前端', '后端', '测试'] as string[])
+const insideTags = ref(['Frontend', 'Backend', 'QA'] as string[])
 
-const limitTags = ref(['已选一'] as string[])
+const limitTags = ref(['Selected 1'] as string[])
 
 const noBtnTags = ref([] as string[])
 
-const outsideTags = ref(['产品', '设计'] as string[])
+const outsideTags = ref(['Product', 'Design'] as string[])
 
 function onAdd(tag: string) : void {
   console.log('onAdd')

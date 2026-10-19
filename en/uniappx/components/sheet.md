@@ -5,39 +5,39 @@ demo: pages/demo/basic/sheet
 
 # Sheet
 
-`ms-sheet` — Sheet for uni-app x.
+`ms-sheet` is a card or container surface. It supports `variant`, `radius`, `padding`, `margin`, `bordered`, `shadow`, `loading`, `url` and `pressable` (equivalent to isLink in x-sheet).
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-sheet` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-sheet`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/sheet`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/sheet.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/sheet.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
   <ms-sheet radius="lg" padding="none">
-    <text>默认容器</text>
-    <text>统一白底面，承载列表与表单</text>
+    <text>Default sheet</text>
+    <text>A uniform white surface for lists and forms</text>
     <ms-sheet>
-      <ms-text>统一白底容器，承载列表与表单内容。</ms-text>
+      <ms-text>A uniform white container for list and form content.</ms-text>
     </ms-sheet>
   </ms-sheet>
   <ms-sheet radius="lg" bordered shadow padding="md">
-    <text>圆角</text>
-    <text>大圆角 + 浅底面</text>
+    <text>Rounded</text>
+    <text>Large radius + light surface</text>
     <ms-sheet radius="lg" variant="muted">
-      <ms-text>圆角卡片面</ms-text>
+      <ms-text>Rounded card surface</ms-text>
     </ms-sheet>
   </ms-sheet>
   <ms-sheet radius="lg" bordered shadow padding="md">
-    <text>描边</text>
-    <text>边框强调块边界</text>
+    <text>Bordered</text>
+    <text>A border marks the block edge</text>
     <ms-sheet bordered radius="lg">
-      <ms-text>带边框的容器块</ms-text>
+      <ms-text>A bordered container</ms-text>
     </ms-sheet>
   </ms-sheet>
 </template>

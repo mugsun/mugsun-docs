@@ -1,50 +1,64 @@
-# Track overview
+# Analytics overview
 
-mugsun track is **embedded** product analytics: the browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events, boot's track module ingests them, and the console's Analytics section shows the dashboards. Collection, storage and analysis all run in your deployment, with no hosted account involved.
+The browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events. The boot track module receives and stores them, and the console's Analytics pages show the results.
 
-<p align="center">
-  <img src="/brand/arch/track-iso-en.jpg" alt="Analytics data flow" width="100%" />
-</p>
+Collection, storage and analysis all happen inside your own deployment.
 
-## Capabilities
+## Install
 
-| Area | What you get | Default |
-| --- | --- | --- |
-| Pages | `pageview` and `pageleave`; route-template grouping with Vue Router | On |
-| Interaction | `autocapture`, viewable `exposure`, the declarative `v-track` directive | On |
-| Quality | Web Vitals and JS errors (with `release` and a fingerprint) | On |
-| Session replay | rrweb-based, separate `@mugsun/track-web/replay` entry, uploads sampled per session | Register the plugin and set `replayEnabled` |
-| API monitoring | Request metadata, with optional response-body capture and masking | Register the plugin and turn it on |
-| Visual tagging | Rules defined in the console; matching elements are reported | Register the plugin |
-| Geolocation | Precise location | Register the plugin and set `geoEnabled` |
+```bash
+pnpm add @mugsun/track-web
+```
+
+```ts
+import { createTracker } from '@mugsun/track-web'
+
+const track = createTracker({
+  endpoint: 'https://example.com', // sends to {endpoint}/track/collect
+  appKey: 'your-app-key',          // create it under Analytics → Integrations
+})
+
+track.track('button_click', { name: 'buy' })
+```
+
+See [Install and initialize](/en/track/install) for the full steps.
+
+## What it collects
+
+The default plugins collect page views, time on page, autocaptured clicks, exposures, Web Vitals and JS errors.
+
+Session replay, API monitoring, visual tagging and geolocation need their plugins registered by hand. See [Plugins](/en/track/plugins).
 
 ## Dashboards
 
-The console's Analytics section has Overview, Events, Performance, Errors, Integrations, Session replay, User lookup, Funnels and Retention.
+Analytics includes overview, events, performance, errors, session replay, user lookup, funnels and retention.
 
-![Overview (demo data)](/screenshots/track-overview.png)
+The console's own integration reports request errors it has already handled by default (business validation failures, network failures and other HttpErrors already shown to the user). To skip them, set the build variable `VITE_TRACK_SKIP_HANDLED_ERRORS=true` or pass `skipHandledErrors` to `setupTrack`. Canceled requests are not reported. This behavior takes effect from mugsun-track#19.
 
-![Events and live stream (demo data)](/screenshots/track-event.png)
+![Overview (demo data)](/screenshots/track/track-overview.png)
 
 ## Reliability
 
-- Events queue in IndexedDB and are retried with exponential backoff after a network loss or reload; the queue is capped by size and age.
-- Transport falls back from `sendBeacon` to `fetch` keepalive to `XHR`, and the queue is flushed when the page is hidden or on `pagehide`.
-- Every event has a stable `event_id`, so the server can deduplicate.
-- A build gate keeps the gzipped `dist/core.js` under 8 KB.
+- The event queue is stored in IndexedDB and resent after a network loss or page reload.
+- Events are normally sent with `fetch`, falling back to `XHR` on a network failure. When the page is hidden or closed, `sendBeacon` is tried first.
+- Every event carries an `event_id`. The server drops duplicates by `event_id` in Redis, and the database enforces a unique `(event_id, received_at)` constraint.
 
 ## Server endpoints
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /track/collect` | Batched events (gzip or plain JSON) |
-| `GET /track/config` | Remote SDK configuration |
-| `POST /track/replay` | Replay chunks |
-| `POST /track/api-body` | Response bodies (separate channel) |
-| `POST /track/visual/draft` | Visual-tagging drafts |
+| <span style="white-space:nowrap">`POST /track/collect`</span> | Receive event batches |
+| <span style="white-space:nowrap">`GET /track/config`</span> | Serve remote SDK settings |
+| <span style="white-space:nowrap">`POST /track/replay`</span> | Receive replay data |
+| <span style="white-space:nowrap">`POST /track/api-body`</span> | Receive API response bodies |
+| <span style="white-space:nowrap">`POST /track/visual/draft`</span> | Save visual tagging drafts |
 
-`/track/*` endpoints are anonymous. The `appKey` is visible in the browser and isn't a secret; the server relies on existence checks, rate limiting, back-pressure and event validation.
+`/track/*` needs no login. The `appKey` is visible in the browser. It only identifies the app and is not a secret.
 
-## Next
+## Next steps
 
-[Install & setup](/en/track/install) → [Your first event](/en/track/first-event) → [Plugins](/en/track/plugins) → [Privacy](/en/track/privacy)
+- [Install and initialize](/en/track/install)
+- [First event](/en/track/first-event)
+- [Plugins](/en/track/plugins)
+- [Privacy](/en/track/privacy)
+- [Upgrade guide](/en/track/upgrade)

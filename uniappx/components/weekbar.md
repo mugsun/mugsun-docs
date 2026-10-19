@@ -1,21 +1,21 @@
 ---
-title: Weekbar 周条
+title: Weekbar 周选择条
 demo: pages/demo/form/weekbar
 ---
 
-# Weekbar 周条
+# Weekbar 周选择条
 
-`ms-weekbar`：周选择条：一行七天，左右按钮整周切换。
+`ms-weekbar` 是周选择条，一行显示七天，通过左右按钮按周切换。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-weekbar`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-weekbar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/form/weekbar`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/weekbar.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/form/weekbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

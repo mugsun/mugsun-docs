@@ -5,17 +5,17 @@ demo: pages/demo/nav/indexbar
 
 # Indexbar 索引
 
-`ms-indexbar`：索引列表：侧栏字符 + scroll-into-view；`v-model:current`。
+`ms-indexbar` 是索引列表，通过侧边的索引字符和 scroll-into-view 定位，当前索引可用 `v-model:current` 绑定。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-indexbar`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-indexbar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/nav/indexbar`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/indexbar.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/nav/indexbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -136,7 +136,7 @@ function onControlledChange(index: string) : void {
 | items | `UTSJSONObject[]` | `[]` | 扁平行：{ index, label, disabled }，index 相同者归一组 |
 | current | `string` | `''` | 当前激活索引字符，空取首组 |
 | indexList | `UTSJSONObject[]` | `[]` | 侧栏字符表：{ key, label }，空则由 items 去重推导 |
-| height | `number` | `360` | 容器高 px（蒸汽禁百分比高） |
+| height | `number` | `360` | 容器高 px，只接受数值（px） |
 | showTip | `boolean` | `true` | 拖动侧栏时显示大字气泡 |
 | showAnchor | `boolean` | `true` | 是否渲染分组头 |
 

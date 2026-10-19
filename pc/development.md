@@ -2,9 +2,9 @@
 
 ## 前置条件
 
-- Node.js ≥ 20.19、pnpm ≥ 8.8
+- Node.js ≥ 22.13、pnpm ≥ 11.11（`packageManager` 锁定 `pnpm@11.28.2`）
 - [mugsun-boot](/boot/) 已在 `:8080` 运行
-- 启用埋点模块（默认）时，[mugsun-track](https://github.com/mugsun/mugsun-track) 与本仓**平级**克隆：SDK 以 `file:../mugsun-track` 引用，且 SDK 仓不提交 `dist/`
+- 无论是否启用埋点模块，[mugsun-track](https://github.com/mugsun/mugsun-track) 与本仓库**同级**克隆：SDK 以 `file:../mugsun-track` 引用，且 SDK 仓库不提交 `dist/`
 
 ## 启动
 
@@ -14,7 +14,7 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm setup:sdk` 对 `../mugsun-track` 执行 install + build，`VITE_ENABLE_TRACK=false` 时可跳过。开发地址 `http://localhost:3006`（`VITE_PORT`）。
+`pnpm setup:sdk` 对 `../mugsun-track` 执行 install + build，`VITE_ENABLE_TRACK=false` 时可跳过，但同级目录仍须存在，`pnpm install` 要解析它。开发地址 `http://localhost:3006`（`VITE_PORT`）。
 
 `/api/**` 代理至 `.env.development` 的 `VITE_API_PROXY_URL`（默认 `http://localhost:8080`）。登录账号与 boot 一致。
 

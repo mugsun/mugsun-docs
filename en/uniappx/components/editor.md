@@ -5,28 +5,28 @@ demo: pages/demo/media/editor
 
 # Editor
 
-`ms-editor`: Markdown source editor: toolbar inserts markers + `textarea` source + live `ms-markdown` preview.
+`ms-editor` is a Markdown source editor made of a toolbar that inserts markup, a `textarea` for the source, and a live `ms-markdown` preview.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-editor/components/ms-editor` (repository not yet public).
+Component directory: `uni_modules/ms-editor/components/ms-editor`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-editor` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/editor`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/editor.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/media/editor.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-editor v-model="draft" @command="onCommand" @change="onChange" />
   <ms-editor :model-value="draft" read-only :height="120" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-editor v-model="notes" :show-preview="false" :height="120" />
   <ms-editor v-model="notes" :toolbar="slimToolbar" :height="120" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-editor
     ref="richEditor"
     v-model="rich"
@@ -34,7 +34,7 @@ Snippets below are taken from the demo source `pages/demo/media/editor.uvue`; se
     show-count
     :maxlength="800"
     :height="160"
-    placeholder="在此输入 Markdown…"
+    placeholder="Type Markdown here…"
     @command="onCommand"
     @clear="onClear"
   />
@@ -42,12 +42,12 @@ Snippets below are taken from the demo source `pages/demo/media/editor.uvue`; se
 
 <script setup lang="uts">
 const draft = ref(
-  '## 发布说明\n\n本次新增 **图表** 与 *Markdown* 渲染。\n\n- 支持折线与柱状\n- 支持饼图与环形\n',
+  '## Release notes\n\nThis release adds **charts** and *Markdown* rendering.\n\n- Line and bar charts\n- Pie and donut charts\n',
 )
 
-const notes = ref('- 待办一\n- 待办二\n')
+const notes = ref('- To-do 1\n- To-do 2\n')
 
-const rich = ref('### 深度编辑\n\n可插入图片、任务与表格。\n')
+const rich = ref('### Advanced editing\n\nInsert images, tasks and tables.\n')
 
 const richToolbar = ref(
   ['bold', 'h3', 'task', 'image', 'table', 'hr', 'clear'] as string[],

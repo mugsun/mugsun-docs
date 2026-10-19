@@ -5,34 +5,34 @@ demo: pages/demo/nav/backtop
 
 # Backtop
 
-`ms-backtop` — Backtop for uni-app x.
+`ms-backtop` is a back-to-top button. It appears only when `scrollTop` is greater than or equal to `visibilityHeight`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-backtop` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-backtop`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/backtop`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/backtop.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/nav/backtop.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 主题样式 -->
+  <!-- Theme styles -->
   <ms-backtop
     :scroll-top="999"
     :visibility-height="0"
     :fixed="false"
     theme="round"
-    text="顶部"
+    text="Top"
   />
   <ms-backtop
     :scroll-top="999"
     :visibility-height="0"
     :fixed="false"
     theme="half-round"
-    text="返回"
+    text="Back"
   />
   <ms-backtop
     :scroll-top="999"
@@ -40,14 +40,14 @@ Snippets below are taken from the demo source `pages/demo/nav/backtop.uvue`; see
     :fixed="false"
     theme="round-dark"
   />
-  <!-- 内容 -->
+  <!-- Content -->
   <ms-backtop
     :scroll-top="999"
     :visibility-height="0"
     :fixed="false"
     theme="round"
   />
-  <!-- 局部滚动 -->
+  <!-- Scoped scrolling -->
   <ms-backtop
     :scroll-top="localScrollY"
     :visibility-height="40"

@@ -5,17 +5,17 @@ demo: pages/demo/display/money
 
 # Money 金额
 
-`ms-money`：金额栅格：小数位 / 千分位 / 符号 / 大写 / 语义色。
+`ms-money` 用于显示金额，支持小数位数、千分位、货币符号、中文大写和语义色。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-money`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-money`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/money`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/money.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/display/money.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

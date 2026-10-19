@@ -5,31 +5,31 @@ demo: pages/demo/form/slider
 
 # Slider
 
-`ms-slider` — Slider for uni-app x.
+`ms-slider` is a single- or dual-handle slider with two track styles: `default` (thin) and `capsule`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-slider` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-slider`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/slider`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/slider.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/slider.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-slider v-model="vBase" />
   <ms-slider v-model="vCapsule" theme="capsule" />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-slider v-model="vLabel" label />
   <ms-slider :model-value="35" disabled />
-  <!-- 组件刻度 -->
+  <!-- Marks -->
   <ms-slider v-model="vStep" :step="20" :marks="marks" />
   <ms-slider v-model="vExtreme" show-extreme-value />
   <ms-slider v-model="vRangeMin" :min="20" :max="100" :step="20" label />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-slider v-model="vDepthCap" theme="capsule" label show-extreme-value />
   <ms-slider v-model="vDecimal" :min="0" :max="1" :step="0.1" label />
   <ms-slider range v-model:range-value="vRange" label />

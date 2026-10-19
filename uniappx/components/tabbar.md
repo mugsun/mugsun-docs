@@ -5,17 +5,17 @@ demo: pages/demo/nav/tabbar
 
 # Tabbar 底栏
 
-`ms-tabbar`：底部导航：纯文字 / 图标 / 徽标；`v-model:value`；fixed + placeholder。
+`ms-tabbar` 是底部导航栏，支持纯文字、图标和徽标，当前项用 `v-model:value` 绑定，支持 fixed 固定定位和 placeholder 占位。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-tabbar`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-tabbar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/nav/tabbar`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/tabbar.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/nav/tabbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

@@ -5,17 +5,17 @@ demo: pages/demo/nav/segmented
 
 # Segmented 分段
 
-`ms-segmented`：分段控制器：`options` 驱动；block / size；`v-model:value`。
+`ms-segmented` 是分段控制器，由 `options` 生成选项，支持 block 和 size，当前值用 `v-model:value` 绑定。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-segmented`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-segmented`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/nav/segmented`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/segmented.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/nav/segmented.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

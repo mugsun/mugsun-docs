@@ -5,17 +5,17 @@ demo: pages/demo/media/devtool
 
 # Devtool 调试
 
-`ms-devtool`：页内调试面板：记录列表 + 环境信息 + 清空，折叠/展开两态。记录由宿主喂入。
+`ms-devtool` 是页面内的调试面板，包含记录列表、环境信息和清空按钮，可在折叠和展开两种状态间切换。记录由使用它的页面传入。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-devtool`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-devtool`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/media/devtool`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/devtool.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/media/devtool.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

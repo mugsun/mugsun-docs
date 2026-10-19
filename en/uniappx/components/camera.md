@@ -5,47 +5,47 @@ demo: pages/demo/media/camera
 
 # Camera
 
-`ms-camera`: Controlled wrapper around official `<camera>`: fixed-height viewfinder + capture/flip toolbar; unsupported platforms show a placeholder.
+`ms-camera` is a controlled wrapper around the official `<camera>`, with a fixed-height viewfinder and a capture and flip toolbar. On unsupported platforms it shows a placeholder.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-camera/components/ms-camera` (repository not yet public).
+Component directory: `uni_modules/ms-camera/components/ms-camera`. ms-ui is MIT-licensed; its source repository is not yet public.
 Optional plugin: install `uni_modules/ms-camera` alongside `ms-ui`.
 Demo route: `#/pages/demo/media/camera`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/camera.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/media/camera.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-camera
     :device-position="position"
     flash="auto"
     :height="180"
-    tip="真机可取景；不支持时显示占位"
+    tip="Live preview on a real device; shows a placeholder when unsupported"
     @photo="onPhoto"
     @error="onError"
     @position-change="onPositionChange"
   />
   <ms-camera device-position="front" flash="off" :height="140" :show-toolbar="false" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-camera :height="120" :show-toolbar="false" resolution="low" />
-  <ms-camera :height="120" resolution="high" tip="拍照与翻转两个动作" />
-  <!-- 组件深度 -->
+  <ms-camera :height="120" resolution="high" tip="Two actions: capture and flip" />
+  <!-- Advanced -->
   <ms-camera
     flash="torch"
     :height="120"
     :show-toolbar="false"
-    tip="常亮闪光"
+    tip="Torch on"
   />
   <ms-camera
     flash="on"
     resolution="medium"
     :height="120"
-    tip="拍照时强制开灯"
+    tip="Flash forced on capture"
   />
   <ms-camera
     ref="cmdCamera"

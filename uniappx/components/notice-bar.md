@@ -5,17 +5,17 @@ demo: pages/demo/feedback/notice-bar
 
 # Notice Bar 通知栏
 
-`ms-notice-bar`：顶部通知栏：主题、单行省略、竖向 swiper 轮播、可关闭。不含 CSS 跑马灯动画（蒸汽禁 @keyframes）。
+`ms-notice-bar` 是顶部通知栏，支持主题色、单行省略、纵向 swiper 轮播和关闭按钮。uni-app x 在 App 平台（包括蒸汽模式（Vapor））不支持 `@keyframes`，因此组件不提供 CSS 跑马灯动画。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-notice-bar`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-notice-bar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/feedback/notice-bar`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/notice-bar.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/feedback/notice-bar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

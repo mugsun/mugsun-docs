@@ -5,61 +5,61 @@ demo: pages/demo/nav/col
 
 # Col
 
-`ms-col` — Col for uni-app x.
+`ms-col` is a grid column. `span` and `offset` set its width and left margin, and `gutter` is injected by the parent `ms-row`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-col` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-col`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/col`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/col.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/nav/col.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 占比 -->
+  <!-- Span -->
   <ms-col :span="8">
     <view>
-      <text>八栏</text>
+      <text>8 columns</text>
     </view>
   </ms-col>
   <ms-col :span="16">
     <view>
-      <text>十六栏</text>
+      <text>16 columns</text>
     </view>
   </ms-col>
   <ms-col :span="24">
     <view>
-      <text>全宽</text>
+      <text>Full width</text>
     </view>
   </ms-col>
-  <!-- 偏移 -->
+  <!-- Offset -->
   <ms-col :span="8" :offset="4">
     <view>
-      <text>偏移四</text>
+      <text>Offset 4</text>
     </view>
   </ms-col>
   <ms-col :span="12" :offset="12">
     <view>
-      <text>偏移十二</text>
+      <text>Offset 12</text>
     </view>
   </ms-col>
-  <!-- 间距 -->
+  <!-- Gutter -->
   <ms-col :span="8">
     <view>
-      <text>带间距列</text>
-    </view>
-  </ms-col>
-  <ms-col :span="8">
-    <view>
-      <text>带间距列</text>
+      <text>Column with gutter</text>
     </view>
   </ms-col>
   <ms-col :span="8">
     <view>
-      <text>带间距列</text>
+      <text>Column with gutter</text>
+    </view>
+  </ms-col>
+  <ms-col :span="8">
+    <view>
+      <text>Column with gutter</text>
     </view>
   </ms-col>
 </template>

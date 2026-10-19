@@ -5,21 +5,21 @@ demo: pages/demo/nav/segmented
 
 # Segmented
 
-`ms-segmented` — Segmented for uni-app x.
+`ms-segmented` is a segmented control built from `options`. It supports block and size, and the current value binds with `v-model:value`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-segmented` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-segmented`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/segmented`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-segmented
     :options="baseOptions"
     :value="baseIndex"
@@ -37,7 +37,7 @@ Snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`; s
     block
     @change="onIconChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-segmented
     :options="baseOptions"
     :value="0"
@@ -54,32 +54,32 @@ Snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`; s
 const baseIndex = ref(0)
 
 const baseOptions = [
-  { label: '日' } as UTSJSONObject,
-  { label: '周' } as UTSJSONObject,
-  { label: '月' } as UTSJSONObject,
+  { label: 'Day' } as UTSJSONObject,
+  { label: 'Week' } as UTSJSONObject,
+  { label: 'Month' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const blockIndex = ref(0)
 
 const blockOptions = [
-  { label: '全部订单' } as UTSJSONObject,
-  { label: '待付款' } as UTSJSONObject,
-  { label: '待收货' } as UTSJSONObject,
+  { label: 'All orders' } as UTSJSONObject,
+  { label: 'To pay' } as UTSJSONObject,
+  { label: 'To receive' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const iconIndex = ref(0)
 
 const iconOptions = [
-  { label: '消息', icon: 'inbox-line' } as UTSJSONObject,
-  { label: '应用', icon: 'apps-line' } as UTSJSONObject,
+  { label: 'Messages', icon: 'inbox-line' } as UTSJSONObject,
+  { label: 'Apps', icon: 'apps-line' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const statusIndex = ref(0)
 
 const statusOptions = [
-  { label: '可选一' } as UTSJSONObject,
-  { label: '可选二' } as UTSJSONObject,
-  { label: '禁用', disabled: true } as UTSJSONObject,
+  { label: 'Enabled 1' } as UTSJSONObject,
+  { label: 'Enabled 2' } as UTSJSONObject,
+  { label: 'Disabled', disabled: true } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onBaseChange(index: number) : void {

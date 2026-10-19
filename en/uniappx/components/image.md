@@ -5,32 +5,32 @@ demo: pages/demo/basic/image
 
 # Image
 
-`ms-image` — Image for uni-app x.
+`ms-image` wraps the native `<image>` and shows a placeholder while loading and on failure.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-image`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/image`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/image.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/image.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 裁切 -->
+  <!-- Fit -->
   <ms-image :src="demoSrc" mode="aspectFill" />
   <ms-image :src="demoSrc" mode="heightFix" />
   <ms-image :src="demoSrc" mode="scaleToFill" />
-  <!-- 形状 -->
+  <!-- Shapes -->
   <ms-image :src="demoSrc" shape="square" />
   <ms-image :src="demoSrc" shape="round" />
   <ms-image :src="demoSrc" shape="circle" />
-  <!-- 状态 -->
+  <!-- States -->
   <ms-image :src="demoSrc" />
   <ms-image src="https://invalid.ms-ui.example/error.png" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-image :src="demoSrc" width="120px" height="80px" shape="round" />
   <ms-image :src="demoSrc" :lazy="true" />
   <ms-image :src="demoSrc" :show-menu-by-longpress="true" />

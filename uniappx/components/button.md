@@ -5,17 +5,17 @@ demo: pages/demo/basic/button
 
 # Button 按钮
 
-`ms-button`：语义化按钮。`theme` + `variant` + `size` + `block` + `disabled` + `loading` + `loadingText` + `formType` + `ghost` + `icon` / `iconOnly` + `shape` + `haptic`。
+`ms-button` 是语义化按钮，支持 `theme`、`variant`、`size`、`block`、`disabled`、`loading`、`loadingText`、`formType`、`ghost`、`icon` / `iconOnly`、`shape` 和 `haptic`。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-button`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-button`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/basic/button`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/button.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/basic/button.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

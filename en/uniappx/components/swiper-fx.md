@@ -5,21 +5,21 @@ demo: pages/demo/display/swiper-fx
 
 # Swiper Fx
 
-`ms-swiper-fx` — Swiper Fx for uni-app x.
+`ms-swiper-fx` is a data-driven carousel with transition effects. Each entry in `list` supports `image`, `color` and `label`.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-swiper-fx` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-swiper-fx`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/swiper-fx`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-swiper-fx
     :list="list"
     :effect="effectName"
@@ -29,9 +29,9 @@ Snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue
     @change="onChange"
     @click="onClick"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-swiper-fx :list="list" effect="slide" :show-dots="true" :autoplay="false" :height="140" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-swiper-fx
     :list="list"
     effect="fade"
@@ -61,9 +61,9 @@ type FxEffect = 'fade' | 'slide' | 'zoom' | 'scale-slide'
 const effectName = ref('fade' as FxEffect)
 
 const list = ref([
-  { color: '#64748b', label: '卡片一' } as UTSJSONObject,
-  { color: '#0f766e', label: '卡片二' } as UTSJSONObject,
-  { color: '#b45309', label: '卡片三' } as UTSJSONObject,
+  { color: '#64748b', label: 'Card 1' } as UTSJSONObject,
+  { color: '#0f766e', label: 'Card 2' } as UTSJSONObject,
+  { color: '#b45309', label: 'Card 3' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 function onChange(i: number) : void {

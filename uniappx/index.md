@@ -2,11 +2,11 @@
 
 **ms-ui** 是面向 **uni-app x** 的跨端组件库（App / 小程序 / H5），easycom 前缀 `ms-`。**不是** PC 管理台（管理台见 [pc](/pc/)）。
 
-源码仓：[mugsun/mugsun-uniappx-ui](https://github.com/mugsun/mugsun-uniappx-ui)（私有），模块路径 `uni_modules/ms-ui`。
+ms-ui 采用 MIT 许可，源码仓库暂未公开，使用方式以本站文档为准；组件在工程中的模块路径为 `uni_modules/ms-ui`。
 
-本站组件页右下角手机框会 iframe 嵌入 H5 演示（`public/demo/`）。有独立演示路由的页面会自动打开对应 hash。
+带演示的组件页可直接体验 H5：宽屏在页面右侧手机框中查看，窄屏下请点击底栏的「打开 H5 演示」。
 
-当前已收录 **119** 个组件（含可选插件）；Props / 事件 / 插槽来自源码与 `LLM.md`，不臆造行为。
+当前已收录 **119** 个组件（含可选插件），每页列出 Props、事件与插槽。
 
 ## 基础
 
@@ -16,7 +16,7 @@
 | [Button 按钮](/uniappx/components/button) | `ms-button` |
 | [Cell 单元格](/uniappx/components/cell) | `ms-cell` |
 | [Cell Group 单元格组](/uniappx/components/cell-group) | `ms-cell-group` |
-| [Config Provider 主题提供](/uniappx/components/config-provider) | `ms-config-provider` |
+| [Config Provider 主题配置](/uniappx/components/config-provider) | `ms-config-provider` |
 | [Divider 分割线](/uniappx/components/divider) | `ms-divider` |
 | [Empty 空状态](/uniappx/components/empty) | `ms-empty` |
 | [Icon 图标](/uniappx/components/icon) | `ms-icon` |
@@ -38,7 +38,7 @@
 | [Checkbox 多选](/uniappx/components/checkbox) | `ms-checkbox` |
 | [Checkbox Group 多选组](/uniappx/components/checkbox-group) | `ms-checkbox-group` |
 | [Code Input 验证码](/uniappx/components/code-input) | `ms-code-input` |
-| [Color Picker 颜色](/uniappx/components/color-picker) | `ms-color-picker` |
+| [Color Picker 颜色选择](/uniappx/components/color-picker) | `ms-color-picker` |
 | [Form 表单](/uniappx/components/form) | `ms-form` |
 | [Form Item 表单项](/uniappx/components/form-item) | `ms-form-item` |
 | [Input 输入](/uniappx/components/input) | `ms-input` |
@@ -48,7 +48,7 @@
 | [Picker 选择器](/uniappx/components/picker) | `ms-picker` |
 | [Picker City 城市](/uniappx/components/picker-city) | `ms-picker-city` |
 | [Picker Date 日期](/uniappx/components/picker-date) | `ms-picker-date` |
-| [Picker Selected 搜索选](/uniappx/components/picker-selected) | `ms-picker-selected` |
+| [Picker Selected 搜索选择](/uniappx/components/picker-selected) | `ms-picker-selected` |
 | [Radio 单选](/uniappx/components/radio) | `ms-radio` |
 | [Radio Group 单选组](/uniappx/components/radio-group) | `ms-radio-group` |
 | [Rate 评分](/uniappx/components/rate) | `ms-rate` |
@@ -58,14 +58,14 @@
 | [Slider 滑块](/uniappx/components/slider) | `ms-slider` |
 | [Stepper 步进](/uniappx/components/stepper) | `ms-stepper` |
 | [Switch 开关](/uniappx/components/switch) | `ms-switch` |
-| [Textarea 多行](/uniappx/components/textarea) | `ms-textarea` |
-| [Weekbar 周条](/uniappx/components/weekbar) | `ms-weekbar` |
+| [Textarea 多行输入](/uniappx/components/textarea) | `ms-textarea` |
+| [Weekbar 周选择条](/uniappx/components/weekbar) | `ms-weekbar` |
 
 ## 导航布局
 
 | 组件 | 说明 |
 | --- | --- |
-| [Backtop 回顶](/uniappx/components/backtop) | `ms-backtop` |
+| [Backtop 返回顶部](/uniappx/components/backtop) | `ms-backtop` |
 | [Col 栅格列](/uniappx/components/col) | `ms-col` |
 | [Dropdown 下拉](/uniappx/components/dropdown) | `ms-dropdown` |
 | [Footer 页脚](/uniappx/components/footer) | `ms-footer` |
@@ -94,7 +94,7 @@
 | [Collapse 折叠](/uniappx/components/collapse) | `ms-collapse` |
 | [Countdown 倒计时](/uniappx/components/countdown) | `ms-countdown` |
 | [Image Group 图集](/uniappx/components/image-group) | `ms-image-group` |
-| [Image Resizer 裁剪](/uniappx/components/image-resizer) | `ms-image-resizer` |
+| [Image Resizer 图片裁剪](/uniappx/components/image-resizer) | `ms-image-resizer` |
 | [Image Viewer 预览](/uniappx/components/image-viewer) | `ms-image-viewer` |
 | [Money 金额](/uniappx/components/money) | `ms-money` |
 | [Paragraph 段落](/uniappx/components/paragraph) | `ms-paragraph` |
@@ -102,8 +102,8 @@
 | [Qrcode 二维码](/uniappx/components/qrcode) | `ms-qrcode` |
 | [Result 结果](/uniappx/components/result) | `ms-result` |
 | [Rolling Number 翻滚数字](/uniappx/components/rolling-number) | `ms-rolling-number` |
-| [Scroll X 横滚](/uniappx/components/scroll-x) | `ms-scroll-x` |
-| [Scroll X Item 横滚项](/uniappx/components/scroll-x-item) | `ms-scroll-x-item` |
+| [Scroll X 横向滚动](/uniappx/components/scroll-x) | `ms-scroll-x` |
+| [Scroll X Item 横向滚动项](/uniappx/components/scroll-x-item) | `ms-scroll-x-item` |
 | [Skeleton 骨架](/uniappx/components/skeleton) | `ms-skeleton` |
 | [Swiper 轮播](/uniappx/components/swiper) | `ms-swiper` |
 | [Swiper Fx 动效轮播](/uniappx/components/swiper-fx) | `ms-swiper-fx` |
@@ -131,13 +131,13 @@
 | [Notice Bar 通知栏](/uniappx/components/notice-bar) | `ms-notice-bar` |
 | [Popover 气泡](/uniappx/components/popover) | `ms-popover` |
 | [Popup 弹层](/uniappx/components/popup) | `ms-popup` |
-| [Pull Refresh 刷新](/uniappx/components/pull-refresh) | `ms-pull-refresh` |
+| [Pull Refresh 下拉刷新](/uniappx/components/pull-refresh) | `ms-pull-refresh` |
 | [Snackbar 消息条](/uniappx/components/snackbar) | `ms-snackbar` |
-| [Swipe Cell 左滑](/uniappx/components/swipe-cell) | `ms-swipe-cell` |
+| [Swipe Cell 滑动单元格](/uniappx/components/swipe-cell) | `ms-swipe-cell` |
 | [Toast 轻提示](/uniappx/components/toast) | `ms-toast` |
 | [Upload 上传](/uniappx/components/upload) | `ms-upload` |
 
-## 媒体与重能力
+## 媒体与高级功能
 
 | 组件 | 说明 |
 | --- | --- |
@@ -156,7 +156,7 @@
 | [Blur 磨砂](/uniappx/components/blur) | `ms-blur` · 可选插件 |
 | [Camera 相机](/uniappx/components/camera) | `ms-camera` · 可选插件 |
 | [Chart 图表](/uniappx/components/chart) | `ms-chart` · 可选插件 |
-| [Editor 编辑](/uniappx/components/editor) | `ms-editor` · 可选插件 |
+| [Editor Markdown 编辑器](/uniappx/components/editor) | `ms-editor` · 可选插件 |
 | [Graph 关系图](/uniappx/components/graph) | `ms-graph` · 可选插件 |
 | [Markdown](/uniappx/components/markdown) | `ms-markdown` · 可选插件 |
 | [Svg 矢量](/uniappx/components/svg) | `ms-svg` · 可选插件 |

@@ -5,37 +5,37 @@ demo: pages/demo/media/devtool
 
 # Devtool
 
-`ms-devtool` — Devtool for uni-app x.
+`ms-devtool` is an in-page debug panel with a log list, environment info and a clear button, and it can be collapsed or expanded. Log entries are supplied by the page that uses it.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-devtool` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-devtool`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/media/devtool`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/media/devtool.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-devtool
     v-model:open="mainOpen"
-    title="请求记录"
+    title="Request log"
     host="https://api.example.com"
     :entries="entries"
     :show-env="false"
     @clear="onClear"
     @entry-click="onEntry"
   />
-  <ms-devtool v-model:open="envOpen" title="环境信息" :entries="entries" />
-  <!-- 组件样式 -->
-  <ms-devtool title="折叠面板" :entries="entries" :open="false" />
-  <ms-devtool title="展开面板" :entries="[]" :open="true" :max-height="120" />
-  <!-- 组件深度 -->
+  <ms-devtool v-model:open="envOpen" title="Environment" :entries="entries" />
+  <!-- Styles -->
+  <ms-devtool title="Collapsed panel" :entries="entries" :open="false" />
+  <ms-devtool title="Expanded panel" :entries="[]" :open="true" :max-height="120" />
+  <!-- Advanced -->
   <ms-devtool
-    title="矮列表"
+    title="Short list"
     host="https://api.example.com"
     :entries="entries"
     :open="true"
@@ -43,7 +43,7 @@ Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`; s
     :max-height="80"
   />
   <ms-devtool
-    title="域名面板"
+    title="Domain panel"
     host="https://edge.example.cn"
     :entries="[]"
     :open="true"
@@ -52,7 +52,7 @@ Snippets below are taken from the demo source `pages/demo/media/devtool.uvue`; s
   />
   <ms-devtool
     v-model:open="clickOpen"
-    title="点击记录"
+    title="Click log"
     :entries="entries"
     :show-env="false"
     :max-height="120"

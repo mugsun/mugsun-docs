@@ -5,21 +5,21 @@ demo: pages/demo/form/mention
 
 # Mention
 
-`ms-mention` — Mention for uni-app x.
+`ms-mention` opens a suggestion panel when the trigger character (default `@`) is typed and inserts `@name ` on selection. A single Backspace removes the whole mention.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-mention` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-mention`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/mention`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/mention.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/mention.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-mention
     v-model="basicText"
     :options="members"
@@ -31,60 +31,60 @@ Snippets below are taken from the demo source `pages/demo/form/mention.uvue`; se
     v-model="topicText"
     trigger="#"
     :options="topics"
-    placeholder="输入 # 选择话题"
+    placeholder="Type # to pick a topic"
     @select="onSelect"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-mention
     v-model="emptyText"
     :options="members"
-    placeholder="输入 @zzz 看空态"
+    placeholder="Type @zzz to see the empty state"
   />
   <ms-mention
     v-model="disabledText"
     :options="members"
     disabled
-    placeholder="已禁用"
+    placeholder="Disabled"
   />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-mention
     v-model="unfilteredText"
     :options="members"
     :filterable="false"
-    placeholder="输入 @ 显示全部成员"
+    placeholder="Type @ to show all members"
     @select="onSelect"
   />
   <ms-mention
     v-model="customEmptyText"
     :options="members"
-    empty-text="没有这位同事"
-    placeholder="输入 @zzz 看空态"
+    empty-text="No such teammate"
+    placeholder="Type @zzz to see the empty state"
   />
   <ms-mention
     v-model="confirmText"
     :options="members"
     confirm-type="done"
-    placeholder="键盘确认键为 done"
+    placeholder="Keyboard confirm key: done"
     @select="onSelect"
   />
 </template>
 
 <script setup lang="uts">
-const basicText = ref('今天的进度 ')
+const basicText = ref('Today's progress ')
 
 const confirmText = ref('')
 
 const customEmptyText = ref('')
 
-const disabledText = ref('@张伟 已只读')
+const disabledText = ref('@Zhang Wei read-only')
 
 const emptyText = ref('')
 
-const members = ref(['张伟', '李娜', '王强', '刘敏', '陈晨'] as string[])
+const members = ref(['Zhang Wei', 'Li Na', 'Wang Qiang', 'Liu Min', 'Chen Chen'] as string[])
 
 const topicText = ref('')
 
-const topics = ref(['发布计划', '版本回顾', '性能优化'] as string[])
+const topics = ref(['Release plan', 'Version retro', 'Performance'] as string[])
 
 const unfilteredText = ref('')
 

@@ -5,43 +5,43 @@ demo: pages/demo/basic/cell
 
 # Cell
 
-`ms-cell` — Cell for uni-app x.
+`ms-cell` is a list cell. It supports `title`, `description`, `note`, `icon`, `arrow`, `bordered`, `required`, `url` and `disabled`; put custom content for the right side in the `note` slot.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-cell` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-cell`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/cell`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/cell.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <ms-cell title="单行标题" arrow />
-  <ms-cell title="单行标题" required note="必填" arrow />
-  <ms-cell title="单行标题" note="辅助信息" arrow />
+  <ms-cell title="Single-line title" arrow />
+  <ms-cell title="Single-line title" required note="Required" arrow />
+  <ms-cell title="Single-line title" note="Extra info" arrow />
   <ms-cell
-    title="单行标题"
-    description="一段很长很长的内容文字"
+    title="Single-line title"
+    description="A very, very long piece of description text"
     arrow
   />
   <ms-cell
-    title="单行标题"
-    description="一段很长很长的内容文字"
+    title="Single-line title"
+    description="A very, very long piece of description text"
     required
     arrow
     :bordered="false"
   />
-  <ms-cell title="带徽标" arrow :bordered="false">
+  <ms-cell title="With badge" arrow :bordered="false">
     <template #note>
       <ms-badge :count="16" />
     </template>
   </ms-cell>
-  <ms-cell title="单行标题" icon="customer-service-line" arrow />
-  <ms-cell title="单行标题" icon="global-line" arrow />
-  <ms-cell title="单行标题" icon="lock-line" arrow :bordered="false" />
+  <ms-cell title="Single-line title" icon="customer-service-line" arrow />
+  <ms-cell title="Single-line title" icon="global-line" arrow />
+  <ms-cell title="Single-line title" icon="lock-line" arrow :bordered="false" />
 </template>
 ```
 <!-- demo-snippets:end -->

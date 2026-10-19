@@ -5,17 +5,17 @@ demo: pages/demo/media/barrage
 
 # Barrage 弹幕
 
-`ms-barrage`：弹幕层，叠在默认 slot 内容上。
+`ms-barrage` 是弹幕层，显示在默认插槽内容的上方。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-barrage`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-barrage`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/media/barrage`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/barrage.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/media/barrage.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

@@ -5,17 +5,17 @@ demo: pages/demo/form/form
 
 # Form Item 表单项
 
-`ms-form-item`：表单项：标签 + 内容插槽 + 辅助说明 / 错误文案，可带必填星号与右箭头。
+`ms-form-item` 是表单项，包含标签、内容插槽、辅助说明和错误提示，可显示必填星号和右侧箭头。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-form-item`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-form-item`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/form/form`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/form.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/form/form.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
@@ -76,7 +76,7 @@ const vNick = ref('')
 | --- | --- | --- | --- |
 | label | `string` | `''` | 标签文案 |
 | name | `string` | `''` | 名称 / 字段名 |
-| value | `string` | `''` | 参与校验的当前值（由宿主把表单数据传进来） |
+| value | `string` | `''` | 参与校验的当前值（由父页面传入表单数据） |
 | required | `boolean` | `false` | 是否必填 |
 | requiredMark | `boolean` | `true` | 必填时是否显示红色星号 |
 | rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | 内置校验：none / phone / email / number |

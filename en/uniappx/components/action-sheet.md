@@ -5,24 +5,24 @@ demo: pages/demo/feedback/action-sheet
 
 # Action Sheet
 
-`ms-action-sheet` — Action Sheet for uni-app x.
+`ms-action-sheet` is a bottom action sheet. Pass menu items through `items`; when the user picks one, the component emits its index and closes automatically.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-action-sheet` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-action-sheet`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/action-sheet`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/action-sheet.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/feedback/action-sheet.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
   <ms-action-sheet
     :visible="showRecipeShare"
     :items="shareItems"
-    description="分享到"
+    description="Share to"
     @update:visible="onRecipeShareVisible"
     @select="onRecipeShareSelect"
   />
@@ -42,22 +42,22 @@ Snippets below are taken from the demo source `pages/demo/feedback/action-sheet.
 
 <script setup lang="uts">
 const iconItems = ref([
-  { label: '分享', icon: 'share-line' } as UTSJSONObject,
-  { label: '收藏', icon: 'star-line' } as UTSJSONObject,
-  { label: '删除', icon: 'delete-bin-line' } as UTSJSONObject,
+  { label: 'Share', icon: 'share-line' } as UTSJSONObject,
+  { label: 'Favorite', icon: 'star-line' } as UTSJSONObject,
+  { label: 'Delete', icon: 'delete-bin-line' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const plainItems = ref([
-  { label: '移动' } as UTSJSONObject,
-  { label: '标为重要' } as UTSJSONObject,
-  { label: '退订' } as UTSJSONObject,
+  { label: 'Move' } as UTSJSONObject,
+  { label: 'Mark as important' } as UTSJSONObject,
+  { label: 'Unsubscribe' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const shareItems = ref([
-  { label: '微信好友', icon: 'share-line' } as UTSJSONObject,
-  { label: '收藏', icon: 'star-line' } as UTSJSONObject,
-  { label: '复制链接', icon: 'links-line' } as UTSJSONObject,
-  { label: '删除', icon: 'delete-bin-line', tone: 'danger' } as UTSJSONObject,
+  { label: 'WeChat friends', icon: 'share-line' } as UTSJSONObject,
+  { label: 'Favorite', icon: 'star-line' } as UTSJSONObject,
+  { label: 'Copy link', icon: 'links-line' } as UTSJSONObject,
+  { label: 'Delete', icon: 'delete-bin-line', tone: 'danger' } as UTSJSONObject,
 ] as UTSJSONObject[])
 
 const showIcon = ref(false)

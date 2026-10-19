@@ -5,17 +5,17 @@ demo: pages/demo/feedback/guide
 
 # Guide
 
-`ms-guide` — Guide for uni-app x.
+`ms-guide` is a step-by-step tour. It highlights a target and shows a tip card with Previous, Next, Skip and Done buttons and a step counter.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-guide` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-guide`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/guide`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/guide.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/feedback/guide.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

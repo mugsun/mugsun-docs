@@ -5,24 +5,24 @@ demo: pages/demo/form/weekbar
 
 # Weekbar
 
-`ms-weekbar` — Weekbar for uni-app x.
+`ms-weekbar` is a week selector that shows seven days in a row and switches weeks with the left and right buttons.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-weekbar` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-weekbar`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/form/weekbar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-weekbar v-model="basicDate" @change="onBasicChange" @weekchange="onWeekChange" />
   <ms-weekbar v-model="plainDate" :show-action="false" mode="none" @change="onPlainChange" />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-weekbar v-model="circleDate" mode="circular" :first-day="6" @change="onCircleChange" />
   <ms-weekbar
     v-model="rangeDate"
@@ -32,7 +32,7 @@ Snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`; se
     @change="onRangeChange"
   />
   <ms-weekbar v-model="basicDate" :disabled="true" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-weekbar
     v-model="banDate"
     :disabled-dates="banned"

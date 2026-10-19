@@ -5,32 +5,32 @@ demo: pages/demo/display/image-group
 
 # Image Group
 
-`ms-image-group` — Image Group for uni-app x.
+`ms-image-group` is an image grid for comments or detail pages. It supports multi-image layouts, optional tags, an overlay when there are more images than shown, and tap to preview.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-group` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-image-group`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/image-group`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/image-group.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/image-group.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 布局 -->
+  <!-- Layout -->
   <ms-image-group
     :list="listBasic"
     @click="onClick"
   />
   <ms-image-group :list="listTwo" :columns="2" />
-  <!-- 标签 -->
+  <!-- Labels -->
   <ms-image-group :list="listLabeled" label-mode="inset" />
   <ms-image-group :list="listLabeled" label-mode="outer" />
-  <!-- 数量限制 -->
+  <!-- Max count -->
   <ms-image-group :list="listMany" :max-count="3" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-image-group :list="listBasic" :preview="false" @click="onClick" />
   <ms-image-group :list="listTwo" :columns="2" mode="aspectFit" disabled />
   <ms-image-group :list="listMany" :columns="2" :max-count="2" />
@@ -45,9 +45,9 @@ const listBasic = [
 ] as UTSJSONObject[]
 
 const listLabeled = [
-  row(IMG1, '封面 A'),
-  row(IMG2, '封面 B'),
-  row(IMG3, '封面 C'),
+  row(IMG1, 'Cover A'),
+  row(IMG2, 'Cover B'),
+  row(IMG3, 'Cover C'),
 ] as UTSJSONObject[]
 
 const listMany = [

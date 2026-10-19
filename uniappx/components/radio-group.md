@@ -5,17 +5,17 @@ demo: pages/demo/form/radio
 
 # Radio Group 单选组
 
-`ms-radio-group`：单选分组：`v-model` 为 `string`，互斥选中，支持整组禁用与横排换行。
+`ms-radio-group` 是单选框组，`v-model` 的类型为 `string`，同组选项互斥，支持整组禁用以及横向排列并自动换行。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-radio-group`（源码仓暂未公开）。
+组件目录：`uni_modules/ms-ui/components/ms-radio-group`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/form/radio`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/radio.uvue`，可在右侧手机框中查看运行效果。
+以下片段摘自演示源码 `pages/demo/form/radio.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

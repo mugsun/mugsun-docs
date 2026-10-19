@@ -5,21 +5,21 @@ demo: pages/demo/nav/steps
 
 # Steps
 
-`ms-steps` — Steps for uni-app x.
+`ms-steps` is a step indicator built from `items` (`title` / `content` / `icon` / `status`). No child components need to be registered.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-steps` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-steps`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/steps`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/nav/steps.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-steps :items="baseItems" v-model:current="baseCurrent" @change="onBaseChange" />
   <ms-steps
     :items="verticalItems"
@@ -32,7 +32,7 @@ Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see t
     :current="1"
     @change="onIconChange"
   />
-  <!-- 组件状态 -->
+  <!-- States -->
   <ms-steps
     :items="errorItems"
     :current="1"
@@ -40,9 +40,9 @@ Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see t
     @change="onErrorChange"
   />
   <ms-steps :items="baseItems" :current="3" readonly />
-  <!-- 风格 -->
+  <!-- Style -->
   <ms-steps :items="dotItems" :current="1" theme="dot" @change="onDotChange" />
-  <!-- 组件深度 -->
+  <!-- Advanced -->
   <ms-steps
     :items="errorItems"
     :current="1"
@@ -58,35 +58,35 @@ Snippets below are taken from the demo source `pages/demo/nav/steps.uvue`; see t
 const baseCurrent = ref(1)
 
 const baseItems = [
-  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
-  { title: '当前步骤', content: '辅助信息' } as UTSJSONObject,
-  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+  { title: 'Completed', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Current step', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Upcoming', content: 'Extra info' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const depthCurrent = ref(0)
 
 const dotItems = [
-  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
-  { title: '当前步骤', content: '辅助信息' } as UTSJSONObject,
-  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+  { title: 'Completed', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Current step', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Upcoming', content: 'Extra info' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const errorItems = [
-  { title: '已完成', content: '辅助信息' } as UTSJSONObject,
-  { title: '错误步骤', content: '请重新提交' } as UTSJSONObject,
-  { title: '未完成', content: '辅助信息' } as UTSJSONObject,
+  { title: 'Completed', content: 'Extra info' } as UTSJSONObject,
+  { title: 'Error step', content: 'Please resubmit' } as UTSJSONObject,
+  { title: 'Upcoming', content: 'Extra info' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const iconItems = [
-  { title: '下单', content: '辅助信息', icon: 'check-line' } as UTSJSONObject,
-  { title: '发货', content: '辅助信息', icon: 'inbox-line' } as UTSJSONObject,
-  { title: '收货', content: '辅助信息', icon: 'home-3-line' } as UTSJSONObject,
+  { title: 'Ordered', content: 'Extra info', icon: 'check-line' } as UTSJSONObject,
+  { title: 'Shipped', content: 'Extra info', icon: 'inbox-line' } as UTSJSONObject,
+  { title: 'Delivered', content: 'Extra info', icon: 'home-3-line' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 const verticalItems = [
-  { title: '已完成步骤', content: '可自定义此处内容' } as UTSJSONObject,
-  { title: '当前步骤', content: '可自定义此处内容' } as UTSJSONObject,
-  { title: '未完成步骤', content: '可自定义此处内容' } as UTSJSONObject,
+  { title: 'Completed step', content: 'Customizable content' } as UTSJSONObject,
+  { title: 'Current step', content: 'Customizable content' } as UTSJSONObject,
+  { title: 'Upcoming step', content: 'Customizable content' } as UTSJSONObject,
 ] as UTSJSONObject[]
 
 function onBaseChange(current: number, previous: number) : void {
@@ -127,7 +127,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | currentStatus | `string` | `'process'` | Status of the step at current: process / error / finish / default |
 | layout | `string` | `'horizontal'` | Direction: horizontal / vertical |
 | theme | `string` | `'default'` | Style: default numbered circle / dot |
-| readonly | `boolean` | `false` | Read-only; does not emit change |
+| readonly | `boolean` | `false` | Read-only; the change event is not emitted |
 
 ## Events
 

@@ -5,28 +5,28 @@ demo: pages/demo/basic/loading
 
 # Loading
 
-`ms-loading` — Loading for uni-app x.
+`ms-loading` is a loading indicator made of the native `<loading>` and text. It supports horizontal and vertical layouts and a tone setting; the default slot takes precedence over text.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-loading` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-loading`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/basic/loading`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/basic/loading.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/basic/loading.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 纯图标 -->
+  <!-- Icon only -->
   <ms-loading text="" />
-  <!-- 横向 -->
-  <ms-loading layout="horizontal" text="加载中…" />
-  <!-- 竖向 -->
-  <ms-loading layout="vertical" text="加载中…" />
-  <!-- 纯文字 -->
-  <ms-loading :indicator="false" text="加载中…" />
+  <!-- Horizontal -->
+  <ms-loading layout="horizontal" text="Loading…" />
+  <!-- Vertical -->
+  <ms-loading layout="vertical" text="Loading…" />
+  <!-- Text only -->
+  <ms-loading :indicator="false" text="Loading…" />
 </template>
 ```
 <!-- demo-snippets:end -->

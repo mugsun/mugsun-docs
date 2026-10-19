@@ -5,21 +5,21 @@ demo: pages/demo/display/image-resizer
 
 # Image Resizer
 
-`ms-image-resizer` — Image Resizer for uni-app x.
+`ms-image-resizer` crops images with a fixed, centered crop frame. It supports dragging to pan, slider zoom, horizontal and vertical flips, reset, and cancel or confirm to export.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-image-resizer` (repository not yet public).
+Component directory: `uni_modules/ms-ui/components/ms-image-resizer`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/display/image-resizer`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/display/image-resizer.uvue`; see them running in the phone frame.
+The snippets below are taken from the demo source `pages/demo/display/image-resizer.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
-  <!-- 组件类型 -->
+  <!-- Types -->
   <ms-image-resizer
     ref="squareRef"
     :src="src"
@@ -37,7 +37,7 @@ Snippets below are taken from the demo source `pages/demo/display/image-resizer.
     @cancel="onCancel"
     @error="onError"
   />
-  <!-- 组件样式 -->
+  <!-- Styles -->
   <ms-image-resizer
     :src="src"
     :crop-width="200"
