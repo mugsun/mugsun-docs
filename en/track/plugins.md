@@ -11,7 +11,13 @@ The SDK core handles only the queue, sessions, identity and transport; every kin
 | Autocapture | `autocapturePlugin()` | Clicks and similar interactions; skips `maskSelectors` and password fields |
 | Impressions | `exposurePlugin()` | Viewable impressions (pairs with `v-track:exposure`) |
 | Web Vitals | `webVitalsPlugin()` | Core performance metrics |
-| Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections; the `stack` keeps up to 4,096 characters, other string properties 1,024 |
+| Errors | `errorPlugin()` | JS errors, resource load errors and unhandled promise rejections; the `stack` keeps up to 4,096 characters, other string properties 1,024; anything after `?` or `#` in script URLs inside the stack (often tokens or signatures) is removed, keeping `:line:column`; when an event's properties exceed 16 KB in total, the stack is shortened first |
+
+The error fingerprint is computed from the message and the script URL of the first stack frame, without line and column numbers. The query and hash of that URL are removed first, so the same error is no longer split into several groups by different tokens or signatures.
+
+::: warning Error grouping breaks once after upgrading
+Errors whose first-frame script URL has a `?` or `#` (for example CDN URLs with a version, token or signature) get a new fingerprint after the upgrade and go into new error groups; existing groups are not merged with the new ones. Errors whose first-frame URL has no query keep the same fingerprint.
+:::
 
 ## Adding optional plugins
 
@@ -45,17 +51,19 @@ const track = createTracker({
 - Replay block numbers may have gaps (the dropped chunks above are never uploaded). The console player sorts events by time and starts at the first full snapshot. If the first blocks are missing and there is no full snapshot, it says the replay has no full snapshot instead of showing a blank screen. ([mugsun-pc #45](https://github.com/mugsun/mugsun-pc/pull/45))
 - Periodic full snapshots: a full snapshot is taken every 3 minutes by default (rrweb's built-in `checkoutEveryNms`). Change it with `replayPlugin({ checkoutEveryNms: 60000 })`, or pass `false` to turn it off. When a block in the middle is missing, the player drops the incremental events after the gap and continues from the next full snapshot, so one lost block skips at most about 3 minutes. The cost is one extra page snapshot upload every 3 minutes (usually a few dozen KB gzipped). (mugsun-track [#18](https://github.com/mugsun/mugsun-track/pull/18), mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45))
 - Missing-block notice: the player shows how many blocks are missing at the top, counting both blocks that failed to load and sequence numbers absent from the server's block list. If no full snapshot follows a missing block, it says the later recording is incomplete instead of silently ending early. (mugsun-pc [#53](https://github.com/mugsun/mugsun-pc/pull/53))
-- Masked by default: every input value and **all page text** (rrweb `maskTextSelector: '*'`). `input[type="password"]` and elements with `data-track-mask` are not recorded at all.
-- For debugging only, you can unmask text with `replayPlugin({ maskTextSelector: false })` or pass a narrower selector.
+- **Page text and input values are shown as-is by default** (from 0.3.0, `maskTextSelector: '*'` is no longer passed by default and `maskAllInputs` defaults to `false`).
+- Never recorded: `input[type="password"]`, elements with `data-track-mask`, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`).
+- To mask, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` for all text and input values; for text you can also pass a narrower selector such as `'.user-info'`. See [Privacy](/en/track/privacy#turning-on-masking-and-filtering).
+- Input values are recorded as plain text by default. Under China's Personal Information Protection Law (PIPL), collecting sensitive personal information requires the user's separate consent. Until you have it, do not record inputs that contain such information (set `maskAllInputs: true`, and use `maskTextSelector` for page text). Follow your legal counsel's advice on the details. See [Privacy](/en/track/privacy).
 
 ```html
 <!-- never recorded -->
 <div data-track-mask>ID number: …</div>
 ```
 
-This is what it looks like in the console's Session replay player: a demo session recorded with 0.2.0 defaults. Navigation, headings, body text and button labels all render as `*`; only page structure and interaction are kept. The marker bar below shows clicks, page changes and errors.
+This is what it looks like in the console's Session replay player: a demo session recorded with text masking on (`maskTextSelector: '*'`). Navigation, headings, body text and button labels all render as `*`; only page structure and interaction are kept. The marker bar below shows clicks, page changes and errors.
 
-![Session replay with default text masking (demo data)](/screenshots/track/track-replay-masked.png)
+![Session replay with text masking on (maskTextSelector: '*', demo data)](/screenshots/track/track-replay-masked.png)
 
 ## API monitoring
 
@@ -65,17 +73,17 @@ This is what it looks like in the console's Session replay player: a demo sessio
 | --- | --- | --- |
 | `apiMonitorEnabled` | off | Master switch |
 | `apiBodyEnabled` | off | Capture response bodies, sent over a separate `/track/api-body` channel rather than the event queue |
-| `apiBodyMaskEnabled` | **on** (since 0.2.0) | Replace sensitive field values in bodies with `***` |
+| `apiBodyMaskEnabled` | off (from 0.3.0) | When `true`, replace personal-data field values in bodies with `***`; credential keys are always replaced regardless, see [Privacy](/en/track/privacy#credential-fields-in-response-bodies) |
 | `apiBodyMaxBytes` | 1MB | Larger bodies are skipped and marked `body_skipped=size` |
 
 Built-in protections that can't be turned off:
 
 - The SDK's own endpoints (`/track/collect`, `/track/config`, `/track/replay`, `/track/api-body` and so on) are never captured, which prevents loops.
-- Credential endpoints (paths containing `/auth/login`, `/auth/refresh`, `/oauth/token` or `/auth/social`) **never have their bodies captured**.
+- Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. A path counts if, after lowercasing, it contains one of: login and tokens `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`; sign-up `/register`, `/signup`, `/sign-up`; passwords `/password`, `/forgot`, `/reset-password`, `/change-password`; codes and MFA `/otp`, `/sms`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
-::: warning Behavior change in 0.2.0
-From 0.2.0, replays mask page text and `apiBodyMaskEnabled` defaults to `true`. If you depend on raw response bodies, set `apiBodyMaskEnabled: false` explicitly; for readable replays (debugging only), pass `maskTextSelector: false`. 0.2.0 is available on npm.
+::: warning Behavior change in 0.3.0
+From 0.3.0 (planned), replays show page text and input values as-is, and `apiBodyMaskEnabled` defaults to `false` (0.2.0 masked by default). If you need masking, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and set `apiBodyMaskEnabled: true` explicitly.
 :::
 
 ## Visual tagging and geolocation

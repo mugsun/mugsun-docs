@@ -25,6 +25,22 @@ The API always speaks WGS84; AMap and Baidu coordinates are converted to and fro
 
 Configure them under **GIS → Basemap**. The workspace, map picker, analytics heatmap and 3D view all share the same basemap.
 
+## When no basemap is configured
+
+If no basemap is both configured and enabled, the map, lab, layer, scene and analysis pages show the same notice over the map area instead of a blank canvas:
+
+- It explains that a basemap is needed: Tianditu requires a key (tk); if you don't want to apply for a key, use a keyless custom XYZ basemap instead (such as the built-in OpenStreetMap preset, whose host must be on the deployment allow-list).
+- **Configure basemap** opens **GIS → Basemap** and is only shown to users with the `gis:provider:list` permission; other users are asked to contact an administrator.
+- **Read the docs** links to this page.
+
+"Not configured" is decided by the backend's `/system/gis/status` response. If that request fails (network down or a server error), the page shows "Couldn't load basemap status" with a retry button instead of claiming nothing is configured.
+
+![Notice when no basemap is configured](/screenshots/gis/gis-basemap-empty.png)
+
+::: tip Default OSM preset
+The deployment allow-list includes `tile.openstreetmap.org` by default, and tenants that have never saved a config use the OSM preset automatically. The backend then treats the basemap as available and the notice is not shown. If tiles are still blank, it is usually a network issue, for example a fake-ip proxy resolving the host to `198.18.x.x`, which is blocked; see [Tile proxy security](./gis-tile-security).
+:::
+
 ## Custom XYZ tiles
 
 - The URL template must use `https` and contain `{z}`, `{x}`, `{y}`. `{s}` rotates subdomains (comma-separated, up to 8). If a key is needed, reference it as `{key}`; it is only substituted on the server.

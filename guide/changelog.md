@@ -2,6 +2,21 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-18 · track 0.3.0（计划）：默认不遮罩、不过滤
+
+### mugsun-track
+
+尚未发布，见仓库 CHANGELOG「Unreleased」。（[#19](https://github.com/mugsun/mugsun-track/pull/19)）
+
+- **默认不遮罩、不过滤（行为变更）**：回放默认显示页面文本和输入值原文（`maskTextSelector` 不再默认 `'*'`，新增 `maskAllInputs` 默认 `false`）；`apiBodyMaskEnabled` 默认 `false`，响应体里的个人信息字段原文上传；`skipHandledErrors` 默认 `false`，错误全部上报。密码框、`data-track-mask`、银行卡和一次性验证码字段始终不录。
+- **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie`、`session_id` 等键不论开关都替换为 `***`，匹配时忽略大小写与 `_`、`-`；声明为 JSON 但解析失败的响应体不上传。
+- **凭证类加固**（[#20](https://github.com/mugsun/mugsun-track/pull/20)）：
+  - 默认尊重 Global Privacy Control（`respectGpc: true`），与 DNT 一致。
+  - URL 敏感参数新增 `code`、`sign`、`signature`、`ticket`、`session`、`otp`，忽略大小写与 `_`、`-`，hash 参数也处理；`referrer`、链接 `href`、资源错误地址、回放页面地址也脱敏。
+  - 注册、找回 / 修改密码、短信 / 验证码 / MFA 接口不采集响应体。
+  - 两份清单：凭证键 URL 和响应体共用；`code`、`sign`、`signature`、`ticket`、`session`、`otp` 只在 URL 里替换，响应体里保留原值（如 `{"code":0}`）。
+- **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
+
 ## 2026-10-18 · 重复提交返回 400
 
 ### mugsun-core
@@ -29,6 +44,15 @@
 - **内置 MCP Server 暂时下线，正在加鉴权后恢复**：原因是 `/sse`、`/mcp`、`/mcp/message` 不经过本项目鉴权。下线期间这三个端点在任何配置下都返回 404，`MUGSUN_AI_MCP_SERVER` 不起作用。恢复后的开关和凭据配置，以届时的更新日志为准。（[#89](https://github.com/mugsun/mugsun-boot/pull/89)）
 - **调用外部 MCP 工具不受影响**：「MCP 工具箱」和工作流的 MCP 节点照常可用。
 - **依赖检查**：下线期间，根 POM 的 maven-enforcer 规则拦下 Spring AI 与 MCP SDK，包括传递依赖；pom 里不允许写 `enforcer.skip`。（[#91](https://github.com/mugsun/mugsun-boot/pull/91)）
+
+## 2026-10-14 · 错误堆栈去掉脚本地址 query
+
+### mugsun-track
+
+- **堆栈里的脚本地址去掉 query 和 hash**：`?`、`#` 之后的部分（常带 token、签名）会去掉，保留 `:行:列`。单个事件的属性合计超过 16KB 时，先缩短堆栈。（[#16](https://github.com/mugsun/mugsun-track/pull/16)）
+- **错误分组会断开一次**：错误指纹按 message 和堆栈首帧的脚本地址计算，现在按去掉 query 后的地址计算。首帧脚本地址带 `?` 或 `#` 的错误，升级后归入新的错误分组，已有分组不会与新分组合并；首帧地址不带 query 的错误不受影响。
+
+详见 [埋点 · 插件](/track/plugins)。
 
 ## 2026-10-14 · 埋点看板按当地时区切日
 

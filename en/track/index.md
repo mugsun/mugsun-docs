@@ -33,6 +33,10 @@ Session replay, API monitoring, visual tagging and geolocation need their plugin
 
 Analytics includes overview, events, performance, errors, session replay, user lookup, funnels and retention.
 
+"Source" is the referring page's host name, lower-cased, with `www.` kept. The web SDK only sends the full `referrer` URL, and the server takes the host from it. Direct visits have no source. In-site navigations do not count either: a referrer whose host equals the page host (the `Origin` header of the upload request, or `Referer` when there is none) is recorded as empty, and subdomains are not the same site. This applies only to events received after the upgrade; history is not backfilled ([mugsun-boot #54](https://github.com/mugsun/mugsun-boot/pull/54), [#47](https://github.com/mugsun/mugsun-boot/pull/47)).
+
+The console's own integration reports request errors it has already handled by default (business validation failures, network failures and other HttpErrors already shown to the user). To skip them, set the build variable `VITE_TRACK_SKIP_HANDLED_ERRORS=true` or pass `skipHandledErrors` to `setupTrack`. Canceled requests are not reported. This behavior takes effect from mugsun-track#19.
+
 ![Overview (demo data)](/screenshots/track/track-overview.png)
 
 ## Reliability

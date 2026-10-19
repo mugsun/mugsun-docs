@@ -33,6 +33,10 @@ track.track('button_click', { name: 'buy' })
 
 「埋点分析」包含数据概览、事件分析、性能分析、错误监控、会话回放、用户细查、漏斗分析和留存分析。
 
+「来源」是来源页面的主机名（小写，保留 `www.`）。Web SDK 只上报完整 `referrer`，服务端从中取主机名。直接访问没有来源；与页面主机相同的站内跳转也不算来源（页面主机取上报请求的 `Origin`，没有时取 `Referer` 头；子域不算同站）。这条规则只作用于升级后的新事件，历史数据不回填（[mugsun-boot #54](https://github.com/mugsun/mugsun-boot/pull/54)、[#47](https://github.com/mugsun/mugsun-boot/pull/47)）。
+
+管理台自身接入时默认上报已处理的请求错误（业务校验失败、网络失败等已提示给用户的 HttpError）；可用构建变量 `VITE_TRACK_SKIP_HANDLED_ERRORS=true` 或 `setupTrack` 的 `skipHandledErrors` 跳过。主动取消的请求不上报。自 mugsun-track#19 起生效。
+
 ![数据概览（演示数据）](/screenshots/track/track-overview.png)
 
 ## 可靠性

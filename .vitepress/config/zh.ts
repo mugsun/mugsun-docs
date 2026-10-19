@@ -40,6 +40,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '权限与附件', link: '/boot/permissions' },
             { text: '开放平台', link: '/boot/open-api' },
             { text: '安全清单', link: '/boot/security-checklist' },
+            { text: '升级指南', link: '/boot/upgrade' },
           ],
         },
       ],

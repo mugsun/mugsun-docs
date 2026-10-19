@@ -83,17 +83,17 @@ Since 0.1.0, tokens live in `sessionStorage` (per tab) instead of `localStorage`
 
 ### `pnpm install` can't find `@mugsun/track-web`
 
-The console references the SDK as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`. Clone mugsun-track next to mugsun-pc and run `pnpm setup:sdk`, or set `VITE_ENABLE_TRACK=false` if you don't need analytics.
+The console references the SDK as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`. Clone mugsun-track next to mugsun-pc and run `pnpm setup:sdk`. If you don't need analytics, set `VITE_ENABLE_TRACK=false` to skip the build, but the sibling directory must still exist for `pnpm install` to succeed.
 
 ## Analytics
 
 ### Does the SDK record what users type?
 
-No. Input and textarea values are never captured; password fields, `maskSelectors` matches and `data-track-mask` elements are blocked entirely; replays mask inputs and page text by default. See [Privacy](/en/track/privacy).
+Autocaptured events such as clicks never include `input` / `textarea` values. From 0.3.0, session replays show input values and page text as-is by default; password fields, `maskSelectors` and `data-track-mask` areas, card fields and one-time-code fields are never recorded. To mask them, pass `maskAllInputs: true` and `maskTextSelector`; see [Privacy · Turning on masking and filtering](/en/track/privacy#turning-on-masking-and-filtering).
 
 ### Are tokens in URLs sent to the server?
 
-API monitoring keeps query strings but replaces the values of `token`, `access_token`, `authorization`, `id_token`, `refresh_token`, `api_key`, `apikey`, `auth`, `secret` and `password` (case-insensitive) with `***`.
+Not as-is. In API monitoring URLs, `referrer`, link `href`s, resource error URLs and page addresses in replays, the values of sensitive parameters such as `token`, `access_token`, `code`, `ticket` and `otp` become `***`, including parameters in the hash. See [Privacy · URL redaction](/en/track/privacy#url-redaction) for the full list.
 
 ### What if my `appKey` leaks?
 

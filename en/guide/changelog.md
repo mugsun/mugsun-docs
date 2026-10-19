@@ -2,6 +2,21 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-18 · track 0.3.0 (planned): no masking or filtering by default
+
+### mugsun-track
+
+Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.com/mugsun/mugsun-track/pull/19))
+
+- **No masking or filtering by default (behavior change)**: replays show page text and input values as-is (`maskTextSelector` no longer defaults to `'*'`, and the new `maskAllInputs` defaults to `false`); `apiBodyMaskEnabled` defaults to `false`, so personal-data fields in response bodies are uploaded as-is; `skipHandledErrors` defaults to `false`, so every error is reported. Password fields, `data-track-mask` areas, card fields and one-time-code fields are never recorded.
+- **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session_id` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.
+- **Credential hardening** ([#20](https://github.com/mugsun/mugsun-track/pull/20)):
+  - Global Privacy Control is honored by default (`respectGpc: true`), like DNT.
+  - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`, ignores case, `_` and `-`, and covers hash parameters; `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
+  - Sign-up, password reset / change, SMS / captcha / MFA endpoints never have their response bodies captured.
+  - Two key lists: credential keys are shared by URLs and response bodies; `code`, `sign`, `signature`, `ticket`, `session` and `otp` are replaced only in URLs and kept as-is in bodies (such as `{"code":0}`).
+- **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
+
 ## 2026-10-18 · Duplicate submissions return 400
 
 ### mugsun-core
@@ -29,6 +44,15 @@ To upgrade:
 - **The built-in MCP Server is temporarily offline and will return with authentication**: `/sse`, `/mcp` and `/mcp/message` bypassed the project's authentication. While it is offline, these endpoints return 404 under any configuration and `MUGSUN_AI_MCP_SERVER` has no effect. The changelog entry for its return will describe the switch and credential setup. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
 - **Calling external MCP tools still works**: the MCP toolbox and the workflow MCP node are unchanged.
 - **Dependency check**: while it is offline, a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
+
+## 2026-10-14 · Error stacks drop script URL queries
+
+### mugsun-track
+
+- **Script URLs in stacks lose their query and hash**: everything after `?` or `#` (often tokens or signatures) is removed, keeping `:line:column`. When an event's properties exceed 16 KB in total, the stack is shortened first. ([#16](https://github.com/mugsun/mugsun-track/pull/16))
+- **Error grouping breaks once**: the error fingerprint is computed from the message and the script URL of the first stack frame, now with the query removed. Errors whose first-frame script URL has a `?` or `#` go into new error groups after the upgrade, and existing groups are not merged with the new ones. Errors whose first-frame URL has no query are not affected.
+
+See [Analytics · Plugins](/en/track/plugins).
 
 ## 2026-10-14 · Tracking dashboards cut days in local time
 
