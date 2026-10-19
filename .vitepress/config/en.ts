@@ -210,6 +210,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Permissions & attachments', link: '/en/boot/permissions' },
             { text: 'Open API', link: '/en/boot/open-api' },
             { text: 'Security checklist', link: '/en/boot/security-checklist' },
+            { text: 'Upgrade guide', link: '/en/boot/upgrade' },
           ],
         },
       ],
