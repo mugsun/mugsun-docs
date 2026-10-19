@@ -22,7 +22,7 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 ### 还需要先 `mvn install` mugsun-core 吗？
 
-不需要。`com.mugsun:mugsun-*:0.1.0` 已发布至 Maven Central。只有离线环境才需要平级克隆 core 并 `mvn clean install -DskipTests`。
+不需要。`com.mugsun:mugsun-*:0.1.0` 已发布至 Maven Central。只有离线环境才需要同级克隆 core 并 `mvn clean install -DskipTests`。
 
 ### `docker compose up -d` 会把应用也起起来吗？
 
@@ -83,7 +83,7 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 ### `pnpm install` 报找不到 `@mugsun/track-web`？
 
-管理台以 `file:../mugsun-track` 引用 SDK，且 SDK 仓不提交 `dist/`。请把 mugsun-track 克隆到平级目录并执行 `pnpm setup:sdk`；不需要埋点时设 `VITE_ENABLE_TRACK=false`。
+管理台以 `file:../mugsun-track` 引用 SDK，且 SDK 仓库不提交 `dist/`。请把 mugsun-track 克隆到同级目录并执行 `pnpm setup:sdk`；不需要埋点时可设 `VITE_ENABLE_TRACK=false` 跳过构建，但同级目录仍须存在，`pnpm install` 才能通过。
 
 ## 埋点
 
