@@ -34,7 +34,9 @@ mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-`curl http://localhost:8080/ping` 返回响应即表示后端启动成功。默认账号 `admin` / `123456`。
+> **请始终在仓库根目录、带 `-am` 构建**（或用 `mvn clean package -DskipTests` 构建整个工程）。只构建 server 模块（`-pl mugsun-boot-server` 不带 `-am`、在 `mugsun-boot-server` 目录里执行 `mvn package`，或 IDE 只构建该模块）时，`mugsun-boot-core` 会从本地 Maven 仓库 `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/` 取。所有分支和工作区共用这一个 0.1.0 版本，里面是最后一次 `mvn install` 的那个分支，打出的 jar 会带上别的分支的旧代码（例如旧的验证码返回结构），这跟加不加 `clean` 无关。拿不准时先在根目录执行一次 `mvn -B install -DskipTests`。
+
+`curl http://localhost:8080/ping` 返回响应即表示后端启动成功。默认账号 `admin` / `123456`。`java -jar` 要在仓库根目录执行，才能读到 `config/application-local.yml`。
 
 ::: details 5432 或 6379 端口被占用
 换一个宿主机端口。在同一个终端里导出，后端启动时也会读到：
@@ -57,7 +59,7 @@ git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc && pnpm setup:sdk && pnpm install && pnpm dev
 ```
 
-浏览器打开 <http://localhost:3006>，本地环境下验证码会自动填入。
+浏览器打开 <http://localhost:3006>。本地登录要拖动滑块完成安全验证。
 
 ### 3. 上报第一条埋点
 
