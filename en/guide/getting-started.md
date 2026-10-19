@@ -34,7 +34,9 @@ mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
-The backend is running when `curl http://localhost:8080/ping` returns a response. The default account is `admin` / `123456`.
+> **Always build from the repository root with `-am`** (or build the whole project with `mvn clean package -DskipTests`). If you build only the server module (`-pl mugsun-boot-server` without `-am`, `mvn package` inside `mugsun-boot-server`, or an IDE building just that module), `mugsun-boot-core` comes from the local Maven repository at `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/`. Every branch and worktree shares that one 0.1.0 version, which holds whichever branch ran `mvn install` last, so the jar can carry another branch's old code (such as an old captcha response shape) whether or not you add `clean`. When in doubt, run `mvn -B install -DskipTests` from the root first.
+
+The backend is running when `curl http://localhost:8080/ping` returns a response. The default account is `admin` / `123456`. Run `java -jar` from the repository root so `config/application-local.yml` is picked up.
 
 ::: details Port 5432 or 6379 is already in use
 Pick other host ports. Export them in the same terminal so the backend reads them too:
@@ -57,7 +59,7 @@ git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc && pnpm setup:sdk && pnpm install && pnpm dev
 ```
 
-Open <http://localhost:3006>. In local development the captcha is filled in automatically.
+Open <http://localhost:3006>. Local sign-in asks you to drag the slider to pass the security check.
 
 ### 3. Report your first event
 
