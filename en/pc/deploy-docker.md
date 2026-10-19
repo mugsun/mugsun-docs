@@ -60,15 +60,15 @@ The policy is sent as `Content-Security-Policy-Report-Only` for now: browsers re
 
 ```text
 default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
-img-src 'self' data: blob: https://*.tianditu.gov.cn https://*.autonavi.com https://*.amap.com <MUGSUN_CSP_TILE_HOSTS>;
-connect-src 'self' https://*.tianditu.gov.cn https://*.autonavi.com https://*.amap.com <MUGSUN_CSP_TILE_HOSTS> <MUGSUN_CSP_TRACK_HOSTS>;
+img-src 'self' data: blob: <MUGSUN_CSP_TILE_HOSTS>;
+connect-src 'self' <MUGSUN_CSP_TILE_HOSTS> <MUGSUN_CSP_TRACK_HOSTS>;
 font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'
 ```
 
 - No `unsafe-eval`. `style-src 'unsafe-inline'` is needed for Element Plus runtime inline styles; `worker-src blob:` is needed for Cesium.
-- `img-src` and `connect-src` only allow the Tianditu and AMap tile origins and the analytics endpoint. For other tile services (Baidu, custom XYZ) or a separate analytics domain, add them with `MUGSUN_CSP_TILE_HOSTS` and `MUGSUN_CSP_TRACK_HOSTS`. These variables accept only letters, digits, `.`, `*`, `:`, `/`, `-` and spaces; the container refuses to start if they contain `;`, quotes or other characters.
+- Map tiles (Tianditu, AMap and others) all go through the same-origin `/api/system/gis/tile` proxy, which keeps the keys on the server, so `img-src` and `connect-src` allow no vendor tile origins. For external tiles the browser loads directly (such as custom XYZ) or a separate analytics domain, add them with `MUGSUN_CSP_TILE_HOSTS` and `MUGSUN_CSP_TRACK_HOSTS`. These variables accept only letters, digits, `.`, `*`, `:`, `/`, `-` and spaces; the container refuses to start if they contain `;`, quotes or other characters.
 
-## The whole stack in one command
+## Start the full stack with one command
 
 `mugsun-pc/docker/compose.pc.yml` runs the admin console, the backend (mugsun-boot's Dockerfile), PostgreSQL (PostGIS + pgvector) and Redis. With mugsun-core, mugsun-boot, mugsun-track and mugsun-pc cloned side by side:
 

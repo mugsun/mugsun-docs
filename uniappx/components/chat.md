@@ -5,17 +5,17 @@ demo: pages/demo/media/chat
 
 # Chat 对话
 
-`ms-chat`：对话消息列表（加深版）：角色气泡、Markdown 正文、思考折叠、助手操作栏、流式态、可选定高滚底。
+`ms-chat` 是对话消息列表，支持按角色显示的消息气泡、Markdown 正文、可折叠的思考过程、助手操作栏和流式输出状态，可选固定高度并自动滚动到底部。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-chat`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-chat`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/media/chat`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/chat.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/media/chat.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

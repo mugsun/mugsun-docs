@@ -5,17 +5,17 @@ demo: pages/demo/nav/dropdown
 
 # Dropdown
 
-`ms-dropdown` — Dropdown for uni-app x.
+`ms-dropdown` is a dropdown filter menu built from `menus` (the menu bar) and flat `options` (linked to a menu by its `menu` index). No child components need to be registered.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-dropdown` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-dropdown`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/nav/dropdown`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/nav/dropdown.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/nav/dropdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>
@@ -133,7 +133,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- | --- | --- |
 | menus | `UTSJSONObject[]` | `[]` | Menus: label / multiple / columns(1-3) / disabled |
 | options | `UTSJSONObject[]` | `[]` | Flat options: menu(index) / label / value / disabled / checked |
-| height | `number` | `320` | Component height (px; vapor forbids %; overlay fills this area) |
+| height | `number` | `320` | Component height (accepts numeric px values only; the overlay covers this area) |
 | showOverlay | `boolean` | `true` | Whether to show the overlay |
 | closeOnClickOverlay | `boolean` | `true` | Whether clicking the overlay closes |
 

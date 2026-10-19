@@ -5,17 +5,17 @@ demo: pages/demo/feedback/snackbar
 
 # Snackbar
 
-`ms-snackbar` — Snackbar for uni-app x.
+`ms-snackbar` is a message bar at the top or bottom with a light semantic background, an icon and text. It can have a close or action button and closes automatically after a set time.
 
-Part of **uni-app x (ms-ui)** (not the PC admin UI).
+This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
 
-Source location: `mugsun-uniappx-ui` → `uni_modules/ms-ui/components/ms-snackbar` (commercial edition; source not public).
+Component directory: `uni_modules/ms-ui/components/ms-snackbar`. ms-ui is MIT-licensed; its source repository is not yet public.
 Demo route: `#/pages/demo/feedback/snackbar`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-Snippets below are taken from the demo source `pages/demo/feedback/snackbar.uvue`. To see it running, use the phone frame on the right (wide screens) or tap the H5 demo bar at the bottom (phones).
+The snippets below are taken from the demo source `pages/demo/feedback/snackbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
 
 ```vue
 <template>

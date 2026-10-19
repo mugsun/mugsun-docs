@@ -65,9 +65,10 @@ mugsun:
     exclude-paths:          # Ant 风格，按去掉 context-path 后的路径匹配
       - /track/collect
       - /track/replay
+      - /track/api-body
 ```
 
-配置这个列表会整体替换默认值，要保留这两项请一并写上；写成 `exclude-paths: []` 则全部留痕。排除只影响自动留痕，显式标了 `@OperationLog` 的接口照常记录，管理端的 `/system/track/**` 也不受影响。
+配置这个列表会整体替换默认值，要保留这三项请一并写上；写成 `exclude-paths: []` 则全部留痕。排除只影响自动留痕，显式标了 `@OperationLog` 的接口照常记录，管理端的 `/system/track/**` 也不受影响。
 
 ## 可选模块
 
@@ -78,6 +79,8 @@ mugsun:
 | `MUGSUN_AI_ENABLED` | `true` | AI 模块 |
 | `POWERJOB_ENABLED` | `false` | PowerJob Worker；启用须独立部署 Server 并设置 `POWERJOB_SERVER` |
 | `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / 空 | IP 归属地解析 |
+
+三个模块开关不设置时开启；设置后只接受 `true` 或 `false`（不区分大小写，前后不能有空格），空值、`1`、`0` 等其它值会导致启动失败。完整规则见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
 
 ## AI 出站白名单
 

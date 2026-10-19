@@ -5,17 +5,17 @@ demo: pages/demo/display/progress
 
 # Progress 进度
 
-`ms-progress`：进度条：线形 / 内显 / 环形；`percentage` + `status` + 可选 `label`。
+`ms-progress` 是进度条，支持线形、文字内显和环形三种样式，通过 `percentage`、`status` 和可选的 `label` 设置。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-progress`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-progress`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/progress`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/progress.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/progress.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>

@@ -5,17 +5,17 @@ demo: pages/demo/display/virtual-list
 
 # Virtual List 虚拟列表
 
-`ms-virtual-list`：定高虚拟列表：只渲染可视窗口 + 前后缓冲行；可选触底加载底栏与空态/窗口作用域插槽。
+`ms-virtual-list` 是固定行高的虚拟列表，只渲染可视区域以及前后的缓冲行；可选在滚动到底部时显示加载栏，并提供空状态插槽和可视窗口作用域插槽。
 
-属于 **uni-app x（ms-ui）** 跨端组件（不是 PC 管理台）。
+本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
 
-源码位置：`mugsun-uniappx-ui`仓 `uni_modules/ms-ui/components/ms-virtual-list`（商业版，源码不公开）。
+组件目录：`uni_modules/ms-ui/components/ms-virtual-list`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
 演示路由：`#/pages/demo/display/virtual-list`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/virtual-list.uvue`。运行效果：宽屏看右侧手机框，手机上点底栏「打开 H5 演示」。
+以下片段摘自演示源码 `pages/demo/display/virtual-list.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
 
 ```vue
 <template>
