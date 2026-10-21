@@ -12,6 +12,7 @@
 | 权限码 | 名称 | 作用 |
 | --- | --- | --- |
 | `sys:file:list` | 附件列表 | 查看附件列表 |
+| `sys:file:upload` | 上传附件 | 调用 `/system/file/upload`、`presigned-put`、`create` 上传附件（0.1.1 起必需） |
 | `sys:file:manage` | 管理全部附件 | 可下载 / 删除他人的私有附件；历史无上传者的私有附件仅此权限可操作 |
 | `sys:file:public` | 上传公开附件 | 上传时可设为公开；无此权限的上传一律强制为私有 |
 | `sys:file:remove` | 删除附件 | 删除附件（仍需是上传者本人或持有 `sys:file:manage`） |
@@ -27,6 +28,49 @@
 跨租户、不存在或无权访问一律返回 404，不暴露附件是否存在。历史附件没有记录上传者，其私有附件仅持有 `sys:file:manage` 的用户可下载或删除。
 
 `manage` / `public` / `remove` 三项权限点由数据库迁移预置给管理员角色，其他角色在「角色管理」中按需授予。
+
+## 上传限制
+
+- 只接受图片（png、jpg、gif、webp、bmp）、PDF、Office 文档、txt、csv、md、zip、mp4、mp3；html、svg、js、xml 等一律拒绝。
+- 服务端核对扩展名和文件头，改了扩展名的文件会被拒绝。单个文件不超过 20MB。
+- 存储文件名和 Content-Type 由服务端按扩展名决定，用户上传的文件名只作展示，客户端上报的类型不采用。
+- 前端直传（`presigned-put`）必须带 `size`（字节），超过 20MB 直接拒绝；签名绑定 `Content-Length`、`Content-Type`、`Content-Disposition: attachment`，PUT 时要原样带上返回的 `headers`。
+- 本地直出、授权下载一律 `attachment` + `X-Content-Type-Options: nosniff`，公开文件也一样；云存储对象上传时写入 `Content-Disposition: attachment`。
+- 升级时 V13 把 `sys:file:upload` 授给全部现有角色，保持原有功能；之后新建的角色需要在「角色管理」里勾选「上传附件」，否则意见反馈等页面上传会返回 403。
+
+## 表单、流程、平台写接口
+
+| 接口 | 权限码 | 说明 |
+| --- | --- | --- |
+| `POST /system/form/submit`、`/remove` | `sys:form:save`、`sys:form:remove` | 表单设计 |
+| `POST /system/flow/deploy` | `sys:flow:deploy` | 部署示例流程 |
+| `POST /system/flow/design`、`/design-graph` | `sys:flow:design`、`sys:flow:design-graph` | 流程设计 |
+| `POST /system/flow/definition/publish/{id}`、`unpublish/{id}` | `sys:flow:definition` | 发布、下线 |
+| `POST /system/rule/tenant-init` | `sys:rule:tenant-init` + 平台超管 | 演示用编排链，只记录三个步骤名 |
+| 租户、套餐、租户数据源的写接口 | `sys:tenant:*`、`sys:tenant-package:*`、`sys:tenant-datasource:*` + 平台超管 | 路径拦截之外再加一层 |
+
+V13 把表单、流程的新按钮权限补授给各租户的 `admin` 角色。平台超管指平台租户 `000000` 下持 `admin` 角色的账号。
+
+## 导出与导入权限码
+
+导出、导入、下载导入模板都用独立权限码，按「模块:资源:export|import」命名。只有列表读权（`*:list`）不能整表导出。
+
+| 接口 | 权限码 | 数据范围 |
+| --- | --- | --- |
+| `GET /system/user/export` | `sys:user:export` | 与用户列表相同：租户隔离 + 角色数据权限 |
+| `GET /system/user/import-template` | `sys:user:import` | 只含表头和一行示例 |
+| `POST /system/user/import` | `sys:user:import` | 写入当前租户 |
+| `GET /system/region/export` | `sys:region:export` | 行政区划是全局数据 |
+| `GET /system/region/template`、`POST /system/region/import` | `sys:region:import` | 全局数据 |
+| `GET /system/ai/*/export`、`POST /system/ai/app/import` | AI 模块各自的导出、导入码 | 见 AI 文档 |
+
+升级说明（0.1.1，迁移 V13）：
+
+- 「用户管理」下新增「导出用户」`sys:user:export`、「导入用户」`sys:user:import` 两个按钮权限。
+- 已有 `sys:user:list` 的角色自动补授导出码，已有 `sys:user:add` 的角色自动补授导入码，升级后原来能用的人照样能用。之后可在「角色管理」里单独收回。
+- 行政区划没有菜单节点，`sys:region:*` 只有超级管理员（通配 `*`）可用。
+- 没有权限时接口返回 HTTP 403，响应体 `code` 为 403。
+- 导出、导入都会写操作日志。用户导出与列表一样受数据权限约束；手机号按字段权限输出：没有查看权为空，没有明文权为脱敏，身份证号不在导出列里。
 
 ## 头像
 
