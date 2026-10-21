@@ -42,6 +42,12 @@ Docs CI、Security scan、repo-checks 三项都成功后才能推。
 
 改动 `.github/` 下任何文件的提交，必须先有安全官签字，才能进 main。改动 `.gitleaks*` 也要经安全官审。
 
+一个 worktree 只给一条工作线用，另开的工作线一律新建自己的 worktree。
+
+推送前用 `git rev-parse HEAD` 对照审过的 SHA，一致才推。
+
+push 被打断时，先用 `git ls-remote` 和 `ps` 确认它没有在后台跑完，再做下一步。
+
 不 force-push，不加 `--no-verify`，不 rebase 已推送的分支。
 
 ### 合入之后
