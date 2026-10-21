@@ -30,7 +30,7 @@
 
 ## URL 敏感参数
 
-接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、JS 错误的 `filename`、回放 Meta 事件里的页面地址，以及回放 DOM 里的 `href`、`src`、`action` 等地址属性都保留查询串，但以下键的值替换为 `***`，业务参数保留。
+接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、JS 错误的 `filename`、回放 Meta 事件里的页面地址，以及回放 DOM 里的 `href`、`src`、`action` 等地址属性都保留查询串，但以下键的值替换为 `***`，业务参数保留。回放中内联样式和样式表里 CSS `url()` 的地址不做脱敏；如果这类地址带签名，请给该元素加 `data-track-mask`。
 
 凭证键，URL 和响应体共用：
 

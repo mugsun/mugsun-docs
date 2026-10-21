@@ -30,7 +30,7 @@ Tighten access and retention for replay and body data accordingly.
 
 ## URL redaction
 
-API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes such as `href`, `src` and `action` in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept.
+API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes such as `href`, `src` and `action` in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept. Addresses in CSS `url()` in inline styles and stylesheets in the replay are not redacted; if such an address carries a signature, add `data-track-mask` to the element.
 
 Credential keys, shared by URLs and response bodies:
 
