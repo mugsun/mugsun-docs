@@ -2,6 +2,12 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · ms-badge dot takes precedence
+
+### mugsun-uniappx-ui
+
+- ms-badge: dot now takes precedence over count (no more empty bubble). Priority is label > dot > count. ([197dc26](https://github.com/mugsun/mugsun-uniappx-ui/commit/197dc26))
+
 ## 2026-10-19 · GIS layer buffer skips polar caps
 
 ### mugsun-boot
