@@ -41,10 +41,11 @@ Addresses in these places in the replay are **not redacted**:
 - `iframe` `srcdoc`
 - `meta` `content`
 - URLs that appear in page text
+- Tokens embedded in paths, such as `/reset/<token>` (not handled anywhere)
 
 If any of these may carry a token or signature, add `data-track-mask` to the element so the replay skips it entirely.
 
-`data-track-mask` must be on the element when recording starts or when the element is inserted. Adding it later won't mask what's already recorded.
+`data-track-mask` must be on the element when recording starts or when the element is inserted. Adding it later won't mask what's already recorded. Once it's on, later changes to the element aren't recorded.
 
 Credential keys, shared by URLs and response bodies:
 
@@ -72,7 +73,13 @@ Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count t
 
 `url_path` holds the pathname only, without the query string or hash.
 
-Only the query string and hash are changed; scheme, host and path stay byte for byte. Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
+Only userinfo, path parameters, the query string and the hash are changed; scheme, host and path stay byte for byte.
+
+- The `user:pass` in `https://user:pass@host/…` becomes `***`.
+- Sensitive path parameters are masked, so `/app;jsessionid=…` becomes `/app;jsessionid=***`.
+- TAB, LF and CR are removed before matching, as browsers do.
+
+ Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
 
 ## Credential fields in response bodies
 

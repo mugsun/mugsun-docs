@@ -85,7 +85,7 @@ const track = createTracker({
   - **含子串** `captcha`、`verifycode`、`verificationcode`，如 `/getCaptcha`、`/user/verifyCode`。
   - **含词** `sms`、`otp`、`sendcode`、`getcode`、`checkcode`：路径按非字母字符切词，某个词恰好相等才算。`/api/sms/send`、`/send-otp`、`/user/getCode` 命中；`/smsTemplate/list`、`/barcode/getcodeList` 不命中。
   - **动词组合**：含 `send`、`get`、`resend`、`check`、`verify`、`validate` 紧跟 `sms`、`otp`、`smscode`、`mobilecode`、`phonecode`、`emailcode`、`msgcode`。`/sendSms`、`/getSmsCode`、`/sendOtp`、`/sendEmailCode` 命中；`/smsTemplate/list` 不命中。
-  - **驼峰令牌接口**：含 `get`、`refresh`、`renew`，可选 `access`，再接 `token`。`/getToken`、`/refreshToken`、`/renewAccessToken` 命中。
+  - **令牌接口**：先去掉 `-`、`_`，再看是否含 `get`、`refresh`、`renew`、`issue`、`exchange`，可选 `access`、`auth`、`id`，再接 `token`。`/getToken`、`/refresh-token`、`/api/get_access_token`、`/getIdToken` 命中；`/tokens/stats` 不命中，`/getTokenList` 会误判。
   - 以上规则都没命中、但会返回验证码的接口（例如其他驼峰命名），请用 `apiBodyEnabled: false` 关掉响应体采集。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 

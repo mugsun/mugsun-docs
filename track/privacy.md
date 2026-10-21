@@ -41,10 +41,11 @@
 - `iframe` 的 `srcdoc`
 - `meta` 的 `content`
 - 页面文本里出现的 URL
+- 嵌在路径里的令牌，如 `/reset/<token>`（所有采集点都不处理）
 
 如果这些位置可能带令牌或签名，请给对应元素加 `data-track-mask`，回放里整块不录。
 
-`data-track-mask` 要在开始录制时或元素插入页面时就已存在。之后再加，已录下的内容不会被遮住。
+`data-track-mask` 要在开始录制时或元素插入页面时就已存在。之后再加，已录下的内容不会被遮住。加上之后，该元素后续的变化也不再录制。
 
 凭证键，URL 和响应体共用：
 
@@ -72,7 +73,13 @@ sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 
 `url_path` 只取 pathname，不含查询串和 hash。
 
-只改查询串和 hash，协议、主机、路径逐字保留。相对 URL（`img/a.jpg?token=…`）和协议相对 URL（`//cdn.x/a?token=…`）保持原样，只替换参数值。
+只改 userinfo、路径参数、查询串和 hash，协议、主机、路径逐字保留。
+
+- `https://user:pass@host/…` 的 `user:pass` 替换为 `***`。
+- 路径参数里的敏感键也替换，如 `/app;jsessionid=…` 变为 `/app;jsessionid=***`。
+- 匹配前先删掉 TAB、换行和回车，与浏览器解析一致。
+
+相对 URL（`img/a.jpg?token=…`）和协议相对 URL（`//cdn.x/a?token=…`）保持原样，只替换参数值。
 
 ## 响应体中的凭证字段
 
