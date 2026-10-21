@@ -52,12 +52,18 @@ ORDER BY tenant_id, phone;
 ### 重新迁移
 
 ::: warning openGauss 的已知问题
-目前 Flyway 连不上 openGauss 执行迁移：Flyway 会执行 `SET ROLE`，openGauss 要求带密码，直接拒绝。另外，已发布的 V8 在 openGauss-lite 上有语法错误。进展见 [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102)。
+目前 Flyway 无法对 openGauss 执行迁移。原因是 Flyway 会执行 `SET ROLE`，openGauss 要求带密码，直接拒绝。
+
+openGauss-lite 暂时无法应用 V8：已发布的 V8 在 lite 上有语法错误。进展见 [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102)。
 :::
 
-openGauss 请用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本。失败的 V7 已整体回滚，处理完重复后重新执行 V7 即可。
+完整版 openGauss 请用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本。
 
-执行时带上 `-1 -v ON_ERROR_STOP=1`，出错就整体回滚并停下。
+失败的 V7 已整体回滚。处理完重复后，重新执行 V7 即可。
+
+每个脚本都带上 `-1 -v ON_ERROR_STOP=1`，出错就整体回滚并停下。
+
+gsql 手工执行不会写 `flyway_schema_history`。#102 修好后改回 Flyway 时，先执行一次 `flyway baseline`，把 `baselineVersion` 设为已执行的最后一个版本。
 
 达梦的 DDL 自动提交，迁移失败后 Flyway 会留下一条失败记录。按[达梦：清掉失败记录](#达梦-清掉失败记录)处理后再重启，版本号填 `7`。
 
@@ -75,7 +81,7 @@ openGauss 请用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本。
 
 ```sql [PostgreSQL / 金仓 / openGauss]
 SELECT tenant_code, count(*) AS tenants,
-       string_agg(id::text || ':' || tenant_name || CASE WHEN is_deleted = 0 THEN '' ELSE '（已删除）' END, ', ') AS id_name
+       string_agg(id::text || ':' || is_deleted, ', ') AS id_deleted
 FROM sys_tenant
 GROUP BY tenant_code
 HAVING count(*) > 1
@@ -84,8 +90,8 @@ ORDER BY tenant_code;
 
 ```sql [达梦]
 SELECT tenant_code, COUNT(*) AS tenants,
-       LISTAGG(id || ':' || tenant_name || CASE WHEN is_deleted = 0 THEN '' ELSE '（已删除）' END, ', ')
-         WITHIN GROUP (ORDER BY id) AS id_name
+       LISTAGG(id || ':' || is_deleted, ', ')
+         WITHIN GROUP (ORDER BY id) AS id_deleted
 FROM sys_tenant
 GROUP BY tenant_code
 HAVING COUNT(*) > 1
@@ -94,13 +100,15 @@ ORDER BY tenant_code;
 
 :::
 
-每行是一个被多个租户用过的编号，`id_name` 列出这些租户。
+每行是一个被多个租户用过的编号。`id_deleted` 列出这些租户的 ID，冒号后的 0 表示在用，1 表示已删除。
 
 ### 处理复用
 
-业务表、凭据和数据源都按编号关联，新租户可能已经看到了旧租户留下的数据。先核对这个编号下的数据属于谁，再处理。
+业务表、凭据和数据源都按编号关联。已删除租户留在这些表里的行，现在都算在在用的租户名下。
 
-处理方法：保留现在在用的租户，把已删除租户的编号改成一个没人用过的 6 位编号，例如：
+先核对这个编号下的数据属于谁，把属于已删除租户的行迁走或清理掉。
+
+再保留在用的租户，给每一条已删除的租户行各换一个没人用过的 6 位编号，例如：
 
 ```sql
 UPDATE sys_tenant SET tenant_code = '<新编号>' WHERE id = <已删除租户的 id>;
@@ -110,7 +118,9 @@ UPDATE sys_tenant SET tenant_code = '<新编号>' WHERE id = <已删除租户的
 
 ### 重新迁移
 
-PostgreSQL 和金仓上失败的 V11 已整体回滚，直接重启。openGauss 上同样已回滚，用 gsql 重新执行 V11 脚本，带上 `-1 -v ON_ERROR_STOP=1`。
+PostgreSQL 和金仓上失败的 V11 已整体回滚，直接重启。
+
+openGauss 上同样已回滚。用 gsql 重新执行 V11 脚本，带上 `-1 -v ON_ERROR_STOP=1`。
 
 达梦按[达梦：清掉失败记录](#达梦-清掉失败记录)处理后再重启，版本号填 `11`。
 
@@ -135,7 +145,7 @@ DELETE FROM flyway_schema_history WHERE "version" = '<版本号>' AND "success" 
 
 ```sh [Flyway CLI]
 # 社区版 Flyway 不认达梦，先把达梦驱动和插件放进 CLI 的 drivers 目录：
-#   DmJdbcDriver18.jar（达梦官方 JDBC 驱动）
+#   DmJdbcDriver18-8.1.3.62.jar（达梦官方 JDBC 驱动）
 #   db-migration-dameng-flyway-4.1.2.jar（Maven Central：com.github.mengweijin）
 # 连接参数与应用使用的业务库一致
 flyway -url="jdbc:dm://<主机>:5236?schema=<模式名>" -user=<用户名> -password=<密码> repair
