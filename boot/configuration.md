@@ -410,7 +410,9 @@ profile 名先去掉首尾空白再转小写比较：
 
 服务端按 `request.isSecure()` 判定是不是 HTTPS。
 
-部署在反向代理后面时，代理要传 `X-Forwarded-Proto`，同时后端配置 `server.forward-headers-strategy=native`。
+部署在反向代理后面时，代理要传 `X-Forwarded-Proto`。
+
+后端同时要配置 `server.forward-headers-strategy=native`。
 
 单独伪造这个请求头不会被采信。
 
