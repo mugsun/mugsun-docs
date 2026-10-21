@@ -4,7 +4,13 @@
 
 ## Rate limiting
 
-Requests are counted separately per logged-in user and per client IP over a 1-minute window. Requests over the limit get `429 Too Many Requests` with a `Retry-After` header (in seconds).
+Limits are tiles per minute, counted separately per logged-in user and per client IP.
+
+- The window is a fixed calendar minute and resets at the top of each minute.
+- Exceeding either limit rejects the request. A value of `0` means no limit for that dimension.
+- Rejected requests get `429 Too Many Requests` with an empty body.
+- The `Retry-After` header carries the number of seconds left in the current minute.
+- Counters live in process memory, so with several instances each limit applies per instance.
 
 ```yaml
 mugsun:
@@ -13,6 +19,8 @@ mugsun:
       rate-limit-per-user: ${MUGSUN_GIS_TILE_RATE_PER_USER:1200}  # 0 = unlimited
       rate-limit-per-ip: ${MUGSUN_GIS_TILE_RATE_PER_IP:2400}      # 0 = unlimited
 ```
+
+A screenful of map usually needs a few dozen tiles, so the defaults are enough for normal browsing. If many users share one outbound IP, raise `rate-limit-per-ip`.
 
 ## Images only
 
