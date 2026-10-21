@@ -40,6 +40,19 @@
   - URL 敏感参数新增 `code`、`sign`、`signature`、`ticket`、`session`、`otp`，忽略大小写与 `_`、`-`，hash 参数也处理；`referrer`、链接 `href`、资源错误地址、回放页面地址也脱敏。
   - 注册、找回 / 修改密码、短信 / 验证码 / MFA 接口不采集响应体。
   - 两份清单：凭证键（含 `session`）URL 和响应体共用；`code`、`sign`、`signature`、`ticket`、`otp` 只在 URL 里替换，响应体里保留原值（如 `{"code":0}`）。
+- **凭证类加固（续）**：
+  - 通用登录、令牌、单点登录接口按整段匹配（`/login`、`/token`、`/sso`、`/cas` 等），`/loginLog`、`/tokens`、`/case` 这类普通接口不受影响；路径含 `captcha`、`verifycode`，或含 `sms`、`otp`、`sendcode`、`getcode`、`checkcode` 这些词，以及 `/sendSms`、`/getSmsCode` 这类动词组合的接口，也不采集响应体。
+  - JS 错误的 `filename`，以及回放 DOM 里的 `href`、`src`、`srcset` 等地址属性脱敏。CSS `url()`、`data-*` 属性、`iframe` 的 `srcdoc`、`meta` 的 `content` 和页面文本里的 URL 不处理，见 [隐私与合规](/track/privacy#url-敏感参数)。
+  - 云存储签名参数 `X-Amz-Signature`、`X-Amz-Security-Token`、`X-Goog-Signature` 加入凭证键；Azure `sig`、腾讯云 COS `q-signature`、阿里云 OSS `x-oss-signature` / `x-oss-security-token`、腾讯云 COS `x-cos-security-token` 只在 URL 里替换。
+  - 响应体里像令牌的 `code`、`ticket` 替换为 `***`；`E1001`、`INVALID_PARAMETER_VALUE` 这类业务码保留。
+  - 令牌接口不采集响应体。路径先按驼峰拆词，`-`、`_` 当作词间隔。
+  - 凭证端点判定前先 URL 解码路径；缩写边界也拆词，`/APIGetToken` 命中。
+  - 查询键开头多余的 `?` 解码前后都去掉；缺 `//` 的 `mailto:u:p@h` 等不遮。
+  - 动词 `get`、`refresh`、`renew`、`issue`、`exchange` 须在词首，可接 `access`、`auth`、`id`、`session`、`csrf`、`user`，再接 `token`。
+  - `token` 在词首、后接 `exchange` 或 `refresh` 也算，如 `/tokenExchange`、`/token-refresh`。
+  - URL 脱敏只改 userinfo、敏感路径参数（如 `;jsessionid=`）、查询串和 hash，其他参数逐字保留。
+  - 匹配前先删掉 TAB、换行和回车；相对 URL 与 `//` 开头的 URL 保持原样。
+  - 像令牌判定的字符集加入 `%`。
 - **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
 
 ## 2026-10-18 · 重复提交返回 400

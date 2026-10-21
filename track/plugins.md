@@ -79,7 +79,53 @@ const track = createTracker({
 内置保护（不可关闭）：
 
 - SDK 自身端点（`/track/collect`、`/track/config`、`/track/replay`、`/track/api-body` 等）不采集，防止循环。
-- 凭证端点**永不采集响应体**，事件标记 `body_skipped: 'credential'`。路径（小写后）含以下片段即算：登录与令牌 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`；注册 `/register`、`/signup`、`/sign-up`；密码 `/password`、`/forgot`、`/reset-password`、`/change-password`；验证码与多因素 `/otp`、`/sms`、`/captcha`、`/mfa`、`/2fa`、`/totp`、`/verify-code`、`/verification-code`。
+- 凭证端点**永不采集响应体**，事件标记 `body_skipped: 'credential'`。
+- 判定前先对路径做 URL 解码（`/api/get%5Ftoken` 按 `/api/get_token` 判定）。
+- 再把路径小写，满足下面任一条就算：
+  - **含片段**：
+    - 登录与令牌：`/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`。
+    - 注册：`/register`、`/signup`、`/sign-up`。
+    - 密码：`/password`、`/forgot`、`/reset-password`、`/change-password`。
+    - 验证码与多因素：`/captcha`、`/mfa`、`/2fa`、`/totp`。
+    - 还有 `/verify-code`、`/verification-code`。
+  - **整段等于**：
+    - 段名：`login`、`signin`、`sign-in`、`logout`、`token`、`sso`、`cas`。
+    - 左侧是 `/` 或开头，右侧是 `/`、`.`、`;` 或结尾。
+    - 命中：`/api/login`、`/cas/login`、`/api/v1/login.json`。
+    - 也命中：`/login.do`、`/login;jsessionid=x`。
+    - 不命中：`/monitor/loginLog/list`、`/tokens/stats`、`/case/list`。
+  - **含子串**：
+    - `captcha`、`verifycode`、`verificationcode`。
+    - 如 `/getCaptcha`、`/user/verifyCode`。
+  - **含词**：
+    - 词：`sms`、`otp`、`sendcode`、`getcode`、`checkcode`。
+    - 路径按非字母字符切词，某个词恰好相等才算。
+    - 命中：`/api/sms/send`、`/send-otp`、`/user/getCode`。
+    - 不命中：`/smsTemplate/list`、`/barcode/getcodeList`。
+  - **动词组合**：
+    - 动词：`send`、`get`、`resend`、`check`、`verify`、`validate`。
+    - 紧跟：`sms`、`otp`、`smscode`、`mobilecode`、`phonecode`。
+    - 也可紧跟：`emailcode`、`msgcode`。
+    - 命中：`/sendSms`、`/getSmsCode`、`/sendOtp`、`/sendEmailCode`。
+    - 不命中：`/smsTemplate/list`。
+  - **令牌接口**：
+    - 拆词：先拆缩写边界（`APIGetToken` → `API Get Token`）。
+    - 再按驼峰拆词，`-`、`_` 当作词间隔。
+    - 动词：`get`、`refresh`、`renew`、`issue`、`exchange`，须在词首。
+    - 中间词（可选）：`access`、`auth`、`id`、`session`、`csrf`、`user`，再接 `token`。
+    - 名词在前：`token` 在词首、后接 `exchange` 或 `refresh` 也算。
+    - 命中：`/getToken`、`/refresh-token`、`/getSessionToken`、`/tokenExchange`。
+    - 不命中：`/forgetToken`、`/budgetTokenUsage`、`/tokens/stats`。
+  - **已知误判**（只是少采一个响应体）：
+    - `/getTokenList`、`/getTokenizer`、`/getTokenFee`。
+    - `/getAuthTokenConfig`、`/getTokenStats`。
+    - `/sms-template/get`、`/otp-config/list`。
+    - `sendSmsNotice`、`budgetSmsCode`、`/captchaConfig`。
+    - `/passwordPolicy/list`、`/registerCenter`。
+    - 段名恰好是 `login`、`token`、`sso`、`cas` 的普通接口。
+    - 完整列表见 [mugsun-track CHANGELOG][track-changelog]。
+  - 有的接口会返回验证码，但以上规则都没命中（例如其他驼峰命名）。
+    请用 `apiBodyEnabled: false` 关掉响应体采集。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
 ::: warning 0.3.0 行为变更
@@ -102,3 +148,5 @@ const track = createTracker({
 ## 下一步
 
 [配置项](/track/install#配置项) · [隐私与合规](/track/privacy)
+
+[track-changelog]: https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md

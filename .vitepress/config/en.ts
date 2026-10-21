@@ -197,6 +197,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Getting started', link: '/en/guide/getting-started' },
             { text: 'Architecture', link: '/en/guide/architecture' },
             { text: 'FAQ', link: '/en/guide/faq' },
+            { text: 'Brand guidelines', link: '/en/guide/brand' },
             { text: 'Changelog', link: '/en/guide/changelog' },
           ],
         },

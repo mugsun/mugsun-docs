@@ -30,7 +30,22 @@
 
 ## URL 敏感参数
 
-接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、回放 Meta 事件里的页面地址都保留查询串，但以下键的值替换为 `***`，业务参数保留。
+接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、JS 错误的 `filename`、回放 Meta 事件里的页面地址，以及回放 DOM 里的地址属性都保留查询串，但以下键的值替换为 `***`，业务参数保留。
+
+回放 DOM 里处理的属性：`href`、`src`、`srcset`、`imagesrcset`、`action`、`xlink:href`、`formaction`、`poster`、`data`，属性名不分大小写。`srcset` 和 `imagesrcset` 按 HTML 规范解析候选（URL 里可以有逗号），逐个替换，`1x`、`480w` 等描述符保留；`data:` 候选单独跳过。
+
+回放里以下位置的地址**不做脱敏**：
+
+- 内联样式和样式表里 CSS `url()` 的地址
+- `data-*` 属性
+- `iframe` 的 `srcdoc`
+- `meta` 的 `content`
+- 页面文本里出现的 URL
+- 嵌在路径里的令牌，如 `/reset/<token>`（所有采集点都不处理）
+
+如果这些位置可能带令牌或签名，请给对应元素加 `data-track-mask`，回放里整块不录。
+
+`data-track-mask` 要在开始录制时或元素插入页面时就已存在。之后再加，已录下的内容不会被遮住。加上之后，该元素后续的变化也不再录制。
 
 凭证键，URL 和响应体共用：
 
@@ -38,12 +53,14 @@
 token  access_token  refresh_token  id_token  authorization  auth  jwt
 api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
 password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
+x-amz-signature  x-amz-security-token  x-goog-signature
 ```
 
 只在 URL 里替换的键，响应体里保留原值：
 
 ```text
 code  sign  signature  ticket  otp
+sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 ```
 
 匹配时忽略大小写与 `_`、`-`，`accessToken`、`Refresh-Token` 也算；归一后精确匹配，`tokenCount`、`sessionTimeout` 不算。hash 里的参数同样处理，覆盖 OAuth 隐式流和 hash 路由：
@@ -56,7 +73,21 @@ code  sign  signature  ticket  otp
 
 `url_path` 只取 pathname，不含查询串和 hash。
 
-非法 URL 原样返回；相对 URL 保持相对形态。
+只改 userinfo、敏感路径参数、查询串和 hash。协议、主机和路径的其余部分逐字保留。
+
+- `https://user:pass@host/…` 的 `user:pass` 替换为 `***`。
+- userinfo 取到最后一个 `@` 为止。
+- `//` 写成反斜杠也能识别；http(s) 等协议里反斜杠和 `/` 一样结束主机部分。
+- 先去掉开头的空白和控制字符，再删掉 TAB、换行和回车。
+- 查询键开头多余的 `?` 在解码前后都会去掉，`/a??token=`、`/a?%3Ftoken=` 都替换。
+- 路径参数里的敏感键也替换，如 `;jsessionid=…` 变为 `;jsessionid=***`。
+- 已知漏遮：
+  - http、https、ws、wss、ftp、file 及 `//` 开头的 URL 里，
+    userinfo（用户名或密码）含字面 `\` 时不遮，如 `https://u:p\w@h`。
+  - 浏览器把 `\` 当作主机结束，这种串解析不出这段凭证。
+  - 缺 `//` 的写法也不遮，如 `https:u:p@h`、`mailto:u:p@h`。
+
+相对 URL（`img/a.jpg?token=…`）和协议相对 URL（`//cdn.x/a?token=…`）保持原样，只替换参数值。
 
 ## 响应体中的凭证字段
 
@@ -68,6 +99,20 @@ code  sign  signature  ticket  otp
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   原样上传
 ```
 
+例外：`code`、`ticket` 的值像令牌时也替换。
+
+- JWT 形态：三段 base64url，以 `eyJ` 开头。
+- 长度 ≥16，同时有字母和数字。
+- 只含字母、数字和 `.`、`_`、`~`、`+`、`/`、`=`、`%`、`-`。
+- 覆盖 base64、hex、`4/0Ab…` 授权码和 URL 编码后的 `4%2F0Ab…`。
+
+大写下划线业务码不替换，如 `INVALID_PARAMETER_VALUE`。`0`、`200`、`"E1001"` 这类短业务码也保留：
+
+```text
+{"code":"E1001"}                    →   原样上传
+{"code":"SplxlOBeZQQYbYS6WxSbIA"}    →   {"code":"***"}
+```
+
 - **层级**：对象和数组逐层检查，最多 8 层；更深的子树整体替换为 `***`，不会原样上传。
 - **非 JSON**：只采集 content-type 为 JSON 的响应体，其他类型（HTML、文本、二进制、SSE）一律不采集。
 - **声明为 JSON 但解析失败**：不上传响应体，`api_request` 事件标记 `body_skipped: 'unparsable'`。
@@ -76,7 +121,7 @@ code  sign  signature  ticket  otp
 
 `session` 是会话标识，不是业务码，归在凭证键里，响应体里也替换为 `***`。
 
-键名不在凭证清单里的令牌（例如 `sessionKey`、`userToken`，以及响应体里的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
+键名不在凭证清单里的令牌（例如 `sessionKey`、`userToken`，以及响应体里长度不足 16、纯数字或纯字母的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
 
 ## 开启遮罩与过滤
 
