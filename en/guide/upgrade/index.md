@@ -17,8 +17,8 @@ The mugsun-track CHANGELOG also lists 0.1.1. That version was never published to
 
 ## Upgrade notes by version
 
-- [core 0.1.0 → 0.2.0](./core-0.2): 0.2.0 is not released yet. This page follows the CHANGELOG on the main branch and may change before release.
-- [Tracking SDK 0.1.0 → 0.2.0](./track-web-0.2): the upgrade between the two versions published on npm.
+- [core 0.1.0 → 0.2.0](./core-0-2-0): 0.2.0 is not released yet. This page follows the CHANGELOG on the main branch and may change before release.
+- [Tracking SDK 0.1.0 → 0.2.0](./track-web-0-2-0): the upgrade between the two versions published on npm.
 
 boot and the admin console have never been released, so they have no per-version upgrade notes. If you already run the boot main branch, read these two pages when you move to a newer main:
 
