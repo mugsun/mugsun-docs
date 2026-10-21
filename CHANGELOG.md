@@ -6,6 +6,7 @@
 
 ### 变更
 
+- ms-badge：dot 优先于 count（不再出空气泡）；优先级文档改为 label > dot > count
 - 管理台 e2e：移除数字验证码后用例不再从 Redis 读图形码，改为要求后端关闭验证码（`mugsun.captcha.enabled=false` 或平台租户开关）；新增 `pnpm test:e2e:captcha-on`，在验证码开启的后端上断言无令牌登录、发码被拒
 - 埋点文档对齐 npm `@mugsun/track-web@0.2.0`：安装示例、更新日志、隐私默认值；安装页补「版本与发布」流程
 - 首页、指南与信息架构重写；各产品线补齐概览、快速开始、配置参考与 FAQ

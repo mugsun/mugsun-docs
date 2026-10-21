@@ -2,6 +2,12 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · ms-badge 圆点优先
+
+### mugsun-uniappx-ui
+
+- ms-badge：dot 优先于 count（不再出空气泡）。优先级为 label > dot > count。（[197dc26](https://github.com/mugsun/mugsun-uniappx-ui/commit/197dc26)）
+
 ## 2026-10-19 · GIS 图层缓冲跳过极冠
 
 ### mugsun-boot
