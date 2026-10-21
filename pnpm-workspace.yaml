@@ -1,2 +1,6 @@
+# 安装脚本白名单（ci-checklist 3.9）。pnpm 11 用 allowBuilds 取代了
+# onlyBuiltDependencies，也不再读 package.json 的 pnpm 字段。
+# 只有列在这里的包可以跑 install/postinstall；新增条目须安全官审。
+# esbuild：postinstall 校验并落位平台二进制，vitepress 构建依赖它。
 allowBuilds:
   esbuild: true

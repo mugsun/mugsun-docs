@@ -1,0 +1,13 @@
+# 漏洞忽略清单（ci-checklist 3.1）。新增条目须安全官审。
+# 每条必须写 reason 和 ignoreUntil，到期日距今不超过 90 天；
+# 过期条目由 scripts/check-vulns.py 判为失败。pnpm audit 门禁也读本文件的 id。
+
+[[IgnoredVulns]]
+id = "GHSA-587h-7wmj-h5pm"
+ignoreUntil = 2027-01-19T00:00:00Z
+reason = "vite 5.4.21 是 vitepress 1.x 的构建期依赖，只在本地 dev/构建时运行，站点产物是静态文件；修复版本 6.4.4 需要升级到 vitepress 2，另行处理"
+
+[[IgnoredVulns]]
+id = "GHSA-fx2h-pf6j-xcff"
+ignoreUntil = 2027-01-19T00:00:00Z
+reason = "同上：vite 5.4.21 仅构建期使用，修复版本 6.4.3 需要升级到 vitepress 2，另行处理"
