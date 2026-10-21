@@ -75,7 +75,7 @@ Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count t
 
 Only userinfo, sensitive path parameters, the query string and the hash are changed. The scheme, host and the rest of the path are kept verbatim.
 
-- The `user:pass` in `https://user:pass@host/…` becomes `***`.
+- The `user:pass` in `https://user:pass@host/…` becomes `***`. It is split at the last `@`, and backslash variants of `//` are accepted.
 - Sensitive path parameters are masked, so `/app;jsessionid=…` becomes `/app;jsessionid=***`.
 - TAB, LF and CR are removed before matching, as browsers do.
 
