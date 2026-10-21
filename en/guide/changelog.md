@@ -2,6 +2,12 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · E2E runs with the captcha off
+
+### mugsun-pc
+
+- The digit captcha is gone, and the e2e tests no longer read image codes from Redis. The main suite, `pnpm test:e2e`, needs the backend's captcha off. The new `pnpm test:e2e:captcha-on` runs against a backend with the captcha on and checks that login, registration and the forgot-password code request without a `captchaToken` return `code` `40013`. See [Development · E2E and the captcha](/en/pc/development#e2e-and-the-captcha).
+
 ## 2026-10-21 · ms-badge dot takes precedence
 
 ### mugsun-uniappx-ui

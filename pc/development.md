@@ -26,10 +26,17 @@ pnpm dev
 | `pnpm build` | `vue-tsc --noEmit` 类型检查后 `vite build` |
 | `pnpm serve` | 预览构建产物 |
 | `pnpm test` | 单元测试（vitest） |
-| `pnpm test:e2e` | 端到端测试（playwright；e2e 开发端口 `3007`，boot 侧需设置 `MUGSUN_FRONT_URL`，并关闭验证码：`mugsun.captcha.enabled=false` 或关闭平台租户的验证码开关；用例不解验证码，也不再从 Redis 读图形码） |
-| `pnpm test:e2e:captcha-on` | 验证码开启时的拦截用例（`e2e/captcha-on/`）：断言不带 `captchaToken` 调登录、忘记密码发码都被拒（`40013`）。前置：boot 验证码开启（`mugsun.captcha.enabled=true` 且平台租户开关开启），与主套分开对两个后端配置各跑一次；不解题、不走旁路 |
+| `pnpm test:e2e` | 端到端测试（playwright；e2e 开发端口 `3007`，boot 侧需设置 `MUGSUN_FRONT_URL`）。需关闭验证码，见下 |
+| `pnpm test:e2e:captcha-on` | 验证码开启时的拦截用例。需开启验证码，见下 |
 | `pnpm lint` / `pnpm fix` | ESLint 检查 / 自动修复 |
 | `pnpm gen:api` | 从 `http://localhost:8080/v3/api-docs` 生成 `src/types/api/openapi.d.ts`（须 boot 已启动） |
+
+### e2e 与验证码
+
+e2e 不解验证码，也不从 Redis 读答案，所以分两套、对两种后端配置各跑一次：
+
+- **主套 `pnpm test:e2e`**：boot 须关闭验证码，`mugsun.captcha.enabled=false`，或用 `POST /system/tenant/captcha` 关掉平台租户（`000000`）的开关。用例开始前会查 `/auth/captcha/config`，验证码还开着就直接报错，并写明 HTTP 状态。
+- **验证码开启套 `pnpm test:e2e:captcha-on`**（`e2e/captcha-on/`）：boot 保持验证码开启（默认）。断言不带 `captchaToken` 调登录、注册、忘记密码发码都被拒：HTTP 200，`code` 为 `40013`。后端没开验证码时这几条会跳过并写明原因。不解题，也不走任何旁路。
 
 ## 新增页面的推荐流程
 

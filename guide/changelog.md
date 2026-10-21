@@ -2,6 +2,12 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · e2e 改为关闭验证码
+
+### mugsun-pc
+
+- 数字验证码已移除，e2e 不再从 Redis 读图形码。主套 `pnpm test:e2e` 要求后端关闭验证码；新增 `pnpm test:e2e:captcha-on`，在开着验证码的后端上断言不带 `captchaToken` 的登录、注册、忘记密码发码都返回 `code` `40013`。详见 [开发 · e2e 与验证码](/pc/development#e2e-与验证码)。
+
 ## 2026-10-21 · ms-badge 圆点优先
 
 ### mugsun-uniappx-ui

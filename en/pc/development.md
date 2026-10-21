@@ -24,10 +24,17 @@ pnpm dev
 | `pnpm build` | Type-check with `vue-tsc --noEmit`, then `vite build` |
 | `pnpm serve` | Preview the production build |
 | `pnpm test` | Unit tests (vitest) |
-| `pnpm test:e2e` | End-to-end tests (Playwright; the e2e dev port is `3007`, so set `MUGSUN_FRONT_URL` on boot and turn the captcha off with `mugsun.captcha.enabled=false` or the platform tenant's captcha switch; the tests don't solve captchas and no longer read image codes from Redis) |
-| `pnpm test:e2e:captcha-on` | Captcha-on checks (`e2e/captcha-on/`): login and the forgot-password code request without a `captchaToken` must be rejected (`40013`). Requires boot with the captcha on (`mugsun.captcha.enabled=true` and the platform tenant's switch on); run it separately from the main suite, once per backend setup. No solving, no bypass |
+| `pnpm test:e2e` | End-to-end tests (Playwright; the e2e dev port is `3007`, so set `MUGSUN_FRONT_URL` on boot). Needs the captcha off, see below |
+| `pnpm test:e2e:captcha-on` | Checks that run with the captcha on. Needs the captcha on, see below |
 | `pnpm lint` / `pnpm fix` | ESLint check / auto-fix |
 | `pnpm gen:api` | Generate `src/types/api/openapi.d.ts` from `http://localhost:8080/v3/api-docs` (boot must be running) |
+
+### E2E and the captcha
+
+The e2e tests don't solve captchas or read answers from Redis, so there are two suites, each run against a differently configured backend:
+
+- **Main suite, `pnpm test:e2e`**: boot must have the captcha off, with `mugsun.captcha.enabled=false` or by turning off the platform tenant (`000000`) with `POST /system/tenant/captcha`. Before the tests start they check `/auth/captcha/config` and fail with the HTTP status if the captcha is still on.
+- **Captcha-on suite, `pnpm test:e2e:captcha-on`** (`e2e/captcha-on/`): leave the captcha on (the default). It checks that login, registration and the forgot-password code request without a `captchaToken` are rejected: HTTP 200 with `code` `40013`. If the backend has the captcha off, these tests are skipped with the reason. Nothing is solved and nothing is bypassed.
 
 ## Adding a page
 
