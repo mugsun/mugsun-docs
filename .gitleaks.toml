@@ -1,7 +1,14 @@
 # gitleaks 配置：在默认规则上追加 allowlist。
 # 新增或修改 allowlist 条目必须安全官审；只写位置和规则名，不写密钥值。
-# 条目按「commit + 文件」同时匹配才放行，之后改到这些行仍会重新报出。
+# 放行要对应到「规则 + 文件 + 精确值」，三者同时匹配才放行，值一变就会重新报出。
 # repo-checks.yml 和 security.yml 都用 --config 显式引用本文件。
+#
+# allowlist 规矩：
+# - 只用 [[allowlists]]，condition = "AND"；
+# - 必须写 targetRules，只放行指定的规则；
+# - paths 写精确路径，用 ^…$ 锚定，不用通配目录；
+# - regexTarget = "secret"，regexes 对整串锚定（^…$），只匹配那一个值；
+# - 不允许只按路径放行，也不允许按 commit 放行。
 
 [extend]
 useDefault = true

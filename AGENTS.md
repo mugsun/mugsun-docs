@@ -30,6 +30,20 @@ Docs CI、Security scan、repo-checks 三项都成功后才能推。
 
 不 force-push，不加 `--no-verify`，不 rebase 已推送的分支。
 
+改动 `.gitleaks*` 和 `.github/workflows/` 下的文件，必须经安全官审。
+
+### gitleaks allowlist 的规矩
+
+allowlist 写在 `.gitleaks.toml`，只用 `[[allowlists]]`，`condition` 设为 `"AND"`。
+
+每个条目必须写 `targetRules`，只放行指定的规则。
+
+`paths` 写精确路径，用 `^…$` 锚定，不用通配目录。
+
+`regexTarget` 设为 `"secret"`，`regexes` 对整串锚定，只匹配那一个值。
+
+不允许只按路径放行，也不允许按 commit 放行。
+
 合入后当即看 main 上这个 SHA 的 CI，作者自己删除远端分支。
 
 新增或修改 workflow 时，concurrency 按 3.17 写：

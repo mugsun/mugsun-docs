@@ -16,6 +16,7 @@
   - gitleaks 分支推送扫 HEAD，main 推送和手动触发扫 --all
   - 新增 .gitleaks.toml，repo-checks 和 Security 都显式带 --config
   - AGENTS.md 新增「合入流程」一节
+  - 写明 .gitleaks* 与 workflow 改动须安全官审，以及 allowlist 规矩
 - 新增「报错速查」，报错原文取自 boot、core、pc 源码；常见问题新增「部署与运行」八问
 - 新增「升级指南」章：版本总览、core 0.1.0 → 0.2.0、埋点 SDK 0.1.0 → 0.2.0
 - 定时任务页的验证 SQL 对照 PowerJob 5.1.2 核实，改查 instance_id
