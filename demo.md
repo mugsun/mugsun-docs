@@ -113,7 +113,9 @@ demo 有三个连接池，大小用环境变量调：
 所以先停 demo 再迁移，或者迁移时把池调小，例如：
 
 ```bash
---mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=prod --mugsun.demo.migrate-only=true \
+  --mybatis-flex.datasource.primary.maximum-pool-size=4 \
+  --mybatis-flex.datasource.track.maximum-pool-size=3
 ```
 
 普通账号连满时，`postgres` 超级用户还能用保留的 3 个连接排查。
