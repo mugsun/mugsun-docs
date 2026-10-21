@@ -48,7 +48,15 @@ MUGSUN_OPENAPI_TRUSTED_PROXIES=172.30.88.10/32,::1/128
 
 设为 `false` 后，只校验访问令牌或 API Key，不再验签，也不再防重放。
 
-当前版本在 `prod` 环境不强制这个值，后续版本将改为拒绝启动。生产环境必须保持 `true`。
+生产环境设为 `false` 会拒绝启动，除非同时设置下面这个豁免开关：
+
+```properties
+mugsun.open-api.i-understand-unsigned-requests-are-insecure=true
+```
+
+开启豁免后每次启动打 WARN 日志。生产环境必须保持 `true`。
+
+没配 profile 也按生产处理，见 [启动守卫与豁免开关](/boot/configuration#启动守卫与豁免开关)。
 
 ## 限流
 

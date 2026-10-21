@@ -34,7 +34,9 @@
   - 补启动自检、Docker 跑迁移工具示例、多 schema 说明
   - 启动自检每个字段抽 3 行；生产环境下跳过开关不生效
   - 写明 ECB 只留给 `sys_user.id_card` 的例外与局限
-
+- boot 配置参考新增「启动守卫与豁免开关」（中英），安全清单和开放平台同步
+  - 非 dev/test/local 一律按生产，没配 profile 也会被拦；自测请显式开 `dev`
+  - 写明签名、国密两个豁免开关，以及关闭国密后密码完全靠 TLS 保护
 - ms-badge：dot 优先于 count（不再出空气泡）；优先级文档改为 label > dot > count
 - 管理台 e2e：移除数字验证码后，用例不再从 Redis 读图形码
   - 改为要求后端关闭验证码：`mugsun.captcha.enabled=false` 或平台租户开关

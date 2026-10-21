@@ -30,11 +30,13 @@ alias CODE="curl -s -o /dev/null -w '%{http_code}\n'"
   - 执行 `curl -s https://your-host/api/auth/social/sources`，查看返回的社交登录来源清单。
   - 响应 `data` 中的 `mockEnabled` 应为 `false`。
 - [ ] 生产不得开启 `mugsun.lab.seed-fronttest`，开启后会创建一个弱口令测试账号
-  - 激活了 `prod` profile 时，开启这项会拒绝启动。未激活 `prod` 的部署不拦截，需要自己确认配置里没有打开。
+  - 生产开启会拒绝启动；只有显式激活 `dev`、`test` 或 `local` 的部署不拦截（见[启动守卫](/boot/configuration#启动守卫与豁免开关)）。
   - 用 admin 进入「系统管理 → 用户」搜索 `fronttest`，应查不到这个账号。
-- [ ] 等保或密评场景保持 `mugsun.crypto.gm-enabled` 开启（[配置参考](/boot/configuration#安全与密钥)）
+- [ ] 等保或密评场景保持 `mugsun.crypto.gm-enabled` 开启；关闭后密码完全靠 TLS 保护（[配置参考](/boot/configuration#安全与密钥)）
   - 打开登录页和浏览器开发者工具的 Network 面板，用一个错误口令提交登录。
   - 请求体里的口令字段应是一串密文，而不是输入的原文。
+- [ ] 生产环境不依赖「没配 profile」：没配也按生产拦截，自测请显式激活 `dev`（[启动守卫](/boot/configuration#启动守卫与豁免开关)）
+- [ ] 未开启 `i-understand-...` 豁免开关；如已开启，确认原因，并确认所有登录、改密流量都走 HTTPS
 
 ## 网络与网关
 

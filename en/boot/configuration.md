@@ -25,7 +25,7 @@ The example no longer ships key values; with the dev profile the API and field e
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `MUGSUN_INIT_PASSWORD` | — | Initial admin password. prod refuses to start if it's missing or still the built-in default |
+| `MUGSUN_INIT_PASSWORD` | — | Initial admin password. Production (see "Startup guards and exemption switches" below) refuses to start if it's missing |
 | `MUGSUN_GM_ENABLED` | `true` | Master switch for SM-series crypto (SM2 transport / SM3 digests) |
 | `MUGSUN_SM4_KEY` | empty | SM4 key for field encryption; required outside dev, see "API and field encryption keys" below |
 | `MUGSUN_API_KEY` | empty | API encryption key, 32 hex chars or 16-byte base64; required outside dev |
@@ -42,7 +42,7 @@ When `MUGSUN_GM_ENABLED` (setting `mugsun.crypto.gm-enabled`) is off:
 - General-purpose digests switch from SM3 to SHA-256; currently only the encryption demo endpoint uses them. Audit signing uses its own SM2 key pair and is not affected.
 - Password storage is not affected by this switch. The server always stores passwords with BCrypt, a salted slow hash, and never with SHA-256.
 
-The current version does not enforce SM-series crypto in the `prod` environment; a later version will refuse to start instead. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
+Turning SM-series crypto off in production stops startup unless the exemption switch is also set; see "Startup guards and exemption switches" below. Once it is off, passwords rely entirely on TLS. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
 
 ## API and field encryption keys (breaking change)
 
@@ -475,6 +475,28 @@ This setting is for PostgreSQL-protocol databases such as KingbaseES, so that bu
 When it is set, business tables (except `track_*`) and table names in hand-written SQL get this schema prefix, and Flyway uses the schema and creates it if needed.
 
 When it is empty, nothing changes and the connection's default schema is used, usually `public` on PostgreSQL. openGauss has not been tested.
+
+## Startup guards and exemption switches
+
+The settings below stop startup when they are misconfigured in production. Only explicitly active profiles (`spring.profiles.active`) count: the list must be non-empty, include
+`dev`, `test` or `local`, and include no production name (see below). Everything else is treated as production.
+Names are trimmed and lowercased before comparison:
+
+- No profile at all is treated as production. **This is a behavior change**: for local testing, pass `--spring.profiles.active=dev` explicitly (`mvn spring-boot:run` already activates `dev`).
+- If the active list contains `prod`, `production`, `prd` or `staging`, it is production even with `dev`; `DEV` equals `dev`.
+- Any other name on its own (such as `demo` or `qa`) is also production.
+- `spring.profiles.default` is ignored: `default=dev` with no active profile is production.
+
+| Setting | Dangerous value in production | Exemption switch |
+| --- | --- | --- |
+| `mugsun.security.init-password` | not set | none |
+| `mugsun.lab.seed-fronttest` | `true` (seeds a test account with a weak password) | none |
+| `mugsun.open-api.sign-required` | `false` | `mugsun.open-api.i-understand-unsigned-requests-are-insecure=true` |
+| `mugsun.crypto.gm-enabled` | `false` | `mugsun.crypto.i-understand-plaintext-passwords-rely-on-tls=true` |
+
+Use an exemption switch only when you truly cannot meet the requirement; every start then logs a WARN.
+
+**With SM-series crypto off, passwords rely entirely on TLS.** Even with the exemption, in production sign-in, registration, password change and password reset requests must be HTTPS (checked with `request.isSecure()`) or they are rejected. Behind a reverse proxy, have the proxy send `X-Forwarded-Proto` and set `server.forward-headers-strategy=native` on the backend; a forged header on its own is not trusted.
 
 ## Production
 

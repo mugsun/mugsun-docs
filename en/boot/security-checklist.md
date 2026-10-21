@@ -29,11 +29,13 @@ alias CODE="curl -s -o /dev/null -w '%{http_code}\n'"
   - Run `curl -s https://your-host/api/auth/social/sources` to get the list of social sign-in sources.
   - `mockEnabled` in the response `data` should be `false`.
 - [ ] `mugsun.lab.seed-fronttest` is not enabled in production; it creates a test account with a weak password
-  - With the `prod` profile active, turning it on makes startup fail. Deployments without `prod` are not blocked, so confirm the setting is off yourself.
+  - Turning it on in production makes startup fail; only deployments that explicitly activate `dev`, `test` or `local` are not blocked (see [Startup guards](/en/boot/configuration#startup-guards-and-exemption-switches)).
   - Sign in as admin, open System → Users and search for `fronttest`. The account should not exist.
-- [ ] For MLPS (Dengbao) or commercial cryptography assessments, `mugsun.crypto.gm-enabled` stays on ([Configuration](/en/boot/configuration#security-and-keys))
+- [ ] For MLPS (Dengbao) or commercial cryptography assessments, `mugsun.crypto.gm-enabled` stays on; once it is off, passwords rely entirely on TLS ([Configuration](/en/boot/configuration#security-and-keys))
   - Open the sign-in page with the browser's developer tools on the Network tab, then submit a wrong password.
   - The password field in the request body should be ciphertext, not the text you typed.
+- [ ] Production does not rely on "no profile": that is also blocked as production, so activate `dev` explicitly for local testing ([Startup guards](/en/boot/configuration#startup-guards-and-exemption-switches))
+- [ ] No `i-understand-...` exemption switch is on; if one is, the reason is recorded and all sign-in and password-change traffic goes over HTTPS
 
 ## Network and gateway
 
