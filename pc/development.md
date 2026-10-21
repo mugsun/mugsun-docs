@@ -4,7 +4,7 @@
 
 - Node.js ≥ 22.13、pnpm ≥ 11.11（`packageManager` 锁定 `pnpm@11.28.2`）
 - [mugsun-boot](/boot/) 已在 `:8080` 运行
-- 无论是否启用埋点模块，[mugsun-track](https://github.com/mugsun/mugsun-track) 与本仓库**同级**克隆：SDK 以 `file:../mugsun-track` 引用，且 SDK 仓库不提交 `dist/`
+- 无论是否启用埋点模块，[mugsun-track](https://github.com/mugsun/mugsun-track) 与本仓库同级克隆：SDK 以 `file:../mugsun-track` 引用，且 SDK 仓库不提交 `dist/`
 
 ## 启动
 
@@ -26,9 +26,48 @@ pnpm dev
 | `pnpm build` | `vue-tsc --noEmit` 类型检查后 `vite build` |
 | `pnpm serve` | 预览构建产物 |
 | `pnpm test` | 单元测试（vitest） |
-| `pnpm test:e2e` | 端到端测试（playwright；e2e 开发端口 `3007`，boot 侧需设置 `MUGSUN_FRONT_URL`） |
+| `pnpm test:e2e` | 端到端测试（playwright；e2e 开发端口 `3007`，boot 侧需设置 `MUGSUN_FRONT_URL`）。需关闭验证码，见下 |
+| `pnpm test:e2e:captcha-on` | 验证码开启时的拦截用例。需开启验证码，见下 |
 | `pnpm lint` / `pnpm fix` | ESLint 检查 / 自动修复 |
 | `pnpm gen:api` | 从 `http://localhost:8080/v3/api-docs` 生成 `src/types/api/openapi.d.ts`（须 boot 已启动） |
+
+### e2e 与验证码
+
+e2e 不解验证码，也不从 Redis 读答案。所以分两套，各对一种后端配置跑。
+
+**主套 `pnpm test:e2e`**
+
+- boot 须关闭验证码。
+- 关法一：`mugsun.captcha.enabled=false`。
+- 关法二：用 `POST /system/tenant/captcha` 关掉平台租户（`000000`）。
+- 开跑前会查 `/auth/captcha/config`。验证码还开着就报错。
+- config 异常也直接报错，并写明 HTTP 状态：
+  - 非 2xx
+  - 响应不是 JSON
+  - `code` 不是 200
+  - `data.enabled` 缺失
+- 需要 PowerJob Server（7700）已可达，W4-3 定时任务用例要用。
+- 7700 不通时直接报错，不会去动容器。
+
+**验证码开启套 `pnpm test:e2e:captcha-on`**
+
+- 用例在 `e2e/captcha-on/`，配置是 `playwright.captcha-on.config.ts`。
+- boot 保持验证码开启（默认）。不需要 PowerJob。
+- 断言不带 `captchaToken` 时，以下接口都被拒：
+  - 登录
+  - 注册
+  - 忘记密码发码
+- 被拒的表现：HTTP 200，`code` 为 `40013`。
+- 后端明确返回 `enabled=false` 时，这几条会跳过并写明原因。
+- config 异常时直接报错，不会跳过。
+- 不解题，也不走任何旁路。
+
+**`E2E_START_POWERJOB`**
+
+- 设为 `1` 时，主套发现 7700 不通会先 `docker start` 再等端口。
+- 容器名用 `E2E_POWERJOB_CONTAINERS` 指定，逗号分隔。
+- 默认容器名是 `powerjob-mysql,powerjob-server`。
+- 示例：`E2E_START_POWERJOB=1 E2E_POWERJOB_CONTAINERS=my-pj-db,my-pj pnpm test:e2e`。
 
 ## 新增页面的推荐流程
 

@@ -4,7 +4,7 @@ mugsun-pc 自带生产镜像：第一阶段用 Node 22 + pnpm 11.28.2 构建，�
 
 ## 构建镜像
 
-埋点 SDK `@mugsun/track-web` 是 `file:../mugsun-track` 依赖，构建时通过命名构建上下文 `track` 传进去，所以 mugsun-track 要和 mugsun-pc 平级克隆：
+埋点 SDK `@mugsun/track-web` 是 `file:../mugsun-track` 依赖，构建时通过命名构建上下文 `track` 传进去，所以 mugsun-track 要和 mugsun-pc 同级克隆：
 
 ```bash
 cd mugsun-pc
@@ -70,7 +70,7 @@ font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'sel
 
 ## 用一条命令启动完整环境
 
-`mugsun-pc/docker/compose.pc.yml` 编排了管理台、后端（mugsun-boot 的 Dockerfile）、PostgreSQL（PostGIS + pgvector）和 Redis。四个仓库（mugsun-core、mugsun-boot、mugsun-track、mugsun-pc）平级克隆后：
+`mugsun-pc/docker/compose.pc.yml` 编排了管理台、后端（mugsun-boot 的 Dockerfile）、PostgreSQL（PostGIS + pgvector）和 Redis。四个仓库（mugsun-core、mugsun-boot、mugsun-track、mugsun-pc）同级克隆后：
 
 ```bash
 cd mugsun-pc

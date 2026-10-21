@@ -11,6 +11,36 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 - **Random multi-type by default**: the platform enables all five types (`SLIDER`, `WORD_CLICK`, `ROTATE`, `ICON_CLICK`, `JIGSAW`), each challenge picks one at random, and `GET /auth/captcha/config` returns `type: RANDOM`. Keyboard mode only gets slider or rotate.
 - **Turning captcha off**: still `mugsun.captcha.enabled=false`. See the [upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed).
 
+## 2026-10-21 · E2E runs with the captcha off
+
+### mugsun-pc
+
+- The digit captcha is gone.
+- The e2e tests no longer read image codes from Redis.
+- The main suite, `pnpm test:e2e`, needs the backend's captcha off.
+- New `pnpm test:e2e:captcha-on` runs against a backend with the captcha on:
+  - Requests without a `captchaToken` must return `code` `40013`:
+    login, registration and the forgot-password code request.
+  - It has its own config and doesn't need PowerJob.
+- A broken config response fails either suite instead of skipping quietly.
+- The main suite no longer runs `docker start` for PowerJob by default.
+- To opt in, set `E2E_START_POWERJOB=1`.
+- See [Development · E2E and the captcha][e2e-captcha].
+
+[e2e-captcha]: /en/pc/development#e2e-and-the-captcha
+
+## 2026-10-21 · ms-badge dot takes precedence
+
+### mugsun-uniappx-ui
+
+- ms-badge: dot now takes precedence over count (no more empty bubble). Priority is label > dot > count. ([197dc26](https://github.com/mugsun/mugsun-uniappx-ui/commit/197dc26))
+
+## 2026-10-19 · GIS layer buffer skips polar caps
+
+### mugsun-boot
+
+- The PostGIS layer buffer (including the buffer that spatial analysis hands to the layer query) no longer returns a result with the polar cap missing when a polygon's longitude direction cannot be determined. It skips the feature, counts it in `skipped` in the response and logs a WARN. Such polygons are usually polar caps cut at ±180°. Polygons that only cross 180° are buffered normally. Callers should check `skipped`. See [GIS limitations](/en/pc/gis#metric-limits).
+
 ## 2026-10-18 · track 0.3.0 (planned): no masking or filtering by default
 
 ### mugsun-track
@@ -18,12 +48,27 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.com/mugsun/mugsun-track/pull/19))
 
 - **No masking or filtering by default (behavior change)**: replays show page text and input values as-is (`maskTextSelector` no longer defaults to `'*'`, and the new `maskAllInputs` defaults to `false`); `apiBodyMaskEnabled` defaults to `false`, so personal-data fields in response bodies are uploaded as-is; `skipHandledErrors` defaults to `false`, so every error is reported. Password fields, `data-track-mask` areas, card fields and one-time-code fields are never recorded.
-- **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session_id` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.
+- **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session`, `session_id` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.
 - **Credential hardening** ([#20](https://github.com/mugsun/mugsun-track/pull/20)):
   - Global Privacy Control is honored by default (`respectGpc: true`), like DNT.
-  - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`, ignores case, `_` and `-`, and covers hash parameters; `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
+  - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`. Matching ignores case, `_` and `-`, and hash parameters are covered. `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
   - Sign-up, password reset / change, SMS / captcha / MFA endpoints never have their response bodies captured.
-  - Two key lists: credential keys are shared by URLs and response bodies; `code`, `sign`, `signature`, `ticket`, `session` and `otp` are replaced only in URLs and kept as-is in bodies (such as `{"code":0}`).
+  - Two key lists: credential keys (including `session`) are shared by URLs and response bodies; `code`, `sign`, `signature`, `ticket` and `otp` are replaced only in URLs and kept as-is in bodies (such as `{"code":0}`).
+- **More credential hardening**:
+  - Generic login, token and SSO endpoints match on whole path segments (`/login`, `/token`, `/sso`, `/cas`, …), so ordinary endpoints like `/loginLog`, `/tokens` and `/case` aren't affected. Paths containing `captcha` or `verifycode`, the words `sms`, `otp`, `sendcode`, `getcode` or `checkcode`, or verb combinations such as `/sendSms` and `/getSmsCode`, no longer have bodies captured either.
+  - JS error `filename`s and address attributes in the replay DOM (`href`, `src`, `srcset`, …) are redacted. CSS `url()`, `data-*` attributes, `iframe` `srcdoc`, `meta` `content` and URLs in page text aren't; see [Privacy](/en/track/privacy#url-redaction).
+  - Cloud storage signature parameters `X-Amz-Signature`, `X-Amz-Security-Token` and `X-Goog-Signature` join the credential keys; Azure `sig`, Tencent COS `q-signature` and Aliyun OSS `x-oss-signature` / `x-oss-security-token` and Tencent COS `x-cos-security-token` are replaced in URLs only.
+  - Token-like `code` and `ticket` values in bodies become `***`; business codes such as `E1001` and `INVALID_PARAMETER_VALUE` are kept.
+  - Token endpoints no longer have bodies captured. Paths are split on camelCase, and `-` and `_` count as word breaks.
+  - Paths are URL-decoded before the credential checks.
+  - Acronym boundaries are split too, so `/APIGetToken` matches.
+  - Extra leading `?` on query keys is ignored before and after decoding.
+  - Forms without `//`, such as `mailto:u:p@h`, aren't masked.
+  - `get`, `refresh`, `renew`, `issue` or `exchange` must start a word, optionally followed by `access`, `auth`, `id`, `session`, `csrf` or `user`, then `token`.
+  - `token` starting a word and followed by `exchange` or `refresh` also counts, as in `/tokenExchange` and `/token-refresh`.
+  - URL redaction only changes userinfo, sensitive path parameters (such as `;jsessionid=`), the query string and the hash; other parameters stay verbatim.
+  - TAB, LF and CR are removed before matching; relative and `//` URLs keep their form.
+  - The token-like charset now includes `%`.
 - **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
 
 ## 2026-10-18 · Duplicate submissions return 400

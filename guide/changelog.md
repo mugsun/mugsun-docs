@@ -11,6 +11,31 @@
 - **默认多题型随机**：平台默认五种题型全部启用（`SLIDER`、`WORD_CLICK`、`ROTATE`、`ICON_CLICK`、`JIGSAW`），每次取题随机出一种，`GET /auth/captcha/config` 返回 `type: RANDOM`。键盘模式只出滑块或旋转。
 - **关闭验证码**：仍用 `mugsun.captcha.enabled=false`。升级步骤见 [升级指南](/boot/upgrade#移除旧的数字图形验证码)。
 
+## 2026-10-21 · e2e 改为关闭验证码
+
+### mugsun-pc
+
+- 数字验证码已移除，e2e 不再从 Redis 读图形码。
+- 主套 `pnpm test:e2e` 要求后端关闭验证码。
+- 新增 `pnpm test:e2e:captcha-on`，对开着验证码的后端运行：
+  - 不带 `captchaToken` 的登录、注册、忘记密码发码都须返回 `code` `40013`。
+  - 用独立配置，不需要 PowerJob。
+- config 异常时两套都直接报错，不会静默跳过。
+- 主套默认不再自动 `docker start` PowerJob；要自动启动，设 `E2E_START_POWERJOB=1`。
+- 详见 [开发 · e2e 与验证码](/pc/development#e2e-与验证码)。
+
+## 2026-10-21 · ms-badge 圆点优先
+
+### mugsun-uniappx-ui
+
+- ms-badge：dot 优先于 count（不再出空气泡）。优先级为 label > dot > count。（[197dc26](https://github.com/mugsun/mugsun-uniappx-ui/commit/197dc26)）
+
+## 2026-10-19 · GIS 图层缓冲跳过极冠
+
+### mugsun-boot
+
+- PostGIS 路径的图层缓冲（包括空间分析交给图层查询的缓冲）遇到经度走向无法确定的面时，不再返回缺少极冠的结果，改为跳过该要素并计入响应的 `skipped`，同时记 WARN 日志。这类面通常是在 ±180° 切开的极冠。只跨 180° 经线的面照常缓冲。调用方需要检查 `skipped`。详见 [GIS 已知限制](/pc/gis#metric-limits)。
+
 ## 2026-10-18 · track 0.3.0（计划）：默认不遮罩、不过滤
 
 ### mugsun-track
@@ -18,12 +43,25 @@
 尚未发布，见仓库 CHANGELOG「Unreleased」。（[#19](https://github.com/mugsun/mugsun-track/pull/19)）
 
 - **默认不遮罩、不过滤（行为变更）**：回放默认显示页面文本和输入值原文（`maskTextSelector` 不再默认 `'*'`，新增 `maskAllInputs` 默认 `false`）；`apiBodyMaskEnabled` 默认 `false`，响应体里的个人信息字段原文上传；`skipHandledErrors` 默认 `false`，错误全部上报。密码框、`data-track-mask`、银行卡和一次性验证码字段始终不录。
-- **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie`、`session_id` 等键不论开关都替换为 `***`，匹配时忽略大小写与 `_`、`-`；声明为 JSON 但解析失败的响应体不上传。
+- **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie`、`session`、`session_id` 等键不论开关都替换为 `***`，匹配时忽略大小写与 `_`、`-`；声明为 JSON 但解析失败的响应体不上传。
 - **凭证类加固**（[#20](https://github.com/mugsun/mugsun-track/pull/20)）：
   - 默认尊重 Global Privacy Control（`respectGpc: true`），与 DNT 一致。
   - URL 敏感参数新增 `code`、`sign`、`signature`、`ticket`、`session`、`otp`，忽略大小写与 `_`、`-`，hash 参数也处理；`referrer`、链接 `href`、资源错误地址、回放页面地址也脱敏。
   - 注册、找回 / 修改密码、短信 / 验证码 / MFA 接口不采集响应体。
-  - 两份清单：凭证键 URL 和响应体共用；`code`、`sign`、`signature`、`ticket`、`session`、`otp` 只在 URL 里替换，响应体里保留原值（如 `{"code":0}`）。
+  - 两份清单：凭证键（含 `session`）URL 和响应体共用；`code`、`sign`、`signature`、`ticket`、`otp` 只在 URL 里替换，响应体里保留原值（如 `{"code":0}`）。
+- **凭证类加固（续）**：
+  - 通用登录、令牌、单点登录接口按整段匹配（`/login`、`/token`、`/sso`、`/cas` 等），`/loginLog`、`/tokens`、`/case` 这类普通接口不受影响；路径含 `captcha`、`verifycode`，或含 `sms`、`otp`、`sendcode`、`getcode`、`checkcode` 这些词，以及 `/sendSms`、`/getSmsCode` 这类动词组合的接口，也不采集响应体。
+  - JS 错误的 `filename`，以及回放 DOM 里的 `href`、`src`、`srcset` 等地址属性脱敏。CSS `url()`、`data-*` 属性、`iframe` 的 `srcdoc`、`meta` 的 `content` 和页面文本里的 URL 不处理，见 [隐私与合规](/track/privacy#url-敏感参数)。
+  - 云存储签名参数 `X-Amz-Signature`、`X-Amz-Security-Token`、`X-Goog-Signature` 加入凭证键；Azure `sig`、腾讯云 COS `q-signature`、阿里云 OSS `x-oss-signature` / `x-oss-security-token`、腾讯云 COS `x-cos-security-token` 只在 URL 里替换。
+  - 响应体里像令牌的 `code`、`ticket` 替换为 `***`；`E1001`、`INVALID_PARAMETER_VALUE` 这类业务码保留。
+  - 令牌接口不采集响应体。路径先按驼峰拆词，`-`、`_` 当作词间隔。
+  - 凭证端点判定前先 URL 解码路径；缩写边界也拆词，`/APIGetToken` 命中。
+  - 查询键开头多余的 `?` 解码前后都去掉；缺 `//` 的 `mailto:u:p@h` 等不遮。
+  - 动词 `get`、`refresh`、`renew`、`issue`、`exchange` 须在词首，可接 `access`、`auth`、`id`、`session`、`csrf`、`user`，再接 `token`。
+  - `token` 在词首、后接 `exchange` 或 `refresh` 也算，如 `/tokenExchange`、`/token-refresh`。
+  - URL 脱敏只改 userinfo、敏感路径参数（如 `;jsessionid=`）、查询串和 hash，其他参数逐字保留。
+  - 匹配前先删掉 TAB、换行和回车；相对 URL 与 `//` 开头的 URL 保持原样。
+  - 像令牌判定的字符集加入 `%`。
 - **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
 
 ## 2026-10-18 · 重复提交返回 400
