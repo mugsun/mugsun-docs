@@ -48,6 +48,39 @@ curl -X POST http://localhost:8080/auth/avatar/upload \
 
 The console's profile page already uses `/auth/avatar/upload`.
 
+## Anonymous multipart requests
+
+The backend checks multipart requests before any other filter, using only the request line and headers. It never reads the body to decide:
+
+- Only these 5 paths accept multipart. Multipart sent to any other path gets 415:
+  - `/system/file/upload`
+  - `/auth/avatar/upload`
+  - `/system/user/import`
+  - `/system/region/import`
+  - `/system/track/sourcemap/upload`
+- These paths need a valid token, otherwise 401. The endpoint's own permission codes still apply.
+- Every `multipart/*` type counts, and the Content-Type check ignores case.
+- Paths must match exactly. A trailing slash, `;params`, encoded characters, double slashes or different case are treated as not listed and get 415.
+- The token is read only from the `Authorization` header or a cookie of the same name. A multipart request that passes the token as a URL parameter gets 401.
+- Rejected requests are answered without reading the body, with `Connection: close`.
+
+To add an upload endpoint, add its path to `mugsun.security.multipart.allowed-paths`. A YAML list replaces the default as a whole, so list the 5 default paths too:
+
+```yaml
+mugsun:
+  security:
+    multipart:
+      allowed-paths:
+        - /system/file/upload
+        - /auth/avatar/upload
+        - /system/user/import
+        - /system/region/import
+        - /system/track/sourcemap/upload
+        - /system/demo/upload   # your new endpoint
+```
+
+Use the servletPath, without the context path; wildcards aren't supported. At startup the backend compares the list with endpoints that take a `MultipartFile`, and logs a WARN for any that are missing.
+
 ## Pending-delete queue
 
 Storage objects that can't be deleted right away go into a Redis queue.
