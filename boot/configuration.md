@@ -381,11 +381,17 @@ mugsun:
 
 ## 启动守卫与豁免开关
 
-以下几项在生产环境配错时拒绝启动。只看显式激活的 profile（`spring.profiles.active`）：非空、含 `dev`、`test`、`local` 之一且不含生产名（见下），
-才算开发环境，其余一律按生产处理。profile 名先去掉首尾空白再转小写比较：
+以下几项在生产环境配错时拒绝启动。判定只看显式激活的 profile（`spring.profiles.active`）。
 
-- 没配任何 profile 也按生产处理。**这是行为变更**：本地自测请显式加 `--spring.profiles.active=dev`（`mvn spring-boot:run` 已默认激活 `dev`）。
-- active 里只要有 `prod`、`production`、`prd` 或 `staging`，就按生产处理，即使同时带 `dev`；`DEV` 与 `dev` 等价。
+active 非空、含 `dev`、`test`、`local` 之一且不含生产名（见下），才算开发环境，其余一律按生产处理。
+
+profile 名先去掉首尾空白再转小写比较：
+
+- 没配任何 profile 也按生产处理。**这是行为变更**。
+  - 本地自测请显式加 `--spring.profiles.active=dev`。
+  - `mvn spring-boot:run` 已默认激活 `dev`。
+- active 里只要有 `prod`、`production`、`prd` 或 `staging`，就按生产处理，即使同时带 `dev`。
+- `DEV` 与 `dev` 等价。
 - 其他名字（如 `demo`、`qa`）单独出现时也按生产处理。
 - 不看 `spring.profiles.default`：只配了 `default=dev`、没有 active，也按生产处理。
 
@@ -398,7 +404,15 @@ mugsun:
 
 豁免开关只用于确实无法满足要求的场景，开启后每次启动都会打 WARN 日志。
 
-**关闭国密后，密码完全靠 TLS 保护。** 即使开了豁免，生产环境下登录、注册、改密、重置密码的请求也必须是 HTTPS（服务端按 `request.isSecure()` 判定），否则直接拒绝。部署在反向代理后面时，代理要传 `X-Forwarded-Proto`，同时后端配置 `server.forward-headers-strategy=native`；单独伪造这个请求头不会被采信。
+**关闭国密后，密码完全靠 TLS 保护。**
+
+即使开了豁免，生产环境下登录、注册、改密、重置密码的请求也必须是 HTTPS，否则直接拒绝。
+
+服务端按 `request.isSecure()` 判定是不是 HTTPS。
+
+部署在反向代理后面时，代理要传 `X-Forwarded-Proto`，同时后端配置 `server.forward-headers-strategy=native`。
+
+单独伪造这个请求头不会被采信。
 
 ## 生产环境
 
