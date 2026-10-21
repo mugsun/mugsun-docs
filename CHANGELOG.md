@@ -13,6 +13,9 @@
   - 全量检查 CHANGELOG.md 行宽、gitleaks 扫当前分支历史、CLAUDE.md 软链
   - 新增 CLAUDE.md，软链到 AGENTS.md；CHANGELOG 两处超长行改为分行
   - 站点 srcExclude 加上 CLAUDE.md，软链不作为页面发布
+  - gitleaks 分支推送扫 HEAD，main 推送和手动触发扫 --all
+  - 新增 .gitleaks.toml，repo-checks 和 Security 都显式带 --config
+  - AGENTS.md 新增「合入流程」一节
 - 新增「报错速查」，报错原文取自 boot、core、pc 源码；常见问题新增「部署与运行」八问
 - 新增「升级指南」章：版本总览、core 0.1.0 → 0.2.0、埋点 SDK 0.1.0 → 0.2.0
 - 定时任务页的验证 SQL 对照 PowerJob 5.1.2 核实，改查 instance_id

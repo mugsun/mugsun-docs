@@ -1,0 +1,7 @@
+# gitleaks 配置：在默认规则上追加 allowlist。
+# 新增或修改 allowlist 条目必须安全官审；只写位置和规则名，不写密钥值。
+# 条目按「commit + 文件」同时匹配才放行，之后改到这些行仍会重新报出。
+# repo-checks.yml 和 security.yml 都用 --config 显式引用本文件。
+
+[extend]
+useDefault = true
