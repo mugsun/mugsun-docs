@@ -12,7 +12,9 @@ cp config/application-local.yml.example config/application-local.yml
 
 示例文件不再带密钥值，另带 mock 社交登录。
 
-用 dev profile 启动时，接口和字段加密密钥可以留空，见下方「本地开发」。SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
+dev profile 下接口和字段加密密钥可留空，见下方「本地开发」。
+
+SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
 
 ## 数据源与缓存（prod）
 
