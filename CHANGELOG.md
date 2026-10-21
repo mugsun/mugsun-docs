@@ -6,6 +6,7 @@
 
 ### 变更
 
+- 管理台开发页写明锁屏不是安全边界：密码只以加盐 hash 存在内存，刷新即解锁
 - ms-badge：dot 优先于 count（不再出空气泡）；优先级文档改为 label > dot > count
 - 管理台 e2e：移除数字验证码后用例不再从 Redis 读图形码，改为要求后端关闭验证码（`mugsun.captcha.enabled=false` 或平台租户开关）；新增 `pnpm test:e2e:captcha-on`，在验证码开启的后端上断言不带令牌的登录、注册、忘记密码发码都返回 `40013`
 - 埋点文档对齐 npm `@mugsun/track-web@0.2.0`：安装示例、更新日志、隐私默认值；安装页补「版本与发布」流程
