@@ -8,7 +8,7 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 - **Breaking: the legacy digit image captcha is gone.** `GET /auth/captcha` no longer exists, and the login, registration, forgot-password and SMS endpoints no longer read `captchaUuid` or `captchaCode`. Use the behavioral captcha and send `captchaToken` in the request body.
 - **Configuration**: startup fails when `mugsun.captcha.type` is `IMAGE` or anything other than `SLIDER`. `mugsun.captcha.default-types` accepts only the five type names; any other value also fails startup. `mugsun.captcha.expire-seconds` no longer does anything; remove it.
-- **Random multi-type by default**: the platform enables `SLIDER` and `WORD_CLICK`, each challenge picks one at random, and `GET /auth/captcha/config` returns `type: RANDOM`. Rotate and icon click are off by default and can be enabled explicitly.
+- **Random multi-type by default**: the platform enables all five types (`SLIDER`, `WORD_CLICK`, `ROTATE`, `ICON_CLICK`, `JIGSAW`), each challenge picks one at random, and `GET /auth/captcha/config` returns `type: RANDOM`. Keyboard mode only gets slider or rotate.
 - **Turning captcha off**: still `mugsun.captcha.enabled=false`. See the [upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed).
 
 ## 2026-10-18 · track 0.3.0 (planned): no masking or filtering by default

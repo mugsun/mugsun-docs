@@ -64,5 +64,5 @@ Once the migration no longer reports "V7 升级中止", V7 has completed.
 
 1. Switch the frontend to `GET /auth/captcha/config` → `POST /auth/captcha/challenge` → `POST /auth/captcha/verify` and send `captchaToken` in the body. An old frontend gets `40013` on login.
 2. Remove `mugsun.captcha.type` (`MUGSUN_CAPTCHA_TYPE`) and `mugsun.captcha.expire-seconds` from yml, `.env`, compose and K8s config. A deployment that still sets `IMAGE` fails to start.
-3. `SLIDER` and `WORD_CLICK` are enabled by default, one picked at random per challenge. For slider only, set `mugsun.captcha.default-types: [SLIDER]`.
+3. All five types are enabled by default, one picked at random per challenge. For slider only, set `mugsun.captcha.default-types: [SLIDER]`.
 4. If the backend must be upgraded before the frontend, set `mugsun.captcha.enabled=false` for now; login lockout still applies.
