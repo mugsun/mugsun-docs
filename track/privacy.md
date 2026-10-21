@@ -75,9 +75,11 @@ sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 
 只改 userinfo、敏感路径参数、查询串和 hash。协议、主机和路径的其余部分逐字保留。
 
-- `https://user:pass@host/…` 的 `user:pass` 替换为 `***`。取到最后一个 `@` 为止，`//` 写成反斜杠也能识别。
-- 路径参数里的敏感键也替换，如 `/app;jsessionid=…` 变为 `/app;jsessionid=***`。
-- 匹配前先删掉 TAB、换行和回车，与浏览器解析一致。
+- `https://user:pass@host/…` 的 `user:pass` 替换为 `***`。
+- userinfo 取到最后一个 `@` 为止。
+- `//` 写成反斜杠也能识别；http(s) 等协议里反斜杠和 `/` 一样结束主机部分。
+- 先去掉开头的空白和控制字符，再删掉 TAB、换行和回车。
+- 路径参数里的敏感键也替换，如 `;jsessionid=…` 变为 `;jsessionid=***`。
 
 相对 URL（`img/a.jpg?token=…`）和协议相对 URL（`//cdn.x/a?token=…`）保持原样，只替换参数值。
 
