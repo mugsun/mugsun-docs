@@ -6,14 +6,19 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-pc
 
-- The digit captcha is gone, and the e2e tests no longer read image codes from Redis.
+- The digit captcha is gone.
+- The e2e tests no longer read image codes from Redis.
 - The main suite, `pnpm test:e2e`, needs the backend's captcha off.
 - New `pnpm test:e2e:captcha-on` runs against a backend with the captcha on:
-  - login, registration and the forgot-password code request without a `captchaToken` must return `code` `40013`.
-  - it has its own config and doesn't need PowerJob.
+  - Requests without a `captchaToken` must return `code` `40013`:
+    login, registration and the forgot-password code request.
+  - It has its own config and doesn't need PowerJob.
 - A broken config response fails either suite instead of skipping quietly.
-- The main suite no longer runs `docker start` for PowerJob by default; set `E2E_START_POWERJOB=1` to opt in.
-- See [Development · E2E and the captcha](/en/pc/development#e2e-and-the-captcha).
+- The main suite no longer runs `docker start` for PowerJob by default.
+- To opt in, set `E2E_START_POWERJOB=1`.
+- See [Development · E2E and the captcha][e2e-captcha].
+
+[e2e-captcha]: /en/pc/development#e2e-and-the-captcha
 
 ## 2026-10-21 · ms-badge dot takes precedence
 
