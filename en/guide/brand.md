@@ -9,7 +9,7 @@ The admin console offers 7 theme colors. Each theme color has a light-background
 Light mode uses the light-background version, and dark mode uses the dark-background version. Any theme color outside these 7, including custom colors added later, always uses the original black-gold logo.
 
 ::: tip
-Switching the logo by theme color is being implemented in the admin console. Until then, the admin console always shows the original black-gold logo.
+In the admin console, only the three auth pages (sign-in, sign-up and forgot password) switch the logo by theme color. The sidebar, header, lock screen and browser tab icon still show the original black-gold logo. See [Admin console auth pages](#pc-auth-pages).
 :::
 
 | Theme color | Light background (light mode) | Dark background (dark mode) |
