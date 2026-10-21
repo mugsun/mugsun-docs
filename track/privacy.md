@@ -30,7 +30,11 @@
 
 ## URL 敏感参数
 
-接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、JS 错误的 `filename`、回放 Meta 事件里的页面地址，以及回放 DOM 里的 `href`、`src`、`action` 等地址属性都保留查询串，但以下键的值替换为 `***`，业务参数保留。回放中内联样式和样式表里 CSS `url()` 的地址不做脱敏；如果这类地址带签名，请给该元素加 `data-track-mask`。
+接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、JS 错误的 `filename`、回放 Meta 事件里的页面地址，以及回放 DOM 里的地址属性都保留查询串，但以下键的值替换为 `***`，业务参数保留。
+
+回放 DOM 里处理的属性：`href`、`src`、`srcset`、`imagesrcset`、`action`、`xlink:href`、`formaction`、`poster`、`data`，属性名不分大小写。`srcset` 和 `imagesrcset` 逐个候选替换，`1x`、`480w` 等描述符保留。
+
+只有内联样式和样式表里 CSS `url()` 的地址不做脱敏；如果这类地址带签名，请给该元素加 `data-track-mask`。
 
 凭证键，URL 和响应体共用：
 
@@ -38,6 +42,7 @@
 token  access_token  refresh_token  id_token  authorization  auth  jwt
 api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
 password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
+x-amz-signature  x-amz-security-token  x-goog-signature
 ```
 
 只在 URL 里替换的键，响应体里保留原值：
@@ -68,7 +73,7 @@ code  sign  signature  ticket  otp
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   原样上传
 ```
 
-例外：`code`、`ticket` 的值像令牌时也替换，即长度 ≥16 的字符串，或 JWT 形态（三段 base64url，以 `eyJ` 开头）。`0`、`200`、`"E1001"` 这类业务码保留：
+例外：`code`、`ticket` 的值像令牌时也替换，即长度 ≥16、不含 `_`、同时有字母和数字的字符串，或 JWT 形态（三段 base64url，以 `eyJ` 开头）。`0`、`200`、`"E1001"`、`INVALID_PARAMETER_VALUE`、`ORDER_20261021_0001` 这类业务码保留：
 
 ```text
 {"code":"E1001"}                    →   原样上传

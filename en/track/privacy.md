@@ -30,7 +30,11 @@ Tighten access and retention for replay and body data accordingly.
 
 ## URL redaction
 
-API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes such as `href`, `src` and `action` in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept. Addresses in CSS `url()` in inline styles and stylesheets in the replay are not redacted; if such an address carries a signature, add `data-track-mask` to the element.
+API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept.
+
+Replay DOM attributes handled: `href`, `src`, `srcset`, `imagesrcset`, `action`, `xlink:href`, `formaction`, `poster` and `data`, in any letter case. `srcset` and `imagesrcset` are handled one candidate at a time, keeping descriptors such as `1x` and `480w`.
+
+Only addresses in CSS `url()` in inline styles and stylesheets in the replay are not redacted; if such an address carries a signature, add `data-track-mask` to the element.
 
 Credential keys, shared by URLs and response bodies:
 
@@ -38,6 +42,7 @@ Credential keys, shared by URLs and response bodies:
 token  access_token  refresh_token  id_token  authorization  auth  jwt
 api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
 password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
+x-amz-signature  x-amz-security-token  x-goog-signature
 ```
 
 Keys replaced only in URLs and kept as-is in response bodies:
@@ -68,7 +73,7 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
 ```
 
-One exception: `code` and `ticket` values that look like tokens are replaced too, meaning strings of 16 characters or more, or JWT-shaped values (three base64url parts starting with `eyJ`). Business codes such as `0`, `200` and `"E1001"` are kept:
+One exception: `code` and `ticket` values that look like tokens are replaced too, meaning strings of 16 characters or more that contain no `_` and mix letters and digits, or JWT-shaped values (three base64url parts starting with `eyJ`). Business codes such as `0`, `200`, `"E1001"`, `INVALID_PARAMETER_VALUE` and `ORDER_20261021_0001` are kept:
 
 ```text
 {"code":"E1001"}                    →   uploaded unchanged

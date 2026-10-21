@@ -79,7 +79,12 @@ This is what it looks like in the console's Session replay player: a demo sessio
 Built-in protections that can't be turned off:
 
 - The SDK's own endpoints (`/track/collect`, `/track/config`, `/track/replay`, `/track/api-body` and so on) are never captured, which prevents loops.
-- Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. A path counts if, after lowercasing, it contains one of: login and tokens `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`; sign-up `/register`, `/signup`, `/sign-up`; passwords `/password`, `/forgot`, `/reset-password`, `/change-password`; codes and MFA `/otp`, `/sms`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`; generic login and SSO `/login`, `/signin`, `/sign-in`, `/logout`, `/token`, `/sso`, `/cas`. A path also counts if it contains `sms`, `captcha`, `otp`, `verifycode` or `verificationcode` anywhere, without a leading `/`, so `/sendSms`, `/getCaptcha` and `/verifyCode` match.
+- Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. After lowercasing, a path counts if any of these holds:
+  - **Contains a fragment**: `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`, `/register`, `/signup`, `/sign-up`, `/password`, `/forgot`, `/reset-password`, `/change-password`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`.
+  - **A whole segment equals** `login`, `signin`, `sign-in`, `logout`, `token`, `sso` or `cas`, bounded by `/` or the ends of the path. `/api/login` and `/cas/login` match; `/monitor/loginLog/list`, `/tokens/stats` and `/case/list` don't.
+  - **Contains the substring** `captcha`, `verifycode` or `verificationcode`, such as `/getCaptcha` or `/user/verifyCode`.
+  - **Contains the word** `sms`, `otp`, `sendcode`, `getcode` or `checkcode`: the path is split on non-letter characters and a word must match exactly. `/api/sms/send`, `/send-otp` and `/user/getCode` match; `/smsTemplate/list` and `/barcode/getcodeList` don't.
+  - camelCase names such as `/sendSms` and `/sendOtp` don't match. If such an endpoint returns a code, turn body capture off with `apiBodyEnabled: false`.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0
