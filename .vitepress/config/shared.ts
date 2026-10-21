@@ -11,7 +11,7 @@ export const shared = defineConfig({
   base,
   cleanUrls: true,
   // Repo-level Keep a Changelog; site page is changelog.md (case collision on Linux)
-  srcExclude: ['**/CHANGELOG.md', 'README.md', 'CONTRIBUTING.md', 'docs/**'],
+  srcExclude: ['**/CHANGELOG.md', 'README.md', 'CONTRIBUTING.md', 'AGENTS.md', 'docs/**'],
   lastUpdated: true,
   metaChunk: true,
   ignoreDeadLinks: [
