@@ -28,6 +28,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '快速开始', link: '/guide/getting-started' },
             { text: '架构全景', link: '/guide/architecture' },
             { text: '常见问题', link: '/guide/faq' },
+            { text: '报错速查', link: '/guide/errors' },
             { text: '品牌规范', link: '/guide/brand' },
             { text: '更新日志', link: '/guide/changelog' },
           ],

@@ -2,6 +2,13 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · 常见问题与报错速查
+
+### mugsun-docs
+
+- 新增[报错速查](/guide/errors)，每条写明报错原文、原因和处理办法。
+- [常见问题](/guide/faq)新增「部署与运行」一节，按现象、原因、解决来写。
+
 ## 2026-10-21 · 升级指南
 
 ### mugsun-docs

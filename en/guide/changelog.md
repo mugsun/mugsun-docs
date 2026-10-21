@@ -2,6 +2,13 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · FAQ and error reference
+
+### mugsun-docs
+
+- Added the [error reference](/en/guide/errors), with the original text, cause and fix for each error.
+- Added a "Deployment and operation" section to the [FAQ](/en/guide/faq), written as symptom, cause and fix.
+
 ## 2026-10-21 · Upgrade guide
 
 ### mugsun-docs
