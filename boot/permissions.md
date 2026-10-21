@@ -86,7 +86,7 @@
   - `/system/user/import`
   - `/system/region/import`
   - `/system/track/sourcemap/upload`
-- 这 5 个路径要求已登录（token 有效），否则返回 401；具体权限仍按接口原有的权限码校验。
+- 这 5 个路径要求已登录（token 有效），否则返回 401，被踢下线、被顶下线或已过期的 token 也是 401；具体权限仍按接口原有的权限码校验。
 - 所有 `multipart/*` 都算，Content-Type 不区分大小写。
 - 路径精确比对：末尾斜杠、`;参数`、编码字符、双斜杠、大小写不同都按「不在白名单」返回 415。
 - token 只认请求头（`Authorization`）和同名 Cookie，用 URL 参数传 token 的 multipart 会被 401。
@@ -107,7 +107,7 @@ mugsun:
         - /system/demo/upload   # 新增的接口
 ```
 
-路径写 servletPath，不带 context-path，不支持通配。启动时后端会对照参数里带 `MultipartFile` 的接口，接收文件却不在列表里的打 WARN。
+路径写 servletPath，不带 context-path，不支持通配。条目为空、不以 `/` 开头、含 `*` 或 `**`、含 `..` 或 `;` 时，后端拒绝启动。启动时后端会对照参数里带 `MultipartFile` 的接口，接收文件却不在列表里的打 WARN。
 
 ## 表单、流程、平台写接口
 

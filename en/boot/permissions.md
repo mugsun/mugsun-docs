@@ -58,7 +58,7 @@ The backend checks multipart requests before any other filter, using only the re
   - `/system/user/import`
   - `/system/region/import`
   - `/system/track/sourcemap/upload`
-- These paths need a valid token, otherwise 401. The endpoint's own permission codes still apply.
+- These paths need a valid token, otherwise 401. Tokens that were kicked out, replaced by another login, or expired also get 401. The endpoint's own permission codes still apply.
 - Every `multipart/*` type counts, and the Content-Type check ignores case.
 - Paths must match exactly. A trailing slash, `;params`, encoded characters, double slashes or different case are treated as not listed and get 415.
 - The token is read only from the `Authorization` header or a cookie of the same name. A multipart request that passes the token as a URL parameter gets 401.
@@ -79,7 +79,7 @@ mugsun:
         - /system/demo/upload   # your new endpoint
 ```
 
-Use the servletPath, without the context path; wildcards aren't supported. At startup the backend compares the list with endpoints that take a `MultipartFile`, and logs a WARN for any that are missing.
+Use the servletPath, without the context path; wildcards aren't supported. The backend refuses to start if an entry is empty, doesn't start with `/`, or contains `*`, `**`, `..` or `;`. At startup the backend compares the list with endpoints that take a `MultipartFile`, and logs a WARN for any that are missing.
 
 ## Pending-delete queue
 
