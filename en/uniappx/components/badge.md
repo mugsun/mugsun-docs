@@ -62,9 +62,9 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| count | `number` | `0` | Numeric badge; preferred over label |
-| label | `string` | `''` | Text badge (when not numeric) |
-| dot | `boolean` | `false` | Whether to show a dot badge (ignores numeric count) |
+| count | `number` | `0` | Numeric badge; the number is not shown when label or dot is set |
+| label | `string` | `''` | Text badge; when not empty, it takes priority over dot and count |
+| dot | `boolean` | `false` | Dot badge; takes priority over count, ignored when label is not empty |
 | max | `number` | `99` | Numeric cap; shows max+ when exceeded |
 | showZero | `boolean` | `false` | Whether to still show when count is 0 |
 | theme | `'danger' \| 'primary' \| 'success' \| 'warning'` | `'danger'` | Theme color |
