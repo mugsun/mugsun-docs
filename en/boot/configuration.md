@@ -338,12 +338,12 @@ When it is empty, nothing changes and the connection's default schema is used, u
 ## Startup guards and exemption switches
 
 The settings below stop startup when they are misconfigured in production. Only explicitly active profiles (`spring.profiles.active`) count: the list must be non-empty, include
-`dev`, `test` or `local`, and not include `prod`. Everything else is treated as production.
+`dev`, `test` or `local`, and include no production name (see below). Everything else is treated as production.
 Names are trimmed and lowercased before comparison:
 
 - No profile at all is treated as production. **This is a behavior change**: for local testing, pass `--spring.profiles.active=dev` explicitly (`mvn spring-boot:run` already activates `dev`).
-- `staging`, `production` and similar names are treated as production; `DEV` equals `dev`;
-  `prod` and `dev` active together count as production.
+- If the active list contains `prod`, `production`, `prd` or `staging`, it is production even with `dev`; `DEV` equals `dev`.
+- Any other name on its own (such as `demo` or `qa`) is also production.
 - `spring.profiles.default` is ignored: `default=dev` with no active profile is production.
 
 | Setting | Dangerous value in production | Exemption switch |
