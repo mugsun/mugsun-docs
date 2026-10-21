@@ -75,12 +75,19 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 ### 升级步骤
 
 1. 生成新密钥：`openssl rand -hex 16`，或重新跑 `scripts/gen-keys.sh`。
-2. 把部署环境里的 `MUGSUN_API_KEY` 换成新值。
-3. 旧的 16 个字符写法会被拒绝，必须先换再升级。
-4. 前端的 `VITE_CRYPTO_API_KEY` 换成同一个值，前后端一起发布。
-5. 确认 `MUGSUN_SM4_KEY` 已配置，格式不变。
-6. 一直配着正式 `MUGSUN_SM4_KEY` 的部署，已落库数据不受影响。
-7. 没配过、用旧回落值跑的部署，先按下方「迁移」处理。
+2. 把部署环境里的 `MUGSUN_API_KEY` 换成新值。旧的 16 个字符写法会被拒绝，必须先换再升级。
+3. 前端的 `VITE_CRYPTO_API_KEY` 换成同一个值，前后端一起发布。
+4. 确认 `MUGSUN_SM4_KEY` 已配置且格式合法（见下方「`MUGSUN_SM4_KEY` 格式」）；
+   一直配着正式密钥的部署，落库数据不受影响；用过旧回落值或短密钥的部署，先按下方「迁移」处理。
+
+### `MUGSUN_SM4_KEY` 格式
+
+- 只接受三种写法，先去掉前后空白：
+  - 32 位 hex，大小写都行（新部署用 `openssl rand -hex 16` 生成）；
+  - 带填充的标准 base64，解码后正好 16 字节；
+  - 过渡期兼容：16 个字符的旧写法，启动时打 WARN，下一个版本只接受 32 位 hex。
+- 其他写法一律拒绝启动：不补零、不截断，也没有 legacy 开关。
+- 旧版本对短密钥补零、对长密钥截断。用这类密钥加密过的数据，按下方「迁移」用迁移工具还原。
 
 ### 本地开发
 
@@ -98,18 +105,35 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 - `MUGSUN_STRICT_KEYS=true`（prod 默认）时，以上两项都不生效。
 - `strict-keys` 对接口加密只作否决，不是废弃开关。
 
-### 曾用公开回落密钥运行过的部署
+### 迁移：曾用公开回落密钥或短密钥运行过的部署
 
-旧版本没配密钥时，会回落到仓库里公开的固定值。
+旧版本没配密钥时，会回落到仓库里公开的固定值；配了短密钥时会补零。
 
 这类部署直接填新密钥会导致旧数据全部解不开；填回旧值等于继续用公开密钥。
+应用同一时间只装一把密钥，所以重新加密要用离线迁移工具
+`com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`，它同时拿新旧两把密钥。
+
+迁移工具的输入全部走环境变量，不写在命令行里：
+
+| 环境变量 | 说明 |
+| --- | --- |
+| `MUGSUN_SM4_OLD_KEY` | 旧密钥（旧回落值见 git 历史，仅用于迁移） |
+| `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED` | 旧密钥是短密钥或旧回落值时设 `true`，按旧版补零方式还原 |
+| `MUGSUN_SM4_NEW_KEY` | 新密钥，格式同上 |
+| `MUGSUN_MIGRATE_JDBC_URL`、`MUGSUN_MIGRATE_DB_USER`、`MUGSUN_MIGRATE_DB_PASSWORD` | 目标库连接 |
 
 迁移步骤：
 
-1. 临时把 `MUGSUN_SM4_KEY` 设为旧回落值启动（旧值见 git 历史，仅用于迁移）。
-2. 用新密钥重新加密下表字段；等值查询用的密文也随之重算。
-3. 切换到新密钥重启，确认这些字段能正常解密。
-4. 字段里存的第三方凭据全部轮换。
+1. 备份数据库，停掉应用。
+2. 先跑 dry-run（默认，不写库）：
+   `java -cp mugsun-boot.jar -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool org.springframework.boot.loader.launch.PropertiesLauncher`。
+   按表和字段输出总数、需重加密、已是新密钥、历史明文、解不开的条数。
+3. 「解不开」全为 0 后，加 `--apply` 再跑一次。单事务写库，有一条解不开就整体回滚。
+4. 把 `MUGSUN_SM4_KEY` 换成新密钥启动；核对标准：error 日志里「SM4 解密失败」为 0 条。
+5. 字段里存的第三方凭据全部轮换。
+
+- 租户独立数据源（`sys_tenant_datasource`）的库要各跑一次。
+- 解密失败时字段返回空，不会写回库里；但迁移前不要在管理台保存这些记录。
 
 涉及的字段：
 
@@ -129,6 +153,17 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 | `gis_map_provider` | `api_key`、`secret` |
 
 - 接口加密只影响传输，不落库，换密钥即可。
+
+### 字段加密的 ECB 例外
+
+字段加密目前用 SM4-ECB，这是只留给 `sys_user.id_card` 的例外，为了支持等值查询。它的局限：
+
+- 相同明文得到相同密文，库里的重复值能被看出来；
+- 密文不防篡改；
+- 密文不绑定行，可以被搬到别的行。
+
+其余 14 个字段下一轮迁到 SM4-GCM。以后 `id_card` 如果要做等值查询，
+改为「HMAC 生成的盲索引列负责查询，字段本身用 GCM 加密」。
 
 ## 审计日志
 

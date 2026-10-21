@@ -12,6 +12,9 @@
   - `MUGSUN_API_KEY` 新格式与升级步骤；只是传输混淆，不能代替 TLS
   - dev 的 `allow-ephemeral-keys` 与本地密钥文件
   - 曾用公开回落密钥运行过的部署要重新加密的字段清单
+  - `MUGSUN_SM4_KEY` 只认三种写法；迁移改用离线工具，新旧密钥走环境变量
+  - 迁移前先备份；核对标准是「SM4 解密失败」日志 0 条；中英步骤编号对齐
+  - 写明 ECB 只留给 `sys_user.id_card` 的例外与局限
 
 - ms-badge：dot 优先于 count（不再出空气泡）；优先级文档改为 label > dot > count
 - 管理台 e2e：移除数字验证码后用例不再从 Redis 读图形码，改为要求后端关闭验证码（`mugsun.captcha.enabled=false` 或平台租户开关）；新增 `pnpm test:e2e:captcha-on`，在验证码开启的后端上断言不带令牌的登录、注册、忘记密码发码都返回 `40013`

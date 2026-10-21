@@ -72,7 +72,18 @@ No replay protection and no endpoint binding: ciphertext can be replayed or move
 1. Generate a key with `openssl rand -hex 16`, or rerun `scripts/gen-keys.sh`.
 2. Replace `MUGSUN_API_KEY` in every deployment. The old 16-character form is rejected, so change it before upgrading.
 3. Set the frontend `VITE_CRYPTO_API_KEY` to the same value and release frontend and backend together.
-4. Make sure `MUGSUN_SM4_KEY` is set; its format is unchanged. Deployments that always had a real `MUGSUN_SM4_KEY` keep their stored data as is. Deployments that ran on the old fallback must follow "Migration" below first.
+4. Make sure `MUGSUN_SM4_KEY` is set and valid (see "`MUGSUN_SM4_KEY` format" below).
+   Deployments that always had a real key keep their stored data as is; deployments that used
+   the old fallback or a short key must follow "Migration" below first.
+
+### `MUGSUN_SM4_KEY` format
+
+- Only three forms are accepted, after trimming surrounding whitespace:
+  - 32 hex characters, any case (generate new keys with `openssl rand -hex 16`);
+  - padded standard base64 that decodes to exactly 16 bytes;
+  - transition only: the old 16-character form, which logs a WARN; the next release accepts only 32 hex.
+- Anything else stops startup: no zero padding, no truncation, no legacy switch.
+- Older versions zero-padded short keys and truncated long ones. Recover data encrypted that way with the migration tool below.
 
 ### Local development
 
@@ -83,16 +94,34 @@ No replay protection and no endpoint binding: ciphertext can be replayed or move
 - The field encryption key is never regenerated on each start.
 - With `MUGSUN_STRICT_KEYS=true` (the prod default) neither option applies. For API crypto `strict-keys` only acts as a veto; it is not deprecated.
 
-### Deployments that ran on the public fallback key
+### Migration: deployments that ran on the public fallback key or a short key
 
-Older versions fell back to a fixed key that is public in the repository when no key was configured. If such a deployment just sets a new key, all old data becomes unreadable; setting the old value again keeps using a public key.
+Older versions fell back to a fixed key that is public in the repository when no key was configured, and zero-padded short keys.
+If such a deployment just sets a new key, all old data becomes unreadable; setting the old value again keeps using a public key.
+The application holds only one key at a time, so re-encryption uses the offline tool
+`com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`, which takes both keys.
+
+All inputs come from environment variables, never the command line:
+
+| Variable | Meaning |
+| --- | --- |
+| `MUGSUN_SM4_OLD_KEY` | Old key (the old fallback is in git history; use it only for the migration) |
+| `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED` | Set `true` when the old key is short or the old fallback, to rebuild it with the old zero padding |
+| `MUGSUN_SM4_NEW_KEY` | New key, same format as above |
+| `MUGSUN_MIGRATE_JDBC_URL`, `MUGSUN_MIGRATE_DB_USER`, `MUGSUN_MIGRATE_DB_PASSWORD` | Target database |
 
 Migration:
 
-1. Temporarily start with `MUGSUN_SM4_KEY` set to the old fallback value (it is in git history; use it only for the migration).
-2. Re-encrypt the columns below with the new key; ciphertext used for equality lookups is recomputed with it.
-3. Restart on the new key and confirm the columns decrypt.
-4. Rotate every third-party credential stored in these columns.
+1. Back up the database and stop the application.
+2. Run a dry run first (the default, writes nothing):
+   `java -cp mugsun-boot.jar -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool org.springframework.boot.loader.launch.PropertiesLauncher`.
+   It prints, per table and column, the total, to re-encrypt, already on the new key, legacy plaintext and undecryptable counts.
+3. When every undecryptable count is 0, rerun with `--apply`. It writes in one transaction and rolls back everything if any row fails.
+4. Start with `MUGSUN_SM4_KEY` set to the new key. Check: zero "SM4 解密失败" (SM4 decrypt failed) entries in the error log.
+5. Rotate every third-party credential stored in these columns.
+
+- Run it once per tenant database configured in `sys_tenant_datasource`.
+- A column that fails to decrypt reads as empty and is not written back; still, don't save these records in the admin console before migrating.
 
 Affected columns:
 
@@ -112,6 +141,18 @@ Affected columns:
 | `gis_map_provider` | `api_key`, `secret` |
 
 - API encryption is transport-only and stores nothing, so replacing the key is enough.
+
+
+### ECB exception for field encryption
+
+Field encryption currently uses SM4-ECB. This is an exception kept only for `sys_user.id_card`, to support equality lookups. Its limits:
+
+- the same plaintext gives the same ciphertext, so duplicate values are visible in the database;
+- the ciphertext is not tamper-proof;
+- the ciphertext is not bound to its row and can be moved to another row.
+
+The other 14 columns move to SM4-GCM in the next round. If `id_card` ever needs equality lookups,
+switch to an HMAC blind-index column for lookups and encrypt the column itself with GCM.
 
 ## Audit log
 
