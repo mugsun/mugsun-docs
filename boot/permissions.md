@@ -32,9 +32,11 @@
 ## 上传限制
 
 - 只接受图片（png、jpg、gif、webp、bmp）、PDF、Office 文档、txt、csv、md、zip、mp4、mp3；html、svg、js、xml 等一律拒绝。
-- 服务端核对扩展名和文件头，改了扩展名的文件会被拒绝。单个文件不超过 20MB。
+- 服务端核对扩展名和文件头，改了扩展名的文件会被拒绝。文件头校验只防改扩展名，不检查文件是否完整。
+- 单个文件不超过 20MB，超出时在接收阶段就被截断，返回 400「文件超过 20MB」。
 - 存储文件名和 Content-Type 由服务端按扩展名决定，用户上传的文件名只作展示，客户端上报的类型不采用。
-- 前端直传（`presigned-put`）必须带 `size`（字节），超过 20MB 直接拒绝；签名绑定 `Content-Length`、`Content-Type`、`Content-Disposition: attachment`，PUT 时要原样带上返回的 `headers`。
+- 前端直传（`presigned-put`）必须带 `size`（字节），超过 20MB 直接拒绝；签名绑定 `Content-Length`、`Content-Type`、`Content-Disposition: attachment`，PUT 时要原样带上返回的 `headers`。签名有效期 15 分钟。
+- 调 `create` 登记时，服务端会回查存储里的对象：大小、类型和申请时不一致，或文件头对不上，会删掉对象并拒绝登记。
 - 本地直出、授权下载一律 `attachment` + `X-Content-Type-Options: nosniff`，公开文件也一样；云存储对象上传时写入 `Content-Disposition: attachment`。
 - 升级时 V13 把 `sys:file:upload` 授给全部现有角色，保持原有功能；之后新建的角色需要在「角色管理」里勾选「上传附件」，否则意见反馈等页面上传会返回 403。
 
