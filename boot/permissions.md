@@ -85,7 +85,7 @@
 
 ### 未登录的 multipart 请求
 
-后端在所有过滤器之前检查 multipart 请求，只看请求行和请求头，不读请求体：
+后端在所有过滤器之前检查 multipart 请求，只按请求行和请求头判断：
 
 - 只有下面 5 个路径接受 multipart，其它路径收到 multipart 一律返回 415：
   - `/system/file/upload`
@@ -97,7 +97,8 @@
 - 所有 `multipart/*` 都算，Content-Type 不区分大小写。
 - 路径精确比对：末尾斜杠、`;参数`、编码字符、双斜杠、大小写不同都按「不在白名单」返回 415。
 - token 只认请求头（`Authorization`）和同名 Cookie，用 URL 参数传 token 的 multipart 会被 401。
-- 被拒时不读请求体，响应带 `Connection: close`。
+- 被拒的 multipart 不会被解析、不会写磁盘，响应带 `Connection: close`。
+- 在 `server.tomcat.max-swallow-size` 以内，容器仍可能读完请求体再丢弃；部署时务必在反代设置请求体上限（约 21MB）。
 - 客户端上传前要先确认已登录：未登录时可能收不到 401，而是看到连接被关闭。
 
 新增上传接口时，把路径加进 `mugsun.security.multipart.allowed-paths`。这个列表在 yml 里整体替换，要连默认 5 条一起写：

@@ -67,7 +67,7 @@ The console's profile page already uses `/auth/avatar/upload`.
 
 ## Anonymous multipart requests
 
-The backend checks multipart requests before any other filter, using only the request line and headers. It never reads the body to decide:
+The backend checks multipart requests before any other filter, deciding from the request line and headers only:
 
 - Only these 5 paths accept multipart. Multipart sent to any other path gets 415:
   - `/system/file/upload`
@@ -79,7 +79,8 @@ The backend checks multipart requests before any other filter, using only the re
 - Every `multipart/*` type counts, and the Content-Type check ignores case.
 - Paths must match exactly. A trailing slash, `;params`, encoded characters, double slashes or different case are treated as not listed and get 415.
 - The token is read only from the `Authorization` header or a cookie of the same name. A multipart request that passes the token as a URL parameter gets 401.
-- Rejected requests are answered without reading the body, with `Connection: close`.
+- Rejected multipart requests are never parsed or written to disk, and the response carries `Connection: close`.
+- Within `server.tomcat.max-swallow-size`, the container may still read the rest of the body and discard it. In production, always set a request body limit on the reverse proxy (about 21MB).
 - Clients should make sure they are signed in before uploading. When not signed in, they may see the connection closed instead of a 401.
 
 To add an upload endpoint, add its path to `mugsun.security.multipart.allowed-paths`. A YAML list replaces the default as a whole, so list the 5 default paths too:

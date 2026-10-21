@@ -16,6 +16,7 @@ Every deployment should read [Legacy digit captcha removed](#legacy-digit-captch
 - A YAML list replaces the default as a whole, so list the 5 default paths too, or every default upload endpoint starts returning 415.
 - The backend refuses to start if an entry is empty, doesn't start with `/`, or contains `*`, `..`, `;`, `{` or `}`.
 - Clients should make sure they are signed in before uploading. When not signed in, they may see the connection closed instead of a 401.
+- Rejected requests are never parsed or written to disk, but within `max-swallow-size` the container may still read the rest of the body and discard it. Always set a request body limit on the reverse proxy (about 21MB).
 
 ## Duplicate phone numbers within a tenant
 
