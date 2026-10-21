@@ -2,6 +2,14 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · Upgrade guide
+
+### mugsun-docs
+
+- Added the [upgrade guide](/en/guide/upgrade/), which lists the tags and released versions of each repository.
+- Added pages for core 0.1.0 → 0.2.0 and Tracking SDK 0.1.0 → 0.2.0.
+- The verification SQL on the scheduled tasks page was checked against PowerJob 5.1.2.
+
 ## 2026-10-21 · Feature index
 
 ### mugsun-docs

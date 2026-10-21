@@ -2,6 +2,14 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · 升级指南
+
+### mugsun-docs
+
+- 新增[升级指南](/guide/upgrade/)章，列出各仓的 tag 和已发布版本。
+- 新增 core 0.1.0 → 0.2.0 和埋点 SDK 0.1.0 → 0.2.0 两篇。
+- 定时任务页的验证 SQL 已对照 PowerJob 5.1.2 核实。
+
 ## 2026-10-21 · 功能特性索引
 
 ### mugsun-docs
