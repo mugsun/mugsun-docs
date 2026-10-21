@@ -35,6 +35,14 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | empty | CIDR list of trusted reverse proxies; see [Open API](/en/boot/open-api#client-ip-and-trusted-proxies) |
 | `MUGSUN_FILE_SIGN_SECRET` | empty | Signing key for local file download links (at least 32 characters); see "Local file access" below |
 
+When `MUGSUN_GM_ENABLED` (setting `mugsun.crypto.gm-enabled`) is off:
+
+- Passwords for sign-in, password change and registration are no longer SM2-encrypted. They are sent in plain text and protected only by HTTPS.
+- The console reads this switch at runtime and stops encrypting automatically, with no rebuild needed.
+- Digests switch from SM3 to SHA-256. Audit signing uses its own SM2 key pair and is not affected by this switch.
+
+The `prod` profile does not force SM-series crypto on. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
+
 ## Audit log
 
 | Setting | Default | Purpose |

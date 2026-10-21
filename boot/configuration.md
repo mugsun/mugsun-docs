@@ -35,6 +35,14 @@ cp config/application-local.yml.example config/application-local.yml
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
 | `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
 
+`MUGSUN_GM_ENABLED`（配置项 `mugsun.crypto.gm-enabled`）关闭后的行为如下：
+
+- 登录、改密和注册时，密码不再用 SM2 加密，以明文提交，只靠 HTTPS 保护。
+- 管理台在运行时读取这个开关，自动停止加密，不需要重新构建。
+- 摘要从 SM3 改为 SHA-256。审计签名使用独立的 SM2 密钥，不受这个开关影响。
+
+`prod` profile 不会强制开启国密。等保或密评场景请保持开启。
+
 ## 审计日志
 
 | 配置项 | 默认 | 说明 |

@@ -40,6 +40,16 @@ MUGSUN_OPENAPI_TRUSTED_PROXIES=172.30.88.10/32,::1/128
 不要把 `0.0.0.0/0` 之类的宽网段配成可信代理，否则等同于重新信任任意 `X-Forwarded-For`。
 :::
 
+## 签名校验
+
+`mugsun.open-api.sign-required` 默认为 `true`。
+
+开启时，开放接口要校验 `X-Timestamp`、`X-Nonce` 和 `X-Sign`。
+
+设为 `false` 后，只校验访问令牌或 API Key，不再验签，也不再防重放。
+
+`prod` profile 不会强制这个值，生产环境必须保持 `true`。
+
 ## 限流
 
 按 API Key 维度做滑动分钟窗口限流，超限请求被拒绝。
