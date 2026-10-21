@@ -55,7 +55,7 @@ A scheduled job retries every 10 minutes.
 
 - After 20 failed deletes, an error is logged and the item needs manual cleanup.
 - If registering a fresh key throws, the key is queued at once but handled
-  only after 60 seconds, so it is deleted no earlier than that.
+  only after 60 seconds. This 60-second delay applies only to that path.
 - Before each delete the job checks the attachment table.
   - Only keys under `tmp/`, or freshly generated keys that aren't registered,
     are deleted.
