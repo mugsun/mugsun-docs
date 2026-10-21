@@ -111,7 +111,9 @@ Migration (migrate-only) runs without the demo profile, so its two pools default
 Stop the demo app before migrating, or shrink the pools for the run, e.g.:
 
 ```bash
---mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=prod --mugsun.demo.migrate-only=true \
+  --mybatis-flex.datasource.primary.maximum-pool-size=4 \
+  --mybatis-flex.datasource.track.maximum-pool-size=3
 ```
 
 When regular accounts are exhausted, the `postgres` superuser can still use the 3 reserved connections. Before enlarging a pool, check that the three pools plus a migration stay within 27; otherwise raise `max_connections` and restart PostgreSQL.
