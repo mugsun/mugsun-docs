@@ -54,7 +54,7 @@ Demo mode doesn't connect as the owner. It uses three low-privilege accounts (th
 | Account | Privileges | Used for |
 |---|---|---|
 | `mugsun_demo_ro` | SELECT on every business table | Business data source |
-| `mugsun_demo_log` | INSERT on 5 log tables | Login, API, error, operation and usage logs |
+| `mugsun_demo_log` | INSERT on 5 log tables; SELECT on the operation log and chain head tables; UPDATE of `update_time` only on the chain head | Login, API, error, operation and usage logs |
 | `mugsun_demo_track` | SELECT and INSERT on the tracking database | Tracking data source |
 
 Flyway is off in demo mode. At startup the app checks the migration version of the business and tracking databases and refuses to start if either doesn't match. To upgrade, first run the migrations once as the owner, without the demo profile:
@@ -81,6 +81,36 @@ Deployment notes:
 - **Redis outage**: if Redis goes down while running, rate limiting lets requests through and login fails (sessions and captchas live in Redis). If Redis is unreachable at startup, demo mode won't start.
 - **Redis address**: demo mode connects to Redis using `REDIS_HOST` (with `REDIS_PORT` and `REDIS_PASSWORD`), same as prod; only the db changes to `MUGSUN_DEMO_REDIS_DB` (4 by default).
 - **Tracking database size**: above `MUGSUN_DEMO_TRACK_WARN_MB` (default 2048) the app logs a WARN; above `MUGSUN_DEMO_TRACK_MAX_MB` (default 4096) tracking collection returns 503. Only the tracking database is measured, not replay data kept in file storage.
+
+### Connection pools and headroom
+
+Demo mode opens three connection pools, sized by environment variables:
+
+| Variable | Default | Pool |
+|---|---|---|
+| `MUGSUN_DEMO_DB_POOL_MAX` | 5 | Read-only business pool (`mugsun_demo_ro`) |
+| `MUGSUN_DEMO_LOG_POOL_MAX` | 4 | Log pool (`mugsun_demo_log`) |
+| `MUGSUN_DEMO_TRACK_POOL_MAX` | 4 | Analytics pool (`mugsun_demo_track`) |
+
+The log datasource must point at the primary database. `MUGSUN_DEMO_LOG_DB_URL` defaults to the business database URL; you may change its parameters, not the database.
+
+The operation-log hash chain takes its lock and reads the previous hash over the log connection. A read replica or another database would break the chain, so demo mode refuses to start when host, port or database name differ.
+
+Headroom with `max_connections=30`:
+
+| Item | Connections |
+|---|---|
+| `max_connections` | 30 |
+| Reserved for superusers (`superuser_reserved_connections`) | 3 |
+| Available to regular accounts | 27 |
+| Three demo pools combined | 13 |
+| Left for migrations, psql and backups | 14 |
+
+Migration (migrate-only) runs without the demo profile, so its two pools default to 10 each and may take 20 connections, more than the headroom.
+
+Stop the demo app before migrating, or shrink the pools for the run, e.g. `--mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3`.
+
+When regular accounts are exhausted, the `postgres` superuser can still use the 3 reserved connections. Before enlarging a pool, check that the three pools plus a migration stay within 27; otherwise raise `max_connections` and restart PostgreSQL.
 
 ::: tip Work in progress
 A daily sample-data reset at 04:00 Beijing time, sensitive-word filtering (word list loaded from an external path, empty by default), output escaping, six-month access-log retention, and read-only hints in the admin console arrive in later releases. Until then, don't treat demo mode as your only line of defence.

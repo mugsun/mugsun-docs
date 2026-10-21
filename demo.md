@@ -54,7 +54,7 @@ demo 不用 owner 账号连库，而是三个低权限账号（建账号脚本�
 | 账号 | 权限 | 用途 |
 |---|---|---|
 | `mugsun_demo_ro` | 业务库全表只读（SELECT） | 业务数据源 |
-| `mugsun_demo_log` | 5 张日志表只插入（INSERT） | 登录日志、接口日志、错误日志、操作日志、常用日志 |
+| `mugsun_demo_log` | 5 张日志表 INSERT；操作日志表和链头表 SELECT，链头表只能改 `update_time` | 登录日志、接口日志、错误日志、操作日志、常用日志 |
 | `mugsun_demo_track` | 埋点库 SELECT + INSERT | 埋点数据源 |
 
 demo 下关闭 Flyway，启动时校验业务库和埋点库的迁移版本，与程序不一致就拒绝启动。升级时先用 owner 账号、不带 demo profile 跑一次迁移：
@@ -81,6 +81,38 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 - **Redis 故障**：运行中 Redis 不可用时，限流放行（不限流）、登录失败（登录态和验证码都在 Redis）；启动时连不上 Redis，demo 起不来。
 - **Redis 地址**：demo 读 `REDIS_HOST`（和 `REDIS_PORT`、`REDIS_PASSWORD`）连接 Redis，与 prod 相同，只是 db 换成 `MUGSUN_DEMO_REDIS_DB`（默认 4）。
 - **埋点库容量**：`MUGSUN_DEMO_TRACK_WARN_MB`（默认 2048）超过后打 WARN，`MUGSUN_DEMO_TRACK_MAX_MB`（默认 4096）超过后埋点采集返回 503。只统计埋点数据库大小，不含回放等落文件存储的数据。
+
+### 连接池与余量
+
+demo 有三个连接池，大小用环境变量调：
+
+| 变量 | 默认 | 连接池 |
+|---|---|---|
+| `MUGSUN_DEMO_DB_POOL_MAX` | 5 | 业务只读池（`mugsun_demo_ro`） |
+| `MUGSUN_DEMO_LOG_POOL_MAX` | 4 | 日志池（`mugsun_demo_log`） |
+| `MUGSUN_DEMO_TRACK_POOL_MAX` | 4 | 埋点池（`mugsun_demo_track`） |
+
+日志库必须连主库。`MUGSUN_DEMO_LOG_DB_URL` 默认就是业务库地址，可以换参数，不能换库。
+
+操作日志的哈希链在日志连接上加锁、读上一条哈希。指向只读副本或别的库会断链，所以主机、端口、库名不一致时 demo 拒绝启动。
+
+按 `max_connections=30` 算余量：
+
+| 项目 | 连接数 |
+|---|---|
+| `max_connections` | 30 |
+| 超级用户保留（`superuser_reserved_connections`） | 3 |
+| 普通账号可用 | 27 |
+| demo 三个池合计 | 13 |
+| 剩余（迁移、psql、备份） | 14 |
+
+迁移（migrate-only）用非 demo 配置，两个池默认各 10 个，最多占 20，超过余量。
+
+所以先停 demo 再迁移，或者迁移时把池调小，例如 `--mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3`。
+
+普通账号连满时，`postgres` 超级用户还能用保留的 3 个连接排查。
+
+调大连接池前先算一遍：三个池加迁移不能超过 27，不够就调高 `max_connections` 并重启 PostgreSQL。
 
 ::: tip 建设中
 每日 04:00（北京时间）重置样例数据、敏感词过滤（词表从外部路径加载，默认空表）、输出转义、访问日志留存 6 个月、管理台的只读提示，会在后续版本陆续提供。在这些就绪之前，请不要把演示环境当作唯一防线。
