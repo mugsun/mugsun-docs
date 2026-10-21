@@ -25,7 +25,7 @@ cp config/application-local.yml.example config/application-local.yml
 
 | 变量 | 默认 | 说明 |
 | --- | --- | --- |
-| `MUGSUN_INIT_PASSWORD` | — | 初始管理员口令。prod 未注入或仍为内置默认口令时拒绝启动 |
+| `MUGSUN_INIT_PASSWORD` | — | 初始管理员口令。生产环境（见下方「启动守卫与豁免开关」）未注入时拒绝启动 |
 | `MUGSUN_GM_ENABLED` | `true` | 国密总开关（传输 SM2 / 摘要 SM3） |
 | `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥 |
 | `MUGSUN_API_KEY` | 空 | 接口加解密 SM4 密钥 |
@@ -42,7 +42,7 @@ cp config/application-local.yml.example config/application-local.yml
 - 通用摘要从 SM3 改为 SHA-256，目前只有加解密演示接口使用。审计签名使用独立的 SM2 密钥，不受影响。
 - 密码存储不受这个开关影响，服务端始终用加盐的慢哈希 BCrypt 存储密码，不使用 SHA-256。
 
-当前版本在 `prod` 环境不强制开启国密，后续版本将改为拒绝启动。等保或密评场景请保持开启。
+生产环境关闭国密会拒绝启动，除非同时设置豁免开关，见下方「启动守卫与豁免开关」。关闭后密码完全靠 TLS 保护。等保或密评场景请保持开启。
 
 ## 审计日志
 
@@ -378,6 +378,25 @@ mugsun:
 设置后，业务表（`track_*` 除外）和手写 SQL 的表名都会加上这个 schema 前缀，Flyway 也会使用并自动创建它。
 
 留空时不做任何处理，使用数据库连接默认的 schema，PostgreSQL 下通常是 `public`。openGauss 未经测试。
+
+## 启动守卫与豁免开关
+
+以下几项在生产环境配错时拒绝启动。只有显式激活了 `dev`、`test` 或 `local` profile（严格小写）才算开发环境，其余一律按生产处理：
+
+- 没配任何 profile 也按生产处理。**这是行为变更**：本地自测请显式加 `--spring.profiles.active=dev`（`mvn spring-boot:run` 已默认激活 `dev`）。
+- `staging`、`PROD`、`production` 等写法都按生产处理；`prod` 和 `dev` 同时激活时按生产处理。
+- 没有激活 profile 时按 `spring.profiles.default` 判定。
+
+| 配置 | 生产中的危险值 | 豁免开关 |
+| --- | --- | --- |
+| `mugsun.security.init-password` | 未注入 | 无 |
+| `mugsun.lab.seed-fronttest` | `true`（会播种弱口令联调账号） | 无 |
+| `mugsun.open-api.sign-required` | `false` | `mugsun.open-api.i-understand-unsigned-requests-are-insecure=true` |
+| `mugsun.crypto.gm-enabled` | `false` | `mugsun.crypto.i-understand-plaintext-passwords-rely-on-tls=true` |
+
+豁免开关只用于确实无法满足要求的场景，开启后每次启动都会打 WARN 日志。
+
+**关闭国密后，密码完全靠 TLS 保护。** 即使开了豁免，生产环境下登录、注册、改密、重置密码的请求也必须是 HTTPS（服务端按 `request.isSecure()` 判定），否则直接拒绝。部署在反向代理后面时，代理要传 `X-Forwarded-Proto`，同时后端配置 `server.forward-headers-strategy=native`；单独伪造这个请求头不会被采信。
 
 ## 生产环境
 

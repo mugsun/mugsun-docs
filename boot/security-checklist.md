@@ -8,8 +8,10 @@
 - [ ] `SPRING_PROFILES_ACTIVE=prod`，`strict-keys` 为 `true`（prod 默认）
 - [ ] SM4、接口加解密、SM2 传输与审计签名密钥均为自有值，未使用仓库示例中的 `mugsun-local-*`（[配置参考](/boot/configuration#安全与密钥)）
 - [ ] mock 社交登录关闭（prod 默认关闭）
-- [ ] 生产不得开启 `mugsun.lab.seed-fronttest`，开启后会创建一个弱口令测试账号，`prod` profile 不会拦截
-- [ ] 等保或密评场景保持 `mugsun.crypto.gm-enabled` 开启（[配置参考](/boot/configuration#安全与密钥)）
+- [ ] 生产不得开启 `mugsun.lab.seed-fronttest`（会播种弱口令联调账号）；生产开启会拒绝启动
+- [ ] 生产环境不依赖「没配 profile」：没配也按生产拦截，自测请显式激活 `dev`（[启动守卫](/boot/configuration#启动守卫与豁免开关)）
+- [ ] 未开启 `i-understand-...` 豁免开关；如已开启，确认原因，并确认所有登录、改密流量都走 HTTPS
+- [ ] 等保或密评场景保持 `mugsun.crypto.gm-enabled` 开启；关闭后密码完全靠 TLS 保护（[配置参考](/boot/configuration#安全与密钥)）
 
 ## 网络与网关
 

@@ -8,8 +8,10 @@ Work through every item before exposing a deployment to the internet.
 - [ ] `SPRING_PROFILES_ACTIVE=prod`, with `strict-keys` set to `true` (the prod default)
 - [ ] SM4, request-encryption, SM2 transport and audit-signing keys are your own, not the `mugsun-local-*` samples from the repository ([Configuration](/en/boot/configuration#security-and-keys))
 - [ ] Mock social login is off (the prod default)
-- [ ] `mugsun.lab.seed-fronttest` is not enabled in production; it creates a test account with a weak password, and the `prod` profile does not block it
-- [ ] For MLPS (Dengbao) or commercial cryptography assessments, `mugsun.crypto.gm-enabled` stays on ([Configuration](/en/boot/configuration#security-and-keys))
+- [ ] `mugsun.lab.seed-fronttest` is not enabled in production (it seeds a test account with a weak password); production refuses to start with it on
+- [ ] Production does not rely on "no profile": that is also blocked as production, so activate `dev` explicitly for local testing ([Startup guards](/en/boot/configuration#startup-guards-and-exemption-switches))
+- [ ] No `i-understand-...` exemption switch is on; if one is, the reason is recorded and all sign-in and password-change traffic goes over HTTPS
+- [ ] For MLPS (Dengbao) or commercial cryptography assessments, `mugsun.crypto.gm-enabled` stays on; once it is off, passwords rely entirely on TLS ([Configuration](/en/boot/configuration#security-and-keys))
 
 ## Network and gateway
 
