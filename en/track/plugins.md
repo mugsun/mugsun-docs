@@ -85,8 +85,23 @@ Built-in protections that can't be turned off:
   - **Contains the substring** `captcha`, `verifycode` or `verificationcode`, such as `/getCaptcha` or `/user/verifyCode`.
   - **Contains the word** `sms`, `otp`, `sendcode`, `getcode` or `checkcode`: the path is split on non-letter characters and a word must match exactly. `/api/sms/send`, `/send-otp` and `/user/getCode` match; `/smsTemplate/list` and `/barcode/getcodeList` don't.
   - **Verb combinations**: `send`, `get`, `resend`, `check`, `verify` or `validate` directly followed by `sms`, `otp`, `smscode`, `mobilecode`, `phonecode`, `emailcode` or `msgcode`. `/sendSms`, `/getSmsCode`, `/sendOtp` and `/sendEmailCode` match; `/smsTemplate/list` doesn't.
-  - **Token endpoints**: paths are split on camelCase, and `-` and `_` count as word breaks. `get`, `refresh`, `renew`, `issue` or `exchange` must start a word, optionally followed by `access`, `auth`, `id`, `session`, `csrf` or `user`, then `token`; `token` starting a word and followed by `exchange` or `refresh` also counts. `/getToken`, `/refresh-token`, `/getSessionToken` and `/tokenExchange` match; `/forgetToken`, `/budgetTokenUsage` and `/tokens/stats` don't.
-  - **Known false positives** (only one response body is skipped): `/getTokenList`, `/getTokenizer`, `/getTokenFee`, `/getAuthTokenConfig`, `/getTokenStats`; `/sms-template/get`, `/otp-config/list`; `sendSmsNotice`, `budgetSmsCode`; `/captchaConfig`; `/passwordPolicy/list`, `/registerCenter`; ordinary endpoints whose segment is exactly `login`, `token`, `sso` or `cas`. See the [mugsun-track CHANGELOG](https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md) for the full list.
+  - **Token endpoints**:
+    - Word split: paths are split on camelCase; `-` and `_` are word breaks.
+    - Verbs: `get`, `refresh`, `renew`, `issue` or `exchange`, starting a word.
+    - Optional middle word: `access`, `auth`, `id`, `session`, `csrf`, `user`.
+    - Then `token`.
+    - Noun first: `token` starting a word, then `exchange` or `refresh`.
+    - Match: `/getToken`, `/refresh-token`, `/getSessionToken`.
+    - Also match: `/tokenExchange`.
+    - No match: `/forgetToken`, `/budgetTokenUsage`, `/tokens/stats`.
+  - **Known false positives** (only one response body is skipped):
+    - `/getTokenList`, `/getTokenizer`, `/getTokenFee`.
+    - `/getAuthTokenConfig`, `/getTokenStats`.
+    - `/sms-template/get`, `/otp-config/list`.
+    - `sendSmsNotice`, `budgetSmsCode`, `/captchaConfig`.
+    - `/passwordPolicy/list`, `/registerCenter`.
+    - Endpoints whose segment is exactly `login`, `token`, `sso` or `cas`.
+    - Full list: [mugsun-track CHANGELOG][track-changelog].
   - If an endpoint that none of these rules catch (for example another camelCase name) returns a verification code, turn body capture off with `apiBodyEnabled: false`.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
@@ -110,3 +125,5 @@ The draft shows up in the console's draft bar. Confirm turns it into a rule deli
 ## Next
 
 [Options](/en/track/install#options) · [Privacy](/en/track/privacy)
+
+[track-changelog]: https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md

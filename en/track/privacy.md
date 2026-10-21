@@ -42,7 +42,6 @@ Addresses in these places in the replay are **not redacted**:
 - `meta` `content`
 - URLs that appear in page text
 - Tokens embedded in paths, such as `/reset/<token>` (not handled anywhere)
-- In special schemes, a literal `\` in a password in the raw string is not masked (matches browser parsing)
 
 If any of these may carry a token or signature, add `data-track-mask` to the element so the replay skips it entirely.
 
@@ -83,6 +82,11 @@ Only userinfo, sensitive path parameters, the query string and the hash are chan
 - Leading whitespace and control characters are stripped first.
 - TAB, LF and CR are then removed, as browsers do.
 - Sensitive path parameters are masked: `;jsessionid=…` → `;jsessionid=***`.
+- Known gaps:
+  - In http, https, ws, wss, ftp, file and `//` URLs, userinfo (user name
+    or password) containing a literal `\` is not masked: `https://u:p\w@h`.
+  - Browsers end the host at `\`, so they don't parse it as credentials.
+  - The form without `//`, `https:u:p@h`, isn't masked either.
 
 Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
 

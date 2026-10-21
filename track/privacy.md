@@ -42,7 +42,6 @@
 - `meta` 的 `content`
 - 页面文本里出现的 URL
 - 嵌在路径里的令牌，如 `/reset/<token>`（所有采集点都不处理）
-- special scheme 的原始串中，密码若含字面 `\`，不会被遮（与浏览器解析一致）
 
 如果这些位置可能带令牌或签名，请给对应元素加 `data-track-mask`，回放里整块不录。
 
@@ -81,6 +80,11 @@ sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 - `//` 写成反斜杠也能识别；http(s) 等协议里反斜杠和 `/` 一样结束主机部分。
 - 先去掉开头的空白和控制字符，再删掉 TAB、换行和回车。
 - 路径参数里的敏感键也替换，如 `;jsessionid=…` 变为 `;jsessionid=***`。
+- 已知漏遮：
+  - http、https、ws、wss、ftp、file 及 `//` 开头的 URL 里，
+    userinfo（用户名或密码）含字面 `\` 时不遮，如 `https://u:p\w@h`。
+  - 浏览器把 `\` 当作主机结束，这种串解析不出这段凭证。
+  - 缺 `//` 的写法 `https:u:p@h` 也不遮。
 
 相对 URL（`img/a.jpg?token=…`）和协议相对 URL（`//cdn.x/a?token=…`）保持原样，只替换参数值。
 
