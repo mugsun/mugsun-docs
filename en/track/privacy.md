@@ -32,9 +32,17 @@ Tighten access and retention for replay and body data accordingly.
 
 API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept.
 
-Replay DOM attributes handled: `href`, `src`, `srcset`, `imagesrcset`, `action`, `xlink:href`, `formaction`, `poster` and `data`, in any letter case. `srcset` and `imagesrcset` are handled one candidate at a time, keeping descriptors such as `1x` and `480w`.
+Replay DOM attributes handled: `href`, `src`, `srcset`, `imagesrcset`, `action`, `xlink:href`, `formaction`, `poster` and `data`, in any letter case. `srcset` and `imagesrcset` are parsed per the HTML spec (URLs may contain commas) and redacted one candidate at a time, keeping descriptors such as `1x` and `480w`; `data:` candidates are skipped individually.
 
-Only addresses in CSS `url()` in inline styles and stylesheets in the replay are not redacted; if such an address carries a signature, add `data-track-mask` to the element.
+Addresses in these places in the replay are **not redacted**:
+
+- CSS `url()` in inline styles and stylesheets
+- `data-*` attributes
+- `iframe` `srcdoc`
+- `meta` `content`
+- URLs that appear in page text
+
+If any of these may carry a token or signature, add `data-track-mask` to the element so the replay skips it entirely.
 
 Credential keys, shared by URLs and response bodies:
 
@@ -49,6 +57,7 @@ Keys replaced only in URLs and kept as-is in response bodies:
 
 ```text
 code  sign  signature  ticket  otp
+sig  q-signature  x-oss-signature  x-oss-security-token
 ```
 
 Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count too; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
@@ -73,7 +82,7 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
 ```
 
-One exception: `code` and `ticket` values that look like tokens are replaced too, meaning strings of 16 characters or more that contain no `_` and mix letters and digits, or JWT-shaped values (three base64url parts starting with `eyJ`). Business codes such as `0`, `200`, `"E1001"`, `INVALID_PARAMETER_VALUE` and `ORDER_20261021_0001` are kept:
+One exception: `code` and `ticket` values that look like tokens are replaced too, meaning JWT-shaped values (three base64url parts starting with `eyJ`), or strings of 16 characters or more made only of letters, digits, `-` and `_` that mix letters and digits (base64url and hex tokens). Only upper-case snake business codes such as `INVALID_PARAMETER_VALUE` and `ORDER_20261021_0001` are exempt; short codes such as `0`, `200` and `"E1001"` are kept too:
 
 ```text
 {"code":"E1001"}                    →   uploaded unchanged
@@ -88,7 +97,7 @@ One exception: `code` and `ticket` values that look like tokens are replaced too
 
 `session` is a session identifier rather than a business code, so it is a credential key and is replaced with `***` in bodies too.
 
-Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` values shorter than 16 characters in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
+Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` values in bodies that are shorter than 16 characters, all digits or all letters) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
 
 ## Turning on masking and filtering
 

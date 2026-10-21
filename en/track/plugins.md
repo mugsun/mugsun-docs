@@ -81,10 +81,10 @@ Built-in protections that can't be turned off:
 - The SDK's own endpoints (`/track/collect`, `/track/config`, `/track/replay`, `/track/api-body` and so on) are never captured, which prevents loops.
 - Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. After lowercasing, a path counts if any of these holds:
   - **Contains a fragment**: `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`, `/register`, `/signup`, `/sign-up`, `/password`, `/forgot`, `/reset-password`, `/change-password`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`.
-  - **A whole segment equals** `login`, `signin`, `sign-in`, `logout`, `token`, `sso` or `cas`, bounded by `/` or the ends of the path. `/api/login` and `/cas/login` match; `/monitor/loginLog/list`, `/tokens/stats` and `/case/list` don't.
+  - **A whole segment equals** `login`, `signin`, `sign-in`, `logout`, `token`, `sso` or `cas`, with `/` or the start on the left and `/`, `.`, `;` or the end on the right. `/api/login`, `/cas/login`, `/api/v1/login.json`, `/login.do` and `/login;jsessionid=x` match; `/monitor/loginLog/list`, `/tokens/stats` and `/case/list` don't.
   - **Contains the substring** `captcha`, `verifycode` or `verificationcode`, such as `/getCaptcha` or `/user/verifyCode`.
   - **Contains the word** `sms`, `otp`, `sendcode`, `getcode` or `checkcode`: the path is split on non-letter characters and a word must match exactly. `/api/sms/send`, `/send-otp` and `/user/getCode` match; `/smsTemplate/list` and `/barcode/getcodeList` don't.
-  - camelCase names such as `/sendSms` and `/sendOtp` don't match. If such an endpoint returns a code, turn body capture off with `apiBodyEnabled: false`.
+  - **Verb combinations**: `send`, `get`, `resend`, `check`, `verify` or `validate` directly followed by `sms`, `otp`, `smscode`, `mobilecode` or `phonecode`. `/sendSms`, `/getSmsCode` and `/sendOtp` match; `/smsTemplate/list` doesn't.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0
