@@ -54,6 +54,15 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '第一个定时任务', link: '/boot/tutorial/first-job' },
           ],
         },
+        {
+          text: '代码生成',
+          items: [
+            { text: '概述', link: '/boot/codegen/' },
+            { text: 'AI 辅助建模', link: '/boot/codegen/ai-modeling' },
+            { text: '导入已有表', link: '/boot/codegen/import' },
+            { text: '预览和下载产物', link: '/boot/codegen/output' },
+          ],
+        },
       ],
       '/pc/': [
         {
