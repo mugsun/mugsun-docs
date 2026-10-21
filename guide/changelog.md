@@ -15,6 +15,7 @@
   - URL 敏感参数新增 `code`、`sign`、`signature`、`ticket`、`session`、`otp`，忽略大小写与 `_`、`-`，hash 参数也处理；`referrer`、链接 `href`、资源错误地址、回放页面地址也脱敏。
   - 注册、找回 / 修改密码、短信 / 验证码 / MFA 接口不采集响应体。
   - 两份清单：凭证键（含 `session`）URL 和响应体共用；`code`、`sign`、`signature`、`ticket`、`otp` 只在 URL 里替换，响应体里保留原值（如 `{"code":0}`）。
+- **凭证类加固（续，待审）**：通用登录、令牌、单点登录接口（`/login`、`/token`、`/sso`、`/cas` 等）和路径含 `sms`、`captcha`、`otp`、`verifycode` 的接口不采集响应体；JS 错误的 `filename` 和回放 DOM 里的 `href`、`src` 等地址脱敏；响应体里像令牌的 `code`、`ticket`（长度 ≥16 或 JWT 形态）替换为 `***`，业务码照常保留。
 - **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
 
 ## 2026-10-18 · 重复提交返回 400

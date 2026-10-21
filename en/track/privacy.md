@@ -30,7 +30,7 @@ Tighten access and retention for replay and body data accordingly.
 
 ## URL redaction
 
-API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s and the page address in replay Meta events all keep query strings, but values for these keys become `***`. Other parameters are kept.
+API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes such as `href`, `src` and `action` in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept.
 
 Credential keys, shared by URLs and response bodies:
 
@@ -68,6 +68,13 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
 ```
 
+One exception: `code` and `ticket` values that look like tokens are replaced too, meaning strings of 16 characters or more, or JWT-shaped values (three base64url parts starting with `eyJ`). Business codes such as `0`, `200` and `"E1001"` are kept:
+
+```text
+{"code":"E1001"}                    →   uploaded unchanged
+{"code":"SplxlOBeZQQYbYS6WxSbIA"}    →   {"code":"***"}
+```
+
 - **Depth**: objects and arrays are checked level by level, up to 8 levels; deeper subtrees are replaced with `***` as a whole rather than uploaded as-is.
 - **Non-JSON**: only bodies with a JSON content type are captured; other types (HTML, text, binary, SSE) are never captured.
 - **Declared JSON that fails to parse**: the body is not uploaded, and the `api_request` event is marked `body_skipped: 'unparsable'`.
@@ -76,7 +83,7 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 
 `session` is a session identifier rather than a business code, so it is a credential key and is replaced with `***` in bodies too.
 
-Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
+Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` values shorter than 16 characters in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
 
 ## Turning on masking and filtering
 

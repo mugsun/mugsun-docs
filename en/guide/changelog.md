@@ -15,6 +15,7 @@ Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.
   - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`, ignores case, `_` and `-`, and covers hash parameters; `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
   - Sign-up, password reset / change, SMS / captcha / MFA endpoints never have their response bodies captured.
   - Two key lists: credential keys (including `session`) are shared by URLs and response bodies; `code`, `sign`, `signature`, `ticket` and `otp` are replaced only in URLs and kept as-is in bodies (such as `{"code":0}`).
+- **More credential hardening (follow-up, in review)**: generic login, token and SSO endpoints (`/login`, `/token`, `/sso`, `/cas`, …) and paths containing `sms`, `captcha`, `otp` or `verifycode` no longer have bodies captured; JS error `filename`s and `href`/`src` addresses in the replay DOM are redacted; token-like `code` and `ticket` values in bodies (16+ characters or JWT-shaped) become `***`, while business codes are kept.
 - **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
 
 ## 2026-10-18 · Duplicate submissions return 400

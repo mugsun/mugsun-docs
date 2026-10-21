@@ -79,7 +79,7 @@ This is what it looks like in the console's Session replay player: a demo sessio
 Built-in protections that can't be turned off:
 
 - The SDK's own endpoints (`/track/collect`, `/track/config`, `/track/replay`, `/track/api-body` and so on) are never captured, which prevents loops.
-- Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. A path counts if, after lowercasing, it contains one of: login and tokens `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`; sign-up `/register`, `/signup`, `/sign-up`; passwords `/password`, `/forgot`, `/reset-password`, `/change-password`; codes and MFA `/otp`, `/sms`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`.
+- Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. A path counts if, after lowercasing, it contains one of: login and tokens `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`; sign-up `/register`, `/signup`, `/sign-up`; passwords `/password`, `/forgot`, `/reset-password`, `/change-password`; codes and MFA `/otp`, `/sms`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`; generic login and SSO `/login`, `/signin`, `/sign-in`, `/logout`, `/token`, `/sso`, `/cas`. A path also counts if it contains `sms`, `captcha`, `otp`, `verifycode` or `verificationcode` anywhere, without a leading `/`, so `/sendSms`, `/getCaptcha` and `/verifyCode` match.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0

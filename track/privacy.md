@@ -30,7 +30,7 @@
 
 ## URL 敏感参数
 
-接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、回放 Meta 事件里的页面地址都保留查询串，但以下键的值替换为 `***`，业务参数保留。
+接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、JS 错误的 `filename`、回放 Meta 事件里的页面地址，以及回放 DOM 里的 `href`、`src`、`action` 等地址属性都保留查询串，但以下键的值替换为 `***`，业务参数保留。
 
 凭证键，URL 和响应体共用：
 
@@ -68,6 +68,13 @@ code  sign  signature  ticket  otp
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   原样上传
 ```
 
+例外：`code`、`ticket` 的值像令牌时也替换，即长度 ≥16 的字符串，或 JWT 形态（三段 base64url，以 `eyJ` 开头）。`0`、`200`、`"E1001"` 这类业务码保留：
+
+```text
+{"code":"E1001"}                    →   原样上传
+{"code":"SplxlOBeZQQYbYS6WxSbIA"}    →   {"code":"***"}
+```
+
 - **层级**：对象和数组逐层检查，最多 8 层；更深的子树整体替换为 `***`，不会原样上传。
 - **非 JSON**：只采集 content-type 为 JSON 的响应体，其他类型（HTML、文本、二进制、SSE）一律不采集。
 - **声明为 JSON 但解析失败**：不上传响应体，`api_request` 事件标记 `body_skipped: 'unparsable'`。
@@ -76,7 +83,7 @@ code  sign  signature  ticket  otp
 
 `session` 是会话标识，不是业务码，归在凭证键里，响应体里也替换为 `***`。
 
-键名不在凭证清单里的令牌（例如 `sessionKey`、`userToken`，以及响应体里的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
+键名不在凭证清单里的令牌（例如 `sessionKey`、`userToken`，以及响应体里长度不足 16 的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
 
 ## 开启遮罩与过滤
 
