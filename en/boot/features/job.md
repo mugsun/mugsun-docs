@@ -48,7 +48,16 @@ If the PowerJob Server is not running, the Scheduled Tasks page says the task se
 Click Run on a task and a new instance appears in its run history. Status 5 means success, 4 means failure and 3 means running. The instance is also in the PowerJob Server database:
 
 ```sql
-SELECT id, job_id, status, actual_trigger_time FROM instance_info ORDER BY id DESC LIMIT 5;
+SELECT instance_id, job_id, status, actual_trigger_time
+FROM instance_info
+ORDER BY id DESC
+LIMIT 5;
 ```
+
+The table and column names were checked against `InstanceInfoDO` in PowerJob 5.1.2, the version that boot depends on.
+
+`instance_id` is the instance number shown in the run history. `actual_trigger_time` is a timestamp in milliseconds.
+
+If the server sets `oms.table-prefix`, add that prefix to the table name.
 
 Previous: [Rule chains](./rule) · Next: [Reports](./report)

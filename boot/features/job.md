@@ -50,7 +50,16 @@ PowerJob Server 没有启动时，打开「定时任务」页会提示「定时�
 点某个任务的「执行」后，执行记录里出现一条新实例，状态 5 表示成功，4 表示失败，3 表示运行中。PowerJob Server 的库里也能查到这条实例：
 
 ```sql
-SELECT id, job_id, status, actual_trigger_time FROM instance_info ORDER BY id DESC LIMIT 5;
+SELECT instance_id, job_id, status, actual_trigger_time
+FROM instance_info
+ORDER BY id DESC
+LIMIT 5;
 ```
+
+表名和字段对照 PowerJob 5.1.2 的 `InstanceInfoDO` 核实过，这个版本就是 boot 依赖的版本。
+
+`instance_id` 是执行记录里显示的实例号。`actual_trigger_time` 是毫秒时间戳。
+
+Server 配置了 `oms.table-prefix` 时，表名要加上这个前缀。
 
 上一节：[规则编排](./rule) · 下一节：[报表](./report)
