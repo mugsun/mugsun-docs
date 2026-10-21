@@ -92,6 +92,7 @@ track.track('hello_mugsun')
 
 ## 下一步
 
+- [开发入门：第一个接口](/boot/tutorial/first-api)
 - [架构](/guide/architecture)
 - [Boot 配置](/boot/configuration)
 - [上线安全清单](/boot/security-checklist)

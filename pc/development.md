@@ -95,6 +95,14 @@ e2e 不解验证码，也不从 Redis 读答案。所以分两套，各对一种
 
 `accessToken`、`refreshToken`、`isLogin` 存于 `sessionStorage`（键 `sys-v{version}-user-session`），关闭标签页即失效；语言、用户信息与搜索历史存于 `localStorage`。锁屏密码不持久化，刷新后锁屏状态不保留。
 
+锁屏只是遮挡界面，不是安全边界，刷新页面就会解锁。
+
+- 解锁是纯前端比对，不经后端校验
+- 锁屏密码只以加盐 SHA-256 hash 存在内存里，盐 16 字节、每次锁屏重新生成
+- 不写任何浏览器存储，解锁成功或登出时 hash 与盐一起清掉
+- 不再使用固定混淆值 `VITE_LOCK_ENCRYPT_KEY`
+- 设置锁屏密码失败时不会锁屏，界面提示「锁屏失败，请重试」
+
 对使用者的影响（[pc#4](https://github.com/mugsun/mugsun-pc/pull/4)）：
 
 - 同一标签页内刷新保持登录；**新开标签页或关闭后重开浏览器，需要重新登录**。

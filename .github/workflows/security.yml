@@ -3,13 +3,19 @@ name: Security scan
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: ['**']
   schedule:
     - cron: "17 1 * * *" # 每日 09:17（Asia/Shanghai）
   workflow_dispatch:
 
 permissions:
   contents: read
+
+# 定时扫描单独一组且不取消，不会因 cancelled() 误触发 notify 开 issue；
+# main 按 SHA 分组不取消（ci-checklist 3.17），其他分支取消旧运行。
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'schedule' && 'schedule-' || '' }}${{ github.ref }}${{ github.ref == 'refs/heads/main' && format('-{0}', github.sha) || '' }}
+  cancel-in-progress: ${{ github.event_name != 'schedule' && github.ref != 'refs/heads/main' }}
 
 env:
   GITLEAKS_VERSION: 8.30.1

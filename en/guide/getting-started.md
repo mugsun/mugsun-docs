@@ -90,6 +90,7 @@ Select the app under Analytics → Overview to view the reported data.
 
 ## Next steps
 
+- [Development tutorial: your first API](/en/boot/tutorial/first-api)
 - [Architecture](/en/guide/architecture)
 - [Boot configuration](/en/boot/configuration)
 - [Pre-launch security checklist](/en/boot/security-checklist)
