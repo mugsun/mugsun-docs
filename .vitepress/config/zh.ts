@@ -12,6 +12,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
         text: '更多',
         items: [
           { text: 'Core', link: '/core/', activeMatch: '/core/' },
+          { text: '项目生成器', link: '/start/', activeMatch: '/start/' },
           { text: 'uni-app x', link: '/uniappx/', activeMatch: '/uniappx/' },
           { text: '在线演示', link: '/demo' },
           { text: '更新日志', link: '/guide/changelog' },
@@ -78,6 +79,12 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
         {
           text: 'Core',
           items: [{ text: '概述', link: '/core/' }],
+        },
+      ],
+      '/start/': [
+        {
+          text: '项目生成器',
+          items: [{ text: '概述', link: '/start/' }],
         },
       ],
       '/uniappx/': [
