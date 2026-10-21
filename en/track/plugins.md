@@ -54,7 +54,7 @@ const track = createTracker({
 - **Page text and input values are shown as-is by default** (from 0.3.0, `maskTextSelector: '*'` is no longer passed by default and `maskAllInputs` defaults to `false`).
 - Never recorded: `input[type="password"]`, elements with `data-track-mask`, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`).
 - To mask, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` for all text and input values; for text you can also pass a narrower selector such as `'.user-info'`. See [Privacy](/en/track/privacy#turning-on-masking-and-filtering).
-- Input values are recorded as plain text by default. Under China's Personal Information Protection Law (PIPL), collecting sensitive personal information requires the user's separate consent. Until you have it, do not record inputs that contain such information (set `maskAllInputs: true`, and use `maskTextSelector` for page text). Follow your legal counsel's advice on the details. See [Privacy](/en/track/privacy).
+- Under China's PIPL, processing sensitive personal information requires separate consent. This is your responsibility as the personal information handler; the SDK collecting by default is not consent. Until you have it, call `optOut()` or delay `createTracker()`, then call `optIn()` once the user consents; alternatively set `maskAllInputs: true` and use `maskTextSelector` for page text. Follow your legal counsel's advice on the details. See [Privacy](/en/track/privacy).
 
 ```html
 <!-- never recorded -->
@@ -79,7 +79,59 @@ This is what it looks like in the console's Session replay player: a demo sessio
 Built-in protections that can't be turned off:
 
 - The SDK's own endpoints (`/track/collect`, `/track/config`, `/track/replay`, `/track/api-body` and so on) are never captured, which prevents loops.
-- Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. A path counts if, after lowercasing, it contains one of: login and tokens `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`; sign-up `/register`, `/signup`, `/sign-up`; passwords `/password`, `/forgot`, `/reset-password`, `/change-password`; codes and MFA `/otp`, `/sms`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`.
+- Credential endpoints **never have their bodies captured**.
+- The event is marked `body_skipped: 'credential'`.
+- The path is URL-decoded first: `/api/get%5Ftoken` is `/api/get_token`.
+- Then, after lowercasing, a path counts if any of these holds:
+  - **Contains a fragment**:
+    - Login and tokens: `/auth/login`, `/auth/refresh`, `/oauth/token`.
+    - Also `/auth/social`.
+    - Sign-up: `/register`, `/signup`, `/sign-up`.
+    - Passwords: `/password`, `/forgot`, `/reset-password`.
+    - Also `/change-password`.
+    - Codes and MFA: `/captcha`, `/mfa`, `/2fa`, `/totp`.
+    - Also `/verify-code`, `/verification-code`.
+  - **A whole segment equals**:
+    - Segments: `login`, `signin`, `sign-in`, `logout`, `token`, `sso`, `cas`.
+    - Left side: `/` or the start. Right side: `/`, `.`, `;` or the end.
+    - Match: `/api/login`, `/cas/login`, `/api/v1/login.json`.
+    - Also match: `/login.do`, `/login;jsessionid=x`.
+    - No match: `/monitor/loginLog/list`, `/tokens/stats`, `/case/list`.
+  - **Contains the substring**:
+    - `captcha`, `verifycode` or `verificationcode`.
+    - Such as `/getCaptcha` or `/user/verifyCode`.
+  - **Contains the word**:
+    - Words: `sms`, `otp`, `sendcode`, `getcode`, `checkcode`.
+    - The path is split on non-letters; a word must match exactly.
+    - Match: `/api/sms/send`, `/send-otp`, `/user/getCode`.
+    - No match: `/smsTemplate/list`, `/barcode/getcodeList`.
+  - **Verb combinations**:
+    - Verbs: `send`, `get`, `resend`, `check`, `verify`, `validate`.
+    - Directly followed by `sms`, `otp`, `smscode`, `mobilecode`.
+    - Or by `phonecode`, `emailcode`, `msgcode`.
+    - Match: `/sendSms`, `/getSmsCode`, `/sendOtp`, `/sendEmailCode`.
+    - No match: `/smsTemplate/list`.
+  - **Token endpoints**:
+    - Word split: acronym boundaries first (`APIGetToken` → `API Get Token`).
+    - Then camelCase; `-` and `_` are word breaks.
+    - Verbs: `get`, `refresh`, `renew`, `issue` or `exchange`, starting a word.
+    - Optional middle word: `access`, `auth`, `id`, `session`, `csrf`, `user`.
+    - Then `token`.
+    - Noun first: `token` starting a word, then `exchange` or `refresh`.
+    - Match: `/getToken`, `/refresh-token`, `/getSessionToken`.
+    - Also match: `/tokenExchange`.
+    - No match: `/forgetToken`, `/budgetTokenUsage`, `/tokens/stats`.
+  - **Known false positives** (only one response body is skipped):
+    - `/getTokenList`, `/getTokenizer`, `/getTokenFee`.
+    - `/getAuthTokenConfig`, `/getTokenStats`.
+    - `/sms-template/get`, `/otp-config/list`.
+    - `sendSmsNotice`, `budgetSmsCode`, `/captchaConfig`.
+    - `/passwordPolicy/list`, `/registerCenter`.
+    - Endpoints whose segment is exactly `login`, `token`, `sso` or `cas`.
+    - Full list: [mugsun-track CHANGELOG][track-changelog].
+  - Some endpoints may return a verification code yet match none of these rules,
+    for example other camelCase names. Turn body capture off for them with
+    `apiBodyEnabled: false`.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0
@@ -102,3 +154,5 @@ The draft shows up in the console's draft bar. Confirm turns it into a rule deli
 ## Next
 
 [Options](/en/track/install#options) · [Privacy](/en/track/privacy)
+
+[track-changelog]: https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md

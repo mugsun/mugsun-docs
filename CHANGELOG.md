@@ -6,6 +6,7 @@
 
 ### 变更
 
+- ms-badge：dot 优先于 count（不再出空气泡）；优先级文档改为 label > dot > count
 - 埋点文档对齐 npm `@mugsun/track-web@0.2.0`：安装示例、更新日志、隐私默认值；安装页补「版本与发布」流程
 - 首页、指南与信息架构重写；各产品线补齐概览、快速开始、配置参考与 FAQ
 - ms-ui 组件「基础用法」改为摘自演示源码的可运行片段（`scripts/sync-demo-snippets.py`）
