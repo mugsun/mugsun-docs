@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}${{ github.ref == 'refs/heads/main' && format('-{0}', github.sha) || '' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   workflows:
@@ -42,21 +42,26 @@ jobs:
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           PUSH_BEFORE: ${{ github.event.before }}
         run: |
-          # PR：比 PR 基准；push 到 main 且 before 有效：比 before；
-          # 其他分支 push、新分支首推（before 全 0）、workflow_dispatch：比 origin/main 的分叉点。
-          # 分叉点就是 HEAD（main 上手动触发）时传全 0，脚本回落到 HEAD~1。
+          # 基线（ci-checklist 3.17）：PR 用 PR 基准；main 用非全零的 before；
+          # 其他分支 push（含首推 before 全 0）和 dispatch 用 merge-base origin/main HEAD；
+          # main 上 dispatch 没有 before，用 HEAD~1。拿不到基线就报错失败。
           zero="0000000000000000000000000000000000000000"
           valid() { [ -n "$1" ] && [ "$1" != "$zero" ] && git cat-file -e "$1^{commit}" 2>/dev/null; }
           base=""
-          if [ "$EVENT" = "pull_request" ] && valid "$PR_BASE"; then
-            base="$PR_BASE"
-          elif [ "$EVENT" = "push" ] && [ "$REF" = "refs/heads/main" ] && valid "$PUSH_BEFORE"; then
-            base="$PUSH_BEFORE"
+          if [ "$EVENT" = "pull_request" ]; then
+            valid "$PR_BASE" && base="$PR_BASE"
+          elif [ "$REF" = "refs/heads/main" ]; then
+            if [ "$EVENT" = "push" ]; then
+              valid "$PUSH_BEFORE" && base="$PUSH_BEFORE"
+            else
+              base=$(git rev-parse --verify -q HEAD~1 || true)
+            fi
           else
             base=$(git merge-base origin/main HEAD 2>/dev/null || true)
           fi
-          if [ -z "$base" ] || [ "$base" = "$(git rev-parse HEAD)" ]; then
-            base="$zero"
+          if [ -z "$base" ]; then
+            echo "::error::无法确定 diff 基线（$EVENT $REF）"
+            exit 1
           fi
           echo "diff base: $base ($EVENT $REF)"
           echo "DIFF_BASE=$base" >> "$GITHUB_ENV"
