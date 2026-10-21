@@ -22,15 +22,18 @@ The original black-gold logo:
 
 ![Original black-gold logo](/brand/svg/mugsun-icon-dark.svg){width=64}
 
-The variant images are in `public/brand/themes/`, named `mugsun-icon-<theme color>-onlight.png` and `mugsun-icon-<theme color>-ondark.png`, at 256×256.
+The variant images are in `public/brand/themes/`, at 256×256, named
+`mugsun-icon-<theme color>-onlight.png` and
+`mugsun-icon-<theme color>-ondark.png`.
 
 ## Admin console sign-in pages {#pc-auth-pages}
 
 The mugsun-pc login, register and forgot-password pages pick the logo by the rules above:
 
-- Light mode uses the light-background version of the current theme color, dark mode the dark-background version. Switching the theme color or light/dark from the top-right corner swaps the logo at once, without a reload.
+- Light mode uses the light-background version of the current theme color, dark mode the dark-background version. Switching the theme color or light/dark from the top-right corner swaps the logo at once, without a reload. On narrow screens the color picker is hidden; only light/dark can be switched.
 - A theme color outside the 7 presets uses the original black-gold logo in both modes.
 - The light-background versions for orange `#F9901F` and pink `#FF80C8` get a 1px light-gray outline so they don't blend into light backgrounds.
-- The "MUGSUN" wordmark is rendered live in Saira 600: `#1F2329` in light mode, white in dark mode. On desktop the icon is 32px tall with a 10px gap to the wordmark; at widths ≤640px the icon is 28px; below 360px only the icon shows.
+- The "MUGSUN" wordmark is rendered live in Saira 600: `#1F2329` in light mode, white in dark mode.
+- On desktop the icon is 32px tall with a 10px gap to the wordmark; at widths ≤640px the icon is 28px; below 360px only the icon shows.
 
 The sidebar, header, lock screen and favicon keep the original logo and don't follow the theme.
