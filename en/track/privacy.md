@@ -42,6 +42,7 @@ Addresses in these places in the replay are **not redacted**:
 - `meta` `content`
 - URLs that appear in page text
 - Tokens embedded in paths, such as `/reset/<token>` (not handled anywhere)
+- In special schemes, a literal `\` in a password in the raw string is not masked (matches browser parsing)
 
 If any of these may carry a token or signature, add `data-track-mask` to the element so the replay skips it entirely.
 
