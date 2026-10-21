@@ -30,7 +30,19 @@ Tighten access and retention for replay and body data accordingly.
 
 ## URL redaction
 
-API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s and the page address in replay Meta events all keep query strings, but values for these keys become `***`. Other parameters are kept.
+API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept.
+
+Replay DOM attributes handled: `href`, `src`, `srcset`, `imagesrcset`, `action`, `xlink:href`, `formaction`, `poster` and `data`, in any letter case. `srcset` and `imagesrcset` are parsed per the HTML spec (URLs may contain commas) and redacted one candidate at a time, keeping descriptors such as `1x` and `480w`; `data:` candidates are skipped individually.
+
+Addresses in these places in the replay are **not redacted**:
+
+- CSS `url()` in inline styles and stylesheets
+- `data-*` attributes
+- `iframe` `srcdoc`
+- `meta` `content`
+- URLs that appear in page text
+
+If any of these may carry a token or signature, add `data-track-mask` to the element so the replay skips it entirely.
 
 Credential keys, shared by URLs and response bodies:
 
@@ -38,12 +50,14 @@ Credential keys, shared by URLs and response bodies:
 token  access_token  refresh_token  id_token  authorization  auth  jwt
 api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
 password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
+x-amz-signature  x-amz-security-token  x-goog-signature
 ```
 
 Keys replaced only in URLs and kept as-is in response bodies:
 
 ```text
 code  sign  signature  ticket  otp
+sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 ```
 
 Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count too; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
@@ -68,6 +82,13 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
 ```
 
+One exception: `code` and `ticket` values that look like tokens are replaced too, meaning JWT-shaped values (three base64url parts starting with `eyJ`), or strings of 16 characters or more made only of letters, digits and `.`, `_`, `~`, `+`, `/`, `=`, `-` that mix letters and digits (base64, base64url and hex tokens, Google-style `4/0Ab…` codes and dotted tokens). Only upper-case snake business codes such as `INVALID_PARAMETER_VALUE` and `ORDER_20261021_0001` are exempt; short codes such as `0`, `200` and `"E1001"` are kept too:
+
+```text
+{"code":"E1001"}                    →   uploaded unchanged
+{"code":"SplxlOBeZQQYbYS6WxSbIA"}    →   {"code":"***"}
+```
+
 - **Depth**: objects and arrays are checked level by level, up to 8 levels; deeper subtrees are replaced with `***` as a whole rather than uploaded as-is.
 - **Non-JSON**: only bodies with a JSON content type are captured; other types (HTML, text, binary, SSE) are never captured.
 - **Declared JSON that fails to parse**: the body is not uploaded, and the `api_request` event is marked `body_skipped: 'unparsable'`.
@@ -76,7 +97,7 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 
 `session` is a session identifier rather than a business code, so it is a credential key and is replaced with `***` in bodies too.
 
-Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
+Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` values in bodies that are shorter than 16 characters, all digits or all letters) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
 
 ## Turning on masking and filtering
 

@@ -30,7 +30,19 @@
 
 ## URL 敏感参数
 
-接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、回放 Meta 事件里的页面地址都保留查询串，但以下键的值替换为 `***`，业务参数保留。
+接口监控的 URL、公共属性 `referrer`、自动采集的链接 `href`、资源错误的 `resource_url`、JS 错误的 `filename`、回放 Meta 事件里的页面地址，以及回放 DOM 里的地址属性都保留查询串，但以下键的值替换为 `***`，业务参数保留。
+
+回放 DOM 里处理的属性：`href`、`src`、`srcset`、`imagesrcset`、`action`、`xlink:href`、`formaction`、`poster`、`data`，属性名不分大小写。`srcset` 和 `imagesrcset` 按 HTML 规范解析候选（URL 里可以有逗号），逐个替换，`1x`、`480w` 等描述符保留；`data:` 候选单独跳过。
+
+回放里以下位置的地址**不做脱敏**：
+
+- 内联样式和样式表里 CSS `url()` 的地址
+- `data-*` 属性
+- `iframe` 的 `srcdoc`
+- `meta` 的 `content`
+- 页面文本里出现的 URL
+
+如果这些位置可能带令牌或签名，请给对应元素加 `data-track-mask`，回放里整块不录。
 
 凭证键，URL 和响应体共用：
 
@@ -38,12 +50,14 @@
 token  access_token  refresh_token  id_token  authorization  auth  jwt
 api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
 password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
+x-amz-signature  x-amz-security-token  x-goog-signature
 ```
 
 只在 URL 里替换的键，响应体里保留原值：
 
 ```text
 code  sign  signature  ticket  otp
+sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 ```
 
 匹配时忽略大小写与 `_`、`-`，`accessToken`、`Refresh-Token` 也算；归一后精确匹配，`tokenCount`、`sessionTimeout` 不算。hash 里的参数同样处理，覆盖 OAuth 隐式流和 hash 路由：
@@ -68,6 +82,13 @@ code  sign  signature  ticket  otp
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   原样上传
 ```
 
+例外：`code`、`ticket` 的值像令牌时也替换，即 JWT 形态（三段 base64url，以 `eyJ` 开头），或长度 ≥16、只含字母、数字和 `.`、`_`、`~`、`+`、`/`、`=`、`-`，且同时有字母和数字的字符串（base64、base64url、hex 令牌，以及 `4/0Ab…` 这类 Google 授权码、带点的令牌）。只豁免大写下划线业务码，如 `INVALID_PARAMETER_VALUE`、`ORDER_20261021_0001`；`0`、`200`、`"E1001"` 这类短业务码也保留：
+
+```text
+{"code":"E1001"}                    →   原样上传
+{"code":"SplxlOBeZQQYbYS6WxSbIA"}    →   {"code":"***"}
+```
+
 - **层级**：对象和数组逐层检查，最多 8 层；更深的子树整体替换为 `***`，不会原样上传。
 - **非 JSON**：只采集 content-type 为 JSON 的响应体，其他类型（HTML、文本、二进制、SSE）一律不采集。
 - **声明为 JSON 但解析失败**：不上传响应体，`api_request` 事件标记 `body_skipped: 'unparsable'`。
@@ -76,7 +97,7 @@ code  sign  signature  ticket  otp
 
 `session` 是会话标识，不是业务码，归在凭证键里，响应体里也替换为 `***`。
 
-键名不在凭证清单里的令牌（例如 `sessionKey`、`userToken`，以及响应体里的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
+键名不在凭证清单里的令牌（例如 `sessionKey`、`userToken`，以及响应体里长度不足 16、纯数字或纯字母的 `code`、`ticket`）不会被替换。需要时用 `apiBodyEnabled: false` 关掉响应体采集。
 
 ## 开启遮罩与过滤
 

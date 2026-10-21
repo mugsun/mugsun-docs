@@ -79,7 +79,13 @@ const track = createTracker({
 内置保护（不可关闭）：
 
 - SDK 自身端点（`/track/collect`、`/track/config`、`/track/replay`、`/track/api-body` 等）不采集，防止循环。
-- 凭证端点**永不采集响应体**，事件标记 `body_skipped: 'credential'`。路径（小写后）含以下片段即算：登录与令牌 `/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`；注册 `/register`、`/signup`、`/sign-up`；密码 `/password`、`/forgot`、`/reset-password`、`/change-password`；验证码与多因素 `/otp`、`/sms`、`/captcha`、`/mfa`、`/2fa`、`/totp`、`/verify-code`、`/verification-code`。
+- 凭证端点**永不采集响应体**，事件标记 `body_skipped: 'credential'`。路径小写后，满足下面任一条就算：
+  - **含片段**：`/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`、`/register`、`/signup`、`/sign-up`、`/password`、`/forgot`、`/reset-password`、`/change-password`、`/captcha`、`/mfa`、`/2fa`、`/totp`、`/verify-code`、`/verification-code`。
+  - **整段等于** `login`、`signin`、`sign-in`、`logout`、`token`、`sso`、`cas`，左侧是 `/` 或开头，右侧是 `/`、`.`、`;` 或结尾。`/api/login`、`/cas/login`、`/api/v1/login.json`、`/login.do`、`/login;jsessionid=x` 命中；`/monitor/loginLog/list`、`/tokens/stats`、`/case/list` 不命中。
+  - **含子串** `captcha`、`verifycode`、`verificationcode`，如 `/getCaptcha`、`/user/verifyCode`。
+  - **含词** `sms`、`otp`、`sendcode`、`getcode`、`checkcode`：路径按非字母字符切词，某个词恰好相等才算。`/api/sms/send`、`/send-otp`、`/user/getCode` 命中；`/smsTemplate/list`、`/barcode/getcodeList` 不命中。
+  - **动词组合**：含 `send`、`get`、`resend`、`check`、`verify`、`validate` 紧跟 `sms`、`otp`、`smscode`、`mobilecode`、`phonecode`、`emailcode`、`msgcode`。`/sendSms`、`/getSmsCode`、`/sendOtp`、`/sendEmailCode` 命中；`/smsTemplate/list` 不命中。
+  - 以上规则都没命中、但会返回验证码的接口（例如其他驼峰命名），请用 `apiBodyEnabled: false` 关掉响应体采集。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
 ::: warning 0.3.0 行为变更
