@@ -110,6 +110,7 @@ What this means for users ([pc#4](https://github.com/mugsun/mugsun-pc/pull/4)):
 - Unlocking is compared in the browser only. The password is kept in memory as a salted SHA-256 hash.
 - The salt is 16 random bytes per lock. Hash and salt are cleared on unlock or sign-out.
 - The fixed `VITE_LOCK_ENCRYPT_KEY` value is no longer used.
+- If setting the lock-screen password fails, the screen stays unlocked and the message "Failed to lock the screen. Please try again." appears.
 - After upgrading, tokens saved in `localStorage` by older versions are no longer read, so **everyone has to sign in once more**.
 
 ## Profile avatar
