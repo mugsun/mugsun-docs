@@ -1,6 +1,6 @@
 # 升级指南
 
-从 0.1.0 升级 boot 时，openGauss 和达梦的部署要先确认没有同租户重复手机号。PostgreSQL 和金仓不受影响，可以跳过本页。
+从 0.1.0 升级 boot 时，openGauss 和达梦的部署要先确认没有同租户重复手机号。PostgreSQL 和金仓不受影响，可以跳过这一节。所有部署都要看[移除旧的数字图形验证码](#移除旧的数字图形验证码)。
 
 ## 同租户重复手机号
 
@@ -57,3 +57,12 @@ DELETE FROM flyway_schema_history WHERE version = '7' AND success = 0;
 ```
 
 迁移不再报「V7 升级中止」，就说明 V7 已完成。
+
+## 移除旧的数字图形验证码
+
+新版不再提供 `GET /auth/captcha`。登录页要先完成行为验证码，再把拿到的 `captchaToken` 放进登录请求。
+
+1. 前端改走 `GET /auth/captcha/config` → `POST /auth/captcha/challenge` → `POST /auth/captcha/verify`，请求体带 `captchaToken`。旧前端登录会返回 `40013`。
+2. 在 yml、`.env`、compose 和 K8s 配置里删掉 `mugsun.captcha.type`（`MUGSUN_CAPTCHA_TYPE`）和 `mugsun.captcha.expire-seconds`。写着 `IMAGE` 的部署不删会启动失败。
+3. 默认启用 `SLIDER` 和 `WORD_CLICK`，每次随机出一种。只想要滑块时设 `mugsun.captcha.default-types: [SLIDER]`。
+4. 前端还没改完却要先升级后端时，可临时设 `mugsun.captcha.enabled=false`，登录失败锁定照常生效。

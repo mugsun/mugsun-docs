@@ -115,15 +115,14 @@ mugsun:
 - 云元数据地址始终拒绝，即使所在主机在 `allow-hosts` 中也不放行：整个链路本地段 `169.254.0.0/16`（含 `169.254.169.254`、AWS ECS 任务凭证 `169.254.170.2`、腾讯云 `169.254.0.23` 等），以及 `100.100.100.200` 和 `fd00:ec2::254`。IPv6 中内嵌 IPv4 的写法（`::ffff:` 映射、`::a.b.c.d` 兼容、NAT64 `64:ff9b::/96`、6to4 `2002::/16`）会先解出内嵌的 IPv4 再判断。
 - `*.example.com` 匹配其任意子域名，不含 `example.com` 本身；`.local`、`.internal` 结尾的主机默认拒绝，需显式列出。只列确需访问的主机。
 
-## 安全验证（滑块验证码）
+## 安全验证（行为验证码）
 
-登录、注册、忘记密码发码和发送短信验证码默认需要先完成滑块拼图。验证码为 boot 自带实现，不依赖第三方服务。
+登录、注册、忘记密码发码和发送短信验证码默认需要先完成一道行为验证码。默认启用滑块拼图和词语点选，每次随机出其中一种。验证码为 boot 自带实现，不依赖第三方服务。
 
 ```yaml
 mugsun:
   captcha:
     enabled: true          # 全局开关
-    type: SLIDER           # SLIDER（默认）| IMAGE（旧数字码，保留一个版本）
     store: redis           # redis | memory；memory 仅单机开发，prod 下启动失败
     slider:
       tolerance-px: 6      # 落点容差（底图原始像素，底图 320×180）
@@ -166,7 +165,7 @@ mugsun:
 ```yaml
 mugsun:
   captcha:
-    default-types: [SLIDER]   # 租户没单独设置时启用的题型；可列 SLIDER, ROTATE, WORD_CLICK, ICON_CLICK, JIGSAW
+    default-types: [SLIDER, WORD_CLICK]   # 租户没单独设置时启用的题型，多种时每次随机出一种；可列 SLIDER, ROTATE, WORD_CLICK, ICON_CLICK, JIGSAW
     slider: { expire-seconds: 120, decoy-count: 2 }   # 题目有效期（秒）；滑块假缺口数（与真缺口同轮廓，0–3）
     rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 10, keyboard-step: 5, track-replay-window-seconds: 600 }  # 同一条拖动轨迹在窗口内只能用一次，≤0 关闭
     click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000, words-file: "" }  # count/decoys 只用于图标点选；words-file 为私有词库，空则用内置词库
@@ -186,7 +185,7 @@ mugsun:
 
 **素材来源与许可：** 背景图和旋转图是本项目自有素材，由 Grok Bot 内置生图功能生成、经体验设计官缩放和裁切，无第三方素材；用户已于 2026-10-14 07:21 确认随仓库公开发布，许可证与仓库代码一致（Apache License 2.0）。图标、词库和干扰字映射由本项目自行整理；字体子集为 SIL OFL 1.1。详见 boot 仓库 `captcha/SOURCES.md`。
 
-**旋转题是辅助题型：** 旋转题默认不启用（平台默认 `default-types` 只有 `SLIDER`），只能部分抵御自动求解：圆孔用不透明纯色填充，圆图另做调色、模糊、噪点和边缘羽化，按孔内像素比对的求解器已经失效；但按圆图边缘与孔外图案的连续性求角，仍有约一半的题能落在 ±10° 内。因此任何时候都不能把旋转题当作唯一防线：要配合失败锁定和限流，并同时启用其他题型。租户只启用 `ROTATE` 时，保存接口仍会保存，但响应 `data.warning` 会给出提示。
+**旋转题是辅助题型：** 旋转题默认不启用（平台默认 `default-types` 是 `SLIDER` 和 `WORD_CLICK`），只能部分抵御自动求解：圆孔用不透明纯色填充，圆图另做调色、模糊、噪点和边缘羽化，按孔内像素比对的求解器已经失效；但按圆图边缘与孔外图案的连续性求角，仍有约一半的题能落在 ±10° 内。因此任何时候都不能把旋转题当作唯一防线：要配合失败锁定和限流，并同时启用其他题型。租户只启用 `ROTATE` 时，保存接口仍会保存，但响应 `data.warning` 会给出提示。
 
 **图标点选也是辅助题型：** 图标点选默认不启用，图标库（含 `manifest.json`）随仓库公开，攻击者可以直接拿图标做模板匹配，因此只能部分抵御自动求解。项目用模板匹配求解器做回归测试（每次 200 题，三个图标全部点对的比例当前约 2%，超过 20% 时 CI 失败），这只说明对这一类求解器有效，不代表能挡住所有自动化手段。任何时候都不能把图标点选当作唯一防线：要配合失败锁定和限流，并同时启用滑块或其他题型；生产环境请换成私有图标库。租户只启用 `ICON_CLICK` 时，保存接口仍会保存，但响应 `data.warning` 会给出提示。
 
@@ -226,7 +225,7 @@ mugsun:
 
 IPv6 地址中的 `:` 写成 `_`。手动解锁某 IP：`DEL mugsun:captcha:v2:lock:<ip>`。
 
-**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。滑块模式下客户端开关（`sys_client.captcha_enabled`）不能关闭验证码，因为 clientId 由调用方填写；它只在旧数字码模式下对登录生效。新建的租户一律开启。 平台超管还可以在同一接口里传 `types`（如 `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`）设置该租户启用的题型，至少一种，取值只能是上面五种；不传 `types` 则不改；传 `null` 或 `[]` 清回平台默认（`default-types`）。设置里不含 `SLIDER` 和 `ROTATE` 时仍会保存，但响应 `data.warning` 会提示键盘用户将收到 `40015`。没设置过的租户使用 `default-types`。该设置保存在 `sys_tenant.captcha_types`（迁移 `V10__tenant_captcha_types.sql`）。
+**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。客户端开关（`sys_client.captcha_enabled`）不参与判定，因为 clientId 由调用方填写。新建的租户一律开启。 平台超管还可以在同一接口里传 `types`（如 `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`）设置该租户启用的题型，至少一种，取值只能是上面五种；不传 `types` 则不改；传 `null` 或 `[]` 清回平台默认（`default-types`）。设置里不含 `SLIDER` 和 `ROTATE` 时仍会保存，但响应 `data.warning` 会提示键盘用户将收到 `40015`。没设置过的租户使用 `default-types`。该设置保存在 `sys_tenant.captcha_types`（迁移 `V10__tenant_captcha_types.sql`）。
 
 ## 生产环境
 

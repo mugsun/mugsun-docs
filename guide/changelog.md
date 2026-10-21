@@ -2,6 +2,15 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · 移除旧的数字图形验证码
+
+### mugsun-boot
+
+- **破坏性变更：旧的数字图形验证码已移除**。`GET /auth/captcha` 不再存在，登录、注册、忘记密码和短信接口不再读 `captchaUuid`、`captchaCode`，请改用行为验证码并在请求体里带 `captchaToken`。
+- **配置**：`mugsun.captcha.type` 写 `IMAGE` 或其它非 `SLIDER` 的值时启动失败；`mugsun.captcha.default-types` 只接受五种题型名，其它值同样启动失败。`mugsun.captcha.expire-seconds` 已无作用，请删掉。
+- **默认多题型随机**：平台默认启用 `SLIDER` 和 `WORD_CLICK`，每次取题随机出一种，`GET /auth/captcha/config` 返回 `type: RANDOM`。旋转和图标点选默认关，可显式启用。
+- **关闭验证码**：仍用 `mugsun.captcha.enabled=false`。升级步骤见 [升级指南](/boot/upgrade#移除旧的数字图形验证码)。
+
 ## 2026-10-18 · track 0.3.0（计划）：默认不遮罩、不过滤
 
 ### mugsun-track

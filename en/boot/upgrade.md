@@ -1,6 +1,6 @@
 # Upgrade guide
 
-When upgrading boot from 0.1.0, openGauss and Dameng deployments must first make sure no tenant has duplicate phone numbers. PostgreSQL and KingbaseES are not affected and can skip this page.
+When upgrading boot from 0.1.0, openGauss and Dameng deployments must first make sure no tenant has duplicate phone numbers. PostgreSQL and KingbaseES are not affected and can skip that section. Every deployment should read [Legacy digit captcha removed](#legacy-digit-captcha-removed).
 
 ## Duplicate phone numbers within a tenant
 
@@ -57,3 +57,12 @@ DELETE FROM flyway_schema_history WHERE version = '7' AND success = 0;
 ```
 
 Once the migration no longer reports "V7 升级中止", V7 has completed.
+
+## Legacy digit captcha removed
+
+`GET /auth/captcha` is gone. The login page completes a behavioral captcha first and puts the returned `captchaToken` in the login request.
+
+1. Switch the frontend to `GET /auth/captcha/config` → `POST /auth/captcha/challenge` → `POST /auth/captcha/verify` and send `captchaToken` in the body. An old frontend gets `40013` on login.
+2. Remove `mugsun.captcha.type` (`MUGSUN_CAPTCHA_TYPE`) and `mugsun.captcha.expire-seconds` from yml, `.env`, compose and K8s config. A deployment that still sets `IMAGE` fails to start.
+3. `SLIDER` and `WORD_CLICK` are enabled by default, one picked at random per challenge. For slider only, set `mugsun.captcha.default-types: [SLIDER]`.
+4. If the backend must be upgraded before the frontend, set `mugsun.captcha.enabled=false` for now; login lockout still applies.
