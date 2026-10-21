@@ -48,7 +48,10 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 
 表名和字段名必须以小写字母开头，只含小写字母、数字和下划线。
 
-`sys_`、`flyway_`、`flow_`、`qrtz_`、`act_` 开头的表和 `gen_table`、`gen_column` 受保护，不能建或重建。
+下面这些表受保护，不能建或重建：
+
+- 以 `sys_`、`flyway_`、`flow_`、`qrtz_`、`act_`、`biz_`、`help_`、`viz_`、`ai_` 开头的表；
+- `gen_table` 和 `gen_column`。
 
 ## 管理已建的表
 

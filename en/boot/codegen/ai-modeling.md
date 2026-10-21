@@ -44,7 +44,10 @@ Once the candidate appears, you can edit the table name, the label, and each col
 - Confirm & Create saves the table configuration and creates the physical table immediately. If table creation fails, the configuration is rolled back as well.
 - Save Config Only saves the configuration. Create the table later from the Dynamic Tables tab.
 
-Table and column names must start with a lowercase letter and contain only lowercase letters, digits and underscores. Tables starting with `sys_`, `flyway_`, `flow_`, `qrtz_` or `act_`, and `gen_table` and `gen_column`, are protected and cannot be created or rebuilt.
+Table and column names must start with a lowercase letter and contain only lowercase letters, digits and underscores. The following tables are protected and cannot be created or rebuilt:
+
+- tables starting with `sys_`, `flyway_`, `flow_`, `qrtz_`, `act_`, `biz_`, `help_`, `viz_` or `ai_`;
+- `gen_table` and `gen_column`.
 
 ## Manage created tables
 
