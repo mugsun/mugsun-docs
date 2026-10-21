@@ -81,12 +81,14 @@ Only userinfo, sensitive path parameters, the query string and the hash are chan
 - In http(s) and similar schemes, a backslash ends the host, like `/`.
 - Leading whitespace and control characters are stripped first.
 - TAB, LF and CR are then removed, as browsers do.
+- Extra leading `?` on query keys is ignored, before and after decoding.
+- So `/a??token=` and `/a?%3Ftoken=` are both masked.
 - Sensitive path parameters are masked: `;jsessionid=…` → `;jsessionid=***`.
 - Known gaps:
   - In http, https, ws, wss, ftp, file and `//` URLs, userinfo (user name
     or password) containing a literal `\` is not masked: `https://u:p\w@h`.
   - Browsers end the host at `\`, so they don't parse it as credentials.
-  - The form without `//`, `https:u:p@h`, isn't masked either.
+  - Forms without `//` aren't masked either: `https:u:p@h`, `mailto:u:p@h`.
 
 Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
 

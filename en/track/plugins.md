@@ -79,14 +79,41 @@ This is what it looks like in the console's Session replay player: a demo sessio
 Built-in protections that can't be turned off:
 
 - The SDK's own endpoints (`/track/collect`, `/track/config`, `/track/replay`, `/track/api-body` and so on) are never captured, which prevents loops.
-- Credential endpoints **never have their bodies captured**; the event is marked `body_skipped: 'credential'`. After lowercasing, a path counts if any of these holds:
-  - **Contains a fragment**: `/auth/login`, `/auth/refresh`, `/oauth/token`, `/auth/social`, `/register`, `/signup`, `/sign-up`, `/password`, `/forgot`, `/reset-password`, `/change-password`, `/captcha`, `/mfa`, `/2fa`, `/totp`, `/verify-code`, `/verification-code`.
-  - **A whole segment equals** `login`, `signin`, `sign-in`, `logout`, `token`, `sso` or `cas`, with `/` or the start on the left and `/`, `.`, `;` or the end on the right. `/api/login`, `/cas/login`, `/api/v1/login.json`, `/login.do` and `/login;jsessionid=x` match; `/monitor/loginLog/list`, `/tokens/stats` and `/case/list` don't.
-  - **Contains the substring** `captcha`, `verifycode` or `verificationcode`, such as `/getCaptcha` or `/user/verifyCode`.
-  - **Contains the word** `sms`, `otp`, `sendcode`, `getcode` or `checkcode`: the path is split on non-letter characters and a word must match exactly. `/api/sms/send`, `/send-otp` and `/user/getCode` match; `/smsTemplate/list` and `/barcode/getcodeList` don't.
-  - **Verb combinations**: `send`, `get`, `resend`, `check`, `verify` or `validate` directly followed by `sms`, `otp`, `smscode`, `mobilecode`, `phonecode`, `emailcode` or `msgcode`. `/sendSms`, `/getSmsCode`, `/sendOtp` and `/sendEmailCode` match; `/smsTemplate/list` doesn't.
+- Credential endpoints **never have their bodies captured**.
+- The event is marked `body_skipped: 'credential'`.
+- The path is URL-decoded first, so `/api/get%5Ftoken` counts as `/api/get_token`.
+- Then, after lowercasing, a path counts if any of these holds:
+  - **Contains a fragment**:
+    - Login and tokens: `/auth/login`, `/auth/refresh`, `/oauth/token`.
+    - Also `/auth/social`.
+    - Sign-up: `/register`, `/signup`, `/sign-up`.
+    - Passwords: `/password`, `/forgot`, `/reset-password`.
+    - Also `/change-password`.
+    - Codes and MFA: `/captcha`, `/mfa`, `/2fa`, `/totp`.
+    - Also `/verify-code`, `/verification-code`.
+  - **A whole segment equals**:
+    - Segments: `login`, `signin`, `sign-in`, `logout`, `token`, `sso`, `cas`.
+    - Left side: `/` or the start. Right side: `/`, `.`, `;` or the end.
+    - Match: `/api/login`, `/cas/login`, `/api/v1/login.json`.
+    - Also match: `/login.do`, `/login;jsessionid=x`.
+    - No match: `/monitor/loginLog/list`, `/tokens/stats`, `/case/list`.
+  - **Contains the substring**:
+    - `captcha`, `verifycode` or `verificationcode`.
+    - Such as `/getCaptcha` or `/user/verifyCode`.
+  - **Contains the word**:
+    - Words: `sms`, `otp`, `sendcode`, `getcode`, `checkcode`.
+    - The path is split on non-letters; a word must match exactly.
+    - Match: `/api/sms/send`, `/send-otp`, `/user/getCode`.
+    - No match: `/smsTemplate/list`, `/barcode/getcodeList`.
+  - **Verb combinations**:
+    - Verbs: `send`, `get`, `resend`, `check`, `verify`, `validate`.
+    - Directly followed by `sms`, `otp`, `smscode`, `mobilecode`.
+    - Or by `phonecode`, `emailcode`, `msgcode`.
+    - Match: `/sendSms`, `/getSmsCode`, `/sendOtp`, `/sendEmailCode`.
+    - No match: `/smsTemplate/list`.
   - **Token endpoints**:
-    - Word split: paths are split on camelCase; `-` and `_` are word breaks.
+    - Word split: acronym boundaries first (`APIGetToken` → `API Get Token`).
+    - Then camelCase; `-` and `_` are word breaks.
     - Verbs: `get`, `refresh`, `renew`, `issue` or `exchange`, starting a word.
     - Optional middle word: `access`, `auth`, `id`, `session`, `csrf`, `user`.
     - Then `token`.

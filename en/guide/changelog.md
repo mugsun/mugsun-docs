@@ -33,6 +33,10 @@ Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.
   - Cloud storage signature parameters `X-Amz-Signature`, `X-Amz-Security-Token` and `X-Goog-Signature` join the credential keys; Azure `sig`, Tencent COS `q-signature` and Aliyun OSS `x-oss-signature` / `x-oss-security-token` and Tencent COS `x-cos-security-token` are replaced in URLs only.
   - Token-like `code` and `ticket` values in bodies become `***`; business codes such as `E1001` and `INVALID_PARAMETER_VALUE` are kept.
   - Token endpoints no longer have bodies captured. Paths are split on camelCase, and `-` and `_` count as word breaks.
+  - Paths are URL-decoded before the credential checks.
+  - Acronym boundaries are split too, so `/APIGetToken` matches.
+  - Extra leading `?` on query keys is ignored before and after decoding.
+  - Forms without `//`, such as `mailto:u:p@h`, aren't masked.
   - `get`, `refresh`, `renew`, `issue` or `exchange` must start a word, optionally followed by `access`, `auth`, `id`, `session`, `csrf` or `user`, then `token`.
   - `token` starting a word and followed by `exchange` or `refresh` also counts, as in `/tokenExchange` and `/token-refresh`.
   - URL redaction only changes userinfo, sensitive path parameters (such as `;jsessionid=`), the query string and the hash; other parameters stay verbatim.

@@ -33,6 +33,8 @@
   - 云存储签名参数 `X-Amz-Signature`、`X-Amz-Security-Token`、`X-Goog-Signature` 加入凭证键；Azure `sig`、腾讯云 COS `q-signature`、阿里云 OSS `x-oss-signature` / `x-oss-security-token`、腾讯云 COS `x-cos-security-token` 只在 URL 里替换。
   - 响应体里像令牌的 `code`、`ticket` 替换为 `***`；`E1001`、`INVALID_PARAMETER_VALUE` 这类业务码保留。
   - 令牌接口不采集响应体。路径先按驼峰拆词，`-`、`_` 当作词间隔。
+  - 凭证端点判定前先 URL 解码路径；缩写边界也拆词，`/APIGetToken` 命中。
+  - 查询键开头多余的 `?` 解码前后都去掉；缺 `//` 的 `mailto:u:p@h` 等不遮。
   - 动词 `get`、`refresh`、`renew`、`issue`、`exchange` 须在词首，可接 `access`、`auth`、`id`、`session`、`csrf`、`user`，再接 `token`。
   - `token` 在词首、后接 `exchange` 或 `refresh` 也算，如 `/tokenExchange`、`/token-refresh`。
   - URL 脱敏只改 userinfo、敏感路径参数（如 `;jsessionid=`）、查询串和 hash，其他参数逐字保留。

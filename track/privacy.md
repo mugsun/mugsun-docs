@@ -79,12 +79,13 @@ sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 - userinfo 取到最后一个 `@` 为止。
 - `//` 写成反斜杠也能识别；http(s) 等协议里反斜杠和 `/` 一样结束主机部分。
 - 先去掉开头的空白和控制字符，再删掉 TAB、换行和回车。
+- 查询键开头多余的 `?` 在解码前后都会去掉，`/a??token=`、`/a?%3Ftoken=` 都替换。
 - 路径参数里的敏感键也替换，如 `;jsessionid=…` 变为 `;jsessionid=***`。
 - 已知漏遮：
   - http、https、ws、wss、ftp、file 及 `//` 开头的 URL 里，
     userinfo（用户名或密码）含字面 `\` 时不遮，如 `https://u:p\w@h`。
   - 浏览器把 `\` 当作主机结束，这种串解析不出这段凭证。
-  - 缺 `//` 的写法 `https:u:p@h` 也不遮。
+  - 缺 `//` 的写法也不遮，如 `https:u:p@h`、`mailto:u:p@h`。
 
 相对 URL（`img/a.jpg?token=…`）和协议相对 URL（`//cdn.x/a?token=…`）保持原样，只替换参数值。
 
