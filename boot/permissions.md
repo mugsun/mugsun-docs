@@ -31,28 +31,46 @@
 
 ## 上传限制
 
-- 只接受图片（png、jpg、gif、webp、bmp）、PDF、Office 文档、txt、csv、md、zip、mp4、mp3；html、svg、js、xml 等一律拒绝。
+- 只接受图片（png、jpg、gif、webp、bmp）、PDF、Office 文档。
+- 另外接受 txt、csv、md、zip、mp4、mp3；html、svg、js、xml 等一律拒绝。
 - 服务端核对扩展名和文件头，改了扩展名的文件会被拒绝。文件头校验只防改扩展名，不检查文件是否完整。
 - 单个文件不超过 20MB，超出时在接收阶段就被截断，返回 400「文件超过 20MB」。
-- 存储文件名和 Content-Type 由服务端按扩展名决定，用户上传的文件名只作展示，客户端上报的类型不采用。
-- 前端直传（`presigned-put`）必须带 `size`（字节），超过 20MB 直接拒绝；签名绑定 `Content-Length`、`Content-Type`、`Content-Disposition: attachment`，PUT 时要原样带上返回的 `headers`。签名有效期 15 分钟。
+- 存储文件名和 Content-Type 由服务端按扩展名决定。
+- 用户上传的文件名只作展示，客户端上报的类型不采用。
+- 前端直传（`presigned-put`）必须带 `size`（字节），超过 20MB 直接拒绝。
+- 签名绑定 `Content-Length`、`Content-Type`、`Content-Disposition: attachment`。
+- PUT 时要原样带上返回的 `headers`。签名有效期 15 分钟。
 - 直传 URL 只签到私有暂存前缀 `tmp/`，不会直接写进 `public/` 或 `private/`。
-- 调 `create` 登记时，服务端先把暂存对象复制到 `public/` 或 `private/` 下一个客户端不知道的新 key，再对**新 key** 回查：大小、类型和申请时不一致，或文件头对不上，新旧两个对象都删掉并拒绝登记。校验的就是最终登记的那份字节，不存在「校验完又被覆盖」的竞态。返回的附件 `filename` 和直传 URL 里的文件名不同。
-- 复制后立即删掉暂存对象，并在签名过期后（15 分钟加 1 分钟）再删一次，防止有效期内被再次 PUT 后遗留。
-- 删不掉的对象（含复制成功但登记失败的新 key）进入待清理队列，定时任务每 10 分钟重删一次，连续失败 20 次后写 error 日志，需要人工处理。本地存储不签直传，但定时任务也会清掉本地暂存前缀下超过 1 天的文件。
+- 调 `create` 登记时，服务端先把暂存对象复制到一个客户端不知道的新 key。
+  - 新 key 在 `public/` 或 `private/` 下，然后对**新 key** 回查。
+  - 大小、类型和申请时不一致，或文件头对不上，新旧两个对象都删掉并拒绝。
+  - 校验的就是最终登记的那份字节，不存在「校验完又被覆盖」的竞态。
+  - 返回的附件 `filename` 和直传 URL 里的文件名不同。
+- 复制后立即删掉暂存对象，签名过期后（15 分钟加 1 分钟）再删一次。
+  - 防止有效期内被再次 PUT 后遗留。
+- 删不掉的对象进入待清理队列，定时任务每 10 分钟重删一次。
+  - 连续失败 20 次后写 error 日志，需要人工处理。
+  - 登记抛异常的新 key 延迟 60 秒入队，到期查登记表，已登记就不删。
+  - 删除前再校验：只删 `tmp/` 下或本次新生成、未登记的随机 key。
+  - 已登记的对象一律不删，打告警并丢弃该项。
+  - 本地存储不签直传，但定时任务也会清掉本地 `tmp/` 下超过 1 天的文件。
 
 ### 部署：暂存前缀 `tmp/`
 
 `tmp/` 只是直传的中转区。部署时必须做到：
 
 - **不能公开读，不能走 CDN。** 公开读策略、CDN 回源只配 `public/`。
-- **配 bucket lifecycle：`tmp/` 下对象 1 天后自动删除**，作为部署侧兜底（服务端已经会删，lifecycle 防进程宕机或队列丢失）。
-  - S3：Lifecycle 规则，Filter 前缀 `tmp/`（有 basePath 时写成 `<basePath>tmp/`），Expiration Days=1。
+- **配 bucket lifecycle：`tmp/` 下对象 1 天后自动删除**，作为部署侧兜底。
+  - 服务端已经会删，lifecycle 防的是进程宕机或队列丢失。
+  - S3：Lifecycle 规则，Filter 前缀 `tmp/`，Expiration Days=1。
+  - 有 basePath 时前缀写成 `<basePath>tmp/`，下同。
   - 阿里云 OSS：生命周期规则，按前缀 `tmp/`，文件过期天数 1 天。
   - 腾讯云 COS：生命周期，指定前缀 `tmp/`，「删除文件」1 天。
   - MinIO：`mc ilm rule add --prefix "tmp/" --expire-days 1 <alias>/<bucket>`。
-- 本地直出、授权下载一律 `attachment` + `X-Content-Type-Options: nosniff`，公开文件也一样；云存储对象上传时写入 `Content-Disposition: attachment`。
-- 升级时 V13 把 `sys:file:upload` 授给全部现有角色，保持原有功能；之后新建的角色需要在「角色管理」里勾选「上传附件」，否则意见反馈等页面上传会返回 403。
+- 本地直出、授权下载一律 `attachment` + `X-Content-Type-Options: nosniff`。
+  - 公开文件也一样；云存储对象上传时写入 `Content-Disposition: attachment`。
+- 升级时 V13 把 `sys:file:upload` 授给全部现有角色，保持原有功能。
+- 之后新建的角色要在「角色管理」里勾选「上传附件」，否则上传返回 403。
 
 ## 表单、流程、平台写接口
 
@@ -83,7 +101,9 @@ V13 把表单、流程的新按钮权限补授给各租户的 `admin` 角色。�
 升级说明（0.1.1，迁移 V13）：
 
 - 「用户管理」下新增「导出用户」`sys:user:export`、「导入用户」`sys:user:import` 两个按钮权限。
-- 已有 `sys:user:list` 的角色自动补授导出码，已有 `sys:user:add` 的角色自动补授导入码，升级后原来能用的人照样能用。之后可在「角色管理」里单独收回。
+- 已有 `sys:user:list` 的角色自动补授导出码。
+- 已有 `sys:user:add` 的角色自动补授导入码。
+- 升级后原来能用的人照样能用，之后可在「角色管理」里单独收回。
 - 行政区划没有菜单节点，`sys:region:*` 只有超级管理员（通配 `*`）可用。
 - 没有权限时接口返回 HTTP 403，响应体 `code` 为 403。
 - 导出、导入都会写操作日志。用户导出与列表一样受数据权限约束；手机号按字段权限输出：没有查看权为空，没有明文权为脱敏，身份证号不在导出列里。

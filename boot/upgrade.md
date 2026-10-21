@@ -12,15 +12,25 @@
 
 **生产默认关闭注册，需要开放请设 `mugsun.auth.register.enabled=true`。**
 
-- 新的主配置 `mugsun.auth.register.mode` 有三档：`OFF`（关闭，注册接口 404）、`OPEN`（开放）、`APPROVAL`（注册后审核，预留，目前设成它会拒绝启动）。`enabled=true/false` 是 `OPEN`/`OFF` 的简写。
+- 新的主配置 `mugsun.auth.register.mode` 有三档：
+  - `OFF`：关闭，注册接口 404。
+  - `OPEN`：开放。
+  - `APPROVAL`：注册后审核，预留，目前设成它会拒绝启动。
+- `enabled=true/false` 是 `OPEN`/`OFF` 的简写。
 - 未设置时：生产 `OFF`；`spring.profiles.active` 显式含 dev、test 或 local 且不含 prod 时 `OPEN`。
 - 前端读 `GET /auth/captcha/config` 的 `registerMode` 隐藏注册入口。
-- 注册新增限流（IP、账号、手机号），超限返回 429。部署在反代后面必须设 `MUGSUN_OPENAPI_TRUSTED_PROXIES`，否则整站只算一个 IP，每小时一共只能注册 10 次。详见[配置参考](/boot/configuration#自助注册)。
+- 注册新增限流（IP、账号、手机号），超限返回 429。
+- 部署在反代后面必须设 `MUGSUN_OPENAPI_TRUSTED_PROXIES`。
+  - 否则整站只算一个 IP，每小时一共只能注册 10 次。
+  - 详见[配置参考](/boot/configuration#自助注册)。
 
 ## 0.1.1：导出、导入、上传权限码（V13、V14）
 
-- 用户导出改用 `sys:user:export`，导入改用 `sys:user:import`，附件上传需要 `sys:file:upload`。V13 按旧权限给已有角色补授，升级后原来能用的人照样能用。
-- V14 播种内置 `user` 角色，并给它和注册角色补授 `sys:file:upload`。之后新建的角色默认没有任何权限，需要在「角色管理」里勾选。
+- 用户导出改用 `sys:user:export`，导入改用 `sys:user:import`。
+- 附件上传需要 `sys:file:upload`。
+- V13 按旧权限给已有角色补授，升级后原来能用的人照样能用。
+- V14 播种内置 `user` 角色，并给它和注册角色补授 `sys:file:upload`。
+- 之后新建的角色默认没有任何权限，需要在「角色管理」里勾选。
 - 前端直传须带 `size`，签名有效期 15 分钟。详见[权限与附件](/boot/permissions)。
 
 ## 同租户重复手机号
