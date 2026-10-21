@@ -9,12 +9,12 @@
 尚未发布，见仓库 CHANGELOG「Unreleased」。（[#19](https://github.com/mugsun/mugsun-track/pull/19)）
 
 - **默认不遮罩、不过滤（行为变更）**：回放默认显示页面文本和输入值原文（`maskTextSelector` 不再默认 `'*'`，新增 `maskAllInputs` 默认 `false`）；`apiBodyMaskEnabled` 默认 `false`，响应体里的个人信息字段原文上传；`skipHandledErrors` 默认 `false`，错误全部上报。密码框、`data-track-mask`、银行卡和一次性验证码字段始终不录。
-- **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie`、`session_id` 等键不论开关都替换为 `***`，匹配时忽略大小写与 `_`、`-`；声明为 JSON 但解析失败的响应体不上传。
+- **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie`、`session`、`session_id` 等键不论开关都替换为 `***`，匹配时忽略大小写与 `_`、`-`；声明为 JSON 但解析失败的响应体不上传。
 - **凭证类加固**（[#20](https://github.com/mugsun/mugsun-track/pull/20)）：
   - 默认尊重 Global Privacy Control（`respectGpc: true`），与 DNT 一致。
   - URL 敏感参数新增 `code`、`sign`、`signature`、`ticket`、`session`、`otp`，忽略大小写与 `_`、`-`，hash 参数也处理；`referrer`、链接 `href`、资源错误地址、回放页面地址也脱敏。
   - 注册、找回 / 修改密码、短信 / 验证码 / MFA 接口不采集响应体。
-  - 两份清单：凭证键 URL 和响应体共用；`code`、`sign`、`signature`、`ticket`、`session`、`otp` 只在 URL 里替换，响应体里保留原值（如 `{"code":0}`）。
+  - 两份清单：凭证键（含 `session`）URL 和响应体共用；`code`、`sign`、`signature`、`ticket`、`otp` 只在 URL 里替换，响应体里保留原值（如 `{"code":0}`）。
 - **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
 
 ## 2026-10-18 · 重复提交返回 400
