@@ -28,6 +28,23 @@ Other tenants' attachments, missing attachments and attachments you can't access
 
 The `manage`, `public` and `remove` codes are pre-granted to the admin role by a database migration; grant them to other roles under role management as needed.
 
+## Upload size
+
+- A single file is limited to 20MB; larger uploads get HTTP 400.
+- The backend sets `server.tomcat.max-swallow-size: 32MB` so that an
+  oversized upload reliably gets the 400 response.
+  - By default Tomcat reads only 2MB of a rejected body, then closes the
+    connection, and the client may never see the 400.
+  - The value must be larger than the request limit
+    (`max-request-size`, 21MB).
+  - Requests over 32MB are still cut off before the body is fully read.
+    This is deliberate bandwidth protection.
+  - In production, keep the reverse proxy limit (`client_max_body_size`
+    about 21MB, or equivalent) as the first gate; the 32MB setting only
+    matters when clients reach Tomcat directly.
+  - Keep `server.tomcat.connection-timeout` at the default or shorter;
+    do not raise it.
+
 ## Avatars
 
 Avatars don't need `sys:file:public`; use the dedicated endpoints:
