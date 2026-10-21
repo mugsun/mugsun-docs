@@ -224,6 +224,15 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Your first scheduled job', link: '/en/boot/tutorial/first-job' },
           ],
         },
+        {
+          text: 'Code generation',
+          items: [
+            { text: 'Overview', link: '/en/boot/codegen/' },
+            { text: 'AI-assisted modeling', link: '/en/boot/codegen/ai-modeling' },
+            { text: 'Import an existing table', link: '/en/boot/codegen/import' },
+            { text: 'Preview and download', link: '/en/boot/codegen/output' },
+          ],
+        },
       ],
       '/en/pc/': [
         {
