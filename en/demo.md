@@ -94,7 +94,7 @@ Demo mode opens three connection pools, sized by environment variables:
 
 The log datasource must point at the primary database. `MUGSUN_DEMO_LOG_DB_URL` defaults to the business database URL; you may change its parameters, not the database.
 
-The operation-log hash chain takes its lock and reads the previous hash over the log connection. A read replica or another database would break the chain, so demo mode refuses to start when host, port or database name differ.
+The operation-log hash chain takes its lock and reads the previous hash over the log connection. A read replica or another database would break the chain, so demo mode refuses to start when protocol, host, port or database name differ; a multi-host URL must match primary.url exactly.
 
 Headroom with `max_connections=30`:
 
@@ -108,7 +108,11 @@ Headroom with `max_connections=30`:
 
 Migration (migrate-only) runs without the demo profile, so its two pools default to 10 each and may take 20 connections, more than the headroom.
 
-Stop the demo app before migrating, or shrink the pools for the run, e.g. `--mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3`.
+Stop the demo app before migrating, or shrink the pools for the run, e.g.:
+
+```bash
+--mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3
+```
 
 When regular accounts are exhausted, the `postgres` superuser can still use the 3 reserved connections. Before enlarging a pool, check that the three pools plus a migration stay within 27; otherwise raise `max_connections` and restart PostgreSQL.
 

@@ -94,7 +94,9 @@ demo 有三个连接池，大小用环境变量调：
 
 日志库必须连主库。`MUGSUN_DEMO_LOG_DB_URL` 默认就是业务库地址，可以换参数，不能换库。
 
-操作日志的哈希链在日志连接上加锁、读上一条哈希。指向只读副本或别的库会断链，所以主机、端口、库名不一致时 demo 拒绝启动。
+操作日志的哈希链在日志连接上加锁、读上一条哈希。指向只读副本或别的库会断链，所以协议、主机、端口、库名不一致时 demo 拒绝启动。
+
+多主机写法必须和 primary.url 完全一致。
 
 按 `max_connections=30` 算余量：
 
@@ -108,7 +110,11 @@ demo 有三个连接池，大小用环境变量调：
 
 迁移（migrate-only）用非 demo 配置，两个池默认各 10 个，最多占 20，超过余量。
 
-所以先停 demo 再迁移，或者迁移时把池调小，例如 `--mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3`。
+所以先停 demo 再迁移，或者迁移时把池调小，例如：
+
+```bash
+--mybatis-flex.datasource.primary.maximum-pool-size=4 --mybatis-flex.datasource.track.maximum-pool-size=3
+```
 
 普通账号连满时，`postgres` 超级用户还能用保留的 3 个连接排查。
 
