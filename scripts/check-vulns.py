@@ -170,6 +170,9 @@ def gate(path):
                 (high if score >= 7.0 else medium).append(item)
     for m in medium:
         print(f"::warning::{m}")
+    if len(sys.argv) > 3 and sys.argv[3] == "1" and not (high or medium):
+        print("::error::osv-scanner 退出码为 1，但结果里没有任何漏洞，结构可能已变化")
+        return 1
     for h in high:
         print(f"::error::{h}")
     print(f"High/Critical {len(high)}，Medium 及以下 {len(medium)}")
