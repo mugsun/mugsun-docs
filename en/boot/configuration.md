@@ -116,10 +116,12 @@ Migration:
 2. Run a dry run first (the default, writes nothing):
    `java -cp mugsun-boot.jar -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool org.springframework.boot.loader.launch.PropertiesLauncher`.
    It prints, per table and column, the total, to re-encrypt, already on the new key, legacy plaintext and undecryptable counts.
-3. When every undecryptable count is 0, rerun with `--apply`. It writes in one transaction and rolls back everything if any row fails.
+3. When every undecryptable count is 0, **make sure the backup from step 1 is usable**, then rerun with `--apply`. It writes in one transaction and rolls back everything if any row fails.
 4. Start with `MUGSUN_SM4_KEY` set to the new key. Check: zero "SM4 解密失败" (SM4 decrypt failed) entries in the error log.
 5. Rotate every third-party credential stored in these columns.
 
+- Identical old and new keys (including the hex and base64 forms of one key) are refused.
+- Keys come only from environment variables; the command line accepts only `--dry-run` and `--apply`. Output lists only tables, columns, row counts and the primary keys that failed, never keys, plaintext or ciphertext.
 - Run it once per tenant database configured in `sys_tenant_datasource`.
 - A column that fails to decrypt reads as empty and is not written back; still, don't save these records in the admin console before migrating.
 

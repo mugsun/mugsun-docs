@@ -128,10 +128,12 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 2. 先跑 dry-run（默认，不写库）：
    `java -cp mugsun-boot.jar -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool org.springframework.boot.loader.launch.PropertiesLauncher`。
    按表和字段输出总数、需重加密、已是新密钥、历史明文、解不开的条数。
-3. 「解不开」全为 0 后，加 `--apply` 再跑一次。单事务写库，有一条解不开就整体回滚。
+3. 「解不开」全为 0 后，**先确认第 1 步的备份可用**，再加 `--apply` 跑一次。单事务写库，有一条解不开就整体回滚。
 4. 把 `MUGSUN_SM4_KEY` 换成新密钥启动；核对标准：error 日志里「SM4 解密失败」为 0 条。
 5. 字段里存的第三方凭据全部轮换。
 
+- 新旧密钥相同（包括同一把钥的 hex、base64 两种写法）会被拒绝执行。
+- 密钥只从环境变量读，命令行只认 `--dry-run`、`--apply`；输出只有表名、字段、行数和解不开的主键，不含密钥、明文或密文。
 - 租户独立数据源（`sys_tenant_datasource`）的库要各跑一次。
 - 解密失败时字段返回空，不会写回库里；但迁移前不要在管理台保存这些记录。
 
