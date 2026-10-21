@@ -23,6 +23,32 @@ jobs:
       - name: Check workflows
         run: python3 scripts/check-workflows.py
 
+  lint:
+    name: Doc width and CHANGELOG (new lines only)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Resolve diff base
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          base="${PR_BASE:-$PUSH_BEFORE}"
+          if [ -z "$base" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            base="0000000000000000000000000000000000000000"
+          fi
+          echo "DIFF_BASE=$base" >> "$GITHUB_ENV"
+
+      - name: Check Chinese paragraph width (<= 80)
+        run: python3 scripts/check-doc-width.py "$DIFF_BASE"
+
+      - name: Check CHANGELOG
+        run: python3 scripts/check-changelog.py "$DIFF_BASE"
+
   build:
     runs-on: ubuntu-latest
     steps:
