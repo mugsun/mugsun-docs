@@ -48,7 +48,7 @@ MUGSUN_OPENAPI_TRUSTED_PROXIES=172.30.88.10/32,::1/128
 
 设为 `false` 后，只校验访问令牌或 API Key，不再验签，也不再防重放。
 
-`prod` profile 不会强制这个值，生产环境必须保持 `true`。
+当前版本在 `prod` 环境不强制这个值，后续版本将改为拒绝启动。生产环境必须保持 `true`。
 
 ## 限流
 

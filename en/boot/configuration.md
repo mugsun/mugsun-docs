@@ -39,9 +39,10 @@ When `MUGSUN_GM_ENABLED` (setting `mugsun.crypto.gm-enabled`) is off:
 
 - Passwords for sign-in, password change and registration are no longer SM2-encrypted. They are sent in plain text and protected only by HTTPS.
 - The console reads this switch at runtime and stops encrypting automatically, with no rebuild needed.
-- Digests switch from SM3 to SHA-256. Audit signing uses its own SM2 key pair and is not affected by this switch.
+- General-purpose digests switch from SM3 to SHA-256; currently only the encryption demo endpoint uses them. Audit signing uses its own SM2 key pair and is not affected.
+- Password storage is not affected by this switch. The server always stores passwords with BCrypt, a salted slow hash, and never with SHA-256.
 
-The `prod` profile does not force SM-series crypto on. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
+The current version does not enforce SM-series crypto in the `prod` environment; a later version will refuse to start instead. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
 
 ## Audit log
 
