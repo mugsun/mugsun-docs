@@ -381,11 +381,12 @@ mugsun:
 
 ## 启动守卫与豁免开关
 
-以下几项在生产环境配错时拒绝启动。只有显式激活了 `dev`、`test` 或 `local` profile（严格小写）才算开发环境，其余一律按生产处理：
+以下几项在生产环境配错时拒绝启动。只看显式激活的 profile（`spring.profiles.active`）：非空、含 `dev`、`test`、`local` 之一且不含 `prod`，
+才算开发环境，其余一律按生产处理。profile 名先去掉首尾空白再转小写比较：
 
 - 没配任何 profile 也按生产处理。**这是行为变更**：本地自测请显式加 `--spring.profiles.active=dev`（`mvn spring-boot:run` 已默认激活 `dev`）。
-- `staging`、`PROD`、`production` 等写法都按生产处理；`prod` 和 `dev` 同时激活时按生产处理。
-- 没有激活 profile 时按 `spring.profiles.default` 判定。
+- `staging`、`production` 等都按生产处理；`DEV` 与 `dev` 等价；`prod` 和 `dev` 同时激活时按生产处理。
+- 不看 `spring.profiles.default`：只配了 `default=dev`、没有 active，也按生产处理。
 
 | 配置 | 生产中的危险值 | 豁免开关 |
 | --- | --- | --- |
