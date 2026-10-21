@@ -37,13 +37,13 @@ Credential keys, shared by URLs and response bodies:
 ```text
 token  access_token  refresh_token  id_token  authorization  auth  jwt
 api_key  apikey  x-api-key  secret  client_secret  private_key  access_key  secret_key
-password  passwd  pwd  cookie  set-cookie  session_id  jsessionid
+password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
 ```
 
 Keys replaced only in URLs and kept as-is in response bodies:
 
 ```text
-code  sign  signature  ticket  session  otp
+code  sign  signature  ticket  otp
 ```
 
 Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count too; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
@@ -62,7 +62,7 @@ Invalid URLs are returned unchanged, and relative URLs stay relative.
 
 JSON response bodies only have the **credential keys** from [URL redaction](#url-redaction) replaced; matching values are **always** replaced with `***`, regardless of `apiBodyMaskEnabled`. Matching works as in URLs: case, `_` and `-` are ignored (`accessToken` and `sessionId` count), and it is an exact match after that (`tokenCount` and `sessionTimeout` do not).
 
-`code`, `sign`, `signature`, `ticket`, `session` and `otp` are often business fields in response bodies, so they are kept as-is, which helps you see API errors and reproduce them:
+`code`, `sign`, `signature`, `ticket` and `otp` are often business fields in response bodies, so they are kept as-is, which helps you see API errors and reproduce them:
 
 ```text
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
@@ -74,7 +74,9 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 
 `apiBodyMaskEnabled` only controls personal-data keys (`phone`, `mobile`, `email`, `idcard`, `bankcard`), which are uploaded as-is by default.
 
-Tokens under key names outside the credential list (such as `jwt` or `sessionKey`, or `code` and `ticket` in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
+`session` is a session identifier rather than a business code, so it is a credential key and is replaced with `***` in bodies too.
+
+Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` in bodies) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
 
 ## Turning on masking and filtering
 
