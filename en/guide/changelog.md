@@ -2,6 +2,13 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · Code generation guide
+
+### mugsun-docs
+
+- Added the [code generation](/en/boot/codegen/) guide: overview, AI-assisted modeling, importing an existing table, and preview and download.
+- Each page ends with a "See it work" section with the steps and a screenshot of the result.
+
 ## 2026-10-21 · Backend development tutorial
 
 ### mugsun-docs
