@@ -69,6 +69,21 @@ e2e 不解验证码，也不从 Redis 读答案。所以分两套，各对一种
 - 默认容器名是 `powerjob-mysql,powerjob-server`。
 - 示例：`E2E_START_POWERJOB=1 E2E_POWERJOB_CONTAINERS=my-pj-db,my-pj pnpm test:e2e`。
 
+## 权限模式与跨域
+
+这两个变量在 `.env` 里设置，构建时生效。
+
+| 变量 | 默认 | 说明 |
+| --- | --- | --- |
+| `VITE_ACCESS_MODE` | `backend` | 权限模式，只支持 `backend` 和 `frontend` 两个值 |
+| `VITE_WITH_CREDENTIALS` | `false` | 设为 `true` 时请求开启 `withCredentials`，携带 Cookie |
+
+`backend` 模式下，菜单和权限由后端接口返回的菜单数据控制，适合企业应用。
+
+`frontend` 模式下，菜单和权限由前端路由配置控制，适合小项目或演示环境。
+
+只有在管理台和后端跨域部署、又需要携带 Cookie 时，才把 `VITE_WITH_CREDENTIALS` 设为 `true`，后端也要允许跨域携带凭据。
+
 ## 新增页面的推荐流程
 
 1. 在 boot 中实现接口并声明权限码（`@SaCheckPermission`）。

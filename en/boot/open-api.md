@@ -40,6 +40,12 @@ The matching key is `mugsun.openapi.trusted-proxies`. Only when `remoteAddr` fal
 Don't add broad ranges such as `0.0.0.0/0` as trusted proxies. That is the same as trusting any `X-Forwarded-For` header again.
 :::
 
+## Signature check
+
+`mugsun.open-api.sign-required` defaults to `true`, and Open API requests must carry valid `X-Timestamp`, `X-Nonce` and `X-Sign` headers.
+
+When it is `false`, only the access token or API key is checked; signatures are not verified and replays are not blocked. The current version does not enforce this value in the `prod` environment; a later version will refuse to start instead. Keep it `true` in production.
+
 ## Rate limiting
 
 Requests are rate-limited per API key over a sliding one-minute window; requests over the limit are rejected.

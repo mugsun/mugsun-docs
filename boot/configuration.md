@@ -35,6 +35,15 @@ cp config/application-local.yml.example config/application-local.yml
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
 | `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
 
+`MUGSUN_GM_ENABLED`（配置项 `mugsun.crypto.gm-enabled`）关闭后的行为如下：
+
+- 登录、改密和注册时，密码不再用 SM2 加密，以明文提交，只靠 HTTPS 保护。
+- 管理台在运行时读取这个开关，自动停止加密，不需要重新构建。
+- 通用摘要从 SM3 改为 SHA-256，目前只有加解密演示接口使用。审计签名使用独立的 SM2 密钥，不受影响。
+- 密码存储不受这个开关影响，服务端始终用加盐的慢哈希 BCrypt 存储密码，不使用 SHA-256。
+
+当前版本在 `prod` 环境不强制开启国密，后续版本将改为拒绝启动。等保或密评场景请保持开启。
+
 ## 审计日志
 
 | 配置项 | 默认 | 说明 |
@@ -295,6 +304,80 @@ IPv6 地址中的 `:` 写成 `_`。手动解锁某 IP：`DEL mugsun:captcha:v2:l
 :::
 
 **租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。客户端开关（`sys_client.captcha_enabled`）不参与判定，因为 clientId 由调用方填写。新建的租户一律开启。 平台超管还可以在同一接口里传 `types`（如 `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`）设置该租户启用的题型，至少一种，取值只能是上面五种；不传 `types` 则不改；传 `null` 或 `[]` 清回平台默认（`default-types`）。设置里不含 `SLIDER` 和 `ROTATE` 时仍会保存，但响应 `data.warning` 会提示键盘用户将收到 `40015`。没设置过的租户使用 `default-types`。该设置保存在 `sys_tenant.captcha_types`（迁移 `V10__tenant_captcha_types.sql`）。
+
+## 社交登录
+
+社交登录基于 JustAuth，支持 `github`、`gitee`、`qq`、`wechat_open`（微信开放平台扫码）四个来源，来源名不区分大小写。
+
+```yaml
+mugsun:
+  social:
+    enabled: true            # 总开关，为 false 时所有来源都拒绝
+    type:
+      github:
+        client-id: <应用 ID>
+        client-secret: <应用密钥>
+        redirect-uri: <在第三方平台登记的回调地址>
+        scopes: []
+```
+
+- 同时填了 `client-id` 和 `client-secret` 的来源才会出现在 `GET /auth/social/sources` 里。
+- 登录页按这个接口的结果显示社交登录按钮。
+- 没有配置任何来源时，登录页隐藏社交登录区域，不影响启动。
+- `redirect-uri` 由部署方按来源配置，后端不拼接。管理台的回调页是 `/auth/social-callback`。
+- 管理台使用 hash 路由，回调地址里会带 `#`。各平台是否接受这种地址请先在对应平台实测。
+- 登录流程：`GET /auth/social/render/{source}` 取授权地址，回调页再调 `POST /auth/social/login`。
+- 已登录用户用 `POST /auth/social/bind` 绑定，用 `DELETE /auth/social/unbind/{source}` 解绑。
+- 第三方账号未绑定时，管理端不会自动注册，会提示先登录再绑定。
+- 只有 `clientType=app` 的移动端请求会自动建号并绑定，账号归入默认租户。
+- 同一个第三方账号已绑定其他用户时，再绑定会报错。账号停用或租户失效时拒绝登录。
+- 社交登录会写入登录日志，类型为 `social`。
+
+`mock` 来源只用于本地联调，需要 `mock-enabled: true` 并配置 `type.mock`，示例文件里已经带好。
+
+`prod` profile 强制关闭 `mock` 来源。
+
+## IP 归属地
+
+登录日志的 IP 归属地默认关闭。未开启时，登录日志列表的归属地显示为 `-`。
+
+| 配置项 | 环境变量 | 默认 | 说明 |
+| --- | --- | --- | --- |
+| `mugsun.ip2region.enabled` | `MUGSUN_IP2REGION_ENABLED` | `false` | 是否解析 IP 归属地 |
+| `mugsun.ip2region.xdb-path` | `MUGSUN_IP2REGION_XDB_PATH` | 空 | xdb 数据文件在服务器上的绝对路径 |
+
+开启步骤：
+
+1. 从 GitHub 上 lionsoul2014/ip2region 仓库的 `data` 目录下载 `ip2region_v4.xdb`，仓库里不带这个文件。
+2. 把文件放到服务器本地目录，用 `xdb-path` 指向它，再设 `enabled=true`。
+
+使用前请查看上游仓库的许可证。只支持 IPv4，开启后显示为「国家 省份 城市」，不显示运营商。
+
+开启了但没有配置路径，或文件加载失败时，后端只记录错误日志并停用解析，不会阻止启动。
+
+## 单号生成
+
+| 配置项 | 默认 | 说明 |
+| --- | --- | --- |
+| `mugsun.serial-number.provider` | `redis` | 单号生成方式，可选 `redis` 或 `db` |
+
+- `redis`：用 Redis 原子自增，启动时按数据库里的最后一个值预热，避免号码倒退。
+- `db`：在事务内用行锁生成，不依赖 Redis，吞吐量较低，适合没有 Redis 或要求强一致的场景。
+- 配成其他值时启动不报错，但生成单号会失败。一次最多生成 1000 个单号。
+- 多节点部署时，所有节点必须使用同一种方式。
+- `redis` 方式要求所有节点连接同一个 Redis，建议开启持久化。
+
+## 数据库 schema
+
+| 配置项 | 默认 | 说明 |
+| --- | --- | --- |
+| `mugsun.db.default-schema` | 空 | 业务表所在的 schema |
+
+这个配置项用于人大金仓等 PG 协议数据库，把业务表放在独立的 schema 里，避免和系统目录冲突。
+
+设置后，业务表（`track_*` 除外）和手写 SQL 的表名都会加上这个 schema 前缀，Flyway 也会使用并自动创建它。
+
+留空时不做任何处理，使用数据库连接默认的 schema，PostgreSQL 下通常是 `public`。openGauss 未经测试。
 
 ## 生产环境
 

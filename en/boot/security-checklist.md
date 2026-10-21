@@ -8,12 +8,15 @@ Work through every item before exposing a deployment to the internet.
 - [ ] `SPRING_PROFILES_ACTIVE=prod`, with `strict-keys` set to `true` (the prod default)
 - [ ] SM4, request-encryption, SM2 transport and audit-signing keys are your own, not the `mugsun-local-*` samples from the repository ([Configuration](/en/boot/configuration#security-and-keys))
 - [ ] Mock social login is off (the prod default)
+- [ ] `mugsun.lab.seed-fronttest` is not enabled in production; it creates a test account with a weak password, and the `prod` profile does not block it
+- [ ] For MLPS (Dengbao) or commercial cryptography assessments, `mugsun.crypto.gm-enabled` stays on ([Configuration](/en/boot/configuration#security-and-keys))
 
 ## Network and gateway
 
 - [ ] OpenAPI docs are off in prod (the prod default)
 - [ ] Behind a reverse proxy, `MUGSUN_OPENAPI_TRUSTED_PROXIES` lists only the real proxy ranges ([Open API](/en/boot/open-api#client-ip-and-trusted-proxies))
 - [ ] Each API key's IP allowlist uses the narrowest CIDR that works
+- [ ] `mugsun.open-api.sign-required` stays `true` ([Open API](/en/boot/open-api#signature-check))
 - [ ] `MUGSUN_FRONT_URL` points to the production console domain
 - [ ] Human verification has `default-types` that are not only auxiliary types (`ROTATE`, `ICON_CLICK`), uses `store: redis`, with `show-code` set to `false`; any tenant with it turned off has a reason ([Configuration](/en/boot/configuration#human-verification-behavioral-captcha))
 

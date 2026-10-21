@@ -13,6 +13,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
         text: 'More',
         items: [
           { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
+          { text: 'Project generator', link: '/en/start/', activeMatch: '/en/start/' },
           { text: 'uni-app x', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
           { text: 'Live demo', link: '/en/demo' },
           { text: 'Changelog', link: '/en/guide/changelog' },
@@ -248,6 +249,12 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
         {
           text: 'Core',
           items: [{ text: 'Overview', link: '/en/core/' }],
+        },
+      ],
+      '/en/start/': [
+        {
+          text: 'Project generator',
+          items: [{ text: 'Overview', link: '/en/start/' }],
         },
       ],
     },

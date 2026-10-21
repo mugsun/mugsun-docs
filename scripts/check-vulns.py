@@ -19,6 +19,7 @@
 """
 import datetime as dt
 import json
+import math
 import sys
 import tomllib
 
@@ -54,8 +55,18 @@ def ignores():
         added = as_date(v.get("added"))
         if not v.get("reason"):
             bad.append(f"{vid}: 缺少 reason")
-        if added is None:
+        if isinstance(v.get("added"), str):
+            bad.append(f"{vid}: added 要写 TOML 日期（不加引号），例如 2026-10-21")
+        elif added is None:
             bad.append(f"{vid}: 缺少 added 日期")
+        if isinstance(until, dt.date) and not isinstance(until, dt.datetime):
+            bad.append(f"{vid}: ignoreUntil 只写了日期，要写成 "
+                       f"YYYY-MM-DDT23:59:59Z，例如 {until}T23:59:59Z")
+            continue
+        if isinstance(until, str):
+            bad.append(f"{vid}: ignoreUntil 要写 TOML 日期（不加引号），"
+                       f"例如 2027-01-19T23:59:59Z，现为字符串 {until!r}")
+            continue
         if not isinstance(until, dt.datetime):
             bad.append(f"{vid}: 缺少 ignoreUntil")
             continue
@@ -90,8 +101,6 @@ def active_ids():
 
 
 def tool_rc_ok(name):
-    if len(sys.argv) <= 3:
-        return True
     try:
         rc = int(sys.argv[3])
     except ValueError:
@@ -195,6 +204,9 @@ def gate(path, rc):
                         score = float(g.get("max_severity"))
                     except (TypeError, ValueError):
                         score = 10.0
+                    # NaN、inf 或不在 [0, 10] 区间的分数一律按 10.0 处理
+                    if not math.isfinite(score) or not 0.0 <= score <= 10.0:
+                        score = 10.0
                     item = f"{name} {','.join(g.get('ids', []))} CVSS {score}"
                     (high if score >= 7.0 else medium).append(item)
     except (AttributeError, KeyError, TypeError) as e:
@@ -247,6 +259,11 @@ def selftest():
                                                     "severity": "Moderate"}}, "metadata": {}}), 1, 0),
         ("osv", '{"results":[{"packages":[{"package":{"name":"x"},"groups":[{"ids":["G"]}]}]}]}', 1, 1),
         ("osv", '{"results":[{"packages":[{"package":{"name":"x"},"groups":[{"ids":["G"],"max_severity":""}]}]}]}', 1, 1),
+        ("osv", '{"results":[{"packages":[{"package":{"name":"x"},"groups":[{"ids":["G"],"max_severity":"NaN"}]}]}]}', 1, 1),
+        ("osv", '{"results":[{"packages":[{"package":{"name":"x"},"groups":[{"ids":["G"],"max_severity":"-inf"}]}]}]}', 1, 1),
+        ("osv", '{"results":[{"packages":[{"package":{"name":"x"},"groups":[{"ids":["G"],"max_severity":"-1"}]}]}]}', 1, 1),
+        ("osv", '{"results":[{"packages":[{"package":{"name":"x"},"groups":[{"ids":["G"],"max_severity":"11"}]}]}]}', 1, 1),
+        ("osv", '{"results":[{"packages":[{"package":{"name":"x"},"groups":[{"ids":["G"],"max_severity":"0"}]}]}]}', 1, 0),
         ("osv", "{}", 0, 1),
         ("osv", "not json", 0, 1),
         ("osv", '{"results":null}', 0, 1),
@@ -257,7 +274,7 @@ def selftest():
         ("osv", '{"results":[]}', 0, 0),
         ("osv", json.dumps(osv_mod), 1, 0),
     ]
-    fails = 0
+    fails = total = 0
     with tempfile.TemporaryDirectory() as d:
         for n, (kind, text, rc, want) in enumerate(cases):
             path = os.path.join(d, f"{n}.json")
@@ -268,7 +285,32 @@ def selftest():
                 got = fn(path, rc)
             ok = got == want
             fails += not ok
+            total += 1
             print(f"{'通过' if ok else '失败'} {kind} rc={rc} 期望 {want} 实得 {got}: {text[:60]}")
+    # ignores：日期写成字符串要失败，写成 TOML 日期要通过
+    global CONF
+    saved = CONF
+    today = dt.datetime.now(dt.timezone.utc).date()
+    toml_cases = [
+        ('added = 2026-10-21\nignoreUntil = "2027-01-19T23:59:59Z"', 1),
+        ('added = "2026-10-21"\nignoreUntil = 2027-01-19T23:59:59Z', 1),
+        ('added = 2026-10-21\nignoreUntil = 2027-01-19', 1),
+        (f'added = {today}\nignoreUntil = '
+         f'{today + dt.timedelta(days=MAX_DAYS)}T23:59:59Z', 0),
+    ]
+    with tempfile.TemporaryDirectory() as d:
+        for n, (body, want) in enumerate(toml_cases):
+            CONF = os.path.join(d, f"{n}.toml")
+            with open(CONF, "w", encoding="utf-8") as fh:
+                fh.write(f'[[IgnoredVulns]]\nid = "X"\nreason = "r"\n{body}\n')
+            with contextlib.redirect_stdout(io.StringIO()):
+                got = ignores()
+            ok = got == want
+            fails += not ok
+            total += 1
+            print(f"{'通过' if ok else '失败'} ignores 期望 {want} 实得 {got}: {body!r}")
+    CONF = saved
+
     # rc 必填：用子进程跑命令行，缺退出码应返回 2
     import subprocess
     with tempfile.TemporaryDirectory() as d:
@@ -280,9 +322,9 @@ def selftest():
                                  capture_output=True).returncode
             ok = got == 2
             fails += not ok
-            cases.append(None)
+            total += 1
             print(f"{'通过' if ok else '失败'} {sub} 缺退出码 期望 2 实得 {got}")
-    print(f"selftest: {len(cases)} 例，失败 {fails}")
+    print(f"selftest: {total} 例，失败 {fails}")
     return 1 if fails else 0
 
 

@@ -58,6 +58,24 @@ demo: pages/demo/basic/icon
 | --- | --- |
 | click | 点击 |
 
+## 图标字体子集
+
+组件包内的字体只包含码表 `components/ms-icon/icons.uts` 里的图标。
+
+图标名不在码表里时显示空白；`name` 传图片地址时按图片显示。
+
+新增图标的步骤如下：
+
+1. 取 `remixicon@4.7.0` 的全量 ttf（Apache-2.0）。4.5.x 版本的字形与码表不一致，不能使用。
+2. 在 `components/ms-icon/icons.uts` 里加上新图标。码表是唯一的真源。
+3. 用 `pyftsubset` 生成 woff2 和 ttf 子集，放到 `static/fonts`，两种都要生成。
+4. 按组件包内 `uni_modules/ms-ui/styles/FONT-SUBSET.md` 里的脚本重建小程序字体。
+5. 在 App 端打开 ms-icon 演示页，抽查常用图标是否显示正常。
+
+Android 和鸿蒙使用 ttf，iOS 和 Web 使用 woff2。
+
+小程序字体文件是 `remixicon-mp-face.scss`，不要手改。小程序字体只能内嵌子集，超过 64KB 时脚本会拒绝生成。
+
 ## 相关
 
 - 组件目录: `uni_modules/ms-ui/components/ms-icon/`

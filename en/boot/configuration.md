@@ -35,6 +35,15 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | empty | CIDR list of trusted reverse proxies; see [Open API](/en/boot/open-api#client-ip-and-trusted-proxies) |
 | `MUGSUN_FILE_SIGN_SECRET` | empty | Signing key for local file download links (at least 32 characters); see "Local file access" below |
 
+When `MUGSUN_GM_ENABLED` (setting `mugsun.crypto.gm-enabled`) is off:
+
+- Passwords for sign-in, password change and registration are no longer SM2-encrypted. They are sent in plain text and protected only by HTTPS.
+- The console reads this switch at runtime and stops encrypting automatically, with no rebuild needed.
+- General-purpose digests switch from SM3 to SHA-256; currently only the encryption demo endpoint uses them. Audit signing uses its own SM2 key pair and is not affected.
+- Password storage is not affected by this switch. The server always stores passwords with BCrypt, a salted slow hash, and never with SHA-256.
+
+The current version does not enforce SM-series crypto in the `prod` environment; a later version will refuse to start instead. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
+
 ## Audit log
 
 | Setting | Default | Purpose |
@@ -254,6 +263,77 @@ With `mugsun.captcha.enabled=false`, or with captcha turned off for a tenant, th
 :::
 
 **Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. The client switch (`sys_client.captcha_enabled`) plays no part, because the caller chooses the clientId. New tenants always start with verification on. The platform super admin can also pass `types` on the same endpoint (for example `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`) to choose the tenant's challenge types: at least one, from the five above. Leaving `types` out keeps the current setting, passing `null` or `[]` resets it to the platform default (`default-types`), and tenants that never set it use `default-types`. A setting without `SLIDER` and `ROTATE` is still saved, but `data.warning` in the response says keyboard users will get `40015`. The setting lives in `sys_tenant.captcha_types` (migration `V10__tenant_captcha_types.sql`).
+
+## Social login
+
+Social login is built on JustAuth and supports four sources: `github`, `gitee`, `qq` and `wechat_open` (WeChat Open Platform QR login). Source names are case-insensitive.
+
+```yaml
+mugsun:
+  social:
+    enabled: true            # master switch; when false, every source is rejected
+    type:
+      github:
+        client-id: <app ID>
+        client-secret: <app secret>
+        redirect-uri: <callback URL registered with the provider>
+        scopes: []
+```
+
+- A source appears in `GET /auth/social/sources`, and gets a button on the login page, only when both `client-id` and `client-secret` are set.
+- With no source configured, the login page hides the social login area and startup is not affected.
+- `redirect-uri` is set per source by whoever deploys; the backend does not build it. The console callback page is `/auth/social-callback`.
+- The console uses hash routing, so the callback URL contains `#`. Test on each provider whether it accepts such a URL.
+- Sign-in flow: `GET /auth/social/render/{source}` returns the authorization URL, and the callback page then calls `POST /auth/social/login`.
+- Signed-in users bind with `POST /auth/social/bind` and unbind with `DELETE /auth/social/unbind/{source}`.
+- When a third-party account is not bound yet, the console does not register a new user; it asks the user to sign in and bind first.
+- Only requests with `clientType=app` from mobile apps create and bind a new account, which joins the default tenant.
+- Binding a third-party account that is already bound to another user fails. Sign-in is refused when the account is disabled or the tenant is no longer valid.
+- Social sign-ins are written to the login log with type `social`.
+
+The `mock` source is only for local development. It needs `mock-enabled: true` and a `type.mock` entry, which the example file already has. The `prod` profile always turns the `mock` source off.
+
+## IP location
+
+IP location for the login log is off by default. While it is off, the location column in the login log shows `-`.
+
+| Setting | Environment variable | Default | Purpose |
+| --- | --- | --- | --- |
+| `mugsun.ip2region.enabled` | `MUGSUN_IP2REGION_ENABLED` | `false` | Whether to resolve IP locations |
+| `mugsun.ip2region.xdb-path` | `MUGSUN_IP2REGION_XDB_PATH` | empty | Absolute path of the xdb data file on the server |
+
+To turn it on:
+
+1. Download `ip2region_v4.xdb` from the `data` directory of the lionsoul2014/ip2region repository on GitHub. The file is not shipped with mugsun.
+2. Put it in a local directory on the server, point `xdb-path` at it, and set `enabled=true`.
+
+Check the upstream repository's license before use. Only IPv4 is supported. Locations are shown as country, province and city, without the ISP.
+
+If it is turned on without a path, or the file fails to load, the backend logs an error and disables lookups. Startup is not blocked.
+
+## Serial numbers
+
+| Setting | Default | Purpose |
+| --- | --- | --- |
+| `mugsun.serial-number.provider` | `redis` | How serial numbers are generated: `redis` or `db` |
+
+- `redis`: an atomic increment in Redis, warmed up from the last value in the database at startup so numbers never go backwards.
+- `db`: a row lock inside a transaction. It needs no Redis but has lower throughput, and suits setups without Redis or with strict consistency needs.
+- Any other value does not stop startup, but generating a serial number then fails. At most 1000 numbers are generated per call.
+- With several nodes, every node must use the same provider.
+- With `redis`, every node must connect to the same Redis, and persistence is recommended.
+
+## Database schema
+
+| Setting | Default | Purpose |
+| --- | --- | --- |
+| `mugsun.db.default-schema` | empty | Schema that holds the business tables |
+
+This setting is for PostgreSQL-protocol databases such as KingbaseES, so that business tables live in their own schema and do not clash with the system catalog.
+
+When it is set, business tables (except `track_*`) and table names in hand-written SQL get this schema prefix, and Flyway uses the schema and creates it if needed.
+
+When it is empty, nothing changes and the connection's default schema is used, usually `public` on PostgreSQL. openGauss has not been tested.
 
 ## Production
 

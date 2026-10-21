@@ -8,12 +8,15 @@
 - [ ] `SPRING_PROFILES_ACTIVE=prod`，`strict-keys` 为 `true`（prod 默认）
 - [ ] SM4、接口加解密、SM2 传输与审计签名密钥均为自有值，未使用仓库示例中的 `mugsun-local-*`（[配置参考](/boot/configuration#安全与密钥)）
 - [ ] mock 社交登录关闭（prod 默认关闭）
+- [ ] 生产不得开启 `mugsun.lab.seed-fronttest`，开启后会创建一个弱口令测试账号，`prod` profile 不会拦截
+- [ ] 等保或密评场景保持 `mugsun.crypto.gm-enabled` 开启（[配置参考](/boot/configuration#安全与密钥)）
 
 ## 网络与网关
 
 - [ ] OpenAPI 文档在 prod 已关闭（prod 默认关闭）
 - [ ] 若在反向代理之后，`MUGSUN_OPENAPI_TRUSTED_PROXIES` 只包含真实代理网段（[开放平台](/boot/open-api#客户端-ip-与可信代理)）
 - [ ] 各 API Key 的 IP 白名单使用最小 CIDR 网段
+- [ ] `mugsun.open-api.sign-required` 保持 `true`（[开放平台](/boot/open-api#签名校验)）
 - [ ] `MUGSUN_FRONT_URL` 指向正式管理台域名
 - [ ] 安全验证的 `default-types` 不只有辅助题型（`ROTATE`、`ICON_CLICK`）、`store: redis`，`show-code` 为 `false`；关闭验证的租户确有理由（[配置参考](/boot/configuration#安全验证-行为验证码)）
 
