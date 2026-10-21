@@ -23,12 +23,12 @@ alias CODE="curl -s -o /dev/null -w '%{http_code}\n'"
   - 在启动日志中查找回落默认值或临时生成密钥的提示，没有命中才算通过：
 
     ```bash
-    grep -E "回落内置|临时生成|临时接口密钥|跟随传输密钥" <日志文件> && echo FAIL || echo OK
+    grep -E "回落内置开发默认值|临时生成|跟随传输密钥" <日志文件> && echo FAIL || echo OK
     ```
 
 - [ ] mock 社交登录关闭（prod 默认关闭）
-  - 执行 `CODE "https://your-host/api/auth/social/mock-authorize?redirect_uri=x&state=x"`，结果不应是 302。
-  - 关闭时接口返回业务错误「模拟社交来源未启用」，不会跳转。
+  - 执行 `curl -s https://your-host/api/auth/social/sources`，查看返回的社交登录来源清单。
+  - 响应 `data` 中的 `mockEnabled` 应为 `false`。
 - [ ] 生产不得开启 `mugsun.lab.seed-fronttest`，开启后会创建一个弱口令测试账号
   - 激活了 `prod` profile 时，开启这项会拒绝启动。未激活 `prod` 的部署不拦截，需要自己确认配置里没有打开。
   - 用 admin 进入「系统管理 → 用户」搜索 `fronttest`，应查不到这个账号。

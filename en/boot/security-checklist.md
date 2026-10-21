@@ -22,12 +22,12 @@ alias CODE="curl -s -o /dev/null -w '%{http_code}\n'"
   - Search the startup log for messages about falling back to built-in defaults or generating temporary keys. The check passes only when nothing matches:
 
     ```bash
-    grep -E "回落内置|临时生成|临时接口密钥|跟随传输密钥" <log file> && echo FAIL || echo OK
+    grep -E "回落内置开发默认值|临时生成|跟随传输密钥" <log file> && echo FAIL || echo OK
     ```
 
 - [ ] Mock social login is off (the prod default)
-  - Run `CODE "https://your-host/api/auth/social/mock-authorize?redirect_uri=x&state=x"`. The result should not be 302.
-  - When mock login is off, the endpoint returns a business error saying the mock source is not enabled and does not redirect.
+  - Run `curl -s https://your-host/api/auth/social/sources` to get the list of social sign-in sources.
+  - `mockEnabled` in the response `data` should be `false`.
 - [ ] `mugsun.lab.seed-fronttest` is not enabled in production; it creates a test account with a weak password
   - With the `prod` profile active, turning it on makes startup fail. Deployments without `prod` are not blocked, so confirm the setting is off yourself.
   - Sign in as admin, open System → Users and search for `fronttest`. The account should not exist.
