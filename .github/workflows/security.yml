@@ -46,6 +46,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      - name: Self-test vulnerability gates
+        run: python3 scripts/check-vulns.py selftest
+
       - name: Check ignore list expiry
         run: python3 scripts/check-vulns.py ignores
 
