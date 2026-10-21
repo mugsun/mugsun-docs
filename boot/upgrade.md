@@ -15,7 +15,7 @@
 ::: code-group
 
 ```sql [openGauss]
-SELECT tenant_id, phone, count(*) AS users,
+SELECT tenant_id, max('****' || right(phone, 4)) AS phone_tail, count(*) AS users,
        string_agg(id::text || ':' || username, ', ') AS id_username
 FROM sys_user
 WHERE is_deleted = 0 AND phone IS NOT NULL AND phone <> ''
@@ -25,7 +25,7 @@ ORDER BY tenant_id, phone;
 ```
 
 ```sql [达梦]
-SELECT tenant_id, phone, COUNT(*) AS users,
+SELECT tenant_id, MAX('****' || RIGHT(phone, 4)) AS phone_tail, COUNT(*) AS users,
        LISTAGG(id || ':' || username, ', ') WITHIN GROUP (ORDER BY id) AS id_username
 FROM sys_user
 WHERE is_deleted = 0 AND phone IS NOT NULL AND phone <> ''
@@ -36,7 +36,9 @@ ORDER BY tenant_id, phone;
 
 :::
 
-每行是一组重复，`id_username` 列出这些用户的 ID 和账号。
+每行是一组重复。`phone_tail` 只显示号码后 4 位，`id_username` 列出这些用户的 ID 和账号。
+
+查询结果含个人信息，请勿贴到工单或群聊里。
 
 ### 处理重复
 
@@ -50,10 +52,29 @@ openGauss 上失败的 V7 已整体回滚，用 Flyway 迁移的部署直接重�
 
 用 gsql 手工执行的部署，重新执行 V7 脚本时带上 `-1 -v ON_ERROR_STOP=1`，出错就整体回滚并停下。
 
-达梦的建表语句不随迁移回滚，Flyway 会留下一条失败记录。先删掉这条记录再重启：
+达梦的 DDL 自动提交，迁移失败后 Flyway 会留下一条失败记录，要先清掉这条记录再重启。
+
+清理前先备份 `flyway_schema_history` 表，例如：
 
 ```sql
+CREATE TABLE flyway_schema_history_bak AS SELECT * FROM flyway_schema_history;
+```
+
+再用下面两种方式之一清掉失败记录：
+
+::: code-group
+
+```sql [SQL]
 DELETE FROM flyway_schema_history WHERE version = '7' AND success = 0;
 ```
+
+```sh [Flyway CLI]
+# 连接参数与应用使用的业务库一致
+flyway -url=<JDBC URL> -user=<用户名> -password=<密码> repair
+```
+
+:::
+
+`flyway repair` 会删掉历史表里所有失败的记录。
 
 迁移不再报「V7 升级中止」，就说明 V7 已完成。

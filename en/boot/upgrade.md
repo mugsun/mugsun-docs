@@ -15,7 +15,7 @@ Before upgrading, run this on the business database:
 ::: code-group
 
 ```sql [openGauss]
-SELECT tenant_id, phone, count(*) AS users,
+SELECT tenant_id, max('****' || right(phone, 4)) AS phone_tail, count(*) AS users,
        string_agg(id::text || ':' || username, ', ') AS id_username
 FROM sys_user
 WHERE is_deleted = 0 AND phone IS NOT NULL AND phone <> ''
@@ -25,7 +25,7 @@ ORDER BY tenant_id, phone;
 ```
 
 ```sql [Dameng]
-SELECT tenant_id, phone, COUNT(*) AS users,
+SELECT tenant_id, MAX('****' || RIGHT(phone, 4)) AS phone_tail, COUNT(*) AS users,
        LISTAGG(id || ':' || username, ', ') WITHIN GROUP (ORDER BY id) AS id_username
 FROM sys_user
 WHERE is_deleted = 0 AND phone IS NOT NULL AND phone <> ''
@@ -36,7 +36,9 @@ ORDER BY tenant_id, phone;
 
 :::
 
-Each row is one group of duplicates. `id_username` lists the IDs and usernames of those users.
+Each row is one group of duplicates. `phone_tail` shows only the last 4 digits, and `id_username` lists the IDs and usernames of those users.
+
+The results contain personal information. Do not paste them into tickets or group chats.
 
 ### Resolve duplicates
 
@@ -50,10 +52,29 @@ On openGauss the failed V7 was rolled back as a whole. If Flyway runs your migra
 
 If you run scripts by hand with gsql, run the V7 script again with `-1 -v ON_ERROR_STOP=1`, so an error rolls everything back and stops there.
 
-On Dameng, DDL statements are not rolled back with the migration, and Flyway keeps a failed record. Delete that record, then restart:
+On Dameng, DDL auto-commits, so a failed migration leaves a failed record in Flyway's history. Remove that record before you restart.
+
+Back up the `flyway_schema_history` table first, for example:
 
 ```sql
+CREATE TABLE flyway_schema_history_bak AS SELECT * FROM flyway_schema_history;
+```
+
+Then remove the failed record in one of these ways:
+
+::: code-group
+
+```sql [SQL]
 DELETE FROM flyway_schema_history WHERE version = '7' AND success = 0;
 ```
+
+```sh [Flyway CLI]
+# Use the same connection settings as the application's business database
+flyway -url=<JDBC URL> -user=<user> -password=<password> repair
+```
+
+:::
+
+`flyway repair` removes every failed record from the history table.
 
 Once the migration no longer reports "V7 升级中止", V7 has completed.
