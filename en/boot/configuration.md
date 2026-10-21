@@ -199,7 +199,7 @@ Errors come back as HTTP 200 with `R.code`:
 | `40010` | Challenge expired; fetch a new one |
 | `40011` | Failed; fetch a new one (no reason given) |
 | `40012` | Too many attempts; retry after `data.retryAfter` seconds. The failure that triggers the lock (the 5th pointer or 3rd keyboard failure) already returns `40012`, as does any failed verify when the IP is already locked (including by a concurrent request or the other input mode). Challenge and verify also return `40012` while locked |
-| `40013` | Missing or invalid `captchaToken` |
+| `40013` | Captcha is required, but the request has no `captchaToken`, or the token was already used, has expired, or belongs to another scene or tenant. The HTTP status is 200; the frontend checks `code` and shows the captcha again |
 | `40014` | Verification is not needed right now |
 | `40015` | Keyboard challenge requested, but the tenant has neither slider nor rotate enabled (no accessible challenge type) |
 | `40016` | None of the tenant's enabled types is available right now (for example only icon click is enabled and the icon manifest is missing); contact the administrator and do not retry automatically |
@@ -225,6 +225,10 @@ The verify request body is capped at 32KB, chunked uploads included; an oversize
 | `lock:<ip>` | IP lock; its remaining TTL is `retryAfter` | `lock-seconds` |
 
 `:` in IPv6 addresses is written as `_`. To unlock an IP by hand: `DEL mugsun:captcha:v2:lock:<ip>`.
+
+::: warning Turning captcha off removes brute-force protection
+With `mugsun.captcha.enabled=false`, or with captcha turned off for a tenant, that tenant's login, registration and forgot-password code no longer require human verification. Only login lockout and rate limits remain. Turn it off only briefly, for troubleshooting or until the frontend is upgraded.
+:::
 
 **Tenant switch:** on by default for every tenant. The platform super admin can turn it off for one tenant with `POST /system/tenant/captcha` (`{"id": tenantId, "enabled": false}`); the change is audited and other tenants are unaffected. With several nodes, the others pick it up within 60 seconds. Sending SMS codes does not depend on the tenant: only the global switch applies, plus per-phone daily and per-IP hourly limits. The client switch (`sys_client.captcha_enabled`) plays no part, because the caller chooses the clientId. New tenants always start with verification on. The platform super admin can also pass `types` on the same endpoint (for example `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`) to choose the tenant's challenge types: at least one, from the five above. Leaving `types` out keeps the current setting, passing `null` or `[]` resets it to the platform default (`default-types`), and tenants that never set it use `default-types`. A setting without `SLIDER` and `ROTATE` is still saved, but `data.warning` in the response says keyboard users will get `40015`. The setting lives in `sys_tenant.captcha_types` (migration `V10__tenant_captcha_types.sql`).
 
