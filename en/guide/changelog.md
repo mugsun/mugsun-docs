@@ -2,6 +2,14 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · Multi-tenancy and data permissions
+
+### mugsun-docs
+
+- Added the [multi-tenancy](/en/boot/tenant/) guide: overview, tenants and plans, and switching tenants in code.
+- Added the [data permissions](/en/boot/datascope/) guide: overview, enabling it on an endpoint, and data permission rules.
+- Each page ends with a "See it work" section with SQL you can copy to verify the result.
+
 ## 2026-10-21 · Code generation guide
 
 ### mugsun-docs

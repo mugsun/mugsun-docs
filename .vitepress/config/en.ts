@@ -233,6 +233,22 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Preview and download', link: '/en/boot/codegen/output' },
           ],
         },
+        {
+          text: 'Multi-tenancy',
+          items: [
+            { text: 'Overview', link: '/en/boot/tenant/' },
+            { text: 'Tenants and plans', link: '/en/boot/tenant/manage' },
+            { text: 'Switch tenants in code', link: '/en/boot/tenant/context' },
+          ],
+        },
+        {
+          text: 'Data permissions',
+          items: [
+            { text: 'Overview', link: '/en/boot/datascope/' },
+            { text: 'Enable it on an endpoint', link: '/en/boot/datascope/annotation' },
+            { text: 'Data permission rules', link: '/en/boot/datascope/rules' },
+          ],
+        },
       ],
       '/en/pc/': [
         {

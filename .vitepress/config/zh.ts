@@ -63,6 +63,22 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '预览和下载产物', link: '/boot/codegen/output' },
           ],
         },
+        {
+          text: '多租户',
+          items: [
+            { text: '概述', link: '/boot/tenant/' },
+            { text: '租户与套餐', link: '/boot/tenant/manage' },
+            { text: '在代码里切换租户', link: '/boot/tenant/context' },
+          ],
+        },
+        {
+          text: '数据权限',
+          items: [
+            { text: '概述', link: '/boot/datascope/' },
+            { text: '在接口上启用', link: '/boot/datascope/annotation' },
+            { text: '数据权限规则', link: '/boot/datascope/rules' },
+          ],
+        },
       ],
       '/pc/': [
         {

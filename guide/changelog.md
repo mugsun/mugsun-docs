@@ -2,6 +2,14 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · 多租户与数据权限
+
+### mugsun-docs
+
+- 新增[多租户](/boot/tenant/)三节：概述、租户与套餐、在代码里切换租户。
+- 新增[数据权限](/boot/datascope/)三节：概述、在接口上启用、数据权限规则。
+- 每节结尾有「看效果」，附可复制的验证 SQL。
+
 ## 2026-10-21 · 代码生成专章
 
 ### mugsun-docs
