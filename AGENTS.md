@@ -26,6 +26,12 @@ git -c user.name=mugsun -c user.email=bydongxin@gmail.com commit
 git push origin <sha>:refs/heads/<分支>
 ```
 
+不推 `HEAD`，例如不用 `git push origin HEAD:main`。
+
+Mac mini 上的 zsh 会把 `$S:refs/...` 里的 `:r` 当成变量修饰符，把 refspec 改坏。
+
+所以要么直接写 SHA 字面量，要么写成 `"${S}:refs/heads/<分支>"`。
+
 ### 推 main 之前
 
 推 main 前要核对完整 SHA 已经审过，审查结论里写的就是这个 SHA。
@@ -56,7 +62,11 @@ push 被打断时，先用 `git ls-remote` 和 `ps` 确认它没有在后台跑�
 
 ### workflow 与文件约定
 
-新增或修改 workflow 时，concurrency 按 3.17 写：
+新增或修改 workflow 时，触发用 `push: branches: ['**']` 加 `workflow_dispatch`。
+
+deploy、release、publish 这类发布 workflow 的触发条件不动。
+
+concurrency 按 3.17 写：
 
 ```yaml
 concurrency:
@@ -64,7 +74,11 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 ```
 
-依赖基线的检查拿不到基线时，要输出 `::error` 并判失败。
+依赖基线的检查在 push 和 dispatch 下也要有基线。
+
+分支用 `git merge-base origin/main HEAD`，main 用非全零的 `github.event.before`。
+
+拿不到基线时报 `::error` 并失败，不得静默跳过。
 
 CHANGELOG.md 每行不超过 80 个字符。
 
