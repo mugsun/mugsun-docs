@@ -38,7 +38,7 @@ If no basemap is both configured and enabled, the map, lab, layer, scene and ana
 ![Notice when no basemap is configured](/screenshots/gis/gis-basemap-empty.png)
 
 ::: tip Default OSM preset
-The deployment allow-list includes `tile.openstreetmap.org` by default, and tenants that have never saved a config use the OSM preset automatically. The backend then treats the basemap as available and the notice is not shown. If tiles are still blank, it is usually a network issue, for example a fake-ip proxy resolving the host to `198.18.x.x`, which is blocked; see [Tile proxy security](./gis-tile-security).
+The deployment allow-list includes `tile.openstreetmap.org` by default. Tenants that have never saved a config use the OSM preset, and the notice above is not shown. If tiles are still blank, check the network: for example, a fake-ip proxy that resolves the host to `198.18.x.x` is blocked. See [Tile proxy security](./gis-tile-security).
 :::
 
 ## Custom XYZ tiles
