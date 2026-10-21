@@ -58,6 +58,22 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | --- | --- |
 | click | Click |
 
+## Icon font subset
+
+The font in the package contains only the icons listed in `components/ms-icon/icons.uts`. An icon name that is not in that list renders blank; when `name` is an image URL, it is shown as an image.
+
+To add an icon:
+
+1. Take the full ttf from `remixicon@4.7.0` (Apache-2.0). The 4.5.x glyphs do not match the icon list and cannot be used.
+2. Add the icon to `components/ms-icon/icons.uts`. This list is the single source of truth.
+3. Generate a woff2 subset and a ttf subset with `pyftsubset` and put them in `static/fonts`.
+4. Rebuild the mini program font with the script described in `uni_modules/ms-ui/styles/FONT-SUBSET.md` inside the package.
+5. Open the ms-icon demo page in the App and spot-check common icons.
+
+Android and HarmonyOS use the ttf; iOS and Web use the woff2.
+
+The mini program font file is `remixicon-mp-face.scss`. Do not edit it by hand. The mini program font may embed only the subset, and the script refuses to generate a file larger than 64KB.
+
 ## See also
 
 - Component: `uni_modules/ms-ui/components/ms-icon/`
