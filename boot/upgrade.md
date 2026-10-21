@@ -15,7 +15,7 @@
 - 新的主配置 `mugsun.auth.register.mode` 有三档：`OFF`（关闭，注册接口 404）、`OPEN`（开放）、`APPROVAL`（注册后审核，预留，目前设成它会拒绝启动）。`enabled=true/false` 是 `OPEN`/`OFF` 的简写。
 - 未设置时：生产 `OFF`；`spring.profiles.active` 显式含 dev、test 或 local 且不含 prod 时 `OPEN`。
 - 前端读 `GET /auth/captcha/config` 的 `registerMode` 隐藏注册入口。
-- 注册新增限流（IP、账号、手机号），超限返回 429。详见[配置参考](/boot/configuration#自助注册)。
+- 注册新增限流（IP、账号、手机号），超限返回 429。部署在反代后面必须设 `MUGSUN_OPENAPI_TRUSTED_PROXIES`，否则整站只算一个 IP，每小时一共只能注册 10 次。详见[配置参考](/boot/configuration#自助注册)。
 
 ## 0.1.1：导出、导入、上传权限码（V13、V14）
 

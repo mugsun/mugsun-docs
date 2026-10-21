@@ -136,6 +136,7 @@ mugsun:
 
 - 「是不是生产」只看显式的 `spring.profiles.active`：非空、含 `dev`、`test` 或 `local`、且不含 `prod` 才算非生产。只配 `spring.profiles.default=dev`、没有 active profile，都按生产处理。
 - 关闭时 `POST /auth/register` 返回 404；超过限流返回 HTTP 429。
+- **部署在反向代理（Nginx、SLB 等）后面时，必须设置 `MUGSUN_OPENAPI_TRUSTED_PROXIES`**（代理的 IP 或网段，逗号分隔）。不设时服务端只看到代理的地址，整站的请求都算同一个 IP，按 IP 限流就成了全站共用：每小时总共只能注册 10 次。
 - 公开配置接口 `GET /auth/captcha/config` 返回 `data.registerMode`（`OFF` / `OPEN` / `APPROVAL`），登录页据此隐藏注册入口。
 - 注册成功后分配的角色由系统参数 `security.register.register-role-code` 决定（V14 播种为 `user`，置空则不挂角色）；`security.register.default-role-code` 保留给其他默认归属场景。
 - 演示站（`prod,demo`）不开放注册，不要设置上面的开关。

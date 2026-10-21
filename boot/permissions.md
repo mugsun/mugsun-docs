@@ -37,6 +37,8 @@
 - 存储文件名和 Content-Type 由服务端按扩展名决定，用户上传的文件名只作展示，客户端上报的类型不采用。
 - 前端直传（`presigned-put`）必须带 `size`（字节），超过 20MB 直接拒绝；签名绑定 `Content-Length`、`Content-Type`、`Content-Disposition: attachment`，PUT 时要原样带上返回的 `headers`。签名有效期 15 分钟。
 - 调 `create` 登记时，服务端会回查存储里的对象：大小、类型和申请时不一致，或文件头对不上，会删掉对象并拒绝登记。
+- 回查通过后，服务端把对象复制到一个新的存储 key（客户端不知道），删掉直传用的原 key，只登记新 key。所以返回的附件 `filename` 和直传 URL 里的文件名不同。签名在 15 分钟内仍可再次 PUT，但写进去的只是一个没登记的对象，碰不到已登记的附件。
+- 原 key 或回查失败的对象删不掉时，会进入待清理队列，定时任务每 10 分钟重删一次，连续失败 20 次后写 error 日志，需要人工处理。
 - 本地直出、授权下载一律 `attachment` + `X-Content-Type-Options: nosniff`，公开文件也一样；云存储对象上传时写入 `Content-Disposition: attachment`。
 - 升级时 V13 把 `sys:file:upload` 授给全部现有角色，保持原有功能；之后新建的角色需要在「角色管理」里勾选「上传附件」，否则意见反馈等页面上传会返回 403。
 
