@@ -183,7 +183,7 @@ curl -s -X POST http://localhost:8080/demo/note \
 {"code":200,"success":true,"data":"112171937707000102","msg":"操作成功","dataType":null}
 ```
 
-id 是 64 位整数，响应里以字符串返回，前端不会丢精度。用这个 id 查询、修改和分页：
+雪花 id 超出 JavaScript 的安全整数范围，响应里以字符串返回，前端不会丢精度。用这个 id 查询、修改和分页：
 
 ```bash
 ID=112171937707000102

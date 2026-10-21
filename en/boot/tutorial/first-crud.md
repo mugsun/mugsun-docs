@@ -179,7 +179,7 @@ curl -s -X POST http://localhost:8080/demo/note \
 {"code":200,"success":true,"data":"112171937707000102","msg":"操作成功","dataType":null}
 ```
 
-The id is a 64-bit integer and is returned as a string, so the frontend keeps full precision. Use it to read, update and page:
+A snowflake id exceeds the JavaScript safe integer range, so it is returned as a string and the frontend keeps full precision. Use it to read, update and page:
 
 ```bash
 ID=112171937707000102
