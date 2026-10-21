@@ -93,10 +93,12 @@ No replay protection and no endpoint binding: ciphertext can be replayed or move
 - Older versions treated every key as characters: short ones were zero-padded, long ones cut to
   16 characters. So 32-hex and 24-base64 keys from older versions decode differently now and
   must be migrated too.
-- Startup self-check: at startup the application test-decrypts up to 20 existing rows per
-  encrypted column. If any fail, startup stops and names the table, column and primary key,
-  with a hint to migrate using `LEGACY_PADDED`. An empty database passes.
-  `mugsun.crypto.sm4-self-check=false` turns it off; use that only briefly while troubleshooting.
+- Startup self-check: at startup the application samples 3 rows per encrypted column and
+  test-decrypts every value that looks like ciphertext. If any fail, startup stops and names
+  the table, column and primary key, with a hint to migrate using `LEGACY_PADDED`.
+  An empty database passes. `mugsun.crypto.sm4-self-check=false` turns it off; use that only
+  briefly while troubleshooting. In production the skip switch has no effect and the
+  self-check always runs.
 
 ### Local development
 
