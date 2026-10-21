@@ -4,7 +4,7 @@
 
 - Node.js ≥ 22.13、pnpm ≥ 11.11（`packageManager` 锁定 `pnpm@11.28.2`）
 - [mugsun-boot](/boot/) 已在 `:8080` 运行
-- 无论是否启用埋点模块，[mugsun-track](https://github.com/mugsun/mugsun-track) 与本仓库**同级**克隆：SDK 以 `file:../mugsun-track` 引用，且 SDK 仓库不提交 `dist/`
+- 无论是否启用埋点模块，[mugsun-track](https://github.com/mugsun/mugsun-track) 与本仓库同级克隆：SDK 以 `file:../mugsun-track` 引用，且 SDK 仓库不提交 `dist/`
 
 ## 启动
 

@@ -2,6 +2,12 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-19 · GIS 图层缓冲跳过极冠
+
+### mugsun-boot
+
+- PostGIS 路径的图层缓冲（包括空间分析交给图层查询的缓冲）遇到经度走向无法确定的面时，不再返回缺少极冠的结果，改为跳过该要素并计入响应的 `skipped`，同时记 WARN 日志。这类面通常是在 ±180° 切开的极冠。只跨 180° 经线的面照常缓冲。调用方需要检查 `skipped`。详见 [GIS 已知限制](/pc/gis#metric-limits)。
+
 ## 2026-10-18 · track 0.3.0（计划）：默认不遮罩、不过滤
 
 ### mugsun-track

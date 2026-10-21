@@ -38,7 +38,7 @@
 ![未配置底图时的提示](/screenshots/gis/gis-basemap-empty.png)
 
 ::: tip 默认 OSM 预设
-部署白名单默认放行 `tile.openstreetmap.org`，租户没保存过配置时会自动使用 OSM 预设，这时后端认为底图已可用，不会出现上面的提示。如果瓦片仍然是空白，通常是网络问题，例如 fake-ip 代理把域名解析到 `198.18.x.x` 后被拦截，见 [底图瓦片代理安全](./gis-tile-security)。
+部署白名单默认放行 `tile.openstreetmap.org`。租户未保存过配置时使用 OSM 预设，不显示上述提示。瓦片仍为空白时，请检查网络，例如 fake-ip 代理将域名解析为 `198.18.x.x` 后被拦截，见 [底图瓦片代理安全](./gis-tile-security)。
 :::
 
 ## 自定义 XYZ 瓦片

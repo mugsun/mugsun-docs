@@ -4,7 +4,7 @@
 
 - Node.js ≥ 22.13 and pnpm ≥ 11.11 (`packageManager` pins `pnpm@11.28.2`)
 - [mugsun-boot](/en/boot/) running on `:8080`
-- Whether or not the analytics module is on, [mugsun-track](https://github.com/mugsun/mugsun-track) cloned **next to** this repository: the SDK is referenced as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`
+- Whether or not the analytics module is on, [mugsun-track](https://github.com/mugsun/mugsun-track) must be cloned next to this repository: the SDK is referenced as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`
 
 ## Start
 
