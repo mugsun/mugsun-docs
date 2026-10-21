@@ -11,7 +11,8 @@
 
 **multipart 请求只接受白名单里的上传接口，且必须已登录。** 详见[未登录的 multipart 请求](/boot/permissions#未登录的-multipart-请求)。
 
-- URL 参数里的 token 不再被接受：multipart 请求只认 `Authorization` 请求头和同名 Cookie，用 URL 参数传 token 会返回 401。
+- URL 参数里的 token 不再被接受，用 URL 参数传 token 会返回 401。
+  - multipart 请求只认 `Authorization` 请求头和同名 Cookie。
 - 新增上传接口要把路径加进 `mugsun.security.multipart.allowed-paths`，否则 multipart 请求返回 415。
 - yml 里的列表是整体替换，要连同默认的 5 条一起写，否则默认的上传接口会全部变成 415。
 - 条目为空、不以 `/` 开头、含 `*`、`..`、`;`、`{`、`}` 时拒绝启动。

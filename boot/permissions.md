@@ -101,7 +101,9 @@
 - 在 `server.tomcat.max-swallow-size` 以内，容器仍可能读完请求体再丢弃；部署时务必在反代设置请求体上限（约 21MB）。
 - 客户端上传前要先确认已登录：未登录时可能收不到 401，而是看到连接被关闭。
 
-新增上传接口时，把路径加进 `mugsun.security.multipart.allowed-paths`。这个列表在 yml 里整体替换，要连默认 5 条一起写：
+新增上传接口时，把路径加进 `mugsun.security.multipart.allowed-paths`。
+
+这个列表在 yml 里整体替换，要连默认 5 条一起写：
 
 ```yaml
 mugsun:
@@ -116,7 +118,12 @@ mugsun:
         - /system/demo/upload   # 新增的接口
 ```
 
-路径写 servletPath，不带 context-path，不支持通配。条目为空、不以 `/` 开头、含 `*` 或 `**`、含 `..`、`;`、`{` 或 `}` 时，后端拒绝启动。启动时后端会对照接收文件的接口（文件参数、`@RequestPart`、`consumes=multipart/*`），接收文件却不在列表里的打 WARN。在方法里直接调 `getParts()` 的接口识别不了，要手工加进列表；上传接口不能带路径变量。
+- 路径写 servletPath，不带 context-path，不支持通配。
+- 条目为空、不以 `/` 开头、含 `*` 或 `**`、含 `..`、`;`、`{` 或 `}` 时，后端拒绝启动。
+- 上传接口不能带路径变量。
+- 启动时后端对照接收文件的接口，不在列表里的打 WARN。
+  - 能识别：文件参数、`@RequestPart`、`consumes=multipart/*`。
+  - 在方法里直接调 `getParts()` 的接口识别不了，要手工加进列表。
 
 ## 表单、流程、平台写接口
 
