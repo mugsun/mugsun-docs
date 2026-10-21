@@ -54,6 +54,8 @@ After upgrading, any non-dev environment without `MUGSUN_API_KEY` or `MUGSUN_SM4
 
 ::: danger Transport obfuscation only, not a replacement for TLS
 The symmetric key is shipped to the browser, so it is not secret from clients. Always use HTTPS in production.
+
+No replay protection and no endpoint binding: ciphertext can be replayed or moved to another encrypted endpoint.
 :::
 
 ### Upgrade steps
@@ -61,19 +63,29 @@ The symmetric key is shipped to the browser, so it is not secret from clients. A
 1. Generate a key with `openssl rand -hex 16`, or rerun `scripts/gen-keys.sh`.
 2. Replace `MUGSUN_API_KEY` in every deployment. The old 16-character form is rejected, so change it before upgrading.
 3. Set the frontend `VITE_CRYPTO_API_KEY` to the same value and release frontend and backend together.
-4. Make sure `MUGSUN_SM4_KEY` is set. Its format is unchanged and existing encrypted data is unaffected.
+4. Make sure `MUGSUN_SM4_KEY` is set; its format is unchanged. Deployments that always had a real `MUGSUN_SM4_KEY` keep their stored data as is. Deployments that ran on the old fallback must follow "Migration" below first.
 
 ### Local development
 
 - Start with the dev profile: `--spring.profiles.active=dev`.
 - `mugsun.crypto.allow-ephemeral-keys=true`: without `MUGSUN_API_KEY`, a key valid only for this process is generated. It changes on restart, differs between instances, and logs a WARN.
-- `mugsun.crypto.sm4-local-key-file` (default `.mugsun/dev-sm4.key`): without `MUGSUN_SM4_KEY`, a random key is written to this file on first start and reused afterwards, so local data survives restarts. The directory is in `.gitignore`; deleting the file makes data encrypted with it unreadable.
+- `mugsun.crypto.sm4-local-key-file` (default `${user.home}/.mugsun/dev-sm4.key`): without `MUGSUN_SM4_KEY`, a random key is written to this file on first start and reused afterwards, so local data survives restarts. The file is created with mode 600 and its directory with 700; wider permissions log a WARN. Deleting the file makes data encrypted with it unreadable.
+- Local data encrypted with the old fallback key can't be decrypted after upgrading; recreate the local database or migrate as below.
 - The field encryption key is never regenerated on each start.
-- With `MUGSUN_STRICT_KEYS=true` (the prod default) neither option applies.
+- With `MUGSUN_STRICT_KEYS=true` (the prod default) neither option applies. For API crypto `strict-keys` only acts as a veto; it is not deprecated.
 
 ### Deployments that ran on the public fallback key
 
-Older versions fell back to a fixed key that is public in the repository when no key was configured. If a deployment ever ran that way, switch to a real key and re-encrypt these columns:
+Older versions fell back to a fixed key that is public in the repository when no key was configured. If such a deployment just sets a new key, all old data becomes unreadable; setting the old value again keeps using a public key.
+
+Migration:
+
+1. Temporarily start with `MUGSUN_SM4_KEY` set to the old fallback value (it is in git history; use it only for the migration).
+2. Re-encrypt the columns below with the new key; ciphertext used for equality lookups is recomputed with it.
+3. Restart on the new key and confirm the columns decrypt.
+4. Rotate every third-party credential stored in these columns.
+
+Affected columns:
 
 | Table | Columns |
 | --- | --- |
@@ -90,7 +102,6 @@ Older versions fell back to a fixed key that is public in the repository when no
 | `ai_mcp_tool` | `api_key` |
 | `gis_map_provider` | `api_key`, `secret` |
 
-- Treat the stored values themselves (database passwords, third-party keys and so on) as exposed and rotate them too.
 - API encryption is transport-only and stores nothing, so replacing the key is enough.
 
 ## Audit log
