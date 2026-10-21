@@ -73,7 +73,7 @@ sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 
 `url_path` 只取 pathname，不含查询串和 hash。
 
-只改 userinfo、路径参数、查询串和 hash，协议、主机、路径逐字保留。
+只改 userinfo、敏感路径参数、查询串和 hash。协议、主机和路径的其余部分逐字保留。
 
 - `https://user:pass@host/…` 的 `user:pass` 替换为 `***`。
 - 路径参数里的敏感键也替换，如 `/app;jsessionid=…` 变为 `/app;jsessionid=***`。

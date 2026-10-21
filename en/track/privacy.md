@@ -73,13 +73,13 @@ Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count t
 
 `url_path` holds the pathname only, without the query string or hash.
 
-Only userinfo, path parameters, the query string and the hash are changed; scheme, host and path stay byte for byte.
+Only userinfo, sensitive path parameters, the query string and the hash are changed. The scheme, host and the rest of the path are kept verbatim.
 
 - The `user:pass` in `https://user:pass@host/…` becomes `***`.
 - Sensitive path parameters are masked, so `/app;jsessionid=…` becomes `/app;jsessionid=***`.
 - TAB, LF and CR are removed before matching, as browsers do.
 
- Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
+Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
 
 ## Credential fields in response bodies
 
