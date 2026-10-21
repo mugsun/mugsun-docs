@@ -40,7 +40,9 @@ Paging and detail only check that the user is signed in. Add `@SaCheckPermission
 
 ## See it work
 
-Click Preview on the table configuration row. The dialog shows Entity, Mapper, Controller, List Page, api.ts, type.ts and Menu SQL in tabs, and you can download the zip from the bottom right.
+Click Preview on the table configuration row. The dialog shows Entity, Mapper, Controller, List Page, api.ts, type.ts and Menu SQL in tabs.
+
+Download ZIP at the bottom right downloads the files.
 
 ![Code preview](/screenshots/codegen/gen-preview.png)
 

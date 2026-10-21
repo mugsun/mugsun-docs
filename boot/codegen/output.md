@@ -40,7 +40,9 @@ zip 里的路径按工程结构组织，解压后放到工程根目录即可。�
 
 ## 看效果
 
-点表配置这一行的「预览」，弹窗里按 Entity、Mapper、Controller、列表页、api.ts、type.ts、菜单SQL 分页显示生成结果，右下角可以直接下载 zip。
+点表配置这一行的「预览」，弹窗里按 Entity、Mapper、Controller、列表页、api.ts、type.ts、菜单SQL 分页显示生成结果。
+
+右下角的「下载 zip」可以直接下载产物。
 
 ![代码预览](/screenshots/codegen/gen-preview.png)
 

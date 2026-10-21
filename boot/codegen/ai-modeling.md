@@ -27,7 +27,9 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 
 ## 接入大模型
 
-后端带 AI 模块（默认的 `full` 构建已包含），且 AI 模块已启用、配好了对话模型时，描述会先交给大模型。这时可以直接写中文句子，例如「记录门店每天的客流量和销售额」。
+后端带 AI 模块（默认的 `full` 构建已包含），且 AI 模块已启用、配好了对话模型时，描述会先交给大模型。
+
+这时可以直接写中文句子，例如「记录门店每天的客流量和销售额」。
 
 大模型使用 AI 中心里标为默认的对话模型；没有默认模型时取最新启用的一个。
 
@@ -44,7 +46,9 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 - 「确认并建表」保存表配置并立即建物理表。建表失败时，表配置一起回滚。
 - 「仅保存配置」只保存表配置，之后在「动态表管理」里建表。
 
-表名和字段名必须以小写字母开头，只含小写字母、数字和下划线。`sys_`、`flyway_`、`flow_`、`qrtz_`、`act_` 开头的表和 `gen_table`、`gen_column` 受保护，不能建或重建。
+表名和字段名必须以小写字母开头，只含小写字母、数字和下划线。
+
+`sys_`、`flyway_`、`flow_`、`qrtz_`、`act_` 开头的表和 `gen_table`、`gen_column` 受保护，不能建或重建。
 
 ## 管理已建的表
 
@@ -62,7 +66,9 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 
 ![规则建模生成的候选](/screenshots/codegen/gen-modeling-draft.png)
 
-`comment_time` 这一段同时含「时间」和「日期」，系统先匹配到「时间」，所以类型是 `LocalDateTime`，说明只剩「评论」。在表格里把它改成需要的类型和说明即可。
+`comment_time` 这一段同时含「时间」和「日期」，系统先匹配到「时间」，所以类型是 `LocalDateTime`，说明只剩「评论」。
+
+在表格里把它改成需要的类型和说明即可。
 
 点「确认并建表」后切到「动态表管理」，`product_comment` 出现在列表里。
 
@@ -76,6 +82,8 @@ curl -s -X POST http://localhost:8080/system/gen/ai/draft \
   -d '{"description":"product_comment 商品评论；score 评分 整数"}'
 ```
 
-响应的 `data` 里有 `table` 和 `columns` 两部分。把它们原样放进 `/system/gen/ai/confirm` 的请求体，并加上 `"build": true`，就会保存配置并建表。
+响应的 `data` 里有 `table` 和 `columns` 两部分。
+
+把它们原样放进 `/system/gen/ai/confirm` 的请求体，并加上 `"build": true`，就会保存配置并建表。
 
 上一节：[代码生成](./) · 下一节：[导入已有表](./import)

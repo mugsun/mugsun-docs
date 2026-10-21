@@ -62,7 +62,9 @@ Open System → Dynamic Tables, paste the sample description into Rule Modeling 
 
 ![Candidate from rule modeling](/screenshots/codegen/gen-modeling-draft.png)
 
-The `comment_time` segment contains both 时间 and 日期. The system matches 时间 first, so the type is `LocalDateTime` and the label keeps only 评论. Change the type and label in the table as needed.
+The `comment_time` segment contains both the word for time and the word for date. The system matches time first, so the type is `LocalDateTime` and the label loses both words.
+
+Change the type and label in the table as needed.
 
 Click Confirm & Create, then switch to the Dynamic Tables tab. `product_comment` appears in the list.
 
