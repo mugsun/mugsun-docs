@@ -10,7 +10,11 @@ cp config/application-local.yml.example config/application-local.yml
 
 `config/application-local.yml` 最后加载，能覆盖 `application.yml` 和各模块自带配置（`mugsun-module-track.yml` 等）里的任意键，例如埋点库地址 `mybatis-flex.datasource.track.url`。[mugsun-boot #29](https://github.com/mugsun/mugsun-boot/pull/29) 之前它排在模块配置前面，模块键写在这里不生效，只能用环境变量（如 `TRACK_JDBC_URL`）覆盖；升级后原先被忽略的这些键会开始生效，请检查文件里是否留有旧值。
 
-示例文件已带本地密钥占位（`sm4-key`、`api-key`）与 mock 社交登录。SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
+示例文件不再带密钥值，另带 mock 社交登录。
+
+dev profile 下接口和字段加密密钥可留空，见下方「本地开发」。
+
+SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
 
 ## 数据源与缓存（prod）
 
@@ -27,11 +31,11 @@ cp config/application-local.yml.example config/application-local.yml
 | --- | --- | --- |
 | `MUGSUN_INIT_PASSWORD` | — | 初始管理员口令。prod 未注入或仍为内置默认口令时拒绝启动 |
 | `MUGSUN_GM_ENABLED` | `true` | 国密总开关（传输 SM2 / 摘要 SM3） |
-| `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥 |
-| `MUGSUN_API_KEY` | 空 | 接口加解密 SM4 密钥 |
+| `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥；非 dev 必填，见下方「接口加密与字段加密密钥」 |
+| `MUGSUN_API_KEY` | 空 | 接口加密密钥，32 位 hex 或 16 字节 base64；非 dev 必填 |
 | `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | 空 | SM2 传输密钥对（hex）；留空启动时生成并告警 |
 | `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对，与传输密钥分离 |
-| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时任一密钥缺失即拒绝启动 |
+| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时任一密钥缺失即拒绝启动，临时密钥和本地密钥文件也不允许 |
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
 | `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
 
@@ -43,6 +47,157 @@ cp config/application-local.yml.example config/application-local.yml
 - 密码存储不受这个开关影响，服务端始终用加盐的慢哈希 BCrypt 存储密码，不使用 SHA-256。
 
 当前版本在 `prod` 环境不强制开启国密，后续版本将改为拒绝启动。等保或密评场景请保持开启。
+
+## 接口加密与字段加密密钥（不兼容变更）
+
+::: warning 不兼容变更
+mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
+
+升级后，非 dev 环境缺 `MUGSUN_API_KEY` 或 `MUGSUN_SM4_KEY` 会拒绝启动。
+:::
+
+### `MUGSUN_API_KEY` 新格式
+
+- 接口加密改为 SM4-GCM，带完整性校验，篡改后解密失败。
+- 密钥只接受两种写法，先去掉前后空白：
+  - 32 位 hex，大小写都行；
+  - 带填充的标准 base64，解码后正好 16 字节。
+- 其他写法一律拒绝启动，不再补零或截断。
+- 密文是 `base64(IV 12 字节 ‖ 密文 ‖ 标签 16 字节)`，必须带填充。
+- 旧的 SM4-CBC 密文不再兼容，管理台前端要同步升级。
+
+::: danger 只是传输混淆，不能代替 TLS
+对称密钥要下发到浏览器，对客户端不保密。生产必须走 HTTPS。
+
+不防重放、不绑定接口：密文可被原样重发，或搬到另一个加密接口。
+:::
+
+### 升级步骤
+
+1. 生成新密钥：`openssl rand -hex 16`，或重新跑 `scripts/gen-keys.sh`。
+2. 把部署环境里的 `MUGSUN_API_KEY` 换成新值。旧的 16 个字符写法会被拒绝，必须先换再升级。
+3. 前端的 `VITE_CRYPTO_API_KEY` 换成同一个值，前后端一起发布。
+4. 确认 `MUGSUN_SM4_KEY` 已配置且格式合法（见下方「`MUGSUN_SM4_KEY` 格式」）。
+
+   以下部署升级前都要先按下方「迁移」重新加密，旧值填进去照样解不开旧数据：
+   - 用过旧回落值或短密钥的；
+   - `MUGSUN_SM4_KEY` 是 32 位 hex 或 24 位 base64 的。
+     - 旧版把这串字符截成前 16 个字符当密钥，新版按 hex 或 base64 解码，得到另一把钥。
+     - 迁移时旧密钥填原值，并设 `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED=true`。
+   - 只有一直用 16 个字符写法的部署，密钥字节不变，可以直接升级。
+
+### `MUGSUN_SM4_KEY` 格式
+
+- 只接受三种写法，先去掉前后空白：
+  - 32 位 hex，大小写都行（新部署用 `openssl rand -hex 16` 生成）；
+  - 带填充的标准 base64，解码后正好 16 字节；
+  - 过渡期兼容：16 个字符的旧写法，启动时打 WARN，下一个版本只接受 32 位 hex。
+- 其他写法一律拒绝启动：不补零、不截断，也没有 legacy 开关。
+- 旧版本对所有密钥都按字符处理：短的补零，长的截断到 16 个字符。
+  所以旧版配的 32 位 hex、24 位 base64 密钥，升级后解码结果不同，也要迁移。
+- 启动自检：应用启动时，每个加密字段抽 3 行，像密文的每一条都试解。
+  - 有一条解不开就拒绝启动，报出表、字段和主键，并提示用 `LEGACY_PADDED` 迁移。
+  - 空库直接通过。
+  - `mugsun.crypto.sm4-self-check=false` 可以关掉，只建议排障时临时用。
+  - 生产环境下跳过开关不生效，照常自检。
+
+### 本地开发
+
+- 用 dev profile 启动：`--spring.profiles.active=dev`。
+- `mugsun.crypto.allow-ephemeral-keys=true`：
+  - 没配 `MUGSUN_API_KEY` 时，生成只在本进程内有效的临时密钥；
+  - 重启后会变，多实例之间不互通，日志里打 WARN。
+- `mugsun.crypto.sm4-local-key-file`（默认 `${user.home}/.mugsun/dev-sm4.key`）：
+  - 没配 `MUGSUN_SM4_KEY` 时，首次启动生成随机密钥写入该文件；
+  - 之后每次启动复用，重启后本地数据仍能解开；
+  - 文件创建时就是 600 权限，目录 700；权限过宽会打 WARN；
+  - 删掉文件后，用它加密的本地数据解不开。
+- 本地以前用旧回落值加密的数据，升级后会解不开，需要重建本地库或按下方迁移。
+- 字段加密密钥不会每次启动随机生成。
+- `MUGSUN_STRICT_KEYS=true`（prod 默认）时，以上两项都不生效。
+- `strict-keys` 对接口加密只作否决，不是废弃开关。
+
+### 迁移：用过旧回落值、短密钥，或旧版配过 32 位 hex / base64 密钥的部署
+
+旧版本没配密钥时，会回落到仓库里公开的固定值；配了短密钥时会补零，长密钥会截断。
+
+这类部署直接填新密钥会导致旧数据全部解不开；填回旧值等于继续用公开密钥。
+
+应用同一时间只装一把密钥，所以重新加密要用离线迁移工具，它同时拿新旧两把密钥。
+
+迁移工具的主类是 `com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`。
+
+迁移工具的输入全部走环境变量，不写在命令行里：
+
+| 环境变量 | 说明 |
+| --- | --- |
+| `MUGSUN_SM4_OLD_KEY` | 旧密钥（旧回落值见 git 历史，仅用于迁移） |
+| `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED` | 旧密钥是短密钥或旧回落值时设 `true`，按旧版补零方式还原 |
+| `MUGSUN_SM4_NEW_KEY` | 新密钥，格式同上 |
+| `MUGSUN_MIGRATE_JDBC_URL`、`MUGSUN_MIGRATE_DB_USER`、`MUGSUN_MIGRATE_DB_PASSWORD` | 目标库连接 |
+
+迁移步骤：
+
+1. 备份数据库，停掉应用。
+2. 先跑 dry-run（默认，不写库）：
+
+   ```bash
+   java -cp mugsun-boot.jar \
+     -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool \
+     org.springframework.boot.loader.launch.PropertiesLauncher
+   ```
+
+   按表和字段输出总数、需重加密、已是新密钥、历史明文、解不开的条数。
+   用 Docker 镜像时，换掉入口直接跑 java：
+
+   ```bash
+   docker run --rm --env-file migrate.env --entrypoint java <镜像> \
+     -cp /app/app.jar \
+     -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool \
+     org.springframework.boot.loader.launch.PropertiesLauncher --dry-run
+   ```
+
+   `migrate.env` 用完即删，不要提交。
+3. 「解不开」全为 0 后，**先确认第 1 步的备份可用**，再加 `--apply` 跑一次。单事务写库，有一条解不开就整体回滚。
+4. 把 `MUGSUN_SM4_KEY` 换成新密钥启动；核对标准：error 日志里「SM4 解密失败」为 0 条。
+5. 字段里存的第三方凭据全部轮换。
+
+- 新旧密钥相同（包括同一把钥的 hex、base64 两种写法）会被拒绝执行。
+- 密钥只从环境变量读，命令行只认 `--dry-run`、`--apply`；输出只有表名、字段、行数和解不开的主键，不含密钥、明文或密文。
+- 租户独立数据源（`sys_tenant_datasource`）的库要各跑一次。
+- 配了 `mugsun.db.default-schema` 的，JDBC URL 里要带上该 schema。
+  - PG 用 `currentSchema=`；多个 schema 就每个各跑一次。
+- 解密失败时字段返回空，不会写回库里；但迁移前不要在管理台保存这些记录。
+
+涉及的字段：
+
+| 表 | 字段 |
+| --- | --- |
+| `sys_user` | `id_card` |
+| `sys_tenant_datasource` | `ds_password` |
+| `sys_notify_channel` | `secret` |
+| `sys_oauth_client` | `client_secret` |
+| `sys_api_key` | `secret_key` |
+| `sys_oss` | `access_key`、`secret_key` |
+| `ai_model` | `api_key`、`secret_key` |
+| `ai_secret` | `secret_key` |
+| `ai_datasource` | `password` |
+| `ai_vector_store` | `password` |
+| `ai_mcp_tool` | `api_key` |
+| `gis_map_provider` | `api_key`、`secret` |
+
+- 接口加密只影响传输，不落库，换密钥即可。
+
+### 字段加密的 ECB 例外
+
+字段加密目前用 SM4-ECB，这是只留给 `sys_user.id_card` 的例外，为了支持等值查询。它的局限：
+
+- 相同明文得到相同密文，库里的重复值能被看出来；
+- 密文不防篡改；
+- 密文不绑定行，可以被搬到别的行。
+
+其余 14 个字段下一轮迁到 SM4-GCM。以后 `id_card` 如果要做等值查询，
+改为「HMAC 生成的盲索引列负责查询，字段本身用 GCM 加密」。
 
 ## 审计日志
 
