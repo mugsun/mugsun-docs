@@ -33,7 +33,10 @@ mybatis-flex:
 
 编号为 `000000` 的租户是平台租户，系统初始化时创建。平台租户下持有 `admin` 角色的用户是平台超管，能管理租户、套餐和数据源。
 
-平台超管可以调用 `POST /auth/switch-tenant/{tenantId}` 查看某个租户的数据，传 `-1` 查看全部租户，调用 `POST /auth/switch-tenant/reset` 回到本租户。其他用户调用会被拒绝。
+平台超管可以用下面两个接口切换租户视图，其他用户调用会被拒绝：
+
+- `POST /auth/switch-tenant/{tenantId}` 查看某个租户的数据，传 `-1` 查看全部租户；
+- `POST /auth/switch-tenant/reset` 回到本租户。
 
 ## 看效果
 
@@ -46,7 +49,9 @@ WHERE table_schema = 'public' AND column_name = 'tenant_id'
 ORDER BY table_name;
 ```
 
-结果里有 `sys_user`、`sys_dept`、`sys_role`、`sys_post` 等系统表，也有 AI、工作流和 GIS 模块的业务表。再按租户统计用户数：
+结果里有 `sys_user`、`sys_dept`、`sys_role`、`sys_post` 等系统表，也有 AI、工作流和 GIS 模块的业务表。
+
+再按租户统计用户数：
 
 ```sql
 SELECT tenant_id, count(*) AS users

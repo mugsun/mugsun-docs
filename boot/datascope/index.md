@@ -23,7 +23,9 @@
 
 在「系统管理 → 角色管理」新增或编辑角色，在「数据范围」里选择 1 到 5。选择自定义部门时，再勾选可见的部门。
 
-全部数据和自定义语句只有平台超管能设置。自定义语句不在管理台的下拉框里，由平台超管调用 `POST /system/role/submit` 时填写 `customSql`。
+全部数据和自定义语句只有平台超管能设置。
+
+自定义语句不在管理台的下拉框里，由平台超管调用 `POST /system/role/submit` 时填写 `customSql`。
 
 ## 看效果
 
@@ -42,7 +44,11 @@ WHERE u.is_deleted = 0 AND u.tenant_id = '000000'
 ORDER BY u.username;
 ```
 
-`zhangsan` 这一行的 `data_scope` 是 4。用 `zhangsan` 登录后调用 `GET /system/user/page`，`totalRow` 是 1，只返回他自己。管理员调用同一个接口，返回本租户的全部用户，条数与下面的语句相同：
+`zhangsan` 这一行的 `data_scope` 是 4。
+
+用 `zhangsan` 登录后调用 `GET /system/user/page`，`totalRow` 是 1，只返回他自己。
+
+管理员调用同一个接口，返回本租户的全部用户，条数与下面的语句相同：
 
 ```sql
 SELECT count(*) FROM sys_user WHERE tenant_id = '000000' AND is_deleted = 0;

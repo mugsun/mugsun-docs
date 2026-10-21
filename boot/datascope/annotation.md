@@ -18,11 +18,17 @@ public R<Page<Note>> page(@RequestParam(defaultValue = "1") long pageNum,
 
 方法开始时，`DataScopeAspect` 读出当前用户全部角色的数据范围。方法里对受控表的查询，由数据权限方言在生成 SQL 时加上过滤条件，不需要手写。
 
-数据权限只作用于查询。新增、修改和删除前，要先用带 `@DataScope` 的查询确认目标行在范围内。按 id 读取时用 `QueryWrapper` 查询，`selectOneById` 不经过数据权限。
+数据权限只作用于查询。
+
+新增、修改和删除前，要先用带 `@DataScope` 的查询确认目标行在范围内。
+
+按 id 读取时用 `QueryWrapper` 查询，`selectOneById` 不经过数据权限。
 
 ## 登记受控表
 
-内置的受控表只有 `sys_user`，部门列是 `dept_id`，本人列是 `id`。业务表要参与过滤，表里需要有部门列和本人列，例如 `dept_id` 和 `create_by`。登记有两种方式：
+内置的受控表只有 `sys_user`，部门列是 `dept_id`，本人列是 `id`。
+
+业务表要参与过滤，表里需要有部门列和本人列，例如 `dept_id` 和 `create_by`。登记有两种方式：
 
 - 在管理台的「数据权限」页新增一条规则，见[数据权限规则](./rules)；
 - 在启动时调用 `DataScopeTables.register("demo_note", "dept_id", "create_by")`。
@@ -40,7 +46,9 @@ long total = DataScopeContext.without(
 
 ## 看效果
 
-假设 `demo_note` 加了 `dept_id` 和 `create_by` 两列，并已登记为受控表。数据范围为「仅本人数据」的用户调用分页接口，只返回自己创建的笔记。
+假设 `demo_note` 加了 `dept_id` 和 `create_by` 两列，并已登记为受控表。
+
+数据范围为「仅本人数据」的用户调用分页接口，只返回自己创建的笔记。
 
 返回的条数与下面的语句相同，把 `1001` 换成这个用户的 id：
 

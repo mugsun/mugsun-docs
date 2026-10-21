@@ -24,7 +24,9 @@ List<SysTenant> all = TenantContext.ignore(
 
 ## 异步任务
 
-`@Async` 方法运行在虚拟线程上。`AsyncConfig` 给执行器装了 `TenantTaskDecorator`，提交任务时记下当前租户和日志的 traceId，在工作线程里恢复，任务结束后清除。
+`@Async` 方法运行在虚拟线程上。
+
+`AsyncConfig` 给执行器装了 `TenantTaskDecorator`，提交任务时记下当前租户和日志的 traceId，在工作线程里恢复，任务结束后清除。
 
 自己创建的线程池不会自动带上租户。需要时给它设置同一个装饰器：
 
@@ -34,7 +36,9 @@ executor.setTaskDecorator(new TenantTaskDecorator());
 
 ## 缓存
 
-JetCache 的键由 `tenantKeyConvertor` 统一加上当前租户前缀，同一个 `@Cached` 方法在不同租户下各有一份缓存。没有租户上下文时前缀为 `-`。
+JetCache 的键由 `tenantKeyConvertor` 统一加上当前租户前缀，同一个 `@Cached` 方法在不同租户下各有一份缓存。
+
+没有租户上下文时前缀为 `-`。
 
 ## 看效果
 
@@ -47,7 +51,9 @@ public void count() {
 }
 ```
 
-日志里出现 `TenantException`，提示缺少租户上下文。改成用 `TenantContext.execute("226994", ...)` 包起来后，返回的条数与下面这条语句一致：
+日志里出现 `TenantException`，提示缺少租户上下文。
+
+改成用 `TenantContext.execute("226994", ...)` 包起来后，返回的条数与下面这条语句一致：
 
 ```sql
 SELECT count(*) FROM sys_user WHERE tenant_id = '226994' AND is_deleted = 0;

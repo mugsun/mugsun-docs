@@ -21,7 +21,7 @@ The rule also tightens roles whose scope is all data, including the admin.
 
 ## See it work
 
-Add a rule with the controlled table `sys_user`, department column `dept_id`, owner column `id`, and the scope "own department". The "currently in effect" tag above the list shows `sys_user · 本部门`.
+Add a rule with the controlled table `sys_user`, department column `dept_id`, owner column `id`, and the scope "own department". The "currently in effect" tag above the list now shows the rule for `sys_user`.
 
 ![Data permission rules](/screenshots/datascope/data-scope-rules.png)
 

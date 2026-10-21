@@ -21,7 +21,9 @@
 
 ## 看效果
 
-新增一条规则：受控表 `sys_user`，部门列 `dept_id`，本人列 `id`，收紧范围选「本部门」。列表上方的「当前生效」会显示 `sys_user · 本部门`。
+新增一条规则：受控表 `sys_user`，部门列 `dept_id`，本人列 `id`，收紧范围选「本部门」。
+
+列表上方的「当前生效」会显示 `sys_user · 本部门`。
 
 ![数据权限规则](/screenshots/datascope/data-scope-rules.png)
 
@@ -33,7 +35,9 @@ FROM sys_data_scope
 WHERE is_deleted = 0 AND status = 1;
 ```
 
-`scope_type` 是 2。此时管理员调用 `GET /system/user/page`，只返回与他同部门的用户，条数与下面的语句相同，把 `2001` 换成管理员的部门 id：
+`scope_type` 是 2。
+
+此时管理员调用 `GET /system/user/page`，只返回与他同部门的用户，条数与下面的语句相同，把 `2001` 换成管理员的部门 id：
 
 ```sql
 SELECT count(*)

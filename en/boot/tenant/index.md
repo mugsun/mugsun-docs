@@ -33,7 +33,10 @@ When none of these is present, any operation on a tenant table throws `TenantExc
 
 The tenant with code `000000` is the platform tenant, created when the system is initialized. A user in the platform tenant who holds the `admin` role is the platform super admin and can manage tenants, plans and data sources.
 
-The platform super admin can call `POST /auth/switch-tenant/{tenantId}` to view one tenant's data, pass `-1` to view all tenants, and call `POST /auth/switch-tenant/reset` to return to the platform tenant. Calls from any other user are rejected.
+The platform super admin can switch the tenant view with these two endpoints. Calls from any other user are rejected.
+
+- `POST /auth/switch-tenant/{tenantId}` shows one tenant's data; pass `-1` to show all tenants.
+- `POST /auth/switch-tenant/reset` returns to the platform tenant.
 
 ## See it work
 
