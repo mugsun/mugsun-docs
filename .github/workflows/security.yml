@@ -82,6 +82,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Self-test vulnerability gates
+        run: python3 scripts/check-vulns.py selftest
+
       - name: Audit
         run: |
           # pnpm audit：0 无漏洞，1 有漏洞（交给 audit-gate 判级），其他退出码判失败；
