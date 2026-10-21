@@ -12,6 +12,8 @@ docker compose -f docker-compose.full.yml run --rm init show
 
 The last command prints the admin password. Open <http://localhost:8088> and sign in as `admin`.
 
+By default the console port is bound to `127.0.0.1` only, so it can be reached only from the same machine. To try it on a server and open it from another machine, set `MUGSUN_HTTP_BIND=0.0.0.0` before starting. The port can be changed with `MUGSUN_HTTP_PORT`.
+
 ![Admin console workbench](/screenshots/pc-workbench.png)
 
 If a server in mainland China can't pull images from Docker Hub, set `registry-mirrors` in Docker's `daemon.json` and restart Docker, or give Docker a proxy.
@@ -59,7 +61,7 @@ git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc && pnpm setup:sdk && pnpm install && pnpm dev
 ```
 
-Open <http://localhost:3006>. Local sign-in asks you to drag the slider to pass the security check.
+Open <http://localhost:3006>. Local sign-in first asks you to pass a security check. The challenge type is picked at random from five types; see [Behavior captcha](/en/pc/captcha).
 
 ### 3. Report your first event
 

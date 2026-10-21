@@ -78,6 +78,8 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | showToolbar | `boolean` | `true` | Whether to show toolbar |
 | showStatus | `boolean` | `true` | Whether to show status |
 | loadingText | `string` | `'加载中…'` | Loading text |
+| allowHosts | `string[]` | `[]` | Allowed external hosts: an exact match (`example.com`) or a leading-dot suffix (`.mugsun.com`, which covers the root domain and its subdomains). It is empty by default, and an empty list rejects every non-empty external URL |
+| allowAnyHost | `boolean` | `false` | Skips the component allowlist. Non-http/https URLs are still rejected, and the WeChat business domain and `urlCheck` rules still apply |
 
 ## Events
 
@@ -87,6 +89,38 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | error | Error |
 | message | Message received |
 | navigate | Navigate action |
+| blocked | The URL was rejected by the allowlist; payload: `url`, `reason='allowHosts'` |
+
+## External host allowlist
+
+`src` is passed to the inner `<web-view>` only after it passes the check. When it fails, nothing is loaded, the status line shows that the address is not on the allowlist, the container shows that it was blocked, and both `blocked` and `error` fire with the payload `{ url, reason: 'allowHosts' }`.
+
+The check works as follows:
+
+- Only `http://` and `https://` are allowed. `javascript:`, `file:`, `data:` and other schemes are always rejected, even with `allowAnyHost`.
+- URLs that contain control characters (including tabs and line breaks), or whose authority contains a backslash `\` or userinfo (`@`), are rejected.
+- Host names are compared in lower case and the port is ignored. `.mugsun.com` matches `mugsun.com` and `a.mugsun.com`, but not `evilmugsun.com`.
+- When `src` is empty, the component shows an empty state saying no URL is set. This does not count as a block.
+
+```vue
+<ms-webview src="https://a.mugsun.com/" :allow-hosts="['.mugsun.com']" @blocked="onBlocked" />
+```
+
+## WeChat Mini Program: urlCheck and business domains
+
+The component allowlist is only the first layer. WeChat Mini Programs add their own platform rules:
+
+1. Turn on domain checking in the project's `manifest.json`. The demo project already sets it to `true`:
+
+```json
+"mp-weixin": {
+  "setting": {
+    "urlCheck": true
+  }
+}
+```
+
+2. Before testing on a real device or submitting for review, configure the business domains for the Mini Program on the WeChat Official Accounts Platform. `web-view` can only open configured domains, and Mini Programs registered to individuals cannot open external links with `web-view`.
 
 ## See also
 

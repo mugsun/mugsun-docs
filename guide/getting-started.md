@@ -12,6 +12,10 @@ docker compose -f docker-compose.full.yml run --rm init show
 
 最后一条命令会打印管理员密码。打开 <http://localhost:8088>，用 `admin` 登录。
 
+管理台端口默认只绑定 `127.0.0.1`，只能在本机访问。
+
+在服务器上试用、需要从其他机器访问时，启动前设置 `MUGSUN_HTTP_BIND=0.0.0.0`。端口用 `MUGSUN_HTTP_PORT` 修改。
+
 ![管理台工作台](/screenshots/pc-workbench.png)
 
 国内服务器无法拉取 Docker Hub 镜像时，在 Docker 的 `daemon.json` 里配置 `registry-mirrors` 后重启 Docker，或给 Docker 配置代理。
@@ -59,7 +63,7 @@ git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc && pnpm setup:sdk && pnpm install && pnpm dev
 ```
 
-浏览器打开 <http://localhost:3006>。本地登录要拖动滑块完成安全验证。
+浏览器打开 <http://localhost:3006>。本地登录前要完成一次安全验证，题型从五种里随机出一种，说明见[行为验证码](/pc/captcha)。
 
 ### 3. 上报第一条埋点
 
