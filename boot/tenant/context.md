@@ -26,7 +26,7 @@ List<SysTenant> all = TenantContext.ignore(
 
 `@Async` 方法运行在虚拟线程上。
 
-`AsyncConfig` 给执行器装了 `TenantTaskDecorator`，提交任务时记下当前租户和日志的 traceId，在工作线程里恢复，任务结束后清除。
+`AsyncConfig` 给执行器设置了 `TenantTaskDecorator`。提交任务时，它记下当前租户和日志的 traceId，在工作线程里恢复，任务结束后清除。
 
 自己创建的线程池不会自动带上租户。需要时给它设置同一个装饰器：
 
