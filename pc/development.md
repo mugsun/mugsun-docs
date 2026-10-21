@@ -26,7 +26,7 @@ pnpm dev
 | `pnpm build` | `vue-tsc --noEmit` 类型检查后 `vite build` |
 | `pnpm serve` | 预览构建产物 |
 | `pnpm test` | 单元测试（vitest） |
-| `pnpm test:e2e` | 端到端测试（playwright；e2e 开发端口 `3007`，boot 侧需设置 `MUGSUN_FRONT_URL`） |
+| `pnpm test:e2e` | 端到端测试（playwright；e2e 开发端口 `3007`，boot 侧需设置 `MUGSUN_FRONT_URL`，并关闭验证码：`mugsun.captcha.enabled=false` 或关闭平台租户的验证码开关；用例不解验证码，也不再从 Redis 读图形码） |
 | `pnpm lint` / `pnpm fix` | ESLint 检查 / 自动修复 |
 | `pnpm gen:api` | 从 `http://localhost:8080/v3/api-docs` 生成 `src/types/api/openapi.d.ts`（须 boot 已启动） |
 
