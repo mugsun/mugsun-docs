@@ -124,6 +124,22 @@ mugsun:
 - 云元数据地址始终拒绝，即使所在主机在 `allow-hosts` 中也不放行：整个链路本地段 `169.254.0.0/16`（含 `169.254.169.254`、AWS ECS 任务凭证 `169.254.170.2`、腾讯云 `169.254.0.23` 等），以及 `100.100.100.200` 和 `fd00:ec2::254`。IPv6 中内嵌 IPv4 的写法（`::ffff:` 映射、`::a.b.c.d` 兼容、NAT64 `64:ff9b::/96`、6to4 `2002::/16`）会先解出内嵌的 IPv4 再判断。
 - `*.example.com` 匹配其任意子域名，不含 `example.com` 本身；`.local`、`.internal` 结尾的主机默认拒绝，需显式列出。只列确需访问的主机。
 
+## 自助注册
+
+| 配置项 | 取值 | 默认 | 说明 |
+| --- | --- | --- | --- |
+| `mugsun.auth.register.mode` | `OFF` / `OPEN` / `APPROVAL` | 生产 `OFF`；dev、test、local `OPEN` | 主配置。`APPROVAL`（注册后审核）尚未实现，设成它应用拒绝启动 |
+| `mugsun.auth.register.enabled` | `true` / `false` | 不设 | 简写：`true` 等于 `OPEN`，`false` 等于 `OFF`。与 `mode` 同时设且含义冲突时拒绝启动 |
+| `mugsun.auth.register.rate-limit.per-ip` | 整数 | `10` | 同一 IP 每个窗口内最多注册请求数 |
+| `mugsun.auth.register.rate-limit.per-account` | 整数 | `5` | 同一账号、同一手机号每个窗口内最多注册请求数 |
+| `mugsun.auth.register.rate-limit.window-seconds` | 秒 | `3600` | 限流窗口 |
+
+- 「是不是生产」只看显式的 `spring.profiles.active`：非空、含 `dev`、`test` 或 `local`、且不含 `prod` 才算非生产。只配 `spring.profiles.default=dev`、没有 active profile，都按生产处理。
+- 关闭时 `POST /auth/register` 返回 404；超过限流返回 HTTP 429。
+- 公开配置接口 `GET /auth/captcha/config` 返回 `data.registerMode`（`OFF` / `OPEN` / `APPROVAL`），登录页据此隐藏注册入口。
+- 注册成功后分配的角色由系统参数 `security.register.register-role-code` 决定（V14 播种为 `user`，置空则不挂角色）；`security.register.default-role-code` 保留给其他默认归属场景。
+- 演示站（`prod,demo`）不开放注册，不要设置上面的开关。
+
 ## 安全验证（行为验证码）
 
 登录、注册、忘记密码发码和发送短信验证码默认需要先完成一道行为验证码。默认五种题型全部启用，每次随机出其中一种。验证码为 boot 自带实现，不依赖第三方服务。
