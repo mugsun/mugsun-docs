@@ -14,6 +14,8 @@
   - 曾用公开回落密钥运行过的部署要重新加密的字段清单
   - `MUGSUN_SM4_KEY` 只认三种写法；迁移改用离线工具，新旧密钥走环境变量
   - 迁移前先备份；核对标准是「SM4 解密失败」日志 0 条；中英步骤编号对齐
+  - 旧版配的 32 位 hex / base64 密钥也要按 LEGACY_PADDED 迁移
+  - 补启动自检、Docker 跑迁移工具示例、多 schema 说明
   - 写明 ECB 只留给 `sys_user.id_card` 的例外与局限
 
 - ms-badge：dot 优先于 count（不再出空气泡）；优先级文档改为 label > dot > count

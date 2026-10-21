@@ -73,8 +73,15 @@ No replay protection and no endpoint binding: ciphertext can be replayed or move
 2. Replace `MUGSUN_API_KEY` in every deployment. The old 16-character form is rejected, so change it before upgrading.
 3. Set the frontend `VITE_CRYPTO_API_KEY` to the same value and release frontend and backend together.
 4. Make sure `MUGSUN_SM4_KEY` is set and valid (see "`MUGSUN_SM4_KEY` format" below).
-   Deployments that always had a real key keep their stored data as is; deployments that used
-   the old fallback or a short key must follow "Migration" below first.
+   These deployments must re-encrypt with "Migration" below before upgrading; putting the old
+   value back does not make old data readable:
+   - those that used the old fallback or a short key;
+   - those whose `MUGSUN_SM4_KEY` is 32 hex or 24 base64 characters. Older versions used the
+     first 16 characters of that string as the key, while this version decodes it as hex or
+     base64, which gives a different key. Migrate with the original value as the old key and
+     `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED=true`.
+   - Only deployments that always used the 16-character form keep the same key bytes and can
+     upgrade directly.
 
 ### `MUGSUN_SM4_KEY` format
 
@@ -83,7 +90,13 @@ No replay protection and no endpoint binding: ciphertext can be replayed or move
   - padded standard base64 that decodes to exactly 16 bytes;
   - transition only: the old 16-character form, which logs a WARN; the next release accepts only 32 hex.
 - Anything else stops startup: no zero padding, no truncation, no legacy switch.
-- Older versions zero-padded short keys and truncated long ones. Recover data encrypted that way with the migration tool below.
+- Older versions treated every key as characters: short ones were zero-padded, long ones cut to
+  16 characters. So 32-hex and 24-base64 keys from older versions decode differently now and
+  must be migrated too.
+- Startup self-check: at startup the application test-decrypts up to 20 existing rows per
+  encrypted column. If any fail, startup stops and names the table, column and primary key,
+  with a hint to migrate using `LEGACY_PADDED`. An empty database passes.
+  `mugsun.crypto.sm4-self-check=false` turns it off; use that only briefly while troubleshooting.
 
 ### Local development
 
@@ -94,9 +107,9 @@ No replay protection and no endpoint binding: ciphertext can be replayed or move
 - The field encryption key is never regenerated on each start.
 - With `MUGSUN_STRICT_KEYS=true` (the prod default) neither option applies. For API crypto `strict-keys` only acts as a veto; it is not deprecated.
 
-### Migration: deployments that ran on the public fallback key or a short key
+### Migration: deployments that used the old fallback, a short key, or a 32-hex / base64 key on an older version
 
-Older versions fell back to a fixed key that is public in the repository when no key was configured, and zero-padded short keys.
+Older versions fell back to a fixed key that is public in the repository when no key was configured, zero-padded short keys and truncated long ones.
 If such a deployment just sets a new key, all old data becomes unreadable; setting the old value again keeps using a public key.
 The application holds only one key at a time, so re-encryption uses the offline tool
 `com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`, which takes both keys.
@@ -116,6 +129,16 @@ Migration:
 2. Run a dry run first (the default, writes nothing):
    `java -cp mugsun-boot.jar -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool org.springframework.boot.loader.launch.PropertiesLauncher`.
    It prints, per table and column, the total, to re-encrypt, already on the new key, legacy plaintext and undecryptable counts.
+   With the Docker image, override the entrypoint and run java directly:
+
+   ```bash
+   docker run --rm --env-file migrate.env --entrypoint java <image> \
+     -cp /app/app.jar \
+     -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool \
+     org.springframework.boot.loader.launch.PropertiesLauncher --dry-run
+   ```
+
+   Delete `migrate.env` afterwards and never commit it.
 3. When every undecryptable count is 0, **make sure the backup from step 1 is usable**, then rerun with `--apply`. It writes in one transaction and rolls back everything if any row fails.
 4. Start with `MUGSUN_SM4_KEY` set to the new key. Check: zero "SM4 解密失败" (SM4 decrypt failed) entries in the error log.
 5. Rotate every third-party credential stored in these columns.
@@ -123,6 +146,8 @@ Migration:
 - Identical old and new keys (including the hex and base64 forms of one key) are refused.
 - Keys come only from environment variables; the command line accepts only `--dry-run` and `--apply`. Output lists only tables, columns, row counts and the primary keys that failed, never keys, plaintext or ciphertext.
 - Run it once per tenant database configured in `sys_tenant_datasource`.
+- With `mugsun.db.default-schema` set, put that schema in the JDBC URL (for example `currentSchema=`
+  on PostgreSQL); run once per schema if there are several.
 - A column that fails to decrypt reads as empty and is not written back; still, don't save these records in the admin console before migrating.
 
 Affected columns:
