@@ -54,15 +54,21 @@ Storage objects that can't be deleted right away go into a Redis queue.
 A scheduled job retries every 10 minutes.
 
 - After 20 failed deletes, an error is logged and the item needs manual cleanup.
+- If registering a fresh key throws, the key is queued at once but handled
+  only after 60 seconds, so it is deleted no earlier than that.
 - Before each delete the job checks the attachment table.
   - Only keys under `tmp/`, or freshly generated keys that aren't registered,
-    are deleted. Registered objects are never deleted.
+    are deleted.
+  - Registered objects are never deleted: a warning is logged and the item
+    is dropped from the queue.
   - If the attachment table can't be queried, the item goes back unchanged
     and the failure isn't counted.
 - After more than 144 rounds (about 1 day) without a successful lookup,
   an error is logged and the items are still kept.
   - Items that cross the limit in the same round are merged into one alert,
     with the count and the first 5 keys.
+- Local storage doesn't sign direct uploads, but the job still removes files
+  under the local `tmp/` that are older than 1 day.
 
 ## Next
 
