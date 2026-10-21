@@ -73,15 +73,22 @@ jobs:
       - name: Build (VitePress fails on internal dead links)
         run: pnpm run docs:build
 
+      - name: Install lychee (pinned, sha256 verified)
+        env:
+          LYCHEE_VERSION: 0.24.2
+          LYCHEE_SHA256: 1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a
+        run: |
+          f="lychee-x86_64-unknown-linux-gnu.tar.gz"
+          curl -fsSLo "$f" "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/$f"
+          echo "${LYCHEE_SHA256}  $f" | sha256sum -c -
+          tar -xzf "$f" --strip-components=1 lychee-x86_64-unknown-linux-gnu/lychee
+
       - name: Check internal links (offline)
-        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
-        with:
-          fail: true
-          args: >-
-            --offline --no-progress
-            --root-dir ${{ github.workspace }}/.vitepress/dist
-            --fallback-extensions html
-            --index-files index.html
-            --exclude-path .vitepress/dist/demo
-            --exclude-path .vitepress/dist/public
-            '.vitepress/dist/**/*.html'
+        run: >-
+          ./lychee --offline --no-progress
+          --root-dir "$GITHUB_WORKSPACE/.vitepress/dist"
+          --fallback-extensions html
+          --index-files index.html
+          --exclude-path .vitepress/dist/demo
+          --exclude-path .vitepress/dist/public
+          '.vitepress/dist/**/*.html'
