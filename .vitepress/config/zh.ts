@@ -79,6 +79,22 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '数据权限规则', link: '/boot/datascope/rules' },
           ],
         },
+        {
+          text: '功能特性',
+          items: [
+            { text: '概览', link: '/boot/features/' },
+            { text: '工作流', link: '/boot/features/workflow' },
+            { text: '表单', link: '/boot/features/form' },
+            { text: '规则编排', link: '/boot/features/rule' },
+            { text: '定时任务', link: '/boot/features/job' },
+            { text: '报表', link: '/boot/features/report' },
+            { text: '对象存储', link: '/boot/features/storage' },
+            { text: '短信与邮件', link: '/boot/features/notify' },
+            { text: '站内信与公告', link: '/boot/features/message' },
+            { text: '单号规则', link: '/boot/features/serial-number' },
+            { text: '全局搜索', link: '/boot/features/search' },
+          ],
+        },
       ],
       '/pc/': [
         {

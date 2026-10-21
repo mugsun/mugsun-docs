@@ -2,6 +2,14 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · Feature index
+
+### mugsun-docs
+
+- Added the [features](/en/boot/features/) index, which lists the features available on the main branch.
+- Added ten feature pages, each covering what it does, how to turn it on, how to use it, and notes.
+- Features with their own guide are linked from the index, and every page ends with a "See it work" section.
+
 ## 2026-10-21 · Multi-tenancy and data permissions
 
 ### mugsun-docs

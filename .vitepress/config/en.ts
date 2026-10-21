@@ -249,6 +249,22 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Data permission rules', link: '/en/boot/datascope/rules' },
           ],
         },
+        {
+          text: 'Features',
+          items: [
+            { text: 'Overview', link: '/en/boot/features/' },
+            { text: 'Workflow', link: '/en/boot/features/workflow' },
+            { text: 'Forms', link: '/en/boot/features/form' },
+            { text: 'Rule chains', link: '/en/boot/features/rule' },
+            { text: 'Scheduled tasks', link: '/en/boot/features/job' },
+            { text: 'Reports', link: '/en/boot/features/report' },
+            { text: 'Object storage', link: '/en/boot/features/storage' },
+            { text: 'SMS and mail', link: '/en/boot/features/notify' },
+            { text: 'Messages and announcements', link: '/en/boot/features/message' },
+            { text: 'Serial numbers', link: '/en/boot/features/serial-number' },
+            { text: 'Global search', link: '/en/boot/features/search' },
+          ],
+        },
       ],
       '/en/pc/': [
         {
