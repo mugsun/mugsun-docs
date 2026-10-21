@@ -6,7 +6,14 @@
 
 ### mugsun-pc
 
-- 数字验证码已移除，e2e 不再从 Redis 读图形码。主套 `pnpm test:e2e` 要求后端关闭验证码；新增 `pnpm test:e2e:captcha-on`，在开着验证码的后端上断言不带 `captchaToken` 的登录、注册、忘记密码发码都返回 `code` `40013`。详见 [开发 · e2e 与验证码](/pc/development#e2e-与验证码)。
+- 数字验证码已移除，e2e 不再从 Redis 读图形码。
+- 主套 `pnpm test:e2e` 要求后端关闭验证码。
+- 新增 `pnpm test:e2e:captcha-on`，对开着验证码的后端运行：
+  - 不带 `captchaToken` 的登录、注册、忘记密码发码都须返回 `code` `40013`。
+  - 用独立配置，不需要 PowerJob。
+- config 异常时两套都直接报错，不会静默跳过。
+- 主套默认不再自动 `docker start` PowerJob；要自动启动，设 `E2E_START_POWERJOB=1`。
+- 详见 [开发 · e2e 与验证码](/pc/development#e2e-与验证码)。
 
 ## 2026-10-21 · ms-badge 圆点优先
 

@@ -31,10 +31,41 @@ pnpm dev
 
 ### E2E and the captcha
 
-The e2e tests don't solve captchas or read answers from Redis, so there are two suites, each run against a differently configured backend:
+The e2e tests don't solve captchas or read answers from Redis. So there are two suites, each for one backend setup.
 
-- **Main suite, `pnpm test:e2e`**: boot must have the captcha off, with `mugsun.captcha.enabled=false` or by turning off the platform tenant (`000000`) with `POST /system/tenant/captcha`. Before the tests start they check `/auth/captcha/config` and fail with the HTTP status if the captcha is still on.
-- **Captcha-on suite, `pnpm test:e2e:captcha-on`** (`e2e/captcha-on/`): leave the captcha on (the default). It checks that login, registration and the forgot-password code request without a `captchaToken` are rejected: HTTP 200 with `code` `40013`. If the backend has the captcha off, these tests are skipped with the reason. Nothing is solved and nothing is bypassed.
+**Main suite, `pnpm test:e2e`**
+
+- Boot must have the captcha off.
+- Option 1: `mugsun.captcha.enabled=false`.
+- Option 2: turn off the platform tenant (`000000`) with `POST /system/tenant/captcha`.
+- The suite checks `/auth/captcha/config` first and fails if the captcha is on.
+- It also fails, with the HTTP status, if the config response is broken:
+  - not 2xx
+  - not JSON
+  - `code` other than 200
+  - no `data.enabled`
+- PowerJob Server (port 7700) must be reachable; the W4-3 job tests need it.
+- If 7700 is down the suite fails and does not touch any container.
+
+**Captcha-on suite, `pnpm test:e2e:captcha-on`**
+
+- Tests live in `e2e/captcha-on/`; the config is `playwright.captcha-on.config.ts`.
+- Leave the captcha on (the default). PowerJob is not needed.
+- Without a `captchaToken`, these requests must be rejected:
+  - login
+  - registration
+  - the forgot-password code request
+- Rejected means HTTP 200 with `code` `40013`.
+- If the backend explicitly returns `enabled=false`, the tests are skipped with the reason.
+- A broken config response fails the run instead of skipping.
+- Nothing is solved and nothing is bypassed.
+
+**`E2E_START_POWERJOB`**
+
+- Set it to `1` and the main suite runs `docker start` when 7700 is down, then waits for the port.
+- Name the containers with `E2E_POWERJOB_CONTAINERS`, comma-separated.
+- The default is `powerjob-mysql,powerjob-server`.
+- Example: `E2E_START_POWERJOB=1 E2E_POWERJOB_CONTAINERS=my-pj-db,my-pj pnpm test:e2e`.
 
 ## Adding a page
 
