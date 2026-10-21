@@ -99,4 +99,85 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 `appKey` 本来就在浏览器里可见，不是密钥。服务端靠存在性校验、限流、队列背压与事件校验防护。
 
-还有问题？到对应仓库提 [Issue](https://github.com/mugsun)。
+## 部署与运行
+
+本节按现象、原因、解决的顺序写。看到具体报错原文时，也可以先查[报错速查](/guide/errors)。
+
+### 升级后旧前端登录不了，返回 40013？
+
+现象是登录、注册或发送验证码时都返回 `40013`，提示「请先完成安全验证」。
+
+原因是后端移除了旧的数字图形验证码 `GET /auth/captcha`，验证码开启时请求必须带 `captchaToken`。
+
+解决办法是把前端升级到新的行为验证码流程，见[后端升级指南](/boot/upgrade#移除旧的数字图形验证码)。
+
+### 重启后接口都报「接口密文无效」？
+
+现象是本地开发时，后端重启后已经打开的页面调用加密接口都失败。
+
+原因是没有配置 `MUGSUN_API_KEY` 时，dev profile 使用只在本进程内有效的临时密钥，重启后密钥就变了。
+
+解决办法是刷新页面重新登录。想让密钥固定，就配置 `MUGSUN_API_KEY`。
+
+### 「定时任务」页提示服务暂时连不上？
+
+现象是打开「定时任务」页时提示定时任务服务暂时连不上，列表为空。
+
+原因是 PowerJob Server 不在默认的 Docker 环境里，后端连不上调度服务。
+
+解决办法是自行部署 PowerJob Server，并配置 `POWERJOB_ENABLED` 等环境变量，见[定时任务](/boot/features/job)。
+
+只需要简单的单机定时任务时，可以改用 Spring 的 `@Scheduled`。
+
+### 多实例部署时，部分用户收不到站内信推送？
+
+现象是消息已经写入库里，但连在另一台实例上的用户没有收到实时推送。
+
+原因是 `mugsun.websocket.sender-type` 被改成了 `local`，推送只发给本机的连接。
+
+解决办法是保持默认值 `redis`，让推送经 Redis 发布订阅转发到每个实例。
+
+### 多实例部署时，附件下载链接时好时坏？
+
+现象是同一个下载链接在一台实例上能打开，在另一台上打不开。
+
+原因是没有配置 `MUGSUN_FILE_SIGN_SECRET`，每台实例各自随机生成了签名密钥。重启后旧链接也会失效。
+
+解决办法是给所有实例配置同一个不少于 32 个字符的 `MUGSUN_FILE_SIGN_SECRET`。
+
+### 关闭 GIS 或 AI 模块后，其他机器还能用？
+
+现象是在系统参数里关掉模块后，多机部署中的其他机器最长一小时内仍然开着这个模块。
+
+原因是模块开关的系统参数只缓存在每台机器的本地，缓存时间是一小时。这是已知问题，见 [mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90)。
+
+解决办法是在问题修复前，关闭模块后依次重启各实例。
+
+也可以用环境变量 `MUGSUN_GIS_ENABLED=false`、`MUGSUN_AI_ENABLED=false` 在启动时关闭。
+
+### Redis 口令含特殊字符时连不上？
+
+现象是 `prod` 或 `demo` profile 启动后连不上 Redis，或连到了错误的地址。
+
+原因是这两个 profile 里 jetcache 的连接串把口令直接拼进 URI，口令含 `@`、`:`、`/`、`?`、`#`、`%` 时解析出错。
+
+这是已知问题，见 [mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70)。
+
+解决办法是在问题修复前，Redis 口令只用字母和数字。
+
+### openGauss 上迁移跑不起来？
+
+现象是在 openGauss 上启动时，Flyway 在执行任何迁移之前就失败了。
+
+原因是 Flyway 会执行 `SET ROLE`，openGauss 要求带密码而拒绝执行。
+
+openGauss-lite 上 V8 还有语法错误，见 [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102)。
+
+解决办法是完整版 openGauss 用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本，步骤见[后端升级指南](/boot/upgrade)。
+
+## 提问之前
+
+先查[报错速查](/guide/errors)和本页。
+
+还是解决不了，就到对应仓库提 [Issue](https://github.com/mugsun)，写清楚重现步骤、版本和系统。版本可以写 Maven 或 npm 的版本号，也可以写 commit SHA。
+

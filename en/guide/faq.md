@@ -99,4 +99,75 @@ Not as-is. In API monitoring URLs, `referrer`, link `href`s, resource error URLs
 
 It's visible in the browser by design and isn't a secret. The server relies on existence checks, rate limiting, back-pressure and event validation.
 
-Still stuck? Open an [issue](https://github.com/mugsun) on the relevant repository.
+## Deployment and operation
+
+Each answer below follows the order symptom, cause, fix. If you have the exact error text, you can also check the [error reference](/en/guide/errors) first.
+
+### After upgrading, the old frontend can't sign in and gets 40013
+
+Sign-in, sign-up and sending verification codes all return `40013`, asking you to complete the security check first.
+
+The backend removed the old numeric image captcha `GET /auth/captcha`. When the captcha is on, requests must carry a `captchaToken`.
+
+Upgrade the frontend to the new behavioral captcha flow. See the [backend upgrade guide](/en/boot/upgrade).
+
+### After a restart, encrypted APIs all fail with an invalid ciphertext error
+
+During local development, pages that were already open fail on every encrypted API call after the backend restarts.
+
+Without `MUGSUN_API_KEY`, the dev profile uses an ephemeral key that is valid only in the current process, so the key changes on restart.
+
+Reload the page and sign in again. To keep the key stable, set `MUGSUN_API_KEY`.
+
+### The Scheduled Tasks page says the task service cannot be reached
+
+The Scheduled Tasks page says the task service cannot be reached, and the list is empty.
+
+The PowerJob Server is not part of the default Docker setup, so the backend cannot reach the scheduler.
+
+Deploy a PowerJob Server yourself and set `POWERJOB_ENABLED` and the related environment variables. See [Scheduled tasks](/en/boot/features/job). For simple single-process jobs, use Spring `@Scheduled` instead.
+
+### With several instances, some users don't get message pushes
+
+The message is in the database, but users connected to another instance don't get the real-time push.
+
+`mugsun.websocket.sender-type` was changed to `local`, so pushes only reach connections on the same machine.
+
+Keep the default `redis`, so pushes are relayed to every instance through Redis publish/subscribe.
+
+### With several instances, attachment links work only sometimes
+
+The same download link opens on one instance but not on another.
+
+`MUGSUN_FILE_SIGN_SECRET` is not set, so each instance generated its own random signing key. Old links also break after a restart.
+
+Set the same `MUGSUN_FILE_SIGN_SECRET` of at least 32 characters on every instance.
+
+### After turning off GIS or AI, other machines still have it
+
+After you turn a module off in the system parameters, other machines in a multi-server deployment keep it on for up to an hour.
+
+The module switch parameters are cached locally on each machine for one hour. This is a known issue, see [mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90).
+
+Until it is fixed, restart each instance after turning a module off. You can also turn modules off at startup with `MUGSUN_GIS_ENABLED=false` or `MUGSUN_AI_ENABLED=false`.
+
+### Redis can't connect when the password has special characters
+
+With the `prod` or `demo` profile, the backend can't connect to Redis, or connects to the wrong address.
+
+In these profiles, the jetcache connection string puts the password straight into a URI, which breaks when the password contains `@`, `:`, `/`, `?`, `#` or `%`. This is a known issue, see [mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70).
+
+Until it is fixed, use only letters and digits in the Redis password.
+
+### Migrations don't run on openGauss
+
+On openGauss, Flyway fails before running any migration.
+
+Flyway runs `SET ROLE`, which openGauss rejects because it requires a password. openGauss-lite also has a syntax error in V8, see [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102).
+
+For the full openGauss, run the scripts in `db/migration-og` one by one with gsql. See the [backend upgrade guide](/en/boot/upgrade).
+
+## Before you ask
+
+Check the [error reference](/en/guide/errors) and this page first. If you are still stuck, open an [issue](https://github.com/mugsun) on the relevant repository with the steps to reproduce, the version and your system. The version can be a Maven or npm version or a commit SHA.
+
