@@ -106,6 +106,10 @@ What this means for users ([pc#4](https://github.com/mugsun/mugsun-pc/pull/4)):
 
 - Reloading in the same tab keeps you signed in; **opening a new tab or reopening the browser requires signing in again**.
 - The lock screen doesn't survive a reload.
+- The lock screen only hides the UI. It is not a security boundary; a reload unlocks it.
+- Unlocking is compared in the browser only. The password is kept in memory as a salted SHA-256 hash.
+- The salt is 16 random bytes per lock. Hash and salt are cleared on unlock or sign-out.
+- The fixed `VITE_LOCK_ENCRYPT_KEY` value is no longer used.
 - After upgrading, tokens saved in `localStorage` by older versions are no longer read, so **everyone has to sign in once more**.
 
 ## Profile avatar
