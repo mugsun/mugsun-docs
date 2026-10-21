@@ -51,9 +51,13 @@ Run the query again afterwards. It should return no rows.
 
 ### Migrate again
 
-On openGauss the failed V7 was rolled back as a whole. If Flyway runs your migrations, just restart.
+::: warning Known issue on openGauss
+Flyway currently cannot run migrations against openGauss: Flyway runs `SET ROLE`, and openGauss rejects it because it requires a password. The published V8 is also a syntax error on openGauss-lite. See [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102) for progress.
+:::
 
-If you run scripts by hand with gsql, run the V7 script again with `-1 -v ON_ERROR_STOP=1`, so an error rolls everything back and stops there.
+On openGauss, run the scripts in `db/migration-og` one by one with gsql, in version order. The failed V7 was rolled back as a whole, so after resolving the duplicates, run V7 again.
+
+Run each script with `-1 -v ON_ERROR_STOP=1`, so an error rolls everything back and stops there.
 
 On Dameng, DDL auto-commits, so a failed migration leaves a failed record in Flyway's history. Follow [Dameng: remove the failed record](#dameng-remove-the-failed-record) with version `7`, then restart.
 
@@ -106,7 +110,7 @@ Run the query again afterwards. It should return no rows.
 
 ### Migrate again
 
-On PostgreSQL, KingbaseES and openGauss the failed V11 was rolled back as a whole. Just restart.
+On PostgreSQL and KingbaseES the failed V11 was rolled back as a whole. Just restart. On openGauss it was rolled back too; run the V11 script again with gsql and `-1 -v ON_ERROR_STOP=1`.
 
 On Dameng, follow [Dameng: remove the failed record](#dameng-remove-the-failed-record) with version `11`, then restart.
 

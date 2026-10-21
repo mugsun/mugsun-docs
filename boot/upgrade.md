@@ -51,9 +51,13 @@ ORDER BY tenant_id, phone;
 
 ### 重新迁移
 
-openGauss 上失败的 V7 已整体回滚，用 Flyway 迁移的部署直接重启。
+::: warning openGauss 的已知问题
+目前 Flyway 连不上 openGauss 执行迁移：Flyway 会执行 `SET ROLE`，openGauss 要求带密码，直接拒绝。另外，已发布的 V8 在 openGauss-lite 上有语法错误。进展见 [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102)。
+:::
 
-用 gsql 手工执行的部署，重新执行 V7 脚本时带上 `-1 -v ON_ERROR_STOP=1`，出错就整体回滚并停下。
+openGauss 请用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本。失败的 V7 已整体回滚，处理完重复后重新执行 V7 即可。
+
+执行时带上 `-1 -v ON_ERROR_STOP=1`，出错就整体回滚并停下。
 
 达梦的 DDL 自动提交，迁移失败后 Flyway 会留下一条失败记录。按[达梦：清掉失败记录](#达梦-清掉失败记录)处理后再重启，版本号填 `7`。
 
@@ -106,7 +110,7 @@ UPDATE sys_tenant SET tenant_code = '<新编号>' WHERE id = <已删除租户的
 
 ### 重新迁移
 
-PostgreSQL、金仓和 openGauss 上失败的 V11 已整体回滚，直接重启。
+PostgreSQL 和金仓上失败的 V11 已整体回滚，直接重启。openGauss 上同样已回滚，用 gsql 重新执行 V11 脚本，带上 `-1 -v ON_ERROR_STOP=1`。
 
 达梦按[达梦：清掉失败记录](#达梦-清掉失败记录)处理后再重启，版本号填 `11`。
 
