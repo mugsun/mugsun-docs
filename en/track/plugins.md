@@ -84,7 +84,8 @@ Built-in protections that can't be turned off:
   - **A whole segment equals** `login`, `signin`, `sign-in`, `logout`, `token`, `sso` or `cas`, with `/` or the start on the left and `/`, `.`, `;` or the end on the right. `/api/login`, `/cas/login`, `/api/v1/login.json`, `/login.do` and `/login;jsessionid=x` match; `/monitor/loginLog/list`, `/tokens/stats` and `/case/list` don't.
   - **Contains the substring** `captcha`, `verifycode` or `verificationcode`, such as `/getCaptcha` or `/user/verifyCode`.
   - **Contains the word** `sms`, `otp`, `sendcode`, `getcode` or `checkcode`: the path is split on non-letter characters and a word must match exactly. `/api/sms/send`, `/send-otp` and `/user/getCode` match; `/smsTemplate/list` and `/barcode/getcodeList` don't.
-  - **Verb combinations**: `send`, `get`, `resend`, `check`, `verify` or `validate` directly followed by `sms`, `otp`, `smscode`, `mobilecode` or `phonecode`. `/sendSms`, `/getSmsCode` and `/sendOtp` match; `/smsTemplate/list` doesn't.
+  - **Verb combinations**: `send`, `get`, `resend`, `check`, `verify` or `validate` directly followed by `sms`, `otp`, `smscode`, `mobilecode`, `phonecode`, `emailcode` or `msgcode`. `/sendSms`, `/getSmsCode`, `/sendOtp` and `/sendEmailCode` match; `/smsTemplate/list` doesn't.
+  - If an endpoint that none of these rules catch (for example another camelCase name) returns a verification code, turn body capture off with `apiBodyEnabled: false`.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0

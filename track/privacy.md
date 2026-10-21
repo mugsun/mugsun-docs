@@ -57,7 +57,7 @@ x-amz-signature  x-amz-security-token  x-goog-signature
 
 ```text
 code  sign  signature  ticket  otp
-sig  q-signature  x-oss-signature  x-oss-security-token
+sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 ```
 
 匹配时忽略大小写与 `_`、`-`，`accessToken`、`Refresh-Token` 也算；归一后精确匹配，`tokenCount`、`sessionTimeout` 不算。hash 里的参数同样处理，覆盖 OAuth 隐式流和 hash 路由：
@@ -82,7 +82,7 @@ sig  q-signature  x-oss-signature  x-oss-security-token
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   原样上传
 ```
 
-例外：`code`、`ticket` 的值像令牌时也替换，即 JWT 形态（三段 base64url，以 `eyJ` 开头），或长度 ≥16、只含字母、数字、`-`、`_` 且同时有字母和数字的字符串（base64url、hex 令牌）。只豁免大写下划线业务码，如 `INVALID_PARAMETER_VALUE`、`ORDER_20261021_0001`；`0`、`200`、`"E1001"` 这类短业务码也保留：
+例外：`code`、`ticket` 的值像令牌时也替换，即 JWT 形态（三段 base64url，以 `eyJ` 开头），或长度 ≥16、只含字母、数字和 `.`、`_`、`~`、`+`、`/`、`=`、`-`，且同时有字母和数字的字符串（base64、base64url、hex 令牌，以及 `4/0Ab…` 这类 Google 授权码、带点的令牌）。只豁免大写下划线业务码，如 `INVALID_PARAMETER_VALUE`、`ORDER_20261021_0001`；`0`、`200`、`"E1001"` 这类短业务码也保留：
 
 ```text
 {"code":"E1001"}                    →   原样上传

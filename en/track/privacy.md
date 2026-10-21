@@ -57,7 +57,7 @@ Keys replaced only in URLs and kept as-is in response bodies:
 
 ```text
 code  sign  signature  ticket  otp
-sig  q-signature  x-oss-signature  x-oss-security-token
+sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 ```
 
 Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count too; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
@@ -82,7 +82,7 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
 ```
 
-One exception: `code` and `ticket` values that look like tokens are replaced too, meaning JWT-shaped values (three base64url parts starting with `eyJ`), or strings of 16 characters or more made only of letters, digits, `-` and `_` that mix letters and digits (base64url and hex tokens). Only upper-case snake business codes such as `INVALID_PARAMETER_VALUE` and `ORDER_20261021_0001` are exempt; short codes such as `0`, `200` and `"E1001"` are kept too:
+One exception: `code` and `ticket` values that look like tokens are replaced too, meaning JWT-shaped values (three base64url parts starting with `eyJ`), or strings of 16 characters or more made only of letters, digits and `.`, `_`, `~`, `+`, `/`, `=`, `-` that mix letters and digits (base64, base64url and hex tokens, Google-style `4/0Ab…` codes and dotted tokens). Only upper-case snake business codes such as `INVALID_PARAMETER_VALUE` and `ORDER_20261021_0001` are exempt; short codes such as `0`, `200` and `"E1001"` are kept too:
 
 ```text
 {"code":"E1001"}                    →   uploaded unchanged

@@ -24,7 +24,7 @@
 - **凭证类加固（续）**：
   - 通用登录、令牌、单点登录接口按整段匹配（`/login`、`/token`、`/sso`、`/cas` 等），`/loginLog`、`/tokens`、`/case` 这类普通接口不受影响；路径含 `captcha`、`verifycode`，或含 `sms`、`otp`、`sendcode`、`getcode`、`checkcode` 这些词，以及 `/sendSms`、`/getSmsCode` 这类动词组合的接口，也不采集响应体。
   - JS 错误的 `filename`，以及回放 DOM 里的 `href`、`src`、`srcset` 等地址属性脱敏。CSS `url()`、`data-*` 属性、`iframe` 的 `srcdoc`、`meta` 的 `content` 和页面文本里的 URL 不处理，见 [隐私与合规](/track/privacy#url-敏感参数)。
-  - 云存储签名参数 `X-Amz-Signature`、`X-Amz-Security-Token`、`X-Goog-Signature` 加入凭证键；Azure `sig`、腾讯云 COS `q-signature`、阿里云 OSS `x-oss-signature` / `x-oss-security-token` 只在 URL 里替换。
+  - 云存储签名参数 `X-Amz-Signature`、`X-Amz-Security-Token`、`X-Goog-Signature` 加入凭证键；Azure `sig`、腾讯云 COS `q-signature`、阿里云 OSS `x-oss-signature` / `x-oss-security-token`、腾讯云 COS `x-cos-security-token` 只在 URL 里替换。
   - 响应体里像令牌的 `code`、`ticket` 替换为 `***`；`E1001`、`INVALID_PARAMETER_VALUE` 这类业务码保留。
 - **升级**：靠 0.2.0 默认遮罩满足合规的接入，需显式配置 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 和 `apiBodyMaskEnabled: true`，见 [隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩)。开启回放或响应体采集前，须告知用户，涉及敏感个人信息时须取得单独同意。
 
