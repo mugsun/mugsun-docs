@@ -35,6 +35,13 @@
 - 另外接受 txt、csv、md、zip、mp4、mp3；html、svg、js、xml 等一律拒绝。
 - 服务端核对扩展名和文件头，改了扩展名的文件会被拒绝。文件头校验只防改扩展名，不检查文件是否完整。
 - 单个文件不超过 20MB，超出时在接收阶段就被截断，返回 400「文件超过 20MB」。
+- 后端配置了 `server.tomcat.max-swallow-size: 32MB`，超限上传能稳定收到 400。
+  - Tomcat 默认只多读 2MB 被拒的请求体，之后直接断开，客户端可能收不到 400。
+  - 这个值必须大于请求上限（`max-request-size` 21MB）。
+  - 超过 32MB 的请求仍会在请求体没读完时被断开，这是有意的带宽保护。
+  - 生产反代保持 `client_max_body_size` 约 21MB（或等效上限）作第一道闸门；
+    32MB 只在直连 Tomcat 时起作用。
+  - `server.tomcat.connection-timeout` 保持默认或更短，不要调大。
 - 存储文件名和 Content-Type 由服务端按扩展名决定。
 - 用户上传的文件名只作展示，客户端上报的类型不采用。
 - 前端直传（`presigned-put`）必须带 `size`（字节），超过 20MB 直接拒绝。
