@@ -5,9 +5,9 @@
 [[IgnoredVulns]]
 id = "GHSA-587h-7wmj-h5pm"
 ignoreUntil = 2027-01-19T00:00:00Z
-reason = "vite 5.4.21 是 vitepress 1.x 的构建期依赖，只在本地 dev/构建时运行，站点产物是静态文件；修复版本 6.4.4 需要升级到 vitepress 2，另行处理"
+reason = "只影响 Windows 上的 Vite 开发服务器：launch-editor 路径检查可被绕过。线上只部署静态构建产物，构建和 CI 跑在 macOS/Linux；vite 5.4.21 内置打包了 launch-editor，无法单独覆盖版本。计划在到期前升级到 vitepress 2"
 
 [[IgnoredVulns]]
 id = "GHSA-fx2h-pf6j-xcff"
 ignoreUntil = 2027-01-19T00:00:00Z
-reason = "同上：vite 5.4.21 仅构建期使用，修复版本 6.4.3 需要升级到 vitepress 2，另行处理"
+reason = "只影响 Windows 上的 Vite 开发服务器：server.fs.deny 可被绕过，且须用 --host 把开发服务器暴露到网络才可利用。线上只部署静态构建产物，构建和 CI 跑在 macOS/Linux。计划在到期前升级到 vitepress 2"
