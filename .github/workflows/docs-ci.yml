@@ -3,13 +3,14 @@ name: Docs CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: ['**']
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: docs-ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -36,13 +37,28 @@ jobs:
 
       - name: Resolve diff base
         env:
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           PUSH_BEFORE: ${{ github.event.before }}
         run: |
-          base="${PR_BASE:-$PUSH_BEFORE}"
-          if [ -z "$base" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
-            base="0000000000000000000000000000000000000000"
+          # PR：比 PR 基准；push 到 main 且 before 有效：比 before；
+          # 其他分支 push、新分支首推（before 全 0）、workflow_dispatch：比 origin/main 的分叉点。
+          # 分叉点就是 HEAD（main 上手动触发）时传全 0，脚本回落到 HEAD~1。
+          zero="0000000000000000000000000000000000000000"
+          valid() { [ -n "$1" ] && [ "$1" != "$zero" ] && git cat-file -e "$1^{commit}" 2>/dev/null; }
+          base=""
+          if [ "$EVENT" = "pull_request" ] && valid "$PR_BASE"; then
+            base="$PR_BASE"
+          elif [ "$EVENT" = "push" ] && [ "$REF" = "refs/heads/main" ] && valid "$PUSH_BEFORE"; then
+            base="$PUSH_BEFORE"
+          else
+            base=$(git merge-base origin/main HEAD 2>/dev/null || true)
           fi
+          if [ -z "$base" ] || [ "$base" = "$(git rev-parse HEAD)" ]; then
+            base="$zero"
+          fi
+          echo "diff base: $base ($EVENT $REF)"
           echo "DIFF_BASE=$base" >> "$GITHUB_ENV"
 
       - name: Check Chinese paragraph width (<= 80)
