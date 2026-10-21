@@ -142,7 +142,9 @@ Migration:
 
    Delete `migrate.env` afterwards and never commit it.
 3. When every undecryptable count is 0, **make sure the backup from step 1 is usable**, then rerun with `--apply`. It writes in one transaction and rolls back everything if any row fails.
-4. Start with `MUGSUN_SM4_KEY` set to the new key. Check: zero "SM4 解密失败" (SM4 decrypt failed) entries in the error log.
+4. Start with `MUGSUN_SM4_KEY` set to the new key.
+
+   Then check that the error log has no "SM4 解密失败" (SM4 decrypt failed) entries.
 5. Rotate every third-party credential stored in these columns.
 
 - Identical old and new keys (including the hex and base64 forms of one key) are refused.

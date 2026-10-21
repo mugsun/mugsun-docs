@@ -78,11 +78,12 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 2. 把部署环境里的 `MUGSUN_API_KEY` 换成新值。旧的 16 个字符写法会被拒绝，必须先换再升级。
 3. 前端的 `VITE_CRYPTO_API_KEY` 换成同一个值，前后端一起发布。
 4. 确认 `MUGSUN_SM4_KEY` 已配置且格式合法（见下方「`MUGSUN_SM4_KEY` 格式」）。
+
    以下部署升级前都要先按下方「迁移」重新加密，旧值填进去照样解不开旧数据：
    - 用过旧回落值或短密钥的；
    - `MUGSUN_SM4_KEY` 是 32 位 hex 或 24 位 base64 的。
-     旧版把这串字符截成前 16 个字符当密钥，新版按 hex 或 base64 解码，
-     得到的是另一把钥。迁移时旧密钥填原值，并设 `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED=true`。
+     - 旧版把这串字符截成前 16 个字符当密钥，新版按 hex 或 base64 解码，得到另一把钥。
+     - 迁移时旧密钥填原值，并设 `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED=true`。
    - 只有一直用 16 个字符写法的部署，密钥字节不变，可以直接升级。
 
 ### `MUGSUN_SM4_KEY` 格式
@@ -94,10 +95,11 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 - 其他写法一律拒绝启动：不补零、不截断，也没有 legacy 开关。
 - 旧版本对所有密钥都按字符处理：短的补零，长的截断到 16 个字符。
   所以旧版配的 32 位 hex、24 位 base64 密钥，升级后解码结果不同，也要迁移。
-- 启动自检：应用启动时，每个加密字段抽 3 行，像密文的每一条都试解；
-  有一条解不开就拒绝启动，报出表、字段和主键，并提示用 `LEGACY_PADDED` 迁移。
-  空库直接通过。`mugsun.crypto.sm4-self-check=false` 可以关掉，只建议排障时临时用；
-  生产环境下跳过开关不生效，照常自检。
+- 启动自检：应用启动时，每个加密字段抽 3 行，像密文的每一条都试解。
+  - 有一条解不开就拒绝启动，报出表、字段和主键，并提示用 `LEGACY_PADDED` 迁移。
+  - 空库直接通过。
+  - `mugsun.crypto.sm4-self-check=false` 可以关掉，只建议排障时临时用。
+  - 生产环境下跳过开关不生效，照常自检。
 
 ### 本地开发
 
@@ -120,8 +122,10 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 旧版本没配密钥时，会回落到仓库里公开的固定值；配了短密钥时会补零，长密钥会截断。
 
 这类部署直接填新密钥会导致旧数据全部解不开；填回旧值等于继续用公开密钥。
-应用同一时间只装一把密钥，所以重新加密要用离线迁移工具
-`com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`，它同时拿新旧两把密钥。
+
+应用同一时间只装一把密钥，所以重新加密要用离线迁移工具，它同时拿新旧两把密钥。
+
+迁移工具的主类是 `com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`。
 
 迁移工具的输入全部走环境变量，不写在命令行里：
 
@@ -136,7 +140,13 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 
 1. 备份数据库，停掉应用。
 2. 先跑 dry-run（默认，不写库）：
-   `java -cp mugsun-boot.jar -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool org.springframework.boot.loader.launch.PropertiesLauncher`。
+
+   ```bash
+   java -cp mugsun-boot.jar \
+     -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool \
+     org.springframework.boot.loader.launch.PropertiesLauncher
+   ```
+
    按表和字段输出总数、需重加密、已是新密钥、历史明文、解不开的条数。
    用 Docker 镜像时，换掉入口直接跑 java：
 
@@ -155,8 +165,8 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 - 新旧密钥相同（包括同一把钥的 hex、base64 两种写法）会被拒绝执行。
 - 密钥只从环境变量读，命令行只认 `--dry-run`、`--apply`；输出只有表名、字段、行数和解不开的主键，不含密钥、明文或密文。
 - 租户独立数据源（`sys_tenant_datasource`）的库要各跑一次。
-- 配了 `mugsun.db.default-schema` 的，JDBC URL 里要带上该 schema（如 PG 的 `currentSchema=`）；
-  多个 schema 就每个各跑一次。
+- 配了 `mugsun.db.default-schema` 的，JDBC URL 里要带上该 schema。
+  - PG 用 `currentSchema=`；多个 schema 就每个各跑一次。
 - 解密失败时字段返回空，不会写回库里；但迁移前不要在管理台保存这些记录。
 
 涉及的字段：
