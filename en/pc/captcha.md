@@ -2,7 +2,11 @@
 
 Login, registration, password reset and SMS sending in the admin console use a behavior captcha. There are five types: slider (SLIDER), rotate (ROTATE), word click (WORD_CLICK), icon click (ICON_CLICK) and jigsaw (JIGSAW, 2×2).
 
-The server issues and checks every challenge. The server also picks the type: on each request it chooses one at random from the tenant's enabled types, and the client cannot choose. For server settings, see [Configuration](/en/boot/configuration).
+The server issues and checks every challenge. The server also picks the type: on each request it chooses one at random from the tenant's enabled types, and the client cannot choose.
+
+By default the platform enables all five types; the old digit image captcha has been removed. When a business endpoint returns `40013`, complete the captcha and submit again.
+
+For server settings, see [Configuration](/en/boot/configuration).
 
 ## Frontend behavior
 

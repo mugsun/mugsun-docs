@@ -2,6 +2,33 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · Legacy digit captcha removed
+
+### mugsun-boot
+
+- **Breaking: the legacy digit image captcha is gone.** `GET /auth/captcha` no longer exists, and the login, registration, forgot-password and SMS endpoints no longer read `captchaUuid` or `captchaCode`. Use the behavioral captcha and send `captchaToken` in the request body.
+- **Configuration**: startup fails when `mugsun.captcha.type` is `IMAGE` or anything other than `SLIDER`. `mugsun.captcha.default-types` accepts only the five type names; any other value also fails startup. `mugsun.captcha.expire-seconds` no longer does anything; remove it.
+- **Random multi-type by default**: the platform enables all five types (`SLIDER`, `WORD_CLICK`, `ROTATE`, `ICON_CLICK`, `JIGSAW`), each challenge picks one at random, and `GET /auth/captcha/config` returns `type: RANDOM`. Keyboard mode only gets slider or rotate.
+- **Turning captcha off**: still `mugsun.captcha.enabled=false`. See the [upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed).
+
+## 2026-10-21 · E2E runs with the captcha off
+
+### mugsun-pc
+
+- The digit captcha is gone.
+- The e2e tests no longer read image codes from Redis.
+- The main suite, `pnpm test:e2e`, needs the backend's captcha off.
+- New `pnpm test:e2e:captcha-on` runs against a backend with the captcha on:
+  - Requests without a `captchaToken` must return `code` `40013`:
+    login, registration and the forgot-password code request.
+  - It has its own config and doesn't need PowerJob.
+- A broken config response fails either suite instead of skipping quietly.
+- The main suite no longer runs `docker start` for PowerJob by default.
+- To opt in, set `E2E_START_POWERJOB=1`.
+- See [Development · E2E and the captcha][e2e-captcha].
+
+[e2e-captcha]: /en/pc/development#e2e-and-the-captcha
+
 ## 2026-10-21 · ms-badge dot takes precedence
 
 ### mugsun-uniappx-ui

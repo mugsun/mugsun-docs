@@ -24,9 +24,57 @@ pnpm dev
 | `pnpm build` | Type-check with `vue-tsc --noEmit`, then `vite build` |
 | `pnpm serve` | Preview the production build |
 | `pnpm test` | Unit tests (vitest) |
-| `pnpm test:e2e` | End-to-end tests (Playwright; the e2e dev port is `3007`, so set `MUGSUN_FRONT_URL` on boot) |
+| `pnpm test:e2e` | End-to-end tests (Playwright; the e2e dev port is `3007`, so set `MUGSUN_FRONT_URL` on boot). Needs the captcha off, see below |
+| `pnpm test:e2e:captcha-on` | Needs the captcha on, see below |
 | `pnpm lint` / `pnpm fix` | ESLint check / auto-fix |
 | `pnpm gen:api` | Generate `src/types/api/openapi.d.ts` from `http://localhost:8080/v3/api-docs` (boot must be running) |
+
+### E2E and the captcha
+
+The e2e tests don't solve captchas or read answers from Redis.
+So there are two suites, each for one backend setup.
+
+**Main suite, `pnpm test:e2e`**
+
+- Boot must have the captcha off.
+- Option 1: `mugsun.captcha.enabled=false`.
+- Option 2: turn off the platform tenant (`000000`)
+  with `POST /system/tenant/captcha`.
+- The suite checks `/auth/captcha/config` first and fails if the captcha is on.
+- It also fails, with the HTTP status, if the config response is broken:
+  - not 2xx
+  - not JSON
+  - `code` other than 200
+  - no `data.enabled`
+- PowerJob Server (port 7700) must be reachable; the W4-3 job tests need it.
+- If 7700 is down the suite fails and does not touch any container.
+
+**Captcha-on suite, `pnpm test:e2e:captcha-on`**
+
+- Tests live in `e2e/captcha-on/`.
+- The config is `playwright.captcha-on.config.ts`.
+- Leave the captcha on (the default). PowerJob is not needed.
+- Without a `captchaToken`, these requests must be rejected:
+  - login
+  - registration
+  - the forgot-password code request
+- Rejected means HTTP 200 with `code` `40013`.
+- If the backend explicitly returns `enabled=false`,
+  the tests are skipped with the reason.
+- A broken config response fails the run instead of skipping.
+- Nothing is solved and nothing is bypassed.
+
+**`E2E_START_POWERJOB`**
+
+- Set it to `1` and the main suite runs `docker start` when 7700 is down.
+- It then waits for the port.
+- Name the containers with `E2E_POWERJOB_CONTAINERS`, comma-separated.
+- The default is `powerjob-mysql,powerjob-server`.
+- Example:
+
+  ```bash
+  E2E_START_POWERJOB=1 E2E_POWERJOB_CONTAINERS=my-pj-db,my-pj pnpm test:e2e
+  ```
 
 ## Adding a page
 

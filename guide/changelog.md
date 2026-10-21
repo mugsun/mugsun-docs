@@ -2,6 +2,28 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · 移除旧的数字图形验证码
+
+### mugsun-boot
+
+- **破坏性变更：旧的数字图形验证码已移除**。`GET /auth/captcha` 不再存在，登录、注册、忘记密码和短信接口不再读 `captchaUuid`、`captchaCode`，请改用行为验证码并在请求体里带 `captchaToken`。
+- **配置**：`mugsun.captcha.type` 写 `IMAGE` 或其它非 `SLIDER` 的值时启动失败；`mugsun.captcha.default-types` 只接受五种题型名，其它值同样启动失败。`mugsun.captcha.expire-seconds` 已无作用，请删掉。
+- **默认多题型随机**：平台默认五种题型全部启用（`SLIDER`、`WORD_CLICK`、`ROTATE`、`ICON_CLICK`、`JIGSAW`），每次取题随机出一种，`GET /auth/captcha/config` 返回 `type: RANDOM`。键盘模式只出滑块或旋转。
+- **关闭验证码**：仍用 `mugsun.captcha.enabled=false`。升级步骤见 [升级指南](/boot/upgrade#移除旧的数字图形验证码)。
+
+## 2026-10-21 · e2e 改为关闭验证码
+
+### mugsun-pc
+
+- 数字验证码已移除，e2e 不再从 Redis 读图形码。
+- 主套 `pnpm test:e2e` 要求后端关闭验证码。
+- 新增 `pnpm test:e2e:captcha-on`，对开着验证码的后端运行：
+  - 不带 `captchaToken` 的登录、注册、忘记密码发码都须返回 `code` `40013`。
+  - 用独立配置，不需要 PowerJob。
+- config 异常时两套都直接报错，不会静默跳过。
+- 主套默认不再自动 `docker start` PowerJob；要自动启动，设 `E2E_START_POWERJOB=1`。
+- 详见 [开发 · e2e 与验证码](/pc/development#e2e-与验证码)。
+
 ## 2026-10-21 · ms-badge 圆点优先
 
 ### mugsun-uniappx-ui

@@ -5,6 +5,8 @@
 - V7：openGauss 和达梦要先确认没有同租户重复手机号。PostgreSQL 和金仓不受影响。
 - V11：所有数据库都要先确认租户编号没有被复用。
 
+所有部署都要看[移除旧的数字图形验证码](#移除旧的数字图形验证码)。
+
 ## 同租户重复手机号
 
 新版迁移 V7 在 openGauss、达梦上把用户手机号改为同一租户内唯一，与 PostgreSQL 一致。手机号为空的用户和已删除的用户不参与。
@@ -68,6 +70,15 @@ gsql 手工执行不会写 `flyway_schema_history`。#102 修好后改回 Flyway
 达梦的 DDL 自动提交，迁移失败后 Flyway 会留下一条失败记录。按[达梦：清掉失败记录](#达梦-清掉失败记录)处理后再重启，版本号填 `7`。
 
 迁移不再报「V7 升级中止」，就说明 V7 已完成。
+
+## 移除旧的数字图形验证码
+
+新版不再提供 `GET /auth/captcha`。登录页要先完成行为验证码，再把拿到的 `captchaToken` 放进登录请求。
+
+1. 前端改走 `GET /auth/captcha/config` → `POST /auth/captcha/challenge` → `POST /auth/captcha/verify`，请求体带 `captchaToken`。旧前端登录会返回 `40013`。
+2. 在 yml、`.env`、compose 和 K8s 配置里删掉 `mugsun.captcha.type`（`MUGSUN_CAPTCHA_TYPE`）和 `mugsun.captcha.expire-seconds`。写着 `IMAGE` 的部署不删会启动失败。
+3. 默认五种题型全部启用，每次随机出一种。只想要滑块时设 `mugsun.captcha.default-types: [SLIDER]`。
+4. 前端还没改完却要先升级后端时，可临时设 `mugsun.captcha.enabled=false`，登录失败锁定照常生效。
 
 ## V11 中止：租户编号被复用
 
