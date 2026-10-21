@@ -190,6 +190,12 @@ Every challenge randomly scales, crops, mirrors and recolours the background and
 
 **Icon click is also an auxiliary challenge type:** it is in the platform default random mix. The icon library (including `manifest.json`) is public in the repository, so an attacker can use the icons directly for template matching, and icon click is only partly resistant to automated solving. The project runs a template-matching solver as a regression test (200 challenges per run; it currently gets all three icons right in about 2% of challenges, and CI fails above 20%). That only shows it holds up against this kind of solver, not against every automated approach. Never use icon click as the only line of defence: combine it with failure lockout and rate limiting, enable the slider or other types as well, and use a private icon library in production. If a tenant enables only `ICON_CLICK`, the save still succeeds but the response carries a `data.warning`.
 
+**Trade-off of random types:** with five types picked at random, an attacker can keep refreshing until the weakest type comes up, so overall strength is close to that of the weakest type. Planned next:
+
+- Keep the same type for a session or IP for a while
+- Count a challenge that is fetched but never answered, or expires, as a failure
+- Move jigsaw to 3×3 and add seam noise
+
 **Production must use a private asset library:** the default backgrounds (12), rotate images (16) and icons (44) ship with the open-source repository, so an attacker can diff a challenge against the public original to find the gap, or build answer tables for rotate and icons in advance. In production, point `background.dir`, `rotate.dir` and `icon-dir` at your own directories (`file:` or `classpath:`) and rotate them regularly; the icon directory needs a `manifest.json` (`slug`, `name_zh`, `name_en`, `confusable`; without `name_en`, English UIs fall back to the Chinese name). With the `prod` profile, a warning is logged at startup while the bundled assets are still in use (detected by directory or file hash); not setting `click.words-file` also counts as using bundled assets.
 
 Errors come back as HTTP 200 with `R.code`:
