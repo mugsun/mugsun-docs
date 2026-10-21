@@ -206,8 +206,8 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: 'Upgrade guide',
           items: [
             { text: 'Versions', link: '/en/guide/upgrade/' },
-            { text: 'core 0.1.0 → 0.2.0', link: '/en/guide/upgrade/core-0.2' },
-            { text: 'Tracking SDK 0.1.0 → 0.2.0', link: '/en/guide/upgrade/track-web-0.2' },
+            { text: 'core 0.1.0 → 0.2.0', link: '/en/guide/upgrade/core-0-2-0' },
+            { text: 'Tracking SDK 0.1.0 → 0.2.0', link: '/en/guide/upgrade/track-web-0-2-0' },
           ],
         },
       ],

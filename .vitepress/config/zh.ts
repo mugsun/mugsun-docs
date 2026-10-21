@@ -36,8 +36,8 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: '升级指南',
           items: [
             { text: '版本总览', link: '/guide/upgrade/' },
-            { text: 'core 0.1.0 → 0.2.0', link: '/guide/upgrade/core-0.2' },
-            { text: '埋点 SDK 0.1.0 → 0.2.0', link: '/guide/upgrade/track-web-0.2' },
+            { text: 'core 0.1.0 → 0.2.0', link: '/guide/upgrade/core-0-2-0' },
+            { text: '埋点 SDK 0.1.0 → 0.2.0', link: '/guide/upgrade/track-web-0-2-0' },
           ],
         },
       ],
