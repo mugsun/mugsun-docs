@@ -79,7 +79,7 @@ function onNavigate(payload: UTSJSONObject) : void {
 | showToolbar | `boolean` | `true` | 是否显示工具条 |
 | showStatus | `boolean` | `true` | 是否显示状态 |
 | loadingText | `string` | `'加载中…'` | 加载中文案 |
-| allowHosts | `string[]` | `[]` | 外链主机白名单：精确匹配（`example.com`）或前导点后缀（`.mugsun.com`，含根域与子域）；**默认空 = 拒绝一切非空外链** |
+| allowHosts | `string[]` | `[]` | 外链主机白名单：精确匹配（`example.com`）或前导点后缀（`.mugsun.com`，含根域与子域）。默认为空，此时拒绝所有非空外链 |
 | allowAnyHost | `boolean` | `false` | 跳过组件级白名单（仍拒绝非 http/https 等违规地址，且仍受微信业务域名 / `urlCheck` 约束） |
 
 ## 事件
@@ -121,7 +121,7 @@ function onNavigate(payload: UTSJSONObject) : void {
 }
 ```
 
-2. 真机预览与提审前，须在微信公众平台为小程序配置 **业务域名**，`web-view` 只能打开已配置的域名；个人主体小程序不能用 `web-view` 打开外链。
+2. 真机预览与提审前，须在微信公众平台为小程序配置业务域名，`web-view` 只能打开已配置的域名；个人主体小程序不能用 `web-view` 打开外链。
 
 ## 相关
 
