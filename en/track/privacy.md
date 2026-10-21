@@ -44,6 +44,8 @@ Addresses in these places in the replay are **not redacted**:
 
 If any of these may carry a token or signature, add `data-track-mask` to the element so the replay skips it entirely.
 
+`data-track-mask` must be on the element when recording starts or when the element is inserted. Adding it later won't mask what's already recorded.
+
 Credential keys, shared by URLs and response bodies:
 
 ```text
@@ -70,7 +72,7 @@ Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count t
 
 `url_path` holds the pathname only, without the query string or hash.
 
-Invalid URLs are returned unchanged, and relative URLs stay relative.
+Only the query string and hash are changed; scheme, host and path stay byte for byte. Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
 
 ## Credential fields in response bodies
 
@@ -82,7 +84,14 @@ JSON response bodies only have the **credential keys** from [URL redaction](#url
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
 ```
 
-One exception: `code` and `ticket` values that look like tokens are replaced too, meaning JWT-shaped values (three base64url parts starting with `eyJ`), or strings of 16 characters or more made only of letters, digits and `.`, `_`, `~`, `+`, `/`, `=`, `-` that mix letters and digits (base64, base64url and hex tokens, Google-style `4/0Ab…` codes and dotted tokens). Only upper-case snake business codes such as `INVALID_PARAMETER_VALUE` and `ORDER_20261021_0001` are exempt; short codes such as `0`, `200` and `"E1001"` are kept too:
+One exception: `code` and `ticket` values that look like tokens are replaced too.
+
+- JWT shape: three base64url parts starting with `eyJ`.
+- Or 16+ characters that mix letters and digits.
+- Using only letters, digits and `.` `_` `~` `+` `/` `=` `%` `-`.
+- This covers base64, hex, `4/0Ab…` codes and URL-encoded `4%2F0Ab…`.
+
+Upper-case snake codes such as `INVALID_PARAMETER_VALUE` are kept. Short codes such as `0`, `200` and `"E1001"` are kept too:
 
 ```text
 {"code":"E1001"}                    →   uploaded unchanged

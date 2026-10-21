@@ -44,6 +44,8 @@
 
 如果这些位置可能带令牌或签名，请给对应元素加 `data-track-mask`，回放里整块不录。
 
+`data-track-mask` 要在开始录制时或元素插入页面时就已存在。之后再加，已录下的内容不会被遮住。
+
 凭证键，URL 和响应体共用：
 
 ```text
@@ -70,7 +72,7 @@ sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 
 `url_path` 只取 pathname，不含查询串和 hash。
 
-非法 URL 原样返回；相对 URL 保持相对形态。
+只改查询串和 hash，协议、主机、路径逐字保留。相对 URL（`img/a.jpg?token=…`）和协议相对 URL（`//cdn.x/a?token=…`）保持原样，只替换参数值。
 
 ## 响应体中的凭证字段
 
@@ -82,7 +84,14 @@ sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 {"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   原样上传
 ```
 
-例外：`code`、`ticket` 的值像令牌时也替换，即 JWT 形态（三段 base64url，以 `eyJ` 开头），或长度 ≥16、只含字母、数字和 `.`、`_`、`~`、`+`、`/`、`=`、`-`，且同时有字母和数字的字符串（base64、base64url、hex 令牌，以及 `4/0Ab…` 这类 Google 授权码、带点的令牌）。只豁免大写下划线业务码，如 `INVALID_PARAMETER_VALUE`、`ORDER_20261021_0001`；`0`、`200`、`"E1001"` 这类短业务码也保留：
+例外：`code`、`ticket` 的值像令牌时也替换。
+
+- JWT 形态：三段 base64url，以 `eyJ` 开头。
+- 长度 ≥16，同时有字母和数字。
+- 只含字母、数字和 `.`、`_`、`~`、`+`、`/`、`=`、`%`、`-`。
+- 覆盖 base64、hex、`4/0Ab…` 授权码和 URL 编码后的 `4%2F0Ab…`。
+
+大写下划线业务码不替换，如 `INVALID_PARAMETER_VALUE`。`0`、`200`、`"E1001"` 这类短业务码也保留：
 
 ```text
 {"code":"E1001"}                    →   原样上传

@@ -24,7 +24,7 @@ Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.
 - **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session`, `session_id` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.
 - **Credential hardening** ([#20](https://github.com/mugsun/mugsun-track/pull/20)):
   - Global Privacy Control is honored by default (`respectGpc: true`), like DNT.
-  - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`, ignores case, `_` and `-`, and covers hash parameters; `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
+  - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`. Matching ignores case, `_` and `-`, and hash parameters are covered. `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
   - Sign-up, password reset / change, SMS / captcha / MFA endpoints never have their response bodies captured.
   - Two key lists: credential keys (including `session`) are shared by URLs and response bodies; `code`, `sign`, `signature`, `ticket` and `otp` are replaced only in URLs and kept as-is in bodies (such as `{"code":0}`).
 - **More credential hardening**:
@@ -32,6 +32,7 @@ Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.
   - JS error `filename`s and address attributes in the replay DOM (`href`, `src`, `srcset`, …) are redacted. CSS `url()`, `data-*` attributes, `iframe` `srcdoc`, `meta` `content` and URLs in page text aren't; see [Privacy](/en/track/privacy#url-redaction).
   - Cloud storage signature parameters `X-Amz-Signature`, `X-Amz-Security-Token` and `X-Goog-Signature` join the credential keys; Azure `sig`, Tencent COS `q-signature` and Aliyun OSS `x-oss-signature` / `x-oss-security-token` and Tencent COS `x-cos-security-token` are replaced in URLs only.
   - Token-like `code` and `ticket` values in bodies become `***`; business codes such as `E1001` and `INVALID_PARAMETER_VALUE` are kept.
+  - camelCase token endpoints such as `/getToken` and `/refreshToken` no longer have bodies captured. URL redaction only touches the query string and hash, so relative and `//` URLs keep their form. The token-like charset now includes `%`.
 - **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
 
 ## 2026-10-18 · Duplicate submissions return 400
