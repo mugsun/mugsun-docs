@@ -23,6 +23,7 @@ demo: pages/demo/media/webview
   <!-- 组件类型 -->
   <ms-webview
     :src="src"
+    :allow-hosts="['example.com', 'example.org']"
     :height="200"
     @load="onLoad"
     @error="onError"
@@ -78,6 +79,8 @@ function onNavigate(payload: UTSJSONObject) : void {
 | showToolbar | `boolean` | `true` | 是否显示工具条 |
 | showStatus | `boolean` | `true` | 是否显示状态 |
 | loadingText | `string` | `'加载中…'` | 加载中文案 |
+| allowHosts | `string[]` | `[]` | 外链主机白名单：精确匹配（`example.com`）或前导点后缀（`.mugsun.com`，含根域与子域）；**默认空 = 拒绝一切非空外链** |
+| allowAnyHost | `boolean` | `false` | 跳过组件级白名单（仍拒绝非 http/https 等违规地址，且仍受微信业务域名 / `urlCheck` 约束） |
 
 ## 事件
 
@@ -87,6 +90,38 @@ function onNavigate(payload: UTSJSONObject) : void {
 | error | 错误 |
 | message | 收到消息 |
 | navigate | 导航操作 |
+| blocked | 地址被白名单拦截，payload：`url`、`reason='allowHosts'` |
+
+## 外链白名单
+
+`src` 只有通过校验才会交给内部 `<web-view>`；未通过时不加载，状态行显示「地址未在白名单」，容器内显示「地址未在白名单，已拦截」，并同时触发 `blocked` 与 `error`（payload 均为 `{ url, reason: 'allowHosts' }`）。
+
+校验规则：
+
+- 只放行 `http://` / `https://`；`javascript:`、`file:`、`data:` 等一律拒绝（`allowAnyHost` 也不放行）。
+- 含控制字符（含 tab、换行）、authority 含反斜杠 `\` 或 userinfo（`@`）的地址直接拒绝。
+- 主机名小写比对，忽略端口；`.mugsun.com` 匹配 `mugsun.com` 与 `a.mugsun.com`，不匹配 `evilmugsun.com`。
+- `src` 为空时显示空态「未设置网页地址」，不算拦截。
+
+```vue
+<ms-webview src="https://a.mugsun.com/" :allow-hosts="['.mugsun.com']" @blocked="onBlocked" />
+```
+
+## 微信小程序：urlCheck 与业务域名
+
+组件白名单只是第一层，微信小程序另有平台约束：
+
+1. 工程 `manifest.json` 建议开启域名校验（演示工程已设为 `true`）：
+
+```json
+"mp-weixin": {
+  "setting": {
+    "urlCheck": true
+  }
+}
+```
+
+2. 真机预览与提审前，须在微信公众平台为小程序配置 **业务域名**，`web-view` 只能打开已配置的域名；个人主体小程序不能用 `web-view` 打开外链。
 
 ## 相关
 
