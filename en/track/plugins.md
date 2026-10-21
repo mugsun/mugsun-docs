@@ -81,7 +81,7 @@ Built-in protections that can't be turned off:
 - The SDK's own endpoints (`/track/collect`, `/track/config`, `/track/replay`, `/track/api-body` and so on) are never captured, which prevents loops.
 - Credential endpoints **never have their bodies captured**.
 - The event is marked `body_skipped: 'credential'`.
-- The path is URL-decoded first, so `/api/get%5Ftoken` counts as `/api/get_token`.
+- The path is URL-decoded first: `/api/get%5Ftoken` is `/api/get_token`.
 - Then, after lowercasing, a path counts if any of these holds:
   - **Contains a fragment**:
     - Login and tokens: `/auth/login`, `/auth/refresh`, `/oauth/token`.
@@ -129,7 +129,9 @@ Built-in protections that can't be turned off:
     - `/passwordPolicy/list`, `/registerCenter`.
     - Endpoints whose segment is exactly `login`, `token`, `sso` or `cas`.
     - Full list: [mugsun-track CHANGELOG][track-changelog].
-  - If an endpoint that none of these rules catch (for example another camelCase name) returns a verification code, turn body capture off with `apiBodyEnabled: false`.
+  - Some endpoints may return a verification code yet match none of these rules,
+    for example other camelCase names. Turn body capture off for them with
+    `apiBodyEnabled: false`.
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0

@@ -124,7 +124,8 @@ const track = createTracker({
     - `/passwordPolicy/list`、`/registerCenter`。
     - 段名恰好是 `login`、`token`、`sso`、`cas` 的普通接口。
     - 完整列表见 [mugsun-track CHANGELOG][track-changelog]。
-  - 以上规则都没命中、但会返回验证码的接口（例如其他驼峰命名），请用 `apiBodyEnabled: false` 关掉响应体采集。
+  - 有的接口会返回验证码，但以上规则都没命中（例如其他驼峰命名）。
+    请用 `apiBodyEnabled: false` 关掉响应体采集。
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
 ::: warning 0.3.0 行为变更
