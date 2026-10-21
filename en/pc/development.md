@@ -25,6 +25,7 @@ pnpm dev
 | `pnpm serve` | Preview the production build |
 | `pnpm test` | Unit tests (vitest) |
 | `pnpm test:e2e` | End-to-end tests (Playwright; the e2e dev port is `3007`, so set `MUGSUN_FRONT_URL` on boot and turn the captcha off with `mugsun.captcha.enabled=false` or the platform tenant's captcha switch; the tests don't solve captchas and no longer read image codes from Redis) |
+| `pnpm test:e2e:captcha-on` | Captcha-on checks (`e2e/captcha-on/`): login and the forgot-password code request without a `captchaToken` must be rejected (`40013`). Requires boot with the captcha on (`mugsun.captcha.enabled=true` and the platform tenant's switch on); run it separately from the main suite, once per backend setup. No solving, no bypass |
 | `pnpm lint` / `pnpm fix` | ESLint check / auto-fix |
 | `pnpm gen:api` | Generate `src/types/api/openapi.d.ts` from `http://localhost:8080/v3/api-docs` (boot must be running) |
 
