@@ -76,6 +76,21 @@ So there are two suites, each for one backend setup.
   E2E_START_POWERJOB=1 E2E_POWERJOB_CONTAINERS=my-pj-db,my-pj pnpm test:e2e
   ```
 
+## Access mode and cross-origin requests
+
+Both variables are set in `.env` and take effect at build time.
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `VITE_ACCESS_MODE` | `backend` | Access mode. Only `backend` and `frontend` are supported |
+| `VITE_WITH_CREDENTIALS` | `false` | When `true`, requests are sent with `withCredentials` and carry cookies |
+
+In `backend` mode, menus and permissions come from the menu data returned by the backend API. This suits business applications.
+
+In `frontend` mode, menus and permissions come from the frontend route configuration. This suits small projects and demo environments.
+
+Set `VITE_WITH_CREDENTIALS` to `true` only when the console and the backend are on different origins and cookies must be sent. The backend must also allow credentials on cross-origin requests.
+
 ## Adding a page
 
 1. Implement the endpoint in boot and declare its permission code (`@SaCheckPermission`).
