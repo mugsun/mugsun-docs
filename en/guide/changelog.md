@@ -2,6 +2,37 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · FAQ and error reference
+
+### mugsun-docs
+
+- Added the [error reference](/en/guide/errors), with the original text, cause and fix for each error.
+- Added a "Deployment and operation" section to the [FAQ](/en/guide/faq), written as symptom, cause and fix.
+
+## 2026-10-21 · Upgrade guide
+
+### mugsun-docs
+
+- Added the [upgrade guide](/en/guide/upgrade/), which lists the tags and released versions of each repository.
+- Added pages for core 0.1.0 → 0.2.0 and Tracking SDK 0.1.0 → 0.2.0.
+- The verification SQL on the scheduled tasks page was checked against PowerJob 5.1.2.
+
+## 2026-10-21 · Feature index
+
+### mugsun-docs
+
+- Added the [features](/en/boot/features/) index, which lists the features available on the main branch.
+- Added ten feature pages, each covering what it does, how to turn it on, how to use it, and notes.
+- Features with their own guide are linked from the index, and every page ends with a "See it work" section.
+
+## 2026-10-21 · Multi-tenancy and data permissions
+
+### mugsun-docs
+
+- Added the [multi-tenancy](/en/boot/tenant/) guide: overview, tenants and plans, and switching tenants in code.
+- Added the [data permissions](/en/boot/datascope/) guide: overview, enabling it on an endpoint, and data permission rules.
+- Each page ends with a "See it work" section with SQL you can copy to verify the result.
+
 ## 2026-10-21 · Code generation guide
 
 ### mugsun-docs
