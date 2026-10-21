@@ -42,7 +42,7 @@ jobs:
           tar -xzf "$f" gitleaks
 
       - name: Scan
-        run: ./gitleaks git --redact --no-banner --exit-code 1 .
+        run: ./gitleaks git --config .gitleaks.toml --redact --no-banner --exit-code 1 .
 
   osv:
     name: Vulnerability scan (osv-scanner)

@@ -10,7 +10,7 @@ cp config/application-local.yml.example config/application-local.yml
 
 `config/application-local.yml` is loaded last, so it can override any key from `application.yml` and from module configs such as `mugsun-module-track.yml`, for example the tracking database URL `mybatis-flex.datasource.track.url`. Before [mugsun-boot #29](https://github.com/mugsun/mugsun-boot/pull/29) it was loaded ahead of the module configs, so module keys set here were ignored and only environment variables (such as `TRACK_JDBC_URL`) worked. After upgrading, keys that used to be ignored take effect, so check the file for stale values.
 
-The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock social login. If you leave the SM2 key pair empty, a new pair is generated on every start and sign-in can break when it changes, so set a fixed local pair.
+The example no longer ships key values; with the dev profile the API and field encryption keys can stay empty (see "Local development" below). It also ships a mock social login. If you leave the SM2 key pair empty, a new pair is generated on every start and sign-in can break when it changes, so set a fixed local pair.
 
 ## Data sources and cache (prod)
 
@@ -25,13 +25,13 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `MUGSUN_INIT_PASSWORD` | — | Initial admin password. prod refuses to start if it's missing or still the built-in default |
+| `MUGSUN_INIT_PASSWORD` | — | Initial admin password. Production (see "Startup guards and exemption switches" below) refuses to start if it's missing |
 | `MUGSUN_GM_ENABLED` | `true` | Master switch for SM-series crypto (SM2 transport / SM3 digests) |
-| `MUGSUN_SM4_KEY` | empty | SM4 key for field encryption |
-| `MUGSUN_API_KEY` | empty | SM4 key for request/response encryption |
+| `MUGSUN_SM4_KEY` | empty | SM4 key for field encryption; required outside dev, see "API and field encryption keys" below |
+| `MUGSUN_API_KEY` | empty | API encryption key, 32 hex chars or 16-byte base64; required outside dev |
 | `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | empty | SM2 transport key pair (hex); generated with a warning if empty |
 | `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | empty | Audit-signing key pair, kept separate from transport keys |
-| `MUGSUN_STRICT_KEYS` | `false` (`true` in prod) | When `true`, any missing key stops startup |
+| `MUGSUN_STRICT_KEYS` | `false` (`true` in prod) | When `true`, any missing key stops startup and ephemeral keys or the local key file are not allowed |
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | empty | CIDR list of trusted reverse proxies; see [Open API](/en/boot/open-api#client-ip-and-trusted-proxies) |
 | `MUGSUN_FILE_SIGN_SECRET` | empty | Signing key for local file download links (at least 32 characters); see "Local file access" below |
 
@@ -42,7 +42,148 @@ When `MUGSUN_GM_ENABLED` (setting `mugsun.crypto.gm-enabled`) is off:
 - General-purpose digests switch from SM3 to SHA-256; currently only the encryption demo endpoint uses them. Audit signing uses its own SM2 key pair and is not affected.
 - Password storage is not affected by this switch. The server always stores passwords with BCrypt, a salted slow hash, and never with SHA-256.
 
-The current version does not enforce SM-series crypto in the `prod` environment; a later version will refuse to start instead. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
+Turning SM-series crypto off in production stops startup unless the exemption switch is also set; see "Startup guards and exemption switches" below. Once it is off, passwords rely entirely on TLS. Keep it on for MLPS (Dengbao) or commercial cryptography assessments.
+
+## API and field encryption keys (breaking change)
+
+::: warning Breaking change
+mugsun-core and mugsun-boot no longer have any built-in fallback keys.
+After upgrading, any non-dev environment without `MUGSUN_API_KEY` or `MUGSUN_SM4_KEY` refuses to start.
+:::
+
+### New `MUGSUN_API_KEY` format
+
+- API encryption now uses SM4-GCM with integrity protection; tampered ciphertext fails to decrypt.
+- After trimming surrounding whitespace, the key must be either:
+  - 32 hex characters (any case), or
+  - padded standard base64 that decodes to exactly 16 bytes.
+- Anything else stops startup. Keys are no longer zero-padded or truncated.
+- Ciphertext is `base64(IV 12 bytes ‖ ciphertext ‖ tag 16 bytes)`, padded.
+- Old SM4-CBC ciphertext is no longer accepted; the console frontend must be upgraded at the same time.
+
+::: danger Transport obfuscation only, not a replacement for TLS
+The symmetric key is shipped to the browser, so it is not secret from clients. Always use HTTPS in production.
+
+No replay protection and no endpoint binding: ciphertext can be replayed or moved to another encrypted endpoint.
+:::
+
+### Upgrade steps
+
+1. Generate a key with `openssl rand -hex 16`, or rerun `scripts/gen-keys.sh`.
+2. Replace `MUGSUN_API_KEY` in every deployment. The old 16-character form is rejected, so change it before upgrading.
+3. Set the frontend `VITE_CRYPTO_API_KEY` to the same value and release frontend and backend together.
+4. Make sure `MUGSUN_SM4_KEY` is set and valid (see "`MUGSUN_SM4_KEY` format" below).
+   These deployments must re-encrypt with "Migration" below before upgrading; putting the old
+   value back does not make old data readable:
+   - those that used the old fallback or a short key;
+   - those whose `MUGSUN_SM4_KEY` is 32 hex or 24 base64 characters. Older versions used the
+     first 16 characters of that string as the key, while this version decodes it as hex or
+     base64, which gives a different key. Migrate with the original value as the old key and
+     `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED=true`.
+   - Only deployments that always used the 16-character form keep the same key bytes and can
+     upgrade directly.
+
+### `MUGSUN_SM4_KEY` format
+
+- Only three forms are accepted, after trimming surrounding whitespace:
+  - 32 hex characters, any case (generate new keys with `openssl rand -hex 16`);
+  - padded standard base64 that decodes to exactly 16 bytes;
+  - transition only: the old 16-character form, which logs a WARN; the next release accepts only 32 hex.
+- Anything else stops startup: no zero padding, no truncation, no legacy switch.
+- Older versions treated every key as characters: short ones were zero-padded, long ones cut to
+  16 characters. So 32-hex and 24-base64 keys from older versions decode differently now and
+  must be migrated too.
+- Startup self-check: at startup the application samples 3 rows per encrypted column and
+  test-decrypts every value that looks like ciphertext. If any fail, startup stops and names
+  the table, column and primary key, with a hint to migrate using `LEGACY_PADDED`.
+  An empty database passes. `mugsun.crypto.sm4-self-check=false` turns it off; use that only
+  briefly while troubleshooting. In production the skip switch has no effect and the
+  self-check always runs.
+
+### Local development
+
+- Start with the dev profile: `--spring.profiles.active=dev`.
+- `mugsun.crypto.allow-ephemeral-keys=true`: without `MUGSUN_API_KEY`, a key valid only for this process is generated. It changes on restart, differs between instances, and logs a WARN.
+- `mugsun.crypto.sm4-local-key-file` (default `${user.home}/.mugsun/dev-sm4.key`): without `MUGSUN_SM4_KEY`, a random key is written to this file on first start and reused afterwards, so local data survives restarts. The file is created with mode 600 and its directory with 700; wider permissions log a WARN. Deleting the file makes data encrypted with it unreadable.
+- Local data encrypted with the old fallback key can't be decrypted after upgrading; recreate the local database or migrate as below.
+- The field encryption key is never regenerated on each start.
+- With `MUGSUN_STRICT_KEYS=true` (the prod default) neither option applies. For API crypto `strict-keys` only acts as a veto; it is not deprecated.
+
+### Migration: deployments that used the old fallback, a short key, or a 32-hex / base64 key on an older version
+
+Older versions fell back to a fixed key that is public in the repository when no key was configured, zero-padded short keys and truncated long ones.
+If such a deployment just sets a new key, all old data becomes unreadable; setting the old value again keeps using a public key.
+The application holds only one key at a time, so re-encryption uses the offline tool
+`com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`, which takes both keys.
+
+All inputs come from environment variables, never the command line:
+
+| Variable | Meaning |
+| --- | --- |
+| `MUGSUN_SM4_OLD_KEY` | Old key (the old fallback is in git history; use it only for the migration) |
+| `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED` | Set `true` when the old key is short or the old fallback, to rebuild it with the old zero padding |
+| `MUGSUN_SM4_NEW_KEY` | New key, same format as above |
+| `MUGSUN_MIGRATE_JDBC_URL`, `MUGSUN_MIGRATE_DB_USER`, `MUGSUN_MIGRATE_DB_PASSWORD` | Target database |
+
+Migration:
+
+1. Back up the database and stop the application.
+2. Run a dry run first (the default, writes nothing):
+   `java -cp mugsun-boot.jar -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool org.springframework.boot.loader.launch.PropertiesLauncher`.
+   It prints, per table and column, the total, to re-encrypt, already on the new key, legacy plaintext and undecryptable counts.
+   With the Docker image, override the entrypoint and run java directly:
+
+   ```bash
+   docker run --rm --env-file migrate.env --entrypoint java <image> \
+     -cp /app/app.jar \
+     -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool \
+     org.springframework.boot.loader.launch.PropertiesLauncher --dry-run
+   ```
+
+   Delete `migrate.env` afterwards and never commit it.
+3. When every undecryptable count is 0, **make sure the backup from step 1 is usable**, then rerun with `--apply`. It writes in one transaction and rolls back everything if any row fails.
+4. Start with `MUGSUN_SM4_KEY` set to the new key.
+
+   Then check that the error log has no "SM4 解密失败" (SM4 decrypt failed) entries.
+5. Rotate every third-party credential stored in these columns.
+
+- Identical old and new keys (including the hex and base64 forms of one key) are refused.
+- Keys come only from environment variables; the command line accepts only `--dry-run` and `--apply`. Output lists only tables, columns, row counts and the primary keys that failed, never keys, plaintext or ciphertext.
+- Run it once per tenant database configured in `sys_tenant_datasource`.
+- With `mugsun.db.default-schema` set, put that schema in the JDBC URL (for example `currentSchema=`
+  on PostgreSQL); run once per schema if there are several.
+- A column that fails to decrypt reads as empty and is not written back; still, don't save these records in the admin console before migrating.
+
+Affected columns:
+
+| Table | Columns |
+| --- | --- |
+| `sys_user` | `id_card` |
+| `sys_tenant_datasource` | `ds_password` |
+| `sys_notify_channel` | `secret` |
+| `sys_oauth_client` | `client_secret` |
+| `sys_api_key` | `secret_key` |
+| `sys_oss` | `access_key`, `secret_key` |
+| `ai_model` | `api_key`, `secret_key` |
+| `ai_secret` | `secret_key` |
+| `ai_datasource` | `password` |
+| `ai_vector_store` | `password` |
+| `ai_mcp_tool` | `api_key` |
+| `gis_map_provider` | `api_key`, `secret` |
+
+- API encryption is transport-only and stores nothing, so replacing the key is enough.
+
+
+### ECB exception for field encryption
+
+Field encryption currently uses SM4-ECB. This is an exception kept only for `sys_user.id_card`, to support equality lookups. Its limits:
+
+- the same plaintext gives the same ciphertext, so duplicate values are visible in the database;
+- the ciphertext is not tamper-proof;
+- the ciphertext is not bound to its row and can be moved to another row.
+
+The other 14 columns move to SM4-GCM in the next round. If `id_card` ever needs equality lookups,
+switch to an HMAC blind-index column for lookups and encrypt the column itself with GCM.
 
 ## Audit log
 
@@ -334,6 +475,28 @@ This setting is for PostgreSQL-protocol databases such as KingbaseES, so that bu
 When it is set, business tables (except `track_*`) and table names in hand-written SQL get this schema prefix, and Flyway uses the schema and creates it if needed.
 
 When it is empty, nothing changes and the connection's default schema is used, usually `public` on PostgreSQL. openGauss has not been tested.
+
+## Startup guards and exemption switches
+
+The settings below stop startup when they are misconfigured in production. Only explicitly active profiles (`spring.profiles.active`) count: the list must be non-empty, include
+`dev`, `test` or `local`, and include no production name (see below). Everything else is treated as production.
+Names are trimmed and lowercased before comparison:
+
+- No profile at all is treated as production. **This is a behavior change**: for local testing, pass `--spring.profiles.active=dev` explicitly (`mvn spring-boot:run` already activates `dev`).
+- If the active list contains `prod`, `production`, `prd` or `staging`, it is production even with `dev`; `DEV` equals `dev`.
+- Any other name on its own (such as `demo` or `qa`) is also production.
+- `spring.profiles.default` is ignored: `default=dev` with no active profile is production.
+
+| Setting | Dangerous value in production | Exemption switch |
+| --- | --- | --- |
+| `mugsun.security.init-password` | not set | none |
+| `mugsun.lab.seed-fronttest` | `true` (seeds a test account with a weak password) | none |
+| `mugsun.open-api.sign-required` | `false` | `mugsun.open-api.i-understand-unsigned-requests-are-insecure=true` |
+| `mugsun.crypto.gm-enabled` | `false` | `mugsun.crypto.i-understand-plaintext-passwords-rely-on-tls=true` |
+
+Use an exemption switch only when you truly cannot meet the requirement; every start then logs a WARN.
+
+**With SM-series crypto off, passwords rely entirely on TLS.** Even with the exemption, in production sign-in, registration, password change and password reset requests must be HTTPS (checked with `request.isSecure()`) or they are rejected. Behind a reverse proxy, have the proxy send `X-Forwarded-Proto` and set `server.forward-headers-strategy=native` on the backend; a forged header on its own is not trusted.
 
 ## Production
 

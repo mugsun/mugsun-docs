@@ -44,7 +44,7 @@ Don't add broad ranges such as `0.0.0.0/0` as trusted proxies. That is the same 
 
 `mugsun.open-api.sign-required` defaults to `true`, and Open API requests must carry valid `X-Timestamp`, `X-Nonce` and `X-Sign` headers.
 
-When it is `false`, only the access token or API key is checked; signatures are not verified and replays are not blocked. The current version does not enforce this value in the `prod` environment; a later version will refuse to start instead. Keep it `true` in production.
+When it is `false`, only the access token or API key is checked; signatures are not verified and replays are not blocked. In production, `false` stops startup unless `mugsun.open-api.i-understand-unsigned-requests-are-insecure=true` is also set, which logs a WARN on every start. No profile at all also counts as production; see [Startup guards and exemption switches](/en/boot/configuration#startup-guards-and-exemption-switches). Keep it `true` in production.
 
 ## Rate limiting
 
