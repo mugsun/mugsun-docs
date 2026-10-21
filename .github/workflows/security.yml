@@ -55,8 +55,11 @@ jobs:
 
       - name: Scan and gate (High/Critical fail, Medium warn)
         run: |
-          ./osv-scanner scan source --config osv-scanner.toml -L pnpm-lock.yaml --format json > osv.json || true
-          python3 scripts/check-vulns.py gate osv.json
+          # osv-scanner：0 无漏洞，1 有漏洞（交给 gate 判级），其他退出码判失败
+          python3 scripts/check-vulns.py osv-config osv-ci.toml
+          rc=0
+          ./osv-scanner scan source --config osv-ci.toml -L pnpm-lock.yaml --format json > osv.json || rc=$?
+          python3 scripts/check-vulns.py gate osv.json "$rc"
 
   audit:
     name: pnpm audit (high)
@@ -75,8 +78,11 @@ jobs:
 
       - name: Audit
         run: |
-          pnpm audit --json > audit.json || true
-          python3 scripts/check-vulns.py audit-gate audit.json
+          # pnpm audit：0 无漏洞，1 有漏洞（交给 audit-gate 判级），其他退出码判失败；
+          # JSON 带 error 键、缺 advisories/metadata 或不是合法 JSON 也判失败
+          rc=0
+          pnpm audit --json > audit.json || rc=$?
+          python3 scripts/check-vulns.py audit-gate audit.json "$rc"
 
   notify:
     name: Report scheduled failure

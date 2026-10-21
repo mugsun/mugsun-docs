@@ -1,13 +1,17 @@
 # 漏洞忽略清单（ci-checklist 3.1）。新增条目须安全官审。
-# 每条必须写 reason 和 ignoreUntil，到期日距今不超过 90 天；
+# 每条必须写 reason、added 和 ignoreUntil，ignoreUntil 距 added 不超过
+# 90 天（第 90 天当天仍有效）。续期要经安全官审，续期时同时改 added。
+# osv-scanner 不认 added 键，CI 先用 check-vulns.py osv-config 去掉它再扫描。
 # 过期条目由 scripts/check-vulns.py 判为失败。pnpm audit 门禁也读本文件的 id。
 
 [[IgnoredVulns]]
 id = "GHSA-587h-7wmj-h5pm"
+added = 2026-10-21
 ignoreUntil = 2027-01-19T00:00:00Z
 reason = "只影响 Windows 上的 Vite 开发服务器：launch-editor 路径检查可被绕过。线上只部署静态构建产物，构建和 CI 跑在 macOS/Linux；vite 5.4.21 内置打包了 launch-editor，无法单独覆盖版本。计划在到期前升级到 vitepress 2"
 
 [[IgnoredVulns]]
 id = "GHSA-fx2h-pf6j-xcff"
+added = 2026-10-21
 ignoreUntil = 2027-01-19T00:00:00Z
 reason = "只影响 Windows 上的 Vite 开发服务器：server.fs.deny 可被绕过，且须用 --host 把开发服务器暴露到网络才可利用。线上只部署静态构建产物，构建和 CI 跑在 macOS/Linux。计划在到期前升级到 vitepress 2"
