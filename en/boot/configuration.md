@@ -10,7 +10,7 @@ cp config/application-local.yml.example config/application-local.yml
 
 `config/application-local.yml` is loaded last, so it can override any key from `application.yml` and from module configs such as `mugsun-module-track.yml`, for example the tracking database URL `mybatis-flex.datasource.track.url`. Before [mugsun-boot #29](https://github.com/mugsun/mugsun-boot/pull/29) it was loaded ahead of the module configs, so module keys set here were ignored and only environment variables (such as `TRACK_JDBC_URL`) worked. After upgrading, keys that used to be ignored take effect, so check the file for stale values.
 
-The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock social login. If you leave the SM2 key pair empty, a new pair is generated on every start and sign-in can break when it changes, so set a fixed local pair.
+The example no longer ships key values; with the dev profile the API and field encryption keys can stay empty (see "Local development" below). It also ships a mock social login. If you leave the SM2 key pair empty, a new pair is generated on every start and sign-in can break when it changes, so set a fixed local pair.
 
 ## Data sources and cache (prod)
 
@@ -27,13 +27,71 @@ The example ships local placeholder keys (`sm4-key`, `api-key`) and a mock socia
 | --- | --- | --- |
 | `MUGSUN_INIT_PASSWORD` | — | Initial admin password. prod refuses to start if it's missing or still the built-in default |
 | `MUGSUN_GM_ENABLED` | `true` | Master switch for SM-series crypto (SM2 transport / SM3 digests) |
-| `MUGSUN_SM4_KEY` | empty | SM4 key for field encryption |
-| `MUGSUN_API_KEY` | empty | SM4 key for request/response encryption |
+| `MUGSUN_SM4_KEY` | empty | SM4 key for field encryption; required outside dev, see "API and field encryption keys" below |
+| `MUGSUN_API_KEY` | empty | API encryption key, 32 hex chars or 16-byte base64; required outside dev |
 | `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | empty | SM2 transport key pair (hex); generated with a warning if empty |
 | `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | empty | Audit-signing key pair, kept separate from transport keys |
-| `MUGSUN_STRICT_KEYS` | `false` (`true` in prod) | When `true`, any missing key stops startup |
+| `MUGSUN_STRICT_KEYS` | `false` (`true` in prod) | When `true`, any missing key stops startup and ephemeral keys or the local key file are not allowed |
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | empty | CIDR list of trusted reverse proxies; see [Open API](/en/boot/open-api#client-ip-and-trusted-proxies) |
 | `MUGSUN_FILE_SIGN_SECRET` | empty | Signing key for local file download links (at least 32 characters); see "Local file access" below |
+
+## API and field encryption keys (breaking change)
+
+::: warning Breaking change
+mugsun-core and mugsun-boot no longer have any built-in fallback keys.
+After upgrading, any non-dev environment without `MUGSUN_API_KEY` or `MUGSUN_SM4_KEY` refuses to start.
+:::
+
+### New `MUGSUN_API_KEY` format
+
+- API encryption now uses SM4-GCM with integrity protection; tampered ciphertext fails to decrypt.
+- After trimming surrounding whitespace, the key must be either:
+  - 32 hex characters (any case), or
+  - padded standard base64 that decodes to exactly 16 bytes.
+- Anything else stops startup. Keys are no longer zero-padded or truncated.
+- Ciphertext is `base64(IV 12 bytes ‖ ciphertext ‖ tag 16 bytes)`, padded.
+- Old SM4-CBC ciphertext is no longer accepted; the console frontend must be upgraded at the same time.
+
+::: danger Transport obfuscation only, not a replacement for TLS
+The symmetric key is shipped to the browser, so it is not secret from clients. Always use HTTPS in production.
+:::
+
+### Upgrade steps
+
+1. Generate a key with `openssl rand -hex 16`, or rerun `scripts/gen-keys.sh`.
+2. Replace `MUGSUN_API_KEY` in every deployment. The old 16-character form is rejected, so change it before upgrading.
+3. Set the frontend `VITE_CRYPTO_API_KEY` to the same value and release frontend and backend together.
+4. Make sure `MUGSUN_SM4_KEY` is set. Its format is unchanged and existing encrypted data is unaffected.
+
+### Local development
+
+- Start with the dev profile: `--spring.profiles.active=dev`.
+- `mugsun.crypto.allow-ephemeral-keys=true`: without `MUGSUN_API_KEY`, a key valid only for this process is generated. It changes on restart, differs between instances, and logs a WARN.
+- `mugsun.crypto.sm4-local-key-file` (default `.mugsun/dev-sm4.key`): without `MUGSUN_SM4_KEY`, a random key is written to this file on first start and reused afterwards, so local data survives restarts. The directory is in `.gitignore`; deleting the file makes data encrypted with it unreadable.
+- The field encryption key is never regenerated on each start.
+- With `MUGSUN_STRICT_KEYS=true` (the prod default) neither option applies.
+
+### Deployments that ran on the public fallback key
+
+Older versions fell back to a fixed key that is public in the repository when no key was configured. If a deployment ever ran that way, switch to a real key and re-encrypt these columns:
+
+| Table | Columns |
+| --- | --- |
+| `sys_user` | `id_card` |
+| `sys_tenant_datasource` | `ds_password` |
+| `sys_notify_channel` | `secret` |
+| `sys_oauth_client` | `client_secret` |
+| `sys_api_key` | `secret_key` |
+| `sys_oss` | `access_key`, `secret_key` |
+| `ai_model` | `api_key`, `secret_key` |
+| `ai_secret` | `secret_key` |
+| `ai_datasource` | `password` |
+| `ai_vector_store` | `password` |
+| `ai_mcp_tool` | `api_key` |
+| `gis_map_provider` | `api_key`, `secret` |
+
+- Treat the stored values themselves (database passwords, third-party keys and so on) as exposed and rotate them too.
+- API encryption is transport-only and stores nothing, so replacing the key is enough.
 
 ## Audit log
 

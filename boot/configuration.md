@@ -10,7 +10,9 @@ cp config/application-local.yml.example config/application-local.yml
 
 `config/application-local.yml` 最后加载，能覆盖 `application.yml` 和各模块自带配置（`mugsun-module-track.yml` 等）里的任意键，例如埋点库地址 `mybatis-flex.datasource.track.url`。[mugsun-boot #29](https://github.com/mugsun/mugsun-boot/pull/29) 之前它排在模块配置前面，模块键写在这里不生效，只能用环境变量（如 `TRACK_JDBC_URL`）覆盖；升级后原先被忽略的这些键会开始生效，请检查文件里是否留有旧值。
 
-示例文件已带本地密钥占位（`sm4-key`、`api-key`）与 mock 社交登录。SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
+示例文件不再带密钥值，另带 mock 社交登录。
+
+用 dev profile 启动时，接口和字段加密密钥可以留空，见下方「本地开发」。SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
 
 ## 数据源与缓存（prod）
 
@@ -27,13 +29,80 @@ cp config/application-local.yml.example config/application-local.yml
 | --- | --- | --- |
 | `MUGSUN_INIT_PASSWORD` | — | 初始管理员口令。prod 未注入或仍为内置默认口令时拒绝启动 |
 | `MUGSUN_GM_ENABLED` | `true` | 国密总开关（传输 SM2 / 摘要 SM3） |
-| `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥 |
-| `MUGSUN_API_KEY` | 空 | 接口加解密 SM4 密钥 |
+| `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥；非 dev 必填，见下方「接口加密与字段加密密钥」 |
+| `MUGSUN_API_KEY` | 空 | 接口加密密钥，32 位 hex 或 16 字节 base64；非 dev 必填 |
 | `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | 空 | SM2 传输密钥对（hex）；留空启动时生成并告警 |
 | `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对，与传输密钥分离 |
-| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时任一密钥缺失即拒绝启动 |
+| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时任一密钥缺失即拒绝启动，临时密钥和本地密钥文件也不允许 |
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
 | `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
+
+## 接口加密与字段加密密钥（不兼容变更）
+
+::: warning 不兼容变更
+mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
+
+升级后，非 dev 环境缺 `MUGSUN_API_KEY` 或 `MUGSUN_SM4_KEY` 会拒绝启动。
+:::
+
+### `MUGSUN_API_KEY` 新格式
+
+- 接口加密改为 SM4-GCM，带完整性校验，篡改后解密失败。
+- 密钥只接受两种写法，先去掉前后空白：
+  - 32 位 hex，大小写都行；
+  - 带填充的标准 base64，解码后正好 16 字节。
+- 其他写法一律拒绝启动，不再补零或截断。
+- 密文是 `base64(IV 12 字节 ‖ 密文 ‖ 标签 16 字节)`，必须带填充。
+- 旧的 SM4-CBC 密文不再兼容，管理台前端要同步升级。
+
+::: danger 只是传输混淆，不能代替 TLS
+对称密钥要下发到浏览器，对客户端不保密。生产必须走 HTTPS。
+:::
+
+### 升级步骤
+
+1. 生成新密钥：`openssl rand -hex 16`，或重新跑 `scripts/gen-keys.sh`。
+2. 把部署环境里的 `MUGSUN_API_KEY` 换成新值。
+3. 旧的 16 个字符写法会被拒绝，必须先换再升级。
+4. 前端的 `VITE_CRYPTO_API_KEY` 换成同一个值，前后端一起发布。
+5. 确认 `MUGSUN_SM4_KEY` 已配置；它的格式不变，已加密的数据不受影响。
+
+### 本地开发
+
+- 用 dev profile 启动：`--spring.profiles.active=dev`。
+- `mugsun.crypto.allow-ephemeral-keys=true`：
+  - 没配 `MUGSUN_API_KEY` 时，生成只在本进程内有效的临时密钥；
+  - 重启后会变，多实例之间不互通，日志里打 WARN。
+- `mugsun.crypto.sm4-local-key-file`（默认 `.mugsun/dev-sm4.key`）：
+  - 没配 `MUGSUN_SM4_KEY` 时，首次启动生成随机密钥写入该文件；
+  - 之后每次启动复用，重启后本地数据仍能解开；
+  - 该目录已在 `.gitignore`，删掉文件后，用它加密的本地数据解不开。
+- 字段加密密钥不会每次启动随机生成。
+- `MUGSUN_STRICT_KEYS=true`（prod 默认）时，以上两项都不生效。
+
+### 曾用公开回落密钥运行过的部署
+
+旧版本没配密钥时，会回落到仓库里公开的固定值。
+
+曾这样运行过的部署，先换成正式密钥，再对下列字段重新加密：
+
+| 表 | 字段 |
+| --- | --- |
+| `sys_user` | `id_card` |
+| `sys_tenant_datasource` | `ds_password` |
+| `sys_notify_channel` | `secret` |
+| `sys_oauth_client` | `client_secret` |
+| `sys_api_key` | `secret_key` |
+| `sys_oss` | `access_key`、`secret_key` |
+| `ai_model` | `api_key`、`secret_key` |
+| `ai_secret` | `secret_key` |
+| `ai_datasource` | `password` |
+| `ai_vector_store` | `password` |
+| `ai_mcp_tool` | `api_key` |
+| `gis_map_provider` | `api_key`、`secret` |
+
+- 这些值本身（数据库口令、第三方密钥等）也应视为已泄露，建议一并轮换。
+- 接口加密只影响传输，不落库，换密钥即可。
 
 ## 审计日志
 
