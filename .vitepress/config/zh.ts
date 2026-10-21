@@ -45,6 +45,15 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '升级指南', link: '/boot/upgrade' },
           ],
         },
+        {
+          text: '开发入门',
+          items: [
+            { text: '第一个接口', link: '/boot/tutorial/first-api' },
+            { text: '第一个 CRUD', link: '/boot/tutorial/first-crud' },
+            { text: '第一个缓存', link: '/boot/tutorial/first-cache' },
+            { text: '第一个定时任务', link: '/boot/tutorial/first-job' },
+          ],
+        },
       ],
       '/pc/': [
         {

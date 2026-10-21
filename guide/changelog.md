@@ -2,6 +2,13 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-10-21 · 后端开发入门
+
+### mugsun-docs
+
+- 新增[开发入门](/boot/tutorial/first-api)四节：第一个接口、CRUD、缓存和定时任务。
+- 每节结尾有「看效果」，给出验证用的命令和预期结果。
+
 ## 2026-10-21 · 移除旧的数字图形验证码
 
 ### mugsun-boot

@@ -2,6 +2,13 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-10-21 · Backend development tutorial
+
+### mugsun-docs
+
+- Added the [development tutorial](/en/boot/tutorial/first-api): your first API, CRUD, cache and scheduled job.
+- Each page ends with a "See it work" section that lists the commands to run and the expected results.
+
 ## 2026-10-21 · Legacy digit captcha removed
 
 ### mugsun-boot

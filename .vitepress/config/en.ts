@@ -215,6 +215,15 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Upgrade guide', link: '/en/boot/upgrade' },
           ],
         },
+        {
+          text: 'Development tutorial',
+          items: [
+            { text: 'Your first API', link: '/en/boot/tutorial/first-api' },
+            { text: 'Your first CRUD', link: '/en/boot/tutorial/first-crud' },
+            { text: 'Your first cache', link: '/en/boot/tutorial/first-cache' },
+            { text: 'Your first scheduled job', link: '/en/boot/tutorial/first-job' },
+          ],
+        },
       ],
       '/en/pc/': [
         {
