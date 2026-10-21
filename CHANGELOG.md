@@ -12,6 +12,7 @@
 - 新增 repo-checks workflow（ci-checklist 3.19），照 mugsun-start 的写法
   - 全量检查 CHANGELOG.md 行宽、gitleaks 扫当前分支历史、CLAUDE.md 软链
   - 新增 CLAUDE.md，软链到 AGENTS.md；CHANGELOG 两处超长行改为分行
+  - 站点 srcExclude 加上 CLAUDE.md，软链不作为页面发布
 - 新增「报错速查」，报错原文取自 boot、core、pc 源码；常见问题新增「部署与运行」八问
 - 新增「升级指南」章：版本总览、core 0.1.0 → 0.2.0、埋点 SDK 0.1.0 → 0.2.0
 - 定时任务页的验证 SQL 对照 PowerJob 5.1.2 核实，改查 instance_id
