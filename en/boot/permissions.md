@@ -80,6 +80,7 @@ The backend checks multipart requests before any other filter, using only the re
 - Paths must match exactly. A trailing slash, `;params`, encoded characters, double slashes or different case are treated as not listed and get 415.
 - The token is read only from the `Authorization` header or a cookie of the same name. A multipart request that passes the token as a URL parameter gets 401.
 - Rejected requests are answered without reading the body, with `Connection: close`.
+- Clients should make sure they are signed in before uploading. When not signed in, they may see the connection closed instead of a 401.
 
 To add an upload endpoint, add its path to `mugsun.security.multipart.allowed-paths`. A YAML list replaces the default as a whole, so list the 5 default paths too:
 
@@ -96,7 +97,7 @@ mugsun:
         - /system/demo/upload   # your new endpoint
 ```
 
-Use the servletPath, without the context path; wildcards aren't supported. The backend refuses to start if an entry is empty, doesn't start with `/`, or contains `*`, `**`, `..` or `;`. At startup the backend compares the list with endpoints that take a `MultipartFile`, and logs a WARN for any that are missing.
+Use the servletPath, without the context path; wildcards aren't supported. The backend refuses to start if an entry is empty, doesn't start with `/`, or contains `*`, `**`, `..`, `;`, `{` or `}`. At startup the backend compares the list with endpoints that receive files (file parameters, `@RequestPart`, or `consumes=multipart/*`), and logs a WARN for any that are missing. Endpoints that call `getParts()` directly in the method body cannot be detected and must be added by hand. Upload endpoints cannot use path variables.
 
 ## Pending-delete queue
 

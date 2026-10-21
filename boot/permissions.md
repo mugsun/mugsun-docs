@@ -98,6 +98,7 @@
 - 路径精确比对：末尾斜杠、`;参数`、编码字符、双斜杠、大小写不同都按「不在白名单」返回 415。
 - token 只认请求头（`Authorization`）和同名 Cookie，用 URL 参数传 token 的 multipart 会被 401。
 - 被拒时不读请求体，响应带 `Connection: close`。
+- 客户端上传前要先确认已登录：未登录时可能收不到 401，而是看到连接被关闭。
 
 新增上传接口时，把路径加进 `mugsun.security.multipart.allowed-paths`。这个列表在 yml 里整体替换，要连默认 5 条一起写：
 
@@ -114,7 +115,7 @@ mugsun:
         - /system/demo/upload   # 新增的接口
 ```
 
-路径写 servletPath，不带 context-path，不支持通配。条目为空、不以 `/` 开头、含 `*` 或 `**`、含 `..` 或 `;` 时，后端拒绝启动。启动时后端会对照参数里带 `MultipartFile` 的接口，接收文件却不在列表里的打 WARN。
+路径写 servletPath，不带 context-path，不支持通配。条目为空、不以 `/` 开头、含 `*` 或 `**`、含 `..`、`;`、`{` 或 `}` 时，后端拒绝启动。启动时后端会对照接收文件的接口（文件参数、`@RequestPart`、`consumes=multipart/*`），接收文件却不在列表里的打 WARN。在方法里直接调 `getParts()` 的接口识别不了，要手工加进列表；上传接口不能带路径变量。
 
 ## 表单、流程、平台写接口
 

@@ -7,6 +7,16 @@ When upgrading boot from 0.1.0, two migrations can stop:
 
 Every deployment should read [Legacy digit captcha removed](#legacy-digit-captcha-removed).
 
+## Unreleased: anonymous multipart requests rejected up front (breaking change)
+
+**Multipart requests are accepted only on whitelisted upload endpoints, and only when signed in.** See [Anonymous multipart requests](/en/boot/permissions#anonymous-multipart-requests).
+
+- Tokens in URL parameters are no longer accepted. Multipart requests read the token only from the `Authorization` header or a cookie of the same name; a token passed as a URL parameter gets 401.
+- To add an upload endpoint, add its path to `mugsun.security.multipart.allowed-paths`, otherwise multipart requests to it get 415.
+- A YAML list replaces the default as a whole, so list the 5 default paths too, or every default upload endpoint starts returning 415.
+- The backend refuses to start if an entry is empty, doesn't start with `/`, or contains `*`, `..`, `;`, `{` or `}`.
+- Clients should make sure they are signed in before uploading. When not signed in, they may see the connection closed instead of a 401.
+
 ## Duplicate phone numbers within a tenant
 
 The new migration V7 makes user phone numbers unique within a tenant on openGauss and Dameng, matching PostgreSQL. Users without a phone number and deleted users are not checked.
