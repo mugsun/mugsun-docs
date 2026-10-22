@@ -19,7 +19,7 @@
 | 项 | 行为 |
 | --- | --- |
 | Do Not Track | 默认尊重（`respectDnt: true`），开启 DNT 的浏览器不采集 |
-| Global Privacy Control | 默认尊重（`respectGpc: true`），浏览器 `navigator.globalPrivacyControl` 为 `true` 时不采集 |
+| Global Privacy Control | 默认不看（`respectGpc: false`），照常采集；设 `respectGpc: true` 后，浏览器 `navigator.globalPrivacyControl` 为 `true` 时不采集 |
 | 用户拒绝 | `optOut()` 后停止采集与回放，`optIn()` 恢复 |
 | 输入内容（自动采集） | 点击等自动采集事件不带 `input` / `textarea` 的 `value`；回放见下一行 |
 | 始终不录 | `input[type="password"]`、`maskSelectors` 命中区域、`data-track-mask` 元素、银行卡字段（`autocomplete` 以 `cc-` 开头）、一次性验证码字段（`autocomplete="one-time-code"`）在回放里整块不录；canvas 不录 |

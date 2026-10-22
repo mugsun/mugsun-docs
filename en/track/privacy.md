@@ -19,7 +19,7 @@ Tighten access and retention for replay and body data accordingly.
 | Item | Behavior |
 | --- | --- |
 | Do Not Track | Honored by default (`respectDnt: true`); browsers with DNT on are not tracked |
-| Global Privacy Control | Honored by default (`respectGpc: true`); browsers where `navigator.globalPrivacyControl` is `true` are not tracked |
+| Global Privacy Control | Ignored by default (`respectGpc: false`), tracking continues; with `respectGpc: true`, browsers where `navigator.globalPrivacyControl` is `true` are not tracked |
 | User opt-out | `optOut()` stops collection and replay; `optIn()` resumes |
 | Input values (autocapture) | Autocaptured events such as clicks never include `input` / `textarea` values; for replay see the next rows |
 | Never recorded | `input[type="password"]`, `maskSelectors` matches, `data-track-mask` elements, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`) are blocked entirely in replays; canvas is not recorded |

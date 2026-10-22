@@ -103,7 +103,7 @@ track.reset()
 | `queueMaxAge` | `number` | 24h | Drop queued events older than this (ms) |
 | `retryBaseDelay` / `retryMaxDelay` | `number` | `1000` / `30000` | Retry backoff base / cap (ms) |
 | `respectDnt` | `boolean` | `true` | Honor the browser's Do Not Track |
-| `respectGpc` | `boolean` | `true` | Honor the browser's Global Privacy Control |
+| `respectGpc` | `boolean` | `false` | When `true`, honor the browser's Global Privacy Control and skip tracking where GPC is on |
 | `maskSelectors` | `string[]` | `[]` | Selectors excluded from autocapture (merged with remote config) |
 | `sessionTimeout` | `number` | 30min | Sliding session timeout (ms) |
 | `storagePrefix` | `string` | `'mst'` | Prefix for local storage keys |
