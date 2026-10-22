@@ -3,7 +3,7 @@
 本页列出 SDK `@mugsun/track-web` 的实际行为。若文档与实现不一致，请在 [mugsun-track](https://github.com/mugsun/mugsun-track/issues) 提 issue。
 
 ::: warning 0.3.0 起默认显示原文、全部上报
-0.3.0（计划）起，回放默认录页面文本和输入框原值，响应体个人信息原文上传，错误全部上报，详见 [默认行为](#默认行为)。
+0.3.0 起，回放默认录页面文本和输入框原值，响应体个人信息原文上传，错误全部上报，详见 [默认行为](#默认行为)。
 :::
 
 ::: danger 告知与单独同意（《个人信息保护法》）
@@ -19,7 +19,7 @@
 | 项 | 行为 |
 | --- | --- |
 | Do Not Track | 默认尊重（`respectDnt: true`），开启 DNT 的浏览器不采集 |
-| Global Privacy Control | 默认不看（`respectGpc: false`），照常采集；设 `respectGpc: true` 后，浏览器 `navigator.globalPrivacyControl` 为 `true` 时不采集 |
+| Global Privacy Control | 默认不看（`respectGpc: false`），照常采集；设 `respectGpc: true` 后，浏览器 `navigator.globalPrivacyControl` 为 `true` 时不采集。部分地区法规把 GPC 视为有效退出请求，接入方请按业务所在地合规要求决定是否设 `respectGpc: true` |
 | 用户拒绝 | `optOut()` 后停止采集与回放，`optIn()` 恢复 |
 | 输入内容（自动采集） | 点击等自动采集事件不带 `input` / `textarea` 的 `value`；回放见下一行 |
 | 始终不录 | `input[type="password"]`、`maskSelectors` 命中区域、`data-track-mask` 元素、银行卡字段（`autocomplete` 以 `cc-` 开头）、一次性验证码字段（`autocomplete="one-time-code"`）在回放里整块不录；canvas 不录 |

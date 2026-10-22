@@ -81,11 +81,11 @@
 
 - PostGIS 路径的图层缓冲（包括空间分析交给图层查询的缓冲）遇到经度走向无法确定的面时，不再返回缺少极冠的结果，改为跳过该要素并计入响应的 `skipped`，同时记 WARN 日志。这类面通常是在 ±180° 切开的极冠。只跨 180° 经线的面照常缓冲。调用方需要检查 `skipped`。详见 [GIS 已知限制](/pc/gis#metric-limits)。
 
-## 2026-10-18 · track 0.3.0（计划）：默认不遮罩、不过滤
+## 2026-10-18 · track 0.3.0：默认不遮罩、不过滤
 
 ### mugsun-track
 
-尚未发布，见仓库 CHANGELOG「Unreleased」。（[#19](https://github.com/mugsun/mugsun-track/pull/19)）
+2026-10-22 已发布至 npm：`@mugsun/track-web@0.3.0`。（[#19](https://github.com/mugsun/mugsun-track/pull/19)）
 
 - **默认不遮罩、不过滤（行为变更）**：回放默认显示页面文本和输入值原文（`maskTextSelector` 不再默认 `'*'`，新增 `maskAllInputs` 默认 `false`）；`apiBodyMaskEnabled` 默认 `false`，响应体里的个人信息字段原文上传；`skipHandledErrors` 默认 `false`，错误全部上报。密码框、`data-track-mask`、银行卡和一次性验证码字段始终不录。
 - **凭证类键始终脱敏**：响应体里的 `token`、`access_token`、`refresh_token`、`password`、`secret`、`cookie`、`session`、`session_id` 等键不论开关都替换为 `***`，匹配时忽略大小写与 `_`、`-`；声明为 JSON 但解析失败的响应体不上传。

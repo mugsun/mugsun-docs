@@ -5,20 +5,20 @@
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web@^0.2.0
+pnpm add @mugsun/track-web@^0.3.0
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web@^0.2.0
+npm install @mugsun/track-web@^0.3.0
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web@^0.2.0
+yarn add @mugsun/track-web@^0.3.0
 ```
 
 :::
 
-当前 npm 最新版本为 `0.2.0`。从 0.1.x 升级时注意隐私默认值变更，见 [更新日志](/guide/changelog) 与 [插件](/track/plugins#接口监控)。
+当前 npm 最新版本为 `0.3.0`。从 0.2.x 或更早版本升级时注意隐私默认值变更，见 [更新日志](/guide/changelog) 与 [插件](/track/plugins#接口监控)。
 
 ## 原生 / 任意框架
 
@@ -125,7 +125,7 @@ track.reset()
 ## 错误过滤与接口失败
 
 ::: tip 版本
-本节与 [接入自检](/track/first-event#接入自检) 需要 `@mugsun/track-web` 0.3.0 起（计划版本，见仓库 CHANGELOG「Unreleased」）。
+本节与 [接入自检](/track/first-event#接入自检) 需要 `@mugsun/track-web` 0.3.0 起。
 :::
 
 ```ts

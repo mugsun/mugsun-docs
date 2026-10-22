@@ -86,11 +86,11 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 - The PostGIS layer buffer (including the buffer that spatial analysis hands to the layer query) no longer returns a result with the polar cap missing when a polygon's longitude direction cannot be determined. It skips the feature, counts it in `skipped` in the response and logs a WARN. Such polygons are usually polar caps cut at ±180°. Polygons that only cross 180° are buffered normally. Callers should check `skipped`. See [GIS limitations](/en/pc/gis#metric-limits).
 
-## 2026-10-18 · track 0.3.0 (planned): no masking or filtering by default
+## 2026-10-18 · track 0.3.0: no masking or filtering by default
 
 ### mugsun-track
 
-Not released yet; see "Unreleased" in the repo CHANGELOG. ([#19](https://github.com/mugsun/mugsun-track/pull/19))
+Published to npm on 2026-10-22 as `@mugsun/track-web@0.3.0`. ([#19](https://github.com/mugsun/mugsun-track/pull/19))
 
 - **No masking or filtering by default (behavior change)**: replays show page text and input values as-is (`maskTextSelector` no longer defaults to `'*'`, and the new `maskAllInputs` defaults to `false`); `apiBodyMaskEnabled` defaults to `false`, so personal-data fields in response bodies are uploaded as-is; `skipHandledErrors` defaults to `false`, so every error is reported. Password fields, `data-track-mask` areas, card fields and one-time-code fields are never recorded.
 - **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session`, `session_id` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.

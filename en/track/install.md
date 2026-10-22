@@ -5,20 +5,20 @@
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web@^0.2.0
+pnpm add @mugsun/track-web@^0.3.0
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web@^0.2.0
+npm install @mugsun/track-web@^0.3.0
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web@^0.2.0
+yarn add @mugsun/track-web@^0.3.0
 ```
 
 :::
 
-The latest version on npm is `0.2.0`. If you are upgrading from 0.1.x, note the privacy default changes; see the [changelog](/en/guide/changelog) and [Plugins](/en/track/plugins#api-monitoring).
+The latest version on npm is `0.3.0`. If you are upgrading from 0.2.x or earlier, note the privacy default changes; see the [changelog](/en/guide/changelog) and [Plugins](/en/track/plugins#api-monitoring).
 
 ## Vanilla JS / any framework
 
@@ -125,7 +125,7 @@ For options that can be set remotely, an explicit local value wins; otherwise th
 ## Error filtering and API failures
 
 ::: tip Version
-This section and the [self-check](/en/track/first-event#self-check) need `@mugsun/track-web` 0.3.0 or later (planned; see "Unreleased" in the repo CHANGELOG).
+This section and the [self-check](/en/track/first-event#self-check) need `@mugsun/track-web` 0.3.0 or later.
 :::
 
 ```ts

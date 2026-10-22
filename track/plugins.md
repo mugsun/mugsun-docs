@@ -129,7 +129,7 @@ const track = createTracker({
 - 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
 
 ::: warning 0.3.0 行为变更
-从 0.3.0（计划版本）起，回放默认显示页面文本和输入值，`apiBodyMaskEnabled` 默认关闭（0.2.0 默认遮罩）。需要遮罩请显式传 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })`、设置 `apiBodyMaskEnabled: true`。
+从 0.3.0 起，回放默认显示页面文本和输入值，`apiBodyMaskEnabled` 默认关闭（0.2.0 默认遮罩）。需要遮罩请显式传 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })`、设置 `apiBodyMaskEnabled: true`。
 :::
 
 ## 圈选与地理位置
