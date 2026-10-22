@@ -15,6 +15,7 @@
   - 写明 Docker 不挂卷、多实例必须配密钥或挂共享卷；不能替代 HTTPS
   - 升级指南 core 0.1.0 → 0.2.0、报错速查、常见问题同步改写
   - 去掉 `allow-ephemeral-keys` 的说明
+  - pc 部署页 `MUGSUN_API_KEY`、`MUGSUN_SM4_KEY` 格式分开写；补 401/403/429
 
 - 新增 repo-checks workflow（ci-checklist 3.19），照 mugsun-start 的写法
   - 全量检查 CHANGELOG.md 行宽、gitleaks 扫当前分支历史、CLAUDE.md 软链

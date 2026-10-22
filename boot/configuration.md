@@ -83,6 +83,7 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 - 运行时：登录后调 `GET /crypto/bootstrap` 取 `keyHex`。
   - 只对已登录会话下发，不在匿名白名单，会话必须带租户；
   - 按用户限流，默认每分钟 30 次（`mugsun.crypto.bootstrap.per-user-per-minute`）；
+  - 未登录返回 401；会话没有租户返回 403；超过限流返回 429；均不含密钥；
   - 响应带 `Cache-Control: no-store`；日志只记谁调了，不记密钥；
   - 配了 `MUGSUN_API_KEY` 时返回的就是配置值（统一成 32 位小写 hex）。
 - 本地开发：dev/test/local 启动时，后端把同一把密钥写进 mugsun-pc 的 `.env.local`
@@ -92,6 +93,7 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
   - pc 目录用 `MUGSUN_PC_DIR` 指定，没配就找 `../mugsun-pc`、`../../mugsun-pc`；
   - `mugsun.crypto.pc-env-local.enabled=false` 可关掉。
 - 构建期 `VITE_CRYPTO_API_KEY` 和后端下发的值不一致时，前端直接报错，不会悄悄用错的密钥。
+- 前端零配置和上面的不一致报错，需要 mugsun-pc 含 `/crypto/bootstrap` 支持的版本，见 pc 升级说明。
 
 这把密钥只用于传输混淆，不得用于落库加密、派生签名，也不和签名密钥共用。
 审计签名密钥（`MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY`）没配时同样自动生成，

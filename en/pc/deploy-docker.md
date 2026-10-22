@@ -86,7 +86,8 @@ Compose ships no default passwords or keys. It refuses to start if any of these 
 | `MUGSUN_POSTGRES_SUPER_PASSWORD` | PostgreSQL superuser password |
 | `MUGSUN_REDIS_PASSWORD` | Redis password; it is embedded in a connection URI, so use letters and digits only. At startup it is written to a config file readable only by the redis user, so it never appears in process arguments |
 | `MUGSUN_INIT_PASSWORD` | Initial administrator password |
-| `MUGSUN_SM4_KEY`, `MUGSUN_API_KEY` | 16-character SM4 keys |
+| `MUGSUN_API_KEY` | 32 hex chars or padded 16-byte base64; required for compose deployments unless `MUGSUN_HOME` is on a persistent volume |
+| `MUGSUN_SM4_KEY` | SM4 field-encryption key: 32 hex chars, padded 16-byte base64, or the transitional 16-character legacy form |
 | `MUGSUN_SM2_PRIVATE_KEY`, `MUGSUN_SM2_PUBLIC_KEY` | SM2 transport key pair (hex) |
 | `MUGSUN_SIGN_PRIVATE_KEY`, `MUGSUN_SIGN_PUBLIC_KEY` | SM2 audit-signing key pair (hex) |
 

@@ -77,6 +77,7 @@ How the frontend gets the same key:
 - At runtime: after login, call `GET /crypto/bootstrap` and read `keyHex`.
   - Only for logged-in sessions, not on the anonymous allowlist, and the session must carry a tenant.
   - Rate-limited per user, 30 per minute by default (`mugsun.crypto.bootstrap.per-user-per-minute`).
+  - Not logged in returns 401, a session without a tenant returns 403, and exceeding the rate limit returns 429; none of them contain the key.
   - The response has `Cache-Control: no-store`. Logs record the caller only, never the key.
   - When `MUGSUN_API_KEY` is set, it returns the configured value (normalized to 32 lowercase hex).
 - Local development: on dev/test/local starts the backend writes the same key to mugsun-pc's `.env.local` (`VITE_CRYPTO_API_KEY`).
@@ -85,6 +86,7 @@ How the frontend gets the same key:
   - The pc directory comes from `MUGSUN_PC_DIR`, or `../mugsun-pc` / `../../mugsun-pc`.
   - Turn it off with `mugsun.crypto.pc-env-local.enabled=false`.
 - If the build-time `VITE_CRYPTO_API_KEY` differs from the backend value, the frontend shows an error instead of silently using the wrong key.
+- Zero-config frontend and the mismatch error need a mugsun-pc version with `/crypto/bootstrap` support; see the pc upgrade notes.
 
 This key is for transport obfuscation only. Never use it for at-rest encryption or to derive signatures, and never share it with the signing key.
 The audit-signing key (`MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY`) is also generated when missing, stored in `~/.mugsun/audit-sign-sm2.key`, a separate file from the API key, and never returned by any API.

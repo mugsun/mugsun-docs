@@ -86,7 +86,8 @@ compose 不提供任何默认口令或密钥，下列变量缺少时会直接拒
 | `MUGSUN_POSTGRES_SUPER_PASSWORD` | PostgreSQL 超级用户密码 |
 | `MUGSUN_REDIS_PASSWORD` | Redis 口令，会拼进连接 URI，只用字母数字。启动时写入仅 redis 用户可读的配置文件，不出现在进程参数里 |
 | `MUGSUN_INIT_PASSWORD` | 初始管理员口令 |
-| `MUGSUN_SM4_KEY`、`MUGSUN_API_KEY` | 16 字符 SM4 密钥 |
+| `MUGSUN_API_KEY` | 32 位 hex 或带填充的 16 字节 base64；compose 部署必须配置，或给 `MUGSUN_HOME` 挂持久卷 |
+| `MUGSUN_SM4_KEY` | SM4 字段加密密钥：32 位 hex、带填充的 16 字节 base64，或过渡期兼容的 16 字符旧写法 |
 | `MUGSUN_SM2_PRIVATE_KEY`、`MUGSUN_SM2_PUBLIC_KEY` | SM2 传输密钥对（hex） |
 | `MUGSUN_SIGN_PRIVATE_KEY`、`MUGSUN_SIGN_PUBLIC_KEY` | SM2 审计签名密钥对（hex） |
 
