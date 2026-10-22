@@ -19,7 +19,7 @@ Tighten access and retention for replay and body data accordingly.
 | Item | Behavior |
 | --- | --- |
 | Do Not Track | Honored by default (`respectDnt: true`); browsers with DNT on are not tracked |
-| Global Privacy Control | Ignored by default (`respectGpc: false`), tracking continues; with `respectGpc: true`, browsers where `navigator.globalPrivacyControl` is `true` are not tracked. Some jurisdictions treat GPC as a valid opt-out request; decide whether to set `respectGpc: true` based on the compliance rules where you operate |
+| Global Privacy Control | `respectGpc` defaults to `false`: the SDK ignores the browser's Global Privacy Control (GPC) signal. Some jurisdictions (for example California under CCPA/CPRA) treat GPC as a valid opt-out request; if your users are in such a region, set it to `true` according to your own compliance requirements. |
 | User opt-out | `optOut()` stops collection and replay; `optIn()` resumes |
 | Input values (autocapture) | Autocaptured events such as clicks never include `input` / `textarea` values; for replay see the next rows |
 | Never recorded | `input[type="password"]`, `maskSelectors` matches, `data-track-mask` elements, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`) are blocked entirely in replays; canvas is not recorded |
