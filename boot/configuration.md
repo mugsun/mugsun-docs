@@ -63,8 +63,8 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 
 不配也能启动，用户什么都不用配：
 
-- 没配 `MUGSUN_API_KEY` 时，首次启动用 SecureRandom 生成 16 字节密钥，
-  写入 `~/.mugsun/api-transport.key`，之后每次重启复用。
+- 没配 `MUGSUN_API_KEY` 时，首次启动用 SecureRandom 生成 16 字节密钥。
+- 密钥写入 `~/.mugsun/api-transport.key`，之后每次重启复用。
 - 目录可用 `mugsun.home` 或环境变量 `MUGSUN_HOME` 改。
 - 目录 700、文件 600；先写临时文件再原子改名，多个进程同时首启也只生成一次。
 - 日志只写「已自动生成并保存到 <路径>」，不写密钥；文件权限比 600 宽时打 WARN，不拒绝启动。
@@ -86,8 +86,8 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
   - 未登录返回 401；会话没有租户返回 403；超过限流返回 429；均不含密钥；
   - 响应带 `Cache-Control: no-store`；日志只记谁调了，不记密钥；
   - 配了 `MUGSUN_API_KEY` 时返回的就是配置值（统一成 32 位小写 hex）。
-- 本地开发：dev/test/local 启动时，后端把同一把密钥写进 mugsun-pc 的 `.env.local`
-  （`VITE_CRYPTO_API_KEY`）。
+- 本地开发：dev/test/local 启动时，后端把同一把密钥写进 mugsun-pc 的 `.env.local`。
+  - 写入的变量是 `VITE_CRYPTO_API_KEY`；
   - 只在 `spring.profiles.active` 非空、含 dev/test/local、不含 prod 时执行；
   - pc 的 `.gitignore` 没忽略 `.env.local` 就拒绝写入；
   - pc 目录用 `MUGSUN_PC_DIR` 指定，没配就找 `../mugsun-pc`、`../../mugsun-pc`；
@@ -96,8 +96,10 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 - 前端零配置和上面的不一致报错，需要 mugsun-pc 含 `/crypto/bootstrap` 支持的版本，见 pc 升级说明。
 
 这把密钥只用于传输混淆，不得用于落库加密、派生签名，也不和签名密钥共用。
-审计签名密钥（`MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY`）没配时同样自动生成，
-存 `~/.mugsun/audit-sign-sm2.key`，与接口密钥分两个文件，任何接口都不下发。
+
+审计签名密钥（`MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY`）没配时同样自动生成。
+
+签名密钥存 `~/.mugsun/audit-sign-sm2.key`，与接口密钥分两个文件，任何接口都不下发。
 
 ### `MUGSUN_API_KEY` 格式（配置时）
 
@@ -118,10 +120,10 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 ### 升级步骤
 
 1. 单实例、密钥目录能持久保存的部署，可以删掉 `MUGSUN_API_KEY`，让系统自动生成。
-   Docker 不挂卷或多实例部署，用 `openssl rand -hex 16`（或 `scripts/gen-keys.sh`）生成新值配上。
+   - Docker 不挂卷或多实例部署，用 `openssl rand -hex 16` 生成新值配上。
 2. 配着旧的 16 个字符 `MUGSUN_API_KEY` 的部署，要先换成新格式或删掉，否则拒绝启动。
-3. 前端改为登录后从 `GET /crypto/bootstrap` 取密钥；构建期仍配 `VITE_CRYPTO_API_KEY` 的，
-   必须和后端同一个值，前后端一起发布。
+3. 前端改为登录后从 `GET /crypto/bootstrap` 取密钥。
+   - 构建期仍配 `VITE_CRYPTO_API_KEY` 的，必须和后端同一个值，前后端一起发布。
 4. 确认 `MUGSUN_SM4_KEY` 已配置且格式合法（见下方「`MUGSUN_SM4_KEY` 格式」）。
 
    以下部署升级前都要先按下方「迁移」重新加密，旧值填进去照样解不开旧数据：
@@ -149,9 +151,9 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 ### 本地开发
 
 - 用 dev profile 启动：`--spring.profiles.active=dev`。
-- 接口传输密钥、审计签名密钥：没配时自动生成到 `~/.mugsun`，重启复用，
-  并自动写进 mugsun-pc 的 `.env.local`，前端不用配（见上方「接口传输密钥」）。
-  已移除 `mugsun.crypto.allow-ephemeral-keys`。
+- 接口传输密钥、审计签名密钥：没配时自动生成到 `~/.mugsun`，重启复用。
+  - 接口密钥还会写进 mugsun-pc 的 `.env.local`，见上方「接口传输密钥」；
+  - 已移除 `mugsun.crypto.allow-ephemeral-keys`。
 - `mugsun.crypto.sm4-local-key-file`（默认 `${user.home}/.mugsun/dev-sm4.key`）：
   - 没配 `MUGSUN_SM4_KEY` 时，首次启动生成随机密钥写入该文件；
   - 之后每次启动复用，重启后本地数据仍能解开；

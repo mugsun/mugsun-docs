@@ -16,10 +16,13 @@ boot 主干已经依赖 core `0.2.0-SNAPSHOT`。用 boot 主干的项目已经�
 
 core 去掉了内置密钥，接口加密改为 SM4-GCM。
 
-- 没有配置 `MUGSUN_API_KEY` 时不再拒绝启动：首次启动自动生成 16 字节密钥，
-  存到 `~/.mugsun/api-transport.key`（可用 `mugsun.home` / `MUGSUN_HOME` 改），之后重启复用。
-- 配了 `MUGSUN_API_KEY` 就用配的。密钥必须是 32 位 hex，或者带填充、解码后正好 16 字节的标准 base64。
-  长度不对时直接报错，不会补零或截断。等于已删除的旧内置默认值时也拒绝启动。
+- 没有配置 `MUGSUN_API_KEY` 时不再拒绝启动，首次启动自动生成 16 字节密钥。
+  - 密钥存到 `~/.mugsun/api-transport.key`，之后重启复用；
+  - 目录可用 `mugsun.home` / `MUGSUN_HOME` 改。
+- 配了 `MUGSUN_API_KEY` 就用配的。
+  - 必须是 32 位 hex，或者带填充、解码后正好 16 字节的标准 base64；
+  - 长度不对时直接报错，不会补零或截断；
+  - 解码后等于已删除的旧内置默认值时也拒绝启动。
 - Docker 不挂卷、多实例部署必须配 `MUGSUN_API_KEY` 或挂共享卷，否则重启换钥、实例间解不开。
 - 密文格式改为 base64(IV 12 字节 ‖ 密文 ‖ 标签)。0.1.0 的 CBC 密文无法再解密，前后端必须一起升级。
 - 解密失败统一返回「接口密文无效」。
