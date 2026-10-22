@@ -37,7 +37,7 @@
 
 | 现象 | 排查 |
 | --- | --- |
-| 没有任何 `/track/collect` 请求 | 浏览器开启了 Do Not Track 或 Global Privacy Control（`respectDnt` / `respectGpc` 默认 `true`）；或调用过 `optOut()`；或 `enabled: false` / 采样率为 0 |
+| 没有任何 `/track/collect` 请求 | 浏览器开启了 Do Not Track（`respectDnt` 默认 `true`），或设了 `respectGpc: true` 且浏览器开启了 Global Privacy Control；或调用过 `optOut()`；或 `enabled: false` / 采样率为 0 |
 | 请求地址是 `…/track/collect/track/collect` | `endpoint` 只填服务根地址，SDK 会自动拼接 `/track/collect` |
 | 请求 4xx | `appKey` 不存在或应用被停用；在接入管理中核对 |
 | 请求成功但看板为空 | 确认看板选中了正确的应用与时间范围 |

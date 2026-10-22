@@ -5,20 +5,20 @@
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web@^0.2.0
+pnpm add @mugsun/track-web@^0.3.0
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web@^0.2.0
+npm install @mugsun/track-web@^0.3.0
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web@^0.2.0
+yarn add @mugsun/track-web@^0.3.0
 ```
 
 :::
 
-当前 npm 最新版本为 `0.2.0`。从 0.1.x 升级时注意隐私默认值变更，见 [更新日志](/guide/changelog) 与 [插件](/track/plugins#接口监控)。
+当前 npm 最新版本为 `0.3.0`。从 0.2.x 或更早版本升级时注意隐私默认值变更，见 [更新日志](/guide/changelog) 与 [插件](/track/plugins#接口监控)。
 
 ## 原生 / 任意框架
 
@@ -103,7 +103,7 @@ track.reset()
 | `queueMaxAge` | `number` | 24h | 队列事件超龄丢弃（ms） |
 | `retryBaseDelay` / `retryMaxDelay` | `number` | `1000` / `30000` | 补发退避基数 / 上限（ms） |
 | `respectDnt` | `boolean` | `true` | 尊重浏览器 Do Not Track |
-| `respectGpc` | `boolean` | `true` | 尊重浏览器 Global Privacy Control |
+| `respectGpc` | `boolean` | `false` | 设 `true` 时尊重浏览器 Global Privacy Control，开启 GPC 的浏览器不采集 |
 | `maskSelectors` | `string[]` | `[]` | 自动采集屏蔽的选择器（与远端下发合并） |
 | `sessionTimeout` | `number` | 30min | 会话滑动过期（ms） |
 | `storagePrefix` | `string` | `'mst'` | 本地存储 key 前缀 |
@@ -125,7 +125,7 @@ track.reset()
 ## 错误过滤与接口失败
 
 ::: tip 版本
-本节与 [接入自检](/track/first-event#接入自检) 需要 `@mugsun/track-web` 0.3.0 起（计划版本，见仓库 CHANGELOG「Unreleased」）。
+本节与 [接入自检](/track/first-event#接入自检) 需要 `@mugsun/track-web` 0.3.0 起。
 :::
 
 ```ts

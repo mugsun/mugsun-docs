@@ -37,7 +37,7 @@ Goal: go from integration to **at least one** event on a console dashboard.
 
 | Symptom | What to check |
 | --- | --- |
-| No `/track/collect` requests at all | The browser has Do Not Track or Global Privacy Control on (`respectDnt` / `respectGpc` default to `true`), `optOut()` was called, or `enabled: false` / a sample rate of 0 is set |
+| No `/track/collect` requests at all | The browser has Do Not Track on (`respectDnt` defaults to `true`), or `respectGpc: true` is set and the browser has Global Privacy Control on, `optOut()` was called, or `enabled: false` / a sample rate of 0 is set |
 | Requests go to `…/track/collect/track/collect` | Set `endpoint` to the base URL only; the SDK appends `/track/collect` |
 | 4xx responses | The `appKey` doesn't exist or the app is disabled; check Integrations |
 | Requests succeed but the dashboard is empty | Make sure the right app and time range are selected |

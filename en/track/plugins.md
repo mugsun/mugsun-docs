@@ -135,7 +135,7 @@ Built-in protections that can't be turned off:
 - Reported URLs have sensitive query values redacted; see [Privacy](/en/track/privacy#url-redaction).
 
 ::: warning Behavior change in 0.3.0
-From 0.3.0 (planned), replays show page text and input values as-is, and `apiBodyMaskEnabled` defaults to `false` (0.2.0 masked by default). If you need masking, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and set `apiBodyMaskEnabled: true` explicitly.
+From 0.3.0, replays show page text and input values as-is, and `apiBodyMaskEnabled` defaults to `false` (0.2.0 masked by default). If you need masking, pass `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and set `apiBodyMaskEnabled: true` explicitly.
 :::
 
 ## Visual tagging and geolocation

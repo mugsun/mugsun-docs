@@ -5,20 +5,20 @@
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web@^0.2.0
+pnpm add @mugsun/track-web@^0.3.0
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web@^0.2.0
+npm install @mugsun/track-web@^0.3.0
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web@^0.2.0
+yarn add @mugsun/track-web@^0.3.0
 ```
 
 :::
 
-The latest version on npm is `0.2.0`. If you are upgrading from 0.1.x, note the privacy default changes; see the [changelog](/en/guide/changelog) and [Plugins](/en/track/plugins#api-monitoring).
+The latest version on npm is `0.3.0`. If you are upgrading from 0.2.x or earlier, note the privacy default changes; see the [changelog](/en/guide/changelog) and [Plugins](/en/track/plugins#api-monitoring).
 
 ## Vanilla JS / any framework
 
@@ -103,7 +103,7 @@ track.reset()
 | `queueMaxAge` | `number` | 24h | Drop queued events older than this (ms) |
 | `retryBaseDelay` / `retryMaxDelay` | `number` | `1000` / `30000` | Retry backoff base / cap (ms) |
 | `respectDnt` | `boolean` | `true` | Honor the browser's Do Not Track |
-| `respectGpc` | `boolean` | `true` | Honor the browser's Global Privacy Control |
+| `respectGpc` | `boolean` | `false` | When `true`, honor the browser's Global Privacy Control and skip tracking where GPC is on |
 | `maskSelectors` | `string[]` | `[]` | Selectors excluded from autocapture (merged with remote config) |
 | `sessionTimeout` | `number` | 30min | Sliding session timeout (ms) |
 | `storagePrefix` | `string` | `'mst'` | Prefix for local storage keys |
@@ -125,7 +125,7 @@ For options that can be set remotely, an explicit local value wins; otherwise th
 ## Error filtering and API failures
 
 ::: tip Version
-This section and the [self-check](/en/track/first-event#self-check) need `@mugsun/track-web` 0.3.0 or later (planned; see "Unreleased" in the repo CHANGELOG).
+This section and the [self-check](/en/track/first-event#self-check) need `@mugsun/track-web` 0.3.0 or later.
 :::
 
 ```ts
