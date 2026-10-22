@@ -115,9 +115,11 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 现象是本地开发时，后端重启后已经打开的页面调用加密接口都失败。
 
-原因是没有配置 `MUGSUN_API_KEY` 时，dev profile 使用只在本进程内有效的临时密钥，重启后密钥就变了。
+现在没配 `MUGSUN_API_KEY` 时密钥会持久化到 `~/.mugsun/api-transport.key`，重启复用，正常不会再出现。
 
-解决办法是刷新页面重新登录。想让密钥固定，就配置 `MUGSUN_API_KEY`。
+仍出现时，通常是密钥文件被删了、`MUGSUN_HOME` 变了，或 Docker 没给该目录挂卷。
+
+解决办法是刷新页面重新登录，前端会重新取密钥。Docker 和多实例部署请配置 `MUGSUN_API_KEY` 或挂共享卷。
 
 ### 「定时任务」页提示服务暂时连不上？
 

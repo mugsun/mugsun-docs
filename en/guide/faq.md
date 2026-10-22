@@ -115,9 +115,11 @@ Upgrade the frontend to the new behavioral captcha flow. See the [backend upgrad
 
 During local development, pages that were already open fail on every encrypted API call after the backend restarts.
 
-Without `MUGSUN_API_KEY`, the dev profile uses an ephemeral key that is valid only in the current process, so the key changes on restart.
+Without `MUGSUN_API_KEY`, the key is now persisted to `~/.mugsun/api-transport.key` and reused on restart, so this normally no longer happens.
 
-Reload the page and sign in again. To keep the key stable, set `MUGSUN_API_KEY`.
+If it does, the key file was usually deleted, `MUGSUN_HOME` changed, or Docker has no volume for that directory.
+
+Reload the page and sign in again; the frontend fetches the key again. For Docker and multiple instances, set `MUGSUN_API_KEY` or mount a shared volume.
 
 ### The Scheduled Tasks page says the task service cannot be reached
 

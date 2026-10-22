@@ -262,15 +262,15 @@ At startup, the current key cannot decrypt fields that are already encrypted in 
 
 Put the original key back. If you really need a new key, migrate the data with `Sm4KeyMigrationTool` as the message says.
 
-### API encryption key missing
+### API encryption key equals the old built-in default
 
 ```text
-未配置接口加密密钥 MUGSUN_API_KEY（32 位 hex 或带填充的 16 字节 base64），拒绝启动；仅本地开发可设 mugsun.crypto.allow-ephemeral-keys=true
+MUGSUN_API_KEY 等于已删除的旧内置默认值，拒绝启动：请换成新密钥（openssl rand -hex 16），或删掉该配置让系统自动生成
 ```
 
-From core 0.2.0, API encryption requires a key.
+A missing `MUGSUN_API_KEY` is no longer an error; a key is generated automatically. See [core 0.1.0 → 0.2.0](/en/guide/upgrade/core-0-2-0).
 
-Generate a key with `openssl rand -hex 16` and set it as `MUGSUN_API_KEY`. All instances must use the same key. See [core 0.1.0 → 0.2.0](/en/guide/upgrade/core-0-2-0).
+The old built-in default is refused: remove the setting so a key is generated, or replace it using `openssl rand -hex 16`. All instances must use the same key.
 
 ### Initial password missing in production
 
@@ -282,14 +282,15 @@ The `prod` profile is active but no initial password is configured, so the built
 
 Set `MUGSUN_INIT_PASSWORD` and start again.
 
-### SM2 or signing keys missing in production
+### SM2 transport keys missing in production
 
 ```text
 strict-keys 模式：未注入 SM2 传输密钥（MUGSUN_SM2_PRIVATE_KEY/MUGSUN_SM2_PUBLIC_KEY），拒绝启动
-strict-keys 模式：未注入审计签名密钥（MUGSUN_SIGN_PRIVATE_KEY/MUGSUN_SIGN_PUBLIC_KEY），拒绝启动
 ```
 
-The `prod` profile turns on `strict-keys`, so every key must be provided.
+The `prod` profile turns on `strict-keys`, so the SM2 transport key pair must be provided.
+
+A missing audit-signing key no longer stops startup; it is generated into `~/.mugsun/audit-sign-sm2.key` with a WARN.
 
 Set the key pair environment variables named in the message.
 

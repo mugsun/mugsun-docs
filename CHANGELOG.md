@@ -9,6 +9,13 @@
 
 ### 变更
 
+- 接口密钥、审计签名密钥改为「开箱即用、可选覆盖」（中英）
+  - boot 配置页：没配自动生成到 `~/.mugsun`，重启复用；`MUGSUN_HOME` 可改
+  - 新增前端取钥说明：`GET /crypto/bootstrap` 与 dev 自动写 `.env.local`
+  - 写明 Docker 不挂卷、多实例必须配密钥或挂共享卷；不能替代 HTTPS
+  - 升级指南 core 0.1.0 → 0.2.0、报错速查、常见问题同步改写
+  - 去掉 `allow-ephemeral-keys` 的说明
+
 - 新增 repo-checks workflow（ci-checklist 3.19），照 mugsun-start 的写法
   - 全量检查 CHANGELOG.md 行宽、gitleaks 扫当前分支历史、CLAUDE.md 软链
   - 新增 CLAUDE.md，软链到 AGENTS.md；CHANGELOG 两处超长行改为分行

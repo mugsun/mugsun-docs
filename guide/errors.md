@@ -263,17 +263,19 @@ MUGSUN_SM4_KEY 解不开库里已有的加密数据（…），拒绝启动。�
 
 请填回原来的密钥。确实要换密钥时，按提示跑 `Sm4KeyMigrationTool` 迁移数据。
 
-### 未配置接口加密密钥
+### 接口加密密钥等于旧内置默认值
 
 ```text
-未配置接口加密密钥 MUGSUN_API_KEY（32 位 hex 或带填充的 16 字节 base64），拒绝启动；仅本地开发可设 mugsun.crypto.allow-ephemeral-keys=true
+MUGSUN_API_KEY 等于已删除的旧内置默认值，拒绝启动：请换成新密钥（openssl rand -hex 16），或删掉该配置让系统自动生成
 ```
 
-core 0.2.0 起，接口加密必须配置密钥。
+没配 `MUGSUN_API_KEY` 不再报错，会自动生成密钥。
 
-请用 `openssl rand -hex 16` 生成密钥，配置到 `MUGSUN_API_KEY`。
+详见 [core 0.1.0 → 0.2.0](/guide/upgrade/core-0-2-0)。
 
-多实例要用同一个密钥。详见 [core 0.1.0 → 0.2.0](/guide/upgrade/core-0-2-0)。
+配了旧的内置默认值会被拒绝：删掉这项让系统自动生成，或用 `openssl rand -hex 16` 换一个。
+
+多实例要用同一个密钥。
 
 ### 生产环境缺少初始口令
 
@@ -285,14 +287,15 @@ core 0.2.0 起，接口加密必须配置密钥。
 
 请配置 `MUGSUN_INIT_PASSWORD`，再启动。
 
-### 生产环境缺少 SM2 或签名密钥
+### 生产环境缺少 SM2 传输密钥
 
 ```text
 strict-keys 模式：未注入 SM2 传输密钥（MUGSUN_SM2_PRIVATE_KEY/MUGSUN_SM2_PUBLIC_KEY），拒绝启动
-strict-keys 模式：未注入审计签名密钥（MUGSUN_SIGN_PRIVATE_KEY/MUGSUN_SIGN_PUBLIC_KEY），拒绝启动
 ```
 
-`prod` profile 会打开 `strict-keys`，所有密钥都必须注入。
+`prod` profile 会打开 `strict-keys`，SM2 传输密钥必须注入。
+
+审计签名密钥没配时不再拒绝启动，会自动生成到 `~/.mugsun/audit-sign-sm2.key` 并打 WARN。
 
 请按提示配置对应的密钥对环境变量。
 

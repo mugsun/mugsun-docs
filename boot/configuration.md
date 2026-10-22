@@ -32,10 +32,11 @@ SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失�
 | `MUGSUN_INIT_PASSWORD` | — | 初始管理员口令。生产环境（见下方「启动守卫与豁免开关」）未注入时拒绝启动 |
 | `MUGSUN_GM_ENABLED` | `true` | 国密总开关（传输 SM2 / 摘要 SM3） |
 | `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥；非 dev 必填，见下方「接口加密与字段加密密钥」 |
-| `MUGSUN_API_KEY` | 空 | 接口加密密钥，32 位 hex 或 16 字节 base64；非 dev 必填 |
+| `MUGSUN_API_KEY` | 空 | 接口传输密钥（可选）；没配自动生成到 `~/.mugsun/api-transport.key` |
 | `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | 空 | SM2 传输密钥对（hex）；留空启动时生成并告警 |
-| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对，与传输密钥分离 |
-| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时任一密钥缺失即拒绝启动，临时密钥和本地密钥文件也不允许 |
+| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对（可选）；没配自动生成到 `~/.mugsun/audit-sign-sm2.key` |
+| `MUGSUN_HOME` | `~/.mugsun` | 自动生成的密钥文件目录（配置项 `mugsun.home`） |
+| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时缺 SM4 字段密钥或 SM2 传输密钥拒绝启动；接口密钥、签名密钥照常自动生成 |
 | `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
 | `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
 
@@ -53,10 +54,50 @@ SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失�
 ::: warning 不兼容变更
 mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 
-升级后，非 dev 环境缺 `MUGSUN_API_KEY` 或 `MUGSUN_SM4_KEY` 会拒绝启动。
+升级后，非 dev 环境缺 `MUGSUN_SM4_KEY` 会拒绝启动。
+
+`MUGSUN_API_KEY` 和审计签名密钥改为开箱即用：没配时自动生成并持久化，不再拒绝启动。
 :::
 
-### `MUGSUN_API_KEY` 新格式
+### 接口传输密钥：开箱即用、可选覆盖
+
+不配也能启动，用户什么都不用配：
+
+- 没配 `MUGSUN_API_KEY` 时，首次启动用 SecureRandom 生成 16 字节密钥，
+  写入 `~/.mugsun/api-transport.key`，之后每次重启复用。
+- 目录可用 `mugsun.home` 或环境变量 `MUGSUN_HOME` 改。
+- 目录 700、文件 600；先写临时文件再原子改名，多个进程同时首启也只生成一次。
+- 日志只写「已自动生成并保存到 <路径>」，不写密钥；文件权限比 600 宽时打 WARN，不拒绝启动。
+- 配了 `MUGSUN_API_KEY` 就用配的，格式校验照旧严格（见下）。
+- 配置值等于已删除的旧内置默认值时拒绝启动。
+
+::: warning 这两种部署必须配 `MUGSUN_API_KEY` 或挂共享卷
+- Docker 没给 `~/.mugsun`（或 `MUGSUN_HOME`）挂卷：每次重启都会换新密钥。
+- 多实例：各自生成的密钥不一致，互相解不开。
+
+检测到容器环境（`/.dockerenv`、cgroup）且没配密钥时，启动日志打 WARN。
+:::
+
+前端怎么拿到同一把密钥：
+
+- 运行时：登录后调 `GET /crypto/bootstrap` 取 `keyHex`。
+  - 只对已登录会话下发，不在匿名白名单，会话必须带租户；
+  - 按用户限流，默认每分钟 30 次（`mugsun.crypto.bootstrap.per-user-per-minute`）；
+  - 响应带 `Cache-Control: no-store`；日志只记谁调了，不记密钥；
+  - 配了 `MUGSUN_API_KEY` 时返回的就是配置值（统一成 32 位小写 hex）。
+- 本地开发：dev/test/local 启动时，后端把同一把密钥写进 mugsun-pc 的 `.env.local`
+  （`VITE_CRYPTO_API_KEY`）。
+  - 只在 `spring.profiles.active` 非空、含 dev/test/local、不含 prod 时执行；
+  - pc 的 `.gitignore` 没忽略 `.env.local` 就拒绝写入；
+  - pc 目录用 `MUGSUN_PC_DIR` 指定，没配就找 `../mugsun-pc`、`../../mugsun-pc`；
+  - `mugsun.crypto.pc-env-local.enabled=false` 可关掉。
+- 构建期 `VITE_CRYPTO_API_KEY` 和后端下发的值不一致时，前端直接报错，不会悄悄用错的密钥。
+
+这把密钥只用于传输混淆，不得用于落库加密、派生签名，也不和签名密钥共用。
+审计签名密钥（`MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY`）没配时同样自动生成，
+存 `~/.mugsun/audit-sign-sm2.key`，与接口密钥分两个文件，任何接口都不下发。
+
+### `MUGSUN_API_KEY` 格式（配置时）
 
 - 接口加密改为 SM4-GCM，带完整性校验，篡改后解密失败。
 - 密钥只接受两种写法，先去掉前后空白：
@@ -66,7 +107,7 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 - 密文是 `base64(IV 12 字节 ‖ 密文 ‖ 标签 16 字节)`，必须带填充。
 - 旧的 SM4-CBC 密文不再兼容，管理台前端要同步升级。
 
-::: danger 只是传输混淆，不能代替 TLS
+::: danger 只是传输混淆，不能代替 HTTPS
 对称密钥要下发到浏览器，对客户端不保密。生产必须走 HTTPS。
 
 不防重放、不绑定接口：密文可被原样重发，或搬到另一个加密接口。
@@ -74,9 +115,11 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 
 ### 升级步骤
 
-1. 生成新密钥：`openssl rand -hex 16`，或重新跑 `scripts/gen-keys.sh`。
-2. 把部署环境里的 `MUGSUN_API_KEY` 换成新值。旧的 16 个字符写法会被拒绝，必须先换再升级。
-3. 前端的 `VITE_CRYPTO_API_KEY` 换成同一个值，前后端一起发布。
+1. 单实例、密钥目录能持久保存的部署，可以删掉 `MUGSUN_API_KEY`，让系统自动生成。
+   Docker 不挂卷或多实例部署，用 `openssl rand -hex 16`（或 `scripts/gen-keys.sh`）生成新值配上。
+2. 配着旧的 16 个字符 `MUGSUN_API_KEY` 的部署，要先换成新格式或删掉，否则拒绝启动。
+3. 前端改为登录后从 `GET /crypto/bootstrap` 取密钥；构建期仍配 `VITE_CRYPTO_API_KEY` 的，
+   必须和后端同一个值，前后端一起发布。
 4. 确认 `MUGSUN_SM4_KEY` 已配置且格式合法（见下方「`MUGSUN_SM4_KEY` 格式」）。
 
    以下部署升级前都要先按下方「迁移」重新加密，旧值填进去照样解不开旧数据：
@@ -104,9 +147,9 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
 ### 本地开发
 
 - 用 dev profile 启动：`--spring.profiles.active=dev`。
-- `mugsun.crypto.allow-ephemeral-keys=true`：
-  - 没配 `MUGSUN_API_KEY` 时，生成只在本进程内有效的临时密钥；
-  - 重启后会变，多实例之间不互通，日志里打 WARN。
+- 接口传输密钥、审计签名密钥：没配时自动生成到 `~/.mugsun`，重启复用，
+  并自动写进 mugsun-pc 的 `.env.local`，前端不用配（见上方「接口传输密钥」）。
+  已移除 `mugsun.crypto.allow-ephemeral-keys`。
 - `mugsun.crypto.sm4-local-key-file`（默认 `${user.home}/.mugsun/dev-sm4.key`）：
   - 没配 `MUGSUN_SM4_KEY` 时，首次启动生成随机密钥写入该文件；
   - 之后每次启动复用，重启后本地数据仍能解开；
@@ -114,8 +157,8 @@ mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
   - 删掉文件后，用它加密的本地数据解不开。
 - 本地以前用旧回落值加密的数据，升级后会解不开，需要重建本地库或按下方迁移。
 - 字段加密密钥不会每次启动随机生成。
-- `MUGSUN_STRICT_KEYS=true`（prod 默认）时，以上两项都不生效。
-- `strict-keys` 对接口加密只作否决，不是废弃开关。
+- `MUGSUN_STRICT_KEYS=true`（prod 默认）时，`sm4-local-key-file` 不生效。
+- `strict-keys` 不再影响接口密钥和审计签名密钥。
 
 ### 迁移：用过旧回落值、短密钥，或旧版配过 32 位 hex / base64 密钥的部署
 

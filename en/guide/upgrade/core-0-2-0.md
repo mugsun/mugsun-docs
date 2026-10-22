@@ -10,17 +10,18 @@ The boot main branch already depends on core `0.2.0-SNAPSHOT`, so projects on bo
 
 ## Breaking changes
 
-### API encryption uses SM4-GCM and requires a key
+### API encryption uses SM4-GCM, works out of the box, optional override
 
 core no longer has a built-in key, and API encryption now uses SM4-GCM.
 
-- Without `MUGSUN_API_KEY`, the application refuses to start by default.
-- The key must be 32 hex characters, or padded standard base64 that decodes to exactly 16 bytes. A key of the wrong length is rejected; it is never padded or truncated.
+- Without `MUGSUN_API_KEY` the application no longer refuses to start: the first start generates a 16-byte key in `~/.mugsun/api-transport.key` (change with `mugsun.home` / `MUGSUN_HOME`) and later restarts reuse it.
+- When `MUGSUN_API_KEY` is set it wins. It must be 32 hex characters, or padded standard base64 that decodes to exactly 16 bytes. A key of the wrong length is rejected; it is never padded or truncated. The removed old built-in default is rejected too.
+- Docker without a volume and multi-instance deployments must set `MUGSUN_API_KEY` or mount a shared volume; otherwise the key changes on restart and instances cannot decrypt each other.
 - Ciphertext is now base64(12-byte IV ‖ ciphertext ‖ tag). CBC ciphertext from 0.1.0 can no longer be decrypted, so the frontend and backend must be upgraded together.
 - Every decryption failure returns the same error.
 - `encrypt(null)` and `decrypt(null)` both return null instead of throwing.
 
-API encryption only obscures traffic. It does not prevent replay, is not bound to an endpoint, and does not replace TLS.
+API encryption only obscures traffic. It does not prevent replay, is not bound to an endpoint, and does not replace HTTPS.
 
 ### Unique constraint violations return 400
 
@@ -40,11 +41,11 @@ If your application has its own `sql-error-codes.xml` at the classpath root, it 
 
 | Property | Default | Description |
 | --- | --- | --- |
-| `mugsun.crypto.api-key` | none | New; environment variable `MUGSUN_API_KEY`; required |
-| `mugsun.crypto.allow-ephemeral-keys` | `false` | New; when true, a missing key is replaced by a key valid only in this process |
-| `mugsun.crypto.strict-keys` | `false` | Existing; when true, ephemeral keys are refused too |
+| `mugsun.crypto.api-key` | empty | New; environment variable `MUGSUN_API_KEY`; optional, generated when missing |
+| `mugsun.home` | `~/.mugsun` | New; environment variable `MUGSUN_HOME`; where generated key files live |
+| `mugsun.crypto.strict-keys` | `false` | Existing; no longer affects API encryption |
 
-An ephemeral key changes on every restart and is not shared between instances, so use it only for local development. boot's `application-dev.yml` already turns on `allow-ephemeral-keys`.
+`allow-ephemeral-keys`, which existed during development, is removed and has no effect.
 
 ## License
 
@@ -52,27 +53,29 @@ The license changed from Apache-2.0 to MIT. The 0.1.0 artifacts on Maven Central
 
 ## Upgrade steps
 
-1. Generate a key:
+1. Single-instance deployments where `~/.mugsun` persists need no configuration.
+2. For Docker without a volume or multiple instances, generate a key and set the same `MUGSUN_API_KEY` on every instance:
 
    ```bash
    openssl rand -hex 16
    ```
 
-2. Set `MUGSUN_API_KEY` in the environment variables or secret store of every environment. All instances must use the same key.
-3. Switch the frontend's API encryption to SM4-GCM and the new ciphertext format, and release it together with the backend.
+3. Switch the frontend's API encryption to SM4-GCM and the new ciphertext format, fetch the key from `GET /crypto/bootstrap` after login, and release it together with the backend.
 4. Change the frontend's duplicate-submission check from status 500 to 400.
 5. If you use Dameng and ship your own `sql-error-codes.xml`, merge in the Dameng error codes.
 6. After 0.2.0 is released, change the dependency version to `0.2.0`.
 
 ## See it work
 
-Start the application without `MUGSUN_API_KEY` and without `allow-ephemeral-keys`. Startup fails with this log line:
+Start the application without `MUGSUN_API_KEY`. The first start logs this line (the path follows your home directory):
 
 ```text
-未配置接口加密密钥 MUGSUN_API_KEY（32 位 hex 或带填充的 16 字节 base64），拒绝启动；仅本地开发可设 mugsun.crypto.allow-ephemeral-keys=true
+未配置 MUGSUN_API_KEY，已自动生成接口加密密钥并保存到 /home/you/.mugsun/api-transport.key
 ```
 
-With the key set, create a record that already exists. The API returns HTTP 400 with `code` 400 and the duplicate-data message.
+Restart once more: that line is gone, and only a WARN naming the auto-generated key file remains.
+
+Create a record that already exists. The API returns HTTP 400 with `code` 400 and the duplicate-data message.
 
 Check which core version your project actually uses:
 
