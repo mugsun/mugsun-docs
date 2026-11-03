@@ -12,9 +12,6 @@
 - 文档同步 boot #81：初始口令改为一次性随机口令
   - 重置 / 新建租户管理员不再复用 `MUGSUN_INIT_PASSWORD`
   - 首次登录强制改密；管理端需展示接口返回的 `initialPassword`
-
-### 变更
-
 - 快速开始构建命令改为 `./mvnw`（与 boot Maven Wrapper 对齐）
 - 快速开始对齐零配置：去掉复制 local yml；口令走 init show
   - 本地开发段删除 `cp application-local.yml.example`
