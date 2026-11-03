@@ -48,7 +48,13 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 需要时再参考 `config/application-local.yml.example` 自行创建；example 无必填项。
 
-> **请始终在仓库根目录、带 `-am` 构建**（或用 `./mvnw clean package -DskipTests` 构建整个工程）。只构建 server 模块（`-pl mugsun-boot-server` 不带 `-am`、在 `mugsun-boot-server` 目录里执行 `./mvnw package`（或系统 `mvn package`），或 IDE 只构建该模块）时，`mugsun-boot-core` 会从本地 Maven 仓库 `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/` 取。所有分支和工作区共用这一个 0.1.0 版本，里面是最后一次 `./mvnw install` 的那个分支，打出的 jar 会带上别的分支的旧代码（例如旧的验证码返回结构），这跟加不加 `clean` 无关。拿不准时先在根目录执行一次 `./mvnw -B install -DskipTests`。
+> **请始终在仓库根目录、带 `-am` 构建**（或 `./mvnw clean package -DskipTests`）。
+
+> 只构建 server（不带 `-am`、子目录或 IDE 单模块）时，core 会从本地 `~/.m2` 的 `0.1.0` 取。
+
+> 各分支共用该坐标，打出的 jar 可能带上别的分支旧代码；与是否 `clean` 无关。
+
+> 拿不准时先在根目录执行：`./mvnw -B install -DskipTests`（系统 `mvn` 亦可）。
 
 `curl http://localhost:8080/ping` 返回响应即表示后端启动成功。
 

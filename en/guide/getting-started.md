@@ -44,7 +44,13 @@ This repository ships a Maven Wrapper (`./mvnw`); a system Maven 3.9+ works too.
 
 `config/application-local.yml` is an optional override (Spring `optional` import, gitignored). Create it from `config/application-local.yml.example` only when you need overrides; the example has no required fields.
 
-> **Always build from the repository root with `-am`** (or build the whole project with `./mvnw clean package -DskipTests`). If you build only the server module (`-pl mugsun-boot-server` without `-am`, `./mvnw package` (or system `mvn package`) inside `mugsun-boot-server`, or an IDE building just that module), `mugsun-boot-core` comes from the local Maven repository at `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/`. Every branch and worktree shares that one 0.1.0 version, which holds whichever branch ran `./mvnw install` last, so the jar can carry another branch's old code (such as an old captcha response shape) whether or not you add `clean`. When in doubt, run `./mvnw -B install -DskipTests` from the root first.
+> **Always build from the repository root with `-am`** (or `./mvnw clean package -DskipTests`).
+
+> Building only the server (no `-am`, submodule, or IDE single-module) pulls core from local `~/.m2` `0.1.0`.
+
+> Branches share that coordinate, so the jar may carry another branch's old code; `clean` does not help.
+
+> When in doubt, run `./mvnw -B install -DskipTests` from the root (system `mvn` works too).
 
 The backend is running when `curl http://localhost:8080/ping` returns a response.
 
