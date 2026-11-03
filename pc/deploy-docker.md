@@ -95,10 +95,26 @@ compose 不提供任何默认口令或密钥，下列变量缺少时会直接拒
 
 ### Redis 与 JetCache URI
 
-后端不再在 yml 里裸拼口令。`JetCacheRedisUriEnvironmentPostProcessor` 读取 `spring.data.redis`（compose 注入的 host/port/password/database，或 `REDIS_*`），合成 `jetcache.remote.default.uri`，口令按 userinfo 百分号编码，并用 Lettuce 回解析核对；不一致则拒绝启动。空白口令（含仅空白字符）视为无 AUTH。
+后端不再在 yml 里裸拼口令。
 
-`port` / `database` 可选，缺省分别为 `6379` / `0`（与 `REDIS_PORT`、`REDIS_DB` 同口径）。一键脚本生成的 Redis 口令仍是字母数字；自建口令可含 `@` `%` `/` 等，无需手工编码。
+`JetCacheRedisUriEnvironmentPostProcessor` 读取 `spring.data.redis`。
 
-若运维显式设置 `jetcache.remote.default.uri`，EPP 不会覆盖，但仍按分字段回解析核对——未编码或与 `spring.data.redis` 不一致会启动失败。覆盖整个 `jetcache.remote.default` 时须同级保留 `type: redis.lettuce`，否则空 map 会冲掉 type（见[常见问题](/guide/faq)）。
+来源可以是 compose 注入的 host/port/password/database，或 `REDIS_*`。
+
+合成 `jetcache.remote.default.uri`，口令按 userinfo 百分号编码，并用 Lettuce 回解析核对；不一致则拒绝启动。
+
+空白口令（含仅空白字符）视为无 AUTH。
+
+`port` / `database` 可选，缺省分别为 `6379` / `0`（与 `REDIS_PORT`、`REDIS_DB` 同口径）。
+
+一键脚本生成的 Redis 口令仍是字母数字；自建口令可含 `@` `%` `/` 等，无需手工编码。
+
+若运维显式设置 `jetcache.remote.default.uri`，EPP 不会覆盖，但仍按分字段回解析核对。
+
+未编码或与 `spring.data.redis` 不一致会启动失败。
+
+覆盖整个 `jetcache.remote.default` 时须同级保留 `type: redis.lettuce`。
+
+否则空 map 会冲掉 type（见[常见问题](/guide/faq)）。
 
 打开 <http://localhost:8088>。端口可用 `MUGSUN_PC_PORT` 修改。后端的环境变量以 [后端配置](/boot/configuration) 为准，邮件和短信默认是空占位，正式部署请填入真实值。
