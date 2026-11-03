@@ -21,7 +21,7 @@ SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失�
 | 变量 | 说明 |
 | --- | --- |
 | `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | 主库连接 |
-| `REDIS_HOST` / `REDIS_PORT`（默认 6379，可选）/ `REDIS_PASSWORD`（空白=无口令）/ `REDIS_DB`（prod 默认 0，可选） | Redis；JetCache uri 由 EPP 按这些字段合成并百分号编码，勿在 yml 裸拼口令。显式 `jetcache.remote.default.uri` 不覆盖合成但须回解析一致；覆盖 `remote.default` 须同级保留 `type` |
+| `REDIS_HOST` / `REDIS_PORT`（默认 6379，可选）/ `REDIS_PASSWORD`（空白=无口令）/ `REDIS_DB`（prod 默认 0，可选） | Redis；JetCache uri 由 EPP 按这些字段合成并百分号编码，勿在 yml 裸拼口令。合成不覆盖显式 `jetcache.remote.default.uri`，但仍回解析核对；覆盖 `remote.default` 须同级保留 `type` |
 | `FILE_STORAGE_PATH`（默认 `/var/lib/mugsun/files/`）/ `FILE_DOMAIN` | 本地文件存储与访问域名 |
 | `MUGSUN_FRONT_URL` | 管理台 origin，用于 OAuth 回跳等；开发默认 `http://localhost:3006`，prod 必填 |
 
