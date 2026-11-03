@@ -46,6 +46,7 @@ manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; fra
 - 不再写死天地图、高德的域名，瓦片统一走同源代理。
 - 附加的 Report-Only 策略和上面相同，只是 `style-src` 去掉了 `'unsafe-inline'`。它只用来观察，不拦截。
 - `report-uri` 只在填了 `MUGSUN_CSP_REPORT_URI` 时输出。收集端要能接收匿名 POST，并做好限流。
+- 平台后端在只读演示（`prod,demo`）提供收集端 `POST /csp-report`（Nginx 即 `/api/csp-report`）：URL 去 query、按 IP 限流、不入库。详见 boot `docker-compose.demo.yml`。
 
 为配合强制模式，前端做了这些调整：
 

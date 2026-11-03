@@ -9,6 +9,10 @@
 
 ### 变更
 
+- 文档同步 boot CSP 收集端（中英 demo / pc CSP）
+  - demo：白名单补 `POST /csp-report`（Nginx 即 `/api/csp-report`）与限流说明
+  - pc/csp：注明 demo 装配收集端、去 query、按 IP 限流、不入库
+
 - 文档同步 boot #103 / #70 合后跟（中英 FAQ + deploy-docker）
   - FAQ：#70 改为「已修」；补 EPP 合成 / 百分号编码 / 显式 uri 旁路
   - FAQ：覆盖 `jetcache.remote.default` 须同级保留 `type`

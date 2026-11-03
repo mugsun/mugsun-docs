@@ -46,6 +46,7 @@ manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; fra
 - Tianditu and AMap origins are no longer hard-coded; tiles go through the same-origin proxy.
 - The extra Report-Only policy is the same except that `style-src` drops `'unsafe-inline'`. It only observes and blocks nothing.
 - `report-uri` is sent only when `MUGSUN_CSP_REPORT_URI` is set. The collector must accept anonymous POSTs and should be rate limited.
+- On the platform backend, the read-only demo (`prod,demo`) exposes `POST /csp-report` (via Nginx `/api/csp-report`): strips query, rate-limits per IP, does not persist. See boot `docker-compose.demo.yml`.
 
 The frontend was adjusted for enforce mode:
 

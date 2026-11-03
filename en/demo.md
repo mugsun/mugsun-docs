@@ -38,6 +38,7 @@ With demo mode on (`mugsun.demo.enabled=true`), the backend denies by default:
 |---|---|
 | GET / HEAD / OPTIONS queries | Allowed |
 | Login, logout, two-factor, captcha check | Allowed; logins are rate-limited per IP (20 a minute by default, then 429 `DEMO_RATE_LIMITED`) |
+| CSP violation reports `POST /csp-report` (via Nginx `/api/csp-report`) | Allowed; anonymous; rate-limited per IP (default 30/min); sanitized to a dedicated log only, not stored in DB |
 | Tracking collection `/track/collect`, `/track/replay`, `/track/api-body` | Rejected by default; allowed with `MUGSUN_DEMO_TRACK_COLLECT=true`, rate-limited per IP (120 a minute by default), and answered with 503 `DEMO_CAPACITY` once the tracking database passes its size cap. Keep it off until output escaping and sensitive-word filtering are in place |
 | Every other POST / PUT / DELETE / PATCH (registration, password change/reset, uploads, imports, AI, codegen and low-code DDL, job admin, system settings, …) | HTTP 403 with `msg` "演示环境只读" (demo is read-only) and `errorCode` `DEMO_READONLY` |
 | `/open/**`, `/oauth2/**`, `/v1/**`, `/system/crypto/**`, `/auth/social/**`, `/system/ai/**` | Rejected for every method |
@@ -67,7 +68,7 @@ The process exits with code 0 after the migrations and startup initialisation. T
 
 | Boundary | What it covers |
 |---|---|
-| Allowed | Queries; login, logout, captcha check; tracking collection when switched on; server push |
+| Allowed | Queries; login, logout, captcha check; CSP reports; tracking collection when switched on; server push |
 | Rejected | The write requests in the table above (403 `DEMO_READONLY`). A write that slips through fails on database permissions and also returns 403 `DEMO_READONLY` |
 | Internal writes | Login, API, error and operation logs → the log account (a failed write only logs a WARN and never blocks login); login-lock counters, tokens and captchas → a separate Redis db (4 by default, `MUGSUN_DEMO_REDIS_DB`); per-IP rate-limit buckets → the same Redis db; tracking events → the tracking account (insert only) |
 | Off in demo mode | Startup tasks and scheduled jobs that write to the database (log cleanup, notification retries, tracking rollups, partitions and cleanup, …); two-factor; SMS, email and in-app notifications; social login; the AI model channel |

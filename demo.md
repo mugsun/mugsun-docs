@@ -38,6 +38,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 |---|---|
 | GET / HEAD / OPTIONS 查询 | 放行 |
 | 登录、登出、双因子、验证码校验 | 放行；登录按 IP 限流（默认每分钟 20 次，超出 429 `DEMO_RATE_LIMITED`） |
+| CSP 违规报告 `POST /csp-report`（经 Nginx 即 `/api/csp-report`） | 放行；匿名；按 IP 限流（默认 30 次/分钟）；清洗后只写单独日志，不入库 |
 | 埋点采集 `/track/collect`、`/track/replay`、`/track/api-body` | 默认拒绝；`MUGSUN_DEMO_TRACK_COLLECT=true` 时放行，按 IP 限流（默认每分钟 120 次），埋点库超过容量上限时返回 503 `DEMO_CAPACITY`。在输出转义和敏感词就绪前请保持关闭 |
 | 其余 POST / PUT / DELETE / PATCH（注册、改密/找回密码、上传、导入、AI、代码生成与低代码 DDL、任务调度、系统参数等） | HTTP 403，`msg` 为「演示环境只读」，`errorCode` 为 `DEMO_READONLY` |
 | `/open/**`、`/oauth2/**`、`/v1/**`、`/system/crypto/**`、`/auth/social/**`、`/system/ai/**` | 任何方法都拒绝 |
@@ -67,7 +68,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 
 | 边界 | 内容 |
 |---|---|
-| 放行 | 查询；登录、登出、验证码校验；开启时的埋点采集；服务端推送 |
+| 放行 | 查询；登录、登出、验证码校验；CSP 报告；开启时的埋点采集；服务端推送 |
 | 拒绝 | 上表列出的写请求（403 `DEMO_READONLY`）；漏网的写在数据库层报权限不足，也返回 403 `DEMO_READONLY` |
 | 内部写入 | 登录、接口、错误、操作日志 → 日志账号（写失败只记 WARN，不影响登录）；登录锁定计数、token、验证码 → Redis 独立 db（默认 4，`MUGSUN_DEMO_REDIS_DB`）；按 IP 限流的令牌桶 → 同一 Redis db；埋点事件 → 埋点账号（只插入） |
 | 演示环境关闭 | 写库的启动任务和定时任务（日志清理、通知重试、埋点汇总/分区/清理等）；两步验证；短信、邮件、站内通知发送；社交登录；AI 模型通道 |
