@@ -29,7 +29,7 @@ SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失�
 
 | 变量 | 默认 | 说明 |
 | --- | --- | --- |
-| `MUGSUN_INIT_PASSWORD` | — | 初始管理员口令。生产环境（见下方「启动守卫与豁免开关」）未注入时拒绝启动 |
+| `MUGSUN_INIT_PASSWORD` | — | 平台种子 admin 口令（DataInitializer / init show）。生产未注入时拒绝启动（见启动守卫）。重置/新建租户管理员/导入默认口令为各自随机一次性口令（响应 `initialPassword`），首次登录须改密 |
 | `MUGSUN_GM_ENABLED` | `true` | 国密总开关（传输 SM2 / 摘要 SM3） |
 | `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥；非 dev 必填，见下方「接口加密与字段加密密钥」 |
 | `MUGSUN_API_KEY` | 空 | 接口传输密钥（可选）；没配自动生成到 `~/.mugsun/api-transport.key` |

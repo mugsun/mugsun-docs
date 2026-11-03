@@ -9,7 +9,7 @@ Open Tenant Operations → Tenants and click "Add tenant". Fill in the name, con
 - a department with the same name as the tenant;
 - a default post with the code `default`;
 - an admin role with the code `admin` and the data scope "all data";
-- an admin user with the username `admin`, whose initial password comes from `mugsun.security.init-password`.
+- an admin user with the username `admin`, whose initial password is a random one-time password (`initialPassword` in the create response); they must change it on first sign-in. It no longer reuses `MUGSUN_INIT_PASSWORD`.
 
 A tenant admin signs in with the tenant code, username and password on the sign-in page. Leaving the tenant code empty means the platform tenant.
 

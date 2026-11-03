@@ -54,11 +54,13 @@ This repository ships a Maven Wrapper (`./mvnw`); a system Maven 3.9+ works too.
 
 The backend is running when `curl http://localhost:8080/ping` returns a response.
 
-Default account: `admin`. The initial password comes from `mugsun.security.init-password` or `MUGSUN_INIT_PASSWORD`.
+Default account: `admin`. The platform seed password comes from `mugsun.security.init-password` or `MUGSUN_INIT_PASSWORD` (platform admin bootstrap / `init show` only).
 
 If unset, non-prod profiles use a built-in default (local only); prod must inject one.
 
 Locally you may also `export MUGSUN_INIT_PASSWORD=…`. Do not commit a plaintext password.
+
+Password reset, new-tenant admins, and default passwords for imported users are random one-time passwords returned only in the create/reset API response; users must change them on first sign-in before other endpoints work. Admin UIs that still say the initial password equals the env var should show the API `initialPassword` and prompt for a change instead.
 
 Run `java -jar` from the repository root so the optional `config/application-local.yml` is picked up.
 

@@ -12,7 +12,7 @@ alias CODE="curl -s -o /dev/null -w '%{http_code}\n'"
 
 ## Accounts and keys
 
-- [ ] `MUGSUN_INIT_PASSWORD` is set, the default initial password (a public value in the repository) is not used anywhere, and the password was changed at first sign-in
+- [ ] `MUGSUN_INIT_PASSWORD` is set (platform seed only), the public repository default is not used, the seed admin password was changed at first sign-in, and resets / new-tenant admins do not reuse that value
   - On the host, run `printenv MUGSUN_INIT_PASSWORD >/dev/null && echo set || echo MISSING`. It only checks whether the variable is set and does not print it.
   - Sign in as admin and open Profile → Change password to confirm the password has been changed.
 - [ ] `SPRING_PROFILES_ACTIVE=prod`, with `strict-keys` set to `true` (the prod default)

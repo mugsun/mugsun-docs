@@ -25,7 +25,7 @@ The example no longer ships key values; with the dev profile the API and field e
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `MUGSUN_INIT_PASSWORD` | — | Initial admin password. Production (see "Startup guards and exemption switches" below) refuses to start if it's missing |
+| `MUGSUN_INIT_PASSWORD` | — | Platform seed admin password (DataInitializer / init show). Production refuses to start if missing (see startup guards). Resets / new-tenant admins / import defaults use random one-time passwords (`initialPassword`); first sign-in must change them |
 | `MUGSUN_GM_ENABLED` | `true` | Master switch for SM-series crypto (SM2 transport / SM3 digests) |
 | `MUGSUN_SM4_KEY` | empty | SM4 key for field encryption; required outside dev, see "API and field encryption keys" below |
 | `MUGSUN_API_KEY` | empty | API transport key (optional); generated into `~/.mugsun/api-transport.key` when missing |
