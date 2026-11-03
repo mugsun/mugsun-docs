@@ -159,13 +159,21 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 ### Redis 口令含特殊字符时连不上？
 
-现象是 `prod` 或 `demo` profile 启动后连不上 Redis，或连到了错误的地址。
+**已修**（[mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70)）。
 
-原因是这两个 profile 里 jetcache 的连接串把口令直接拼进 URI，口令含 `@`、`:`、`/`、`?`、`#`、`%` 时解析出错。
+旧版 `prod` / `demo` 曾把 Redis 口令裸拼进 JetCache URI，口令含 `@`、`:`、`/`、`?`、`#`、`%` 时会连错。
 
-这是已知问题，见 [mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70)。
+现在由 `JetCacheRedisUriEnvironmentPostProcessor` 按 `spring.data.redis`（或 `REDIS_*`）合成 uri，口令做百分号编码，并回解析核对；不一致则拒绝启动。一键 compose 的 `gen-secrets` 仍只用字母数字；自建口令可含特殊字符，不必再手工编码。
 
-解决办法是在问题修复前，Redis 口令只用字母和数字。
+若你显式设置了 `jetcache.remote.default.uri`（命令行 / 环境变量 / 系统属性），EPP **不会覆盖**它，但仍会按 `spring.data.redis` 回解析核对，未编码或与分字段不一致时同样拒绝启动。优先用分字段配置，少手写 uri。
+
+### 覆盖 `jetcache.remote.default` 后启动报 StringIndexOutOfBounds？
+
+现象是启动时 JetCache 条件装配崩溃，栈里出现 `StringIndexOutOfBoundsException`（Range `[0, -1)`）。
+
+原因是 YAML 里写了空的 `jetcache.remote.default:`（或环境里出现裸键 `jetcache.remote.default=`），SnakeYAML 扁平化后冲掉继承自 `application.yml` 的 `type`，JetCacheCondition 对无点号键做 `substring(0, indexOf('.'))` 失败。
+
+解决办法：不要留空 map；若必须覆盖 `remote.default`，**同级保留** `type: redis.lettuce`（以及你需要的 encoder 等）。`prod` / `demo` 已不再覆盖该块，uri 交给 EPP 合成。
 
 ### openGauss 上迁移跑不起来？
 

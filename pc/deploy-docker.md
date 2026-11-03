@@ -84,7 +84,7 @@ compose 不提供任何默认口令或密钥，下列变量缺少时会直接拒
 | --- | --- |
 | `MUGSUN_DB_PASSWORD` | 应用账号 `mugsun` 的数据库密码（主库与埋点库） |
 | `MUGSUN_POSTGRES_SUPER_PASSWORD` | PostgreSQL 超级用户密码 |
-| `MUGSUN_REDIS_PASSWORD` | Redis 口令，会拼进连接 URI，只用字母数字。启动时写入仅 redis 用户可读的配置文件，不出现在进程参数里 |
+| `MUGSUN_REDIS_PASSWORD` | Redis 口令。compose 侧写入仅 redis 用户可读的配置，不进进程参数；后端由 JetCache EPP 按 `spring.data.redis` 合成 uri 并百分号编码口令（见下） |
 | `MUGSUN_INIT_PASSWORD` | 初始管理员口令 |
 | `MUGSUN_API_KEY` | 32 位 hex 或带填充的 16 字节 base64；compose 部署必须配置，或给 `MUGSUN_HOME` 挂持久卷 |
 | `MUGSUN_SM4_KEY` | SM4 字段加密密钥：32 位 hex、带填充的 16 字节 base64，或过渡期兼容的 16 字符旧写法 |
@@ -92,5 +92,13 @@ compose 不提供任何默认口令或密钥，下列变量缺少时会直接拒
 | `MUGSUN_SIGN_PRIVATE_KEY`、`MUGSUN_SIGN_PUBLIC_KEY` | SM2 审计签名密钥对（hex） |
 
 口令可用 `openssl rand -hex 16` 生成。国密密钥必须固定注入，换密钥会导致历史密文和签名失效。
+
+### Redis 与 JetCache URI
+
+后端不再在 yml 里裸拼口令。`JetCacheRedisUriEnvironmentPostProcessor` 读取 `spring.data.redis`（compose 注入的 host/port/password/database，或 `REDIS_*`），合成 `jetcache.remote.default.uri`，口令按 userinfo 百分号编码，并用 Lettuce 回解析核对；不一致则拒绝启动。空白口令（含仅空白字符）视为无 AUTH。
+
+`port` / `database` 可选，缺省分别为 `6379` / `0`（与 `REDIS_PORT`、`REDIS_DB` 同口径）。一键脚本生成的 Redis 口令仍是字母数字；自建口令可含 `@` `%` `/` 等，无需手工编码。
+
+若运维显式设置 `jetcache.remote.default.uri`，EPP 不会覆盖，但仍按分字段回解析核对——未编码或与 `spring.data.redis` 不一致会启动失败。覆盖整个 `jetcache.remote.default` 时须同级保留 `type: redis.lettuce`，否则空 map 会冲掉 type（见[常见问题](/guide/faq)）。
 
 打开 <http://localhost:8088>。端口可用 `MUGSUN_PC_PORT` 修改。后端的环境变量以 [后端配置](/boot/configuration) 为准，邮件和短信默认是空占位，正式部署请填入真实值。

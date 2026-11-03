@@ -9,6 +9,11 @@
 
 ### 变更
 
+- 文档同步 boot #103 / #70 合后跟（中英 FAQ + deploy-docker）
+  - FAQ：#70 改为「已修」；补 EPP 合成 / 百分号编码 / 显式 uri 旁路
+  - FAQ：覆盖 `jetcache.remote.default` 须同级保留 `type`
+  - deploy-docker / configuration：写清 EPP、空白口令、port/db 可选
+
 - 文档同步 boot #80：访问日志路径改为路由模板（中英 demo）
   - 记 Spring `BEST_MATCHING_PATTERN`（如 `/share/{token}`），不记原始 URL
   - 无模板时记 `(unmatched)`；去掉 `;jsessionid=` / `:redacted` 旧说明

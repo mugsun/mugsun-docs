@@ -2,6 +2,14 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-03 · JetCache Redis URI 与 FAQ（#70 / #103）
+
+### mugsun-boot / mugsun-docs
+
+- Redis 口令特殊字符问题已修：EPP 合成 JetCache uri 并百分号编码。
+- 常见问题改为「已修」，并说明显式 uri 旁路与 `remote.default` 须保留 `type`。
+- Docker 部署页补充 EPP / 空白口令 / port·db 可选说明。
+
 ## 2026-11-03 · 演示访问日志路径模板
 
 ### mugsun-boot / mugsun-docs

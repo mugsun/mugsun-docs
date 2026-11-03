@@ -155,11 +155,21 @@ Until it is fixed, restart each instance after turning a module off. You can als
 
 ### Redis can't connect when the password has special characters
 
-With the `prod` or `demo` profile, the backend can't connect to Redis, or connects to the wrong address.
+**Fixed** ([mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70)).
 
-In these profiles, the jetcache connection string puts the password straight into a URI, which breaks when the password contains `@`, `:`, `/`, `?`, `#` or `%`. This is a known issue, see [mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70).
+Older `prod` / `demo` builds put the Redis password raw into the JetCache URI, so passwords with `@`, `:`, `/`, `?`, `#` or `%` connected to the wrong host.
 
-Until it is fixed, use only letters and digits in the Redis password.
+`JetCacheRedisUriEnvironmentPostProcessor` now builds the uri from `spring.data.redis` (or `REDIS_*`), percent-encodes the password, and round-trip checks it; a mismatch refuses startup. One-shot compose `gen-secrets` still uses alphanumeric passwords; self-managed passwords may include special characters without hand-encoding.
+
+If you set `jetcache.remote.default.uri` explicitly (command line / env / system properties), the EPP **does not override** it, but still round-trip checks it against `spring.data.redis` and refuses startup on an unencoded or mismatched uri. Prefer field-based Redis settings over a hand-written uri.
+
+### Startup fails with StringIndexOutOfBounds after overriding `jetcache.remote.default`?
+
+JetCache condition matching crashes with `StringIndexOutOfBoundsException` (range `[0, -1)`).
+
+An empty `jetcache.remote.default:` map (or a bare `jetcache.remote.default=` key) flattens over the inherited `type` from `application.yml`. JetCacheCondition then calls `substring(0, indexOf('.'))` on a key with no dot.
+
+Do not leave an empty map. If you must override `remote.default`, **keep `type: redis.lettuce` at the same level** (plus encoders you need). `prod` / `demo` no longer override that block; the uri is synthesized by the EPP.
 
 ### Migrations don't run on openGauss
 
