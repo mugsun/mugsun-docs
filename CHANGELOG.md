@@ -13,6 +13,7 @@
   - 本地开发段删除 `cp application-local.yml.example`
   - Docker 试用补充 `logs ready` 登录提示；统一 127.0.0.1:8088
   - 本地开发不再写明文初始口令；改为配置键 / 环境变量说明
+  - 补未注入口令说明：非 prod 有内置缺省；prod 必须注入
 
 - 接口密钥、审计签名密钥改为「开箱即用、可选覆盖」（中英）
   - boot 配置页：没配自动生成到 `~/.mugsun`，重启复用；`MUGSUN_HOME` 可改
