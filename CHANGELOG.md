@@ -9,6 +9,11 @@
 
 ### 变更
 
+- 快速开始对齐零配置：去掉复制 local yml；口令走 init show
+  - 本地开发段删除 `cp application-local.yml.example`
+  - Docker 试用补充 `logs ready` 登录提示；统一 127.0.0.1:8088
+  - 本地开发不再写明文初始口令；改为配置键 / 环境变量说明
+
 - 接口密钥、审计签名密钥改为「开箱即用、可选覆盖」（中英）
   - boot 配置页：没配自动生成到 `~/.mugsun`，重启复用；`MUGSUN_HOME` 可改
   - 新增前端取钥说明：`GET /crypto/bootstrap` 与 dev 自动写 `.env.local`

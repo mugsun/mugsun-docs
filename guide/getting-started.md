@@ -10,7 +10,7 @@ docker compose -f docker-compose.full.yml up -d --build
 docker compose -f docker-compose.full.yml run --rm init show
 ```
 
-最后一条命令会打印管理员密码。打开 <http://localhost:8088>，用 `admin` 登录。
+最后一条命令会打印管理员口令（口令不写进日志）。打开 <http://127.0.0.1:8088>，用 `admin` 登录。也可看 `docker compose -f docker-compose.full.yml logs ready` 里的登录提示。
 
 管理台端口默认只绑定 `127.0.0.1`，只能在本机访问。
 
@@ -33,14 +33,15 @@ docker compose -f docker-compose.full.yml run --rm init show
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose up -d
-cp config/application-local.yml.example config/application-local.yml
 mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
+`config/application-local.yml` 为可选覆盖（Spring `optional` import，已 gitignore）；需要时再参考 `config/application-local.yml.example` 自行创建，example 无必填项。
+
 > **请始终在仓库根目录、带 `-am` 构建**（或用 `mvn clean package -DskipTests` 构建整个工程）。只构建 server 模块（`-pl mugsun-boot-server` 不带 `-am`、在 `mugsun-boot-server` 目录里执行 `mvn package`，或 IDE 只构建该模块）时，`mugsun-boot-core` 会从本地 Maven 仓库 `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/` 取。所有分支和工作区共用这一个 0.1.0 版本，里面是最后一次 `mvn install` 的那个分支，打出的 jar 会带上别的分支的旧代码（例如旧的验证码返回结构），这跟加不加 `clean` 无关。拿不准时先在根目录执行一次 `mvn -B install -DskipTests`。
 
-`curl http://localhost:8080/ping` 返回响应即表示后端启动成功。默认账号 `admin` / `123456`。`java -jar` 要在仓库根目录执行，才能读到 `config/application-local.yml`。
+`curl http://localhost:8080/ping` 返回响应即表示后端启动成功。默认账号 `admin`；初始口令由 `mugsun.security.init-password` 或环境变量 `MUGSUN_INIT_PASSWORD` 注入，勿把明文写进仓库。`java -jar` 要在仓库根目录执行，才能读到可选的 `config/application-local.yml`。
 
 ::: details 5432 或 6379 端口被占用
 换一个宿主机端口。在同一个终端里导出，后端启动时也会读到：

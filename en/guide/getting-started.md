@@ -10,7 +10,7 @@ docker compose -f docker-compose.full.yml up -d --build
 docker compose -f docker-compose.full.yml run --rm init show
 ```
 
-The last command prints the admin password. Open <http://localhost:8088> and sign in as `admin`.
+The last command prints the admin password (never written to logs). Open <http://127.0.0.1:8088> and sign in as `admin`. You can also check `docker compose -f docker-compose.full.yml logs ready` for the login tip.
 
 By default the console port is bound to `127.0.0.1` only, so it can be reached only from the same machine. To try it on a server and open it from another machine, set `MUGSUN_HTTP_BIND=0.0.0.0` before starting. The port can be changed with `MUGSUN_HTTP_PORT`.
 
@@ -31,14 +31,15 @@ You need JDK 21, Maven 3.9+ and Docker. The admin console also needs Node.js 22.
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose up -d
-cp config/application-local.yml.example config/application-local.yml
 mvn -pl mugsun-boot-server -am package -DskipTests
 java -jar mugsun-boot-server/target/mugsun-boot.jar
 ```
 
+`config/application-local.yml` is an optional override (Spring `optional` import, gitignored). Create it from `config/application-local.yml.example` only when you need overrides; the example has no required fields.
+
 > **Always build from the repository root with `-am`** (or build the whole project with `mvn clean package -DskipTests`). If you build only the server module (`-pl mugsun-boot-server` without `-am`, `mvn package` inside `mugsun-boot-server`, or an IDE building just that module), `mugsun-boot-core` comes from the local Maven repository at `~/.m2/repository/com/mugsun/mugsun-boot-core/0.1.0/`. Every branch and worktree shares that one 0.1.0 version, which holds whichever branch ran `mvn install` last, so the jar can carry another branch's old code (such as an old captcha response shape) whether or not you add `clean`. When in doubt, run `mvn -B install -DskipTests` from the root first.
 
-The backend is running when `curl http://localhost:8080/ping` returns a response. The default account is `admin` / `123456`. Run `java -jar` from the repository root so `config/application-local.yml` is picked up.
+The backend is running when `curl http://localhost:8080/ping` returns a response. The default account is `admin`; the initial password comes from `mugsun.security.init-password` or `MUGSUN_INIT_PASSWORD` — do not commit a plaintext password. Run `java -jar` from the repository root so the optional `config/application-local.yml` is picked up.
 
 ::: details Port 5432 or 6379 is already in use
 Pick other host ports. Export them in the same terminal so the backend reads them too:

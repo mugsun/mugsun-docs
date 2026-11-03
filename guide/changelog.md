@@ -2,6 +2,13 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-03 · 零配置快速开始
+
+### mugsun-boot / mugsun-docs
+
+- [快速开始](/guide/getting-started) 首推 `docker-compose.full.yml` 一条命令。
+- 不再要求复制 `application-local.yml`；口令用 `init show` 查看，不写进文档明文。
+
 ## 2026-10-21 · 常见问题与报错速查
 
 ### mugsun-docs

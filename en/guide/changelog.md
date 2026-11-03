@@ -2,6 +2,13 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-03 · Zero-config getting started
+
+### mugsun-boot / mugsun-docs
+
+- [Getting started](/en/guide/getting-started) leads with one `docker-compose.full.yml` command.
+- Copying `application-local.yml` is no longer required; use `init show` for the password and do not put a plaintext password in the docs.
+
 ## 2026-10-21 · FAQ and error reference
 
 ### mugsun-docs
