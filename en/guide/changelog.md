@@ -2,6 +2,12 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-03 · Demo access-log path templates
+
+### mugsun-boot / mugsun-docs
+
+- Demo access logs record Spring route templates (for example `/share/{token}`), never the raw URL; unmatched requests are logged as `(unmatched)`. See [Read-only demo](/en/demo#access-log-retention).
+
 ## 2026-11-03 · Zero-config getting started
 
 ### mugsun-boot / mugsun-docs

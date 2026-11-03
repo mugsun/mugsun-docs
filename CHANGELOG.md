@@ -9,6 +9,10 @@
 
 ### 变更
 
+- 文档同步 boot #80：访问日志路径改为路由模板（中英 demo）
+  - 记 Spring `BEST_MATCHING_PATTERN`（如 `/share/{token}`），不记原始 URL
+  - 无模板时记 `(unmatched)`；去掉 `;jsessionid=` / `:redacted` 旧说明
+
 - 文档同步 boot #81：初始口令改为一次性随机口令
   - 重置 / 新建租户管理员不再复用 `MUGSUN_INIT_PASSWORD`
   - 首次登录强制改密；管理端需展示接口返回的 `initialPassword`

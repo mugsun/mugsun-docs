@@ -2,6 +2,12 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-03 · 演示访问日志路径模板
+
+### mugsun-boot / mugsun-docs
+
+- 演示模式访问日志的路径改为 Spring 路由模板（如 `/share/{token}`），不再写原始 URL；无匹配时记 `(unmatched)`。详见[只读演示](/demo#访问日志留存)。
+
 ## 2026-11-03 · 零配置快速开始
 
 ### mugsun-boot / mugsun-docs
