@@ -9,6 +9,7 @@
 
 ### 变更
 
+- 快速开始构建命令改为 `./mvnw`（与 boot Maven Wrapper 对齐）
 - 快速开始对齐零配置：去掉复制 local yml；口令走 init show
   - 本地开发段删除 `cp application-local.yml.example`
   - Docker 试用补充 `logs ready` 登录提示；统一 127.0.0.1:8088
