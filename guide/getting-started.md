@@ -58,13 +58,19 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 `curl http://localhost:8080/ping` 返回响应即表示后端启动成功。
 
-默认账号 `admin`。平台种子口令由 `mugsun.security.init-password` 或 `MUGSUN_INIT_PASSWORD` 注入（仅首次播种平台 admin / `init show`）。
+默认账号 `admin`。
+
+平台种子口令由 `mugsun.security.init-password` 或 `MUGSUN_INIT_PASSWORD` 注入。
+
+该口令仅用于首次播种平台 admin，以及 `init show`。
 
 未注入时，非 prod 有内置缺省口令（仅本地）；prod 必须注入。
 
 本地也可显式 `export MUGSUN_INIT_PASSWORD=…`。勿把明文写进仓库。
 
-重置口令、新建租户管理员与导入用户的默认口令为各自随机的一次性口令，只在创建/重置接口响应里返回；首次登录须改密后才能使用其它接口。管理前端若仍写死「初始口令=环境变量」文案，需改为展示接口返回的一次性口令并引导改密。
+重置口令、新建租户管理员与导入用户的默认口令为各自随机的一次性口令，只在创建/重置接口响应里返回。
+
+首次登录须改密后才能使用其它接口。管理前端若仍写死「初始口令=环境变量」文案，需改为展示接口返回的一次性口令并引导改密。
 
 `java -jar` 要在仓库根目录执行，才能读到可选的 `config/application-local.yml`。
 

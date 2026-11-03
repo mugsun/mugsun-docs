@@ -12,7 +12,8 @@ alias CODE="curl -s -o /dev/null -w '%{http_code}\n'"
 
 ## 账号与密钥
 
-- [ ] 已注入 `MUGSUN_INIT_PASSWORD`（仅平台种子），任何环境都没有使用仓库公开缺省值；种子 admin 首次登录后已改密；重置/新租户不复用该值
+- [ ] 已注入 `MUGSUN_INIT_PASSWORD`（仅平台种子），任何环境都没有使用仓库公开缺省值
+- [ ] 种子 admin 首次登录后已改密；重置/新租户不复用该种子口令
   - 在部署机上执行 `printenv MUGSUN_INIT_PASSWORD >/dev/null && echo set || echo MISSING`。
   - 这条命令只判断变量是否设置，不会打印口令。
   - 用 admin 登录后进入「个人中心 → 修改密码」，确认口令已经改过。
