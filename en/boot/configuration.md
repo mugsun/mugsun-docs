@@ -359,7 +359,14 @@ mugsun:
     default-types: [SLIDER, WORD_CLICK, ROTATE, ICON_CLICK, JIGSAW]   # types enabled for tenants without their own setting (all five by default), one picked at random per challenge
     slider: { expire-seconds: 120, decoy-count: 2 }   # challenge lifetime (s); slider decoy gaps (same outline as the real gap, 0–3)
     rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 10, keyboard-step: 5, track-replay-window-seconds: 600 }  # a drag track can be used once per window; ≤0 disables
-    click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000, words-file: "" }  # count/decoys apply to icon click only; words-file is a private word list, empty = bundled list
+    click:
+      count: 3
+      decoys: 2
+      min-radius-px: 22
+      min-duration-ms: 400
+      max-duration-ms: 30000
+      words-file: ""              # private word list; empty = bundled; count/decoys apply to icon click only
+      seed-warp-strength: 0.14    # ICON_CLICK per-challenge mesh warp vs short side; 0=off; clamped to about [0, 0.35]
     jigsaw: { rows: 2, cols: 2 }
     icon-dir: classpath:captcha/icons/   # icon directory; must contain manifest.json and <slug>.png
     render-max-concurrent: 16           # max concurrent image renders on this node, 40012 when exceeded; ≤0 means no limit
@@ -372,7 +379,7 @@ Tolerances are set so an ordinary user passes in 1–2 seconds: ±10° for rotat
 
 Word click words come from a bundled list by default (477 common words and idioms compiled by the project, using only level-1 characters of the Table of General Standard Chinese Characters). The list is public, so an attacker who recognises the characters can correct them against it; in production, point `click.words-file` at a private list (one 3–4 character word per line, `#` starts a comment). Every character must be in the bundled font subset, otherwise that word is skipped with a startup warning; if the private list cannot be read or has no usable words, the bundled list is used. The image also contains 1–2 decoy characters, preferably look-alikes or homophones; clicking a decoy or the wrong order fails. Characters are drawn on the server from a bundled Noto Sans SC subset (SIL OFL 1.1) with added noise, and icons that look alike never appear in the same challenge. If the icon manifest is missing or broken, a warning is logged at startup and icon click is disabled without affecting other types. If a tenant has enabled only icon click, the challenge request returns `40016` (challenge type temporarily unavailable) instead of quietly issuing a slider, and an audit log entry is written (at most one per tenant and IP every 10 minutes).
 
-Every challenge randomly scales, crops, mirrors and recolours the background and rotate images, jigsaw tiles get extra noise and a slight colour shift (±4 per tile) with at least 3 tiles starting out of place, and the slider decoy gaps share the real gap's outline (2 by default). Icon-click icons no longer sit on a white disc; they get a shadow and thin outline that follow their shape, and the noise lines are drawn underneath them. In word click, characters with fewer than 3 strokes (such as 一, 十, 人) are rotated by at most ±15°. The `Accept-Language` header only sets the prompt language (icon-click prompts use English names for English); it never changes which challenge type is served. Click challenges are judged against the background size recorded when the challenge was issued, so changing the size settings does not affect challenges already issued.
+Every challenge randomly scales, crops, mirrors and recolours the background and rotate images, jigsaw tiles get extra noise and a slight colour shift (±4 per tile) with at least 3 tiles starting out of place, and the slider decoy gaps share the real gap's outline (2 by default). Icon-click icons no longer sit on a white disc; they get a shadow and thin outline that follow their shape, and the noise lines are drawn underneath them. Icon click also applies a per-challenge seed-warp mesh (plus a light stroke ripple) to the public-library PNGs by default; the prompt strip and the canvas share the same seed for each slug, which makes template matching against the public originals harder. In word click, characters with fewer than 3 strokes (such as 一, 十, 人) are rotated by at most ±15°. The `Accept-Language` header only sets the prompt language (icon-click prompts use English names for English); it never changes which challenge type is served. Click challenges are judged against the background size recorded when the challenge was issued, so changing the size settings does not affect challenges already issued.
 
 **Asset sources and licence:**
 
@@ -389,10 +396,11 @@ Every challenge randomly scales, crops, mirrors and recolours the background and
 - Never use rotate as the only line of defence: combine it with failure lockout and rate limiting, and enable other types as well.
 - If a tenant enables only `ROTATE`, the save still succeeds but the response carries a `data.warning`.
 
-**Icon click is also an auxiliary challenge type:** it is in the platform default random mix, and only partly resistant to automated solving.
+**Icon click is also an auxiliary challenge type:** it is in the platform default random mix, and only partly resistant to automated solving (same stance as #35).
 
-- The icon library (including `manifest.json`) is public in the repository, so an attacker can use the icons directly for template matching.
-- A template-matching solver runs as a regression test, 200 challenges per run. It currently gets all three icons right in about 2% of challenges, and CI fails above 20%. That only shows it holds up against this kind of solver.
+- The icon library (including `manifest.json`) is public in the repository. Rendering applies a per-challenge seed-warp mesh by default so the public originals no longer line up with the challenge image, which raises the bar for template matching.
+- Config key `mugsun.captcha.click.seed-warp-strength` defaults to `0.14`; set it to `0` to turn warping off; the renderer clamps the effective strength to about `[0, 0.35]`. It does not use the abandoned R7-1 high-contrast gradients or noise that once pushed solve rates higher.
+- A template-matching solver runs as a regression test, 200 challenges per run. Full solves (all three icons correct) are about 0–1 out of 200; CI fails above 20%. That only shows it holds up against this kind of solver.
 - Never use icon click as the only line of defence: combine it with failure lockout and rate limiting, and enable the slider or other types as well.
 - Use a private icon library in production.
 - If a tenant enables only `ICON_CLICK`, the save still succeeds but the response carries a `data.warning`.

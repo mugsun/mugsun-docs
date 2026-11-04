@@ -2,6 +2,15 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-04 · ICON_CLICK seed-warp
+
+### mugsun-boot / mugsun-docs
+
+- ICON_CLICK 渲染默认每题 seed-warp 网格形变，抗公开库模板匹配（[mugsun-boot#77](https://github.com/mugsun/mugsun-boot/issues/77)）。
+- `mugsun.captcha.click.seed-warp-strength` 默认 0.14；`0`=关；有效钳位约 `[0, 0.35]`。
+- 仍为辅助题型，勿单独作为唯一防线（沿用 #35）。
+- 模板匹配全解约 0–1/200；详见 [配置说明 · 安全验证](/boot/configuration#安全验证-行为验证码)。
+
 ## 2026-11-04 · GIS wraps_antimeridian 与部分 GiST
 
 ### mugsun-boot / mugsun-docs

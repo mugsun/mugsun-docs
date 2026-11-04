@@ -422,7 +422,14 @@ mugsun:
     default-types: [SLIDER, WORD_CLICK, ROTATE, ICON_CLICK, JIGSAW]   # 租户没单独设置时启用的题型（默认五种全开），每次随机出一种
     slider: { expire-seconds: 120, decoy-count: 2 }   # 题目有效期（秒）；滑块假缺口数（与真缺口同轮廓，0–3）
     rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 10, keyboard-step: 5, track-replay-window-seconds: 600 }  # 同一条拖动轨迹在窗口内只能用一次，≤0 关闭
-    click:  { count: 3, decoys: 2, min-radius-px: 22, min-duration-ms: 400, max-duration-ms: 30000, words-file: "" }  # count/decoys 只用于图标点选；words-file 为私有词库，空则用内置词库
+    click:
+      count: 3
+      decoys: 2
+      min-radius-px: 22
+      min-duration-ms: 400
+      max-duration-ms: 30000
+      words-file: ""              # 私有词库；空则用内置词库；count/decoys 只用于图标点选
+      seed-warp-strength: 0.14    # ICON_CLICK 每题网格形变相对短边；0=关；渲染侧钳到约 [0, 0.35]
     jigsaw: { rows: 2, cols: 2 }
     icon-dir: classpath:captcha/icons/   # 图标目录，须含 manifest.json 与 <slug>.png
     render-max-concurrent: 16           # 本节点同时出图上限，超限返回 40012；≤0 不限
@@ -454,6 +461,7 @@ mugsun:
 - 拼图块另加噪声和轻微色偏（每块 ±4），开局至少 3 块不在原位。
 - 滑块的假缺口与真缺口轮廓相同，默认 2 个。
 - 图标点选的图标不垫白色圆盘，改为贴合轮廓的投影和细描边，干扰线画在图标下面。
+- 图标点选默认对公开库 PNG 做每题 seed-warp 网格形变（含描边微扰）；提示条与画布对同一 slug 使用同一 seed，抗公开库模板匹配。
 - 文字点选里笔画少于 3 的字（如“一”“十”“人”）只旋转 ±15°。
 
 请求头 `Accept-Language` 只决定提示语言，英文时图标点选的提示名用英文，不影响出哪种题型。
@@ -475,10 +483,11 @@ mugsun:
 - 不能把旋转题当作唯一防线：要配合失败锁定和限流，并同时启用其他题型。
 - 租户只启用 `ROTATE` 时仍会保存，但响应 `data.warning` 会给出提示。
 
-**图标点选也是辅助题型：** 图标点选在平台默认的随机集里，只能部分抵御自动求解。
+**图标点选也是辅助题型：** 图标点选在平台默认的随机集里，只能部分抵御自动求解（沿用 #35 口径）。
 
-- 图标库（含 `manifest.json`）随仓库公开，攻击者可以直接拿图标做模板匹配。
-- 回归测试用模板匹配求解器，每次 200 题。三个图标全部点对的比例当前约 2%，超过 20% 时 CI 失败。这只说明能挡住这一类求解器。
+- 图标库（含 `manifest.json`）随仓库公开；渲染默认对每题做 seed-warp 网格形变，使公开原图与题图不再重合，从而抬高模板匹配难度。
+- 配置键 `mugsun.captcha.click.seed-warp-strength` 默认 `0.14`；设为 `0` 关闭形变；渲染侧有效强度钳位约 `[0, 0.35]`。不做曾推高求解率的 R7-1 高对比渐变/杂波。
+- 回归测试用模板匹配求解器，每次 200 题。三个图标全部点对（full）约 0–1/200；超过 20% 时 CI 失败。这只说明能挡住这一类求解器。
 - 不能把图标点选当作唯一防线：要配合失败锁定和限流，并同时启用滑块或其他题型。
 - 生产环境请换成私有图标库。
 - 租户只启用 `ICON_CLICK` 时仍会保存，但响应 `data.warning` 会给出提示。

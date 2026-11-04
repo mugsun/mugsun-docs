@@ -9,6 +9,12 @@
 
 ### 变更
 
+- 文档同步 boot #77：ICON_CLICK 默认 seed-warp（中英）
+  - `mugsun.captcha.click.seed-warp-strength` 默认 0.14；
+    `0`=关；有效钳位约 [0, 0.35]
+  - 仍为辅助题型，勿单独作为唯一防线（#35）
+  - 模板匹配全解表述为约 0–1/200，勿写死 0
+
 - 文档同步 boot CSP 收集端（中英 demo / pc CSP）
   - demo：白名单补 `POST /csp-report`（Nginx 即 `/api/csp-report`）与限流说明
   - pc/csp：注明 demo 装配收集端、去 query、按 IP 限流、不入库

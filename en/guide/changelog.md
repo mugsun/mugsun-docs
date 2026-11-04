@@ -2,6 +2,15 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-04 · ICON_CLICK seed-warp
+
+### mugsun-boot / mugsun-docs
+
+- ICON_CLICK rendering now applies a per-challenge seed-warp mesh by default to resist public-library template matching ([mugsun-boot#77](https://github.com/mugsun/mugsun-boot/issues/77)).
+- `mugsun.captcha.click.seed-warp-strength` defaults to 0.14; `0` turns warping off; effective clamp about `[0, 0.35]`.
+- Still an auxiliary type; do not use it as the only line of defence (same as #35).
+- Full template-match solves are about 0–1 out of 200; see [Configuration · Human verification](/en/boot/configuration#human-verification-behavioral-captcha).
+
 ## 2026-11-04 · GIS wraps_antimeridian and partial GiST
 
 ### mugsun-boot / mugsun-docs
