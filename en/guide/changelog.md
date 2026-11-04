@@ -6,7 +6,13 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-boot / mugsun-docs
 
-- Pole-enclosing polygons are no longer rejected or silently stripped of their polar caps ([mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63)): detect by cumulative longitude ≈ ±360°; area via `PolygonArea`; buffer/distance with pole-origin AEQD and RFC 7946 polar cuts; wrap-around rings rewritten on ingest to ±180° edges at the pole; PostGIS layer buffer falls back to Java for polar caps instead of skipping; irregular pole-enclosing buffers become equal-latitude RFC polar-cap approximations. See [GIS limitations](/en/pc/gis#metric-limits).
+- Pole-enclosing polygons are no longer rejected or silently stripped of their polar caps ([mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63)).
+- Detect by cumulative longitude ≈ ±360°; area via `PolygonArea`.
+- Buffer/distance use pole-origin AEQD and RFC 7946 polar cuts.
+- Wrap-around rings are rewritten on ingest to ±180° edges at the pole.
+- PostGIS layer buffer falls back to Java for polar caps instead of skipping.
+- Irregular pole-enclosing buffers become equal-latitude RFC polar-cap approximations.
+- See [GIS limitations](/en/pc/gis#metric-limits).
 
 ## 2026-11-04 · Demo access-log AsyncAppender drops
 
@@ -109,7 +115,9 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 
 ### mugsun-boot
 
-- At the time: the PostGIS layer buffer skipped polar caps whose longitude direction could not be determined (skip + `skipped`) instead of returning a result with the cap missing. Since 2026-11-04, [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63) routes polar caps to Java pole-origin AEQD buffering and no longer skips them; see the same-day "GIS pole-enclosing polygons" note and [GIS limitations](/en/pc/gis#metric-limits).
+- At the time: PostGIS skipped ambiguous polar caps (skip + `skipped`) instead of returning a result with the cap missing.
+- Since 2026-11-04, [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63) routes polar caps to Java pole-origin AEQD and no longer skips them.
+- See the same-day "GIS pole-enclosing polygons" note and [GIS limitations](/en/pc/gis#metric-limits).
 
 ## 2026-10-18 · track 0.3.0: no masking or filtering by default
 

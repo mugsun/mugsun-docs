@@ -54,9 +54,17 @@ Both layer queries and `/gis/analyze` accept `engine=java` to force the Java pat
 
 How the Java path works: everything is built on GeographicLib (Karney's algorithms, the same source as PostGIS `geography`) and JTS. The edge between two vertices is always treated as a geodesic on the WGS84 ellipsoid, as in PostGIS `geography`.
 
-- **Buffer**: usually projects with an ellipsoidal azimuthal equidistant (AEQD) projection centered on the feature's envelope center (on the pole when |latitude| ≥ 88°), buffers on that plane and projects back. Edges are densified every 1 km along the geodesic before projecting and after projecting back. A polygon that encloses a pole (outer-ring cumulative longitude change ≈ ±360°, and the ring is at high latitude or already has a pole vertex—same idea as GeographicLib `PolygonArea`'s longitude-crossing count) uses pole-origin AEQD instead; the result is written with an RFC 7946 polar cut (±180° edges connected to the pole). An irregular pole-enclosing polygon is buffered as an equal-latitude RFC polar-cap approximation (the southernmost or northernmost latitude of the buffered boundary becomes the cap edge).
-- **Distance**: usually projects around the query point, finds the closest point on the geometry (a vertex or any point along an edge; a point inside a polygon gives 0), then computes the geodesic distance between the two points with GeographicLib. For a pole-enclosing polygon, distance uses pole-origin AEQD: 0 if the query point lies inside the RFC form of the cap, otherwise the geodesic distance to the boundary.
-- **Area**: GeographicLib `PolygonArea` on the ellipsoid (outer ring minus holes), matching PostGIS `ST_Area(geography)`. For a pole-enclosing polygon the original ring is fed to `PolygonArea` directly, without an unwrap that would remove the longitude wind.
+- **Buffer (usual)**: ellipsoidal AEQD centered on the feature envelope (on the pole when |latitude| ≥ 88°).
+- Buffer on that plane and project back; densify every 1 km along the geodesic before and after.
+- **Buffer (pole-enclosing)**: outer-ring cumulative longitude ≈ ±360°, and high latitude or a pole vertex.
+- Same idea as GeographicLib `PolygonArea`'s longitude-crossing count; uses pole-origin AEQD.
+- Result written with an RFC 7946 polar cut (±180° edges connected to the pole).
+- Irregular pole-enclosing polygons become an equal-latitude RFC polar-cap approximation.
+- **Distance (usual)**: project around the query point, find the closest point, then GeographicLib inverse.
+- A vertex or any point along an edge counts; a point inside a polygon gives 0.
+- **Distance (pole-enclosing)**: pole-origin AEQD; 0 inside the RFC form, otherwise geodesic to the boundary.
+- **Area**: GeographicLib `PolygonArea` on the ellipsoid (outer ring minus holes).
+- Matches PostGIS `ST_Area(geography)`; pole-enclosing rings are fed as-is, without unwrap.
 - **Length**: the sum of geodesic segment lengths.
 
 Radius and nearest-neighbor queries first prefilter by a longitude/latitude envelope with a generous meters-to-degrees margin; when the envelope crosses the 180° meridian it is split into two boxes, so features on the other side are not missed. A bbox query whose west bound is greater than its east bound (for example `minLon=170&maxLon=-170`) is treated as a range crossing 180°, per RFC 7946 §5.2, and is also queried as two boxes; a south bound not less than the north bound is still an error. On the PostGIS path, nearest neighbor first takes candidates by planar longitude/latitude distance with the GiST KNN operator (`<->`; 10 times the result count, at least 100 and at most 10,000), then re-sorts them by `geography` distance. The result is approximate: at high latitudes and in dense layers, planar and ground-distance order differ a lot, so the truly nearest feature may fall outside the candidates and be missed.
@@ -85,28 +93,61 @@ Earlier versions computed meters on the Web Mercator plane without a latitude co
 
 #### Java-path limits {#metric-limits}
 
-The polar regions are computed normally; there is no latitude limit any more. Crossing the 180° meridian follows RFC 7946 §3.1.9: each part of a feature is first made continuous in longitude before distance, area and length are computed, and a buffer that extends past 180° is cut there and returned as a MultiPolygon (for example, a buffer around Fiji).
+The polar regions are computed normally; there is no latitude limit any more.
 
-**Pole-enclosing polygons** (cumulative longitude around the ring ≈ ±360°, matching GeographicLib `PolygonArea`) are supported since [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63): area uses `PolygonArea` directly; buffer and distance use pole-origin AEQD and write results with an RFC 7946 polar cut; an irregular pole-enclosing polygon is buffered as an equal-latitude RFC polar-cap approximation. A ring that only circles the pole without a pole vertex is rewritten on ingest to ±180° edges connected to the pole (with a WARN), and is no longer rejected.
+Crossing the 180° meridian follows RFC 7946 §3.1.9: each part is made continuous in longitude before distance, area and length.
+
+A buffer that extends past 180° is cut there and returned as a MultiPolygon (for example, around Fiji).
+
+**Pole-enclosing polygons** (cumulative longitude ≈ ±360°, matching GeographicLib `PolygonArea`) are supported.
+
+Since [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63): area uses `PolygonArea` directly.
+
+Buffer and distance use pole-origin AEQD and write results with an RFC 7946 polar cut.
+
+An irregular pole-enclosing polygon is buffered as an equal-latitude RFC polar-cap approximation.
+
+A ring that only circles the pole without a pole vertex is rewritten on ingest to ±180° edges at the pole (with a WARN), and is no longer rejected.
 
 Only two cases still cannot be computed (both for **non–pole-enclosing** features):
 
-- **A non–pole-enclosing feature whose buffer result encloses a pole**: when the buffer covers the North or South Pole, it cannot be output as an ordinary longitude/latitude polygon (buffering a pole-enclosing polygon itself uses pole-origin AEQD and is not limited this way).
-- **A single part spanning more than 180° of longitude that is not pole-enclosing**: a part of the feature is still wider than 180° after being made continuous, or the buffer wraps all the way around the globe, so its direction is ambiguous.
+- **A non–pole-enclosing feature whose buffer result encloses a pole**: when the buffer covers the North or South Pole, it cannot be output as an ordinary longitude/latitude polygon.
+- Buffering a pole-enclosing polygon itself uses pole-origin AEQD and is not limited this way.
+- **A single part spanning more than 180° of longitude that is not pole-enclosing**: still wider than 180° after being made continuous.
+- Or the buffer wraps all the way around the globe, so its direction is ambiguous.
 
 In these cases:
 
-- **Analyzing a single geometry** (the input to `/gis/analyze`, including geometries taken from the source layer when `engine=java` is set): an error is returned. When a non–pole-enclosing buffer encloses a pole, shrink the buffer distance or split the feature near the pole; for a part wider than 180°, split the feature at 180° first.
-- **Layer queries** (radius, nearest neighbor, buffer, and the buffer / contains that `/gis/analyze` hands to the layer query): a few features that cannot be computed do not make the whole query fail.
-  - Radius and nearest neighbor: a feature crossing 180° (adjacent vertices more than 180° of longitude apart) first has 360 added to its negative longitudes, so it becomes one continuous piece instead of wrapping the long way around the globe; the query point is moved into the same longitude range, using whichever representation is closer to the feature. For example, `LINESTRING(179.9 0, -179.9 0)` is about 20,004 km from (0, 0) and about 11.1 km from (179.95, 0.1). Features still wider than 180° after the shift and not pole-enclosing are skipped; pole-enclosing polygons are measured with pole-origin AEQD / the RFC form as usual.
-  - Buffer: features that are not pole-enclosing but whose buffer encloses a pole, or that have a part wider than 180° and are not pole-enclosing, are skipped; pole-enclosing polygons (including RFC polar caps) are buffered normally; buffers that merely extend past 180° are returned normally, cut at 180°.
-  - `skipped` in the response is the number of features skipped; the server logs a WARN with feature ids and the count (at most one per layer and operation per minute).
-- **When spatial analysis hands off to a layer query**, the response also carries `skipped`; features among the hits with a part wider than 180° that are not pole-enclosing are left out of the area and length totals, and their number is reported in `metrics.metricsSkipped`.
-- **Query point**: query points in the polar regions, including on a pole, work. Query points near the 180° meridian are fine too; for example a query point at longitude 179.9 finds a feature at -179.9.
-- **Empty geometries**: distance is treated as infinite (never matched by radius queries, sorted last by nearest neighbor), buffers are empty, and area and length are 0.
+- **Analyzing a single geometry** (input to `/gis/analyze`, including geometries taken with `engine=java`): an error is returned.
+- When a non–pole-enclosing buffer encloses a pole: shrink the buffer distance or split the feature near the pole.
+- For a part wider than 180°: split the feature at 180° first.
+- **Layer queries** (radius, nearest neighbor, buffer, and buffer/contains handed off from analysis): a few failures do not fail the whole query.
+  - Radius and nearest neighbor: a feature crossing 180° first adds 360 to negative longitudes so it stays continuous.
+  - The query point moves into the same longitude range, using whichever representation is closer.
+  - Example: `LINESTRING(179.9 0, -179.9 0)` is about 20,004 km from (0, 0).
+  - About 11.1 km from (179.95, 0.1).
+  - Features still wider than 180° after the shift and not pole-enclosing are skipped; pole-enclosing polygons are measured as usual.
+  - Buffer: skip non–pole-enclosing features whose buffer encloses a pole, or parts wider than 180° that are not pole-enclosing.
+  - Pole-enclosing polygons (including RFC polar caps) are buffered normally; buffers that only extend past 180° are cut at 180°.
+  - `skipped` is the skip count; WARN at most once per layer and operation per minute.
+- **When spatial analysis hands off to a layer query**, the response also carries `skipped`.
+- Hits with a part wider than 180° that are not pole-enclosing are left out of area and length totals.
+- Their number is reported in `metrics.metricsSkipped`.
+- **Query point**: query points in the polar regions, including on a pole, work.
+- Near 180° is fine too; for example longitude 179.9 finds a feature at -179.9.
+- **Empty geometries**: distance is infinite (never matched by radius, last in nearest neighbor), buffers are empty, area and length are 0.
 
 ::: warning Known limitations
-- **Pole-enclosing polygons are supported ([mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63))**: an RFC polar cap (such as `POLYGON((-180 80, …, 180 80, 180 90, -180 90, -180 80))`) and a wrap-around ring (such as `POLYGON((0 80, 90 80, 180 80, -90 80, 0 80))`) can have area, buffer and distance computed after they are detected as pole-enclosing. Wrap-around rings are rewritten on ingest to ±180° edges connected to the pole. The PostGIS layer buffer no longer skips polar caps: `geography` `ST_Buffer` still drops the polar side of a cap, so the business path takes the original geometry and buffers it in the JVM with pole-origin AEQD; polygons that only cross 180° and are no wider than 180° after the shift still use `ST_Buffer`. The buffer of an irregular pole-enclosing polygon is an equal-latitude RFC polar-cap approximation, not a precise offset of the original boundary.
+- **Pole-enclosing polygons are supported ([mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63))**.
+- After detection, RFC polar caps and wrap-around rings can compute area, buffer and distance.
+- Example: `POLYGON((-180 80, …, 180 80, 180 90, -180 90, -180 80))`.
+- Example: `POLYGON((0 80, 90 80, 180 80, -90 80, 0 80))`.
+- Wrap-around rings are rewritten on ingest to ±180° edges at the pole.
+- The PostGIS layer buffer no longer skips polar caps.
+- `geography` `ST_Buffer` still drops the polar side of a cap.
+- The business path takes the original geometry and buffers it in the JVM with pole-origin AEQD.
+- Polygons that only cross 180° and are no wider than 180° after the shift still use `ST_Buffer`.
+- An irregular pole-enclosing buffer is an equal-latitude RFC polar-cap approximation, not a precise offset of the original boundary.
 - **Edges are geodesics, unlike the straight edges of RFC 7946**: RFC 7946 treats the edge between two vertices as a straight line in longitude/latitude, while this system uses ellipsoidal geodesics, so the same polygon gets a somewhat different area; the larger the extent, the bigger the gap. Measured with GeographicLib (straight lon/lat edges densified to 20,000 points versus geodesic edges): 1°×1° at the equator +0.003%, 10°×10° at 30°–40°N +0.004%, 10°×10° at the equator +0.25%, 10°×10° at 60°–70°N −0.37%, the extent of China (73°–135°E, 18°–54°N) −0.59%, 60°×60° from 0° to 60° +2.27%. The difference is negligible at city scale.
 - **Range queries on stored features that cross 180° (fixed in [mugsun-boot#73](https://github.com/mugsun/mugsun-boot/pull/73))**: before the fix, a stored feature crossing 180° (such as `LINESTRING(179.9 0, -179.9 0)`) was treated in the plane as spanning from −179.9° to 179.9°, so bbox and intersects matched it in ranges such as 0° to 10°, missed it near 180° (including a bbox with west > east), and radius on the Java path also matched it falsely ([mugsun-boot#64](https://github.com/mugsun/mugsun-boot/issues/64)). After the fix both paths treat it as crossing 180°. Caveat: the rule is "longitude span greater than 180°, and no greater than 180° after adding 360 to negative longitudes", so a genuinely wide feature that runs east across most of the globe and is no wider than 180° after the shift (such as a line drawn eastward from −170° to 170°) is also treated as crossing 180° and read the short way round, consistent with RFC 7946; split such features into several parts. In nearest-neighbor queries the 180°-crossing check scans the whole layer, so large layers get slower; see [mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76) for the planned improvement.
 :::

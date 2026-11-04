@@ -6,7 +6,11 @@
 
 ### mugsun-boot / mugsun-docs
 
-- 包极点面不再误拒或静默丢极冠（[mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63)）：沿环累计经度 ≈ ±360° 判包极点；面积直接 `PolygonArea`；缓冲/距离用极点原点 AEQD，按 RFC 7946 极地切口写出；绕极环入库改写为 ±180 接极点；PostGIS 图层缓冲对极冠回落 Java，不再 skip；不规则包极面缓冲为等纬 RFC 极冠近似。详见 [GIS 已知限制](/pc/gis#metric-limits)。
+- 包极点面不再误拒或静默丢极冠（[mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63)）。
+- 沿环累计经度 ≈ ±360° 判包极点；面积直接 `PolygonArea`。
+- 缓冲/距离用极点原点 AEQD，按 RFC 7946 极地切口写出。
+- 绕极环入库改写为 ±180 接极点；PostGIS 极冠缓冲回落 Java，不再 skip。
+- 不规则包极面缓冲为等纬 RFC 极冠近似。详见 [GIS 已知限制](/pc/gis#metric-limits)。
 
 ## 2026-11-04 · 演示访问日志 AsyncAppender 丢弃
 
@@ -112,7 +116,9 @@
 
 ### mugsun-boot
 
-- 当时：PostGIS 图层缓冲对走向无法确定的极冠改为 skip + `skipped`，避免静默丢极冠。2026-11-04 起由 [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63) 改为极冠回落 Java 极点 AEQD 缓冲，不再 skip；口径见同日「GIS 包极点面」摘要与 [GIS 已知限制](/pc/gis#metric-limits)。
+- 当时：PostGIS 对走向不明的极冠改为 skip + `skipped`，避免静默丢极冠。
+- 2026-11-04 起由 [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63) 改为极冠回落 Java，不再 skip。
+- 口径见同日「GIS 包极点面」摘要与 [GIS 已知限制](/pc/gis#metric-limits)。
 
 ## 2026-10-18 · track 0.3.0：默认不遮罩、不过滤
 
