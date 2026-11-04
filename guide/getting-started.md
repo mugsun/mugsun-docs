@@ -54,8 +54,8 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 > **请始终在仓库根目录、带 `-am` 构建**（或 `./mvnw clean package -DskipTests`）。
 
-> 只构建 server（不带 `-am`、子目录或 IDE 单模块）时，会从本地 `~/.m2` 取该版本的 jar。
->
+> 只编 server 且不带 `-am` 时，会从本地 `~/.m2` 取该版本的 jar。
+
 > 当前 tip 为 `0.2.0-SNAPSHOT`。
 
 > 各分支共用该坐标，打出的 jar 可能带上别的分支旧代码；与是否 `clean` 无关。
