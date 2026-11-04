@@ -33,14 +33,26 @@ public void remove(Long id) {
 
 ## 缓存类型
 
-`CacheType.LOCAL` 是进程内缓存。教程示例用它，方便本地看效果。平台自带的字典和埋点统计也用这种类型。
+`CacheType.LOCAL` 是进程内缓存。教程示例用它，方便本地看效果。
 
-系统参数不是 LOCAL：`ParamService` 使用 `CacheType.BOTH` 且 `syncLocal=true`。写或删参数时会经 Redis 广播清掉各机本地缓存，多机立即一致。这依赖 `jetcache.remote.default.broadcastChannel`（默认 `mugsun`）。`demo` / `prod` 若覆盖 `jetcache.remote.default`，须同级保留 `type: redis.lettuce` 与 `broadcastChannel`。
+平台自带的字典和埋点统计也用这种类型。
+
+系统参数不是 LOCAL：`ParamService` 使用 `CacheType.BOTH` 且 `syncLocal=true`。
+
+写或删参数时会经 Redis 广播清掉各机本地缓存，多机立即一致。
+
+这依赖 `jetcache.remote.default.broadcastChannel`（默认 `mugsun`）。
+
+若覆盖 `jetcache.remote.default`，须同级保留 `type: redis.lettuce`。
+
+同时保留 `broadcastChannel`。
 
 ::: warning
 本地缓存只在当前实例内有效。部署多个实例时，一个实例上的 `@CacheInvalidate` 清不掉其他实例的缓存。
 
-这种情况要把过期时间设短，或改用其他方式通知各实例。系统参数缓存已用 BOTH + syncLocal，不适用该限制。
+这种情况要把过期时间设短，或改用其他方式通知各实例。
+
+系统参数缓存已用 BOTH + syncLocal，不适用该限制。
 :::
 
 ## 看效果

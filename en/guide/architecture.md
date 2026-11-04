@@ -79,7 +79,10 @@ A few more points:
 
 - If a module isn't packaged (for example, built with `-Pbasic,'!full'`), its environment variable and yml switch are never read, so an invalid value doesn't stop startup. System parameters are still checked on save.
 - Deleting the system parameter `gis.module.enabled` or `ai.module.enabled` returns the module to the default, which is on, as long as the environment variable or yml hasn't turned it off.
-- System parameters use JetCache `BOTH` with `syncLocal`. On write or delete, a Redis broadcast clears each machine's local cache so multi-server deployments stay in sync right away. That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`). If `demo` / `prod` override `remote.default`, keep `type: redis.lettuce` and `broadcastChannel` at the same level.
+- System parameters use JetCache `BOTH` with `syncLocal`.
+- On write or delete, a Redis broadcast clears each machine's local cache so multi-server deployments stay in sync right away.
+- That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`).
+- If you override `remote.default`, keep `type: redis.lettuce` and `broadcastChannel` at the same level.
 - The built-in MCP Server is temporarily offline and will return with authentication. While it is offline, `MUGSUN_AI_MCP_SERVER` has no effect.
 - The tracking module has no system-parameter switch; turn it off with `MUGSUN_TRACK_ENABLED`.
 

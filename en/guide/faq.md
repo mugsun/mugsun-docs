@@ -153,11 +153,21 @@ Set the same `MUGSUN_FILE_SIGN_SECRET` of at least 32 characters on every instan
 
 **Fixed** ([mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90)).
 
-Older builds cached system parameters locally on each machine, so after you changed a module switch, other machines in a multi-server deployment kept the old value for up to an hour.
+Older builds cached system parameters locally on each machine.
 
-`ParamService` now uses `CacheType.BOTH` with `syncLocal=true`. On write or delete, `@CacheInvalidate` clears each machine's local cache through a Redis broadcast, so all machines stay in sync right away. That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`); JetCache 2.7.9 silently skips the broadcast manager when the channel is empty.
+After you changed a module switch, other machines in a multi-server deployment kept the old value for up to an hour.
 
-`demo` / `prod` do not override `jetcache.remote.default` by default. If you must override it, keep `type: redis.lettuce` and `broadcastChannel` at the same level.
+`ParamService` now uses `CacheType.BOTH` with `syncLocal=true`.
+
+On write or delete, `@CacheInvalidate` clears each machine's local cache through a Redis broadcast, so all machines stay in sync right away.
+
+That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`).
+
+JetCache 2.7.9 silently skips the broadcast manager when the channel is empty.
+
+`demo` / `prod` do not override `jetcache.remote.default` by default.
+
+If you must override it, keep `type: redis.lettuce` and `broadcastChannel` at the same level.
 
 You can also turn modules off at startup with `MUGSUN_GIS_ENABLED=false` or `MUGSUN_AI_ENABLED=false`.
 

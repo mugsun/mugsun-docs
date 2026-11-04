@@ -31,12 +31,24 @@ Cache keys get the current tenant code as a prefix, so tenants never share entri
 
 ## Cache type
 
-`CacheType.LOCAL` is an in-process cache. The tutorial example uses it so you can see the effect locally. The built-in dictionary and analytics caches use the same type.
+`CacheType.LOCAL` is an in-process cache. The tutorial example uses it so you can see the effect locally.
 
-System parameters are not LOCAL: `ParamService` uses `CacheType.BOTH` with `syncLocal=true`. On write or delete, a Redis broadcast clears each machine's local cache so multi-server deployments stay in sync right away. That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`). If `demo` / `prod` override `jetcache.remote.default`, keep `type: redis.lettuce` and `broadcastChannel` at the same level.
+The built-in dictionary and analytics caches use the same type.
+
+System parameters are not LOCAL: `ParamService` uses `CacheType.BOTH` with `syncLocal=true`.
+
+On write or delete, a Redis broadcast clears each machine's local cache so multi-server deployments stay in sync right away.
+
+That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`).
+
+If you override `jetcache.remote.default`, keep `type: redis.lettuce` at the same level.
+
+Also keep `broadcastChannel`.
 
 ::: warning
-A local cache only lives in the current instance. With several instances, `@CacheInvalidate` on one instance does not clear the others, so keep the expiry short or notify the instances another way. System parameter caches already use BOTH + syncLocal, so that limit does not apply to them.
+A local cache only lives in the current instance. With several instances, `@CacheInvalidate` on one instance does not clear the others, so keep the expiry short or notify the instances another way.
+
+System parameter caches already use BOTH + syncLocal, so that limit does not apply to them.
 :::
 
 ## See it work
