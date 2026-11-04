@@ -379,7 +379,25 @@ Tolerances are set so an ordinary user passes in 1–2 seconds: ±10° for rotat
 
 Word click words come from a bundled list by default (477 common words and idioms compiled by the project, using only level-1 characters of the Table of General Standard Chinese Characters). The list is public, so an attacker who recognises the characters can correct them against it; in production, point `click.words-file` at a private list (one 3–4 character word per line, `#` starts a comment). Every character must be in the bundled font subset, otherwise that word is skipped with a startup warning; if the private list cannot be read or has no usable words, the bundled list is used. The image also contains 1–2 decoy characters, preferably look-alikes or homophones; clicking a decoy or the wrong order fails. Characters are drawn on the server from a bundled Noto Sans SC subset (SIL OFL 1.1) with added noise, and icons that look alike never appear in the same challenge. If the icon manifest is missing or broken, a warning is logged at startup and icon click is disabled without affecting other types. If a tenant has enabled only icon click, the challenge request returns `40016` (challenge type temporarily unavailable) instead of quietly issuing a slider, and an audit log entry is written (at most one per tenant and IP every 10 minutes).
 
-Every challenge randomly scales, crops, mirrors and recolours the background and rotate images, jigsaw tiles get extra noise and a slight colour shift (±4 per tile) with at least 3 tiles starting out of place, and the slider decoy gaps share the real gap's outline (2 by default). Icon-click icons no longer sit on a white disc; they get a shadow and thin outline that follow their shape, and the noise lines are drawn underneath them. In word click, characters with fewer than 3 strokes (such as 一, 十, 人) are rotated by at most ±15°. The `Accept-Language` header only sets the prompt language (icon-click prompts use English names for English); it never changes which challenge type is served. Click challenges are judged against the background size recorded when the challenge was issued, so changing the size settings does not affect challenges already issued.
+Every challenge randomly scales, crops, mirrors and recolours the background and rotate images.
+
+Jigsaw tiles get extra noise and a slight colour shift (±4 per tile), with at least 3 tiles out of place at the start.
+
+Slider decoy gaps share the real gap's outline (2 by default).
+
+Icon-click icons no longer sit on a white disc; they get a shape-following shadow and thin outline, with noise lines underneath.
+
+In word click, characters with fewer than 3 strokes are rotated by at most ±15°.
+
+Examples include 一, 十, and 人.
+
+The `Accept-Language` header only sets the prompt language; icon-click prompts use English names for English.
+
+It never changes which challenge type is served.
+
+Click challenges are judged against the background size recorded when the challenge was issued.
+
+Changing the size settings later does not affect challenges already issued.
 
 Icon click also applies a per-challenge seed-warp mesh by default (plus a light stroke ripple) to public-library PNGs.
 
