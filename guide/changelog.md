@@ -2,6 +2,15 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-04 · GIS wraps_antimeridian 与部分 GiST
+
+### mugsun-boot / mugsun-docs
+
+- `gis_feature.wraps_antimeridian` 生成列 + 部分 GiST（[mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76)）。
+- 判定同 #73；跨 180° 查询走 `ST_ShiftLongitude`；无 PostGIS / 无表跳过。
+- V16 加列、V17 `CREATE INDEX CONCURRENTLY`；主库 Flyway 须直连 PG 或 PgBouncer session。
+- 详见 [GIS 已知限制](/pc/gis#metric-limits)。
+
 ## 2026-11-04 · GIS 包极点面 area/buffer/距离
 
 ### mugsun-boot / mugsun-docs

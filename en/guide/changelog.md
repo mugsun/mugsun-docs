@@ -2,6 +2,15 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-04 · GIS wraps_antimeridian and partial GiST
+
+### mugsun-boot / mugsun-docs
+
+- Generated column `gis_feature.wraps_antimeridian` plus partial GiST ([mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76)).
+- Same rule as #73; crossing queries use `ST_ShiftLongitude`; skipped without PostGIS or the table.
+- V16 adds the column; V17 `CREATE INDEX CONCURRENTLY`; main-DB Flyway needs direct PG or PgBouncer session.
+- See [GIS limitations](/en/pc/gis#metric-limits).
+
 ## 2026-11-04 · GIS pole-enclosing polygons: area / buffer / distance
 
 ### mugsun-boot / mugsun-docs

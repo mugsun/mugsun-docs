@@ -69,7 +69,19 @@ How the Java path works: everything is built on GeographicLib (Karney's algorith
 
 Radius and nearest-neighbor queries first prefilter by a longitude/latitude envelope with a generous meters-to-degrees margin; when the envelope crosses the 180° meridian it is split into two boxes, so features on the other side are not missed. A bbox query whose west bound is greater than its east bound (for example `minLon=170&maxLon=-170`) is treated as a range crossing 180°, per RFC 7946 §5.2, and is also queried as two boxes; a south bound not less than the north bound is still an error. On the PostGIS path, nearest neighbor first takes candidates by planar longitude/latitude distance with the GiST KNN operator (`<->`; 10 times the result count, at least 100 and at most 10,000), then re-sorts them by `geography` distance. The result is approximate: at high latitudes and in dense layers, planar and ground-distance order differ a lot, so the truly nearest feature may fall outside the candidates and be missed.
 
-Features already stored in a 180°-crossing form (such as `LINESTRING(179.9 0, -179.9 0)`: the planar envelope is wider than 180°, but no longer is after adding 360 to negative longitudes) are treated as crossing 180° in bbox, intersects, contains and radius queries: they no longer match ranges near 0°, and they are found near 180° (including a bbox with west > east). The default PostGIS path and the Java path behave the same, and storage is unchanged (mugsun-boot#64).
+Features already stored in a 180°-crossing form (such as `LINESTRING(179.9 0, -179.9 0)`) are treated as crossing 180°.
+
+Rule: the planar envelope is wider than 180°, and no longer is after adding 360 to negative longitudes (`ST_ShiftLongitude`).
+
+In bbox, intersects, contains and radius queries they no longer match near 0°, and they are found near 180° (including a bbox with west > east).
+
+The PostGIS path and the Java path behave the same, and storage is unchanged (mugsun-boot#64).
+
+Since [mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76), with PostGIS the generated column `wraps_antimeridian` records that flag.
+
+The 180°-crossing query branch uses `ST_ShiftLongitude(geom) &&` plus wraps; the non-crossing branch uses `NOT wraps_antimeridian`.
+
+Partial GiST `idx_gis_feature_wrap` serves the crossing branch; the Java fallback is unchanged.
 
 Because edges are geodesics, long edges at high latitude that span many degrees of longitude bow toward the pole. For example, an edge along 75°N from longitude 0° to 170° rises to about 89°N in the middle. For such features, area, length and distance differ a lot from a "straight lines in longitude/latitude" reading; PostGIS `geography` is the reference.
 
@@ -149,7 +161,22 @@ In these cases:
 - Polygons that only cross 180° and are no wider than 180° after the shift still use `ST_Buffer`.
 - An irregular pole-enclosing buffer is an equal-latitude RFC polar-cap approximation, not a precise offset of the original boundary.
 - **Edges are geodesics, unlike the straight edges of RFC 7946**: RFC 7946 treats the edge between two vertices as a straight line in longitude/latitude, while this system uses ellipsoidal geodesics, so the same polygon gets a somewhat different area; the larger the extent, the bigger the gap. Measured with GeographicLib (straight lon/lat edges densified to 20,000 points versus geodesic edges): 1°×1° at the equator +0.003%, 10°×10° at 30°–40°N +0.004%, 10°×10° at the equator +0.25%, 10°×10° at 60°–70°N −0.37%, the extent of China (73°–135°E, 18°–54°N) −0.59%, 60°×60° from 0° to 60° +2.27%. The difference is negligible at city scale.
-- **Range queries on stored features that cross 180° (fixed in [mugsun-boot#73](https://github.com/mugsun/mugsun-boot/pull/73))**: before the fix, a stored feature crossing 180° (such as `LINESTRING(179.9 0, -179.9 0)`) was treated in the plane as spanning from −179.9° to 179.9°, so bbox and intersects matched it in ranges such as 0° to 10°, missed it near 180° (including a bbox with west > east), and radius on the Java path also matched it falsely ([mugsun-boot#64](https://github.com/mugsun/mugsun-boot/issues/64)). After the fix both paths treat it as crossing 180°. Caveat: the rule is "longitude span greater than 180°, and no greater than 180° after adding 360 to negative longitudes", so a genuinely wide feature that runs east across most of the globe and is no wider than 180° after the shift (such as a line drawn eastward from −170° to 170°) is also treated as crossing 180° and read the short way round, consistent with RFC 7946; split such features into several parts. In nearest-neighbor queries the 180°-crossing check scans the whole layer, so large layers get slower; see [mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76) for the planned improvement.
+- **Range queries on stored 180°-crossing features (fixed in [mugsun-boot#73](https://github.com/mugsun/mugsun-boot/pull/73))**.
+- Before the fix they were treated as spanning the globe: false hits near 0°–10°, misses near 180° ([#64](https://github.com/mugsun/mugsun-boot/issues/64)).
+- After the fix both paths treat them as crossing 180°; the rule matches #73 (wider than 180°, ≤180° after ShiftLongitude).
+- A genuinely wide feature that runs east across most of the globe and is still ≤180° after the shift is also treated as crossing 180° and read the short way round.
+- That matches RFC 7946; split such features into several parts if you need the long way.
+- **`wraps_antimeridian` generated column and partial GiST ([mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76))**.
+- With PostGIS, `gis_feature.wraps_antimeridian` is a `GENERATED ALWAYS AS STORED` boolean.
+- Same rule as #73; PostgreSQL computes existing rows on add; the app does not maintain it.
+- V16 adds the column; skipped when PostGIS or `gis_feature` is absent (Dameng / openGauss-lite same-number stubs).
+- V17 is a non-transactional Java migration: `CREATE INDEX CONCURRENTLY` for partial GiST `idx_gis_feature_wrap`.
+- Index expression `ST_ShiftLongitude(geom)`, predicate `wraps_antimeridian AND is_deleted = 0`.
+- Crossing branch: `ST_ShiftLongitude(geom) &&` plus wraps; non-crossing: `NOT wraps_antimeridian`.
+- Covers bbox / intersects / contains / radius / nearest neighbor; Java fallback still uses `GisAntimeridian`.
+- Main-DB Flyway uses a session-level lock (`flyway.postgresql.transactional.lock=false`).
+- See `FlywayPgCompatConfig`; same contract as tracking T4.
+- Connect to PostgreSQL directly, or PgBouncer **session** mode; transaction pooling is not supported.
 :::
 
 ## Control layout and narrow screens {#layout}

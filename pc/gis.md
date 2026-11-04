@@ -69,7 +69,19 @@ Java 路径的做法：全部建立在 GeographicLib（Karney 算法，与 PostG
 
 半径查询和最近邻先按经纬度包络粗筛，米换算成度时留了余量；包络越过 180° 经线时拆成两个框分别筛，对侧的要素不会漏掉。范围查询（bbox）的西经界大于东经界（如 `minLon=170&maxLon=-170`）时按 RFC 7946 §5.2 视为跨 180° 的范围，同样拆成两个框查询；南纬界不小于北纬界仍报错。PostGIS 路径的最近邻先按经纬度平面距离用 GiST 的 KNN（`<->`）取候选（结果数的 10 倍，至少 100、至多 10000 个），再按 `geography` 距离重新排序；结果是近似的：高纬度、要素密集的图层里，平面距离与地面距离排序差别大，真正最近的要素可能不在候选里而被漏掉。
 
-库里已经存成跨 180° 写法的要素（如 `LINESTRING(179.9 0, -179.9 0)`，平面包络宽于 180°、负经度加 360 后不再宽于 180°）在 bbox、相交、包含、半径查询里按跨 180° 理解：在 0° 附近不会误命中，在 180° 附近（包括西>东的 bbox）能查到；默认 PostGIS 路径与 Java 路径口径一致，不改存储（mugsun-boot#64）。
+库里已经存成跨 180° 写法的要素（如 `LINESTRING(179.9 0, -179.9 0)`）按跨 180° 理解。
+
+判定：平面包络宽于 180°、负经度加 360（`ST_ShiftLongitude`）后不再宽于 180°。
+
+bbox、相交、包含、半径：0° 附近不误命中，180° 附近（含西>东 bbox）能查到。
+
+PostGIS 路径与 Java 路径口径一致，不改存储（mugsun-boot#64）。
+
+自 [mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76) 起，有 PostGIS 时写入生成列 `wraps_antimeridian`。
+
+跨 180° 查询支走 `ST_ShiftLongitude(geom) &&` + wraps；非跨支 `NOT wraps_antimeridian`。
+
+部分 GiST `idx_gis_feature_wrap` 供跨 180° 支走索引；Java 回落不变。
 
 因为边按测地线，高纬、跨很多经度的长边会向极点弯：例如 75°N 上经度 0° 到 170° 的边，中段会弯到 89°N 附近。这类要素的面积、长度和距离与「按经纬度直边」理解的结果差别很大，以 PostGIS `geography` 为准。
 
@@ -149,7 +161,22 @@ Java 路径的精度（缓冲边界上每个顶点到原要素的测地距离与
 - 只跨 180°、平移后不宽于 180° 的面仍下沉 `ST_Buffer`。
 - 不规则包极面缓冲是等纬 RFC 极冠近似，不是原边界精确外扩。
 - **边按测地线，与 RFC 7946 的直线边不同**：RFC 7946 把两个顶点之间的边视为经纬度平面上的直线，本系统按椭球测地线计算，所以同一个多边形的面积会有差别，范围越大、越靠近赤道或高纬，差别越大。实测（GeographicLib，经纬直边加密 2 万点对比测地线边）：赤道 1°×1° +0.003%，北纬 30°–40° 的 10°×10° +0.004%，赤道 10°×10° +0.25%，北纬 60°–70° 的 10°×10° −0.37%，中国范围（73°–135°E、18°–54°N）−0.59%，0°–60° 的 60°×60° +2.27%。城市级范围的差别可以忽略。
-- **库里存的跨 180° 要素的范围查询（已在 [mugsun-boot#73](https://github.com/mugsun/mugsun-boot/pull/73) 修复）**：修复前，已入库的跨 180° 要素（如 `LINESTRING(179.9 0, -179.9 0)`）在平面上被当成从 −179.9° 横跨到 179.9°，bbox、相交会在 0°～10° 这类范围误命中，在 180° 附近（包括西>东的 bbox）查不到，Java 路径的半径也会误命中（[mugsun-boot#64](https://github.com/mugsun/mugsun-boot/issues/64)）。修复后两条路径都按跨 180° 理解。前提：判定规则是「经度跨度超过 180°、负经度加 360 后不超过 180°」，所以真正向东绕过大半个地球、平移后不超过 180° 的宽要素（如从 −170° 一路向东画到 170° 的线）也会被当成跨 180°，按短的一边理解，与 RFC 7946 一致；需要表达这种宽要素时请拆成多段。最近邻里对跨 180° 要素的判定会扫整个图层，大图层会变慢，改进方案见 [mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76)。
+- **库里存的跨 180° 要素范围查询（[mugsun-boot#73](https://github.com/mugsun/mugsun-boot/pull/73) 已修）**。
+- 修复前平面上被当成横跨全球，0°～10° 误命中，180° 附近查不到（[#64](https://github.com/mugsun/mugsun-boot/issues/64)）。
+- 修复后两条路径都按跨 180° 理解；判定同 #73（宽于 180° 且 ShiftLongitude 后 ≤180°）。
+- 真正向东绕过大半个地球、平移后仍 ≤180° 的宽要素也会被当成跨 180°，按短边理解。
+- 与 RFC 7946 一致；需要表达这种宽要素时请拆成多段。
+- **`wraps_antimeridian` 生成列与部分 GiST（[mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76)）**。
+- 有 PostGIS 时 `gis_feature.wraps_antimeridian` 为 `GENERATED ALWAYS AS STORED` 布尔列。
+- 判定同 #73；加列时由库计算存量，应用侧不维护。
+- V16 加列；无 PostGIS / 无 `gis_feature` 时整段跳过（达梦、openGauss-lite 同号占位）。
+- V17 非事务 Java 迁移：`CREATE INDEX CONCURRENTLY` 建部分 GiST `idx_gis_feature_wrap`。
+- 索引表达式为 `ST_ShiftLongitude(geom)`，条件 `wraps_antimeridian AND is_deleted = 0`。
+- 跨 180° 查询支走 `ST_ShiftLongitude(geom) &&` + wraps；非跨支 `NOT wraps_antimeridian`。
+- 覆盖 bbox / 相交 / 包含 / 半径 / 最近邻；Java 回落仍用 `GisAntimeridian`，不变。
+- 主库 Flyway 用会话级锁（`flyway.postgresql.transactional.lock=false`）。
+- 约定见 `FlywayPgCompatConfig`，与埋点 T4 同口径。
+- 须直连 PostgreSQL，或 PgBouncer **session**；禁止 transaction pooling。
 :::
 
 ## 控件布局与窄屏 {#layout}

@@ -66,6 +66,14 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 
 The process exits with code 0 after the migrations and startup initialisation. Then start with the demo profile and the low-privilege accounts.
 
+From V17 the main database has a non-transactional migration (`CREATE INDEX CONCURRENTLY` for GIS `idx_gis_feature_wrap`).
+
+Flyway uses a session-level lock (`flyway.postgresql.transactional.lock=false`).
+
+Connect the main database to PostgreSQL directly, or through PgBouncer in **session** mode; transaction pooling is not supported.
+
+Same contract as tracking T4; see [GIS limitations](/en/pc/gis#metric-limits).
+
 | Boundary | What it covers |
 |---|---|
 | Allowed | Queries; login, logout, captcha check; CSP reports; tracking collection when switched on; server push |

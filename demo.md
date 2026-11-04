@@ -66,6 +66,14 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 
 迁移和启动期初始化做完后进程自动退出（退出码 0），再用 demo profile 和低权限账号启动。
 
+主库自 V17 起有非事务迁移（`CREATE INDEX CONCURRENTLY`，GIS `idx_gis_feature_wrap`）。
+
+Flyway 用会话级锁（`flyway.postgresql.transactional.lock=false`）。
+
+主库连接须直连 PostgreSQL，或 PgBouncer **session**；禁止 transaction pooling。
+
+与埋点库 T4 同口径；详见 [GIS 已知限制](/pc/gis#metric-limits)。
+
 | 边界 | 内容 |
 |---|---|
 | 放行 | 查询；登录、登出、验证码校验；CSP 报告；开启时的埋点采集；服务端推送 |
