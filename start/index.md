@@ -4,6 +4,8 @@ mugsun-start 是 mugsun 的项目生成器，基于 Spring Initializr 0.23.0。
 
 选择工程类型和可选模块后，它会生成一个工程压缩包供下载。
 
+规划域名 `start.mugsun.com` 尚未解析、也未部署，当前请按下方步骤在本机运行。
+
 ::: warning
 目前 `/starter.zip` 输出的仍是通用的 Spring Boot 骨架，还没有接入 mugsun 模板。接入 mugsun 模板后，本页会更新。
 :::

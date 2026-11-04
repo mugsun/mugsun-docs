@@ -2,6 +2,8 @@
 
 mugsun-start is the mugsun project generator, built on Spring Initializr 0.23.0. You pick a project type and optional modules, and it produces a project archive to download.
 
+The planned hostname `start.mugsun.com` is not DNS-resolved and not deployed yet; run it locally with the steps below.
+
 ::: warning
 For now, `/starter.zip` still produces a generic Spring Boot skeleton and is not yet connected to the mugsun templates. This page will be updated once the mugsun templates are connected.
 :::
