@@ -141,6 +141,12 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=pro
 - **磁盘估算**：每行约 200 字节，gzip 后约为十分之一（约 20 字节）。所需磁盘 ≈ 日均请求数 × 20 字节 × 保留天数，外加当天未压缩的文件（日请求数 × 200 字节）。例如日均 100 万次请求约 20MB/天，200 天约 4GB，当天未压缩文件约 200MB；按峰值流量估算并至少留一倍余量，例如峰值 500 万次/天、200 天约需 20GB，留余量后按 40GB 准备。
 - **备份**：把访问日志目录纳入定期备份（至少每周异地一份）。数据库里的接口日志、登录日志在演示模式下保留期不低于 180 天。
 - **应用之外的请求**：真实 IP 与登录锁定、限流同一口径（只信任 `MUGSUN_OPENAPI_TRUSTED_PROXIES` 里的代理传来的 X-Forwarded-For）。在到达应用之前就失败的请求（Nginx 拒绝、400、超时等）不进这个文件，由 Nginx（管理台镜像或前置网关）的访问日志覆盖，同样按 ≥6 个月留存。
+- **异步写入与丢弃**
+  - 访问日志经 `AccessLogAsyncAppender` 异步入队写盘（[mugsun-boot#79](https://github.com/mugsun/mugsun-boot/issues/79)）。
+  - 队列满时 offer 最多等约 50ms（配置键 `mugsun.demo.access-log.offer-timeout-ms`）。
+  - 超时则丢弃并计数，限频 WARN（`mugsun.demo.access-log.drop-warn-interval-ms`，默认 60000）。
+  - Micrometer 指标：`mugsun.demo.access_log.dropped`。
+  - 极端流量优先不堵请求，可能丢少量访问日志；用该指标与 WARN 发现。
 - **磁盘余量告警**
   - 180 天留存是硬要求，访问日志只按天数删除。遇到恶意刷量时，日志会持续占用磁盘空间。
   - 后端每小时检查一次日志目录所在磁盘的剩余空间。阈值由 `MUGSUN_DEMO_ACCESS_LOG_MIN_FREE_SPACE` 设置（配置键 `mugsun.demo.access-log.min-free-space`），默认 `10GB`。

@@ -137,6 +137,12 @@ In demo mode the backend writes one line per request to a separate file, `<log d
 - **Disk estimate**: about 200 bytes per line, roughly a tenth of that (about 20 bytes) after gzip. Disk needed ≈ average requests per day × 20 bytes × retention days, plus the current day's uncompressed file (requests per day × 200 bytes). For example, one million requests a day is about 20MB/day, about 4GB for 200 days, plus about 200MB for the current file. Size for peak traffic and at least double it: a peak of 5 million requests a day over 200 days needs about 20GB, so plan for 40GB.
 - **Backup**: include the access log directory in regular backups (at least one off-site copy a week). In demo mode the API and login logs in the database are also kept for at least 180 days.
 - **Requests outside the app**: the client IP is resolved the same way as for login lockout and rate limiting (X-Forwarded-For is trusted only from proxies in `MUGSUN_OPENAPI_TRUSTED_PROXIES`). Requests that fail before reaching the app (rejected by Nginx, 400s, timeouts and so on) are not in this file; they are covered by the Nginx access log (the admin console image or your front gateway), which should also be kept for at least six months.
+- **Async write and drops**
+  - Access logs are enqueued by `AccessLogAsyncAppender` ([mugsun-boot#79](https://github.com/mugsun/mugsun-boot/issues/79)).
+  - When the queue is full, offer waits up to about 50ms (key `mugsun.demo.access-log.offer-timeout-ms`).
+  - On timeout the event is dropped and counted, with rate-limited WARN (`mugsun.demo.access-log.drop-warn-interval-ms`, default 60000).
+  - Micrometer metric: `mugsun.demo.access_log.dropped`.
+  - Under extreme traffic the request path stays unblocked and a few access-log lines may be lost; watch the metric and WARN lines.
 - **Free-space alert**
   - 180-day retention is a hard requirement, so access logs are deleted only by age. A request flood keeps using disk space.
   - Every hour the backend checks free space on the disk holding the log directory. The threshold is set with `MUGSUN_DEMO_ACCESS_LOG_MIN_FREE_SPACE` (key `mugsun.demo.access-log.min-free-space`) and defaults to `10GB`.

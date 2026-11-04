@@ -2,6 +2,12 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-04 · 演示访问日志 AsyncAppender 丢弃
+
+### mugsun-boot / mugsun-docs
+
+- 队列满时 offer 约 50ms 后丢弃并计数+限频 WARN；指标 `mugsun.demo.access_log.dropped`。详见[只读演示](/demo#访问日志留存)。
+
 ## 2026-11-03 · JetCache Redis URI 与 FAQ（#70 / #103）
 
 ### mugsun-boot / mugsun-docs

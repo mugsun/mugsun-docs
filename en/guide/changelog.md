@@ -2,6 +2,12 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-04 · Demo access-log AsyncAppender drops
+
+### mugsun-boot / mugsun-docs
+
+- When the async queue is full, offers wait about 50ms then drop, count, and rate-limit WARN; metric `mugsun.demo.access_log.dropped`. See [Read-only demo](/en/demo#access-log-retention).
+
 ## 2026-11-03 · Demo access-log path templates
 
 ### mugsun-boot / mugsun-docs
