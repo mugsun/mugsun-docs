@@ -2,6 +2,12 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-04 · GIS 包极点面 area/buffer/距离
+
+### mugsun-boot / mugsun-docs
+
+- 包极点面不再误拒或静默丢极冠（[mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63)）：沿环累计经度 ≈ ±360° 判包极点；面积直接 `PolygonArea`；缓冲/距离用极点原点 AEQD，按 RFC 7946 极地切口写出；绕极环入库改写为 ±180 接极点；PostGIS 图层缓冲对极冠回落 Java，不再 skip；不规则包极面缓冲为等纬 RFC 极冠近似。详见 [GIS 已知限制](/pc/gis#metric-limits)。
+
 ## 2026-11-04 · 演示访问日志 AsyncAppender 丢弃
 
 ### mugsun-boot / mugsun-docs
@@ -102,11 +108,11 @@
 
 - ms-badge：dot 优先于 count（不再出空气泡）。优先级为 label > dot > count。（[197dc26](https://github.com/mugsun/mugsun-uniappx-ui/commit/197dc26)）
 
-## 2026-10-19 · GIS 图层缓冲跳过极冠
+## 2026-10-19 · GIS 图层缓冲跳过极冠（已被 #63 取代）
 
 ### mugsun-boot
 
-- PostGIS 路径的图层缓冲（包括空间分析交给图层查询的缓冲）遇到经度走向无法确定的面时，不再返回缺少极冠的结果，改为跳过该要素并计入响应的 `skipped`，同时记 WARN 日志。这类面通常是在 ±180° 切开的极冠。只跨 180° 经线的面照常缓冲。调用方需要检查 `skipped`。详见 [GIS 已知限制](/pc/gis#metric-limits)。
+- 当时：PostGIS 图层缓冲对走向无法确定的极冠改为 skip + `skipped`，避免静默丢极冠。2026-11-04 起由 [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63) 改为极冠回落 Java 极点 AEQD 缓冲，不再 skip；口径见同日「GIS 包极点面」摘要与 [GIS 已知限制](/pc/gis#metric-limits)。
 
 ## 2026-10-18 · track 0.3.0：默认不遮罩、不过滤
 
