@@ -22,7 +22,11 @@ cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H
 
 ### 还需要先 `mvn install` mugsun-core 吗？
 
-不需要。`com.mugsun:mugsun-*:0.1.0` 已发布至 Maven Central。只有离线环境才需要同级克隆 core 并 `mvn clean install -DskipTests`。
+需要。当前 tip 依赖 `mugsun-core` `0.2.0-SNAPSHOT`，Maven Central 上没有。
+
+请同级克隆 core，并执行 `mvn -B clean install -DskipTests`。
+
+Central 上的 `0.1.0` 是旧发布，不要当作 tip，也不要拿来跟当前 boot tip 对齐。
 
 ### `docker compose up -d` 会把应用也起起来吗？
 

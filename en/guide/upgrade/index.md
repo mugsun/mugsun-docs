@@ -9,7 +9,7 @@ The table below was checked on 2026-10-21.
 | Repository | Released versions | git tag | Main branch version |
 | --- | --- | --- | --- |
 | mugsun-core | 0.1.0 (Maven Central, 2026-10-12) | `v0.1.0` | `0.2.0-SNAPSHOT`, not released |
-| mugsun-track | 0.1.0 (2026-08-19) and 0.2.0 (2026-10-13), both on npm | none | 0.3.0 planned, not released |
+| mugsun-track | 0.1.0 (2026-08-19), 0.2.0 (2026-10-13), and 0.3.0 (2026-10-22), all on npm | none | `0.3.0` (released) |
 | mugsun-boot | none | none | `0.2.0-SNAPSHOT`; the CHANGELOG marks 0.1.0 as in development |
 | mugsun-pc | none | none | the CHANGELOG has only Unreleased |
 

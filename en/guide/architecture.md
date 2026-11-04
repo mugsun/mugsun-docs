@@ -19,7 +19,7 @@
      PostgreSQL 16 (PostGIS + pgvector)      Redis 7 (database 3)
 ```
 
-Dependencies point one way: `mugsun-boot` → `mugsun-core` (Maven Central, `com.mugsun:mugsun-*:0.1.0`). The console does not depend on core.
+Dependencies point one way: `mugsun-boot` → `mugsun-core` (tip `0.2.0-SNAPSHOT`, local install required; Central currently has legacy `0.1.0` only). The console does not depend on core.
 
 <p align="center">
   <img src="/brand/arch/boot-iso-en.jpg" alt="mugsun-boot architecture" width="100%" />

@@ -32,7 +32,11 @@ You need JDK 21, Maven 3.9+ and Docker. The admin console also needs Node.js 22.
 
 ### 1. Start the backend
 
+The tip depends on `mugsun-core` `0.2.0-SNAPSHOT`. Install it locally first.
+
 ```bash
+git clone https://github.com/mugsun/mugsun-core.git
+cd mugsun-core && mvn -B clean install -DskipTests && cd ..
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose up -d
 ./mvnw -pl mugsun-boot-server -am package -DskipTests
@@ -46,7 +50,7 @@ This repository ships a Maven Wrapper (`./mvnw`); a system Maven 3.9+ works too.
 
 > **Always build from the repository root with `-am`** (or `./mvnw clean package -DskipTests`).
 
-> Building only the server (no `-am`, submodule, or IDE single-module) pulls core from local `~/.m2` `0.1.0`.
+> Building only the server (no `-am`, submodule, or IDE single-module) pulls that version from local `~/.m2` (the tip is currently `0.2.0-SNAPSHOT`).
 
 > Branches share that coordinate, so the jar may carry another branch's old code; `clean` does not help.
 

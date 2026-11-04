@@ -79,4 +79,6 @@ Call an API with `?token=abc` and look at the report request in the browser's de
 
 ## Next version
 
-The planned tracking SDK 0.3.0 turns the masking and response body masking defaults back off. See [Session replay](/en/track/plugins) and [Privacy and compliance](/en/track/privacy). A page for it will be added after 0.3.0 is released.
+Tracking SDK `0.3.0` is published on npm.
+
+It turns the masking and response body masking defaults back off. See [Session replay](/en/track/plugins) and [Privacy and compliance](/en/track/privacy).

@@ -87,4 +87,6 @@ console.log(SDK_VERSION) // 0.2.0
 
 ## 下一个版本
 
-埋点 SDK 计划中的 0.3.0 会把遮罩和响应体脱敏的默认值改回关闭，详见 [会话回放](/track/plugins) 和 [隐私与合规](/track/privacy)。0.3.0 发布后再补本系列的下一篇。
+埋点 SDK `0.3.0` 已发布到 npm。
+
+它把遮罩和响应体脱敏的默认值改回关闭，详见 [会话回放](/track/plugins) 和 [隐私与合规](/track/privacy)。

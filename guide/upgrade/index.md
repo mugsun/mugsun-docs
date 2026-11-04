@@ -9,7 +9,7 @@
 | 仓库 | 已发布版本 | git tag | 主干版本 |
 | --- | --- | --- | --- |
 | mugsun-core | 0.1.0（Maven Central，2026-10-12） | `v0.1.0` | `0.2.0-SNAPSHOT`，未发布 |
-| mugsun-track | 0.1.0（2026-08-19）、0.2.0（2026-10-13），均在 npm | 无 | 计划 0.3.0，未发布 |
+| mugsun-track | 0.1.0（2026-08-19）、0.2.0（2026-10-13）、0.3.0（2026-10-22），均在 npm | 无 | `0.3.0`（已发布） |
 | mugsun-boot | 无 | 无 | `0.2.0-SNAPSHOT`，CHANGELOG 中 0.1.0 标为开发中 |
 | mugsun-pc | 无 | 无 | CHANGELOG 只有 Unreleased |
 

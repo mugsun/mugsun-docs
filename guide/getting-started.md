@@ -34,7 +34,11 @@ docker compose -f docker-compose.full.yml run --rm init show
 
 ### 1. 启动后端
 
+当前 tip 依赖 `mugsun-core` `0.2.0-SNAPSHOT`，须先装到本地。
+
 ```bash
+git clone https://github.com/mugsun/mugsun-core.git
+cd mugsun-core && mvn -B clean install -DskipTests && cd ..
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose up -d
 ./mvnw -pl mugsun-boot-server -am package -DskipTests
@@ -50,7 +54,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 > **请始终在仓库根目录、带 `-am` 构建**（或 `./mvnw clean package -DskipTests`）。
 
-> 只构建 server（不带 `-am`、子目录或 IDE 单模块）时，core 会从本地 `~/.m2` 的 `0.1.0` 取。
+> 只构建 server（不带 `-am`、子目录或 IDE 单模块）时，会从本地 `~/.m2` 取该版本的 jar（当前 tip 为 `0.2.0-SNAPSHOT`）。
 
 > 各分支共用该坐标，打出的 jar 可能带上别的分支旧代码；与是否 `clean` 无关。
 

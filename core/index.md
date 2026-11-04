@@ -4,11 +4,12 @@
 
 | 项 | 说明 |
 | --- | --- |
-| 坐标 | `com.mugsun:mugsun-*:0.1.0`，已发布至 [Maven Central](https://central.sonatype.com/search?q=com.mugsun) |
+| 坐标 | tip `com.mugsun:mugsun-*:0.2.0-SNAPSHOT`（以根 pom 为准；须本地 install） |
+| Maven Central | 现仅 `0.1.0`（旧发布，勿当 tip；见 [Central](https://central.sonatype.com/search?q=com.mugsun)） |
 | 运行时 | JDK 21 · Maven 3.9+ |
 | 父工程 | Spring Boot 3.5.13 |
 | 主要依赖 | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · JetCache · Hutool Crypto / BouncyCastle · FastExcel（版本由 `mugsun-bom` 锁定） |
-| 许可 | MIT |
+| 许可 | 源码与 tip 为 MIT；Central 上 `0.1.0` 发布时为 Apache-2.0 |
 
 ## 模块
 
@@ -25,13 +26,23 @@
 
 ## 在自己的工程中使用
 
+当前 tip 为 `0.2.0-SNAPSHOT`，不在 Maven Central。
+
+跟 tip 或与 boot tip 联调时，先克隆本仓库并执行：
+
+```bash
+mvn -B clean install -DskipTests
+```
+
+再在消费方导入 BOM（版本与 tip 一致）：
+
 ```xml
 <dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>com.mugsun</groupId>
       <artifactId>mugsun-bom</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0-SNAPSHOT</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -50,7 +61,9 @@
 </dependencies>
 ```
 
-离线环境：克隆本仓库后执行 `mvn clean install -DskipTests`。
+Maven Central 现仅有 `0.1.0`。可以拉取，但是旧发布，不要当作 tip。
+
+若只消费 Central 上的 `0.1.0`，把示例版本改成 `0.1.0`；该路径不适用于跟 tip 开发。
 
 ## 下一步
 

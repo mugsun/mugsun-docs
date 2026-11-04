@@ -19,10 +19,10 @@ The backend lives in `server/` and needs JDK 21:
 ```bash
 git clone https://github.com/mugsun/mugsun-start.git && cd mugsun-start/server
 ./mvnw spring-boot:run
-curl -o demo.zip 'localhost:8080/starter.zip?type=mugsun-backend'
+curl -o demo.zip 'localhost:8090/starter.zip?type=mugsun-backend'
 ```
 
-The backend listens on port 8080 by default; change it with the `MUGSUN_START_PORT` environment variable.
+The backend listens on port 8090 by default; change it with the `MUGSUN_START_PORT` environment variable.
 
 The frontend wizard lives in `web/` and needs Node.js 22 and pnpm 11:
 

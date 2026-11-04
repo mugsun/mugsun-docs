@@ -19,7 +19,7 @@
      PostgreSQL 16（PostGIS + pgvector）      Redis 7（默认库号 3）
 ```
 
-依赖方向：`mugsun-boot` → `mugsun-core`（Maven Central 坐标 `com.mugsun:mugsun-*:0.1.0`）。管理台不直接依赖 core。
+依赖方向：`mugsun-boot` → `mugsun-core`（当前 tip 为 `0.2.0-SNAPSHOT`，须本地 install；Central 现仅旧版 `0.1.0`）。管理台不直接依赖 core。
 
 <p align="center">
   <img src="/brand/arch/boot-iso-zh.jpg" alt="mugsun-boot 架构示意" width="100%" />

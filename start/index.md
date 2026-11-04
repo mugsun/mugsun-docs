@@ -21,10 +21,10 @@ mugsun-start 是 mugsun 的项目生成器，基于 Spring Initializr 0.23.0。
 ```bash
 git clone https://github.com/mugsun/mugsun-start.git && cd mugsun-start/server
 ./mvnw spring-boot:run
-curl -o demo.zip 'localhost:8080/starter.zip?type=mugsun-backend'
+curl -o demo.zip 'localhost:8090/starter.zip?type=mugsun-backend'
 ```
 
-后端默认端口为 8080，可以用环境变量 `MUGSUN_START_PORT` 修改。
+后端默认端口为 8090，可以用环境变量 `MUGSUN_START_PORT` 修改。
 
 前端向导在 `web/` 目录，需要 Node.js 22 和 pnpm 11：
 

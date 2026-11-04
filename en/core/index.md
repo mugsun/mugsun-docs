@@ -4,11 +4,12 @@
 
 | Item | Details |
 | --- | --- |
-| Coordinates | `com.mugsun:mugsun-*:0.1.0`, published to [Maven Central](https://central.sonatype.com/search?q=com.mugsun) |
+| Coordinates | tip `com.mugsun:mugsun-*:0.2.0-SNAPSHOT` (see root pom; local install required) |
+| Maven Central | currently only `0.1.0` (legacy; not the tip; see [Central](https://central.sonatype.com/search?q=com.mugsun)) |
 | Runtime | JDK 21 · Maven 3.9+ |
 | Parent | Spring Boot 3.5.13 |
 | Key dependencies | MyBatis-Flex 1.11.8 · Sa-Token 1.44.0 · JetCache · Hutool Crypto / BouncyCastle · FastExcel (versions pinned by `mugsun-bom`) |
-| License | MIT |
+| License | Source and tip: MIT. Published Central `0.1.0` was Apache-2.0 at release time. |
 
 ## Modules
 
@@ -25,13 +26,23 @@ Dameng error codes -6602, -6612 and -6625 are included. If your app puts its own
 
 ## Using it in your project
 
+The tip is currently `0.2.0-SNAPSHOT` and is not on Maven Central.
+
+To follow the tip or integrate with the boot tip, clone this repository and run:
+
+```bash
+mvn -B clean install -DskipTests
+```
+
+Then import the BOM in the consumer (version matches the tip):
+
 ```xml
 <dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>com.mugsun</groupId>
       <artifactId>mugsun-bom</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0-SNAPSHOT</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -50,7 +61,9 @@ Dameng error codes -6602, -6612 and -6625 are included. If your app puts its own
 </dependencies>
 ```
 
-Offline environments: clone this repository and run `mvn clean install -DskipTests`.
+Maven Central currently has only `0.1.0`. You may resolve it, but it is a legacy release and must not be treated as the tip.
+
+To consume Central `0.1.0` only, change the sample version to `0.1.0`. That path is not for tip development.
 
 ## Next
 

@@ -22,7 +22,11 @@ cloud is still planned, so this site has no install guide for it. The ms-ui docs
 
 ### Do I still need to `mvn install` mugsun-core?
 
-No. `com.mugsun:mugsun-*:0.1.0` is on Maven Central. Clone core and run `mvn clean install -DskipTests` only in an offline environment.
+Yes. The tip depends on `mugsun-core` `0.2.0-SNAPSHOT`, which is not on Maven Central.
+
+Clone core as a sibling and run `mvn -B clean install -DskipTests`.
+
+Central `0.1.0` is a legacy release. Do not treat it as the tip or as aligned with the current boot tip.
 
 ### Does `docker compose up -d` start the application too?
 

@@ -22,7 +22,7 @@ mugsun 官方文档站。用 [VitePress](https://vitepress.dev/) 构建，**根�
 | `/pc/` | `/en/pc/` | 管理台概述与本地开发 |
 | `/track/` | `/en/track/` | 埋点安装、首事件、隐私 |
 | `/core/` | `/en/core/` | BOM / starter 概述 |
-| `/demo` | `/en/demo` | 本地演示说明（无公网 Demo 时的替代） |
+| `/demo` | `/en/demo` | 演示说明；公网 Demo 见 https://demo.mugsun.com |
 | `/changelog` | `/en/changelog` | 站点与产品相关更新记录 |
 
 开源产品线（MIT）：`boot` · `core` · `pc` · `track`。`cloud`（微服务）仍在规划中，不写成已交付安装包；`uniappx-ui`（ms-ui）采用 MIT 许可，源码仓库暂未公开，组件文档与 H5 演示在本站开放。
