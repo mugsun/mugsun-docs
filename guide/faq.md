@@ -153,11 +153,13 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 ### 关闭 GIS 或 AI 模块后，其他机器还能用？
 
-现象是在系统参数里关掉模块后，多机部署中的其他机器最长一小时内仍然开着这个模块。
+**已修**（[mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90)）。
 
-原因是模块开关的系统参数只缓存在每台机器的本地，缓存时间是一小时。这是已知问题，见 [mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90)。
+旧版把系统参数缓存在每台机器的本地，多机部署里改模块开关后，其他机器最长一小时内仍按旧值运行。
 
-解决办法是在问题修复前，关闭模块后依次重启各实例。
+现在 `ParamService` 使用 `CacheType.BOTH` 且 `syncLocal=true`。写或删参数时 `@CacheInvalidate` 会经 Redis 广播清掉各机本地缓存，多机立即一致。这依赖 `jetcache.remote.default.broadcastChannel`（默认 `mugsun`）；JetCache 2.7.9 在 channel 为空时会静默不装广播。
+
+`demo` / `prod` 默认不覆盖 `jetcache.remote.default`。若必须覆盖，须同级保留 `type: redis.lettuce` 与 `broadcastChannel`。
 
 也可以用环境变量 `MUGSUN_GIS_ENABLED=false`、`MUGSUN_AI_ENABLED=false` 在启动时关闭。
 

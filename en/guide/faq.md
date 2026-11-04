@@ -151,11 +151,15 @@ Set the same `MUGSUN_FILE_SIGN_SECRET` of at least 32 characters on every instan
 
 ### After turning off GIS or AI, other machines still have it
 
-After you turn a module off in the system parameters, other machines in a multi-server deployment keep it on for up to an hour.
+**Fixed** ([mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90)).
 
-The module switch parameters are cached locally on each machine for one hour. This is a known issue, see [mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90).
+Older builds cached system parameters locally on each machine, so after you changed a module switch, other machines in a multi-server deployment kept the old value for up to an hour.
 
-Until it is fixed, restart each instance after turning a module off. You can also turn modules off at startup with `MUGSUN_GIS_ENABLED=false` or `MUGSUN_AI_ENABLED=false`.
+`ParamService` now uses `CacheType.BOTH` with `syncLocal=true`. On write or delete, `@CacheInvalidate` clears each machine's local cache through a Redis broadcast, so all machines stay in sync right away. That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`); JetCache 2.7.9 silently skips the broadcast manager when the channel is empty.
+
+`demo` / `prod` do not override `jetcache.remote.default` by default. If you must override it, keep `type: redis.lettuce` and `broadcastChannel` at the same level.
+
+You can also turn modules off at startup with `MUGSUN_GIS_ENABLED=false` or `MUGSUN_AI_ENABLED=false`.
 
 ### Redis can't connect when the password has special characters
 

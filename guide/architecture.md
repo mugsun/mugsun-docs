@@ -83,7 +83,7 @@ MUGSUN_AI_ENABLED=false
 
 - 模块没有打进包时（例如用 `-Pbasic,'!full'` 打包），不会读取它的环境变量和 yml 开关，写了非法值也不会启动失败。系统参数保存时照常校验。
 - 删掉系统参数 `gis.module.enabled` 或 `ai.module.enabled` 后，按默认开启。前提是环境变量或 yml 没有关闭这个模块。
-- 多台服务器部署时，系统参数在每台服务器本地缓存最长 1 小时。修改或删除参数后，其他服务器要等缓存过期才会生效。
+- 系统参数缓存使用 JetCache `BOTH` + `syncLocal`。写或删参数会经 Redis 广播清掉各机本地缓存，多机立即一致。依赖 `jetcache.remote.default.broadcastChannel`（默认 `mugsun`）。`demo` / `prod` 若覆盖 `remote.default`，须同级保留 `type: redis.lettuce` 与 `broadcastChannel`。
 - 内置 MCP Server 暂时下线，正在加鉴权后恢复。下线期间 `MUGSUN_AI_MCP_SERVER` 不起作用。
 - 埋点模块没有系统参数开关，只能用 `MUGSUN_TRACK_ENABLED` 关闭。
 
