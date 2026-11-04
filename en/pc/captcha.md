@@ -18,7 +18,9 @@ For server settings, see [Configuration](/en/boot/configuration).
 - For rotate challenges, the slider track is as wide as the image. Travel is measured from the handle's left edge, and dragging to the far right equals 360°. The tolerance is ±10°. When the drag is very slow, fine-tuning kicks in: travel accumulates at 0.5×, which makes it easier to line up.
 - Word-click challenges use a 3- or 4-character word or idiom, with a prompt like "Click in order: 一帆风顺". The image also contains 1–2 decoy characters that look or sound similar. Click the characters in word order; clicking a decoy or clicking out of order fails. The number of clicks comes from `count` in the response, and the answer is submitted automatically once that many are placed. Each click shows a numbered marker with its hit area; click a marker to undo it.
 - The server decides which types are available, and icon click may not be among them; the frontend renders whatever type is returned.
-- For icon-click challenges the server applies a per-challenge seed-warp to the public-library icons before issuing the image; the frontend still uses the click panel and needs no extra setting. Strength and how to turn warping off are controlled by boot config `mugsun.captcha.click.seed-warp-strength`.
+- For icon-click challenges the server applies a per-challenge seed-warp to the public-library icons before issuing the image.
+- The frontend still uses the click panel and needs no extra setting.
+- Strength and how to turn warping off are controlled by boot config `mugsun.captcha.click.seed-warp-strength`.
 - For jigsaw challenges, click two tiles to swap them (dragging also swaps), then press "Done" once the image is restored.
 
 ## Keyboard
