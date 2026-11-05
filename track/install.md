@@ -39,6 +39,7 @@ track.track('button_click', { name: 'buy' })
 - `appKey` 在管理台「埋点分析 → 接入管理」创建。
 - `release` 可选；未配置不上报该字段；错误事件会携带。
 - 可用 Vite `import.meta.env.VITE_APP_VERSION` / CI 注入；变量须应用自行注入构建。
+- 管理台 [错误问题单](/track/error-issues) 可按该字段筛选，并计算相对版本的 `releaseFlag`。
 
 ## Vue 3
 

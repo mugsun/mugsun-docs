@@ -39,6 +39,7 @@ track.track('button_click', { name: 'buy' })
 - Create the `appKey` under **Analytics → Integrations** in the console.
 - `release` is optional; when omitted it is not sent; error events carry it when set.
 - Use Vite `import.meta.env.VITE_APP_VERSION` or a CI env var; the app must inject it at build time.
+- The console [Error issues](/en/track/error-issues) page can filter by it and compute a relative `releaseFlag`.
 
 ## Vue 3
 

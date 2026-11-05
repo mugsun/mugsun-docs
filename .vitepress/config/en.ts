@@ -299,6 +299,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Install & setup', link: '/en/track/install' },
             { text: 'Your first event', link: '/en/track/first-event' },
             { text: 'Plugins', link: '/en/track/plugins' },
+            { text: 'Error issues', link: '/en/track/error-issues' },
             { text: 'Privacy', link: '/en/track/privacy' },
             { text: 'Upgrade guide', link: '/en/track/upgrade' },
           ],

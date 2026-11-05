@@ -9,6 +9,11 @@
 
 ### 变更
 
+- 文档同步错误问题单 P0（中英）
+  - 新增 track/error-issues：状态、releaseFlag、API、权限、appKey 防 IDOR
+  - 管理台跳回放 / 用户细查；T5 表与 V18 写权；无工作流自动建单
+  - install 半句对齐 release 与问题单筛选；站内 changelog 记一笔
+
 - 文档同步 track：`release` 构建注入口径（中英 install）
   - 可用 Vite `import.meta.env.VITE_APP_VERSION` / CI
   - 变量须应用自行注入构建；未配置不上报

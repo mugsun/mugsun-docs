@@ -2,6 +2,16 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · 错误问题单
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- 管理台「错误问题单」：列表 / 详情 / 指派 / 解决 / 重开。
+- 状态 `OPEN` / `ASSIGNED` / `RESOLVED`；筛 release 时带 `releaseFlag`（`NEW` / `REGRESSED` / `ONGOING`）。
+- API `/system/track/error-issues`；读 `sys:track-error:list`，写 `sys:track-error-issue:edit`；详情与写须带 `appKey`。
+- 与 release 关联；详情可跳会话回放与用户细查。不做工作流自动建单。
+- 详见 [错误问题单](/track/error-issues)。
+
 ## 2026-11-05 · track `release` 构建注入
 
 ### mugsun-track / mugsun-docs

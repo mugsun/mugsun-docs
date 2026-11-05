@@ -129,6 +129,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '安装与初始化', link: '/track/install' },
             { text: '第一个事件', link: '/track/first-event' },
             { text: '插件', link: '/track/plugins' },
+            { text: '错误问题单', link: '/track/error-issues' },
             { text: '隐私与合规', link: '/track/privacy' },
             { text: '升级指南', link: '/track/upgrade' },
           ],
