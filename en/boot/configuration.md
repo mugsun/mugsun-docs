@@ -280,6 +280,19 @@ Setting this list replaces the default entirely, so include these three if you w
 
 The three module switches are on when unset. Once set, they accept only `true` or `false` (case-insensitive, no surrounding spaces); an empty value, `1`, `0` or anything else stops the service from starting. See [Architecture](/en/guide/architecture#two-layers-of-module-switches) for the full rules.
 
+## Knowledge-base upload size
+
+Knowledge-base multipart uploads and remote `fileUrl` downloads default to 20MB per file. Override in platform config:
+
+```yaml
+mugsun:
+  ai:
+    kb:
+      max-upload-bytes: 20971520   # ≤0 falls back to 20MB
+```
+
+Allowed extensions are `pdf` / `docx` / `pptx` (plus MIME and magic checks). Extraction uses Apache Tika; OCR is out of scope. See [AI center · document parsing](/en/pc/ai-center#knowledge-base-document-parsing-pdf--docx--pptx).
+
 ## AI outbound allowlist
 
 Model calls (chat, streaming chat and embeddings), knowledge-base fetches, channel webhooks, remote MCP calls and the workflow HTTP node are checked for SSRF before any request goes out; private, loopback and cloud-metadata addresses are rejected by default. To reach an internal service, such as a local model server or an internal MCP endpoint, allow it explicitly:

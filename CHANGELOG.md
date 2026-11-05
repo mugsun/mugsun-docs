@@ -9,6 +9,12 @@
 
 ### 变更
 
+- 文档同步知识库 PDF/DOCX/PPTX 解析（中英）
+  - pc/ai-center：upload-file、白名单、failed+failReason、Tika
+  - 配置键 mugsun.ai.kb.max-upload-bytes；multipart 默认白名单
+  - FileStorage MIME 与 parsers SPI 隔离；不做 OCR/RAG 评测/AGPL
+  - 侧栏补 AI 中心；configuration 补上传上限
+
 - 文档同步埋点问数据 P0（中英）
   - 新增 track/ask：意图表、二次权限、API、resultType、回放
   - 数字只走分析/漏斗/留存；LLM 只抽意图；不做 NL2SQL

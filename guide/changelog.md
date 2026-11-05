@@ -2,6 +2,19 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · 知识库文档解析
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- 知识库资料支持 PDF / DOCX / PPTX：Tika 抽文进既有分段。
+- multipart `POST /system/ai/knowledge/asset/upload-file`；
+  JSON `upload` 仍在（`fileUrl` 下载后走 Tika）。
+- 白名单扩展名 + MIME + 魔数；默认 20MB，
+  键 `mugsun.ai.kb.max-upload-bytes`。
+- 失败保留 `failed` + `failReason`，不写假分段；成功进 RRF 检索。
+- 排除 OCR；x-file-storage MIME 与 parsers SPI 隔离。
+- 详见 [AI 中心 · 知识库资料解析](/pc/ai-center)。
+
 ## 2026-11-05 · 问数据
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

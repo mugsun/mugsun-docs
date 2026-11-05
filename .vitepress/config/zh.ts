@@ -118,6 +118,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '底图配置与白名单', link: '/pc/gis-basemap' },
             { text: '底图瓦片代理安全', link: '/pc/gis-tile-security' },
             { text: '行为验证码', link: '/pc/captcha' },
+            { text: 'AI 中心', link: '/pc/ai-center' },
           ],
         },
       ],

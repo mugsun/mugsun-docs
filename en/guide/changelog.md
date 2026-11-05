@@ -2,6 +2,19 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-05 · Knowledge-base document parsing
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- Knowledge assets accept PDF / DOCX / PPTX via Tika into existing chunks.
+- multipart `POST /system/ai/knowledge/asset/upload-file`;
+  JSON `upload` remains (`fileUrl` downloads then Tika).
+- Allow-list: extension + MIME + magic; default 20MB via
+  `mugsun.ai.kb.max-upload-bytes`.
+- Failures keep `failed` + `failReason` (no fake segments); success feeds RRF.
+- No OCR; x-file-storage MIME isolated from parsers Detector SPI.
+- See [AI center · document parsing](/en/pc/ai-center).
+
 ## 2026-11-05 · Ask analytics
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

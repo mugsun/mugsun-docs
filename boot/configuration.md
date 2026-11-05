@@ -301,6 +301,19 @@ mugsun:
 
 三个模块开关不设置时开启；设置后只接受 `true` 或 `false`（不区分大小写，前后不能有空格），空值、`1`、`0` 等其它值会导致启动失败。完整规则见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
 
+## 知识库资料上传上限
+
+知识库 multipart / 远程 `fileUrl` 单文件默认 20MB。可在平台配置里调整：
+
+```yaml
+mugsun:
+  ai:
+    kb:
+      max-upload-bytes: 20971520   # ≤0 时回落 20MB
+```
+
+白名单扩展名为 `pdf` / `docx` / `pptx`（另校验 MIME 与魔数）。解析走 Apache Tika，不做 OCR。详见 [AI 中心 · 知识库资料解析](/pc/ai-center#知识库资料解析pdf--docx--pptx)。
+
 ## AI 出站白名单
 
 模型调用（对话、流式对话、向量）、知识库抓取、渠道 Webhook、MCP 远程调用和工作流 HTTP 节点在发起请求前统一做 SSRF 校验，默认拒绝内网、回环与云元数据地址。需要访问内网服务（如本地模型服务、内网 MCP）时显式放行：
