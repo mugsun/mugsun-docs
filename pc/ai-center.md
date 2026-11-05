@@ -10,6 +10,10 @@
 
 契约见[工作流 · AI 预审](/boot/features/workflow#ai-approval)。
 
+应用编排支持 `foreach` / `parallel` 控制节点（串行迭代、waitAll 并行）。
+
+详见[设计器](/pc/designer#ai-flow-control)、[工作流 · AiFlow 控制节点](/boot/features/workflow#ai-flow-control)。
+
 ## 打开不存在的详情页
 
 直接访问带编号的 AI 详情页（知识库详情、问数配置、问数对话、仪表盘设计），而这个编号不存在或已经删除时，页面只显示「××不存在或已删除」、编号和一个返回列表的按钮，不会再渲染一个可以编辑、上传或保存的空白页面，也不会弹出报错提示。

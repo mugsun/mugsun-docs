@@ -2,6 +2,22 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · AiFlow 循环/并行
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- AiFlow 新增控制节点：`foreach`（串行）/ `parallel`（waitAll）。
+- 无 `loop` 别名；body 用有序 `bodyNodeIds`（禁嵌套控制节点）。
+- foreach：`inputPath` 必填；maxIterations 默认 20、硬顶 100。
+- 数组超长 → success + `truncated=true`；超时默认 120s、硬顶 300s。
+- parallel：分支 2..8（硬顶 16）；失败 continue，不取消其余。
+- 有失败支 → success + `partial=true`；写入 `parallelResults`。
+- 设计器 P0：属性面板有序 nodeId，不做画布子框；waitAll 锁定。
+- 错误码：`AI_FOREACH_*` / `AI_PARALLEL_*`。
+- 审批 FORBIDDEN 名单不改；可与 `type=ai` 预审联用，仍看 `ai_pass`。
+- 不做：租户并发闸、元素级并行、failFast、loop 别名。
+- 详见 [工作流 · AiFlow 控制节点](/boot/features/workflow#ai-flow-control)。
+
 ## 2026-11-05 · AI×审批流
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

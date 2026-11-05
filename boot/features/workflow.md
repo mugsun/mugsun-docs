@@ -144,6 +144,111 @@ AI 预审依赖 AI 模块已启用，且本租户有 `status==1` 的 workflow / 
 
 发布后可在审批中心发起。
 
+
+## AiFlow 控制节点（foreach / parallel） {#ai-flow-control}
+
+AiFlow **自有图引擎**调度 `foreach` / `parallel`，不是 Warm-Flow 审批网关。
+
+无 `loop` 别名；节点 type 仅 `foreach` | `parallel`。
+
+可与 [AI 预审](#ai-approval) 联用：应用 DSL 含控制节点，审批仍看 `ai_pass`。
+
+### 节点一览
+
+| type | 作用 |
+| --- | --- |
+| `foreach` | 按数组**串行**跑 `bodyNodeIds`，汇合后走主边 |
+| `parallel` | 同层多分支 **waitAll**；失败 continue，不取消其余 |
+
+### foreach 配置（`data`）
+
+| 字段 | 默认 / 硬顶 | 说明 |
+| --- | --- | --- |
+| `inputPath` | **必填** | vars 键或点路径，值须为**数组** |
+| `itemVar` | `item` | 当前元素写入 vars |
+| `indexVar` | `index` | 当前下标（从 0） |
+| `maxIterations` | 默认 20；硬顶 100 | 运行期 clamp；超长数组见下 |
+| `timeoutMs` | 默认 120000；硬顶 300000 | 整节点墙钟 |
+| `aggregate` | `array` | 另可选 `last` / `none` |
+| `outputVar` | `foreachResults` | 汇合结果写入 vars |
+| `onItemFailure` | `continue` | 另可选 `abort`（遇错中止） |
+| `bodyMode` | `nodeIds` | P0 固定 |
+| `bodyNodeIds` | 有序 id 列表 | 同图线性 body；**禁嵌套** foreach/parallel |
+
+执行语义：
+
+- **P0 串行**：按 `bodyNodeIds` 顺序，逐元素跑完再下一元素。
+- 数组长度 > `maxIterations`：节点仍 **success**，`truncated=true`；只跑前 N 条。
+- 外层主路径 steps 计 1；单轮 body 步硬顶 50。
+- 轮间 vars **不深隔离**（`item`/`index` 覆盖，其它键累积）。
+- body 靠 `bodyNodeIds` 挂接，画布可不画边；校验不算孤立。
+
+### parallel 配置（`data`）
+
+| 字段 | 默认 / 硬顶 | 说明 |
+| --- | --- | --- |
+| `waitAll` | 恒 `true` | P0 唯一汇合；面板锁定不可关 |
+| `onBranchFailure` | `continue` | 不取消其余分支；面板锁定 |
+| `maxBranches` | 默认 8；硬顶 16 | 配置与分支数上限 |
+| `timeoutMs` | 默认 120000；硬顶 300000 | 整节点墙钟 |
+| `branches[]` | 至少 2 | 至多 `maxBranches`（≤16） |
+| `branches[].id` | 必填、同节点内唯一 | 分支标识 |
+| `branches[].bodyNodeIds` | 必填 | 禁嵌套 foreach/parallel |
+| `branches[].outputVar` | `branch_{id}` | 成功时写入该分支输出 |
+
+执行语义：
+
+- 各分支有界线程池并行；`TenantContext` 带租户。
+- 有失败或超时支 → 节点仍 **success**，`partial=true`。
+- 汇总写入 `parallelResults`（按 branch id）及各 `outputVar`。
+- 整节点墙钟耗尽且仍有 timeout 支 → 抛 `AI_PARALLEL_TIMEOUT`。
+
+### 设计器 P0（应用编排）
+
+- 左侧 palette 可拖入 **数组迭代** / **并行分支**。
+- 属性面板用多选有序 **nodeId** 配 body；**不做**画布子框。
+- body 候选排除自身与其它 foreach/parallel。
+- 保存前校验对齐 boot 错误码；`waitAll` / `onBranchFailure` 锁定。
+- 实例详情可读 `iterations[]` / `branches[]`、`truncated` / `partial`。
+
+完整操作见[设计器](/pc/designer#ai-flow-control)。
+
+### 错误码
+
+| 码 | 何时 |
+| --- | --- |
+| `AI_FOREACH_INPUT_NOT_ARRAY` | 缺 `inputPath` 或值非数组 |
+| `AI_FOREACH_MAX_ITERATIONS` | 设计器：配置 > 硬顶 100 |
+| `AI_FOREACH_TIMEOUT` | foreach 墙钟超时 |
+| `AI_FOREACH_BODY_INVALID` | body 空/缺失/嵌套/单轮步超 50 |
+| `AI_FOREACH_ITEM_ERROR` | `onItemFailure=abort` 时单项失败 |
+| `AI_PARALLEL_BRANCH_INVALID` | 分支数/ id / body 非法 |
+| `AI_PARALLEL_TIMEOUT` | parallel 墙钟或分支超时升级 |
+| `AI_PARALLEL_BRANCH_FAILED` | 单支失败（写入支结果；整节点可仍 success+partial） |
+| `EXECUTE_ERROR` | 未分类执行错误 |
+
+### 与审批联用
+
+- **不改** `FORBIDDEN_NODE_TYPES` 名单。
+- 整图扫描 `nodes[]`：body 在图内即覆盖；body 勿含 db/http/mcp/code/notice 等禁节点。
+- foreach / parallel **本身**可出现在审批内嵌 DSL。
+- 审批办理仍看写回的 `ai_pass`（及 `ai_summary` / `ai_reason`）。
+- 可与 `type=ai` 预审节点联用：预审绑定的应用 DSL 可含控制节点。
+
+### 实验室种子
+
+开启 `mugsun.lab.seed-fronttest=true`（生产勿开）时幂等播种：
+
+| 名称 | 用途 |
+| --- | --- |
+| 数组迭代演示 | 直跑 foreach + text |
+| 两路并行演示 | 直跑 parallel 两路 |
+| 迭代预审演示 | 审批流 `ai-foreach-preaudit`：foreach → 写三键 |
+
+### 本刀不做
+
+租户并发 Redis 闸、元素级并行、`failFast`、`loop` 别名、画布子框嵌套可视化。
+
 ## 注意点
 
 - 流程设计、发布和定义管理只有平台超管能操作。发起和办理不受限制。

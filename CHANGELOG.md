@@ -9,6 +9,12 @@
 
 ### 变更
 
+- 文档同步 AiFlow foreach/parallel P0（中英）
+  - workflow：串行迭代、waitAll、截断/partial、错误码
+  - 设计器：有序 bodyNodeIds、waitAll 锁定；AI 中心互链
+  - 审批：FORBIDDEN 不变；可与 type=ai 联用；种子说明
+  - 不做：租户闸、元素并行、failFast、loop 别名
+
 - 文档同步 AI×审批流 P0（中英）
   - workflow：type=ai、aiFlowId、inputMap/outputMap、onFailure
   - 硬禁 db/http/mcp/code/tool/notice；history.aiTrace

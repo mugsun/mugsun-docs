@@ -4,7 +4,7 @@ The table lists the features mugsun already has, one page each. Features that al
 
 | Feature | What it does | Docs |
 | --- | --- | --- |
-| Workflow | Design approval flows; start, handle, return and transfer; optional AI pre-check | [Workflow](./workflow) |
+| Workflow | Approval with optional AI pre-check; AiFlow foreach/parallel | [Workflow](./workflow) |
 | Forms | Design forms by drag and drop, or run CRUD on a business table online | [Forms](./form) |
 | Rule chains | Chain several steps together with LiteFlow | [Rule chains](./rule) |
 | Scheduled tasks | Maintain PowerJob tasks in the console, run them and read their logs | [Scheduled tasks](./job) |
@@ -17,7 +17,7 @@ The table lists the features mugsun already has, one page each. Features that al
 | Behavior captcha | Five captcha types, including slider, rotate and click | [Behavior captcha](/en/pc/captcha) |
 | GIS and maps | Basemap settings, map workspace and spatial analysis | [GIS and maps](/en/pc/gis) |
 | Tracking | Collect page views, events and errors and analyze them on dashboards | [Tracking](/en/track/) |
-| AI | Models, chat, knowledge bases and app orchestration | [AI center](/en/pc/ai-center), [Designers](/en/pc/designer) |
+| AI | Models, chat, KB; orchestration with foreach/parallel | [AI center](/en/pc/ai-center), [Designers](/en/pc/designer) |
 | Multi-tenancy | Many tenants in one database, with plans | [Multi-tenancy](/en/boot/tenant/) |
 | Data permissions | Filter rows by department or owner | [Data permissions](/en/boot/datascope/) |
 | Code generation | Generate backend and frontend code from a table | [Code generation](/en/boot/codegen/) |

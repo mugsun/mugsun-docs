@@ -2,6 +2,23 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-05 · AiFlow foreach / parallel
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- AiFlow control nodes: `foreach` (serial) / `parallel` (waitAll).
+- No `loop` alias; body via ordered `bodyNodeIds` (no nested controls).
+- foreach: required `inputPath`; maxIterations default 20, hard cap 100.
+- Oversize array → success + `truncated=true`; timeout default 120s, cap 300s.
+- parallel: branches 2..8 (hard cap 16); failure continue, no cancel others.
+- Failed branch → success + `partial=true`; writes `parallelResults`.
+- Designer P0: ordered nodeId in the property panel; no canvas sub-frame;
+  `waitAll` locked on.
+- Error codes: `AI_FOREACH_*` / `AI_PARALLEL_*`.
+- Approval `FORBIDDEN` list unchanged; works with `type=ai`; still reads `ai_pass`.
+- Out of scope: tenant concurrency gate, per-element parallel, `failFast`, `loop`.
+- See [Workflow · AiFlow control nodes](/en/boot/features/workflow#ai-flow-control).
+
 ## 2026-11-05 · AI × approval
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

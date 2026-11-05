@@ -6,6 +6,8 @@ Knowledge-base assets now accept PDF / Word / PPT uploads with server-side text 
 
 Approval flows can embed an enabled workflow / chatflow app as an AI pre-check; see [Workflow · AI pre-check](/en/boot/features/workflow#ai-approval).
 
+App orchestration supports `foreach` / `parallel` control nodes (serial iteration, waitAll parallel). See [Designers](/en/pc/designer#ai-flow-control) and [Workflow · AiFlow control nodes](/en/boot/features/workflow#ai-flow-control).
+
 ## Opening a detail page that does not exist
 
 If you open an AI detail page by its ID (knowledge base detail, dataset config, dataset chat, dashboard designer) and that ID does not exist or has been deleted, the page shows only "… 不存在或已删除" (does not exist or was deleted), the ID and a button back to the list. It no longer renders a blank page you can edit, upload to or save, and no error message pops up.
