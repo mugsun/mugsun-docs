@@ -2,6 +2,20 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-05 · AI × approval
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- Flow designer AI pre-check node (`type=ai` → BETWEEN + create listener).
+- Bind same-tenant `status==1` workflow / chatflow (`aiFlowId`).
+- `inputMap` required; `{}` = zero injection (no default full-var copy).
+- `outputMap` allow-lists write-back **value**: `ai_summary` / `ai_pass` / `ai_reason` / `ai_run_id` (and `ai_ext_*`).
+- Failure default `onFailure=rejectLast`; also `stay` / `transfer:role:…`.
+- Hard-blocked DSL: `db` / `http` / `mcp` / `code` / `tool` / `notice` (and synonyms).
+- History `aiTrace`; lab seed `flowCode=ai-preaudit`.
+- Out of scope: AI starting approvals, formal publish/version, new perms, #59.
+- See [Workflow · AI pre-check](/en/boot/features/workflow#ai-approval).
+
 ## 2026-11-05 · Spatial behavior
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

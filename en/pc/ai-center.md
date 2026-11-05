@@ -4,6 +4,8 @@ Conventions for the admin AI module (models, chat, knowledge bases, MCP, and mor
 
 Knowledge-base assets now accept PDF / Word / PPT uploads with server-side text extraction. This page states the API, allow-list, and failure rules.
 
+Approval flows can embed an enabled workflow / chatflow app as an AI pre-check; see [Workflow · AI pre-check](/en/boot/features/workflow#ai-approval).
+
 ## Opening a detail page that does not exist
 
 If you open an AI detail page by its ID (knowledge base detail, dataset config, dataset chat, dashboard designer) and that ID does not exist or has been deleted, the page shows only "… 不存在或已删除" (does not exist or was deleted), the ID and a button back to the list. It no longer renders a blank page you can edit, upload to or save, and no error message pops up.

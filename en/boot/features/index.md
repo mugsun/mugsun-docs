@@ -4,7 +4,7 @@ The table lists the features mugsun already has, one page each. Features that al
 
 | Feature | What it does | Docs |
 | --- | --- | --- |
-| Workflow | Design approval flows; start, handle, return and transfer tasks | [Workflow](./workflow) |
+| Workflow | Design approval flows; start, handle, return and transfer; optional AI pre-check | [Workflow](./workflow) |
 | Forms | Design forms by drag and drop, or run CRUD on a business table online | [Forms](./form) |
 | Rule chains | Chain several steps together with LiteFlow | [Rule chains](./rule) |
 | Scheduled tasks | Maintain PowerJob tasks in the console, run them and read their logs | [Scheduled tasks](./job) |

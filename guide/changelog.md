@@ -2,6 +2,20 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · AI×审批流
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- 流程设计器可加 AI 预审节点（`type=ai` → BETWEEN + create 监听）。
+- 绑定本租户 `status==1` 的 workflow / chatflow（`aiFlowId`）。
+- `inputMap` 必填；`{}`=零注入，禁缺省浅拷贝全量变量。
+- `outputMap` 白名单写回 value：约定四键或 `ai_ext_*`。
+- 失败默认 `onFailure=rejectLast`；也可 `stay` / `transfer:role:…`。
+- 硬禁 DSL：`db` / `http` / `mcp` / `code` / `tool` / `notice`（及同义）。
+- 历史 `aiTrace`；实验室种子 `flowCode=ai-preaudit`。
+- 不做：AI 反向发起、正式 publish/version、新权限字、#59。
+- 详见 [工作流 · AI 预审](/boot/features/workflow#ai-approval)。
+
 ## 2026-11-05 · 空间行为
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

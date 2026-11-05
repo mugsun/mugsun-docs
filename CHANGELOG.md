@@ -9,6 +9,13 @@
 
 ### 变更
 
+- 文档同步 AI×审批流 P0（中英）
+  - workflow：type=ai、aiFlowId、inputMap/outputMap、onFailure
+  - 硬禁 db/http/mcp/code/tool/notice；history.aiTrace
+  - 实验室种子 ai-preaudit；设计器 / AI 中心互链
+  - 不做反向发起、#59、正式 publish/version、新权限字
+
+
 - 文档同步埋点空间行为 P0（中英）
   - 新增 track/spatial：坐标接入、管理台、API、硬顶
   - 权限 sys:track-spatial:list（V20）；限流 60/分/用户
