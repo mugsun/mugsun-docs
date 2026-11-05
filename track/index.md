@@ -41,7 +41,9 @@ track.track('button_click', { name: 'buy' })
 
 详见 [问数据](/track/ask)。
 
-空间行为按精确坐标展示热力格或明细点（`GET /system/track/spatial`）；须打开应用「精确位置」并注册 `geoPlugin`。详见 [空间行为](/track/spatial)。
+空间行为按精确坐标展示热力格或明细点（`GET /system/track/spatial`）。
+
+须打开应用「精确位置」并注册 `geoPlugin`。详见 [空间行为](/track/spatial)。
 
 「来源」是来源页面的主机名（小写，保留 `www.`）。Web SDK 只上报完整 `referrer`，服务端从中取主机名。直接访问没有来源；与页面主机相同的站内跳转也不算来源（页面主机取上报请求的 `Origin`，没有时取 `Referer` 头；子域不算同站）。这条规则只作用于升级后的新事件，历史数据不回填（[mugsun-boot #54](https://github.com/mugsun/mugsun-boot/pull/54)、[#47](https://github.com/mugsun/mugsun-boot/pull/47)）。
 
