@@ -2,6 +2,20 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-05 · Ask analytics
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- Console **Ask**: natural-language read-only queries on your track data.
+- `POST /system/track/ask`; entry `sys:track-ask:list` (V19).
+- Intent re-checks existing track read permissions; `unsupported` stays 200.
+- Numbers only from TrackAnalysis / Funnel / Retention; no NL2SQL.
+- LLM extracts intent only; failure falls back to rules — no invented numbers.
+- Related replays ≤5 with `appKey`.
+- Real API by default; mock only if DEV and `VITE_TRACK_ASK_MOCK=true`.
+- `resultType`: `metrics` / `series` / `table` / `raw` / `unsupported`.
+- Replay: `/track/replay?sessionId&appKey`. See [Ask analytics](/en/track/ask).
+
 ## 2026-11-05 · Error issues
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

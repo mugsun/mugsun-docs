@@ -31,9 +31,11 @@ Session replay, API monitoring, visual tagging and geolocation need their plugin
 
 ## Dashboards
 
-Analytics includes overview, events, performance, errors, error issues, session replay, user lookup, funnels and retention.
+Analytics includes overview, events, performance, errors, error issues, ask analytics, session replay, user lookup, funnels and retention.
 
 Error issues aggregate by fingerprint: filter by release, assign, resolve and reopen, and jump to replay or user lookup. See [Error issues](/en/track/error-issues).
+
+Ask analytics answers natural-language questions read-only against your own track data; numbers come only from existing analysis / funnel / retention — no NL2SQL. See [Ask analytics](/en/track/ask).
 
 "Source" is the referring page's host name, lower-cased, with `www.` kept. The web SDK only sends the full `referrer` URL, and the server takes the host from it. Direct visits have no source. In-site navigations do not count either: a referrer whose host equals the page host (the `Origin` header of the upload request, or `Referer` when there is none) is recorded as empty, and subdomains are not the same site. This applies only to events received after the upgrade; history is not backfilled ([mugsun-boot #54](https://github.com/mugsun/mugsun-boot/pull/54), [#47](https://github.com/mugsun/mugsun-boot/pull/47)).
 
@@ -65,5 +67,6 @@ The console's own integration reports request errors it has already handled by d
 - [First event](/en/track/first-event)
 - [Plugins](/en/track/plugins)
 - [Error issues](/en/track/error-issues)
+- [Ask analytics](/en/track/ask)
 - [Privacy](/en/track/privacy)
 - [Upgrade guide](/en/track/upgrade)

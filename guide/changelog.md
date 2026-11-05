@@ -2,6 +2,19 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · 问数据
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- 管理台「问数据」：自然语言只读查自家埋点。
+- `POST /system/track/ask`；入口权 `sys:track-ask:list`（V19）。
+- 意图二次校验既有 track 读权；unsupported 仍 200。
+- 数字只走 TrackAnalysis / Funnel / Retention；不做 NL2SQL。
+- LLM 只抽意图，失败降级规则，不编造数；回放 ≤5 带 appKey。
+- 管理台默认真接口；仅 DEV 且 `VITE_TRACK_ASK_MOCK=true` 才 mock。
+- `resultType`：`metrics` / `series` / `table` / `raw` / `unsupported`。
+- 回放跳 `/track/replay?sessionId&appKey`。详见 [问数据](/track/ask)。
+
 ## 2026-11-05 · 错误问题单
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

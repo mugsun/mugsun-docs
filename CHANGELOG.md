@@ -9,6 +9,12 @@
 
 ### 变更
 
+- 文档同步埋点问数据 P0（中英）
+  - 新增 track/ask：意图表、二次权限、API、resultType、回放
+  - 数字只走分析/漏斗/留存；LLM 只抽意图；不做 NL2SQL
+  - 管理台默认真接口；DEV 且 VITE_TRACK_ASK_MOCK=true 才 mock
+  - V19 入口权 sys:track-ask:list；概述与侧栏对齐
+
 - 文档同步错误问题单 P0（中英）
   - 新增 track/error-issues：状态、releaseFlag、API、权限、appKey 防 IDOR
   - 管理台跳回放 / 用户细查；T5 表与 V18 写权；无工作流自动建单
