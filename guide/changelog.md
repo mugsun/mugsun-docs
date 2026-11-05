@@ -2,6 +2,13 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · track `release` 构建注入
+
+### mugsun-track / mugsun-docs
+
+- [安装与初始化](/track/install) 补充 `release`：可用 Vite `import.meta.env.VITE_APP_VERSION` / CI 注入。
+- 变量须应用自行注入构建；未配置不上报，配置后错误事件携带。
+
 ## 2026-11-04 · ICON_CLICK seed-warp
 
 ### mugsun-boot / mugsun-docs

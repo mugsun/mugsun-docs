@@ -2,6 +2,13 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-05 · track `release` build injection
+
+### mugsun-track / mugsun-docs
+
+- [Install & setup](/en/track/install) documents `release`: Vite `import.meta.env.VITE_APP_VERSION` or a CI env var.
+- The app must inject it at build time; when omitted it is not sent; when set, error events carry it.
+
 ## 2026-11-04 · ICON_CLICK seed-warp
 
 ### mugsun-boot / mugsun-docs

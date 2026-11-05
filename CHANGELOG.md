@@ -9,6 +9,10 @@
 
 ### 变更
 
+- 文档同步 track：`release` 构建注入口径（中英 install）
+  - 可用 Vite `import.meta.env.VITE_APP_VERSION` / CI
+  - 变量须应用自行注入构建；未配置不上报
+
 - 文档同步 boot #77：ICON_CLICK 默认 seed-warp（中英）
   - `mugsun.captcha.click.seed-warp-strength` 默认 0.14；
     `0`=关；有效钳位约 [0, 0.35]

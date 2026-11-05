@@ -28,7 +28,8 @@ import { createTracker } from '@mugsun/track-web'
 const track = createTracker({
   endpoint: 'https://your-host',
   appKey: 'your-app-key',
-  release: '1.4.2',
+  // 应用版本；建议构建注入
+  release: import.meta.env.VITE_APP_VERSION,
 })
 
 track.track('button_click', { name: 'buy' })
@@ -36,7 +37,8 @@ track.track('button_click', { name: 'buy' })
 
 - `endpoint` 只填服务根地址，SDK 实际上报 `{endpoint}/track/collect`，不要自己再拼路径。
 - `appKey` 在管理台「埋点分析 → 接入管理」创建。
-- `release` 可选，错误事件会携带该版本号。
+- `release` 可选；未配置不上报该字段；错误事件会携带。
+- 可用 Vite `import.meta.env.VITE_APP_VERSION` / CI 注入；变量须应用自行注入构建。
 
 ## Vue 3
 
@@ -47,7 +49,12 @@ import router from './router'
 
 const app = createApp(App)
 app.use(router)
-app.use(MugsunTrack, { endpoint, appKey, router })
+app.use(MugsunTrack, {
+  endpoint,
+  appKey,
+  router,
+  release: import.meta.env.VITE_APP_VERSION,
+})
 ```
 
 传入 `router` 后，页面事件会按路由模板（如 `/order/:id`）聚合。
@@ -93,7 +100,7 @@ track.reset()
 | --- | --- | --- | --- |
 | `appKey` | `string` | — | **必填**。应用标识（浏览器可见，非机密） |
 | `endpoint` | `string` | — | **必填**。服务端地址，上报 `{endpoint}/track/collect` |
-| `release` | `string` | — | 应用版本，错误事件携带 |
+| `release` | `string` | — | 应用版本，错误事件携带；建议构建注入（Vite `VITE_APP_VERSION` / CI） |
 | `enabled` | `boolean` | `true` | 本地总开关 |
 | `sampleRate` | `number` | `100` | 采样率 0–100；远端下发优先（下次启动生效） |
 | `batchSize` | `number` | `10` | 达到条数即发送 |

@@ -28,7 +28,8 @@ import { createTracker } from '@mugsun/track-web'
 const track = createTracker({
   endpoint: 'https://your-host',
   appKey: 'your-app-key',
-  release: '1.4.2',
+  // App version; inject at build time
+  release: import.meta.env.VITE_APP_VERSION,
 })
 
 track.track('button_click', { name: 'buy' })
@@ -36,7 +37,8 @@ track.track('button_click', { name: 'buy' })
 
 - `endpoint` is the server's base URL. The SDK posts to `{endpoint}/track/collect`, so don't append the path yourself.
 - Create the `appKey` under **Analytics → Integrations** in the console.
-- `release` is optional; error events carry it.
+- `release` is optional; when omitted it is not sent; error events carry it when set.
+- Use Vite `import.meta.env.VITE_APP_VERSION` or a CI env var; the app must inject it at build time.
 
 ## Vue 3
 
@@ -47,7 +49,12 @@ import router from './router'
 
 const app = createApp(App)
 app.use(router)
-app.use(MugsunTrack, { endpoint, appKey, router })
+app.use(MugsunTrack, {
+  endpoint,
+  appKey,
+  router,
+  release: import.meta.env.VITE_APP_VERSION,
+})
 ```
 
 Passing `router` groups page events by route template (for example `/order/:id`).
@@ -93,7 +100,7 @@ track.reset()
 | --- | --- | --- | --- |
 | `appKey` | `string` | — | **Required.** App identifier (visible in the browser, not a secret) |
 | `endpoint` | `string` | — | **Required.** Server base URL; events go to `{endpoint}/track/collect` |
-| `release` | `string` | — | App version, attached to error events |
+| `release` | `string` | — | App version on error events; inject at build (Vite `VITE_APP_VERSION` / CI) |
 | `enabled` | `boolean` | `true` | Local master switch |
 | `sampleRate` | `number` | `100` | Sample rate 0–100; remote config wins (on next start) |
 | `batchSize` | `number` | `10` | Send once this many events are queued |
