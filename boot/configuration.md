@@ -312,7 +312,11 @@ mugsun:
       max-upload-bytes: 20971520   # ≤0 时回落 20MB
 ```
 
-白名单扩展名为 `pdf` / `docx` / `pptx`（另校验 MIME 与魔数）。解析走 Apache Tika，不做 OCR。详见 [AI 中心 · 知识库资料解析](/pc/ai-center#知识库资料解析pdf--docx--pptx)。
+白名单扩展名为 `pdf` / `docx` / `pptx`（另校验 MIME 与魔数）。
+
+解析走 Apache Tika，不做 OCR。
+
+详见 [AI 中心 · 知识库资料解析](/pc/ai-center)。
 
 ## AI 出站白名单
 

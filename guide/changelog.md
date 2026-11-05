@@ -7,11 +7,12 @@
 ### mugsun-boot / mugsun-pc / mugsun-docs
 
 - 知识库资料支持 PDF / DOCX / PPTX：Tika 抽文进既有分段。
-- multipart `POST /system/ai/knowledge/asset/upload-file`；
-  JSON `upload` 仍在（`fileUrl` 下载后走 Tika）。
-- 白名单扩展名 + MIME + 魔数；默认 20MB，
-  键 `mugsun.ai.kb.max-upload-bytes`。
-- 失败保留 `failed` + `failReason`，不写假分段；成功进 RRF 检索。
+- multipart：`POST /system/ai/knowledge/asset/upload-file`。
+- JSON `upload` 仍在；`fileUrl` 下载后走 Tika。
+- 白名单：扩展名 + MIME + 魔数；默认 20MB。
+- 配置键：`mugsun.ai.kb.max-upload-bytes`。
+- 失败保留 `failed` + `failReason`，不写假分段。
+- 成功进既有分段与 RRF 检索。
 - 排除 OCR；x-file-storage MIME 与 parsers SPI 隔离。
 - 详见 [AI 中心 · 知识库资料解析](/pc/ai-center)。
 
