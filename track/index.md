@@ -34,6 +34,7 @@ track.track('button_click', { name: 'buy' })
 「埋点分析」包含数据概览、事件分析、性能分析、错误监控、错误问题单、会话回放、用户细查、漏斗分析和留存分析。
 
 错误问题单按指纹聚合，可按 release 筛选、指派、解决与重开。
+
 也可跳会话回放或用户细查。详见 [错误问题单](/track/error-issues)。
 
 「来源」是来源页面的主机名（小写，保留 `www.`）。Web SDK 只上报完整 `referrer`，服务端从中取主机名。直接访问没有来源；与页面主机相同的站内跳转也不算来源（页面主机取上报请求的 `Origin`，没有时取 `Referer` 头；子域不算同站）。这条规则只作用于升级后的新事件，历史数据不回填（[mugsun-boot #54](https://github.com/mugsun/mugsun-boot/pull/54)、[#47](https://github.com/mugsun/mugsun-boot/pull/47)）。
