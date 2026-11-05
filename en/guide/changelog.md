@@ -7,9 +7,10 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 ### mugsun-boot / mugsun-pc / mugsun-docs
 
 - Console **Error issues**: list / detail / assign / resolve / reopen.
-- Status `OPEN` / `ASSIGNED` / `RESOLVED`; with a release filter, `releaseFlag` is `NEW` / `REGRESSED` / `ONGOING`.
-- API `/system/track/error-issues`; read `sys:track-error:list`, write `sys:track-error-issue:edit`; detail and writes require `appKey`.
-- Linked to release; detail can open session replay and user lookup. No workflow auto-create.
+- Status `OPEN` / `ASSIGNED` / `RESOLVED`.
+- With a release filter, `releaseFlag` is `NEW` / `REGRESSED` / `ONGOING`.
+- API `/system/track/error-issues`; read list, write edit; detail and writes need `appKey`.
+- Linked to release; detail can open replay and user lookup. No workflow auto-create.
 - See [Error issues](/en/track/error-issues).
 
 ## 2026-11-05 · track `release` build injection
