@@ -47,11 +47,13 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar
 
 ### Apple Silicon 上首次 `docker compose up -d` 很慢？
 
-数据库镜像在本地构建，基础镜像 `postgis/postgis` 官方只有 amd64，Apple Silicon 上走仿真，首次构建要多几分钟，运行也慢。想原生运行可换多架构基础镜像：
+默认已从 GHCR 拉多架构 `ghcr.io/mugsun/postgis-pgvector:16-3.4`（含 arm64）。
 
-```bash
-MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 docker compose up -d --build
-```
+不必本机构建，也不必设 `MUGSUN_PG_*`。
+
+若仍慢，多半是首次拉镜像；确认未改 `MUGSUN_PG_*` 强制本机构建。
+
+仅改了 `docker/postgres/Dockerfile` 时才需本机 `docker compose build postgres`。
 
 ### `spring-boot:run` 报 `Unable to find a suitable main class`？
 
@@ -91,7 +93,9 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 若本机 registry 拉不到该包，检查网络 / npm 镜像，或临时设 `VITE_ENABLE_TRACK=false` 跳过埋点模块构建。
 
-联调 SDK 源码时再平级克隆并用 `pnpm link` / `.npmrc` 的 `link:`，见 [快速开始 · 启动管理台](/guide/getting-started#2-启动管理台)。
+联调 SDK 源码时再平级克隆并用 `pnpm link` / `.npmrc` `link:`。
+
+见 [快速开始 · 启动管理台](/guide/getting-started#2-启动管理台)。
 
 ## 埋点
 

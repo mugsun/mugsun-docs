@@ -47,11 +47,13 @@ The backend also reads `MUGSUN_DB_HOST`, `MUGSUN_DB_NAME`, `MUGSUN_DB_USERNAME`,
 
 ### The first `docker compose up -d` is slow on Apple Silicon
 
-The database image is built locally, and the official `postgis/postgis` base image is amd64 only, so Apple Silicon runs it under emulation: the first build takes several extra minutes and the database is slower. To run natively, use a multi-arch base image:
+By default Compose pulls the multi-arch GHCR image `ghcr.io/mugsun/postgis-pgvector:16-3.4` (including arm64).
 
-```bash
-MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 docker compose up -d --build
-```
+You do not need to build it locally, and you do not need `MUGSUN_PG_*`.
+
+If it is still slow, it is usually the first image pull; make sure you are not forcing a local build via `MUGSUN_PG_*`.
+
+Only build locally with `docker compose build postgres` after changing `docker/postgres/Dockerfile`.
 
 ### `spring-boot:run` fails with `Unable to find a suitable main class`
 

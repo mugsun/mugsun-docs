@@ -16,7 +16,9 @@ docker compose -f docker-compose.full.yml run --rm init show
 
 也可看 `docker compose -f docker-compose.full.yml logs ready` 里的登录提示。
 
-数据库镜像默认从 GHCR 拉取多架构 `ghcr.io/mugsun/postgis-pgvector:16-3.4`（amd64 + arm64），不必本机构建，也不必设 `MUGSUN_PG_*`。
+数据库镜像默认拉 GHCR 多架构 `ghcr.io/mugsun/postgis-pgvector:16-3.4`（amd64 + arm64）。
+
+不必本机构建，也不必设 `MUGSUN_PG_*`。
 
 管理台端口默认只绑定 `127.0.0.1`，只能在本机访问。
 
@@ -102,9 +104,11 @@ git clone https://github.com/mugsun/mugsun-pc.git
 cd mugsun-pc && pnpm install && pnpm dev
 ```
 
-埋点 SDK 默认依赖 npm `@mugsun/track-web@0.3.0`，不必再克隆 [mugsun-track](https://github.com/mugsun/mugsun-track)。
+埋点 SDK 默认依赖 npm `@mugsun/track-web@0.3.0`，不必再克隆 mugsun-track。
 
-联调 SDK 源码（可选）：平级克隆 `mugsun-track` 后，用 `pnpm link ../mugsun-track`，或在 `.npmrc` 写 `@mugsun/track-web=link:../mugsun-track`，再 `pnpm install`。
+联调 SDK 源码（可选）：平级克隆后用 `pnpm link ../mugsun-track`。
+
+或在 `.npmrc` 写 `@mugsun/track-web=link:../mugsun-track`，再 `pnpm install`。
 
 浏览器打开 <http://localhost:3006>。本地登录前要完成一次安全验证，题型从五种里随机出一种，说明见[行为验证码](/pc/captcha)。
 

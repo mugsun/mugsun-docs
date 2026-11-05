@@ -10,7 +10,7 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 - Docker try-out notes GHCR `postgis-pgvector:16-3.4` (no local build).
 - Admin console: clone pc only → `pnpm install && pnpm dev`.
 - Default npm `@mugsun/track-web@0.3.0`; source link via optional `pnpm link`.
-- FAQ no longer requires `setup:sdk` / sibling track.
+- FAQ drops forced `setup:sdk`; Apple Silicon notes GHCR.
 
 ## 2026-11-05 · Knowledge-base document parsing
 

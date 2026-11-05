@@ -10,7 +10,7 @@
 - Docker 试用写明 GHCR `postgis-pgvector:16-3.4`，不必本机构建。
 - 管理台只需 clone pc → `pnpm install && pnpm dev`。
 - 默认 npm `@mugsun/track-web@0.3.0`；源码联调为可选 `pnpm link`。
-- FAQ 同步去掉强制 `setup:sdk` / 平级 track。
+- FAQ 去掉强制 `setup:sdk`；Apple Silicon 对齐 GHCR。
 
 ## 2026-11-05 · 知识库文档解析
 
