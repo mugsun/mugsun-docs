@@ -87,7 +87,11 @@ Since 0.1.0, tokens live in `sessionStorage` (per tab) instead of `localStorage`
 
 ### `pnpm install` can't find `@mugsun/track-web`
 
-The console references the SDK as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`. Clone mugsun-track next to mugsun-pc and run `pnpm setup:sdk`. If you don't need analytics, set `VITE_ENABLE_TRACK=false` to skip the build, but the sibling directory must still exist for `pnpm install` to succeed.
+The console depends on npm `@mugsun/track-web@0.3.0` by default. A plain `pnpm install` is enough; you do not need to clone mugsun-track.
+
+If your registry cannot fetch the package, check the network / npm mirror, or temporarily set `VITE_ENABLE_TRACK=false` to skip the analytics module build.
+
+To link SDK source, clone it as a sibling and use `pnpm link` or a `.npmrc` `link:` — see [Getting started · Start the admin console](/en/guide/getting-started#2-start-the-admin-console).
 
 ## Analytics
 

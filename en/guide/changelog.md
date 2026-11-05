@@ -2,6 +2,16 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-05 · Zero-config docs alignment
+
+### mugsun-docs
+
+- [Getting started](/en/guide/getting-started) aligned with boot/pc READMEs.
+- Docker try-out notes GHCR `postgis-pgvector:16-3.4` (no local build).
+- Admin console: clone pc only → `pnpm install && pnpm dev`.
+- Default npm `@mugsun/track-web@0.3.0`; source link via optional `pnpm link`.
+- FAQ no longer requires `setup:sdk` / sibling track.
+
 ## 2026-11-05 · Knowledge-base document parsing
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

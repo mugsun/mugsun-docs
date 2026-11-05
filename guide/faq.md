@@ -87,7 +87,11 @@ MUGSUN_PG_BASE_IMAGE=imresamu/postgis:16-3.4 MUGSUN_PG_PLATFORM=linux/arm64 dock
 
 ### `pnpm install` 报找不到 `@mugsun/track-web`？
 
-管理台以 `file:../mugsun-track` 引用 SDK，且 SDK 仓库不提交 `dist/`。请把 mugsun-track 克隆到同级目录并执行 `pnpm setup:sdk`；不需要埋点时可设 `VITE_ENABLE_TRACK=false` 跳过构建，但同级目录仍须存在，`pnpm install` 才能通过。
+管理台默认依赖 npm `@mugsun/track-web@0.3.0`，一般直接 `pnpm install` 即可，不必克隆 mugsun-track。
+
+若本机 registry 拉不到该包，检查网络 / npm 镜像，或临时设 `VITE_ENABLE_TRACK=false` 跳过埋点模块构建。
+
+联调 SDK 源码时再平级克隆并用 `pnpm link` / `.npmrc` 的 `link:`，见 [快速开始 · 启动管理台](/guide/getting-started#2-启动管理台)。
 
 ## 埋点
 

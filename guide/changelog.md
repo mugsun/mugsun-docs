@@ -2,6 +2,16 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · 零配置文档收口
+
+### mugsun-docs
+
+- [快速开始](/guide/getting-started) 对齐 boot/pc README。
+- Docker 试用写明 GHCR `postgis-pgvector:16-3.4`，不必本机构建。
+- 管理台只需 clone pc → `pnpm install && pnpm dev`。
+- 默认 npm `@mugsun/track-web@0.3.0`；源码联调为可选 `pnpm link`。
+- FAQ 同步去掉强制 `setup:sdk` / 平级 track。
+
 ## 2026-11-05 · 知识库文档解析
 
 ### mugsun-boot / mugsun-pc / mugsun-docs

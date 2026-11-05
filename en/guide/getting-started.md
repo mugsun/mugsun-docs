@@ -16,6 +16,8 @@ Open <http://127.0.0.1:8088> and sign in as `admin`.
 
 You can also check `docker compose -f docker-compose.full.yml logs ready` for the login tip.
 
+The database image defaults to the multi-arch GHCR pull `ghcr.io/mugsun/postgis-pgvector:16-3.4` (amd64 + arm64). You do not need to build it locally, and you do not need `MUGSUN_PG_*`.
+
 By default the console port is bound to `127.0.0.1` only, so it can be reached only from the same machine. To try it on a server and open it from another machine, set `MUGSUN_HTTP_BIND=0.0.0.0` before starting. The port can be changed with `MUGSUN_HTTP_PORT`.
 
 ![Admin console workbench](/screenshots/pc-workbench.png)
@@ -84,10 +86,13 @@ For other solutions, see the [FAQ](/en/guide/faq).
 From the directory that contains `mugsun-boot`:
 
 ```bash
-git clone https://github.com/mugsun/mugsun-track.git
 git clone https://github.com/mugsun/mugsun-pc.git
-cd mugsun-pc && pnpm setup:sdk && pnpm install && pnpm dev
+cd mugsun-pc && pnpm install && pnpm dev
 ```
+
+The analytics SDK defaults to the npm package `@mugsun/track-web@0.3.0`. You do not need to clone [mugsun-track](https://github.com/mugsun/mugsun-track).
+
+To link SDK source (optional): clone `mugsun-track` as a sibling, then `pnpm link ../mugsun-track`, or set `@mugsun/track-web=link:../mugsun-track` in `.npmrc` and run `pnpm install` again.
 
 Open <http://localhost:3006>. Local sign-in first asks you to pass a security check. The challenge type is picked at random from five types; see [Behavior captcha](/en/pc/captcha).
 
