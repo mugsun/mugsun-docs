@@ -132,6 +132,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '插件', link: '/track/plugins' },
             { text: '错误问题单', link: '/track/error-issues' },
             { text: '问数据', link: '/track/ask' },
+            { text: '空间行为', link: '/track/spatial' },
             { text: '隐私与合规', link: '/track/privacy' },
             { text: '升级指南', link: '/track/upgrade' },
           ],

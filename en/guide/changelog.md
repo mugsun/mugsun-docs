@@ -2,6 +2,18 @@
 
 Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
 
+## 2026-11-05 · Spatial behavior
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- Console **Spatial**: precise-coordinate heat cells / points.
+- `GET /system/track/spatial`; read `sys:track-spatial:list` (V20).
+- `mode=agg|points`; zoom→grid precision; days≤30.
+- Caps cells≤5000 / points≤2000; rate limit 60/min/user.
+- Old `/geo` unchanged; `converted` always false; filter via eventNames.
+- Coords: `geoPlugin` + `geo_lon`/`geo_lat`; demo `ak_lab_spatial_demo`.
+- Point click → replay/user; `userId` as string. See [Spatial](/en/track/spatial).
+
 ## 2026-11-05 · Zero-config docs alignment
 
 ### mugsun-docs

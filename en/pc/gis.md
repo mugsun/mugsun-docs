@@ -201,4 +201,6 @@ The analytics overview `/track/overview` shows region distribution (from IP geol
 
 Precise location is off by default. Turn on **Precise location** for an app under `/track/app`; the SDK reports coordinates with the session after the user grants location permission.
 
+The separate Spatial page `/track/spatial` (`GET /system/track/spatial`) plots precise coordinates as heat cells or points, apart from overview `/geo`. See [Spatial behavior](/en/track/spatial).
+
 ![App settings: precise location switch](/screenshots/gis/track-app-precise-geo.png)

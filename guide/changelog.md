@@ -2,6 +2,18 @@
 
 各仓根目录维护中文 `CHANGELOG.md`（Keep a Changelog 格式），正式版本以 GitHub Releases 为准。本页摘要对使用者有影响的变更。
 
+## 2026-11-05 · 空间行为
+
+### mugsun-boot / mugsun-pc / mugsun-docs
+
+- 管理台「空间行为」：精确坐标热力格 / 明细点。
+- `GET /system/track/spatial`；读权 `sys:track-spatial:list`（V20）。
+- `mode=agg|points`；zoom→网格精度；days≤30。
+- 硬顶 cells≤5000 / points≤2000；限流 60/分/用户。
+- 旧 `/geo` 不动；`converted` 本刀恒 false；转化靠 eventNames。
+- 坐标：`geoPlugin` + `geo_lon`/`geo_lat`；演示 `ak_lab_spatial_demo`。
+- 点选跳回放/用户；`userId` 原字符串。详见 [空间行为](/track/spatial)。
+
 ## 2026-11-05 · 零配置文档收口
 
 ### mugsun-docs

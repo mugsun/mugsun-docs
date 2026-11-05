@@ -141,7 +141,7 @@ From 0.3.0, replays show page text and input values as-is, and `apiBodyMaskEnabl
 ## Visual tagging and geolocation
 
 - `visualTrack()` matches elements against the `visualRules` delivered from the console and reports hits. With no rules, it installs no listeners.
-- `geoPlugin()` collects precise location when `geoEnabled` is `true`, which triggers the browser's location permission prompt.
+- `geoPlugin()` collects precise location when `geoEnabled` is `true`, which triggers the browser's location permission prompt. The console Spatial page needs these coordinates; see [Spatial behavior](/en/track/spatial).
 
 Visual tagging flow: in Integration → Visual rules (接入管理 → 圈选规则), pick the app and click Start visual selection (进入圈选), then enter the page URL. The platform issues a 30-minute token and opens that page in a new window in inspect mode. Click an element, give it an event name and submit a draft:
 

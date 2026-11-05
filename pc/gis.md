@@ -201,4 +201,6 @@ Java 路径的精度（缓冲边界上每个顶点到原要素的测地距离与
 
 精确坐标默认关闭，需在「接入管理」`/track/app` 的应用里打开「精确位置」开关，SDK 征求定位授权后随会话上报。
 
+独立「空间行为」页 `/track/spatial`（`GET /system/track/spatial`）按精确坐标做热力格 / 明细点，与概览 `/geo` 分开。详见 [空间行为](/track/spatial)。
+
 ![接入管理：精确位置开关](/screenshots/gis/track-app-precise-geo.png)

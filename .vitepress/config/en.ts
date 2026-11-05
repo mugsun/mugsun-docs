@@ -302,6 +302,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Plugins', link: '/en/track/plugins' },
             { text: 'Error issues', link: '/en/track/error-issues' },
             { text: 'Ask analytics', link: '/en/track/ask' },
+            { text: 'Spatial behavior', link: '/en/track/spatial' },
             { text: 'Privacy', link: '/en/track/privacy' },
             { text: 'Upgrade guide', link: '/en/track/upgrade' },
           ],

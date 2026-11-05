@@ -9,6 +9,12 @@
 
 ### 变更
 
+- 文档同步埋点空间行为 P0（中英）
+  - 新增 track/spatial：坐标接入、管理台、API、硬顶
+  - 权限 sys:track-spatial:list（V20）；限流 60/分/用户
+  - mode=agg|points；zoom→p；旧 /geo 不动；converted 恒 false
+  - 演示 ak_lab_spatial_demo；概述/侧栏/插件/GIS 埋点地理互链
+
 - 文档同步知识库 PDF/DOCX/PPTX 解析（中英）
   - pc/ai-center：upload-file、白名单、failed+failReason、Tika
   - 配置键 mugsun.ai.kb.max-upload-bytes；multipart 默认白名单
