@@ -6,7 +6,9 @@
 
 读权限：`sys:track-spatial:list`（主库迁移 **V20**；已有概览读权的角色会补授）。
 
-与数据概览里的 `/system/track/geo`（IP 属地 + 概览热力）分开：本页只读服务端落库的 `geo_lon` / `geo_lat` 列，不回 IP、不回 `geo_acc`。旧 `/geo` 接口不动。
+与数据概览里的 `/system/track/geo`（IP 属地 + 概览热力）分开。
+
+本页只读服务端落库的 `geo_lon` / `geo_lat` 列，不回 IP、不回 `geo_acc`。旧 `/geo` 接口不动。
 
 ## 怎么带上坐标
 
@@ -33,12 +35,21 @@
 1. 选应用（`appKey` 必填）与天数（今日 / 近 7 天 / 近 30 天；`days` 1–30，默认 7）。
 2. 选模式：`agg` 热力格（默认）或 `points` 明细点。
 3. 可选：按事件名筛选（逗号分隔）、视口 `bbox` / `zoom`（地图拖动会带上）。
-4. 点选明细点：优先跳会话回放（须 `sys:track-replay:view`）；否则跳用户细查。`userId` 按原字符串传递，勿转成 number（雪花会丢精度）。
-5. 无读权时页顶提示，不发请求。
+4. 点选明细点：优先跳会话回放（须 `sys:track-replay:view`）；否则跳用户细查。
+5. `userId` 按原字符串传递，勿转成 number（雪花会丢精度）。
+6. 无读权时页顶提示，不发请求。
 
-默认真接口 `GET /api/system/track/spatial`。仅同时满足 `import.meta.env.DEV` 与 `VITE_TRACK_SPATIAL_MOCK=true` 时走本地同形 mock；生产构建不含 mock 分支。
+默认真接口 `GET /api/system/track/spatial`。
 
-漏斗相关入参（`funnelId` / `funnelSteps` / `windowHours` / `convertedOnly`）本刀保留契约形态，但**无漏斗定义表**：`converted` 恒为 `false`；`convertedOnly=true` 直接空态。转化筛选请用 `eventNames`。
+仅同时满足 `import.meta.env.DEV` 与 `VITE_TRACK_SPATIAL_MOCK=true` 时走本地同形 mock。
+
+生产构建不含 mock 分支。
+
+漏斗相关入参（`funnelId` / `funnelSteps` / `windowHours` / `convertedOnly`）本刀保留契约形态。
+
+但**无漏斗定义表**：`converted` 恒为 `false`；`convertedOnly=true` 直接空态。
+
+转化筛选请用 `eventNames`。
 
 ## API
 
