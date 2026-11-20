@@ -107,6 +107,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '站内信与公告', link: '/boot/features/message' },
             { text: '单号规则', link: '/boot/features/serial-number' },
             { text: '全局搜索', link: '/boot/features/search' },
+            { text: '日志与审计', link: '/boot/features/log' },
           ],
         },
         {
