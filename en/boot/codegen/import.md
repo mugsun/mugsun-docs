@@ -1,6 +1,6 @@
 # Import an existing table
 
-When the business table already exists, import it in System → Code Generator and adjust the column settings as needed.
+When the business table already exists, import it in System Settings → Code Generator and adjust the column settings as needed.
 
 ## Import
 
@@ -14,11 +14,11 @@ Importing the same table again updates the configuration from the current schema
 
 ## Generator sources
 
-System → Generator Sources registers additional databases. The system tries to connect on save, and the password is never shown again. Only connected data sources appear in the Code Generator picker.
+System Settings → Generator Sources registers additional databases. The system tries to connect on save, and the password is never shown again. Only connected data sources appear in the Code Generator picker.
 
 ## Generator schemes
 
-System → Generator Schemes stores a module, base package, table prefix and author. Once a scheme is enabled, importing a table fills in these values, and you can still change them before importing.
+System Settings → Generator Schemes stores a module, base package, table prefix and author. Once a scheme is enabled, importing a table fills in these values, and you can still change them before importing.
 
 ## Column settings
 
@@ -27,12 +27,19 @@ Click Config in the list to change the template and each column:
 - Template: Single, Tree (needs a parent column) or Master-Sub (needs a child table and a foreign key column).
 - Columns: Java type, comment, control, dictionary code, and whether the column appears in the list, the form and the query conditions.
 
-## See it work
-
-After you import a table or confirm one from modeling, click Config on its row to open the column settings.
-
 ![Column settings](/screenshots/codegen/gen-config.png)
+
+## Verify
+
+After you import a table or confirm one from modeling, click Config on its row. It opens the column settings shown in the screenshot above.
 
 Click Save Config when you are done. Preview and download use this configuration.
 
-Previous: [AI-assisted modeling](./ai-modeling) · Next: [Preview and download](./output)
+## Next steps
+
+<div class="ms-cards">
+
+- [Preview and download](./output) Preview and download the generated code once the settings are right.
+- [Forms](/en/boot/features/form) An imported table also works as an online form, with no code generated.
+
+</div>

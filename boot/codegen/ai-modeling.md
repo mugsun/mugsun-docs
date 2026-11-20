@@ -10,6 +10,10 @@
 product_comment 商品评论；content 评论内容 文本，score 评分 整数，author 作者 文本，comment_time 评论时间 日期
 ```
 
+把这段描述粘贴到「规则建模」里，点「生成候选」，得到一份可以逐项修改的候选：
+
+![规则建模生成的候选](/screenshots/codegen/gen-modeling-draft.png)
+
 类型词决定 Java 类型和表单控件：
 
 | 类型词 | Java 类型 | 控件 |
@@ -63,11 +67,9 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 - 增量同步：按字段配置执行 ADD 和 RENAME，数据保留。
 - 强制重建：删表后重建，表里的数据全部丢失。
 
-## 看效果
+## 验证
 
-打开「系统管理 → 动态建表」，在「规则建模」里粘贴上面的示例描述，点「生成候选」。
-
-![规则建模生成的候选](/screenshots/codegen/gen-modeling-draft.png)
+打开「系统管理 → 动态建表」，在「规则建模」里粘贴开头的示例描述，点「生成候选」，得到的候选和开头的截图一致。
 
 `comment_time` 这一段同时含「时间」和「日期」，系统先匹配到「时间」，所以类型是 `LocalDateTime`，说明只剩「评论」。
 
@@ -89,4 +91,11 @@ curl -s -X POST http://localhost:8080/system/gen/ai/draft \
 
 把它们原样放进 `/system/gen/ai/confirm` 的请求体，并加上 `"build": true`，就会保存配置并建表。
 
-上一节：[代码生成](./) · 下一节：[导入已有表](./import)
+## 下一步
+
+<div class="ms-cards">
+
+- [导入已有表](./import) 表建好以后，在这里调整模板和字段配置。
+- [预览和下载产物](./output) 预览生成的代码，下载后放进工程。
+
+</div>

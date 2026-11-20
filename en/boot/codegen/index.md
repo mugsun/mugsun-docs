@@ -2,15 +2,23 @@
 
 Code generation turns a table structure into a backend entity, mapper and controller, plus an admin list page, API files and menu SQL.
 
+![Code generation page](/screenshots/codegen/gen-list.png)
+
+Sign in to the admin console as an administrator and open System Settings → Code Generator. You see the table picker and the list of imported table configurations.
+
 ## Pick an entry point
 
-| What you have | Entry point | Page |
-| --- | --- | --- |
-| An idea but no table yet | [AI-assisted modeling](./ai-modeling) | System → Dynamic Tables |
-| An existing business table | [Import an existing table](./import) | System → Code Generator |
-| A finished table configuration | [Preview and download](./output) | System → Code Generator |
+<div class="ms-cards">
 
-Both paths end in the same table configuration. A table confirmed in Dynamic tables appears in the Code Generator list right away.
+- [AI-assisted modeling](./ai-modeling) No table yet: write a description, get a table structure candidate, confirm it to create the table.
+- [Import an existing table](./import) The business table already exists: import it, then adjust the column settings.
+- [Preview and download](./output) The table configuration is ready: preview the code and download the zip.
+
+</div>
+
+AI-assisted modeling is under System Settings → Dynamic Tables. The other two are under System Settings → Code Generator.
+
+Both paths end in the same table configuration. A table confirmed in Dynamic Tables appears in the Code Generator list right away.
 
 ## Permission codes
 
@@ -23,11 +31,3 @@ Both paths end in the same table configuration. A table confirmed in Dynamic tab
 | `sys:gen:ddl` | Confirm a model, create tables and sync physical tables |
 
 Administrators hold every permission code. Other roles need the buttons under Code Generator checked in menu management.
-
-## See it work
-
-Sign in to the admin console as an administrator and open System → Code Generator. You see the table picker and the list of imported table configurations.
-
-![Code generation page](/screenshots/codegen/gen-list.png)
-
-Next: [AI-assisted modeling](./ai-modeling)

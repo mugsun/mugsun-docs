@@ -1,6 +1,6 @@
 # AI-assisted modeling
 
-Enter a description in System → Dynamic Tables and the system proposes an editable table structure. Nothing is saved or created until you confirm the candidate.
+Enter a description in System Settings → Dynamic Tables and the system proposes an editable table structure. Nothing is saved or created until you confirm the candidate.
 
 ## Write the description
 
@@ -9,6 +9,10 @@ The first segment holds the English table name and a Chinese label. Each followi
 ```text
 product_comment 商品评论；content 评论内容 文本，score 评分 整数，author 作者 文本，comment_time 评论时间 日期
 ```
+
+Paste this description into Rule Modeling and click Generate Draft. You get a candidate you can edit item by item:
+
+![Candidate from rule modeling](/screenshots/codegen/gen-modeling-draft.png)
 
 The type word sets the Java type and the form control:
 
@@ -33,7 +37,7 @@ The model used is the chat model marked as default in the AI center. Without a d
 
 If the model returns an invalid table or column name, the call fails, or no model is configured, the system falls back to the rule parser above. The rule parser needs English identifiers. A description with Chinese only returns "describe at least a table name and one column".
 
-::: tip
+::: tip Tip
 The hint on the page only describes the rule parser. With a model connected, a plain sentence also produces a candidate.
 :::
 
@@ -59,11 +63,9 @@ The Dynamic Tables tab lists every saved table with five actions:
 - Incremental Sync: runs ADD and RENAME from the column settings, so data is kept.
 - Force Rebuild: drops and recreates the table, and all its data is lost.
 
-## See it work
+## Verify
 
-Open System → Dynamic Tables, paste the sample description into Rule Modeling and click Generate Draft.
-
-![Candidate from rule modeling](/screenshots/codegen/gen-modeling-draft.png)
+Open System Settings → Dynamic Tables, paste the sample description from the top of this page into Rule Modeling and click Generate Draft. The candidate matches the screenshot above.
 
 The `comment_time` segment contains both the word for time and the word for date. The system matches time first, so the type is `LocalDateTime` and the label loses both words.
 
@@ -83,4 +85,11 @@ curl -s -X POST http://localhost:8080/system/gen/ai/draft \
 
 The response `data` holds `table` and `columns`. Put them unchanged into the request body of `/system/gen/ai/confirm` and add `"build": true` to save the configuration and create the table.
 
-Previous: [Code generation](./) · Next: [Import an existing table](./import)
+## Next steps
+
+<div class="ms-cards">
+
+- [Import an existing table](./import) Adjust the template and column settings once the table exists.
+- [Preview and download](./output) Preview the generated code, download it and add it to the project.
+
+</div>

@@ -2,9 +2,13 @@
 
 表配置调好后，在「系统管理 → 代码生成」里点「预览」查看生成的代码，点「下载」得到 zip。
 
+![代码预览](/screenshots/codegen/gen-preview.png)
+
 ## 产物清单
 
-zip 里的路径按工程结构组织，解压后放到工程根目录即可。以模块 `system`、实体 `ProductComment` 为例：
+zip 里的路径以 `mugsun-boot/` 和 `mugsun-pc/` 开头，解压到这两个仓库所在的目录。
+
+以模块 `system`、实体 `ProductComment` 为例：
 
 | 文件 | 位置 |
 | --- | --- |
@@ -17,6 +21,14 @@ zip 里的路径按工程结构组织，解压后放到工程根目录即可。�
 
 主子表模板还会生成子表的实体、Mapper 和一个 Service。
 
+::: warning 后端文件要再挪一步
+后端是多模块工程，源码在 `mugsun-boot/mugsun-boot-core/src/main/java/` 下。
+
+zip 把后端文件放在 `mugsun-boot/src/main/java/`。
+
+要把它们移到 `mugsun-boot-core` 里同名的包目录，否则不会被编译。
+:::
+
 ## 生成的接口
 
 控制器的路径是 `/{模块}/{业务名}`，示例是 `/system/productcomment`：
@@ -25,25 +37,32 @@ zip 里的路径按工程结构组织，解压后放到工程根目录即可。�
 | --- | --- | --- |
 | `GET /page` | 分页 | 只要求登录 |
 | `GET /detail?id=` | 详情 | 只要求登录 |
+| `GET /tree?parentId=` | 树表模板才有：取直接子节点，不传取根节点 | 只要求登录 |
 | `POST /submit` | 新增或修改 | `system:productcomment:save` |
 | `POST /remove` | 按 id 列表删除 | `system:productcomment:remove` |
 
 ::: warning
-分页和详情只做登录校验。数据需要按权限隔离时，请在这两个方法上加 `@SaCheckPermission`。
+查询接口只做登录校验。数据需要按权限隔离时，请在这些方法上加 `@SaCheckPermission`。
 :::
 
 ## 上线
 
-1. 把 zip 解压到工程根目录，重新构建后端和管理台。
-2. 执行菜单 SQL。它会建一个菜单和「新增」「删除」两个按钮，父菜单默认为顶级，可以按需改 `parent_id`。
-3. 在角色管理里给需要的角色勾选新菜单。
+1. 把 zip 解压到 `mugsun-boot` 和 `mugsun-pc` 所在的目录。
+2. 把后端文件移到 `mugsun-boot-core` 的同名包目录，重新构建后端和管理后台。
+3. 执行菜单 SQL。它会建一个菜单和「新增」「删除」两个按钮，父菜单默认为顶级，可以按需改 `parent_id`。
+4. 在角色管理里给需要的角色勾选新菜单。
 
-## 看效果
+## 验证
 
 点表配置这一行的「预览」，弹窗里按 Entity、Mapper、Controller、列表页、api.ts、type.ts、菜单SQL 分页显示生成结果。
 
 右下角的「下载 zip」可以直接下载产物。
 
-![代码预览](/screenshots/codegen/gen-preview.png)
+## 下一步
 
-上一节：[导入已有表](./import)
+<div class="ms-cards">
+
+- [第一个 CRUD](/boot/tutorial/first-crud) 对照手写的版本，看生成的代码各部分做什么。
+- [在接口上启用](/boot/datascope/annotation) 给生成的分页接口加上数据权限。
+
+</div>
