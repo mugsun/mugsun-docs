@@ -1,351 +1,122 @@
+---
+pageClass: ms-first-col-nowrap
+---
+
 # Changelog
 
-Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Releases are the source of truth for versions. This page summarizes the changes that affect users.
-
-## 2026-11-05 · AiFlow foreach / parallel
-
-### mugsun-boot / mugsun-pc / mugsun-docs
-
-- AiFlow control nodes: `foreach` (serial) / `parallel` (waitAll).
-- No `loop` alias; body via ordered `bodyNodeIds` (no nested controls).
-- foreach: required `inputPath`; maxIterations default 20, hard cap 100.
-- Oversize array → success + `truncated=true`; timeout default 120s, cap 300s.
-- parallel: branches 2..8 (hard cap 16); failure continue, no cancel others.
-- Failed branch → success + `partial=true`; writes `parallelResults`.
-- Designer P0: ordered nodeId in the property panel; no canvas sub-frame;
-  `waitAll` locked on.
-- Error codes: `AI_FOREACH_*` / `AI_PARALLEL_*`.
-- Approval `FORBIDDEN` list unchanged; works with `type=ai`; still reads `ai_pass`.
-- Out of scope: tenant concurrency gate, per-element parallel, `failFast`, `loop`.
-- See [Workflow · AiFlow control nodes](/en/boot/features/workflow#ai-flow-control).
-
-## 2026-11-05 · AI × approval
-
-### mugsun-boot / mugsun-pc / mugsun-docs
-
-- Flow designer AI pre-check node (`type=ai` → BETWEEN + create listener).
-- Bind same-tenant `status==1` workflow / chatflow (`aiFlowId`).
-- `inputMap` required; `{}` = zero injection (no default full-var copy).
-- `outputMap` allow-lists write-back **value**: `ai_summary` / `ai_pass` / `ai_reason` / `ai_run_id` (and `ai_ext_*`).
-- Failure default `onFailure=rejectLast`; also `stay` / `transfer:role:…`.
-- Hard-blocked DSL: `db` / `http` / `mcp` / `code` / `tool` / `notice` (and synonyms).
-- History `aiTrace`; lab seed `flowCode=ai-preaudit`.
-- Out of scope: AI starting approvals, formal publish/version, new perms, #59.
-- See [Workflow · AI pre-check](/en/boot/features/workflow#ai-approval).
-
-## 2026-11-05 · Spatial behavior
-
-### mugsun-boot / mugsun-pc / mugsun-docs
-
-- Console **Spatial**: precise-coordinate heat cells / points.
-- `GET /system/track/spatial`; read `sys:track-spatial:list` (V20).
-- `mode=agg|points`; zoom→grid precision; days≤30.
-- Caps cells≤5000 / points≤2000; rate limit 60/min/user.
-- Old `/geo` unchanged; `converted` always false; filter via eventNames.
-- Coords: `geoPlugin` + `geo_lon`/`geo_lat`; demo `ak_lab_spatial_demo`.
-- Point click → replay/user; `userId` as string. See [Spatial](/en/track/spatial).
-
-## 2026-11-05 · Zero-config docs alignment
-
-### mugsun-docs
-
-- [Getting started](/en/guide/getting-started) aligned with boot/pc READMEs.
-- Docker try-out notes GHCR `postgis-pgvector:16-3.4` (no local build).
-- Admin console: clone pc only → `pnpm install && pnpm dev`.
-- Default npm `@mugsun/track-web@0.3.0`; source link via optional `pnpm link`.
-- FAQ drops forced `setup:sdk`; Apple Silicon notes GHCR.
-
-## 2026-11-05 · Knowledge-base document parsing
-
-### mugsun-boot / mugsun-pc / mugsun-docs
-
-- Knowledge assets accept PDF / DOCX / PPTX via Tika into existing chunks.
-- multipart `POST /system/ai/knowledge/asset/upload-file`;
-  JSON `upload` remains (`fileUrl` downloads then Tika).
-- Allow-list: extension + MIME + magic; default 20MB via
-  `mugsun.ai.kb.max-upload-bytes`.
-- Failures keep `failed` + `failReason` (no fake segments); success feeds RRF.
-- No OCR; x-file-storage MIME isolated from parsers Detector SPI.
-- See [AI center · document parsing](/en/pc/ai-center).
-
-## 2026-11-05 · Ask analytics
-
-### mugsun-boot / mugsun-pc / mugsun-docs
-
-- Console **Ask**: natural-language read-only queries on your track data.
-- `POST /system/track/ask`; entry `sys:track-ask:list` (V19).
-- Intent re-checks existing track read permissions; `unsupported` stays 200.
-- Numbers only from TrackAnalysis / Funnel / Retention; no NL2SQL.
-- LLM extracts intent only; failure falls back to rules — no invented numbers.
-- Related replays ≤5 with `appKey`.
-- Real API by default; mock only if DEV and `VITE_TRACK_ASK_MOCK=true`.
-- `resultType`: `metrics` / `series` / `table` / `raw` / `unsupported`.
-- Replay: `/track/replay?sessionId&appKey`. See [Ask analytics](/en/track/ask).
-
-## 2026-11-05 · Error issues
-
-### mugsun-boot / mugsun-pc / mugsun-docs
-
-- Console **Error issues**: list / detail / assign / resolve / reopen.
-- Status `OPEN` / `ASSIGNED` / `RESOLVED`.
-- With a release filter, `releaseFlag` is `NEW` / `REGRESSED` / `ONGOING`.
-- API `/system/track/error-issues`; read list, write edit; detail and writes need `appKey`.
-- Linked to release; detail can open replay and user lookup. No workflow auto-create.
-- See [Error issues](/en/track/error-issues).
-
-## 2026-11-05 · track `release` build injection
-
-### mugsun-track / mugsun-docs
-
-- [Install & setup](/en/track/install) documents `release`: Vite `import.meta.env.VITE_APP_VERSION` or a CI env var.
-- The app must inject it at build time; when omitted it is not sent; when set, error events carry it.
-
-## 2026-11-04 · ICON_CLICK seed-warp
-
-### mugsun-boot / mugsun-docs
-
-- ICON_CLICK rendering now applies a per-challenge seed-warp mesh by default to resist public-library template matching ([mugsun-boot#77](https://github.com/mugsun/mugsun-boot/issues/77)).
-- `mugsun.captcha.click.seed-warp-strength` defaults to 0.14; `0` turns warping off; effective clamp about `[0, 0.35]`.
-- Still an auxiliary type; do not use it as the only line of defence (same as #35).
-- Full template-match solves are about 0–1 out of 200; see [Configuration · Human verification](/en/boot/configuration#human-verification-behavioral-captcha).
-
-## 2026-11-04 · GIS wraps_antimeridian and partial GiST
-
-### mugsun-boot / mugsun-docs
-
-- Generated column `gis_feature.wraps_antimeridian` plus partial GiST ([mugsun-boot#76](https://github.com/mugsun/mugsun-boot/issues/76)).
-- Same rule as #73; crossing queries use `ST_ShiftLongitude`; skipped without PostGIS or the table.
-- V16 adds the column; V17 `CREATE INDEX CONCURRENTLY`; main-DB Flyway needs direct PG or PgBouncer session.
-- See [GIS limitations](/en/pc/gis#metric-limits).
-
-## 2026-11-04 · GIS pole-enclosing polygons: area / buffer / distance
-
-### mugsun-boot / mugsun-docs
-
-- Pole-enclosing polygons are no longer rejected or silently stripped of their polar caps ([mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63)).
-- Detect by cumulative longitude ≈ ±360°; area via `PolygonArea`.
-- Buffer/distance use pole-origin AEQD and RFC 7946 polar cuts.
-- Wrap-around rings are rewritten on ingest to ±180° edges at the pole.
-- PostGIS layer buffer falls back to Java for polar caps instead of skipping.
-- Irregular pole-enclosing buffers become equal-latitude RFC polar-cap approximations.
-- See [GIS limitations](/en/pc/gis#metric-limits).
-
-## 2026-11-04 · Demo access-log AsyncAppender drops
-
-### mugsun-boot / mugsun-docs
-
-- When the async queue is full, offers wait about 50ms then drop, count, and rate-limit WARN; metric `mugsun.demo.access_log.dropped`. See [Read-only demo](/en/demo#access-log-retention).
-
-## 2026-11-03 · Demo access-log path templates
-
-### mugsun-boot / mugsun-docs
-
-- Demo access logs record Spring route templates (for example `/share/{token}`), never the raw URL; unmatched requests are logged as `(unmatched)`. See [Read-only demo](/en/demo#access-log-retention).
-
-## 2026-11-03 · Zero-config getting started
-
-### mugsun-boot / mugsun-docs
-
-- [Getting started](/en/guide/getting-started) leads with one `docker-compose.full.yml` command.
-- Copying `application-local.yml` is no longer required; use `init show` for the password and do not put a plaintext password in the docs.
-
-## 2026-10-21 · FAQ and error reference
-
-### mugsun-docs
-
-- Added the [error reference](/en/guide/errors), with the original text, cause and fix for each error.
-- Added a "Deployment and operation" section to the [FAQ](/en/guide/faq), written as symptom, cause and fix.
-
-## 2026-10-21 · Upgrade guide
-
-### mugsun-docs
-
-- Added the [upgrade guide](/en/guide/upgrade/), which lists the tags and released versions of each repository.
-- Added pages for core 0.1.0 → 0.2.0 and Tracking SDK 0.1.0 → 0.2.0.
-- The verification SQL on the scheduled tasks page was checked against PowerJob 5.1.2.
-
-## 2026-10-21 · Feature index
-
-### mugsun-docs
-
-- Added the [features](/en/boot/features/) index, which lists the features available on the main branch.
-- Added ten feature pages, each covering what it does, how to turn it on, how to use it, and notes.
-- Features with their own guide are linked from the index, and every page ends with a "See it work" section.
-
-## 2026-10-21 · Multi-tenancy and data permissions
-
-### mugsun-docs
-
-- Added the [multi-tenancy](/en/boot/tenant/) guide: overview, tenants and plans, and switching tenants in code.
-- Added the [data permissions](/en/boot/datascope/) guide: overview, enabling it on an endpoint, and data permission rules.
-- Each page ends with a "See it work" section with SQL you can copy to verify the result.
-
-## 2026-10-21 · Code generation guide
-
-### mugsun-docs
-
-- Added the [code generation](/en/boot/codegen/) guide: overview, AI-assisted modeling, importing an existing table, and preview and download.
-- Each page ends with a "See it work" section with the steps and a screenshot of the result.
-
-## 2026-10-21 · Backend development tutorial
-
-### mugsun-docs
-
-- Added the [development tutorial](/en/boot/tutorial/first-api): your first API, CRUD, cache and scheduled job.
-- Each page ends with a "See it work" section that lists the commands to run and the expected results.
-
-## 2026-10-21 · Legacy digit captcha removed
-
-### mugsun-boot
-
-- **Breaking: the legacy digit image captcha is gone.** `GET /auth/captcha` no longer exists, and the login, registration, forgot-password and SMS endpoints no longer read `captchaUuid` or `captchaCode`. Use the behavioral captcha and send `captchaToken` in the request body.
-- **Configuration**: startup fails when `mugsun.captcha.type` is `IMAGE` or anything other than `SLIDER`. `mugsun.captcha.default-types` accepts only the five type names; any other value also fails startup. `mugsun.captcha.expire-seconds` no longer does anything; remove it.
-- **Random multi-type by default**: the platform enables all five types (`SLIDER`, `WORD_CLICK`, `ROTATE`, `ICON_CLICK`, `JIGSAW`), each challenge picks one at random, and `GET /auth/captcha/config` returns `type: RANDOM`. Keyboard mode only gets slider or rotate.
-- **Turning captcha off**: still `mugsun.captcha.enabled=false`. See the [upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed).
-
-## 2026-10-21 · E2E runs with the captcha off
-
-### mugsun-pc
-
-- The digit captcha is gone.
-- The e2e tests no longer read image codes from Redis.
-- The main suite, `pnpm test:e2e`, needs the backend's captcha off.
-- New `pnpm test:e2e:captcha-on` runs against a backend with the captcha on:
-  - Requests without a `captchaToken` must return `code` `40013`:
-    login, registration and the forgot-password code request.
-  - It has its own config and doesn't need PowerJob.
-- A broken config response fails either suite instead of skipping quietly.
-- The main suite no longer runs `docker start` for PowerJob by default.
-- To opt in, set `E2E_START_POWERJOB=1`.
-- See [Development · E2E and the captcha][e2e-captcha].
-
-[e2e-captcha]: /en/pc/development#e2e
-
-## 2026-10-21 · ms-badge dot takes precedence
-
-### mugsun-uniappx-ui
-
-- ms-badge: dot now takes precedence over count (no more empty bubble). Priority is label > dot > count. ([197dc26](https://github.com/mugsun/mugsun-uniappx-ui/commit/197dc26))
-
-## 2026-10-19 · GIS layer buffer skips polar caps (superseded by #63)
-
-### mugsun-boot
-
-- At the time: PostGIS skipped ambiguous polar caps (skip + `skipped`) instead of returning a result with the cap missing.
-- Since 2026-11-04, [mugsun-boot#63](https://github.com/mugsun/mugsun-boot/issues/63) routes polar caps to Java pole-origin AEQD and no longer skips them.
-- See the same-day "GIS pole-enclosing polygons" note and [GIS limitations](/en/pc/gis#metric-limits).
-
-## 2026-10-18 · track 0.3.0: no masking or filtering by default
-
-### mugsun-track
-
-Published to npm on 2026-10-22 as `@mugsun/track-web@0.3.0`. ([#19](https://github.com/mugsun/mugsun-track/pull/19))
-
-- **No masking or filtering by default (behavior change)**: replays show page text and input values as-is (`maskTextSelector` no longer defaults to `'*'`, and the new `maskAllInputs` defaults to `false`); `apiBodyMaskEnabled` defaults to `false`, so personal-data fields in response bodies are uploaded as-is; `skipHandledErrors` defaults to `false`, so every error is reported. Password fields, `data-track-mask` areas, card fields and one-time-code fields are never recorded.
-- **Credential keys are always masked**: `token`, `access_token`, `refresh_token`, `password`, `secret`, `cookie`, `session`, `session_id` and similar keys in response bodies are replaced with `***` regardless of the switch, ignoring case, `_` and `-`; bodies declared as JSON that fail to parse are not uploaded.
-- **Credential hardening** ([#20](https://github.com/mugsun/mugsun-track/pull/20)):
-  - New `respectGpc` option, default `false`; set it to `true` to honor the browser's Global Privacy Control.
-  - URL redaction adds `code`, `sign`, `signature`, `ticket`, `session` and `otp`. Matching ignores case, `_` and `-`, and hash parameters are covered. `referrer`, link `href`s, resource error URLs and replay page addresses are redacted too.
-  - Sign-up, password reset / change, SMS / captcha / MFA endpoints never have their response bodies captured.
-  - Two key lists: credential keys (including `session`) are shared by URLs and response bodies; `code`, `sign`, `signature`, `ticket` and `otp` are replaced only in URLs and kept as-is in bodies (such as `{"code":0}`).
-- **More credential hardening**:
-  - Generic login, token and SSO endpoints match on whole path segments (`/login`, `/token`, `/sso`, `/cas`, …), so ordinary endpoints like `/loginLog`, `/tokens` and `/case` aren't affected. Paths containing `captcha` or `verifycode`, the words `sms`, `otp`, `sendcode`, `getcode` or `checkcode`, or verb combinations such as `/sendSms` and `/getSmsCode`, no longer have bodies captured either.
-  - JS error `filename`s and address attributes in the replay DOM (`href`, `src`, `srcset`, …) are redacted. CSS `url()`, `data-*` attributes, `iframe` `srcdoc`, `meta` `content` and URLs in page text aren't; see [Privacy](/en/track/privacy#url-redaction).
-  - Cloud storage signature parameters `X-Amz-Signature`, `X-Amz-Security-Token` and `X-Goog-Signature` join the credential keys; Azure `sig`, Tencent COS `q-signature` and Aliyun OSS `x-oss-signature` / `x-oss-security-token` and Tencent COS `x-cos-security-token` are replaced in URLs only.
-  - Token-like `code` and `ticket` values in bodies become `***`; business codes such as `E1001` and `INVALID_PARAMETER_VALUE` are kept.
-  - Token endpoints no longer have bodies captured. Paths are split on camelCase, and `-` and `_` count as word breaks.
-  - Paths are URL-decoded before the credential checks.
-  - Acronym boundaries are split too, so `/APIGetToken` matches.
-  - Extra leading `?` on query keys is ignored before and after decoding.
-  - Forms without `//`, such as `mailto:u:p@h`, aren't masked.
-  - `get`, `refresh`, `renew`, `issue` or `exchange` must start a word, optionally followed by `access`, `auth`, `id`, `session`, `csrf` or `user`, then `token`.
-  - `token` starting a word and followed by `exchange` or `refresh` also counts, as in `/tokenExchange` and `/token-refresh`.
-  - URL redaction only changes userinfo, sensitive path parameters (such as `;jsessionid=`), the query string and the hash; other parameters stay verbatim.
-  - TAB, LF and CR are removed before matching; relative and `//` URLs keep their form.
-  - The token-like charset now includes `%`.
-- **Upgrading**: if you relied on 0.2.0's default masking for compliance, set `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` and `apiBodyMaskEnabled: true` explicitly; see [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking). Before turning on replay or response body capture, tell users, and get separate consent for sensitive personal information.
-
-## 2026-10-18 · Duplicate submissions return 400
-
-### mugsun-core
-
-- **Duplicate submissions return 400 instead of 500**: when a unique constraint conflict occurs, the app returns HTTP 400 with `code` 400 and the message 「数据已存在，请勿重复提交」, with no SQL, constraint name or field values. These errors do not call `ErrorLogListener` (so boot's `sys_error_log` no longer records them); the server logs one WARN line instead. Other database errors still return 500. This applies to Servlet web apps that use `mugsun-starter-mybatis`. ([#6](https://github.com/mugsun/mugsun-core/pull/6))
-- **Dameng unique-constraint conflicts also return 400**: `mugsun-starter-mybatis` ships a `sql-error-codes.xml` at the classpath root that adds Dameng error codes -6602, -6612 and -6625. If your app also puts a `sql-error-codes.xml` at the classpath root, it shadows this one, so copy the Dameng entry into yours.
-
-## 2026-10-18 · Stricter module switch values
-
-### mugsun-boot
-
-- **A bad environment variable stops startup (breaking)**: `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` (and `mugsun.<module>.enabled` in yml) accept only `true` or `false` (case-insensitive, no surrounding spaces), and unset means on; see the [value table](/en/guide/architecture#two-layers-of-module-switches) for other values. These values used to count as off; now startup fails, and the error names the variable and its value. ([#96](https://github.com/mugsun/mugsun-boot/pull/96))
-- **System parameters are checked on save**: `gis.module.enabled` and `ai.module.enabled` are read the same way as before. A bad value is rejected on save, and `1` and `0` are deprecated; they trigger a notice on save and a warning in the runtime log. A bad value left from before the upgrade counts as off and logs a warning.
-
-To upgrade:
-
-1. Find the three variables above (and `mugsun.<module>.enabled`) in your compose files, `.env`, systemd or K8s configuration and yml.
-2. Change any value that is empty, `1`, `0`, padded with spaces, or `yes`, `on`, `no` or `off` to `true` or `false`. These values used to mean off, so write `false` to keep the old behavior.
-3. Or remove the variable to keep the default (on).
-
-## 2026-10-18 · Built-in MCP Server temporarily offline (breaking change)
-
-### mugsun-boot
-
-- **The built-in MCP Server is temporarily offline and will return with authentication**: `/sse`, `/mcp` and `/mcp/message` bypassed the project's authentication. While it is offline, these endpoints return 404 under any configuration and `MUGSUN_AI_MCP_SERVER` has no effect. The changelog entry for its return will describe the switch and credential setup. ([#89](https://github.com/mugsun/mugsun-boot/pull/89))
-- **Calling external MCP tools still works**: the MCP toolbox and the workflow MCP node are unchanged.
-- **Dependency check**: while it is offline, a maven-enforcer rule in the root POM blocks Spring AI and the MCP SDK, including transitive dependencies, and poms may not set `enforcer.skip`. ([#91](https://github.com/mugsun/mugsun-boot/pull/91))
-
-## 2026-10-14 · Error stacks drop script URL queries
-
-### mugsun-track
-
-- **Script URLs in stacks lose their query and hash**: everything after `?` or `#` (often tokens or signatures) is removed, keeping `:line:column`. When an event's properties exceed 16 KB in total, the stack is shortened first. ([#16](https://github.com/mugsun/mugsun-track/pull/16))
-- **Error grouping breaks once**: the error fingerprint is computed from the message and the script URL of the first stack frame, now with the query removed. Errors whose first-frame script URL has a `?` or `#` go into new error groups after the upgrade, and existing groups are not merged with the new ones. Errors whose first-frame URL has no query are not affected.
-
-See [Analytics · Plugins](/en/track/plugins).
-
-## 2026-10-14 · Tracking dashboards cut days in local time
-
-### mugsun-boot
-
-- **Days cut in the tenant timezone**: the trend chart, error list, overview cards, pages, performance, funnels, retention, the event-analysis event list and the geo map all start "today" at local midnight. The default is `Asia/Shanghai`; change it per tenant with `mugsun.track.timezone`. Days used to be cut in UTC, so at UTC+8 a new day only began at 8 a.m. ([#31](https://github.com/mugsun/mugsun-boot/pull/31), [#36](https://github.com/mugsun/mugsun-boot/pull/36), [#46](https://github.com/mugsun/mugsun-boot/pull/46))
-- **Zero-filled trend**: the daily trend's x-axis always shows every day in the range, with 0 for days without data. ([#28](https://github.com/mugsun/mugsun-boot/pull/28))
-- **UV definition change**: each day's UV in the daily trend is distinct devices in that local day; a dimension trend without a specific value no longer adds up the UV of each value.
-- **Funnel window change**: from a rolling last N×24 hours to starting at local midnight of the first day.
-- **Retention API**: returns `zone` and `today`; `days` above 30 is clamped to 30 with `clamped: true`. ([#36](https://github.com/mugsun/mugsun-boot/pull/36))
-
-See [Tracking · Dashboard trend](/en/track/#dashboard-trend).
-
-## 2026-10-13 · First batch of security and quality fixes
-
-### mugsun-boot
-
-- **Dependency security**: `tika-core` upgraded to 3.2.2 to fix CVE-2025-66516 (XXE). ([#5](https://github.com/mugsun/mugsun-boot/pull/5))
-- **User management transactions**: creating, updating and deleting users now happens in a transactional service; deleting a user also removes its role links. ([#7](https://github.com/mugsun/mugsun-boot/pull/7))
-- **Avatars**: new `POST /auth/avatar/upload` uploads a file and sets it as your avatar in one call. `/auth/update-avatar` only accepts attachments you uploaded in your own tenant and rejects external URLs; writes are schema-qualified for domestic databases and dedicated schemas. ([#8](https://github.com/mugsun/mugsun-boot/pull/8), [#11](https://github.com/mugsun/mugsun-boot/pull/11))
-- **Attachment permissions**: fixed an IDOR on attachment download and delete. New permission codes `sys:file:manage` (manage all attachments), `sys:file:public` (upload public attachments) and `sys:file:remove` (delete attachments); uploads by regular users are always private. ([#11](https://github.com/mugsun/mugsun-boot/pull/11))
-- **SSRF checks for AI outbound calls**: knowledge-base fetches, channel webhooks and remote MCP calls go through a URL safety check that blocks private, loopback and metadata addresses by default. Allow internal hosts with `mugsun.ai.outbound.allow-hosts`. ([#9](https://github.com/mugsun/mugsun-boot/pull/9))
-- **Open API IP allowlist**: real CIDR matching for IPv4 and IPv6. `X-Forwarded-For` is ignored unless the request comes from a proxy listed in `MUGSUN_OPENAPI_TRUSTED_PROXIES`; API call logs follow the same rule. ([#10](https://github.com/mugsun/mugsun-boot/pull/10), [#12](https://github.com/mugsun/mugsun-boot/pull/12))
-
-### mugsun-pc
-
-- **Session storage**: `accessToken`, `refreshToken` and `isLogin` moved to `sessionStorage`; the lock-screen password is no longer persisted. `localStorage` keeps only language, user info and search history. New tabs or a reopened browser require signing in again, and the lock screen doesn't survive a reload; **everyone has to sign in once after upgrading**. ([#4](https://github.com/mugsun/mugsun-pc/pull/4))
-- **Error messages**: the backend's business message is shown instead of a generic HTTP status text. ([#5](https://github.com/mugsun/mugsun-pc/pull/5))
-- **Element Plus on demand**: no more full CSS import or `app.use(ElementPlus)`; components and styles load on demand. ([#6](https://github.com/mugsun/mugsun-pc/pull/6))
-- **Profile avatar**: now uses `/auth/avatar/upload`; only png / jpg / jpeg / gif / webp up to 2MB are accepted and the avatar updates right after upload. Avatar URLs are `/auth/avatar/raw/{id}` and can be fetched without signing in. See [Development · Profile avatar](/en/pc/development#profile-avatar). ([#8](https://github.com/mugsun/mugsun-pc/pull/8))
-
-### mugsun-track
-
-- **URL redaction**: in API monitoring events, values of sensitive query parameters such as `token` and `access_token` become `***`; other parameters are kept. ([#2](https://github.com/mugsun/mugsun-track/pull/2))
-- **0.2.0 privacy defaults (breaking)**: replays mask page text by default, and `apiBodyMaskEnabled` now defaults to `true`. Migration: for readable replays (debugging only) pass `replayPlugin({ maskTextSelector: false })`; if you rely on raw response bodies set `apiBodyMaskEnabled: false` (or `0` from remote config). See [Plugins](/en/track/plugins#api-monitoring). Published to npm as `@mugsun/track-web@0.2.0`. ([#3](https://github.com/mugsun/mugsun-track/pull/3))
-
-### All repositories
-
-- Copyright holder unified as 北京定旭晨信息科技工作室 (mugsun).
+This page lists the changes that affect users by date, newest first. For released versions, the GitHub Releases of each repository are authoritative.
+
+The `CHANGELOG.md` at the root of each repository has more detail. The links are under [Full records by repository](#repos).
+
+## Changes that need action when you upgrade {#breaking}
+
+The changes below affect existing deployments or integrations. Check them one by one before you upgrade.
+
+| Date | Change | What to do |
+| --- | --- | --- |
+| 2026-10-21 | The backend removed the legacy digit captcha | Switch the frontend to the behavioral captcha. See [Backend upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed) |
+| 2026-10-18 | Analytics SDK 0.3.0 no longer masks or filters by default | Integrations that relied on default masking for compliance must turn it on explicitly. See [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking) |
+| 2026-10-18 | Duplicate submissions return HTTP 400 instead of 500 | Check for 400 in the frontend. See [core 0.1.0 → 0.2.0](/en/guide/upgrade/core-0-2-0#duplicate-key) |
+| 2026-10-18 | Module switches accept only `true` and `false` | Replace any other value in variables such as `MUGSUN_GIS_ENABLED`. See [Choose the modules you need](/en/guide/architecture#two-layers-of-module-switches) |
+| 2026-10-18 | The built-in MCP Server is temporarily offline | `/sse`, `/mcp` and `/mcp/message` return 404. Calling external MCP tools is not affected |
+| 2026-10-14 | Tracking dashboards cut days in the tenant's time zone | Numbers for the same day differ from before. Adjust the time zone with `mugsun.track.timezone` |
+| 2026-10-14 | Error grouping uses the script URL without its query string | Errors whose first frame has a query string move into new groups, and old groups are not merged into them |
+| 2026-10-13 | The admin console keeps the session in `sessionStorage` | Everyone has to sign in again once after the upgrade |
+| 2026-10-13 | Open APIs no longer trust `X-Forwarded-For` by default | Behind a reverse proxy, list the proxy addresses in `MUGSUN_OPENAPI_TRUSTED_PROXIES` |
+| 2026-10-13 | Analytics SDK 0.2.0 changed two privacy defaults | See [Analytics SDK 0.1.0 → 0.2.0](/en/guide/upgrade/track-web-0-2-0) |
+
+## 2026-11-05
+
+| Area | Change |
+| --- | --- |
+| Workflow | AiFlow adds a loop node, `foreach`, and a parallel node, `parallel`. See [Workflow](/en/boot/features/workflow#ai-flow-control) |
+| Workflow | Approval flows can include an AI pre-check node, where an AI flow reviews the request first. See [Workflow](/en/boot/features/workflow#ai-approval) |
+| Tracking | New [Spatial behavior](/en/track/spatial) page, which draws events with precise coordinates as heat cells and points |
+| Tracking | New [Ask analytics](/en/track/ask) page, which answers plain-language questions about your own app's analytics data, read-only |
+| Tracking | New [Error issues](/en/track/error-issues) page, where issues can be assigned, resolved and reopened |
+| AI center | Knowledge base assets support PDF, DOCX and PPTX, up to 20MB per file by default. See [AI center](/en/pc/ai-center) |
+| Analytics SDK | [Install & setup](/en/track/install) now explains how to inject `release`. Once it is set, error events carry the version |
+| Docs | [Getting started](/en/guide/getting-started) now matches the backend and admin console READMEs. The database image is pulled, not built locally |
+
+## 2026-11-04
+
+| Area | Change |
+| --- | --- |
+| Captcha | Icon-click challenges get a random grid warp by default, which makes template matching harder. See [Configuration](/en/boot/configuration#human-verification-behavioral-captcha) |
+| GIS | Polygons that enclose a pole are no longer rejected, and area, buffer and distance all work. See [GIS & maps](/en/pc/gis#metric-limits) |
+| GIS | Queries across the 180° meridian get a dedicated index. The V17 migration needs Flyway to connect to PostgreSQL directly, or PgBouncer in session mode |
+| Demo mode | When the access log queue is full, new entries are dropped and counted. See [Read-only demo mode](/en/boot/demo-mode#access-log) |
+
+## 2026-11-03
+
+| Area | Change |
+| --- | --- |
+| Backend | Special characters in the Redis password no longer need manual encoding. See [FAQ](/en/guide/faq#do-i-have-to-encode-special-characters-in-the-redis-password) |
+| Demo mode | Access logs record route templates only, never the raw URL. See [Read-only demo mode](/en/boot/demo-mode#access-log) |
+| Docs | [Getting started](/en/guide/getting-started) starts everything with one command and no longer asks you to copy a configuration file |
+
+## 2026-10-21
+
+| Area | Change |
+| --- | --- |
+| Backend | The legacy digit captcha is removed, and `GET /auth/captcha` no longer exists. See [Backend upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed) |
+| Backend | The behavioral captcha enables five challenge types by default and picks one at random each time. Keyboard mode offers only the slider or rotate |
+| Admin console | End-to-end tests now run against a backend with the captcha off, and a separate suite covers a backend with the captcha on. See [Development](/en/pc/development#e2e) |
+| ms-ui | `ms-badge` shows the dot when both a dot and a count are set |
+| Docs | New tutorials: [Your first API](/en/boot/tutorial/first-api) and [Code generation](/en/boot/codegen/) |
+| Docs | New chapters: [Multi-tenancy](/en/boot/tenant/) and [Data permissions](/en/boot/datascope/) |
+| Docs | New [Features](/en/boot/features/) index, [Upgrade guide](/en/guide/upgrade/) and [Error reference](/en/guide/errors) |
+
+## 2026-10-19
+
+| Area | Change |
+| --- | --- |
+| GIS | Layer buffering skips polar caps of unknown orientation and says so in the result. Since 2026-11-04 they are computed normally and no longer skipped |
+
+## 2026-10-18
+
+| Area | Change |
+| --- | --- |
+| Analytics SDK | In 0.3.0, replay shows the original page text and input values by default, response bodies are not masked by default, and all errors are reported. Published to npm on 2026-10-22 |
+| Analytics SDK | Credential keys in response bodies are always replaced with `***`, and sign-in, token and verification-code APIs have no response body captured. See [Plugins](/en/track/plugins#api-monitoring) |
+| Analytics SDK | URL redaction adds six parameters, `code` `sign` `signature` `ticket` `session` `otp`, and also handles parameters in the hash. See [Privacy](/en/track/privacy#url-redaction) |
+| Analytics SDK | New `respectGpc` option. Set it to `true` to honor the browser's Global Privacy Control |
+| core | Unique constraint violations return HTTP 400 with a message saying the data already exists, on Dameng too. See [core 0.1.0 → 0.2.0](/en/guide/upgrade/core-0-2-0#duplicate-key) |
+| Backend | `MUGSUN_GIS_ENABLED`, `MUGSUN_TRACK_ENABLED` and `MUGSUN_AI_ENABLED` accept only `true` or `false`, and a wrong value stops startup |
+| Backend | The system parameters `gis.module.enabled` and `ai.module.enabled` are validated when saved, and `1` and `0` are deprecated |
+| Backend | The built-in MCP Server is temporarily offline and returns once it has authentication. The MCP toolbox and the MCP node in workflows keep working |
+
+## 2026-10-14
+
+| Area | Change |
+| --- | --- |
+| Analytics SDK | Script URLs in error stacks lose their query string and hash and keep the line and column numbers. See [Plugins](/en/track/plugins) |
+| Tracking | Dashboards cut days in the tenant's time zone, `Asia/Shanghai` by default and adjustable per tenant. See [Analytics overview](/en/track/#dashboard-trend) |
+| Tracking | Daily trend charts always show every selected day and draw 0 for days without data |
+| Tracking | UV in the daily trend is deduplicated within the local day. The funnel window starts at local midnight of the first day |
+| Tracking | The retention API returns `zone` and `today`. When `days` is over 30 it queries 30 and returns `clamped: true` |
+
+## 2026-10-13
+
+| Area | Change |
+| --- | --- |
+| Backend | `tika-core` is upgraded to 3.2.2, which fixes CVE-2025-66516 |
+| Backend | Fixed unauthorized access when downloading and deleting attachments. New permission codes `sys:file:manage` `sys:file:public` `sys:file:remove`, and uploads by ordinary users are always private |
+| Backend | New `POST /auth/avatar/upload`. An avatar must be an attachment the user uploaded in the same tenant, and external links are rejected |
+| Backend | Knowledge base fetching, channel webhooks and remote MCP calls reject internal addresses by default. Allow hosts with `mugsun.ai.outbound.allow-hosts` |
+| Backend | The IP allowlist of open APIs uses CIDR matching and no longer trusts `X-Forwarded-For` by default |
+| Backend | Creating, updating and deleting users run in transactions, and deleting a user also removes its role links |
+| Admin console | The session is kept in `sessionStorage`, so a new tab or a restarted browser needs a new sign-in. See [Development](/en/pc/development#where-the-session-is-stored) |
+| Admin console | Error messages show the backend's message first, and Element Plus is loaded on demand |
+| Admin console | The profile avatar is uploaded directly, limited to common image formats and 2MB. See [Development](/en/pc/development#profile-avatar) |
+| Analytics SDK | In 0.2.0, replay masks page text by default, response bodies are masked by default, and sensitive parameters in API URLs become `***`. See [Analytics SDK 0.1.0 → 0.2.0](/en/guide/upgrade/track-web-0-2-0) |
+| All repositories | The copyright notice names the same holder, mugsun, in every repository |
 
 ## 0.1.0
 
-First public release: boot, core (Maven Central), pc, track (npm `@mugsun/track-web`) and this documentation site.
+The first public release. The backend, the admin console and the docs site became public in this version, core was published to Maven Central, and the analytics SDK was published to npm.
 
-## Releases by repository
+## Full records by repository {#repos}
 
 | Repository | Links |
 | --- | --- |
