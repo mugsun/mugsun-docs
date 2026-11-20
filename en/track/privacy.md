@@ -169,7 +169,7 @@ const tracker = createTracker({
 
 | Goal | What to use |
 | --- | --- |
-| Mask text in replay | `maskTextSelector`. Pass `'*'` to mask everything, or a selector such as `'.user-info'` to mask only part |
+| Mask text in replay | `maskTextSelector`. Pass `'*'` to mask everything, or a selector such as `'.user-info'` to mask only part. Text in attributes is not covered, see [Options and masking](/en/track/plugins#options-and-masking) |
 | Mask input values in replay | `maskAllInputs: true` |
 | Keep a whole area out of replay and auto-capture | Add `data-track-mask` to the element, or put its selector in `maskSelectors` |
 | Mask personal data in response bodies | `apiBodyMaskEnabled: true`, or turn on "Response body masking" in the admin console |

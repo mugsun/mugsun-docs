@@ -163,9 +163,13 @@ The following is never recorded, and no switch changes that:
 - One-time code fields, meaning inputs with `autocomplete="one-time-code"`.
 - What is drawn on a canvas.
 
-The screenshot below is a session recorded with text masking on. All text shows as asterisks, while the page structure and the trail of actions remain.
+The screenshot below is a session recorded with text masking on. Text inside elements shows as asterisks, while the page structure and the trail of actions remain.
 
-![Session replay recorded with text masking on](/screenshots/track/track-replay-masked.png)
+![Session replay recorded with text masking on: text shows as asterisks, the search box placeholder is still readable](/screenshots/track/track-replay-masked.png)
+
+Text masking only covers the text inside elements. Text in attributes such as `placeholder` and `title` is recorded as is, which is why the search box placeholder in the screenshot is still readable.
+
+When an attribute holds something that must not be recorded, add `data-track-mask` to the element, and the whole element is left out.
 
 ## API monitoring
 

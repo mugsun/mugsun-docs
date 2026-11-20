@@ -169,7 +169,7 @@ const tracker = createTracker({
 
 | 想做的事 | 用什么 |
 | --- | --- |
-| 回放里遮掉文字 | `maskTextSelector`。传 `'*'` 全遮，也可以传 `'.user-info'` 这样的选择器只遮一部分 |
+| 回放里遮掉文字 | `maskTextSelector`。传 `'*'` 全遮，也可以传 `'.user-info'` 这样的选择器只遮一部分。属性里的文字不在其内，见[选项和遮罩](/track/plugins#选项和遮罩) |
 | 回放里遮掉输入框的值 | `maskAllInputs: true` |
 | 整块区域不录，也不自动采集 | 元素上加 `data-track-mask`，或者把选择器写进 `maskSelectors` |
 | 响应体里遮掉个人信息 | `apiBodyMaskEnabled: true`，或者在后台打开「响应体脱敏」 |

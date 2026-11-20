@@ -163,9 +163,13 @@ Vue 里用 `v-track:exposure` 指令，其他情况调用 `trackExposure()`。�
 - 一次性验证码字段，也就是 `autocomplete="one-time-code"` 的输入框。
 - canvas 里的画面。
 
-下图是打开文字遮罩后录的一段会话。文字全部显示成星号，页面结构和操作轨迹都还在。
+下图是打开文字遮罩后录的一段会话。元素里的文字都显示成星号，页面结构和操作轨迹都还在。
 
-![打开文字遮罩后的会话回放](/screenshots/track/track-replay-masked.png)
+![打开文字遮罩后的会话回放，文字是星号，搜索框里的占位提示还是原文](/screenshots/track/track-replay-masked.png)
+
+文字遮罩只作用于元素里的文字。`placeholder`、`title` 这类属性里的文字照常录下，图里搜索框的占位提示就是原文。
+
+属性里有不该录的内容时，给元素加 `data-track-mask`，这个元素整块不录。
 
 ## 接口监控
 
