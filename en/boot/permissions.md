@@ -167,15 +167,17 @@ When a basePath is configured, write the prefix as `<basePath>tmp/`.
 
 The backend checks multipart requests before any other filter, deciding from the request line and headers only.
 
-Only these 5 paths accept multipart. Multipart sent to any other path gets 415:
+Only these 7 paths accept multipart. Multipart sent to any other path gets 415:
 
 - `/system/file/upload`
 - `/auth/avatar/upload`
+- `/system/richtext/image/upload`
 - `/system/user/import`
 - `/system/region/import`
 - `/system/track/sourcemap/upload`
+- `/system/ai/knowledge/asset/upload-file`
 
-These 5 paths need a signed-in user, otherwise the response is 401. Tokens that were kicked out, replaced by another login, or expired also get 401.
+These 7 paths need a signed-in user, otherwise the response is 401. Tokens that were kicked out, replaced by another login, or expired also get 401.
 
 The endpoint's own permission codes still apply. The rules:
 
@@ -194,7 +196,7 @@ Clients should make sure they are signed in before uploading. When not signed in
 
 To add an upload endpoint, add its path to `mugsun.security.multipart.allowed-paths`.
 
-A YAML list replaces the default as a whole, so list the 5 default paths too:
+A YAML list replaces the default as a whole, so list the 7 default paths too:
 
 ```yaml
 mugsun:
@@ -203,9 +205,11 @@ mugsun:
       allowed-paths:
         - /system/file/upload
         - /auth/avatar/upload
+        - /system/richtext/image/upload
         - /system/user/import
         - /system/region/import
         - /system/track/sourcemap/upload
+        - /system/ai/knowledge/asset/upload-file
         - /system/demo/upload   # your new endpoint
 ```
 

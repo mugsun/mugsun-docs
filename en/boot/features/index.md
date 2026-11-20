@@ -44,7 +44,7 @@ The backend ships with the features below, one page each. Open the one you need 
 | Behavioral captcha | Five captcha types, including slider, rotate and click | [Behavioral captcha](/en/pc/captcha) |
 | GIS and maps | Basemap settings, map workspace and spatial analysis | [GIS & maps](/en/pc/gis) |
 | Analytics | Collect page views, events and errors and analyze them on dashboards | [Analytics overview](/en/track/) |
-| AI | Models, chat, knowledge bases and app orchestration | [AI center pages](/en/pc/ai-center), [Designers](/en/pc/designer) |
+| AI | Models, chat, knowledge bases and app orchestration | [AI center](/en/pc/ai-center), [Designers](/en/pc/designer) |
 
 GIS, analytics and AI are optional modules and can be left out at build time. See the [Backend overview](/en/boot/).
 

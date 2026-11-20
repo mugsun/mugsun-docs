@@ -193,21 +193,24 @@ The three module switches are on when unset. Once set, they accept only `true` o
 
 See [the two layers of module switches](/en/guide/architecture#two-layers-of-module-switches) on the architecture page for the full rules.
 
-## Knowledge-base upload size
+## Knowledge base upload limits
 
-Files uploaded to a knowledge base, and files fetched from a remote `fileUrl`, default to 20MB each. Override it in the platform configuration:
+One file in a knowledge base is limited to 20MB and to 5,000 segments by default. Both limits can be changed in the platform configuration:
 
 ```yaml
 mugsun:
   ai:
     kb:
-      max-upload-bytes: 20971520   # ≤0 falls back to 20MB
+      max-upload-bytes: 20971520     # bytes per file; ≤0 falls back to 20MB
+      max-segments-per-asset: 5000   # most segments per file; ≤0 falls back to 5000
 ```
 
-- Only the `pdf`, `docx` and `pptx` extensions are accepted; the MIME type and file header are checked too.
-- Extraction uses Apache Tika, without OCR.
+- The size limit applies to uploaded files, to text submitted directly and to files downloaded from a `fileUrl`.
+- An upload that would exceed the segment limit is refused; raise the segment length and upload again.
+- Documents must be `pdf`, `docx` or `pptx`; the MIME type and file header are checked too.
+- Documents are parsed with Apache Tika, without OCR.
 
-See [AI center](/en/pc/ai-center) for details.
+For supported files and segmentation rules, see [AI center](/en/pc/ai-center#files).
 
 ## AI outbound allowlist
 

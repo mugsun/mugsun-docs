@@ -191,19 +191,22 @@ mugsun:
 
 ## 知识库资料上传上限
 
-知识库上传的文件和远程 `fileUrl` 抓取的文件，单个默认不超过 20MB。可以在平台配置里调整：
+知识库的一份资料默认不超过 20MB，最多切成 5000 段。两个上限都可以在平台配置里调整：
 
 ```yaml
 mugsun:
   ai:
     kb:
-      max-upload-bytes: 20971520   # ≤0 时回落 20MB
+      max-upload-bytes: 20971520     # 单个文件的字节数，≤0 时回落 20MB
+      max-segments-per-asset: 5000   # 一份资料最多切多少段，≤0 时回落 5000
 ```
 
-- 只接受 `pdf`、`docx`、`pptx` 三种扩展名，另外校验 MIME 和文件头。
-- 解析用 Apache Tika，不做 OCR。
+- 大小上限对上传的文件、直接提交的文字和 `fileUrl` 下载的文件都生效。
+- 段数超过上限时上传被拒绝，把分段长度调大后再传。
+- 文档只接受 `pdf`、`docx` 和 `pptx`，另外校验 MIME 和文件头。
+- 解析文档用 Apache Tika，不做 OCR。
 
-详见 [AI 中心](/pc/ai-center)。
+支持的文件和分段规则见 [AI 中心](/pc/ai-center#files)。
 
 ## AI 出站白名单
 

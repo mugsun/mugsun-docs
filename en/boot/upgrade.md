@@ -24,7 +24,7 @@ The rules are in [Multipart allowlist](/en/boot/permissions#anonymous-multipart-
 - Tokens in URL parameters are no longer accepted; a token passed that way gets 401.
   - Multipart requests read the token only from the `Authorization` header or a cookie of the same name.
 - To add an upload endpoint, add its path to `mugsun.security.multipart.allowed-paths`, otherwise multipart requests to it get 415.
-- A YAML list replaces the default as a whole. List the 5 default paths too, or every default upload endpoint starts returning 415.
+- A YAML list replaces the default as a whole. List the 7 default paths too, or every default upload endpoint starts returning 415.
 - The backend refuses to start if an entry is empty, doesn't start with `/`, or contains `*`, `..`, `;`, `{` or `}`.
 - Clients should make sure they are signed in before uploading. When not signed in, they may see the connection closed instead of a 401.
 - Rejected requests are never parsed or written to disk.

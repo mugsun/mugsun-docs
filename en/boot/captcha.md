@@ -128,7 +128,9 @@ mugsun:
 
 ### Tenant switch {#tenant-switch}
 
-The captcha is on for every tenant by default, new tenants included. A platform super admin can change one tenant's setting with `POST /system/tenant/captcha`:
+The captcha is on for every tenant by default, new tenants included. A platform super admin can change one tenant's setting in the admin console, see [Settings per tenant](/en/pc/captcha#tenant).
+
+The same can be done with `POST /system/tenant/captcha`:
 
 ```json
 { "id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"] }
@@ -161,7 +163,7 @@ Tolerances are set so that an ordinary person passes in 1–2 seconds.
 - Rotate is judged by the submitted angle. The drag track is used to tell whether a person is operating, and it must also meet one condition:
   - the angle derived from the first-to-last displacement is a_t = displacement ÷ display width × 360°;
   - 0.5 × submitted angle − 10° ≤ a_t ≤ submitted angle + 10°.
-- The frontend may offer low-speed fine tuning: at low speed, displacement accumulates at 0.5×.
+- The frontend may offer low-speed fine tuning: at low speed, displacement accumulates at a factor of at least 0.5×. The admin console uses 0.6×.
   - The x of the track must record the accumulated logical position, not the raw pointer coordinate.
 - One track can be used only once within 10 minutes; a replay fails verification.
 - The rotate tolerance was not made narrower. Lifting a finger off a touch screen usually shifts 3–8 pixels, and repeated failures lock the IP, so a tighter tolerance would lock real users out.

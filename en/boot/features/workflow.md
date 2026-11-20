@@ -8,11 +8,11 @@ A flow can include an AI pre-check node: an AI app reviews the request first, th
 
 ## What it does
 
-- Draw flows in Flow Designer, with approval, condition, parallel, countersign and AI pre-check nodes.
+- Draw flows in Flow Designer, with approval nodes, condition branches, parallel branches and AI nodes.
 - Suspend, activate and delete flows in Flow Designer, or copy one as a new version.
 - Browse flows in Flow Definitions and click Start to submit a request.
 - Handle to-dos in Approval Center, and see the flows you started, handled or were copied on.
-- A task can be approved, returned, withdrawn, transferred, delegated, given extra or fewer signers, voided or copied to others.
+- A task can be approved or returned, and also transferred, delegated, or given extra or fewer signers. A flow can also be withdrawn, voided or copied to others.
 - A flow node can be bound to a [form](./form), with each field set to read-only, writable or hidden on that node.
 
 ## Enable it
@@ -30,7 +30,7 @@ The AI pre-check node has two more requirements:
 
 ### Design and publish a flow
 
-The platform super admin opens System Settings → Flow Designer, creates a flow, sets its code, name and the approver role of each node, then publishes it.
+The platform super admin opens System Settings → Flow Designer, creates a flow, sets its code, name and the candidates of each node, then publishes it.
 
 ### Start a flow
 
@@ -148,7 +148,7 @@ An AI app bound to an approval flow must not contain nodes of the types below. I
 | Scripts | `code`, `js`, `javascript`, `groovy`, `script` |
 | Notifications | `notice`, `notify`, `notification`, `channel`, `webhook_notice` |
 
-In other words, an AI app inside an approval flow cannot reach the database, call external APIs, call tools, run scripts or send notifications.
+In other words, an AI app inside an approval flow cannot reach the database or external APIs, and cannot call tools, run scripts or send notifications.
 
 Nodes such as LLM (`llm`), knowledge base retrieval (`rag`) and variable assignment (`updateVar`) are not affected.
 
@@ -171,7 +171,7 @@ With the `stay` strategy the task is not finished yet, so read the flow variable
 
 Start the backend with `mugsun.lab.seed-fronttest` set to `true` and it writes a set of demo data. The switch is for local trials only. Keep it off in production.
 
-- An AI app named “AI预审演示”, of type `workflow`.
+- A demo AI app for the pre-check, of type `workflow`.
 - The flow `ai-preaudit`: start → AI pre-check → human review → end.
 
 The demo app calls no LLM. It only uses variable assignment to produce the summary, the verdict and the reason.
@@ -183,7 +183,7 @@ After startup, start `ai-preaudit` in Flow Definitions to walk through the whole
 - An AI app cannot start an approval flow the other way round.
 - AI apps have no publishing or versioning yet. After an app changes, the next pre-check runs the new content.
 
-## Array iteration and parallel branches {#ai-flow-control}
+## For each and Parallel nodes {#ai-flow-control}
 
 AI app orchestration has two control nodes: `foreach` handles the elements of an array one by one, and `parallel` runs several branches at the same time.
 
@@ -191,12 +191,12 @@ They are scheduled by the AI app's own execution engine and are unrelated to the
 
 | Node type | Name in the designer | What it does |
 | --- | --- | --- |
-| `foreach` | Array iteration | Runs the loop body once for each element of an array, in order |
-| `parallel` | Parallel branches | Runs several branches at the same time and continues after all of them end |
+| `foreach` | For each | Runs the loop body once for each element of an array, in order |
+| `parallel` | Parallel | Runs several branches at the same time and continues after all of them end |
 
 All fields below go in the node's `data`.
 
-### Array iteration: `foreach`
+### For each: `foreach`
 
 | Field | Default | Notes |
 | --- | --- | --- |
@@ -232,7 +232,7 @@ How it runs:
 
 The designer also saves `bodyMode: nodeIds`. This is the only value for now.
 
-### Parallel branches: `parallel`
+### Parallel: `parallel`
 
 | Field | Default | Notes |
 | --- | --- | --- |
@@ -306,7 +306,7 @@ With `mugsun.lab.seed-fronttest` on (keep it off in production), three more demo
 
 - Only the platform super admin can design, publish and manage flow definitions.
 - Starting a flow needs no permission code. Only the assigned approvers can handle a task.
-- A published flow cannot be edited directly. Copy it as a new version, edit that, and publish it.
+- A published flow cannot be edited directly. To change it, draw it again with the same code and publish; the previous version becomes unpublished.
 - The handler of an AI pre-check node defaults to the initiator of the flow. With the `stay` strategy, the task shows up in the initiator's to-do list.
 
 ## Verify

@@ -174,15 +174,17 @@
 
 后端在所有过滤器之前检查 multipart 请求，只按请求行和请求头判断。
 
-只有下面 5 个路径接受 multipart，其他路径收到 multipart 一律返回 415：
+只有下面 7 个路径接受 multipart，其他路径收到 multipart 一律返回 415：
 
 - `/system/file/upload`
 - `/auth/avatar/upload`
+- `/system/richtext/image/upload`
 - `/system/user/import`
 - `/system/region/import`
 - `/system/track/sourcemap/upload`
+- `/system/ai/knowledge/asset/upload-file`
 
-这 5 个路径要求已登录，否则返回 401。被踢下线、被顶下线或已过期的令牌也是 401。
+这 7 个路径要求已登录，否则返回 401。被踢下线、被顶下线或已过期的令牌也是 401。
 
 具体权限仍按接口原有的权限码校验。判断规则：
 
@@ -201,7 +203,7 @@
 
 新增上传接口时，把路径加进 `mugsun.security.multipart.allowed-paths`。
 
-这个列表在 yml 里整体替换，要连默认 5 条一起写：
+这个列表在 yml 里整体替换，要连默认 7 条一起写：
 
 ```yaml
 mugsun:
@@ -210,9 +212,11 @@ mugsun:
       allowed-paths:
         - /system/file/upload
         - /auth/avatar/upload
+        - /system/richtext/image/upload
         - /system/user/import
         - /system/region/import
         - /system/track/sourcemap/upload
+        - /system/ai/knowledge/asset/upload-file
         - /system/demo/upload   # 新增的接口
 ```
 
