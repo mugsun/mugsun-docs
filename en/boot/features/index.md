@@ -40,6 +40,7 @@ The backend ships with the features below, one page each. Open the one you need 
 <div class="ms-cards">
 
 - [Online sessions and login clients](./session) See online terminals and force one offline; set a token lifetime and an online limit per client.
+- [Server monitor and cache](./monitor) Read the backend process's metrics, export the database document, and inspect or clear Redis keys.
 
 </div>
 

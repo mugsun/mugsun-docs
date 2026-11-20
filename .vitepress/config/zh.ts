@@ -110,6 +110,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '日志与审计', link: '/boot/features/log' },
             { text: '字典与参数', link: '/boot/features/dict' },
             { text: '在线会话与登录客户端', link: '/boot/features/session' },
+            { text: '服务监控与缓存管理', link: '/boot/features/monitor' },
           ],
         },
         {
