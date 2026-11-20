@@ -64,6 +64,6 @@ The other way round, if a button that opens a dialog doesn't start with 新增 /
 
 The self-check finds standalone apps by `createApp(` and locates the mount node from `el.id = '...'` in the same file, then clicks the first visible button inside it. Follow that pattern for new standalone apps, or the test reports that it can't find the mount node.
 
-::: tip
+::: tip Tip
 A standalone app doesn't inherit the main app's plugins. If it uses `$t` / `useI18n`, call `.use(i18n)` on it yourself, or opening it fails with `Need to install with app.use function`. That is exactly what this smoke test catches.
 :::
