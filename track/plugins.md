@@ -1,25 +1,25 @@
 # 插件
 
-SDK 内核只负责队列、会话、身份与传输，采集能力全部由插件提供。不传 `plugins` 时使用默认插件集；传入则**完全替换**，因此追加插件时请展开 `defaultPlugins()`。
+SDK 的核心只管队列、会话、身份和发送，采集都交给插件。六个默认插件装上就用，另外四个按需注册。
 
-## 默认插件
+## 一览
 
-| 插件 | 工厂函数 | 采集内容 |
-| --- | --- | --- |
-| 页面浏览 | `pageviewPlugin()` | 首次加载与 SPA 路由切换 |
-| 页面停留 | `pageleavePlugin()` | 离开页面时的停留时长 |
-| 全埋点 | `autocapturePlugin()` | 点击等交互；跳过 `maskSelectors` 与密码框 |
-| 曝光 | `exposurePlugin()` | 元素有效曝光（配合 `v-track:exposure`） |
-| Web Vitals | `webVitalsPlugin()` | 核心性能指标 |
-| 错误 | `errorPlugin()` | JS 错误、资源加载错误与未处理的 Promise 拒绝；堆栈 `stack` 最多保留 4096 字符，其它字符串属性 1024；堆栈里脚本地址的 `?` / `#` 之后部分（常带 token、签名）会去掉，只留 `:行:列`；单个事件的属性合计超过 16KB 时先缩短堆栈 |
+| 插件 | 默认注册 | 事件 | 采集什么 |
+| --- | --- | --- | --- |
+| `pageviewPlugin()` | 是 | `$pageview` | 首次打开和每次路由切换 |
+| `pageleavePlugin()` | 是 | `$pageleave` | 离开页面时的停留时长 |
+| `autocapturePlugin()` | 是 | `$click` `form_submit` | 点击和表单提交，不采集输入的内容 |
+| `exposurePlugin()` | 是 | `$exposure` | 元素露出一半并停留 1 秒 |
+| `webVitalsPlugin()` | 是 | `$web_vitals` | 五项核心性能指标 |
+| `errorPlugin()` | 是 | `$error` | 脚本错误、资源加载失败和未处理的 Promise 拒绝 |
+| `apiMonitorPlugin()` | 否 | `api_request` | 每个接口请求的状态码和耗时 |
+| `replayPlugin()` | 否 | 回放数据 | 页面的变化过程，在管理后台里回放 |
+| `visualTrack()` | 否 | 规则里定的事件名 | 在管理后台圈选出来的元素被点击 |
+| `geoPlugin()` | 否 | 不单独发事件 | 精确位置，附在之后的每条事件上 |
 
-错误指纹按 message 和堆栈首帧的脚本地址（不含行列号）计算。计算前会先去掉这个地址的 query 和 hash，同一错误不会再因 token、签名不同分成多组。
+## 注册插件
 
-::: warning 升级后错误分组会断开一次
-首帧脚本地址带 `?` 或 `#` 的错误（例如带版本号、token、签名的 CDN 地址），升级后生成新的指纹，归入新的错误分组，已有分组不会与新分组合并。首帧地址不带 query 的错误，指纹不变。
-:::
-
-## 追加可选插件
+`plugins` 传了就整个替换默认的那一组。要在默认插件之外再加，先展开 `defaultPlugins()`：
 
 ```ts
 import {
@@ -31,127 +31,241 @@ import {
 } from '@mugsun/track-web'
 import { replayPlugin } from '@mugsun/track-web/replay'
 
-const track = createTracker({
-  endpoint,
-  appKey,
-  plugins: [...defaultPlugins(), apiMonitorPlugin(), visualTrack(), replayPlugin()],
-  apiMonitorEnabled: true,
-  replayEnabled: true,
-  replaySampleRate: 10,
+const tracker = createTracker({
+  endpoint: 'https://api.example.com',
+  appKey: 'your-app-key',
+  plugins: [
+    ...defaultPlugins(),
+    apiMonitorPlugin(),
+    visualTrack(),
+    geoPlugin(),
+    replayPlugin(),
+  ],
 })
 ```
 
+注册只是把插件装上。回放、接口监控和精确位置还各有一个开关，在「接入管理」的应用表单里。开关没开，插件什么都不做。
+
+Vue 里传了 `router` 又自己列插件时，页面访问要写成 `pageviewPlugin({ manual: true })`，由路由驱动。
+
+## 默认插件
+
+### 页面访问和停留
+
+第一次打开页面发一条 `$pageview`。之后每次换页，先给上一页补一条 `$pageleave`，再发新页面的 `$pageview`。
+
+路径或 hash 变了才算换页，只改查询参数不算。切到后台或关闭页面时也发 `$pageleave`，`duration_ms` 只算页面可见的时间。
+
+### 点击和表单
+
+点击链接、按钮和带 `data-track-click` 的元素发 `$click`，提交表单发 `form_submit`。
+
+| 事件 | 属性 | 说明 |
+| --- | --- | --- |
+| `$click` | `tag` `element_id` `element_class` `element_text` `href` | 文字最多取 64 个字符，链接里的敏感参数会被遮掉 |
+| `form_submit` | `form_id` `form_name` `form_action` `form_method` | 提交地址只记路径 |
+
+输入框和文本域里的内容从不采集。密码框、带 `data-track-mask` 的元素和 `maskSelectors` 命中的区域，连点击都不记。
+
+### 曝光
+
+元素有一半以上进入视口并停留满 1 秒，算一次有效曝光。同一个元素在一次会话里只报一次，列表来回滚动不会重复计数。
+
+Vue 里用 `v-track:exposure` 指令，其他情况调用 `trackExposure()`。不指定事件名时用 `$exposure`。
+
+### 性能指标
+
+页面第一次切到后台或关闭时，把采到的指标发出去。每项指标一条 `$web_vitals`，属性是 `metric` 和 `value`。
+
+| `metric` | 指标 |
+| --- | --- |
+| `lcp` | 最大内容绘制 |
+| `inp` | 交互到下一次绘制，用耗时最长的一次交互近似 |
+| `cls` | 累计布局偏移 |
+| `fcp` | 首次内容绘制 |
+| `ttfb` | 首字节时间 |
+
+长任务的次数和总时长附在第一条上，属性名是 `longtask_count` 和 `longtask_total_ms`。
+
+### 错误
+
+每条 `$error` 都带 `error_type`，说明错误从哪里来：
+
+| `error_type` | 来源 |
+| --- | --- |
+| `js` | 没有被捕获的脚本错误 |
+| `resource` | 图片、脚本、样式等资源加载失败 |
+| `promise` | 没有处理的 Promise 拒绝 |
+| `vue` | Vue 组件里的错误，由 Vue 插件上报 |
+
+堆栈最多保留 4096 个字符。堆栈里脚本地址的查询参数和 hash 会去掉，因为那里常常带着令牌或签名。
+
+错误指纹 `error_fingerprint` 由错误信息和堆栈第一帧的脚本地址算出，不含行列号。[错误问题单](/track/error-issues)按它归并。
+
+从 0.2.x 升级后，第一帧地址带查询参数的错误会算出新指纹，归到新的分组，和旧分组不合并。
+
 ## 会话回放
 
-- 独立入口 `@mugsun/track-web/replay`，基于 rrweb，在插件启用时才懒加载，不进入默认首包。
-- 同时满足三点才录制：注册了 `replayPlugin()`、`replayEnabled` 为 `true`（本地或远端下发）、主采样命中且用户未 `optOut`。
-- `replaySampleRate` 只决定**是否上传**本会话的回放，录制使用环形缓冲（默认 5 分钟 / 10MB 上限）。
-- 离开页面：页面转到后台时（切标签、锁屏、移动端切应用），剩余缓冲先压缩，再用 `sendBeacon` / `fetch keepalive` 发出；如果压缩还没完成页面就关闭了，这部分改为不压缩直接发出，不会重复上传。页面关闭（`pagehide`）时剩下的尾巴按每块 32KB 以内的明文发出，所有收尾块合计不超过 **44KB**，放不下的较晚事件会丢弃。（mugsun-track [#14](https://github.com/mugsun/mugsun-track/pull/14)、[#15](https://github.com/mugsun/mugsun-track/pull/15) 之前，收尾时整个缓冲合成一块发送，超过 64KB 就会整块丢失）
-- 为什么是 44KB：`sendBeacon` 和 `fetch keepalive` 共用每个页面约 64KB 的在途额度，页面关闭时普通事件队列的收尾发送（同样走 beacon）和仍在途的回放块也占这份额度，回放收尾只取其中 44KB，给普通事件留出余量。
-- 回放块序号允许有空洞（上面丢弃的块不会上传）。管理台播放器按时间排序后从第一个全量快照开始播放；开头的块缺失、没有全量快照时，显示「回放缺少首屏快照」，不会白屏。（mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45)）
-- 定时全量快照：默认每 3 分钟做一次全量快照（rrweb 内置的 `checkoutEveryNms`），可用 `replayPlugin({ checkoutEveryNms: 60000 })` 调整，传 `false` 关闭。中间某块缺失时，播放器丢掉缺块之后的增量，从下一个全量快照接着播，丢一块最多跳过约 3 分钟。代价是每 3 分钟多上传一份页面快照（gzip 后通常几十 KB）。（mugsun-track [#18](https://github.com/mugsun/mugsun-track/pull/18)、mugsun-pc [#45](https://github.com/mugsun/mugsun-pc/pull/45)）
-- 缺块提示：播放器顶部提示缺了几个块，包括拉取失败的块和服务端清单里没有的序号。缺块之后再没有全量快照时，显示「后续录制不完整」，不会悄悄提前结束。（mugsun-pc [#53](https://github.com/mugsun/mugsun-pc/pull/53)）
-- 默认**页面文本和输入框的值显示原文**（0.3.0 起不再默认传 `maskTextSelector: '*'`，`maskAllInputs` 默认 `false`）。
-- 始终整块不录：`input[type="password"]`、带 `data-track-mask` 属性的元素、银行卡字段（`autocomplete` 以 `cc-` 开头）、一次性验证码字段（`autocomplete="one-time-code"`）。
-- 需要遮罩时：`replayPlugin({ maskTextSelector: '*', maskAllInputs: true })` 遮全部文本和输入值，文本也可以传更窄的选择器，如 `'.user-info'`。见 [隐私与合规](/track/privacy#开启遮罩与过滤)。
-- 按《个人信息保护法》，处理敏感个人信息须取得单独同意，这由接入方（个人信息处理者）负责，SDK 默认采集不等于用户已同意。取得同意前，可先调用 `optOut()` 或推迟 `createTracker()`，同意后再 `optIn()`；也可以设 `maskAllInputs: true`，页面文本另用 `maskTextSelector`。具体以法务意见为准。见 [隐私与合规](/track/privacy)。
+回放基于 rrweb，把页面的变化录下来，在「埋点分析 → 会话回放」里播放。rrweb 在回放启用后才加载，不进首屏的包。
 
-```html
-<!-- 整块不录 -->
-<div data-track-mask>身份证号：…</div>
-```
+三个条件都满足才会录：
 
-管理台「会话回放」播放器里的效果如下：开启文本遮罩（`maskTextSelector: '*'`）录制的演示会话，导航、标题、正文和按钮文字都显示为 `*`，只保留页面结构与交互轨迹，下方打点条标出点击、页面切换和错误的位置。
+- 注册了 `replayPlugin()`。
+- 应用在「接入管理」里打开了「会话回放」。
+- 这个访客被采样抽中，并且没有调用过 `optOut()`。
 
-![会话回放开启文本遮罩（maskTextSelector: '*'，演示数据）](/screenshots/track/track-replay-masked.png)
+::: warning 默认不遮文字
+从 0.3.0 起，回放默认原样显示页面文字和输入框里的值。页面上有个人信息时，先按[隐私与合规](/track/privacy#开启遮罩与过滤)打开遮罩。
+:::
+
+### 录了不一定上传
+
+录制一直写在内存里的环形缓冲区，默认留最近 5 分钟、最多 10 MB。要不要上传，看应用的「回放采样率」：
+
+| 情况 | 结果 |
+| --- | --- |
+| 会话被回放采样率抽中 | 每 5 秒或每攒够 50 个录制事件上传一块 |
+| 没抽中，但会话里出了错误 | 从出错那一刻开始上传，缓冲区里出错前的那段也一起传 |
+| 没抽中，也没出错 | 不上传，缓冲区随会话结束丢弃 |
+
+回放采样率设成 0，就只上传出过错的会话。
+
+### 页面关闭时
+
+页面切到后台时，缓冲区里剩下的内容压缩后用 `sendBeacon` 或 `fetch keepalive` 发出。切标签页、锁屏和手机上切应用都算。
+
+页面真正关闭时来不及压缩。剩下的尾巴按每块不超过 32 KB 的明文发出，合计不超过 44 KB，放不下的部分丢弃。
+
+浏览器给页面关闭时的请求一共只留约 64 KB 的额度，普通事件的收尾也要用，所以回放只占其中 44 KB。
+
+丢了块也能播。录制默认每 3 分钟做一次全量快照，播放器遇到缺块就跳到下一个快照接着播，最多跳过约 3 分钟。
+
+播放器顶部会提示缺了几块。开头的块缺失时提示「回放缺少首屏快照」，缺块之后再没有快照时提示「后续录制不完整」。
+
+### 选项和遮罩
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `maskTextSelector` | 无 | 命中的元素文字显示成 `*`。传 `'*'` 遮掉全部文字 |
+| `maskAllInputs` | `false` | 设为 `true` 时输入框的值全部遮掉 |
+| `checkoutEveryNms` | `180000` | 多久做一次全量快照，单位毫秒。传 `false` 关闭 |
+| `chunkIntervalMs` | `5000` | 多久上传一块，单位毫秒 |
+| `eventsPerChunk` | `50` | 攒够多少个录制事件就上传一块 |
+| `bufferMaxAge` | 5 分钟 | 缓冲区保留多久，单位毫秒 |
+| `bufferMaxBytes` | 10 MB | 缓冲区最大多大，单位字节 |
+| `maxRetries` | `3` | 一块上传失败后重试几次 |
+
+下面这些内容始终不录，没有开关可以改：
+
+- 密码框。
+- 带 `data-track-mask` 属性的元素，以及 `maskSelectors` 命中的区域。
+- 银行卡字段，也就是 `autocomplete` 以 `cc-` 开头的输入框。
+- 一次性验证码字段，也就是 `autocomplete="one-time-code"` 的输入框。
+- canvas 里的画面。
+
+下图是打开文字遮罩后录的一段会话。文字全部显示成星号，页面结构和操作轨迹都还在。
+
+![打开文字遮罩后的会话回放](/screenshots/track/track-replay-masked.png)
 
 ## 接口监控
 
-`apiMonitorPlugin()` 记录请求的方法、URL、状态码与耗时，事件名为 `api_request`。
+`apiMonitorPlugin()` 包住 `fetch` 和 XHR，每个请求发一条 `api_request`，SDK 自己的接口除外。
 
-| 开关 | 默认 | 说明 |
+| 属性 | 含义 |
+| --- | --- |
+| `url` | 完整地址。敏感参数的值换成 `***`，规则见[隐私与合规](/track/privacy#url-敏感参数) |
+| `method` | 请求方法 |
+| `status` | 状态码。网络失败时是 0，原因写在 `error_message` |
+| `duration_ms` | 耗时，单位毫秒 |
+| `success` | 状态码在 200 到 399 之间是 `true` |
+| `response_size` | 响应体的大小 |
+| `body_ref` | 采集到的响应体的编号 |
+| `body_skipped` | 没有采集响应体的原因 |
+
+### 开关
+
+| 开关 | 默认 | 作用 |
 | --- | --- | --- |
-| `apiMonitorEnabled` | 关 | 总开关 |
-| `apiBodyEnabled` | 关 | 采集响应体，经独立通道 `/track/api-body` 上传，不进事件队列 |
-| `apiBodyMaskEnabled` | 关（0.3.0 起） | 设 `true` 时，响应体中的个人信息字段值替换为 `***`；凭证类键不论开关始终替换，见 [隐私与合规](/track/privacy#响应体中的凭证字段) |
-| `apiBodyMaxBytes` | 1MB | 超限不采集并标记 `body_skipped=size` |
+| `apiMonitorEnabled` | 关 | 总开关。没开时插件不包 `fetch` 和 XHR |
+| `apiBodyEnabled` | 关 | 采集 JSON 响应体，走单独的 `/track/api-body` 上传，不进事件队列 |
+| `apiBodyMaskEnabled` | 关 | 把响应体里个人信息字段的值换成 `***`。凭证字段不管开没开都会换 |
+| `apiBodyMaxBytes` | 1 MB | 响应体超过这个大小就不采集 |
 
-内置保护（不可关闭）：
+前三个开关就是应用表单里的「接口监控」「响应体采集」和「响应体脱敏」。代码里写了，就以代码为准。
 
-- SDK 自身端点（`/track/collect`、`/track/config`、`/track/replay`、`/track/api-body` 等）不采集，防止循环。
-- 凭证端点**永不采集响应体**，事件标记 `body_skipped: 'credential'`。
-- 判定前先对路径做 URL 解码（`/api/get%5Ftoken` 按 `/api/get_token` 判定）。
-- 再把路径小写，满足下面任一条就算：
-  - **含片段**：
-    - 登录与令牌：`/auth/login`、`/auth/refresh`、`/oauth/token`、`/auth/social`。
-    - 注册：`/register`、`/signup`、`/sign-up`。
-    - 密码：`/password`、`/forgot`、`/reset-password`、`/change-password`。
-    - 验证码与多因素：`/captcha`、`/mfa`、`/2fa`、`/totp`。
-    - 还有 `/verify-code`、`/verification-code`。
-  - **整段等于**：
-    - 段名：`login`、`signin`、`sign-in`、`logout`、`token`、`sso`、`cas`。
-    - 左侧是 `/` 或开头，右侧是 `/`、`.`、`;` 或结尾。
-    - 命中：`/api/login`、`/cas/login`、`/api/v1/login.json`。
-    - 也命中：`/login.do`、`/login;jsessionid=x`。
-    - 不命中：`/monitor/loginLog/list`、`/tokens/stats`、`/case/list`。
-  - **含子串**：
-    - `captcha`、`verifycode`、`verificationcode`。
-    - 如 `/getCaptcha`、`/user/verifyCode`。
-  - **含词**：
-    - 词：`sms`、`otp`、`sendcode`、`getcode`、`checkcode`。
-    - 路径按非字母字符切词，某个词恰好相等才算。
-    - 命中：`/api/sms/send`、`/send-otp`、`/user/getCode`。
-    - 不命中：`/smsTemplate/list`、`/barcode/getcodeList`。
-  - **动词组合**：
-    - 动词：`send`、`get`、`resend`、`check`、`verify`、`validate`。
-    - 紧跟：`sms`、`otp`、`smscode`、`mobilecode`、`phonecode`。
-    - 也可紧跟：`emailcode`、`msgcode`。
-    - 命中：`/sendSms`、`/getSmsCode`、`/sendOtp`、`/sendEmailCode`。
-    - 不命中：`/smsTemplate/list`。
-  - **令牌接口**：
-    - 拆词：先拆缩写边界（`APIGetToken` → `API Get Token`）。
-    - 再按驼峰拆词，`-`、`_` 当作词间隔。
-    - 动词：`get`、`refresh`、`renew`、`issue`、`exchange`，须在词首。
-    - 中间词（可选）：`access`、`auth`、`id`、`session`、`csrf`、`user`，再接 `token`。
-    - 名词在前：`token` 在词首、后接 `exchange` 或 `refresh` 也算。
-    - 命中：`/getToken`、`/refresh-token`、`/getSessionToken`、`/tokenExchange`。
-    - 不命中：`/forgetToken`、`/budgetTokenUsage`、`/tokens/stats`。
-  - **已知误判**（只是少采一个响应体）：
-    - `/getTokenList`、`/getTokenizer`、`/getTokenFee`。
-    - `/getAuthTokenConfig`、`/getTokenStats`。
-    - `/sms-template/get`、`/otp-config/list`。
-    - `sendSmsNotice`、`budgetSmsCode`、`/captchaConfig`。
-    - `/passwordPolicy/list`、`/registerCenter`。
-    - 段名恰好是 `login`、`token`、`sso`、`cas` 的普通接口。
-    - 完整列表见 [mugsun-track CHANGELOG][track-changelog]。
-  - 有的接口会返回验证码，但以上规则都没命中（例如其他驼峰命名）。
-    请用 `apiBodyEnabled: false` 关掉响应体采集。
-- 上报的 URL 剥离敏感 query，见 [隐私与合规](/track/privacy#url-敏感参数)。
+### 哪些响应体不采集
 
-::: warning 0.3.0 行为变更
-从 0.3.0 起，回放默认显示页面文本和输入值，`apiBodyMaskEnabled` 默认关闭（0.2.0 默认遮罩）。
+打开响应体采集后，下面几种响应体仍然不采集。事件照常发出，原因写在 `body_skipped` 里：
 
-需要遮罩时：
+| `body_skipped` | 情况 |
+| --- | --- |
+| `size` | 响应体超过 `apiBodyMaxBytes` |
+| `credential` | 这是一个凭证接口，比如登录、取令牌或发验证码 |
+| `unparsable` | 响应体解析不出 JSON，没法做脱敏 |
 
-- 显式传 `replayPlugin({ maskTextSelector: '*', maskAllInputs: true })`；
-- 设置 `apiBodyMaskEnabled: true`。
-:::
+响应的类型不是 JSON 时也不采集。
 
-## 圈选与地理位置
+### 凭证接口怎么判定
 
-- `visualTrack()`：按管理台下发的 `visualRules` 匹配元素并上报；无规则时不安装监听。
-- `geoPlugin()`：`geoEnabled` 为 `true` 时采集精确位置，会触发浏览器定位授权。管理台「空间行为」页依赖这些坐标，见 [空间行为](/track/spatial)。
+路径先做 URL 解码再转成小写，命中下面任意一条就算凭证接口。这些规则写在 SDK 里，关不掉。
 
-圈选流程：在「接入管理 → 圈选规则」选中应用后点「进入圈选」，填写要圈选的页面地址，平台会签发 30 分钟令牌并在新窗口打开该页面。页面进入圈选模式，点选元素、填写事件名后提交草稿：
+| 规则 | 关键词 | 命中的例子 |
+| --- | --- | --- |
+| 路径里含有这些片段 | `/auth/login` `/auth/refresh` `/oauth/token` `/auth/social` `/register` `/signup` `/sign-up` `/password` `/forgot` `/reset-password` `/change-password` `/captcha` `/mfa` `/2fa` `/totp` `/verify-code` `/verification-code` | `/api/auth/login` |
+| 路径的某一段正好是这些词 | `login` `signin` `sign-in` `logout` `token` `sso` `cas` | `/api/login` `/login.do` |
+| 路径里含有这些字符串 | `captcha` `verifycode` `verificationcode` | `/getCaptcha` `/user/verifyCode` |
+| 按非字母字符切开后有这些词 | `sms` `otp` `sendcode` `getcode` `checkcode` | `/api/sms/send` `/user/getCode` |
+| 动词后面紧跟验证码类的词 | 动词 `send` `get` `resend` `check` `verify` `validate`，后接 `sms` `otp` `smscode` `mobilecode` `phonecode` `emailcode` `msgcode` | `/sendSms` `/getSmsCode` |
+| 取令牌或刷新令牌 | `get` `refresh` `renew` `issue` `exchange` 加 `token`，中间可以夹 `access` `auth` `id` `session` `csrf` `user`；`token` 后接 `exchange` 或 `refresh` 也算 | `/getToken` `/refresh-token` `/tokenExchange` |
 
-![页面内圈选元素（演示页面）](/screenshots/track/track-visual-inspect.png)
+`/monitor/loginLog/list`、`/tokens/stats` 和 `/smsTemplate/list` 这样的路径不会命中。
 
-草稿回到管理台的草稿条，确认后生成圈选规则并随 `/track/config` 下发，丢弃则不生效。下方表格是已确认的规则：
+规则宁可多拦。`/getTokenList`、`/passwordPolicy/list` 这类普通接口也会被算进去，代价只是少采一个响应体。
 
-![圈选草稿与规则（演示数据）](/screenshots/track/track-visual-drafts.png)
+反过来，某个接口会返回令牌或验证码、名字却没被认出来时，只能把 `apiBodyEnabled` 关掉。
+
+## 圈选
+
+圈选用来不改代码加埋点。在页面上点中一个元素、起个事件名，之后这个元素被点击就会上报。页面要先注册 `visualTrack()`。
+
+<div class="ms-steps">
+
+### 进入圈选
+
+在「接入管理 → 圈选规则」选中应用，点「进入圈选」，填上要圈选的页面地址。
+
+后台签发一个 30 分钟有效的令牌，并在新窗口打开这个页面。刷新页面后令牌失效，要重新进入。
+
+### 点选元素
+
+页面进入圈选模式，鼠标移到哪里，哪里就高亮。点中元素，填事件名，提交成草稿。按 Esc 退出。
+
+### 确认规则
+
+草稿回到后台的草稿栏。确认后变成圈选规则，随 `/track/config` 下发；丢弃的草稿不生效。
+
+</div>
+
+![在页面里圈选元素，选中的按钮被高亮](/screenshots/track/track-visual-inspect.png)
+
+规则生效后，命中的点击按规则里的事件名上报，带 `vs_selector` 和 `element_text` 两个属性。
+
+没有规则时插件不装任何监听。被遮罩的区域里的点击不会触发规则。
+
+## 精确位置
+
+应用打开「精确位置」后，`geoPlugin()` 每次会话最多向浏览器请求一次定位，浏览器会弹出授权提示。
+
+用户同意后，之后的事件都带上 `geo_lon`、`geo_lat` 和 `geo_acc`。经纬度保留 4 位小数，大约 11 米。
+
+用户拒绝或定位失败时什么都不发生，这次会话里也不再问。[空间行为](/track/spatial)页用的就是这些坐标。
 
 ## 下一步
 
-[配置项](/track/install#配置项) · [隐私与合规](/track/privacy)
+<div class="ms-cards">
 
-[track-changelog]: https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md
+- [隐私与合规](/track/privacy) 哪些内容会被遮掉，怎样打开更严的遮罩。
+- [配置项](/track/install#配置项) 全部选项和默认值。
+- [错误问题单](/track/error-issues) 按指纹归并错误，指派给人处理。
+
+</div>
