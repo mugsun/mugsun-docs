@@ -146,7 +146,9 @@ mugsun:
 - 客户端开关（`sys_client.captcha_enabled`）不参与判定，因为 clientId 由调用方填写。
 
 ::: warning 关闭验证码会去掉防爆破保护
-`mugsun.captcha.enabled=false` 或关闭某个租户后，该租户的登录、注册和忘记密码发码不再要求人机验证，只剩登录失败锁定和频控。只在排查问题或前端尚未升级时临时关闭。
+设 `mugsun.captcha.enabled=false` 或关闭某个租户后，该租户的登录、注册和忘记密码发码不再要求人机验证。
+
+这时只剩登录失败锁定和频控。只在排查问题或前端尚未升级时临时关闭。
 :::
 
 ## 容差和计时

@@ -91,7 +91,10 @@ ECB 是只留给 `id_card` 的例外。其余 14 个字段不需要等值查询�
 
 ## 接口传输密钥
 
-`MUGSUN_API_KEY` 用于接口加密：标了 `@ApiDecrypt`、`@ApiEncrypt` 的接口，请求体和响应的 `data` 用 SM4-GCM 加密后传输。
+`MUGSUN_API_KEY` 用于接口加密，算法是 SM4-GCM：
+
+- 标了 `@ApiDecrypt` 的接口，请求体加密后传输；
+- 标了 `@ApiEncrypt` 的接口，响应的 `data` 加密后传输。
 
 注解怎么用，见 core 的[加密接口的请求和响应](/core/#加密接口的请求和响应)。
 
@@ -171,7 +174,8 @@ ECB 是只留给 `id_card` 的例外。其余 14 个字段不需要等值查询�
 
 ## 本地开发
 
-- 用 `dev` 启动：`mvn spring-boot:run` 默认就是，`java -jar` 要加 `--spring.profiles.active=dev`。
+- 用 `dev` 启动。`mvn spring-boot:run` 默认就是。
+  - 用 `java -jar` 启动时要加 `--spring.profiles.active=dev`。
 - 接口传输密钥和审计签名密钥没配时自动生成到 `~/.mugsun`，重启复用。
 - 字段加密密钥没配时，用 `mugsun.crypto.sm4-local-key-file` 指向的本地密钥文件：
   - 默认是 `${user.home}/.mugsun/dev-sm4.key`，可以用 `MUGSUN_SM4_LOCAL_KEY_FILE` 改；
@@ -239,6 +243,7 @@ ECB 是只留给 `id_card` 的例外。其余 14 个字段不需要等值查询�
    ```
 
    按表和字段输出总数、需重加密、已是新密钥、历史明文、解不开的条数。
+
    用 Docker 镜像时，换掉入口直接跑 java：
 
    ```bash
@@ -250,6 +255,7 @@ ECB 是只留给 `id_card` 的例外。其余 14 个字段不需要等值查询�
 
    `migrate.env` 用完即删，不要提交。
 3. 「解不开」全为 0 后，**先确认第 1 步的备份可用**，再加 `--apply` 跑一次。
+
    单事务写库，有一条解不开就整体回滚。
 4. 把 `MUGSUN_SM4_KEY` 换成新密钥启动。核对标准：error 日志里「SM4 解密失败」为 0 条。
 5. 字段里存的第三方凭据全部轮换。

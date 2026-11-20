@@ -91,7 +91,10 @@ ECB is an exception kept only for `id_card`. The other 14 fields need no equalit
 
 ## API transport key
 
-`MUGSUN_API_KEY` is for endpoint encryption. On endpoints marked `@ApiDecrypt` or `@ApiEncrypt`, the request body and the `data` of the response travel encrypted with SM4-GCM.
+`MUGSUN_API_KEY` is for endpoint encryption, which uses SM4-GCM:
+
+- on endpoints marked `@ApiDecrypt`, the request body travels encrypted;
+- on endpoints marked `@ApiEncrypt`, the `data` of the response travels encrypted.
 
 For how to use the annotations, see [Encrypt an endpoint's request and response](/en/core/#encrypt-an-endpoint-s-request-and-response) in core.
 
@@ -171,7 +174,8 @@ Use this key only for transport obfuscation. Don't use it to encrypt stored data
 
 ## Local development
 
-- Start with `dev`: `mvn spring-boot:run` does so by default; with `java -jar`, add `--spring.profiles.active=dev`.
+- Start with `dev`. `mvn spring-boot:run` does so by default.
+  - With `java -jar`, add `--spring.profiles.active=dev`.
 - When the API transport key and the audit-signing key are missing, they are generated into `~/.mugsun` and reused across restarts.
 - When the field encryption key is missing, the local key file that `mugsun.crypto.sm4-local-key-file` points to is used:
   - the default is `${user.home}/.mugsun/dev-sm4.key`; change it with `MUGSUN_SM4_LOCAL_KEY_FILE`;
@@ -239,6 +243,7 @@ Migration steps:
    ```
 
    For each table and column it prints the total and four counts: rows to re-encrypt, rows already on the new key, legacy plaintext rows, and rows that can't be decrypted.
+
    With the Docker image, replace the entrypoint and run java directly:
 
    ```bash
@@ -250,6 +255,7 @@ Migration steps:
 
    Delete `migrate.env` after use, and never commit it.
 3. Once the "can't be decrypted" count is 0 everywhere, **confirm the backup from step 1 is usable**, then run once more with `--apply`.
+
    It writes in a single transaction and rolls everything back if any row can't be decrypted.
 4. Start the application with `MUGSUN_SM4_KEY` set to the new key. The check: the error log contains no line with the text below.
 

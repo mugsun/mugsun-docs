@@ -146,7 +146,9 @@ The captcha is on for every tenant by default, new tenants included. A platform 
 - The client switch (`sys_client.captcha_enabled`) takes no part in the decision, because clientId is supplied by the caller.
 
 ::: warning Turning the captcha off removes brute-force protection
-With `mugsun.captcha.enabled=false`, or with a tenant turned off, that tenant's sign-in, registration and forgot-password code no longer require human verification. Only the sign-in failure lockout and the rate limits remain. Turn it off only temporarily, while troubleshooting or before the frontend is upgraded.
+With `mugsun.captcha.enabled=false`, or with a tenant turned off, that tenant's sign-in, registration and forgot-password code no longer require human verification.
+
+Only the sign-in failure lockout and the rate limits remain. Turn it off only temporarily, while troubleshooting or before the frontend is upgraded.
 :::
 
 ## Tolerance and timing

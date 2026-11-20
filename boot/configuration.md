@@ -227,7 +227,9 @@ mugsun:
       allowed-ports: [80, 443]
 ```
 
-例如本地 Ollama 默认监听 `http://localhost:11434`。把 `localhost` 加入 `allow-hosts` 之后，模型管理、知识库、渠道里填这个地址才能保存和调用。
+例如本地 Ollama 默认监听 `http://localhost:11434`。
+
+把 `localhost` 加入 `allow-hosts` 之后，模型管理、知识库、渠道里填这个地址才能保存和调用。
 
 ### 白名单怎么写
 
