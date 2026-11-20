@@ -24,7 +24,7 @@ Data permissions apply to queries only. Before an insert, update or delete, conf
 
 The only built-in controlled table is `sys_user`, with `dept_id` as the department column and `id` as the owner column. A business table needs a department column and an owner column, such as `dept_id` and `create_by`, to take part. There are two ways to register it:
 
-- add a rule on the Data Scope page of the console, see [Data permission rules](./rules);
+- add a rule on the Data Scope page of the admin console, see [Data permission rules](./rules);
 - call `DataScopeTables.register("demo_note", "dept_id", "create_by")` at startup.
 
 A table that is not registered is not filtered, even when it is queried inside a `@DataScope` method.
@@ -38,7 +38,7 @@ long total = DataScopeContext.without(
 	() -> noteMapper.selectCountByQuery(QueryWrapper.create()));
 ```
 
-## See it work
+## Verify
 
 Suppose `demo_note` has `dept_id` and `create_by` columns and is registered as a controlled table. A user whose data scope is "Own Data Only" calls the page endpoint and gets only the notes they created.
 
@@ -60,4 +60,11 @@ WHERE is_deleted = 0 AND dept_id = 2001;
 
 The built-in user list endpoint already carries `@DataScope`, so you can also verify with the steps of the previous page.
 
-Previous: [Data permissions](./) · Next: [Data permission rules](./rules)
+## Next steps
+
+<div class="ms-cards">
+
+- [Data permission rules](./rules) Register a controlled table in the admin console and bound its scope.
+- [Data permissions](./) Review the six data scopes and the filter each one adds.
+
+</div>

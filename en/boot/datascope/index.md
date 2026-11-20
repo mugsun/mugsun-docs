@@ -23,9 +23,9 @@ If the user has no department or no role, or the scopes produce no condition at 
 
 Add or edit a role under System Settings → Role Manage and choose a value from 1 to 5 in the data scope field. For custom departments, also select the visible departments.
 
-Only the platform super admin can set "all data" or a custom statement. A custom statement is not offered in the console dropdown; the platform super admin sets `customSql` when calling `POST /system/role/submit`.
+Only the platform super admin can set "all data" or a custom statement. A custom statement is not offered in the admin console dropdown; the platform super admin sets `customSql` when calling `POST /system/role/submit`.
 
-## See it work
+## Verify
 
 Add a role whose data scope is "Own Data Only", grant it to the user `zhangsan`, and select User Manage in its menu permissions.
 
@@ -48,4 +48,12 @@ The `data_scope` of `zhangsan` is 4. Sign in as `zhangsan` and call `GET /system
 SELECT count(*) FROM sys_user WHERE tenant_id = '000000' AND is_deleted = 0;
 ```
 
-Next: [Enable it on an endpoint](./annotation)
+## Next steps
+
+<div class="ms-cards">
+
+- [Enable it on an endpoint](./annotation) Add `@DataScope` to a query method and register the controlled table.
+- [Data permission rules](./rules) Put an upper bound on the scope of one table.
+- [Multi-tenancy](/en/boot/tenant/) The layer before data permissions: isolation by tenant.
+
+</div>

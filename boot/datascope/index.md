@@ -25,9 +25,9 @@
 
 全部数据和自定义语句只有平台超管能设置。
 
-自定义语句不在管理台的下拉框里，由平台超管调用 `POST /system/role/submit` 时填写 `customSql`。
+自定义语句不在管理后台的下拉框里，由平台超管调用 `POST /system/role/submit` 时填写 `customSql`。
 
-## 看效果
+## 验证
 
 新增一个数据范围为「仅本人数据」的角色，把它授给用户 `zhangsan`，并在「菜单授权」里勾选「用户管理」。
 
@@ -54,4 +54,12 @@ ORDER BY u.username;
 SELECT count(*) FROM sys_user WHERE tenant_id = '000000' AND is_deleted = 0;
 ```
 
-下一节：[在接口上启用](./annotation)
+## 下一步
+
+<div class="ms-cards">
+
+- [在接口上启用](./annotation) 给查询方法加 `@DataScope`，并登记受控表。
+- [数据权限规则](./rules) 给某张表再设一个范围上限。
+- [多租户](/boot/tenant/) 数据权限之前的那一层：按租户隔离。
+
+</div>

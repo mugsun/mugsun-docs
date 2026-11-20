@@ -36,7 +36,7 @@ executor.setTaskDecorator(new TenantTaskDecorator());
 
 `tenantKeyConvertor` prefixes every JetCache key with the current tenant, so one `@Cached` method keeps a separate cache for each tenant. Without a tenant context, the prefix is `-`.
 
-## See it work
+## Verify
 
 Query the user table directly in a scheduled job, which has no session:
 
@@ -59,4 +59,12 @@ Wrap it in `TenantContext.ignore(...)` instead and the count matches this query:
 SELECT count(*) FROM sys_user WHERE is_deleted = 0;
 ```
 
-Previous: [Tenants and plans](./manage)
+## Next steps
+
+<div class="ms-cards">
+
+- [Your first scheduled job](/en/boot/tutorial/first-job) Write a background job that has no sign-in session.
+- [Your first cache](/en/boot/tutorial/first-cache) Cache a method; the cache key gets the tenant prefix automatically.
+- [Data permissions](/en/boot/datascope/) Ignoring the tenant does not turn off data permissions. The rules are here.
+
+</div>

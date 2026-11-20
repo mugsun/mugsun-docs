@@ -30,7 +30,7 @@ public R<Page<Note>> page(@RequestParam(defaultValue = "1") long pageNum,
 
 业务表要参与过滤，表里需要有部门列和本人列，例如 `dept_id` 和 `create_by`。登记有两种方式：
 
-- 在管理台的「数据权限」页新增一条规则，见[数据权限规则](./rules)；
+- 在管理后台的「数据权限」页新增一条规则，见[数据权限规则](./rules)；
 - 在启动时调用 `DataScopeTables.register("demo_note", "dept_id", "create_by")`。
 
 没有登记的表，即使在 `@DataScope` 方法里查询，也不会被过滤。
@@ -44,7 +44,7 @@ long total = DataScopeContext.without(
 	() -> noteMapper.selectCountByQuery(QueryWrapper.create()));
 ```
 
-## 看效果
+## 验证
 
 假设 `demo_note` 加了 `dept_id` 和 `create_by` 两列，并已登记为受控表。
 
@@ -68,4 +68,11 @@ WHERE is_deleted = 0 AND dept_id = 2001;
 
 内置的用户列表接口已经标了 `@DataScope`，可以直接按上一节的方法验证。
 
-上一节：[数据权限](./) · 下一节：[数据权限规则](./rules)
+## 下一步
+
+<div class="ms-cards">
+
+- [数据权限规则](./rules) 在管理后台里登记受控表，并给它设范围上限。
+- [数据权限](./) 回看六种数据范围各自的过滤条件。
+
+</div>

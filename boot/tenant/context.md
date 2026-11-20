@@ -40,7 +40,7 @@ JetCache 的键由 `tenantKeyConvertor` 统一加上当前租户前缀，同一�
 
 没有租户上下文时前缀为 `-`。
 
-## 看效果
+## 验证
 
 在一个没有会话的定时任务里直接查询用户表：
 
@@ -65,4 +65,12 @@ SELECT count(*) FROM sys_user WHERE tenant_id = '226994' AND is_deleted = 0;
 SELECT count(*) FROM sys_user WHERE is_deleted = 0;
 ```
 
-上一节：[租户与套餐](./manage)
+## 下一步
+
+<div class="ms-cards">
+
+- [第一个定时任务](/boot/tutorial/first-job) 动手写一个没有登录会话的后台任务。
+- [第一个缓存](/boot/tutorial/first-cache) 给方法加缓存，缓存键会自动带上租户前缀。
+- [数据权限](/boot/datascope/) 忽略租户不会关掉数据权限，规则在这里。
+
+</div>

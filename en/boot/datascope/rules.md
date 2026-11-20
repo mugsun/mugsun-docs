@@ -19,7 +19,7 @@ An enabled rule makes the table a controlled table. When a user's role scope is 
 
 The rule also tightens roles whose scope is all data, including the admin.
 
-## See it work
+## Verify
 
 Add a rule with the controlled table `sys_user`, department column `dept_id`, owner column `id`, and the scope "own department". The "currently in effect" tag above the list now shows the rule for `sys_user`.
 
@@ -43,4 +43,11 @@ WHERE tenant_id = '000000' AND is_deleted = 0 AND dept_id = 2001;
 
 If the admin has no department, 0 rows are returned. Disable the rule and the admin sees every user again.
 
-Previous: [Enable it on an endpoint](./annotation)
+## Next steps
+
+<div class="ms-cards">
+
+- [Enable it on an endpoint](./annotation) A rule only applies to queries marked with `@DataScope`.
+- [Multi-tenancy](/en/boot/tenant/) The layer before data permissions: isolation by tenant.
+
+</div>

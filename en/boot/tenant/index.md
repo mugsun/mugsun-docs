@@ -38,7 +38,7 @@ The platform super admin can switch the tenant view with these two endpoints. Ca
 - `POST /auth/switch-tenant/{tenantId}` shows one tenant's data; pass `-1` to show all tenants.
 - `POST /auth/switch-tenant/reset` returns to the platform tenant.
 
-## See it work
+## Verify
 
 This query lists every table that has a `tenant_id` column. All of them are isolated by tenant:
 
@@ -61,4 +61,12 @@ ORDER BY tenant_id;
 
 Each tenant gets one row. Sign in as a tenant's admin and call `GET /system/user/page`; the number of records matches that tenant's `users` value.
 
-Next: [Tenants and plans](./manage)
+## Next steps
+
+<div class="ms-cards">
+
+- [Tenants and plans](./manage) Create a tenant and limit its features with a plan.
+- [Switch tenants in code](./context) How to set the tenant in scheduled and async tasks.
+- [Data permissions](/en/boot/datascope/) Inside a tenant, filter again by department and owner.
+
+</div>

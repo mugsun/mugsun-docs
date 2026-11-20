@@ -38,7 +38,7 @@ mybatis-flex:
 - `POST /auth/switch-tenant/{tenantId}` 查看某个租户的数据，传 `-1` 查看全部租户；
 - `POST /auth/switch-tenant/reset` 回到本租户。
 
-## 看效果
+## 验证
 
 用下面的语句查出所有带 `tenant_id` 列的表，这些表都按租户隔离：
 
@@ -63,4 +63,12 @@ ORDER BY tenant_id;
 
 每个租户各自一行。用某个租户的管理员登录后调用 `GET /system/user/page`，返回的条数与这一行的 `users` 相同。
 
-下一节：[租户与套餐](./manage)
+## 下一步
+
+<div class="ms-cards">
+
+- [租户与套餐](./manage) 新建租户，用套餐限定它能用的功能。
+- [在代码里切换租户](./context) 定时任务和异步任务里怎样指定租户。
+- [数据权限](/boot/datascope/) 租户之内，再按部门和本人过滤。
+
+</div>
