@@ -160,7 +160,7 @@ Every controller write endpoint (POST, PUT, DELETE, PATCH) automatically gets an
 
 Endpoints that browsers call constantly and that aren't admin actions can be excluded. Excluded endpoints write no log entry and stay out of the operation log hash chain.
 
-By default the analytics SDK's reporting endpoints are excluded:
+By default the analytics SDK's reporting endpoints and the content security policy violation report endpoint are excluded:
 
 ```yaml
 mugsun:
@@ -169,9 +169,10 @@ mugsun:
       - /track/collect
       - /track/replay
       - /track/api-body
+      - /csp-report
 ```
 
-- Setting this list replaces the default entirely, so include these three if you want to keep them.
+- Setting this list replaces the default entirely, so include these four if you want to keep them.
 - `exclude-paths: []` logs everything.
 - Exclusions only affect automatic logging. Endpoints explicitly marked `@OperationLog` are still logged.
 - The admin endpoints under `/system/track/**` are unaffected.
