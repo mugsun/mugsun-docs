@@ -52,6 +52,8 @@ To start a flow from backend code, call `POST /system/flow/start-by/{flowCode}/{
 
 Who approves each node is decided by the flow design alone. The request cannot name approvers.
 
+A second start is rejected while a flow with the same flow code and business ID is still in progress. Once that flow finishes, is terminated or is withdrawn, the ID can be used again.
+
 ## AI pre-check node {#ai-approval}
 
 When a flow reaches an AI pre-check node, it runs the AI app bound to the node and writes the verdict into flow variables.
