@@ -2,7 +2,7 @@
 
 ms-ui is the mugsun component library for uni-app x. It targets apps, mini programs and H5. Components are written in vapor mode and UTS, and every tag starts with `ms-`.
 
-The core library has 111 components, and there are 8 optional plugins. Each component has its own page that lists props, events and slots.
+The core library has 111 components, and there are 8 optional plugins. Each component has its own page that lists props, events, slots and methods.
 
 ![Four pages of the demo project](/readme/uniappx-demo.png)
 
@@ -22,6 +22,8 @@ From left to right, the screenshot shows the home, button, chart and settings pa
 ## Try the demos
 
 Component pages with a demo are interactive. On wide screens the demo runs in the phone frame on the right of the page. On narrow screens, tap the H5 demo bar at the bottom.
+
+The code under "Basic usage" on a component page comes from the template of its demo page, the same page that runs in the phone frame.
 
 You can also open the <a href="/demo/index.html" target="_blank">full demo project</a> in a new tab. Its home page lists every demo page by group.
 
@@ -51,9 +53,38 @@ Import the theme and the icon font in the styles of `App.uvue`:
 
 The second line is the icon font for WeChat mini programs. You can leave it out if you only run on Web and App.
 
+Core components live in `uni_modules/ms-ui/components/ms-<name>`.
+
+Each optional plugin is a module of its own in `uni_modules/ms-<name>`. Add only the ones you use to your project.
+
 ::: info The source repository is not public yet
 ms-ui is released under the MIT License, and its source repository is not public yet. It is not published to npm or listed on the DCloud plugin market.
 :::
+
+### Calling component methods {#methods}
+
+Some component pages have a Methods section. Get the component instance with a `ref`, then call the method:
+
+```vue
+<template>
+  <ms-countdown ref="timer" :time="60000" :auto-start="false" />
+  <ms-button @click="onStart">Start</ms-button>
+</template>
+
+<script setup lang="uts">
+const timer = ref<MsCountdownComponentPublicInstance | null>(null)
+
+function onStart() : void {
+  timer.value?.start()
+}
+</script>
+```
+
+The instance type comes from the tag name: write `ms-countdown` in PascalCase and append `ComponentPublicInstance`.
+
+### Built-in text
+
+Text that ships with the components defaults to Chinese, for example the labels of the confirm and cancel buttons. For other languages, pass your own text through props such as `confirmText`.
 
 ## Platforms and versions
 

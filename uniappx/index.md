@@ -2,7 +2,7 @@
 
 ms-ui 是 mugsun 的 uni-app x 组件库，用于 App、小程序和 H5。组件用蒸汽模式和 UTS 编写，标签以 `ms-` 开头。
 
-核心库有 111 个组件，另有 8 个可选插件。每个组件一页，列出属性、事件和插槽。
+核心库有 111 个组件，另有 8 个可选插件。每个组件一页，列出属性、事件、插槽和方法。
 
 ![演示工程的四个页面](/readme/uniappx-demo.png)
 
@@ -22,6 +22,8 @@ ms-ui 是 mugsun 的 uni-app x 组件库，用于 App、小程序和 H5。组件
 ## 查看演示
 
 带演示的组件页可以直接操作。宽屏时演示在页面右侧的手机框里，窄屏时点击底栏的「打开 H5 演示」。
+
+组件页「基础用法」里的代码取自演示页的模板，和手机框里运行的是同一个页面。
 
 也可以在新标签页里打开<a href="/demo/index.html" target="_blank">完整的演示工程</a>，首页按分组列出所有演示页。
 
@@ -51,9 +53,38 @@ function save() : void {
 
 第二行是给微信小程序用的图标字体，只在 Web 和 App 上运行时可以不引入。
 
+核心组件的目录是 `uni_modules/ms-ui/components/ms-<名称>`。
+
+可选插件各自是一个独立的模块，目录是 `uni_modules/ms-<名称>`。用到哪个，就把哪个放进工程。
+
 ::: info 源码仓库暂未公开
 ms-ui 采用 MIT 许可，源码仓库暂未公开。它还没有发布到 npm，也没有上架 DCloud 插件市场。
 :::
+
+### 调用组件的方法 {#methods}
+
+有些组件页有「方法」一节。先用 `ref` 拿到组件实例，再调用方法：
+
+```vue
+<template>
+  <ms-countdown ref="timer" :time="60000" :auto-start="false" />
+  <ms-button @click="onStart">开始</ms-button>
+</template>
+
+<script setup lang="uts">
+const timer = ref<MsCountdownComponentPublicInstance | null>(null)
+
+function onStart() : void {
+  timer.value?.start()
+}
+</script>
+```
+
+实例的类型名由标签名得来：把 `ms-countdown` 写成大驼峰，再加上 `ComponentPublicInstance`。
+
+### 内置文案
+
+组件自带的文案默认是中文，比如按钮上的「确定」和「取消」。做其他语言的界面时，用 `confirmText` 这类属性传入自己的文案。
 
 ## 平台和版本
 
