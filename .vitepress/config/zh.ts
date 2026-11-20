@@ -1,20 +1,22 @@
 import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
 export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
-  description: '可私有化的中后台底座：多租户与国密、嵌入式埋点全链路，GIS / AI 按需启用。',
+  description:
+    'mugsun 是一套部署在自己服务器上的中后台系统，包含后端、管理后台和埋点分析，GIS 和 AI 按需启用。',
   themeConfig: {
     nav: [
       { text: '指南', link: '/guide/introduction', activeMatch: '/guide/' },
       { text: '后端', link: '/boot/', activeMatch: '/boot/' },
-      { text: '管理台', link: '/pc/', activeMatch: '/pc/' },
+      { text: '管理后台', link: '/pc/', activeMatch: '/pc/' },
       { text: '埋点', link: '/track/', activeMatch: '/track/' },
+      { text: '移动端', link: '/uniappx/', activeMatch: '/uniappx/' },
       {
         text: '更多',
         items: [
-          { text: 'Core', link: '/core/', activeMatch: '/core/' },
+          { text: 'Core 公共库', link: '/core/', activeMatch: '/core/' },
           { text: '项目生成器', link: '/start/', activeMatch: '/start/' },
-          { text: 'uni-app x', link: '/uniappx/', activeMatch: '/uniappx/' },
           { text: '在线演示', link: '/demo' },
+          { text: '升级指南', link: '/guide/upgrade/' },
           { text: '更新日志', link: '/guide/changelog' },
         ],
       },
@@ -22,37 +24,38 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     sidebar: {
       '/guide/': [
         {
-          text: '指南',
+          text: '开始',
           items: [
             { text: '介绍', link: '/guide/introduction' },
             { text: '快速开始', link: '/guide/getting-started' },
-            { text: '架构全景', link: '/guide/architecture' },
-            { text: '常见问题', link: '/guide/faq' },
-            { text: '报错速查', link: '/guide/errors' },
-            { text: '品牌规范', link: '/guide/brand' },
-            { text: '更新日志', link: '/guide/changelog' },
+            { text: '架构', link: '/guide/architecture' },
           ],
         },
         {
-          text: '升级指南',
+          text: '排查问题',
+          items: [
+            { text: '报错速查', link: '/guide/errors' },
+            { text: '常见问题', link: '/guide/faq' },
+          ],
+        },
+        {
+          text: '升级',
           items: [
             { text: '版本总览', link: '/guide/upgrade/' },
             { text: 'core 0.1.0 → 0.2.0', link: '/guide/upgrade/core-0-2-0' },
             { text: '埋点 SDK 0.1.0 → 0.2.0', link: '/guide/upgrade/track-web-0-2-0' },
+            { text: '更新日志', link: '/guide/changelog' },
           ],
+        },
+        {
+          text: '其他',
+          items: [{ text: '品牌规范', link: '/guide/brand' }],
         },
       ],
       '/boot/': [
         {
-          text: 'Boot',
-          items: [
-            { text: '概述', link: '/boot/' },
-            { text: '配置参考', link: '/boot/configuration' },
-            { text: '权限与附件', link: '/boot/permissions' },
-            { text: '开放平台', link: '/boot/open-api' },
-            { text: '安全清单', link: '/boot/security-checklist' },
-            { text: '升级指南', link: '/boot/upgrade' },
-          ],
+          text: '开始',
+          items: [{ text: '概述', link: '/boot/' }],
         },
         {
           text: '开发入门',
@@ -73,6 +76,16 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
           ],
         },
         {
+          text: '权限',
+          items: [
+            { text: '权限与附件', link: '/boot/permissions' },
+            { text: '数据权限', link: '/boot/datascope/' },
+            { text: '在接口上启用数据权限', link: '/boot/datascope/annotation' },
+            { text: '数据权限规则', link: '/boot/datascope/rules' },
+            { text: '开放平台', link: '/boot/open-api' },
+          ],
+        },
+        {
           text: '多租户',
           items: [
             { text: '概述', link: '/boot/tenant/' },
@@ -81,15 +94,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
           ],
         },
         {
-          text: '数据权限',
-          items: [
-            { text: '概述', link: '/boot/datascope/' },
-            { text: '在接口上启用', link: '/boot/datascope/annotation' },
-            { text: '数据权限规则', link: '/boot/datascope/rules' },
-          ],
-        },
-        {
-          text: '功能特性',
+          text: '功能',
           items: [
             { text: '概览', link: '/boot/features/' },
             { text: '工作流', link: '/boot/features/workflow' },
@@ -104,43 +109,88 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '全局搜索', link: '/boot/features/search' },
           ],
         },
+        {
+          text: '上线与运维',
+          items: [
+            { text: '配置参考', link: '/boot/configuration' },
+            { text: '安全清单', link: '/boot/security-checklist' },
+            { text: '升级指南', link: '/boot/upgrade' },
+          ],
+        },
       ],
       '/pc/': [
         {
-          text: '管理台',
+          text: '开始',
           items: [
             { text: '概述', link: '/pc/' },
             { text: '本地开发', link: '/pc/development' },
-            { text: 'UI 自检', link: '/pc/ui-check' },
-            { text: 'Docker 部署', link: '/pc/deploy-docker' },
-            { text: '内容安全策略（CSP）', link: '/pc/csp' },
+          ],
+        },
+        {
+          text: '页面与功能',
+          items: [
+            { text: '工作台', link: '/pc/workbench' },
+            { text: '设计器', link: '/pc/designer' },
+            { text: 'AI 中心', link: '/pc/ai-center' },
+            { text: '行为验证码', link: '/pc/captcha' },
+          ],
+        },
+        {
+          text: '地图',
+          items: [
             { text: 'GIS 与地图', link: '/pc/gis' },
             { text: '底图配置与白名单', link: '/pc/gis-basemap' },
             { text: '底图瓦片代理安全', link: '/pc/gis-tile-security' },
-            { text: '行为验证码', link: '/pc/captcha' },
-            { text: 'AI 中心', link: '/pc/ai-center' },
+          ],
+        },
+        {
+          text: '开发约定',
+          items: [
+            { text: 'UI 自检', link: '/pc/ui-check' },
+            { text: '表单校验', link: '/pc/form-validation' },
+            { text: '空状态', link: '/pc/empty-state' },
+          ],
+        },
+        {
+          text: '部署',
+          items: [
+            { text: 'Docker 部署', link: '/pc/deploy-docker' },
+            { text: '内容安全策略（CSP）', link: '/pc/csp' },
           ],
         },
       ],
       '/track/': [
         {
-          text: '埋点',
+          text: '开始',
           items: [
             { text: '概述', link: '/track/' },
             { text: '安装与初始化', link: '/track/install' },
             { text: '第一个事件', link: '/track/first-event' },
+          ],
+        },
+        {
+          text: '采集',
+          items: [
             { text: '插件', link: '/track/plugins' },
+            { text: '隐私与合规', link: '/track/privacy' },
+          ],
+        },
+        {
+          text: '分析',
+          items: [
             { text: '错误问题单', link: '/track/error-issues' },
             { text: '问数据', link: '/track/ask' },
             { text: '空间行为', link: '/track/spatial' },
-            { text: '隐私与合规', link: '/track/privacy' },
-            { text: '升级指南', link: '/track/upgrade' },
           ],
+        },
+        {
+          text: '升级',
+          items: [{ text: '升级指南', link: '/track/upgrade' }],
         },
       ],
       '/core/': [
         {
-          text: 'Core',
+          text: 'Core 公共库',
           items: [{ text: '概述', link: '/core/' }],
         },
       ],
@@ -340,7 +390,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
     lightModeSwitchTitle: '切换到浅色',
     darkModeSwitchTitle: '切换到深色',
     footer: {
-      message: 'boot · core · pc · track · ms-ui 均基于 MIT 发布。',
+      message: '后端、管理后台和埋点 SDK 等组成部分均以 MIT 许可发布。',
       copyright:
         '© 2026 mugsun · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2025148372号-2</a>',
     },

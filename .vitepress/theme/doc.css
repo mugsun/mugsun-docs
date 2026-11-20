@@ -1,0 +1,453 @@
+/*
+ * Doc-page building blocks. Each one is plain markdown inside a wrapper div,
+ * so the text stays searchable and goes through the link and width checks:
+ *
+ *   <div class="ms-cards">   a list of links  -> link cards
+ *   <div class="ms-steps">   h3 headings      -> numbered steps
+ *   <div class="ms-flow">    an ordered list  -> left-to-right pipeline
+ *
+ * Leave a blank line after the opening tag and before the closing tag.
+ */
+
+/* Lead paragraph under the page title */
+.vp-doc h1 + p {
+  margin-top: 20px;
+  font-size: 17px;
+  line-height: 30px;
+  color: var(--vp-c-text-2);
+}
+
+/* Screenshots: an image alone in its paragraph */
+.vp-doc p > img:only-child:not([width]) {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 14px 32px -14px rgba(0, 0, 0, 0.16);
+}
+
+.dark .vp-doc p > img:only-child:not([width]) {
+  box-shadow: none;
+}
+
+/* Tables: header cells and first-column links stay on one line */
+.vp-doc th,
+.vp-doc td:first-child > a {
+  white-space: nowrap;
+}
+
+/* ---------- link cards ---------- */
+
+.vp-doc .ms-cards > ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .vp-doc .ms-cards > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vp-doc .ms-cards--3 > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.vp-doc .ms-cards > ul > li {
+  position: relative;
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--vp-c-text-2);
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+
+.vp-doc .ms-cards > ul > li:hover {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-bg);
+}
+
+.vp-doc .ms-cards > ul > li > a:first-child {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+}
+
+/* the whole card is the click target */
+.vp-doc .ms-cards > ul > li > a:first-child::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+}
+
+.vp-doc .ms-cards > ul > li > a:first-child::after {
+  content: '\2192';
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--vp-c-text-3);
+  transition:
+    transform 0.2s,
+    color 0.2s;
+}
+
+.vp-doc .ms-cards > ul > li:hover > a:first-child::after {
+  color: var(--vp-c-brand-1);
+  transform: translateX(3px);
+}
+
+.vp-doc .ms-cards > ul > li code {
+  font-size: 12px;
+}
+
+/* ---------- numbered steps ---------- */
+
+.vp-doc .ms-steps {
+  position: relative;
+  margin: 28px 0 28px;
+  padding-left: 48px;
+  counter-reset: ms-step;
+}
+
+.vp-doc .ms-steps::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 15px;
+  width: 1px;
+  background: var(--vp-c-divider);
+}
+
+.vp-doc .ms-steps > h3 {
+  margin-top: 36px;
+  counter-increment: ms-step;
+}
+
+.vp-doc .ms-steps > h3:first-child {
+  margin-top: 0;
+}
+
+.vp-doc .ms-steps > h3::before {
+  content: counter(ms-step);
+  position: absolute;
+  top: -2px;
+  left: -48px;
+  width: 31px;
+  height: 31px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 50%;
+  background: var(--vp-c-bg);
+  box-shadow: 0 0 0 5px var(--vp-c-bg);
+  color: var(--vp-c-brand-1);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 29px;
+  text-align: center;
+}
+
+@media (max-width: 479px) {
+  .vp-doc .ms-steps {
+    padding-left: 40px;
+  }
+
+  .vp-doc .ms-steps::before {
+    left: 13px;
+  }
+
+  .vp-doc .ms-steps > h3::before {
+    left: -40px;
+    width: 27px;
+    height: 27px;
+    font-size: 13px;
+    line-height: 25px;
+  }
+}
+
+/* ---------- pipeline ---------- */
+
+.vp-doc .ms-flow > ol {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: ms-flow;
+}
+
+.vp-doc .ms-flow > ol > li {
+  position: relative;
+  margin: 0;
+  padding: 46px 16px 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--vp-c-text-2);
+  counter-increment: ms-flow;
+}
+
+.vp-doc .ms-flow > ol > li::before {
+  content: counter(ms-flow);
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+}
+
+.vp-doc .ms-flow > ol > li + li::after {
+  content: '';
+  position: absolute;
+  top: -19px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 1.5px solid var(--vp-c-text-3);
+  border-right: 1.5px solid var(--vp-c-text-3);
+  transform: translateX(-50%) rotate(135deg);
+}
+
+.vp-doc .ms-flow > ol > li code {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .vp-doc .ms-flow > ol {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px 26px;
+  }
+
+  .vp-doc .ms-flow--3 > ol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .vp-doc .ms-flow > ol > li + li::after {
+    top: 50%;
+    left: -18px;
+    transform: translateY(-50%) rotate(45deg);
+  }
+}
+
+/* ---------- architecture diagram (ArchDiagram.vue) ---------- */
+
+.ms-arch {
+  --ms-arch-line: var(--vp-c-text-3);
+  margin: 28px 0;
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  background-color: var(--vp-c-bg-soft);
+  background-image: radial-gradient(var(--vp-c-divider) 1px, transparent 1px);
+  background-size: 18px 18px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.ms-arch__row {
+  display: grid;
+  gap: 12px;
+}
+
+.ms-arch__node {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+}
+
+.ms-arch__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.ms-arch__note {
+  color: var(--vp-c-text-2);
+  overflow-wrap: anywhere;
+}
+
+.ms-arch__tag {
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.ms-arch__node.is-optional {
+  border-style: dashed;
+  border-color: var(--vp-c-text-3);
+}
+
+.ms-arch__via {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 0 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+/* a vertical connector with an arrow head, optionally carrying a label */
+.ms-arch__wire {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+}
+
+.ms-arch__wire::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 7px;
+  left: 50%;
+  width: 1.5px;
+  background: var(--ms-arch-line);
+  transform: translateX(-50%);
+}
+
+.ms-arch__wire::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--ms-arch-line);
+  border-bottom: 1.5px solid var(--ms-arch-line);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.ms-arch__wire span {
+  position: relative;
+  z-index: 1;
+  margin-top: -6px;
+  padding: 0 9px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.ms-arch__wires {
+  display: none;
+}
+
+.ms-arch__boot {
+  padding: 14px;
+  border: 1.5px solid var(--vp-c-brand-1);
+  border-radius: 12px;
+  background: var(--vp-c-bg);
+  box-shadow: 0 0 0 4px var(--vp-c-brand-soft);
+}
+
+.ms-arch__boot-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin-bottom: 12px;
+}
+
+.ms-arch__boot-head strong {
+  font-size: 15px;
+  color: var(--vp-c-text-1);
+}
+
+.ms-arch__boot-head span {
+  color: var(--vp-c-text-2);
+}
+
+.ms-arch__boot .ms-arch__node {
+  background: var(--vp-c-bg-soft);
+}
+
+.ms-arch__row--modules {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .ms-arch {
+    padding: 28px;
+  }
+
+  .ms-arch__row--clients,
+  .ms-arch__wires {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ms-arch__row--stores,
+  .ms-arch__wires--stores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ms-arch__row--modules {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ms-arch__wires {
+    display: grid;
+    gap: 12px;
+  }
+
+  .ms-arch__wire--single,
+  .ms-arch__via {
+    display: none;
+  }
+
+  .ms-arch__row--clients .ms-arch__node,
+  .ms-arch__row--stores .ms-arch__node {
+    align-items: center;
+    text-align: center;
+  }
+
+  .ms-arch__row--clients .ms-arch__name,
+  .ms-arch__row--stores .ms-arch__name {
+    justify-content: center;
+  }
+}

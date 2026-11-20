@@ -10,8 +10,6 @@
   --vp-button-brand-bg: var(--vp-c-brand-1);
   --vp-button-brand-hover-bg: var(--vp-c-brand-2);
   --vp-button-brand-active-bg: var(--vp-c-brand-3);
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #b4501c 30%, #e08a4f 70%);
 }
 
 .dark {
@@ -30,27 +28,6 @@
   width: auto;
   /* match VPNavBar (~64px); no siteTitle text beside logo */
   margin-right: 0;
-}
-
-.VPHomeHero .image-src {
-  max-width: 220px;
-  max-height: 220px;
-}
-
-/* Navbar already shows the logo; drop the hero image on narrow screens. */
-@media (max-width: 640px) {
-  .VPHome .VPHero .image {
-    display: none;
-  }
-
-  .VPHome .VPHero.has-image .container {
-    flex-direction: column;
-  }
-
-  /* Admin screenshot is unreadable at phone width. */
-  .vp-doc img[src*="pc-workbench"] {
-    display: none;
-  }
 }
 
 /* Right-floating phone preview for uni-app x component demos */

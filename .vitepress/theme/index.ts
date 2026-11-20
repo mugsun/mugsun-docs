@@ -1,8 +1,13 @@
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
+import ArchDiagram from './components/ArchDiagram.vue'
 import DemoPhone from './components/DemoPhone.vue'
+import HomeLanding from './components/HomeLanding.vue'
+import MsIcon from './components/MsIcon.vue'
 import './custom.css'
+import './doc.css'
+import './home.css'
 
 export default {
   extends: DefaultTheme,
@@ -12,7 +17,10 @@ export default {
     })
   },
   enhanceApp({ app, router }) {
+    app.component('ArchDiagram', ArchDiagram)
     app.component('DemoPhone', DemoPhone)
+    app.component('HomeLanding', HomeLanding)
+    app.component('MsIcon', MsIcon)
     // D1: legacy /ms-ui/* (and /en/ms-ui/*) → /uniappx/* (GitHub Pages has no server 301s)
     const legacy = (p: string) => p.replace(/^(\/(?:en\/)?)ms-ui(\/|\.html|$)/, (_m, pre, rest) => `${pre}uniappx${rest === '.html' ? '/' : rest || '/'}`)
     if (typeof window !== 'undefined') {

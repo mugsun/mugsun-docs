@@ -2,20 +2,21 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
 export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
   description:
-    'Self-hosted admin stack with multi-tenant & SM crypto, plus an embedded analytics path (SDK → API → dashboard). GIS and AI are optional.',
+    'A self-hosted admin platform: backend, admin console, product analytics and a mobile component library that ship together. GIS and AI are optional.',
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/en/guide/introduction', activeMatch: '/en/guide/' },
       { text: 'Backend', link: '/en/boot/', activeMatch: '/en/boot/' },
-      { text: 'Admin', link: '/en/pc/', activeMatch: '/en/pc/' },
-      { text: 'Tracking', link: '/en/track/', activeMatch: '/en/track/' },
+      { text: 'Admin console', link: '/en/pc/', activeMatch: '/en/pc/' },
+      { text: 'Analytics', link: '/en/track/', activeMatch: '/en/track/' },
+      { text: 'Mobile', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
       {
         text: 'More',
         items: [
-          { text: 'Core', link: '/en/core/', activeMatch: '/en/core/' },
+          { text: 'Core libraries', link: '/en/core/', activeMatch: '/en/core/' },
           { text: 'Project generator', link: '/en/start/', activeMatch: '/en/start/' },
-          { text: 'uni-app x', link: '/en/uniappx/', activeMatch: '/en/uniappx/' },
           { text: 'Live demo', link: '/en/demo' },
+          { text: 'Upgrade guide', link: '/en/guide/upgrade/' },
           { text: 'Changelog', link: '/en/guide/changelog' },
         ],
       },
@@ -192,37 +193,38 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       ],
       '/en/guide/': [
         {
-          text: 'Guide',
+          text: 'Get started',
           items: [
             { text: 'Introduction', link: '/en/guide/introduction' },
             { text: 'Getting started', link: '/en/guide/getting-started' },
             { text: 'Architecture', link: '/en/guide/architecture' },
-            { text: 'FAQ', link: '/en/guide/faq' },
+          ],
+        },
+        {
+          text: 'Troubleshooting',
+          items: [
             { text: 'Error reference', link: '/en/guide/errors' },
-            { text: 'Brand guidelines', link: '/en/guide/brand' },
+            { text: 'FAQ', link: '/en/guide/faq' },
+          ],
+        },
+        {
+          text: 'Upgrading',
+          items: [
+            { text: 'Versions', link: '/en/guide/upgrade/' },
+            { text: 'core 0.1.0 → 0.2.0', link: '/en/guide/upgrade/core-0-2-0' },
+            { text: 'Analytics SDK 0.1.0 → 0.2.0', link: '/en/guide/upgrade/track-web-0-2-0' },
             { text: 'Changelog', link: '/en/guide/changelog' },
           ],
         },
         {
-          text: 'Upgrade guide',
-          items: [
-            { text: 'Versions', link: '/en/guide/upgrade/' },
-            { text: 'core 0.1.0 → 0.2.0', link: '/en/guide/upgrade/core-0-2-0' },
-            { text: 'Tracking SDK 0.1.0 → 0.2.0', link: '/en/guide/upgrade/track-web-0-2-0' },
-          ],
+          text: 'Other',
+          items: [{ text: 'Brand guidelines', link: '/en/guide/brand' }],
         },
       ],
       '/en/boot/': [
         {
-          text: 'Boot',
-          items: [
-            { text: 'Overview', link: '/en/boot/' },
-            { text: 'Configuration', link: '/en/boot/configuration' },
-            { text: 'Permissions & attachments', link: '/en/boot/permissions' },
-            { text: 'Open API', link: '/en/boot/open-api' },
-            { text: 'Security checklist', link: '/en/boot/security-checklist' },
-            { text: 'Upgrade guide', link: '/en/boot/upgrade' },
-          ],
+          text: 'Get started',
+          items: [{ text: 'Overview', link: '/en/boot/' }],
         },
         {
           text: 'Development tutorial',
@@ -243,19 +245,21 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           ],
         },
         {
+          text: 'Permissions',
+          items: [
+            { text: 'Permissions & attachments', link: '/en/boot/permissions' },
+            { text: 'Data permissions', link: '/en/boot/datascope/' },
+            { text: 'Enable data permissions on an endpoint', link: '/en/boot/datascope/annotation' },
+            { text: 'Data permission rules', link: '/en/boot/datascope/rules' },
+            { text: 'Open API', link: '/en/boot/open-api' },
+          ],
+        },
+        {
           text: 'Multi-tenancy',
           items: [
             { text: 'Overview', link: '/en/boot/tenant/' },
             { text: 'Tenants and plans', link: '/en/boot/tenant/manage' },
             { text: 'Switch tenants in code', link: '/en/boot/tenant/context' },
-          ],
-        },
-        {
-          text: 'Data permissions',
-          items: [
-            { text: 'Overview', link: '/en/boot/datascope/' },
-            { text: 'Enable it on an endpoint', link: '/en/boot/datascope/annotation' },
-            { text: 'Data permission rules', link: '/en/boot/datascope/rules' },
           ],
         },
         {
@@ -274,43 +278,88 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Global search', link: '/en/boot/features/search' },
           ],
         },
+        {
+          text: 'Going live',
+          items: [
+            { text: 'Configuration', link: '/en/boot/configuration' },
+            { text: 'Security checklist', link: '/en/boot/security-checklist' },
+            { text: 'Upgrade guide', link: '/en/boot/upgrade' },
+          ],
+        },
       ],
       '/en/pc/': [
         {
-          text: 'Admin',
+          text: 'Get started',
           items: [
             { text: 'Overview', link: '/en/pc/' },
             { text: 'Development', link: '/en/pc/development' },
-            { text: 'UI self-check', link: '/en/pc/ui-check' },
-            { text: 'Docker deployment', link: '/en/pc/deploy-docker' },
-            { text: 'Content Security Policy', link: '/en/pc/csp' },
+          ],
+        },
+        {
+          text: 'Pages and features',
+          items: [
+            { text: 'Workbench', link: '/en/pc/workbench' },
+            { text: 'Designers', link: '/en/pc/designer' },
+            { text: 'AI center', link: '/en/pc/ai-center' },
+            { text: 'Behavior captcha', link: '/en/pc/captcha' },
+          ],
+        },
+        {
+          text: 'Maps',
+          items: [
             { text: 'GIS & maps', link: '/en/pc/gis' },
             { text: 'Basemaps & allow-list', link: '/en/pc/gis-basemap' },
             { text: 'Tile proxy security', link: '/en/pc/gis-tile-security' },
-            { text: 'Behavior captcha', link: '/en/pc/captcha' },
-            { text: 'AI center', link: '/en/pc/ai-center' },
+          ],
+        },
+        {
+          text: 'Conventions',
+          items: [
+            { text: 'UI self-check', link: '/en/pc/ui-check' },
+            { text: 'Form validation', link: '/en/pc/form-validation' },
+            { text: 'Empty states', link: '/en/pc/empty-state' },
+          ],
+        },
+        {
+          text: 'Deployment',
+          items: [
+            { text: 'Docker deployment', link: '/en/pc/deploy-docker' },
+            { text: 'Content Security Policy', link: '/en/pc/csp' },
           ],
         },
       ],
       '/en/track/': [
         {
-          text: 'Track',
+          text: 'Get started',
           items: [
             { text: 'Overview', link: '/en/track/' },
             { text: 'Install & setup', link: '/en/track/install' },
             { text: 'Your first event', link: '/en/track/first-event' },
+          ],
+        },
+        {
+          text: 'Collecting data',
+          items: [
             { text: 'Plugins', link: '/en/track/plugins' },
+            { text: 'Privacy', link: '/en/track/privacy' },
+          ],
+        },
+        {
+          text: 'Analysis',
+          items: [
             { text: 'Error issues', link: '/en/track/error-issues' },
             { text: 'Ask analytics', link: '/en/track/ask' },
             { text: 'Spatial behavior', link: '/en/track/spatial' },
-            { text: 'Privacy', link: '/en/track/privacy' },
-            { text: 'Upgrade guide', link: '/en/track/upgrade' },
           ],
+        },
+        {
+          text: 'Upgrading',
+          items: [{ text: 'Upgrade guide', link: '/en/track/upgrade' }],
         },
       ],
       '/en/core/': [
         {
-          text: 'Core',
+          text: 'Core libraries',
           items: [{ text: 'Overview', link: '/en/core/' }],
         },
       ],
