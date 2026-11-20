@@ -1,8 +1,8 @@
 # 埋点概述
 
-浏览器 SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) 采集事件，上报到你自己部署的后端，在管理后台的「埋点分析」里查看结果。
+浏览器 SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) 采集事件，上报到 mugsun-boot 后端，在管理后台的「埋点分析」里查看结果。
 
-采集、存储和分析都在你自己的服务器上完成。下图是管理后台里的会话回放。
+数据存在后端的埋点库里，不经过第三方服务。下图是管理后台里的会话回放。
 
 ![管理后台里的会话回放页](/readme/track-replay.png)
 

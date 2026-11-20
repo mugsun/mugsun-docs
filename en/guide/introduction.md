@@ -1,8 +1,8 @@
 # Introduction
 
-mugsun is an admin platform that you run on your own servers. It comes with a backend, an admin console and product analytics.
+mugsun is a free, open-source admin platform. It comes with a backend, an admin console and product analytics.
 
-Multi-tenancy, workflow and code generation are already built. You write your own business logic on top, and the data stays in your own database.
+Multi-tenancy, workflow and code generation are already built, and you write your own business logic on top.
 
 ![The analytics overview page in the admin console](/readme/track-overview-en.png)
 
@@ -51,7 +51,7 @@ For the rest, see the [feature overview](/en/boot/features/).
 
 | A good fit | Not a good fit |
 | --- | --- |
-| Admin systems that must be delivered on-premises, with data that cannot leave the internal network | Projects that want to drag and drop pages together without writing any code |
+| Admin systems whose data cannot leave the internal network | Projects that want to drag and drop pages together without writing any code |
 | Teams that need both an admin console and behavior analytics, without adding a hosted analytics service | Projects that only need a frontend template and no backend |
 | Projects that must run on Kingbase or Dameng databases, or use the SM cryptographic algorithms | Projects that need to be split into microservices right now |
 

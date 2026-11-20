@@ -1,6 +1,6 @@
 # Privacy
 
-This page describes what the SDK actually does: what it collects by default, what it never collects, and what gets masked. Data is sent only to the backend you deploy yourself.
+This page describes what the SDK actually does: what it collects by default, what it never collects, and what gets masked. Data is sent only to the backend that `endpoint` points to, never to a third party.
 
 ::: danger Tell users first, then collect
 China's Personal Information Protection Law requires your privacy policy to tell users what is collected, what it is used for and how long it is kept. For sensitive personal information such as ID numbers, bank card numbers or location trails, separate consent is required as well.
@@ -227,7 +227,7 @@ Retention is set per application in the application form. Viewing a replay or a 
 - Decide whether you really need response body capture before turning it on. If bodies may carry personal data, turn on `apiBodyMaskEnabled`.
 - Error messages may contain phone numbers, order numbers or backend exception text. Rewrite them with `beforeSend` when needed.
 - Grant the view permissions for replay and response bodies only to the people who need them, and keep the retention as short as you can.
-- The data lives in your own database and storage. Who may see it and how long it is kept follow your company's rules.
+- Who may see the data and how long it is kept follow your company's rules.
 
 <div class="ms-cards">
 

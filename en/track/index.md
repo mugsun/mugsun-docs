@@ -1,8 +1,8 @@
 # Analytics overview
 
-The browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events and sends them to the backend you deploy yourself. You read the results on the Tracking pages of the admin console.
+The browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events and sends them to the mugsun-boot backend. You read the results on the Tracking pages of the admin console.
 
-Collection, storage and analysis all happen on your own servers. The screenshot below is session replay in the admin console.
+The data is stored in the backend's tracking database and does not pass through any third-party service. The screenshot below is session replay in the admin console.
 
 ![The Session Replay page in the admin console](/readme/track-replay-en.png)
 
