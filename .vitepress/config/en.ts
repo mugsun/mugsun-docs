@@ -282,6 +282,8 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: 'Going live',
           items: [
             { text: 'Configuration', link: '/en/boot/configuration' },
+            { text: 'Keys and encryption', link: '/en/boot/crypto-keys' },
+            { text: 'Behavioral captcha', link: '/en/boot/captcha' },
             { text: 'Security checklist', link: '/en/boot/security-checklist' },
             { text: 'Upgrade guide', link: '/en/boot/upgrade' },
           ],
@@ -301,7 +303,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Workbench', link: '/en/pc/workbench' },
             { text: 'Designers', link: '/en/pc/designer' },
             { text: 'AI center', link: '/en/pc/ai-center' },
-            { text: 'Behavior captcha', link: '/en/pc/captcha' },
+            { text: 'Behavioral captcha', link: '/en/pc/captcha' },
           ],
         },
         {

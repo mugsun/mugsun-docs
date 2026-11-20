@@ -153,7 +153,7 @@ The request body must be `{"encryptData": "<ciphertext>"}`. In the response, `da
 This is transport obfuscation only. The key is sent to the browser, so it is not secret from the client, and the ciphertext is not protected against replay.
 :::
 
-The application starts without a configured key and generates one on first start. With Docker or more than one instance you must configure the key yourself. See [Configuration](/en/boot/configuration).
+The application starts without a configured key and generates one on first start. With Docker or more than one instance you must configure the key yourself. See [Keys and encryption](/en/boot/crypto-keys#api-transport-key).
 
 ## Current limits
 
@@ -168,6 +168,6 @@ The application starts without a configured key and generates one on first start
 - [Backend overview](/en/boot/) mugsun-boot is the main user of this library.
 - [Architecture](/en/guide/architecture) How the repositories fit together.
 - [Upgrade notes](/en/guide/upgrade/core-0-2-0) What to change when you move off the old Maven Central release.
-- [Configuration](/en/boot/configuration) The API encryption key and the other settings.
+- [Keys and encryption](/en/boot/crypto-keys) How to set the API transport key and how the frontend gets it.
 
 </div>

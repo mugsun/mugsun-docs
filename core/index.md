@@ -153,7 +153,7 @@ public R<LoginVO> login(@RequestBody LoginDTO dto) {
 这只是传输混淆。密钥要下发给浏览器，对客户端不保密，密文也不防重放。
 :::
 
-密钥不配也能启动，第一次启动时会自动生成一个。用 Docker 或多个实例部署时要自己配置，见[配置参考](/boot/configuration)。
+密钥不配也能启动，第一次启动时会自动生成一个。用 Docker 或多个实例部署时要自己配置，见[密钥与加密](/boot/crypto-keys#接口传输密钥)。
 
 ## 目前的限制
 
@@ -168,6 +168,6 @@ public R<LoginVO> login(@RequestBody LoginDTO dto) {
 - [后端概述](/boot/) mugsun-boot 是这个库最主要的使用者。
 - [架构](/guide/architecture) 各个仓库怎样组合在一起。
 - [升级说明](/guide/upgrade/core-0-2-0) 从 Maven Central 上的旧版本升级时要改什么。
-- [配置参考](/boot/configuration) 接口加密的密钥和其他配置项。
+- [密钥与加密](/boot/crypto-keys) 接口传输密钥怎么配，前端怎么拿到。
 
 </div>

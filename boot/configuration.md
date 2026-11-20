@@ -1,265 +1,133 @@
 # 配置参考
 
-boot 采用 Spring Boot 标准配置：`application.yml` 给默认值，`application-prod.yml` 覆盖生产，本地覆盖写在 `config/application-local.yml`（已 gitignore，工作目录须为仓库根目录）。下表列出最常用的环境变量，完整键名以 `mugsun-boot-core/src/main/resources/application*.yml` 为准。
+这一页按主题列出 boot 常用的配置项和环境变量。boot 用 Spring Boot 的标准配置方式，配置来自三个文件：
+
+| 文件 | 作用 |
+| --- | --- |
+| `application.yml` | 默认值，本地开发直接可用 |
+| `application-prod.yml` | 激活 `prod` 后生效的生产默认值 |
+| `config/application-local.yml` | 本机的覆盖配置，不进 git，最后加载 |
+
+表里没列的键，以 `mugsun-boot-core/src/main/resources/application*.yml` 为准。
+
+## 按场景找配置
+
+| 要做的事 | 看这一节 |
+| --- | --- |
+| 在本机跑起来 | [本地开发](#本地开发) |
+| 连数据库、Redis 和文件存储 | [数据源与缓存](#数据源与缓存) |
+| 配初始口令和密钥 | [安全与密钥](#安全与密钥) |
+| 关掉不用的模块 | [可选模块](#可选模块) |
+| 让 AI 访问内网的模型服务 | [AI 出站白名单](#ai-出站白名单) |
+| 开放用户注册 | [自助注册](#自助注册) |
+| 调整登录时的人机验证 | [安全验证](#安全验证-行为验证码) |
+| 接第三方账号登录 | [社交登录](#社交登录) |
+| 弄清为什么拒绝启动 | [启动守卫与豁免开关](#启动守卫与豁免开关) |
+| 准备上线 | [生产环境](#生产环境) |
 
 ## 本地开发
+
+复制一份本机配置，按需修改：
 
 ```bash
 cp config/application-local.yml.example config/application-local.yml
 ```
 
-`config/application-local.yml` 最后加载，能覆盖 `application.yml` 和各模块自带配置（`mugsun-module-track.yml` 等）里的任意键，例如埋点库地址 `mybatis-flex.datasource.track.url`。[mugsun-boot #29](https://github.com/mugsun/mugsun-boot/pull/29) 之前它排在模块配置前面，模块键写在这里不生效，只能用环境变量（如 `TRACK_JDBC_URL`）覆盖；升级后原先被忽略的这些键会开始生效，请检查文件里是否留有旧值。
+- 这个文件不进 git。启动时的工作目录要是仓库根目录，否则读不到它。
+- 它最后加载，能覆盖 `application.yml` 和各模块自带配置里的任意键。
+  - 模块自带配置指 `mugsun-module-track.yml` 这类文件。
+  - 例如埋点库地址 `mybatis-flex.datasource.track.url` 可以直接写在这里。
+- 示例文件不带任何密钥值，另外带了 mock 社交登录的配置。
+- 默认连本机的 PostgreSQL 和 Redis，可以用环境变量改：
+  - 数据库地址：`MUGSUN_DB_HOST`、`MUGSUN_DB_PORT`、`MUGSUN_DB_NAME`；
+  - 数据库账号：`MUGSUN_DB_USERNAME`、`MUGSUN_DB_PASSWORD`；
+  - Redis：`MUGSUN_REDIS_HOST`、`MUGSUN_REDIS_PORT`。
+- `mvn spring-boot:run` 默认激活 `dev`。
+  - 用 `java -jar` 启动时，自己加 `--spring.profiles.active=dev`。
+- `dev` 下接口传输密钥和字段加密密钥可以留空，见[密钥与加密](/boot/crypto-keys#本地开发)。
+- SM2 密钥对留空时每次启动临时生成。登录可能因为密钥变了而失败，建议填一对固定的本地密钥。
 
-示例文件不再带密钥值，另带 mock 社交登录。
+早期版本里，模块自带配置的键写在这个文件里不生效，只能用环境变量覆盖。更新后这些键会开始生效，文件里留有旧值的话先检查一遍。
 
-dev profile 下接口和字段加密密钥可留空，见下方「本地开发」。
+## 数据源与缓存
 
-SM2 密钥对留空时每次启动临时生成，登录可能因密钥变化失败，建议填入固定的本地密钥对。
+下表是 `prod` 下读取的环境变量。
 
-## 数据源与缓存（prod）
+| 变量 | 默认 | 说明 |
+| --- | --- | --- |
+| `JDBC_URL` | — | 主库的 JDBC 地址 |
+| `JDBC_USERNAME` / `JDBC_PASSWORD` | — | 主库账号 |
+| `REDIS_HOST` | — | Redis 地址 |
+| `REDIS_PORT` | `6379` | Redis 端口 |
+| `REDIS_PASSWORD` | 空 | Redis 口令，留空表示没有口令 |
+| `REDIS_DB` | `0` | Redis 库号 |
+| `FILE_STORAGE_PATH` | `/var/lib/mugsun/files/` | 本地文件的存储目录 |
+| `FILE_DOMAIN` | — | 文件的访问域名 |
+| `MUGSUN_FRONT_URL` | — | 管理后台的地址，用于 OAuth 回跳等。生产必填，开发默认 `http://localhost:3006` |
 
-| 变量 | 说明 |
-| --- | --- |
-| `JDBC_URL` / `JDBC_USERNAME` / `JDBC_PASSWORD` | 主库连接 |
-| `REDIS_HOST` / `REDIS_PORT`（默认 6379，可选）/ `REDIS_PASSWORD`（空白=无口令）/ `REDIS_DB`（prod 默认 0，可选） | Redis；JetCache uri 由 EPP 按这些字段合成并百分号编码，勿在 yml 裸拼口令。合成不覆盖显式 `jetcache.remote.default.uri`，但仍回解析核对；覆盖 `remote.default` 须同级保留 `type` |
-| `FILE_STORAGE_PATH`（默认 `/var/lib/mugsun/files/`）/ `FILE_DOMAIN` | 本地文件存储与访问域名 |
-| `MUGSUN_FRONT_URL` | 管理台 origin，用于 OAuth 回跳等；开发默认 `http://localhost:3006`，prod 必填 |
+缓存（JetCache）用的 Redis 地址由上面几个 `REDIS_*` 变量自动合成：
+
+- 口令里的特殊字符会做百分号编码，不要自己在 yml 里把口令拼进地址。
+- 显式配了 `jetcache.remote.default.uri` 时不会被覆盖，但启动时仍会解析核对。
+- 覆盖 `jetcache.remote.default` 时，要在同一级保留 `type`。
 
 ## 安全与密钥
 
 | 变量 | 默认 | 说明 |
 | --- | --- | --- |
-| `MUGSUN_INIT_PASSWORD` | — | 平台种子 admin 口令（DataInitializer / init show）。生产未注入时拒绝启动（见启动守卫）。重置/新建租户管理员/导入默认口令为各自随机一次性口令（响应 `initialPassword`），首次登录须改密 |
-| `MUGSUN_GM_ENABLED` | `true` | 国密总开关（传输 SM2 / 摘要 SM3） |
-| `MUGSUN_SM4_KEY` | 空 | SM4 字段加密密钥；非 dev 必填，见下方「接口加密与字段加密密钥」 |
-| `MUGSUN_API_KEY` | 空 | 接口传输密钥（可选）；没配自动生成到 `~/.mugsun/api-transport.key` |
-| `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | 空 | SM2 传输密钥对（hex）；留空启动时生成并告警 |
-| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对（可选）；没配自动生成到 `~/.mugsun/audit-sign-sm2.key` |
-| `MUGSUN_HOME` | `~/.mugsun` | 自动生成的密钥文件目录（配置项 `mugsun.home`） |
-| `MUGSUN_STRICT_KEYS` | `false`（prod 为 `true`） | 为 `true` 时缺 SM4 字段密钥或 SM2 传输密钥拒绝启动；接口密钥、签名密钥照常自动生成 |
-| `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理 CIDR 列表，见 [开放平台](/boot/open-api#客户端-ip-与可信代理) |
-| `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥（至少 32 个字符），见下方「本地文件访问」 |
+| `MUGSUN_INIT_PASSWORD` | — | 内置 admin 账号的初始口令。生产没配会拒绝启动 |
+| `MUGSUN_GM_ENABLED` | `true` | 国密总开关：传输用 SM2，摘要用 SM3 |
+| `MUGSUN_SM4_KEY` | 空 | 字段加密密钥。`dev` 以外必填 |
+| `MUGSUN_API_KEY` | 空 | 接口传输密钥，可选。没配时自动生成到 `~/.mugsun/api-transport.key` |
+| `MUGSUN_SM2_PRIVATE_KEY` / `MUGSUN_SM2_PUBLIC_KEY` | 空 | SM2 传输密钥对（hex）。留空时启动临时生成并告警 |
+| `MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY` | 空 | 审计签名密钥对，可选。没配时自动生成到 `~/.mugsun/audit-sign-sm2.key` |
+| `MUGSUN_HOME` | `~/.mugsun` | 自动生成的密钥文件所在目录，配置项 `mugsun.home` |
+| `MUGSUN_STRICT_KEYS` | `false`，`prod` 为 `true` | 为 `true` 时，缺字段加密密钥或 SM2 传输密钥就拒绝启动。接口传输密钥和审计签名密钥照常自动生成 |
+| `MUGSUN_OPENAPI_TRUSTED_PROXIES` | 空 | 可信反向代理的网段，见[开放平台](/boot/open-api#客户端-ip-与可信代理) |
+| `MUGSUN_FILE_SIGN_SECRET` | 空 | 本地文件下载链接的签名密钥，至少 32 个字符，见[本地文件访问](#本地文件访问) |
 
-`MUGSUN_GM_ENABLED`（配置项 `mugsun.crypto.gm-enabled`）关闭后的行为如下：
+密钥的格式、自动生成的规则和旧数据的迁移，单独写在[密钥与加密](/boot/crypto-keys)。
+
+关于初始口令：
+
+- 重置密码、新建租户管理员、导入用户时，系统各自生成随机的一次性口令。
+- 一次性口令在响应的 `initialPassword` 里返回一次，拿到它的账号首次登录必须改密。
+
+### 关闭国密后的行为
+
+`MUGSUN_GM_ENABLED` 对应配置项 `mugsun.crypto.gm-enabled`。关闭后：
 
 - 登录、改密和注册时，密码不再用 SM2 加密，以明文提交，只靠 HTTPS 保护。
-- 管理台在运行时读取这个开关，自动停止加密，不需要重新构建。
-- 通用摘要从 SM3 改为 SHA-256，目前只有加解密演示接口使用。审计签名使用独立的 SM2 密钥，不受影响。
-- 密码存储不受这个开关影响，服务端始终用加盐的慢哈希 BCrypt 存储密码，不使用 SHA-256。
+- 管理后台在运行时读取这个开关，自动停止加密，不需要重新构建。
+- 通用摘要从 SM3 改为 SHA-256，目前只有加解密演示接口使用。
+- 审计签名使用独立的 SM2 密钥，不受影响。
+- 密码存储不受影响：服务端始终用加盐的慢哈希 BCrypt 存密码。
 
-生产环境关闭国密会拒绝启动，除非同时设置豁免开关，见下方「启动守卫与豁免开关」。关闭后密码完全靠 TLS 保护。等保或密评场景请保持开启。
-
-## 接口加密与字段加密密钥（不兼容变更）
-
-::: warning 不兼容变更
-mugsun-core 和 mugsun-boot 已去掉全部内置回落密钥。
-
-升级后，非 dev 环境缺 `MUGSUN_SM4_KEY` 会拒绝启动。
-
-`MUGSUN_API_KEY` 和审计签名密钥改为开箱即用：没配时自动生成并持久化，不再拒绝启动。
-:::
-
-### 接口传输密钥：开箱即用、可选覆盖
-
-不配也能启动，用户什么都不用配：
-
-- 没配 `MUGSUN_API_KEY` 时，首次启动用 SecureRandom 生成 16 字节密钥。
-- 密钥写入 `~/.mugsun/api-transport.key`，之后每次重启复用。
-- 目录可用 `mugsun.home` 或环境变量 `MUGSUN_HOME` 改。
-- 目录 700、文件 600；先写临时文件再原子改名，多个进程同时首启也只生成一次。
-- 日志只写「已自动生成并保存到 <路径>」，不写密钥；文件权限比 600 宽时打 WARN，不拒绝启动。
-- 配了 `MUGSUN_API_KEY` 就用配的，格式校验照旧严格（见下）。
-- 配置值等于已删除的旧内置默认值时拒绝启动。
-
-::: warning 这两种部署必须配 `MUGSUN_API_KEY` 或挂共享卷
-- Docker 没给 `~/.mugsun`（或 `MUGSUN_HOME`）挂卷：每次重启都会换新密钥。
-- 多实例：各自生成的密钥不一致，互相解不开。
-
-检测到容器环境（`/.dockerenv`、cgroup）且没配密钥时，启动日志打 WARN。
-:::
-
-前端怎么拿到同一把密钥：
-
-- 运行时：登录后调 `GET /crypto/bootstrap` 取 `keyHex`。
-  - 只对已登录会话下发，不在匿名白名单，会话必须带租户；
-  - 按用户限流，默认每分钟 30 次（`mugsun.crypto.bootstrap.per-user-per-minute`）；
-  - 未登录返回 401；会话没有租户返回 403；超过限流返回 429；均不含密钥；
-  - 响应带 `Cache-Control: no-store`；日志只记谁调了，不记密钥；
-  - 配了 `MUGSUN_API_KEY` 时返回的就是配置值（统一成 32 位小写 hex）。
-- 本地开发：dev/test/local 启动时，后端把同一把密钥写进 mugsun-pc 的 `.env.local`。
-  - 写入的变量是 `VITE_CRYPTO_API_KEY`；
-  - 只在 `spring.profiles.active` 非空、含 dev/test/local、不含 prod 时执行；
-  - pc 的 `.gitignore` 没忽略 `.env.local` 就拒绝写入；
-  - pc 目录用 `MUGSUN_PC_DIR` 指定，没配就找 `../mugsun-pc`、`../../mugsun-pc`；
-  - `mugsun.crypto.pc-env-local.enabled=false` 可关掉。
-- 构建期 `VITE_CRYPTO_API_KEY` 和后端下发的值不一致时，前端直接报错，不会悄悄用错的密钥。
-- 前端零配置和上面的不一致报错，需要 mugsun-pc 含 `/crypto/bootstrap` 支持的版本，见 pc 升级说明。
-
-这把密钥只用于传输混淆，不得用于落库加密、派生签名，也不和签名密钥共用。
-
-审计签名密钥（`MUGSUN_SIGN_PRIVATE_KEY` / `MUGSUN_SIGN_PUBLIC_KEY`）没配时同样自动生成。
-
-签名密钥存 `~/.mugsun/audit-sign-sm2.key`，与接口密钥分两个文件，任何接口都不下发。
-
-### `MUGSUN_API_KEY` 格式（配置时）
-
-- 接口加密改为 SM4-GCM，带完整性校验，篡改后解密失败。
-- 密钥只接受两种写法，先去掉前后空白：
-  - 32 位 hex，大小写都行；
-  - 带填充的标准 base64，解码后正好 16 字节。
-- 其他写法一律拒绝启动，不再补零或截断。
-- 密文是 `base64(IV 12 字节 ‖ 密文 ‖ 标签 16 字节)`，必须带填充。
-- 旧的 SM4-CBC 密文不再兼容，管理台前端要同步升级。
-
-::: danger 只是传输混淆，不能代替 HTTPS
-对称密钥要下发到浏览器，对客户端不保密。生产必须走 HTTPS。
-
-不防重放、不绑定接口：密文可被原样重发，或搬到另一个加密接口。
-:::
-
-### 升级步骤
-
-1. 单实例、密钥目录能持久保存的部署，可以删掉 `MUGSUN_API_KEY`，让系统自动生成。
-   - Docker 不挂卷或多实例部署，用 `openssl rand -hex 16` 生成新值配上。
-2. 配着旧的 16 个字符 `MUGSUN_API_KEY` 的部署，要先换成新格式或删掉，否则拒绝启动。
-3. 前端改为登录后从 `GET /crypto/bootstrap` 取密钥。
-   - 构建期仍配 `VITE_CRYPTO_API_KEY` 的，必须和后端同一个值，前后端一起发布。
-4. 确认 `MUGSUN_SM4_KEY` 已配置且格式合法（见下方「`MUGSUN_SM4_KEY` 格式」）。
-
-   以下部署升级前都要先按下方「迁移」重新加密，旧值填进去照样解不开旧数据：
-   - 用过旧回落值或短密钥的；
-   - `MUGSUN_SM4_KEY` 是 32 位 hex 或 24 位 base64 的。
-     - 旧版把这串字符截成前 16 个字符当密钥，新版按 hex 或 base64 解码，得到另一把钥。
-     - 迁移时旧密钥填原值，并设 `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED=true`。
-   - 只有一直用 16 个字符写法的部署，密钥字节不变，可以直接升级。
-
-### `MUGSUN_SM4_KEY` 格式
-
-- 只接受三种写法，先去掉前后空白：
-  - 32 位 hex，大小写都行（新部署用 `openssl rand -hex 16` 生成）；
-  - 带填充的标准 base64，解码后正好 16 字节；
-  - 过渡期兼容：16 个字符的旧写法，启动时打 WARN，下一个版本只接受 32 位 hex。
-- 其他写法一律拒绝启动：不补零、不截断，也没有 legacy 开关。
-- 旧版本对所有密钥都按字符处理：短的补零，长的截断到 16 个字符。
-  所以旧版配的 32 位 hex、24 位 base64 密钥，升级后解码结果不同，也要迁移。
-- 启动自检：应用启动时，每个加密字段抽 3 行，像密文的每一条都试解。
-  - 有一条解不开就拒绝启动，报出表、字段和主键，并提示用 `LEGACY_PADDED` 迁移。
-  - 空库直接通过。
-  - `mugsun.crypto.sm4-self-check=false` 可以关掉，只建议排障时临时用。
-  - 生产环境下跳过开关不生效，照常自检。
-
-### 本地开发
-
-- 用 dev profile 启动：`--spring.profiles.active=dev`。
-- 接口传输密钥、审计签名密钥：没配时自动生成到 `~/.mugsun`，重启复用。
-  - 接口密钥还会写进 mugsun-pc 的 `.env.local`，见上方「接口传输密钥」；
-  - 已移除 `mugsun.crypto.allow-ephemeral-keys`。
-- `mugsun.crypto.sm4-local-key-file`（默认 `${user.home}/.mugsun/dev-sm4.key`）：
-  - 没配 `MUGSUN_SM4_KEY` 时，首次启动生成随机密钥写入该文件；
-  - 之后每次启动复用，重启后本地数据仍能解开；
-  - 文件创建时就是 600 权限，目录 700；权限过宽会打 WARN；
-  - 删掉文件后，用它加密的本地数据解不开。
-- 本地以前用旧回落值加密的数据，升级后会解不开，需要重建本地库或按下方迁移。
-- 字段加密密钥不会每次启动随机生成。
-- `MUGSUN_STRICT_KEYS=true`（prod 默认）时，`sm4-local-key-file` 不生效。
-- `strict-keys` 不再影响接口密钥和审计签名密钥。
-
-### 迁移：用过旧回落值、短密钥，或旧版配过 32 位 hex / base64 密钥的部署
-
-旧版本没配密钥时，会回落到仓库里公开的固定值；配了短密钥时会补零，长密钥会截断。
-
-这类部署直接填新密钥会导致旧数据全部解不开；填回旧值等于继续用公开密钥。
-
-应用同一时间只装一把密钥，所以重新加密要用离线迁移工具，它同时拿新旧两把密钥。
-
-迁移工具的主类是 `com.mugsun.boot.common.crypto.Sm4KeyMigrationTool`。
-
-迁移工具的输入全部走环境变量，不写在命令行里：
-
-| 环境变量 | 说明 |
-| --- | --- |
-| `MUGSUN_SM4_OLD_KEY` | 旧密钥（旧回落值见 git 历史，仅用于迁移） |
-| `MUGSUN_SM4_OLD_KEY_LEGACY_PADDED` | 旧密钥是短密钥或旧回落值时设 `true`，按旧版补零方式还原 |
-| `MUGSUN_SM4_NEW_KEY` | 新密钥，格式同上 |
-| `MUGSUN_MIGRATE_JDBC_URL`、`MUGSUN_MIGRATE_DB_USER`、`MUGSUN_MIGRATE_DB_PASSWORD` | 目标库连接 |
-
-迁移步骤：
-
-1. 备份数据库，停掉应用。
-2. 先跑 dry-run（默认，不写库）：
-
-   ```bash
-   java -cp mugsun-boot.jar \
-     -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool \
-     org.springframework.boot.loader.launch.PropertiesLauncher
-   ```
-
-   按表和字段输出总数、需重加密、已是新密钥、历史明文、解不开的条数。
-   用 Docker 镜像时，换掉入口直接跑 java：
-
-   ```bash
-   docker run --rm --env-file migrate.env --entrypoint java <镜像> \
-     -cp /app/app.jar \
-     -Dloader.main=com.mugsun.boot.common.crypto.Sm4KeyMigrationTool \
-     org.springframework.boot.loader.launch.PropertiesLauncher --dry-run
-   ```
-
-   `migrate.env` 用完即删，不要提交。
-3. 「解不开」全为 0 后，**先确认第 1 步的备份可用**，再加 `--apply` 跑一次。单事务写库，有一条解不开就整体回滚。
-4. 把 `MUGSUN_SM4_KEY` 换成新密钥启动；核对标准：error 日志里「SM4 解密失败」为 0 条。
-5. 字段里存的第三方凭据全部轮换。
-
-- 新旧密钥相同（包括同一把钥的 hex、base64 两种写法）会被拒绝执行。
-- 密钥只从环境变量读，命令行只认 `--dry-run`、`--apply`；输出只有表名、字段、行数和解不开的主键，不含密钥、明文或密文。
-- 租户独立数据源（`sys_tenant_datasource`）的库要各跑一次。
-- 配了 `mugsun.db.default-schema` 的，JDBC URL 里要带上该 schema。
-  - PG 用 `currentSchema=`；多个 schema 就每个各跑一次。
-- 解密失败时字段返回空，不会写回库里；但迁移前不要在管理台保存这些记录。
-
-涉及的字段：
-
-| 表 | 字段 |
-| --- | --- |
-| `sys_user` | `id_card` |
-| `sys_tenant_datasource` | `ds_password` |
-| `sys_notify_channel` | `secret` |
-| `sys_oauth_client` | `client_secret` |
-| `sys_api_key` | `secret_key` |
-| `sys_oss` | `access_key`、`secret_key` |
-| `ai_model` | `api_key`、`secret_key` |
-| `ai_secret` | `secret_key` |
-| `ai_datasource` | `password` |
-| `ai_vector_store` | `password` |
-| `ai_mcp_tool` | `api_key` |
-| `gis_map_provider` | `api_key`、`secret` |
-
-- 接口加密只影响传输，不落库，换密钥即可。
-
-### 字段加密的 ECB 例外
-
-字段加密目前用 SM4-ECB，这是只留给 `sys_user.id_card` 的例外，为了支持等值查询。它的局限：
-
-- 相同明文得到相同密文，库里的重复值能被看出来；
-- 密文不防篡改；
-- 密文不绑定行，可以被搬到别的行。
-
-其余 14 个字段下一轮迁到 SM4-GCM。以后 `id_card` 如果要做等值查询，
-改为「HMAC 生成的盲索引列负责查询，字段本身用 GCM 加密」。
+生产环境关闭国密会拒绝启动，除非同时设置豁免开关，见[启动守卫与豁免开关](#启动守卫与豁免开关)。等保或密评场景请保持开启。
 
 ## 审计日志
 
 | 配置项 | 默认 | 说明 |
 | --- | --- | --- |
-| `mugsun.audit.anonymous-max-pending`（环境变量 `MUGSUN_AUDIT_ANONYMOUS_MAX_PENDING`） | `64` | 未登录请求的操作日志最多同时排队多少条。超出的直接丢弃，并在日志里告警累计条数（第 1 条和每 100 条记一次）。已登录请求的审计不受限，不会丢 |
+| `mugsun.audit.anonymous-max-pending` | `64` | 未登录请求的操作日志最多同时排队多少条 |
 
-操作日志按哈希链落库。多实例部署时，各实例会在事务里锁住同一行链头再写入，并由唯一索引兜底，所以链不会分叉，不需要额外配置。
+- 超出上限的日志直接丢弃，并告警累计条数：第 1 条记一次，之后每 100 条记一次。
+- 已登录请求的审计不受这个上限约束，不会丢。
+
+操作日志按哈希链落库。多实例部署时不需要额外配置：
+
+- 各实例在事务里锁住同一行链头再写入；
+- 另有唯一索引兜底，所以链不会分叉。
 
 ## 本地文件访问
 
-开发环境（默认配置）下，本地存储的文件由应用在 `/file/**` 下直接提供。为避免私有附件被人拿着地址匿名下载：
+开发环境下，本地存储的文件由应用在 `/file/**` 下直接提供。为了不让私有附件被人拿着地址匿名下载：
 
 - `mugsun/public/` 下的公开文件（如头像）仍可匿名访问。
-- 其余文件必须带短时签名才能下载。登录后调用 `GET /system/file/download/{id}` 会返回一个带 `e`（过期时间）和 `s`（签名）参数的地址，默认 300 秒内有效；没有签名、签名不对或过期的请求一律返回 404。
+- 其余文件必须带短时签名才能下载。
+  - 登录后调用 `GET /system/file/download/{id}`，会返回一个带签名的地址。
+  - 地址里的 `e` 是过期时间，`s` 是签名，默认 300 秒内有效。
+  - 没有签名、签名不对或过期的请求一律返回 404。
 
 ```yaml
 mugsun:
@@ -270,13 +138,25 @@ mugsun:
       expire-seconds: 300
 ```
 
-`sign-secret` 留空时每次启动随机生成，只适合单实例；多实例部署必须给所有实例配置同一个值，否则一个实例签发的地址在另一个实例上会 404。`prod` profile 默认关闭 `/file/**` 直出，私有附件走授权下载接口，不受此项影响；如果在 `prod` 下手动开启直出，必须配置至少 32 个字符的 `sign-secret`，留空或过短都会拒绝启动。
+`sign-secret` 的规则：
 
-直出的文件都带 `X-Content-Type-Options: nosniff`。HTML、SVG 等浏览器可能执行的类型以及 PDF 一律作为附件下载，不在浏览器里直接打开；HTML、SVG 等还会附加 `Content-Security-Policy: sandbox`。
+- 留空时每次启动随机生成，只适合单实例。
+- 多实例部署要给所有实例配同一个值，否则一个实例签发的地址在另一个实例上会 404。
+- `prod` 默认关闭 `/file/**` 直出，私有附件走授权下载接口，不受这一项影响。
+- 在 `prod` 下手动开启直出时，必须配至少 32 个字符的 `sign-secret`，留空或过短都会拒绝启动。
+
+直出的文件都带 `X-Content-Type-Options: nosniff`：
+
+- HTML、SVG 等浏览器可能执行的类型和 PDF，一律作为附件下载，不在浏览器里直接打开。
+- HTML、SVG 等还会附加 `Content-Security-Policy: sandbox`。
 
 ## 操作日志排除
 
-所有 Controller 的写接口（POST/PUT/DELETE/PATCH）会自动记一条操作日志（标题「自动留痕」）。浏览器高频调用、不属于管理操作的接口可以排除，不再写日志，也不参与操作日志的哈希链。默认排除埋点 SDK 的上报接口：
+所有 Controller 的写接口（POST、PUT、DELETE、PATCH）会自动记一条操作日志，标题是「自动留痕」。
+
+浏览器高频调用、不属于管理操作的接口可以排除。排除后不再写日志，也不参与操作日志的哈希链。
+
+默认排除埋点 SDK 的上报接口：
 
 ```yaml
 mugsun:
@@ -287,7 +167,10 @@ mugsun:
       - /track/api-body
 ```
 
-配置这个列表会整体替换默认值，要保留这三项请一并写上；写成 `exclude-paths: []` 则全部留痕。排除只影响自动留痕，显式标了 `@OperationLog` 的接口照常记录，管理端的 `/system/track/**` 也不受影响。
+- 配置这个列表会整体替换默认值，要保留这三项就一并写上。
+- 写成 `exclude-paths: []` 则全部留痕。
+- 排除只影响自动留痕。显式标了 `@OperationLog` 的接口照常记录。
+- 管理端的 `/system/track/**` 不受影响。
 
 ## 可选模块
 
@@ -296,14 +179,19 @@ mugsun:
 | `MUGSUN_GIS_ENABLED` | `true` | GIS 模块 |
 | `MUGSUN_TRACK_ENABLED` | `true` | 埋点模块 |
 | `MUGSUN_AI_ENABLED` | `true` | AI 模块 |
-| `POWERJOB_ENABLED` | `false` | PowerJob Worker；启用须独立部署 Server 并设置 `POWERJOB_SERVER` |
-| `MUGSUN_IP2REGION_ENABLED` / `MUGSUN_IP2REGION_XDB_PATH` | `false` / 空 | IP 归属地解析 |
+| `POWERJOB_ENABLED` | `false` | PowerJob Worker。启用时要独立部署 Server，并设置 `POWERJOB_SERVER` |
+| `MUGSUN_IP2REGION_ENABLED` | `false` | IP 归属地解析，见 [IP 归属地](#ip-归属地) |
 
-三个模块开关不设置时开启；设置后只接受 `true` 或 `false`（不区分大小写，前后不能有空格），空值、`1`、`0` 等其它值会导致启动失败。完整规则见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
+三个模块开关不设置时是开启的。设置后只接受 `true` 或 `false`：
+
+- 不区分大小写，前后不能有空格。
+- 空值、`1`、`0` 等其他值会导致启动失败。
+
+完整规则见架构页的[两层开关](/guide/architecture#模块装配-两层开关)。
 
 ## 知识库资料上传上限
 
-知识库 multipart / 远程 `fileUrl` 单文件默认 20MB。可在平台配置里调整：
+知识库上传的文件和远程 `fileUrl` 抓取的文件，单个默认不超过 20MB。可以在平台配置里调整：
 
 ```yaml
 mugsun:
@@ -312,15 +200,22 @@ mugsun:
       max-upload-bytes: 20971520   # ≤0 时回落 20MB
 ```
 
-白名单扩展名为 `pdf` / `docx` / `pptx`（另校验 MIME 与魔数）。
+- 只接受 `pdf`、`docx`、`pptx` 三种扩展名，另外校验 MIME 和文件头。
+- 解析用 Apache Tika，不做 OCR。
 
-解析走 Apache Tika，不做 OCR。
-
-详见 [AI 中心 · 知识库资料解析](/pc/ai-center)。
+详见 [AI 中心](/pc/ai-center)。
 
 ## AI 出站白名单
 
-模型调用（对话、流式对话、向量）、知识库抓取、渠道 Webhook、MCP 远程调用和工作流 HTTP 节点在发起请求前统一做 SSRF 校验，默认拒绝内网、回环与云元数据地址。需要访问内网服务（如本地模型服务、内网 MCP）时显式放行：
+下面这些请求在发出前统一做 SSRF 校验，默认拒绝内网、回环和云元数据地址：
+
+- 模型调用：对话、流式对话、向量
+- 知识库抓取
+- 渠道 Webhook
+- MCP 远程调用
+- 工作流的 HTTP 节点
+
+要访问内网服务（如本地模型服务、内网 MCP）时，显式放行：
 
 ```yaml
 mugsun:
@@ -332,16 +227,44 @@ mugsun:
       allowed-ports: [80, 443]
 ```
 
-示例：本地 Ollama 默认监听 `http://localhost:11434`，把 `localhost` 加入 `allow-hosts` 后，模型管理、知识库、渠道中填写该地址才能保存和调用。`allow-hosts` 只能在平台配置文件里设置，租户无法自行放行内网地址；升级前已保存为内网地址的模型，在加入白名单之前调用会失败。
+例如本地 Ollama 默认监听 `http://localhost:11434`。把 `localhost` 加入 `allow-hosts` 之后，模型管理、知识库、渠道里填这个地址才能保存和调用。
 
-- 校验在保存配置（包括模型的接口地址）时和每个请求发出前各做一次，IP 直接写在地址里的也会被拦；只允许 `http` / `https`。
-- 非白名单主机默认只能访问 80 和 443 端口，其它端口用 `allowed-ports` 放开；白名单主机不限端口。
-- 建立连接时会再解析一次域名并逐个检查地址，然后直接连接检查过的那个地址。域名在检查之后才改指向内网（DNS rebinding）也连不上；只要解析结果里有一个地址落在禁止网段，整个请求就会被拒绝。
-- 禁止网段包括私网、回环、链路本地、CGNAT（含云厂商元数据地址）、组播、保留与文档示例地址，IPv6 同样适用（含 `2001:db8::/32` 和 Teredo `2001::/32`），也包括内嵌这些 IPv4 地址的 IPv4-mapped、NAT64、6to4 地址。工作流 HTTP 节点不读 `allow-hosts`，一律禁止内网。
-- 不会自动跟随重定向：对方返回 3xx 时请求就此结束，不会再去请求 `Location` 指向的地址。Webhook、MCP 或模型地址如果会跳转，请直接填写跳转后的最终地址。
-- 默认 `allow-hosts: []`，即不放行任何内网地址；未命中白名单的公网主机不受影响。
-- 云元数据地址始终拒绝，即使所在主机在 `allow-hosts` 中也不放行：整个链路本地段 `169.254.0.0/16`（含 `169.254.169.254`、AWS ECS 任务凭证 `169.254.170.2`、腾讯云 `169.254.0.23` 等），以及 `100.100.100.200` 和 `fd00:ec2::254`。IPv6 中内嵌 IPv4 的写法（`::ffff:` 映射、`::a.b.c.d` 兼容、NAT64 `64:ff9b::/96`、6to4 `2002::/16`）会先解出内嵌的 IPv4 再判断。
-- `*.example.com` 匹配其任意子域名，不含 `example.com` 本身；`.local`、`.internal` 结尾的主机默认拒绝，需显式列出。只列确需访问的主机。
+### 白名单怎么写
+
+- 默认 `allow-hosts: []`，不放行任何内网地址。没命中白名单的公网主机不受影响。
+- `allow-hosts` 只能在平台配置文件里设置，租户不能自己放行内网地址。
+- `*.example.com` 匹配它的任意子域名，不含 `example.com` 本身。
+- `.local`、`.internal` 结尾的主机默认拒绝，要显式列出。
+- 非白名单主机默认只能访问 80 和 443 端口，其他端口用 `allowed-ports` 放开。
+- 白名单主机不限端口。
+- 升级前已经保存为内网地址的模型，加入白名单之前调用会失败。
+- 只列确实要访问的主机。
+
+### 校验怎么做
+
+- 只允许 `http` 和 `https`。
+- 保存配置（包括模型的接口地址）时校验一次，每个请求发出前再校验一次。
+- 地址里直接写 IP 也会被拦。
+- 建立连接时会再解析一次域名，逐个检查地址，然后直接连检查过的那个地址。
+  - 域名在检查之后才改指向内网（DNS rebinding）也连不上。
+  - 解析结果里只要有一个地址落在禁止网段，整个请求就被拒绝。
+- 不自动跟随重定向。对方返回 3xx 时请求就此结束，不会去请求 `Location` 指向的地址。
+  - Webhook、MCP 或模型地址如果会跳转，请直接填跳转后的最终地址。
+- 工作流的 HTTP 节点不读 `allow-hosts`，一律禁止内网。
+
+### 禁止的网段
+
+- 私网、回环、链路本地、CGNAT、组播、保留地址和文档示例地址。
+- IPv6 同样适用，包括 `2001:db8::/32` 和 Teredo `2001::/32`。
+- 内嵌 IPv4 的 IPv6 写法，会先解出内嵌的 IPv4 再判断：
+  - `::ffff:` 映射、`::a.b.c.d` 兼容；
+  - NAT64 `64:ff9b::/96`、6to4 `2002::/16`。
+
+云元数据地址始终拒绝，即使所在主机在 `allow-hosts` 里也不放行：
+
+- 整个链路本地段 `169.254.0.0/16`，含 `169.254.169.254`；
+- AWS ECS 任务凭证 `169.254.170.2`、腾讯云 `169.254.0.23`；
+- `100.100.100.200` 和 `fd00:ec2::254`。
 
 ## 自助注册
 
@@ -369,204 +292,26 @@ mugsun:
 
 ## 安全验证（行为验证码）
 
-登录、注册、忘记密码发码和发送短信验证码默认需要先完成一道行为验证码。默认五种题型全部启用，每次随机出其中一种。验证码为 boot 自带实现，不依赖第三方服务。
+登录、注册、忘记密码发码和发送短信验证码，默认都要先通过一道行为验证码。验证码是 boot 自带的实现，不依赖第三方服务。
 
-```yaml
-mugsun:
-  captcha:
-    enabled: true          # 全局开关
-    store: redis           # redis | memory；memory 仅单机开发，prod 下启动失败
-    slider:
-      tolerance-px: 6      # 落点容差（底图原始像素，底图 320×180）
-      expire-seconds: 120  # 挑战有效期
-      token-expire-seconds: 120
-      decoy-count: 2       # 假缺口数（与真缺口同轮廓）0–3
-      keyboard-step-px: 4  # 键盘模式每次按键移动的原始像素
-      bind-ip: false       # 令牌强制绑定 IP / UA（关闭时只记录）
-      bind-ua: false       # prod 默认 true
-    background:
-      dir: classpath:captcha/bg/   # 也可 file:/opt/mugsun/captcha-bg/
-      rotate: random               # random | round-robin
-      reload-seconds: 600          # 目录重扫间隔，0 = 只在启动时加载
-    rate-limit:
-      challenge-per-minute: 30     # 单 IP 每分钟取题
-      verify-fail-max: 5           # 10 分钟内失败次数，超过锁定 10 分钟（键盘模式 3 次）
-      global-challenge-per-second: 200   # 全局每秒取题上限（Redis 存储时跨节点共享）
-      sms-phone-per-day: 10        # 发送短信：单手机号每天
-      sms-ip-per-hour: 20          # 发送短信：单 IP 每小时
-      sms-phone-per-minute: 5      # 发送短信短窗口：单手机号每分钟（仅令牌核销成功后计数，自动恢复）
-      sms-ip-per-minute: 30        # 发送短信短窗口：单 IP 每分钟（所有请求计数，含没带令牌的）
-```
+最常用的三项配置：
 
-完整键名与默认值见 `application.yml` 的 `mugsun.captcha`。
-
-**背景图：** 放 jpg 或 png，推荐 640×360（16:9），单张不超过 200KB，至少 20 张，避免大面积纯色。目录为空时使用纯色占位。只用自有或允许商用的图片，并在目录里用 `SOURCES.md` 记下来源。
-
-**接口：**
-
-| 接口 | 说明 |
-| --- | --- |
-| `GET /auth/captcha/config?scene=&clientId=&tenantId=` | 是否需要验证，仅供前端提示 |
-| `POST /auth/captcha/challenge` | 取底图与拼图块，有效期 `expireSeconds` |
-| `POST /auth/captcha/verify` | 提交落点与轨迹（或键盘模式的按键次数），换取一次性 `captchaToken` |
-
-`scene` 取 `login`、`register`、`sms`（发送短信验证码）、`forget`。取题时用 `inputMode` 声明鼠标/触屏（`pointer`）还是键盘（`keyboard`），校验时必须一致；键盘题会返回 `keyboardStep`，按键次数要与落点对得上。拿到的 `captchaToken` 放进 `/auth/login`、`/auth/register`、`/auth/sms-code`、`/auth/forget-code` 的请求体，只能用一次，且必须与取题时的场景、客户端、租户一致。服务端会自行判断是否需要验证，不以 `config` 的结果为准。
-
-题型共五种，服务端从该租户启用的题型里随机出一种：
-
-- 滑块（`SLIDER`）。
-- 旋转（`ROTATE`）。
-- 文字点选（`WORD_CLICK`）：按字序依次点一个 3–4 字的常用词语或成语。
-- 图标点选（`ICON_CLICK`）：依次点 3 个图标。
-- 拼图还原（`JIGSAW`）：2×2。
-
-取题和校验的规则如下：
-
-- 前端按响应里的 `type` 渲染题目，请求里传 `type` 无效。
-- `config` 返回的 `type` 在启用两种及以上题型时为 `RANDOM`，否则为具体题型名。
-- 键盘模式（`inputMode: keyboard`）只从该租户已启用的滑块和旋转里选题。
-- 两者都没启用时，键盘取题返回 `40015`（未启用无障碍验证方式），不会改出其他题型。
-- 键盘取题先计单 IP 限流（`rate-limit.keyboard-challenge-per-minute`），再判断是否返回 `40015`。
-- 被 `40015` 拒绝的请求也计入这个限流。
-- 按租户的键盘取题数只在 Redis 里计数，不写审计。
-- 只有 `40015` 会写审计日志，同一租户、同一 IP 10 分钟内只记一条。
-- 全部在服务端校验，答案只存在题目记录里，校验一次即作废。
-- 错误码、失败次数和锁定规则对所有题型相同。
-
-```yaml
-mugsun:
-  captcha:
-    default-types: [SLIDER, WORD_CLICK, ROTATE, ICON_CLICK, JIGSAW]   # 租户没单独设置时启用的题型（默认五种全开），每次随机出一种
-    slider: { expire-seconds: 120, decoy-count: 2 }   # 题目有效期（秒）；滑块假缺口数（与真缺口同轮廓，0–3）
-    rotate: { dir: classpath:captcha/rotate/, piece-size: 160, tolerance-deg: 10, keyboard-step: 5, track-replay-window-seconds: 600 }  # 同一条拖动轨迹在窗口内只能用一次，≤0 关闭
-    click:
-      count: 3
-      decoys: 2
-      min-radius-px: 22
-      min-duration-ms: 400
-      max-duration-ms: 30000
-      words-file: ""              # 私有词库；空则用内置词库；count/decoys 只用于图标点选
-      seed-warp-strength: 0.14    # ICON_CLICK 每题网格形变相对短边；0=关；渲染侧钳到约 [0, 0.35]
-    jigsaw: { rows: 2, cols: 2 }
-    icon-dir: classpath:captcha/icons/   # 图标目录，须含 manifest.json 与 <slug>.png
-    render-max-concurrent: 16           # 本节点同时出图上限，超限返回 40012；≤0 不限
-    render-acquire-timeout-ms: 200      # 等待出图许可的最长毫秒数，超时返回 40012
-    rate-limit:
-      keyboard-challenge-per-minute: 10 # 键盘模式单 IP 每分钟取题上限
-```
-
-容差按“普通人 1–2 秒能过”设定：旋转 ±10°（服务端施加的角度是 `keyboard-step` 的整数倍，且在 30°–330° 之间），点选命中半径为字号或图标边长的 0.75 倍（至少 22 像素），点选元素两两之间的距离不小于两个命中半径之和再加 6 像素。旋转以提交的角度判对错；拖动轨迹除了判断是否为人在操作，首末位移换算出的角度 a_t（位移 ÷ 显示宽度 × 360°）还须满足 0.5 × 提交角度 − 10° ≤ a_t ≤ 提交角度 + 10°。前端可以做低速精调（低速时位移按 0.5 倍累加），轨迹的 x 须记这个累加后的逻辑位置，而不是指针原始坐标。同一条轨迹 10 分钟内只能用一次，重放会校验失败。旋转容差没有收到更窄：触屏松手通常会偏 3–8 像素，而连续失败会锁定，收紧容易误锁；也不按 `pointerType` 区分容差，因为它由客户端自报。盲猜的风险由失败锁定、限流和每题底图随机化兜底。点选和拼图的操作时长 0.4–30 秒从第一次操作算起；打开题目到第一次操作之间不计时，只受题目有效期 `slider.expire-seconds`（默认 120 秒）约束，过期校验返回 `40010`。
-
-文字点选的词库和图标点选的规则如下：
-
-- 词默认来自内置词库：自行整理的 477 条常用词语和成语，只用《通用规范汉字表》一级字。
-- 内置词库随仓库公开，攻击者识别文字后可以用词典纠错。
-- 生产建议用 `click.words-file` 换成私有词库，每行一个 3–4 字的词，`#` 开头为注释。
-- 词里的字必须在内置字体子集里，否则该词会被忽略，并在启动日志里警告。
-- 私有词库读不到或没有可用词时，回落内置词库。
-- 画面里另有 1–2 个干扰字，优先取形近字或同音字。
-- 点到干扰字或顺序不对即不通过。
-- 文字用内置的思源黑体子集（SIL OFL 1.1）在服务端渲染并加干扰。
-- 外形容易混淆的图标不会出现在同一题里。
-- 图标清单缺失或损坏时，启动日志会给出警告，图标点选自动停用，不影响其他题型。
-- 某租户只启用了图标点选时，取题返回 `40016`（验证方式暂不可用），不会改出滑块。
-- 这种情况会写一条审计日志，同一租户、同一 IP 10 分钟内只记一条。
-
-每道题都会做随机化处理：
-
-- 底图和旋转图随机缩放、裁切、镜像和调色。
-- 拼图块另加噪声和轻微色偏（每块 ±4），开局至少 3 块不在原位。
-- 滑块的假缺口与真缺口轮廓相同，默认 2 个。
-- 图标点选的图标不垫白色圆盘，改为贴合轮廓的投影和细描边，干扰线画在图标下面。
-- 图标点选默认对公开库 PNG 做每题 seed-warp 网格形变（含描边微扰）。
-- 提示条与画布对同一 slug 使用同一 seed，抗公开库模板匹配。
-- 文字点选里笔画少于 3 的字（如“一”“十”“人”）只旋转 ±15°。
-
-请求头 `Accept-Language` 只决定提示语言，英文时图标点选的提示名用英文，不影响出哪种题型。
-
-点选题按出题时的底图尺寸判定，题目有效期内改尺寸配置不影响已出的题。
-
-**素材来源与许可：**
-
-- 来源：背景图和旋转图是本项目自有素材，由 Grok Bot 内置生图功能生成，经体验设计官缩放和裁切，无第三方素材。
-- 图标、词库和干扰字映射由本项目自行整理。
-- 确认：用户已于 2026-10-14 07:21 确认随仓库公开发布。
-- 许可：与仓库代码一致（MIT）；字体子集为 SIL OFL 1.1。
-- 详见 boot 仓库 `captcha/SOURCES.md`。
-
-**旋转题是辅助题型：** 旋转题在平台默认的随机集里，但只能部分抵御自动求解。
-
-- 圆孔用不透明纯色填充，圆图另做调色、模糊、噪点和边缘羽化。按孔内像素比对的求解器已经失效。
-- 按圆图边缘与孔外图案的连续性求角，仍有约一半的题能落在 ±10° 内。
-- 不能把旋转题当作唯一防线：要配合失败锁定和限流，并同时启用其他题型。
-- 租户只启用 `ROTATE` 时仍会保存，但响应 `data.warning` 会给出提示。
-
-**图标点选也是辅助题型：** 只能部分抵御自动求解（沿用 #35 口径）。
-
-- 图标库（含 `manifest.json`）随仓库公开。
-- 渲染默认对每题做 seed-warp 网格形变，使公开原图与题图不再重合。
-- 这抬高了公开库模板匹配的难度。
-- 配置键 `mugsun.captcha.click.seed-warp-strength` 默认 `0.14`。
-- 设为 `0` 关闭形变；渲染侧有效强度钳位约 `[0, 0.35]`。
-- 不做曾推高求解率的 R7-1 高对比渐变/杂波。
-- 回归测试用模板匹配求解器，每次 200 题。
-- 三个图标全部点对（full）约 0–1/200；超过 20% 时 CI 失败。
-- 这只说明能挡住这一类求解器。
-- 不能把图标点选当作唯一防线：要配合失败锁定和限流，并同时启用滑块或其他题型。
-- 生产环境请换成私有图标库。
-- 租户只启用 `ICON_CLICK` 时仍会保存，但响应 `data.warning` 会给出提示。
-
-**随机多题型的取舍：** 五种题型随机出题时，攻击者可以反复刷新，等到最弱的题型再解，整体强度接近最弱的那一种。后续计划：
-
-- 同一会话或 IP 在一段时间内固定题型
-- 取了题没答或过期，也算一次失败
-- 拼图改成 3×3，并加接缝扰动
-
-**生产环境必须换私有图库：** 默认的底图（12 张）、旋转图（16 张）和图标（44 个）随开源仓库公开，攻击者可以拿公开原图和题图做差定位缺口，或预先做旋转、图标的答案表。生产部署请把 `background.dir`、`rotate.dir`、`icon-dir` 都换成自己的目录（`file:` 或 `classpath:`），并定期更换；图标目录须带 `manifest.json`（`slug`、`name_zh`、`name_en`、`confusable`；缺 `name_en` 时英文界面退回中文名）。`prod` 环境下仍在使用仓库自带素材时（按目录或文件哈希判断），启动日志会给出警告；没有配置 `click.words-file` 时同样计为使用自带素材。
-
-错误码通过 HTTP 200 + `R.code` 返回：
-
-| code | 含义 |
-| --- | --- |
-| `40010` | 题目已过期，重新取题 |
-| `40011` | 未通过，重新取题（不提示具体原因） |
-| `40012` | 尝试过多，`data.retryAfter` 秒后再试。触发锁定的那次失败（如鼠标第 5 次、键盘第 3 次）本身就返回 `40012`；只要校验失败时该 IP 已被锁定（包括并发请求或另一种输入方式刚锁上），也返回 `40012`。锁定期内取题和校验都返回 `40012` |
-| `40013` | 需要验证码，但请求没带 `captchaToken`，或令牌已用过、已过期、不属于这个场景或租户。HTTP 状态码是 200，前端按 `code` 重新弹出验证码 |
-| `40014` | 当前无需验证 |
-| `40015` | 键盘模式取题，但该租户没有启用滑块或旋转（未启用无障碍验证方式） |
-| `40016` | 该租户启用的题型此刻都不可用（例如只启用了图标点选而图标清单缺失），请联系管理员，不要自动重试 |
-
-校验接口请求体上限 32KB（含分块传输），超限同样返回 HTTP 200 + `40011`。
-
-**忘记密码：** `/auth/forget-code` 的邮件改为异步发送，响应时间不随账号是否存在而变化；对账号不存在、未绑定邮箱、邮件通道未配置或下发失败一律返回同一成功提示「如账号存在，验证码已发送至绑定邮箱」，具体原因只写服务端日志，避免借此判断账号是否存在或通道状态。部署后请检查邮件通道，否则用户收不到验证码却看到“已发送”。
-
-**发送短信：** `/auth/sms-code` 依次执行：① 单 IP 短窗口（每分钟 30 次，所有请求都计数，包括没带令牌的，60 秒后自动恢复）；② 只读检查日配额（单手机号每天、单 IP 每小时），已超额时不消耗令牌；③ 核销 `captchaToken`；④ 单手机号短窗口（每分钟 5 次，只在令牌核销成功后计数）；⑤ 原子地「未超上限才计数」日配额；⑥ 发送。没带令牌或令牌无效的请求只计入 IP 短窗口，既不计入手机号短窗口也不占日配额，所以别人无法替你把某个号码锁住或把当天的配额刷光。发送失败不退还配额，并写入审计日志。超限一律返回 `40012` + `retryAfter`。手机号先去空格和 `-`、去 `+86`/`0086`/`86` 前缀，频控、发码与短信登录用同一号码。
-
-**Redis 键：** 验证码状态都在前缀 `mugsun:captcha:v2:` 下（`store: memory` 时同名键在进程内）：
-
-| 键 | 用途 | 过期 |
+| 配置项 | 默认 | 说明 |
 | --- | --- | --- |
-| `challenge:<captchaId>` | 题目（答案与绑定信息），校验时取出即删 | `expire-seconds` |
-| `token:<captchaToken>` | 一次性令牌，业务接口取出即删 | `token-expire-seconds` |
-| `rl:challenge:<ip>` | 单 IP 每分钟取题计数 | 60 秒 |
-| `rl:keyboard:<ip>` | 单 IP 每分钟键盘校验计数 | 60 秒 |
-| `rl:global:<秒>` | 全局每秒取题计数 | 2 秒 |
-| `rl:sms-phone:<号码哈希>` / `rl:sms-ip:<ip>` | 发送短信日配额（核销成功后才计） | 1 天 / 1 小时 |
-| `rl:sms-burst-phone:<号码哈希>` / `rl:sms-burst-ip:<ip>` | 发送短信短窗口频率限制 | 60 秒 |
-| `fail:<pointer\|keyboard>:<ip>` | 失败计数 | `fail-window-seconds` |
-| `lock:<ip>` | IP 锁定，剩余 TTL 即 `retryAfter` | `lock-seconds` |
+| `mugsun.captcha.enabled` | `true` | 全局开关 |
+| `mugsun.captcha.store` | `redis` | 题目和令牌存在哪里。`memory` 只用于单机开发，`prod` 下启动失败 |
+| `mugsun.captcha.default-types` | 五种全开 | 租户没单独设置时启用的题型，每次随机出一种 |
 
-IPv6 地址中的 `:` 写成 `_`。手动解锁某 IP：`DEL mugsun:captcha:v2:lock:<ip>`。
-
-::: warning 关闭验证码会去掉防爆破保护
-`mugsun.captcha.enabled=false` 或关闭某个租户后，该租户的登录、注册和忘记密码发码不再要求人机验证，只剩登录失败锁定和频控。只在排查问题或前端尚未升级时临时关闭。
-:::
-
-**租户开关：** 每个租户默认开启。平台超管可调用 `POST /system/tenant/captcha`（`{"id": 租户主键, "enabled": false}`）关闭某个租户，操作会写入审计日志；其他租户不受影响。多节点部署时其他节点最多 60 秒后生效。发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。客户端开关（`sys_client.captcha_enabled`）不参与判定，因为 clientId 由调用方填写。新建的租户一律开启。 平台超管还可以在同一接口里传 `types`（如 `{"id": 1, "enabled": true, "types": ["SLIDER", "ROTATE"]}`）设置该租户启用的题型，至少一种，取值只能是上面五种；不传 `types` 则不改；传 `null` 或 `[]` 清回平台默认（`default-types`）。设置里不含 `SLIDER` 和 `ROTATE` 时仍会保存，但响应 `data.warning` 会提示键盘用户将收到 `40015`。没设置过的租户使用 `default-types`。该设置保存在 `sys_tenant.captcha_types`（迁移 `V10__tenant_captcha_types.sql`）。
+题型、接口、限流、错误码和上线前要换的素材，单独写在[行为验证码](/boot/captcha)。
 
 ## 社交登录
 
-社交登录基于 JustAuth，支持 `github`、`gitee`、`qq`、`wechat_open`（微信开放平台扫码）四个来源，来源名不区分大小写。
+社交登录基于 JustAuth，支持四个来源，来源名不区分大小写：
+
+- `github`
+- `gitee`
+- `qq`
+- `wechat_open`：微信开放平台扫码
 
 ```yaml
 mugsun:
@@ -583,8 +328,8 @@ mugsun:
 - 同时填了 `client-id` 和 `client-secret` 的来源才会出现在 `GET /auth/social/sources` 里。
 - 登录页按这个接口的结果显示社交登录按钮。
 - 没有配置任何来源时，登录页隐藏社交登录区域，不影响启动。
-- `redirect-uri` 由部署方按来源配置，后端不拼接。管理台的回调页是 `/auth/social-callback`。
-- 管理台使用 hash 路由，回调地址里会带 `#`。各平台是否接受这种地址请先在对应平台实测。
+- `redirect-uri` 由部署方按来源配置，后端不拼接。管理后台的回调页是 `/auth/social-callback`。
+- 管理后台使用 hash 路由，回调地址里会带 `#`。各平台是否接受这种地址请先在对应平台实测。
 - 登录流程：`GET /auth/social/render/{source}` 取授权地址，回调页再调 `POST /auth/social/login`。
 - 已登录用户用 `POST /auth/social/bind` 绑定，用 `DELETE /auth/social/unbind/{source}` 解绑。
 - 第三方账号未绑定时，管理端不会自动注册，会提示先登录再绑定。
@@ -592,9 +337,7 @@ mugsun:
 - 同一个第三方账号已绑定其他用户时，再绑定会报错。账号停用或租户失效时拒绝登录。
 - 社交登录会写入登录日志，类型为 `social`。
 
-`mock` 来源只用于本地联调，需要 `mock-enabled: true` 并配置 `type.mock`，示例文件里已经带好。
-
-`prod` profile 强制关闭 `mock` 来源。
+`mock` 来源只用于本地联调：需要 `mock-enabled: true` 并配置 `type.mock`，示例文件里已经带好。`prod` 下强制关闭。
 
 ## IP 归属地
 
@@ -610,9 +353,11 @@ mugsun:
 1. 从 GitHub 上 lionsoul2014/ip2region 仓库的 `data` 目录下载 `ip2region_v4.xdb`，仓库里不带这个文件。
 2. 把文件放到服务器本地目录，用 `xdb-path` 指向它，再设 `enabled=true`。
 
-使用前请查看上游仓库的许可证。只支持 IPv4，开启后显示为「国家 省份 城市」，不显示运营商。
+补充说明：
 
-开启了但没有配置路径，或文件加载失败时，后端只记录错误日志并停用解析，不会阻止启动。
+- 使用前请查看上游仓库的许可证。
+- 只支持 IPv4。开启后显示为「国家 省份 城市」，不显示运营商。
+- 开启了但没配路径，或文件加载失败时，后端只记错误日志并停用解析，不会阻止启动。
 
 ## 单号生成
 
@@ -626,68 +371,93 @@ mugsun:
 - 多节点部署时，所有节点必须使用同一种方式。
 - `redis` 方式要求所有节点连接同一个 Redis，建议开启持久化。
 
+单号规则怎么定义，见[单号规则](/boot/features/serial-number)。
+
 ## 数据库 schema
 
 | 配置项 | 默认 | 说明 |
 | --- | --- | --- |
 | `mugsun.db.default-schema` | 空 | 业务表所在的 schema |
 
-这个配置项用于人大金仓等 PG 协议数据库，把业务表放在独立的 schema 里，避免和系统目录冲突。
+这个配置项用于人大金仓等 PG 协议数据库：把业务表放在独立的 schema 里，避免和系统目录冲突。
 
-设置后，业务表（`track_*` 除外）和手写 SQL 的表名都会加上这个 schema 前缀，Flyway 也会使用并自动创建它。
-
-留空时不做任何处理，使用数据库连接默认的 schema，PostgreSQL 下通常是 `public`。openGauss 未经测试。
+- 设置后，业务表（`track_*` 除外）和手写 SQL 的表名都会加上这个 schema 前缀。
+- Flyway 也会使用这个 schema，并自动创建它。
+- 留空时不做任何处理，使用数据库连接默认的 schema，PostgreSQL 下通常是 `public`。
+- openGauss 未经测试。
 
 ## 启动守卫与豁免开关
 
-以下几项在生产环境配错时拒绝启动。判定只看显式激活的 profile（`spring.profiles.active`）。
+下面几项在生产环境配错时，后端拒绝启动。
 
-active 非空、含 `dev`、`test`、`local` 之一且不含生产名（见下），才算开发环境，其余一律按生产处理。
+### 怎么判定是不是生产
 
-profile 名先去掉首尾空白再转小写比较：
+只看显式激活的 profile，也就是 `spring.profiles.active`。
 
-- 没配任何 profile 也按生产处理。**这是行为变更**。
+profile 名先去掉首尾空白，再转成小写比较，所以 `DEV` 与 `dev` 等价。
+
+- active 非空、含 `dev`、`test`、`local` 之一，并且不含生产名，才算开发环境。
+- 生产名是 `prod`、`production`、`prd`、`staging`。
+  - active 里只要有其中一个就按生产处理，即使同时带 `dev`。
+- 没配任何 profile 也按生产处理。
   - 本地自测请显式加 `--spring.profiles.active=dev`。
   - `mvn spring-boot:run` 已默认激活 `dev`。
-- active 里只要有 `prod`、`production`、`prd` 或 `staging`，就按生产处理，即使同时带 `dev`。
-- `DEV` 与 `dev` 等价。
 - 其他名字（如 `demo`、`qa`）单独出现时也按生产处理。
 - 不看 `spring.profiles.default`：只配了 `default=dev`、没有 active，也按生产处理。
+
+### 会拒绝启动的配置
 
 | 配置 | 生产中的危险值 | 豁免开关 |
 | --- | --- | --- |
 | `mugsun.security.init-password` | 未注入 | 无 |
-| `mugsun.lab.seed-fronttest` | `true`（会播种弱口令联调账号） | 无 |
+| `mugsun.lab.seed-fronttest` | `true`，会创建弱口令的联调账号 | 无 |
 | `mugsun.open-api.sign-required` | `false` | `mugsun.open-api.i-understand-unsigned-requests-are-insecure=true` |
 | `mugsun.crypto.gm-enabled` | `false` | `mugsun.crypto.i-understand-plaintext-passwords-rely-on-tls=true` |
 
-豁免开关只用于确实无法满足要求的场景，开启后每次启动都会打 WARN 日志。
+豁免开关只用于确实无法满足要求的场景。开启后每次启动都会打 WARN 日志。
 
-**关闭国密后，密码完全靠 TLS 保护。**
+### 关闭国密后的 HTTPS 要求
 
-即使开了豁免，生产环境下登录、注册、改密、重置密码的请求也必须是 HTTPS，否则直接拒绝。
+关闭国密后，密码完全靠 TLS 保护。即使开了豁免，生产环境下这些请求也必须是 HTTPS，否则直接拒绝：登录、注册、改密、重置密码。
 
-服务端按 `request.isSecure()` 判定是不是 HTTPS。
-
-部署在反向代理后面时，代理要传 `X-Forwarded-Proto`。
-
-后端同时要配置 `server.forward-headers-strategy=native`。
-
-单独伪造这个请求头不会被采信。
+- 服务端按 `request.isSecure()` 判定是不是 HTTPS。
+- 部署在反向代理后面时，代理要传 `X-Forwarded-Proto`。
+- 后端同时要配置 `server.forward-headers-strategy=native`。
+- 单独伪造这个请求头不会被采信。
 
 ## 生产环境
 
-`prod` profile 会关闭 OpenAPI 文档（springdoc / swagger-ui）、强制 `strict-keys: true`、关闭 mock 社交登录。最小启动示例：
+激活 `prod` 会做三件事：
+
+- 关闭接口文档（springdoc 和 swagger-ui）；
+- 把 `strict-keys` 设为 `true`；
+- 关闭 mock 社交登录。
+
+最小启动示例，`******` 和 `...` 换成你自己的值：
 
 ```bash
 export SPRING_PROFILES_ACTIVE=prod
 export JDBC_URL=jdbc:postgresql://db:5432/mugsun
 export JDBC_USERNAME=mugsun JDBC_PASSWORD=******
 export REDIS_HOST=redis MUGSUN_FRONT_URL=https://admin.example.com
-export MUGSUN_INIT_PASSWORD=****** MUGSUN_SM4_KEY=****** MUGSUN_API_KEY=******
+export MUGSUN_INIT_PASSWORD=****** MUGSUN_SM4_KEY=******
 export MUGSUN_SM2_PRIVATE_KEY=... MUGSUN_SM2_PUBLIC_KEY=...
+# 容器不挂卷或多实例部署时，下面两类也要配
+export MUGSUN_API_KEY=******
 export MUGSUN_SIGN_PRIVATE_KEY=... MUGSUN_SIGN_PUBLIC_KEY=...
 java -jar mugsun-boot.jar
 ```
 
-上线前逐项过一遍 [安全清单](/boot/security-checklist)。
+密钥可以用 boot 仓库的 `scripts/gen-keys.sh` 一次生成，见[生成密钥](/boot/crypto-keys#生成密钥)。
+
+上线前逐项过一遍[安全清单](/boot/security-checklist)。
+
+## 下一步
+
+<div class="ms-cards">
+
+- [密钥与加密](/boot/crypto-keys) 四类密钥怎么配，旧数据怎么迁移。
+- [行为验证码](/boot/captcha) 题型、接口、限流和上线前要换的素材。
+- [安全清单](/boot/security-checklist) 上线前逐项核对，每项都有自检方法。
+
+</div>

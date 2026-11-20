@@ -113,6 +113,8 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: '上线与运维',
           items: [
             { text: '配置参考', link: '/boot/configuration' },
+            { text: '密钥与加密', link: '/boot/crypto-keys' },
+            { text: '行为验证码', link: '/boot/captcha' },
             { text: '安全清单', link: '/boot/security-checklist' },
             { text: '升级指南', link: '/boot/upgrade' },
           ],
