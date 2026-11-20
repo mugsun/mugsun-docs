@@ -26,15 +26,15 @@ pnpm add @mugsun/track-web
 ```ts
 import { createTracker } from '@mugsun/track-web'
 
-const track = createTracker({
+const tracker = createTracker({
   endpoint: 'https://your-host', // the backend address, without a path
   appKey: 'your-app-key',        // create it under Tracking → Integration
 })
 
-track.track('button_click', { name: 'buy' })
+tracker.track('button_click', { name: 'buy' })
 ```
 
-Once the tracker is created, page views, clicks and errors are collected automatically. Use `track.track()` to send your own events.
+Once the tracker is created, page views, clicks and errors are collected automatically. Use `tracker.track()` to send your own events.
 
 ## How the data flows
 
@@ -132,6 +132,6 @@ Set `VITE_TRACK_SKIP_HANDLED_ERRORS=true` at build time to stop reporting these 
 - [Error issues](/en/track/error-issues) Errors grouped by fingerprint, which you can assign, resolve and reopen.
 - [Ask analytics](/en/track/ask) Query your own analytics data in natural language. Read-only.
 - [Spatial behavior](/en/track/spatial) View heat cells or individual points by precise coordinates.
-- [Upgrade guide](/en/track/upgrade) Two things to do after you upgrade the backend's analytics module.
+- [Upgrade guide](/en/track/upgrade) Three things that may need your attention after you upgrade the backend's tracking module.
 
 </div>

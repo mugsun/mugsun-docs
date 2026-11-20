@@ -26,15 +26,15 @@ pnpm add @mugsun/track-web
 ```ts
 import { createTracker } from '@mugsun/track-web'
 
-const track = createTracker({
+const tracker = createTracker({
   endpoint: 'https://your-host', // 后端的地址，不用加路径
   appKey: 'your-app-key',        // 在「埋点分析 → 接入管理」里创建
 })
 
-track.track('button_click', { name: 'buy' })
+tracker.track('button_click', { name: 'buy' })
 ```
 
-创建之后，页面浏览、点击和错误会自动采集。`track.track()` 用来上报自己定义的事件。
+创建之后，页面浏览、点击和错误会自动采集。`tracker.track()` 用来上报自己定义的事件。
 
 ## 数据怎么流动
 
@@ -132,6 +132,6 @@ track.track('button_click', { name: 'buy' })
 - [错误问题单](/track/error-issues) 按指纹聚合错误，可以指派、解决和重开。
 - [问数据](/track/ask) 用自然语言查询自己的埋点数据，只读。
 - [空间行为](/track/spatial) 按精确坐标查看热力格或明细点。
-- [升级指南](/track/upgrade) 升级后端的埋点模块后要做的两件事。
+- [升级指南](/track/upgrade) 升级后端的埋点模块以后，可能要动手的三件事。
 
 </div>
