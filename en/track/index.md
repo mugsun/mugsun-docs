@@ -65,7 +65,7 @@ Analytics data lives in its own `mugsun_track` database, separate from the busin
 
 Plugins that are off by default must be registered by you. See [Plugins](/en/track/plugins).
 
-You can change the sampling rate under Integration in the admin console. The SDK fetches these settings at startup, so the frontend needs no new release.
+You can change the sampling rate under [Integration](/en/track/apps) in the admin console. The SDK fetches these settings at startup, so the frontend needs no new release.
 
 ## Read the results in the admin console
 
@@ -73,12 +73,13 @@ The Tracking menu has these pages:
 
 | Purpose | Pages |
 | --- | --- |
-| Traffic | Overview, Event Analysis |
-| Conversion | Funnel Analysis, Retention Analysis |
-| Performance and errors | Performance Analysis, Error Monitoring and [Error Issues](/en/track/error-issues) |
-| Replaying what a user did | Session Replay, User Drilldown |
+| Traffic | [Overview, Event Analysis](/en/track/overview) |
+| Conversion | [Funnel Analysis, Retention Analysis](/en/track/funnel-retention) |
+| Performance and errors | [Performance Analysis, Error Monitoring](/en/track/perf-errors) and [Error Issues](/en/track/error-issues) |
+| Replaying what a user did | [Session Replay, User Drilldown](/en/track/replay) |
 | Asking in natural language | [Ask data](/en/track/ask) |
 | Viewing by location | [Spatial behavior](/en/track/spatial) |
+| Managing apps and collection settings | [Integration](/en/track/apps) |
 
 The screenshot below is the Performance Analysis page.
 

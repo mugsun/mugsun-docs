@@ -65,7 +65,7 @@ tracker.track('button_click', { name: 'buy' })
 
 默认关闭的插件要自己注册，写法见[插件](/track/plugins)。
 
-采样率可以在管理后台的接入管理里修改。SDK 启动时会拉取这些配置，前端不用重新发版。
+采样率可以在管理后台的[接入管理](/track/apps)里修改。SDK 启动时会拉取这些配置，前端不用重新发版。
 
 ## 在管理后台里查看
 
@@ -73,12 +73,13 @@ tracker.track('button_click', { name: 'buy' })
 
 | 用途 | 页面 |
 | --- | --- |
-| 看流量 | 数据概览、事件分析 |
-| 看转化 | 漏斗分析、留存分析 |
-| 查性能和错误 | 性能分析、错误监控和[错误问题单](/track/error-issues) |
-| 还原用户的操作 | 会话回放、用户细查 |
+| 看流量 | [数据概览、事件分析](/track/overview) |
+| 看转化 | [漏斗分析、留存分析](/track/funnel-retention) |
+| 查性能和错误 | [性能分析、错误监控](/track/perf-errors)和[错误问题单](/track/error-issues) |
+| 还原用户的操作 | [会话回放、用户细查](/track/replay) |
 | 用自然语言提问 | [问数据](/track/ask) |
 | 按位置查看 | [空间行为](/track/spatial) |
+| 管理应用和采集配置 | [接入管理](/track/apps) |
 
 下图是性能分析页。
 
