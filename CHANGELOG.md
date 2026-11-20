@@ -9,6 +9,16 @@
 
 ### 变更
 
+- 文档站改版（中英）：首页、导航和各模块的概述页重写
+  - 首页改成落地页：阅读路线、界面截图、功能、快速开始和仓库
+  - 顶部导航按模块分区，侧边栏按分区切换
+  - 重写介绍、快速开始和架构三页
+  - 重写 boot、pc、track、core、start、uniappx 的概述页
+  - 新增链接卡片、步骤、流程三种版式和 `ArchDiagram` 组件
+  - 架构页改正埋点 SDK 的发送顺序，和源码一致
+  - 埋点概述补回「看板怎么统计」一节，更新日志里的链接指向它
+  - 在线演示页的启动命令改成和快速开始一致的 Docker 命令
+  - `docs/STYLE.md` 的首页和版式规则按新设计改写
 - README 重写；新增 `public/readme/` 存放各仓库 README 用的截图
   - 截图共 11 张，2 倍清晰度，各仓库通过 docs.mugsun.com/readme/ 引用
   - `public/brand/banners/repos/README.md` 同步重写
