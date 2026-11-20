@@ -1,135 +1,184 @@
-# 底图配置与瓦片白名单
+# 底图配置与白名单
 
-管理台地图的底图瓦片一律由 mugsun-boot **同源代理**：浏览器只请求 `/api/system/gis/tile/...`，密钥保存在服务端（SM4 加密），页面上不回显。
+地图的底图在「地理信息 → 底图」里配置。这一页讲支持哪些底图、怎么配，以及地图不显示时怎么查。
+
+浏览器只向后端请求瓦片，由后端去服务商那里取。密钥加密后存在服务端，页面上不显示。
 
 ## 支持的底图
 
-| 服务商 | code | 是否需要密钥 | 坐标处理 |
+| 底图 | 代号 | 要不要密钥 | 坐标 |
 | --- | --- | --- | --- |
-| 天地图 | `tianditu` | 需要（tk） | WGS84 |
-| 高德 | `amap` | 需要（Web 服务 Key） | 显示时转换为 GCJ-02 |
-| 百度 | `baidu` | 需要（ak） | 显示时转换为 BD-09 |
-| Google | `google` | 需要（Map Tiles API Key） | WGS84 |
-| 自定义瓦片 | `xyz` | 可选 | WGS84，不做纠偏 |
+| 天地图 | `tianditu` | 要，填 tk | WGS84 |
+| 高德 | `amap` | 要，填 Web 服务的 Key | 显示时换算成 GCJ-02 |
+| 百度 | `baidu` | 要，填 ak | 显示时换算成 BD-09 |
+| Google | `google` | 要，填 Map Tiles API 的 Key | WGS84 |
+| 自定义瓦片 | `xyz` | 可选 | WGS84，不换算偏移 |
 
-厂商底图的取图方式（以 boot 代码为准）：
+- 新部署默认用「自定义瓦片」里的 OpenStreetMap 预设，不用配置就有地图。
+- 每个租户各自配置。地图、示例、图层这些页面，还有埋点里的地图，共用同一套底图。
+- 接口和存储都用 WGS84。用高德或百度时，显示和搜索地名都会自动换算偏移。
+- 密钥用 SM4 加密后保存。
 
-| 服务商 | 瓦片地址 | 密钥参数 | 上游坐标系 | 允许的瓦片域名 |
-| --- | --- | --- | --- | --- |
-| 天地图 | `https://t0`～`t7.tianditu.gov.cn/DataServer?T=…` | `tk` | WGS84（CGCS2000） | `*.tianditu.gov.cn` |
-| 高德 | `https://webrd0{1-4}.is.autonavi.com/appmaptile?…`（影像和注记走 `webst0{1-4}`） | `key` | GCJ-02 | `*.autonavi.com`、`*.amap.com` |
-| 百度 | `https://maponline{0-3}.bdimg.com/tile/?qt=vtile…`（影像走 `/starpic/`） | `ak` | BD-09 | `*.bdimg.com`、`*.baidu.com` |
-| Google | `https://tile.googleapis.com/v1/2dtiles/{z}/{x}/{y}?session=…`（先创建 session） | `key` | WGS84 | `*.googleapis.com` |
+## 配一家厂商底图
 
-接口对外一律使用 WGS84，高德和百度在服务端与 GCJ-02、BD-09 之间转换。四家厂商取瓦片时都不跟随重定向，单张上限 2 MB，只放行 png、jpeg、webp、gif（类型须与文件头一致），其他内容一律返回空白瓦片。详见 [底图瓦片代理安全](./gis-tile-security)。
+<div class="ms-steps">
 
-在「地理信息 → 底图」里配置。工作台、地图选点、埋点热力、三维视图共用同一套底图。
+### 申请密钥
 
-## 未配置底图时
+到服务商的开放平台申请密钥。各家要的密钥类型见上表。
 
-如果没有任何底图处于「已配置且启用」状态，地图、示例、图层、场景、空间分析等页面都会在地图区域显示统一的提示，不会再出现一整块空白：
+### 填进「底图」页
 
-- 说明需要先配置底图：使用天地图要先申请 Key（tk）；不想申请 Key，可以改用免密钥的自定义 XYZ 瓦片（例如内置的 OpenStreetMap 预设，域名须在部署白名单内）。
-- 「去配置底图」按钮跳转到「地理信息 → 底图」，只对拥有 `gis:provider:list` 权限的用户显示；没有权限的用户会看到「请联系管理员配置」。
-- 「查看配置文档」链接到本页。
+打开「地理信息 → 底图」，点服务商的名字，在「访问密钥」里填上密钥，点「保存」。
 
-是否「未配置」以后端 `/system/gis/status` 的返回为准。如果这个接口请求失败（断网或服务端出错），页面显示的是「底图状态加载失败」和重试按钮，不会误报成未配置。
+### 看预览
 
-![未配置底图时的提示](/screenshots/gis/gis-basemap-empty.png)
+右边的地图会换成这家的底图。右上角可以选「矢量」或「影像」这几种样式。
 
-::: tip 默认 OSM 预设
-部署白名单默认放行 `tile.openstreetmap.org`。租户未保存过配置时使用 OSM 预设，不显示上述提示。瓦片仍为空白时，请检查网络，例如 fake-ip 代理将域名解析为 `198.18.x.x` 后被拦截，见 [底图瓦片代理安全](./gis-tile-security)。
+</div>
+
+- 保存后，名字右边的标签从「未配置」变成「已配置密钥」。
+- 密钥保存后不再显示。输入框留空表示不修改。
+- 关掉「启用」再保存，这家底图停用，密钥还留着。
+- 点「清除配置」删掉这家的配置。
+- 保存要有 `gis:provider:save` 权限，清除要有 `gis:provider:remove` 权限。
+- 地图页面会记住上次用的底图。没有记录时，用列表里第一个可用的。
+
+## 自定义瓦片 {#xyz}
+
+在「底图」页点「自定义瓦片」，可以接入任何 XYZ 瓦片服务。
+
+| 表单项 | 怎么填 |
+| --- | --- |
+| 「预设」 | 选「OpenStreetMap 标准」，下面几项会自动填好 |
+| 「瓦片地址」 | 以 `https://` 开头，包含 `{z}`、`{x}` 和 `{y}`，最长 512 个字符 |
+| 「子域」 | 地址里有 `{s}` 时必填。用逗号分隔，最多 8 个 |
+| 「版权归属」 | 显示在地图右下角，最长 200 个字 |
+| 「访问密钥」 | 可选。后端把它填到地址里写 `{key}` 的位置 |
+
+- 域名必须在部署的白名单里。表单下面的「允许的域名」列出了白名单。
+- 点「测试」，后端按正式取图的方式试取一张瓦片，并显示耗时。
+- 租户没保存过配置时，用内置的 OpenStreetMap 预设。
+- 自定义瓦片最大到 19 级缩放，坐标按 WGS84 处理，不换算偏移。
+- 选了自定义瓦片时不能搜索地名。要搜索，先换成厂商底图。
+
+::: warning OpenStreetMap 的公共瓦片
+`tile.openstreetmap.org` 是靠捐赠运营的公共服务，不适合大流量的生产环境。正式上线请自建瓦片服务，或者购买商业服务。
+
+使用时要遵守 [OSM 瓦片使用政策](https://operations.osmfoundation.org/policies/tiles/)，包括显示 `© OpenStreetMap contributors` 和不批量下载。
 :::
 
-## 自定义 XYZ 瓦片
+## 域名白名单 {#allow-list}
 
-- 地址模板必须使用 `https`，并包含 `{z}`、`{x}`、`{y}`。可以用 `{s}` 轮换子域（子域用逗号分隔，最多 8 个）。需要密钥时，在地址里用 `{key}` 引用，密钥只在服务端拼接。
-- 需要填写**版权归属**，地图右下角会以纯文本显示（二维和三维都显示）。
-- 内置预设：OpenStreetMap 标准（`https://tile.openstreetmap.org/{z}/{x}/{y}.png`，归属为 `© OpenStreetMap contributors`）。租户还没保存过配置时，默认使用这个预设。
-- 「测试」按钮会通过服务端试取一张瓦片，走的是和正式取图完全相同的受限链路。
-- 选中自定义瓦片时，地名检索不可用，请切换到厂商底图后再搜索。
-
-## 域名白名单（运维配置）
-
-为防止 SSRF，自定义瓦片只能访问部署配置中明确放行的域名。租户管理员只能在白名单范围内填写地址，无法修改白名单本身。
+自定义瓦片只能访问部署配置里放行的域名，避免后端被用来访问内网。白名单写在后端的配置文件里，租户管理员改不了。
 
 ```yaml
 mugsun:
   gis:
     xyz:
-      # 完全匹配或匹配其子域；置空即禁用自定义瓦片
       allowed-hosts: ${MUGSUN_GIS_XYZ_ALLOWED_HOSTS:tile.openstreetmap.org}
       default-preset: ${MUGSUN_GIS_XYZ_DEFAULT_PRESET:osm}
-      # OSM 要求可识别的 User-Agent，生产环境请改成自己的应用名和联系方式
       user-agent: ${MUGSUN_GIS_XYZ_USER_AGENT:mugsun-boot-gis/0.1 (+https://github.com/mugsun/mugsun-boot)}
-      max-tile-bytes: 2097152       # 单张瓦片上限
-      cache-max-bytes: 67108864     # 进程内瓦片缓存上限，0 表示关闭
+      max-tile-bytes: 2097152
+      cache-max-bytes: 67108864
       cache-ttl-seconds: 86400
-      allow-benchmark-net: ${MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET:false}  # 198.18.0.0/15
-      allow-nat64: ${MUGSUN_GIS_XYZ_ALLOW_NAT64:false}                  # 64:ff9b::/96
-      allow-6to4: ${MUGSUN_GIS_XYZ_ALLOW_6TO4:false}                    # 2002::/16
 ```
 
-服务端对每次取瓦片做以下检查：
-- 只允许 https 和默认端口，拒绝 userinfo；
-- 拒绝直接写 IP（包括十进制、十六进制等写法）；
-- 解析 DNS 后，若任一地址落在回环、内网、链路本地（含云元数据 169.254.169.254）、CGNAT、组播或保留段，就拒绝；
-- `198.18.0.0/15`（基准测试网段，fake-ip 代理也用它）、`64:ff9b::/96`（NAT64）、`2002::/16`（6to4）三段**默认拦截**，可分别用 `allow-benchmark-net`、`allow-nat64`、`allow-6to4` 放开（默认都是 false）。NAT64 和 6to4 放开后，内嵌的 IPv4 仍按 IPv4 规则检查；
-- 不跟随重定向，限制大小（`max-tile-bytes`）和超时，只放行 png、jpeg、webp、gif（类型须与文件头一致，svg 一律拒绝），响应带 `X-Content-Type-Options: nosniff`。
+| 配置项 | 说明 |
+| --- | --- |
+| `allowed-hosts` | 放行的域名，多个用逗号分隔，子域一并放行。留空就停用自定义瓦片 |
+| `default-preset` | 租户没保存过配置时用的预设，目前只有 `osm`。留空表示必须先配置 |
+| `user-agent` | 取瓦片时带的 User-Agent。生产环境请改成自己的应用名和联系方式 |
+| `max-tile-bytes` | 单张瓦片的大小上限，默认 2MB |
+| `cache-max-bytes` | 后端内存里瓦片缓存的上限，默认 64MB。填 0 关闭缓存 |
+| `cache-ttl-seconds` | 缓存多久，默认一天 |
 
-开关、限流和 fake-ip 代理环境的处理见 [底图瓦片代理安全](./gis-tile-security)。
+- 前三项也可以用配置里写的环境变量来设。
+- 后端每次取瓦片都重新检查地址。只允许 `https` 和默认端口，不能带用户名，也不能直接写 IP。
+- 域名解析出的地址落在内网、回环或云元数据这类地址段时，请求被拒绝。
+- 另有三个特殊地址段默认拦截，放行开关见[底图瓦片代理安全](/pc/gis-tile-security#blocked-ranges)。
+
+## 没有可用的底图时 {#empty}
+
+一家「已配置并启用」的底图都没有时，各个地图页面在地图区域显示下面的提示。
+
+![地图区域显示「还没有可用的底图」和两个按钮](/screenshots/gis/gis-basemap-empty.png)
+
+- 默认配置下不会出现这个提示，因为有 OpenStreetMap 预设。
+- 「去配置底图」只对有 `gis:provider:list` 权限的人显示。其他人看到的是请联系管理员。
+- 「查看配置文档」打开的就是这一页。
+- 查询底图状态失败时，显示「底图状态加载失败」和「重试」，不会当成没有配置。
 
 ## 排障 {#troubleshooting}
 
-### 地图整块灰，顶部提示「底图没有加载出来」
+### 地图是灰的，提示「底图没有加载出来」
 
-连续多张瓦片加载失败（默认连续 8 张，或首屏一张都没成功）时，地图上方会出现提示，并给出后端返回的原因代码。点「重试」会重新请求瓦片；有底图配置权限的用户还可以点「切换底图」，没有权限的用户会提示联系管理员。只要有一张瓦片加载成功，提示就会自动消失。三维视图同样会提示。
+![地图上方的提示条，带原因代码和「重试」按钮](/screenshots/gis/gis-tile-error.png)
 
-![瓦片加载失败提示](/screenshots/gis/gis-tile-error.png)
+- 连续 8 张瓦片失败，或者第一屏一张都没成功时，出现这个提示。三维视图也一样。
+- 点「重试」重新请求瓦片。有底图权限的人还可以点「切换底图」。
+- 只要有一张瓦片加载成功，提示就自动消失。
+- 提示里的「原因代码」由后端返回，常见的几种如下。
 
-![三维视图中的瓦片加载失败提示](/screenshots/gis/gis-tile-error-3d.png)
+| 原因代码 | 状态码 | 意思 | 怎么办 |
+| --- | --- | --- | --- |
+| `blocked-address` | 403 | 域名解析到了内网或保留地址，或者解析失败 | 见[下一小节](#fake-ip) |
+| `host-not-allowed` | 403 | 域名不在白名单里 | 把域名加进 `allowed-hosts` |
+| `timeout` | 504 | 后端 8 秒内没有取到瓦片 | 检查后端到服务商的网络 |
+| `upstream-status` | 502 | 服务商返回的状态码不是 200 | 检查密钥、配额和瓦片地址 |
+| `upstream-unreachable` | 502 | 后端连不上服务商 | 检查后端的出网和 DNS |
+| `bad-content-type` | 502 | 服务商返回的不是图片 | 检查密钥和瓦片地址 |
 
-后端瓦片代理在失败时返回错误码和 `X-Mugsun-Tile-Error` 原因头，常见原因：
+- 后端同时记一条 WARN 日志，搜 `GIS tile proxy failed` 能找到。同一域名的同一原因每分钟最多一条。
+- 全部原因代码见[失败响应](/pc/gis-tile-security#failure-responses)。
 
-| 原因代码 | 状态码 | 含义 |
-| --- | --- | --- |
-| `blocked-address` | 403 | 瓦片域名解析到内网、保留地址或默认拦截的地址段 |
-| `host-not-allowed` | 403 | 域名不在白名单 |
-| `timeout` | 504 | 上游超时 |
-| `upstream-status` / `upstream-unreachable` | 502 | 上游报错或连不上 |
-| `bad-content-type` | 502 | 上游返回的不是 png、jpeg、webp、gif |
+### 原因代码是 `blocked-address` {#fake-ip}
 
-后端会按「域名 + 原因」限频打 WARN 日志（每分钟最多一条，日志里没有 URL 和密钥），可以按 `GIS tile proxy failed` 搜索。完整列表见 [底图瓦片代理安全](./gis-tile-security#failure-responses)。
+Surge、Clash 这类代理的 fake-ip 模式，会把公网域名解析成 `198.18.0.0/15` 里的假地址。
 
-### 原因是 `blocked-address`：fake-ip 代理把瓦片域名解析到了 198.18.x.x
+这一段默认被拦截，所以自定义瓦片全部失败。任选下面一种办法处理。
 
-Surge、Clash 等代理的 fake-ip 模式会把公网域名（例如 `tile.openstreetmap.org`）解析成 `198.18.0.0/15` 段的假地址。这一段默认被拦截，所以每张瓦片都会失败。任选一种办法处理：
+| 办法 | 怎么做 |
+| --- | --- |
+| 关掉 fake-ip | 在运行后端的机器上，把代理换成 redir-host 模式，或者让后端进程不走代理 |
+| 让瓦片域名直连 | 在代理规则里把瓦片域名设成 DIRECT，并加进 fake-ip 的排除列表 |
+| 放行这个地址段 | 把 `mugsun.gis.xyz.allow-benchmark-net` 设成 `true`，也可以用环境变量 `MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET` |
 
-1. **关闭 fake-ip**：在运行 mugsun-boot 的机器上把代理切到 redir-host 或普通模式，或者让 boot 进程不走代理。
-2. **给瓦片域名配置直连**：在代理规则里把瓦片域名（例如 `tile.openstreetmap.org`、`*.tianditu.gov.cn`）设为 DIRECT，并加入 fake-ip 排除列表，让它解析到真实地址。
-3. **显式开启 `allow-benchmark-net`**：
+::: danger 放行地址段的风险
+放行以后，解析到 `198.18.0.0/15` 的瓦片域名都能访问。这一段在有些网络里是内部服务，放行会削弱对内网的保护。
 
-   ```yaml
-   mugsun:
-     gis:
-       xyz:
-         allow-benchmark-net: true   # 或环境变量 MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET=true
-   ```
-
-   ::: danger 风险
-   开启后，凡是解析到 `198.18.0.0/15` 的瓦片域名都会放行。这一段属于基准测试保留地址，在部分网络里可能是内部服务，开启会削弱 SSRF 防护。只建议在开发机上使用，生产环境请用前两种办法。这个开关只影响自定义 XYZ 底图。
-   :::
-
-## 瓦片使用条款注意事项
-
-::: warning OpenStreetMap
-`tile.openstreetmap.org` 是 OSMF 用捐赠运营的公共服务，适用 [OSM 瓦片使用政策](https://operations.osmfoundation.org/policies/tiles/)：必须显示 `© OpenStreetMap contributors`、使用可识别的 User-Agent、遵守缓存要求、不得批量预下载。**它不适合大流量的生产环境**。正式上线请自建瓦片服务，或选用商业瓦片服务。
+只建议在开发机上放行。生产环境请用前两种办法。
 :::
 
-::: warning CARTO
-CARTO basemaps（`basemaps.cartocdn.com`）受 [CARTO 条款](https://carto.com/legal) 约束，需显示 `© OpenStreetMap contributors © CARTO`。实测目前对无密钥请求返回「API KEY REQUIRED」水印瓦片，因此没有内置。需要的部署可以把 `basemaps.cartocdn.com` 加入白名单，在底图配置里填写地址和密钥，并自行确认授权范围。
-:::
+- 这个开关只影响自定义瓦片。
 
-::: tip 天地图等厂商底图
-厂商底图同样需要按各自条款标注来源。在中国境内公开展示地图时，还需遵守审图号等相关规定。
-:::
+## 使用条款 {#terms}
+
+- 厂商底图要按各家的条款标注来源。地图右下角已经显示了署名。
+- 在中国境内公开展示地图，还要按规定标注审图号。页面上没有审图号，要自己加。
+- CARTO 的底图没有内置，因为不带密钥的请求会得到带水印的瓦片。
+- 要用 CARTO，把 `basemaps.cartocdn.com` 加进白名单，再填地址和密钥，并自己确认授权范围。
+
+## 后端要访问的域名 {#upstream-hosts}
+
+后端替浏览器去服务商取瓦片，所以后端的出网要放行下面的域名。
+
+| 服务商 | 瓦片域名 | 密钥参数 | 说明 |
+| --- | --- | --- | --- |
+| 天地图 | `t0.tianditu.gov.cn` 到 `t7.tianditu.gov.cn` | `tk` | 搜索地名用 `api.tianditu.gov.cn` |
+| 高德 | `webrd01.is.autonavi.com` 到 `webrd04`，影像和注记用 `webst01` 到 `webst04` | `key` | 搜索地名用 `restapi.amap.com` |
+| 百度 | `maponline0.bdimg.com` 到 `maponline3.bdimg.com` | `ak` | 搜索地名用 `api.map.baidu.com` |
+| Google | `tile.googleapis.com` | `key` | 先创建会话再取瓦片。搜索地名用 `maps.googleapis.com` |
+
+- 取瓦片时不跟随重定向，单张最大 2MB，只接受 PNG、JPEG、WebP 和 GIF。
+- 其他内容按失败处理，见[底图瓦片代理安全](/pc/gis-tile-security)。
+
+## 下一步
+
+<div class="ms-cards">
+
+- [GIS 与地图](/pc/gis) 地图页面怎么用，按米计算有多准。
+- [底图瓦片代理安全](/pc/gis-tile-security) 瓦片转发的限流、地址拦截和失败响应。
+- [内容安全策略（CSP）](/pc/csp) 页面允许加载哪些来源的资源。
+
+</div>

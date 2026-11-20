@@ -1,60 +1,114 @@
-# Basemap tile proxy security
+# Tile proxy security
 
-`/system/gis/tile/**` is a same-origin tile proxy, so vendor keys never reach the browser. The proxy enables the following protections by default.
+Every basemap tile the browser asks for is relayed by the backend through `/system/gis/tile/**`, which requires sign-in. Vendor keys therefore never reach the browser.
 
-## Rate limiting
+This page lists the protections applied by default during the relay, and what is returned on failure.
 
-Limits are tiles per minute, counted separately per logged-in user and per client IP.
+## Protections at a glance
 
-- The window is a fixed calendar minute and resets at the top of each minute.
-- Exceeding either limit rejects the request. A value of `0` means no limit for that dimension.
-- Rejected requests get `429 Too Many Requests` with an empty body.
-- The `Retry-After` header carries the number of seconds left in the current minute.
-- Counters live in process memory, so with several instances each limit applies per instance.
+| Protection | What it does | Adjustable |
+| --- | --- | --- |
+| Rate limit | Limits tiles per minute by user and by IP | Yes, see [Rate limit](#rate-limit) |
+| Images only | Only four image formats are passed back to the browser | No |
+| No redirects | A 3xx from the provider counts as a failure | No |
+| Host check | Vendor basemaps only reach the vendor's hosts, and custom tiles only reach hosts on the allow-list | The allow-list can be changed, see [Basemaps and allow-list](/en/pc/gis-basemap#allow-list) |
+| Blocked ranges | Custom tile hosts that resolve to internal addresses are rejected | Three special ranges can be allowed |
+| Size and timeout | At most 2 MB per tile, and a timeout after 8 seconds | The size limit of custom tiles can be changed |
+
+## Rate limit {#rate-limit}
+
+The limit counts tiles per minute, separately for the signed-in user and for the client IP.
 
 ```yaml
 mugsun:
   gis:
     tile:
-      rate-limit-per-user: ${MUGSUN_GIS_TILE_RATE_PER_USER:1200}  # 0 = unlimited
-      rate-limit-per-ip: ${MUGSUN_GIS_TILE_RATE_PER_IP:2400}      # 0 = unlimited
+      rate-limit-per-user: ${MUGSUN_GIS_TILE_RATE_PER_USER:1200}
+      rate-limit-per-ip: ${MUGSUN_GIS_TILE_RATE_PER_IP:2400}
 ```
 
-A screenful of map usually needs a few dozen tiles, so the defaults are enough for normal browsing. If many users share one outbound IP, raise `rate-limit-per-ip`.
+- The defaults are 1,200 tiles per minute per user and 2,400 per IP. Set `0` for no limit.
+- Counting uses calendar minutes and resets on each full minute.
+- Going over either limit is rejected with `429 Too Many Requests` and an empty body.
+- The `Retry-After` header holds the seconds left in the current minute.
+- Counters live in the memory of the backend process. With several instances, the limit applies per instance.
+- One screen of map usually takes a few dozen tiles, so the defaults are enough for normal browsing.
+- When many users come from the same egress IP, raise `rate-limit-per-ip`.
 
-## Images only
+## Images only {#images-only}
 
-Only png, jpeg, webp and gif responses are passed through, and the `Content-Type` must match the file's magic bytes. SVG, HTML and mismatched bodies get `502` (reason `bad-content-type`). Every tile response carries `X-Content-Type-Options: nosniff`.
+- Of what the provider returns, only PNG, JPEG, WebP and GIF are passed back to the browser.
+- The `Content-Type` must match the signature at the start of the file.
+- SVG, HTML and content whose type does not match get `502` with the reason code `bad-content-type`.
+- Every tile response carries `X-Content-Type-Options: nosniff`.
+- A successful tile carries `Cache-Control: private, max-age=86400`, so the browser caches it for a day.
 
-## No redirects
+## No redirects {#no-redirect}
 
-The four vendor engines (Tianditu, AMap, Baidu, Google: tiles, search, reverse geocoding and the Google session request) and custom XYZ basemaps **do not follow 3xx redirects**. A redirect is treated as a failure (`502`, reason `upstream-status`).
+- The tile, place search and reverse geocoding APIs of the four vendors never follow 3xx redirects.
+- The same goes for the Google session request and for custom tiles.
+- A redirect on a tile counts as a failure and returns `502` with the reason code `upstream-status`.
+- This way a provider's response cannot lead the backend to an address outside the allow-list.
 
-## Blocked ranges (custom XYZ)
+## Blocked ranges {#blocked-ranges}
 
-In addition to private, loopback and link-local addresses, three more ranges are blocked by default. Each one can be enabled separately:
+A custom tile host passes the allow-list first and is then resolved through DNS. If any resolved address falls in the ranges below, the request is rejected.
 
-| Range | Purpose | Switch (default false) |
+| Range | Examples |
+| --- | --- |
+| Local and loopback | `127.0.0.1` and `::1` |
+| Internal networks | `10.0.0.0/8`, `172.16.0.0/12` and `192.168.0.0/16` |
+| Link-local | `169.254.0.0/16`, which contains the cloud metadata address `169.254.169.254` |
+| Carrier-grade NAT | `100.64.0.0/10` |
+| Multicast and reserved | Addresses from `224.0.0.0` up |
+| IPv6 local and documentation addresses | `fc00::/7` and `2001:db8::/32` |
+
+Three more ranges are blocked by default and can be allowed one by one.
+
+| Range | Used for | Switch |
 | --- | --- | --- |
-| `198.18.0.0/15` | Benchmark network, also used by fake-ip proxies | `mugsun.gis.xyz.allow-benchmark-net` |
+| `198.18.0.0/15` | Benchmarking range, also used by fake-ip proxies | `mugsun.gis.xyz.allow-benchmark-net` |
 | `64:ff9b::/96` | NAT64 | `mugsun.gis.xyz.allow-nat64` |
 | `2002::/16` | 6to4 | `mugsun.gis.xyz.allow-6to4` |
 
-When NAT64 or 6to4 is enabled, the embedded IPv4 address is still checked against the IPv4 rules.
-
-::: tip fake-ip proxies
-If a fake-ip proxy resolves public domains to `198.18.x.x`, every custom XYZ tile gets `403` (reason `blocked-address`) and the map shows a tile failure banner. For the fixes (turn off fake-ip, route tile hosts directly, or enable `allow-benchmark-net` and its risks) see [Basemaps · Troubleshooting](./gis-basemap#troubleshooting).
-:::
+- All three switches default to `false`.
+- They can also be set through environment variables, for example `MUGSUN_GIS_XYZ_ALLOW_NAT64`. The other two follow the same pattern.
+- With NAT64 or 6to4 allowed, the IPv4 address embedded in the address is still checked against the table above. An embedded internal or loopback address is still blocked.
+- A host that fails to resolve is treated as blocked too.
+- A blocked request returns `403` with the reason code `blocked-address`.
+- With a fake-ip proxy on the machine, every custom tile is blocked. For the fixes, see [Troubleshooting](/en/pc/gis-basemap#fake-ip).
 
 ## Failure responses and logs {#failure-responses}
 
-When fetching a tile fails, the proxy no longer returns 200 with a transparent image. It returns an error status with an `X-Mugsun-Tile-Error` reason header, an empty body and `Cache-Control: no-store`:
+When a tile fetch fails, the backend returns the matching status code and puts the reason code in the `X-Mugsun-Tile-Error` response header.
 
-| Reason code | Status | WARN logged |
-| --- | --- | --- |
-| `upstream-status`, `bad-content-type`, `too-large`, `upstream-unreachable`, `bad-template` | 502 | yes |
-| `timeout` | 504 | yes |
-| `blocked-address`, `host-not-allowed` | 403 | yes |
-| `not-configured`, `disabled`, `out-of-range` | 404 | no |
+| Reason code | Status | Meaning | WARN log |
+| --- | --- | --- | --- |
+| `upstream-status` | 502 | The provider returned a status other than 200 | Yes |
+| `bad-content-type` | 502 | The response is not an allowed image | Yes |
+| `too-large` | 502 | The tile is over the size limit | Yes |
+| `upstream-unreachable` | 502 | The provider cannot be reached, including TLS and DNS failures | Yes |
+| `bad-template` | 502 | The custom tile URL is not valid | Yes |
+| `timeout` | 504 | Connecting or reading timed out | Yes |
+| `blocked-address` | 403 | The host resolved to a blocked address | Yes |
+| `host-not-allowed` | 403 | The host is not on the allow-list, or the URL uses an IP literal | Yes |
+| `not-configured` | 404 | No key is set, or the allow-list is empty | No |
+| `disabled` | 404 | This basemap is disabled | No |
+| `out-of-range` | 404 | Beyond the maximum zoom level, or the row or column is out of bounds | No |
 
-WARN logs are rate-limited per host and reason (at most one every 60 seconds, with the number suppressed in between). They contain only the provider, host, reason, upstream status and zoom level, never the URL, query string or key. The admin uses these responses to show the tile failure banner; see [Basemaps · Troubleshooting](./gis-basemap#troubleshooting).
+- A failure response has an empty body and carries `Cache-Control: no-store`.
+- For the same host and reason, at most one WARN log is written every 60 seconds, with the number of failures left out in between.
+- The log only records the provider, the host and the reason, plus the status code the provider returned and the zoom level.
+- The log never records the URL, the query string or the key. Search for `GIS tile proxy failed` to find these logs.
+- The last three are normal situations and are not logged.
+- The admin console uses these responses to show "The basemap didn't load" on the map. See [Troubleshooting](/en/pc/gis-basemap#troubleshooting).
+
+## Next steps
+
+<div class="ms-cards">
+
+- [Basemaps and allow-list](/en/pc/gis-basemap) How to set up basemaps, how to change the allow-list, and what to check when the map does not show.
+- [GIS and maps](/en/pc/gis) How to use the map pages, and how accurate meters are.
+- [Content Security Policy (CSP)](/en/pc/csp) Which sources the page may load resources from.
+
+</div>

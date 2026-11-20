@@ -108,5 +108,5 @@
 
 - [埋点概述](/track/)
 - [问数据](/track/ask)（意图里的 `geo` 仍走概览属地，不是本页）
-- [GIS · 埋点地理](/pc/gis#埋点地理)
+- [GIS · 埋点地理](/pc/gis#track)
 - [安装与初始化](/track/install)

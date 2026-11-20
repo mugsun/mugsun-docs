@@ -1,135 +1,184 @@
-# Basemaps & tile allow-list
+# Basemaps and allow-list
 
-All basemap tiles in the admin are **proxied same-origin** by mugsun-boot: the browser only requests `/api/system/gis/tile/...`. Keys stay on the server (SM4-encrypted) and are never echoed back to the page.
+Basemaps are set up under GIS → Basemap. This page covers which basemaps are supported, how to set them up, and what to check when the map does not show.
+
+The browser only asks the backend for tiles, and the backend fetches them from the provider. Keys are stored encrypted on the server and never shown on the page.
 
 ## Supported basemaps
 
-| Provider | code | Key | Coordinates |
+| Basemap | Code | Key needed | Coordinates |
 | --- | --- | --- | --- |
-| Tianditu | `tianditu` | required (tk) | WGS84 |
-| AMap | `amap` | required (Web Service key) | displayed in GCJ-02 |
-| Baidu | `baidu` | required (ak) | displayed in BD-09 |
-| Google | `google` | required (Map Tiles API key) | WGS84 |
-| Custom tiles | `xyz` | optional | WGS84, no datum shift |
+| Tianditu | `tianditu` | Yes, a tk | WGS84 |
+| Amap | `amap` | Yes, a Web service key | Converted to GCJ-02 for display |
+| Baidu | `baidu` | Yes, an ak | Converted to BD-09 for display |
+| Google | `google` | Yes, a Map Tiles API key | WGS84 |
+| Custom tiles | `xyz` | Optional | WGS84, no offset conversion |
 
-How vendor tiles are fetched (per the boot code):
+- A new deployment uses the OpenStreetMap preset under Custom tiles, so the map works with no setup.
+- Each tenant has its own settings. The Map, Examples and Layers pages, and the maps in tracking, share the same basemaps.
+- APIs and storage use WGS84. With Amap or Baidu, the offset is converted for display and for place search.
+- Keys are encrypted with SM4 before they are stored.
 
-| Provider | Tile URL | Key parameter | Upstream CRS | Allowed tile hosts |
-| --- | --- | --- | --- | --- |
-| Tianditu | `https://t0`–`t7.tianditu.gov.cn/DataServer?T=…` | `tk` | WGS84 (CGCS2000) | `*.tianditu.gov.cn` |
-| AMap | `https://webrd0{1-4}.is.autonavi.com/appmaptile?…` (imagery/labels use `webst0{1-4}`) | `key` | GCJ-02 | `*.autonavi.com`, `*.amap.com` |
-| Baidu | `https://maponline{0-3}.bdimg.com/tile/?qt=vtile…` (imagery uses `/starpic/`) | `ak` | BD-09 | `*.bdimg.com`, `*.baidu.com` |
-| Google | `https://tile.googleapis.com/v1/2dtiles/{z}/{x}/{y}?session=…` (a session is created first) | `key` | WGS84 | `*.googleapis.com` |
+## Set up a vendor basemap
 
-The API always speaks WGS84; AMap and Baidu coordinates are converted to and from GCJ-02 and BD-09 on the server. All four vendors are fetched without following redirects, capped at 2 MB per tile, and only png, jpeg, webp and gif are passed through (the type must match the file's magic bytes). Anything else is replaced with a blank tile. See [Tile proxy security](./gis-tile-security).
+<div class="ms-steps">
 
-Configure them under **GIS → Basemap**. The workspace, map picker, analytics heatmap and 3D view all share the same basemap.
+### Apply for a key
 
-## When no basemap is configured
+Apply for a key on the provider's developer platform. The table above lists the kind of key each one needs.
 
-If no basemap is both configured and enabled, the map, lab, layer, scene and analysis pages show the same notice over the map area instead of a blank canvas:
+### Enter it on the Basemap page
 
-- It explains that a basemap is needed: Tianditu requires a key (tk); if you don't want to apply for a key, use a keyless custom XYZ basemap instead (such as the built-in OpenStreetMap preset, whose host must be on the deployment allow-list).
-- **Configure basemap** opens **GIS → Basemap** and is only shown to users with the `gis:provider:list` permission; other users are asked to contact an administrator.
-- **Read the docs** links to this page.
+Open GIS → Basemap, click the provider's name, fill in Access key and click Save.
 
-"Not configured" is decided by the backend's `/system/gis/status` response. If that request fails (network down or a server error), the page shows "Couldn't load basemap status" with a retry button instead of claiming nothing is configured.
+### Check the preview
 
-![Notice when no basemap is configured](/screenshots/gis/gis-basemap-empty.png)
+The map on the right switches to this provider. Pick a style such as Vector or Imagery at the top right.
 
-::: tip Default OSM preset
-The deployment allow-list includes `tile.openstreetmap.org` by default. Tenants that have never saved a config use the OSM preset, and the notice above is not shown. If tiles are still blank, check the network: for example, a fake-ip proxy that resolves the host to `198.18.x.x` is blocked. See [Tile proxy security](./gis-tile-security).
+</div>
+
+- After saving, the tag next to the name changes from Not configured to Key configured.
+- A saved key is not shown again. Leave the input empty to keep it.
+- Turn off Enabled and save to disable the basemap while keeping its key.
+- Click Clear to delete the provider's settings.
+- Saving needs the `gis:provider:save` permission, and clearing needs `gis:provider:remove`.
+- Map pages remember the last basemap you used. With no record, they use the first usable one in the list.
+
+## Custom tiles {#xyz}
+
+Click Custom tiles on the Basemap page to connect any XYZ tile service.
+
+| Field | How to fill it in |
+| --- | --- |
+| Preset | Choose OpenStreetMap Standard and the fields below are filled in for you |
+| Tile URL | Starts with `https://`, contains `{z}`, `{x}` and `{y}`, at most 512 characters |
+| Subdomains | Required when the URL has `{s}`. Comma-separated, at most 8 |
+| Attribution | Shown at the bottom right of the map, at most 200 characters |
+| Access key | Optional. The backend puts it where the URL says `{key}` |
+
+- The host must be on the deployment's allow-list. Allowed hosts below the form shows the list.
+- Click Test and the backend fetches one tile the same way as in real use, then shows how long it took.
+- A tenant that has never saved settings uses the built-in OpenStreetMap preset.
+- Custom tiles go up to zoom level 19. Coordinates are treated as WGS84 with no offset conversion.
+- Place search is not available with custom tiles. Switch to a vendor basemap to search.
+
+::: warning Public OpenStreetMap tiles
+`tile.openstreetmap.org` is a public service run on donations and is not meant for heavy production traffic. For production, host your own tiles or buy a commercial service.
+
+Follow the [OSM tile usage policy](https://operations.osmfoundation.org/policies/tiles/), which includes showing `© OpenStreetMap contributors` and no bulk downloading.
 :::
 
-## Custom XYZ tiles
+## Host allow-list {#allow-list}
 
-- The URL template must use `https` and contain `{z}`, `{x}`, `{y}`. `{s}` rotates subdomains (comma-separated, up to 8). If a key is needed, reference it as `{key}`; it is only substituted on the server.
-- An **attribution** is required. It is rendered as plain text at the bottom-right of the map, in both 2D and 3D.
-- Built-in preset: OpenStreetMap Standard (`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, `© OpenStreetMap contributors`). It is the default until a tenant saves its own config.
-- **Test** fetches one tile through exactly the same restricted path the server uses for real tiles.
-- Place search is unavailable while custom tiles are selected; switch to a vendor basemap to search.
-
-## Host allow-list (set by ops)
-
-To prevent SSRF, custom tiles may only reach hosts explicitly allowed in the deployment config. Tenant admins can only enter URLs within the list and cannot change the list itself.
+Custom tiles can only reach hosts allowed in the deployment config, so the backend cannot be used to reach the internal network. The list lives in the backend config file, and tenant admins cannot change it.
 
 ```yaml
 mugsun:
   gis:
     xyz:
-      # exact host or any subdomain; empty disables custom tiles
       allowed-hosts: ${MUGSUN_GIS_XYZ_ALLOWED_HOSTS:tile.openstreetmap.org}
       default-preset: ${MUGSUN_GIS_XYZ_DEFAULT_PRESET:osm}
-      # OSM requires an identifiable User-Agent; set your own app name and contact in production
       user-agent: ${MUGSUN_GIS_XYZ_USER_AGENT:mugsun-boot-gis/0.1 (+https://github.com/mugsun/mugsun-boot)}
-      max-tile-bytes: 2097152       # per-tile limit
-      cache-max-bytes: 67108864     # in-process tile cache; 0 disables it
+      max-tile-bytes: 2097152
+      cache-max-bytes: 67108864
       cache-ttl-seconds: 86400
-      allow-benchmark-net: ${MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET:false}  # 198.18.0.0/15
-      allow-nat64: ${MUGSUN_GIS_XYZ_ALLOW_NAT64:false}                  # 64:ff9b::/96
-      allow-6to4: ${MUGSUN_GIS_XYZ_ALLOW_6TO4:false}                    # 2002::/16
 ```
 
-Every tile fetch is checked on the server:
-- https and the default port only; userinfo is rejected;
-- IP literals are rejected (including decimal and hex forms);
-- the host is resolved via DNS, and the request is rejected if any address is loopback, private, link-local (including cloud metadata at 169.254.169.254), CGNAT, multicast or reserved;
-- `198.18.0.0/15` (benchmark network, also used by fake-ip proxies), `64:ff9b::/96` (NAT64) and `2002::/16` (6to4) are **blocked by default**; each can be enabled with `allow-benchmark-net`, `allow-nat64` or `allow-6to4` (all default false). With NAT64 or 6to4 enabled, the embedded IPv4 address is still checked against the IPv4 rules;
-- redirects are not followed, size (`max-tile-bytes`) and timeouts are capped, only png, jpeg, webp and gif are accepted (the type must match the magic bytes; SVG is always rejected), and responses carry `X-Content-Type-Options: nosniff`.
+| Setting | Description |
+| --- | --- |
+| `allowed-hosts` | Allowed hosts, comma-separated. Subdomains are allowed too. Leave it empty to turn custom tiles off |
+| `default-preset` | The preset for tenants that have never saved settings. Only `osm` exists for now. Leave it empty to require setup first |
+| `user-agent` | The User-Agent sent when fetching tiles. In production, change it to your own app name and contact |
+| `max-tile-bytes` | Size limit of a single tile, 2 MB by default |
+| `cache-max-bytes` | Limit of the in-memory tile cache in the backend, 64 MB by default. Set 0 to turn the cache off |
+| `cache-ttl-seconds` | How long tiles are cached, one day by default |
 
-See [Tile proxy security](./gis-tile-security) for the switches, rate limits and fake-ip proxy setups.
+- The first three can also be set through the environment variables written in the config.
+- The backend re-checks the URL on every fetch. Only `https` and the default port are allowed, with no user name and no IP literal.
+- If the host resolves to an internal, loopback or cloud metadata address, the request is rejected.
+- Three more special ranges are blocked by default. For the switches, see [Tile proxy security](/en/pc/gis-tile-security#blocked-ranges).
+
+## When no basemap is available {#empty}
+
+When no basemap is both configured and enabled, every map page shows the hint below in the map area.
+
+![The map area shows "No basemap available" and two buttons](/screenshots/gis/gis-basemap-empty.png)
+
+- With the default config this hint does not appear, because of the OpenStreetMap preset.
+- Configure basemap is shown only to people with the `gis:provider:list` permission. Others are told to contact an administrator.
+- Read the docs opens this page.
+- If the basemap status cannot be loaded, the page shows "Couldn't load basemap status" and Retry. It is not treated as missing setup.
 
 ## Troubleshooting {#troubleshooting}
 
-### The map is grey and a banner says "The basemap didn't load"
+### The map is grey and says "The basemap didn't load"
 
-When several tiles in a row fail (8 by default, or no tile on the first screen succeeds), a banner appears above the map with the reason code returned by the backend. **Retry** requests the tiles again. Users who can configure basemaps also see **Switch basemap**; other users are asked to contact an administrator. The banner disappears as soon as any tile loads. The 3D view shows the banner too.
+![The hint bar above the map, with a reason code and a Retry button](/screenshots/gis/gis-tile-error.png)
 
-![Tile load failure banner](/screenshots/gis/gis-tile-error.png)
+- The hint appears after 8 tiles fail in a row, or when no tile on the first screen succeeds. The same goes for the 3D view.
+- Click Retry to request the tiles again. People with basemap permission can also click Switch basemap.
+- As soon as one tile loads, the hint goes away.
+- The Reason code in the hint comes from the backend. The common ones are below.
 
-![Tile load failure banner in 3D](/screenshots/gis/gis-tile-error-3d.png)
+| Reason code | Status | Meaning | What to do |
+| --- | --- | --- | --- |
+| `blocked-address` | 403 | The host resolved to an internal or reserved address, or did not resolve | See [the next section](#fake-ip) |
+| `host-not-allowed` | 403 | The host is not on the allow-list | Add the host to `allowed-hosts` |
+| `timeout` | 504 | The backend did not get the tile within 8 seconds | Check the network from the backend to the provider |
+| `upstream-status` | 502 | The provider returned a status other than 200 | Check the key, the quota and the tile URL |
+| `upstream-unreachable` | 502 | The backend cannot connect to the provider | Check the backend's outbound network and DNS |
+| `bad-content-type` | 502 | The provider did not return an image | Check the key and the tile URL |
 
-On failure, the backend tile proxy returns an error status with an `X-Mugsun-Tile-Error` reason header. Common reasons:
+- The backend also writes a WARN log, which you can find by searching for `GIS tile proxy failed`. It logs at most one line per minute for the same host and reason.
+- For all reason codes, see [Failure responses](/en/pc/gis-tile-security#failure-responses).
 
-| Reason code | Status | Meaning |
-| --- | --- | --- |
-| `blocked-address` | 403 | The tile host resolved to a private, reserved or blocked-by-default range |
-| `host-not-allowed` | 403 | The host is not on the allow-list |
-| `timeout` | 504 | Upstream timed out |
-| `upstream-status` / `upstream-unreachable` | 502 | Upstream returned an error or could not be reached |
-| `bad-content-type` | 502 | Upstream did not return png, jpeg, webp or gif |
+### The reason code is `blocked-address` {#fake-ip}
 
-The backend logs a rate-limited WARN per host and reason (at most one per minute, with no URL or key); search for `GIS tile proxy failed`. See [Tile proxy security](./gis-tile-security#failure-responses) for the full list.
+The fake-ip mode of proxies such as Surge and Clash resolves public hosts to fake addresses in `198.18.0.0/15`.
 
-### Reason `blocked-address`: a fake-ip proxy resolved the tile host to 198.18.x.x
+That range is blocked by default, so every custom tile fails. Pick one of the fixes below.
 
-The fake-ip mode of proxies such as Surge or Clash resolves public hosts (for example `tile.openstreetmap.org`) to fake addresses in `198.18.0.0/15`. That range is blocked by default, so every tile fails. Pick one fix:
+| Fix | How |
+| --- | --- |
+| Turn off fake-ip | On the machine that runs the backend, switch the proxy to redir-host mode, or keep the backend process off the proxy |
+| Connect to the tile host directly | Set the tile host to DIRECT in the proxy rules and add it to the fake-ip exclusion list |
+| Allow the range | Set `mugsun.gis.xyz.allow-benchmark-net` to `true`, or use the environment variable `MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET` |
 
-1. **Turn off fake-ip** on the machine running mugsun-boot (switch to redir-host or normal mode), or keep the boot process off the proxy.
-2. **Route tile hosts directly**: set the tile hosts (for example `tile.openstreetmap.org`, `*.tianditu.gov.cn`) to DIRECT and add them to the fake-ip filter so they resolve to real addresses.
-3. **Explicitly enable `allow-benchmark-net`**:
+::: danger Risk of allowing the range
+Once allowed, any tile host that resolves into `198.18.0.0/15` can be reached. In some networks this range holds internal services, so allowing it weakens the protection of the internal network.
 
-   ```yaml
-   mugsun:
-     gis:
-       xyz:
-         allow-benchmark-net: true   # or MUGSUN_GIS_XYZ_ALLOW_BENCHMARK_NET=true
-   ```
-
-   ::: danger Risk
-   Any tile host that resolves into `198.18.0.0/15` is then allowed. The range is reserved for benchmarking and may host internal services on some networks, so enabling it weakens SSRF protection. Use it on development machines only; prefer the first two options in production. The switch only affects custom XYZ basemaps.
-   :::
-
-## Tile usage terms
-
-::: warning OpenStreetMap
-`tile.openstreetmap.org` is a donation-funded service run by the OSMF and covered by the [OSM Tile Usage Policy](https://operations.osmfoundation.org/policies/tiles/): you must show `© OpenStreetMap contributors`, send an identifiable User-Agent, respect caching, and must not bulk-download tiles. **It is not suitable for heavy production traffic.** Run your own tile server or use a commercial provider in production.
+Allow it on development machines only. In production, use one of the first two fixes.
 :::
 
-::: warning CARTO
-CARTO basemaps (`basemaps.cartocdn.com`) are governed by the [CARTO terms](https://carto.com/legal) and require `© OpenStreetMap contributors © CARTO`. In our testing they currently return an "API KEY REQUIRED" watermark tile for keyless requests, so CARTO is not built in. If you need it, add `basemaps.cartocdn.com` to the allow-list, enter the URL and key under Basemap, and confirm your licence.
-:::
+- This switch only affects custom tiles.
 
-::: tip Tianditu and other vendors
-Vendor basemaps must also be attributed according to their own terms. Publishing maps inside mainland China additionally requires compliance with map review (审图号) regulations.
-:::
+## Terms of use {#terms}
+
+- Vendor basemaps must credit their source as each provider's terms require. The bottom right of the map already shows the credit.
+- To publish a map in mainland China, you must also show a map review number as the rules require. The page has none, so add it yourself.
+- CARTO basemaps are not built in, because requests without a key get watermarked tiles.
+- To use CARTO, add `basemaps.cartocdn.com` to the allow-list, fill in the URL and the key, and check the license scope yourself.
+
+## Hosts the backend must reach {#upstream-hosts}
+
+The backend fetches tiles from the provider on behalf of the browser, so its outbound network must allow the hosts below.
+
+| Provider | Tile hosts | Key parameter | Notes |
+| --- | --- | --- | --- |
+| Tianditu | `t0.tianditu.gov.cn` to `t7.tianditu.gov.cn` | `tk` | Place search uses `api.tianditu.gov.cn` |
+| Amap | `webrd01.is.autonavi.com` to `webrd04`, and `webst01` to `webst04` for imagery and labels | `key` | Place search uses `restapi.amap.com` |
+| Baidu | `maponline0.bdimg.com` to `maponline3.bdimg.com` | `ak` | Place search uses `api.map.baidu.com` |
+| Google | `tile.googleapis.com` | `key` | A session is created before fetching tiles. Place search uses `maps.googleapis.com` |
+
+- Tile fetches do not follow redirects, take at most 2 MB per tile, and only accept PNG, JPEG, WebP and GIF.
+- Anything else counts as a failure. See [Tile proxy security](/en/pc/gis-tile-security).
+
+## Next steps
+
+<div class="ms-cards">
+
+- [GIS and maps](/en/pc/gis) How to use the map pages, and how accurate meters are.
+- [Tile proxy security](/en/pc/gis-tile-security) Rate limits, address blocking and failure responses of the tile relay.
+- [Content Security Policy (CSP)](/en/pc/csp) Which sources the page may load resources from.
+
+</div>

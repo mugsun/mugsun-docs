@@ -1,60 +1,114 @@
 # 底图瓦片代理安全
 
-`/system/gis/tile/**` 是同源瓦片反代：厂商密钥不会进浏览器。代理默认开启以下防护。
+浏览器要的底图瓦片都由后端转发，接口是 `/system/gis/tile/**`，登录后才能访问。厂商的密钥因此不会进浏览器。
 
-## 限流
+这一页列出转发时默认做的几项防护，以及失败时返回什么。
 
-上限的单位是每分钟的瓦片数，按登录用户和客户端 IP 两个维度分别计数。
+## 防护一览
 
-- 窗口是固定的自然分钟，每到整分钟清零。
-- 任一维度超限就拒绝，配置为 `0` 表示该维度不限。
-- 超限时返回 `429 Too Many Requests`，响应体为空。
-- 响应头 `Retry-After` 的值是当前分钟剩余的秒数。
-- 计数保存在进程内存里，多实例部署时上限按单个实例生效。
+| 防护 | 做什么 | 能不能调 |
+| --- | --- | --- |
+| 限流 | 按用户和 IP 限制每分钟取多少张瓦片 | 能，见[限流](#rate-limit) |
+| 只放行图片 | 只把四种图片格式回给浏览器 | 不能 |
+| 不跟随重定向 | 服务商返回 3xx 时按失败处理 | 不能 |
+| 域名检查 | 厂商底图只访问各家的域名，自定义瓦片只访问白名单里的域名 | 白名单能改，见[底图配置与白名单](/pc/gis-basemap#allow-list) |
+| 地址段拦截 | 自定义瓦片的域名解析到内网这类地址时拒绝 | 三个特殊地址段能放行 |
+| 大小和超时 | 单张最大 2MB，8 秒取不到算超时 | 自定义瓦片的大小上限能改 |
+
+## 限流 {#rate-limit}
+
+上限按每分钟的瓦片数算，登录用户和客户端 IP 各算各的。
 
 ```yaml
 mugsun:
   gis:
     tile:
-      rate-limit-per-user: ${MUGSUN_GIS_TILE_RATE_PER_USER:1200}  # 0 = 不限
-      rate-limit-per-ip: ${MUGSUN_GIS_TILE_RATE_PER_IP:2400}      # 0 = 不限
+      rate-limit-per-user: ${MUGSUN_GIS_TILE_RATE_PER_USER:1200}
+      rate-limit-per-ip: ${MUGSUN_GIS_TILE_RATE_PER_IP:2400}
 ```
 
-一屏瓦片通常几十张，默认值对正常浏览足够。如果大量用户经同一出口 IP 访问，可以调大 `rate-limit-per-ip`。
+- 默认每个用户每分钟 1200 张，每个 IP 每分钟 2400 张。填 `0` 表示不限。
+- 按自然分钟计数，每到整分钟清零。
+- 任何一项超限就拒绝，返回 `429 Too Many Requests`，响应体为空。
+- 响应头 `Retry-After` 是当前这一分钟剩下的秒数。
+- 计数存在后端进程的内存里。部署多个实例时，上限按单个实例算。
+- 一屏地图通常几十张瓦片，默认值够正常浏览用。
+- 很多用户从同一个出口 IP 访问时，调大 `rate-limit-per-ip`。
 
-## 只放行图片
+## 只放行图片 {#images-only}
 
-上游响应只有 png、jpeg、webp、gif 四种会原样返回，而且 `Content-Type` 必须和文件头一致。svg、html 和类型对不上的内容一律返回 `502`（原因 `bad-content-type`）。所有瓦片响应都带 `X-Content-Type-Options: nosniff`。
+- 服务商返回的内容，只有 PNG、JPEG、WebP 和 GIF 四种会回给浏览器。
+- `Content-Type` 必须和文件开头的标识一致。
+- SVG、HTML 和类型对不上的内容返回 `502`，原因代码是 `bad-content-type`。
+- 所有瓦片响应都带 `X-Content-Type-Options: nosniff`。
+- 成功的瓦片带 `Cache-Control: private, max-age=86400`，浏览器缓存一天。
 
-## 不跟随重定向
+## 不跟随重定向 {#no-redirect}
 
-天地图、高德、百度、Google 四家厂商接口（瓦片、检索、逆地理，以及 Google 的 session 请求）和自定义 XYZ 底图都**不跟随 3xx 重定向**，重定向按失败处理（返回 `502`，原因 `upstream-status`），避免被引到白名单以外的地址。
+- 四家厂商的瓦片、地名搜索和逆地理编码接口，都不跟随 3xx 重定向。
+- Google 创建会话的请求和自定义瓦片也一样。
+- 瓦片遇到重定向按失败处理，返回 `502`，原因代码是 `upstream-status`。
+- 这样服务商的响应没法把后端引到白名单以外的地址。
 
-## 地址段拦截（自定义 XYZ）
+## 地址段拦截 {#blocked-ranges}
 
-自定义 XYZ 底图除了拦截内网、回环、链路本地等地址，还默认拦截下面三段。每段都可以单独放行：
+自定义瓦片的域名先过白名单，再做 DNS 解析。解析出的任何一个地址落在下面的范围里，请求就被拒绝。
 
-| 地址段 | 用途 | 放行开关（默认 false） |
+| 范围 | 例子 |
+| --- | --- |
+| 本机和回环 | `127.0.0.1` 和 `::1` |
+| 内网 | `10.0.0.0/8`、`172.16.0.0/12` 和 `192.168.0.0/16` |
+| 链路本地 | `169.254.0.0/16`，云元数据地址 `169.254.169.254` 在这一段里 |
+| 运营商级 NAT | `100.64.0.0/10` |
+| 组播和保留地址 | `224.0.0.0` 以上的地址 |
+| IPv6 的本地和文档地址 | `fc00::/7` 和 `2001:db8::/32` |
+
+另外三段默认也拦截，可以分别放行。
+
+| 地址段 | 用途 | 放行开关 |
 | --- | --- | --- |
-| `198.18.0.0/15` | 基准测试网段；fake-ip 代理也用它 | `mugsun.gis.xyz.allow-benchmark-net` |
+| `198.18.0.0/15` | 基准测试网段，fake-ip 代理也用它 | `mugsun.gis.xyz.allow-benchmark-net` |
 | `64:ff9b::/96` | NAT64 | `mugsun.gis.xyz.allow-nat64` |
 | `2002::/16` | 6to4 | `mugsun.gis.xyz.allow-6to4` |
 
-NAT64 和 6to4 放行后，地址中内嵌的 IPv4 仍按 IPv4 规则检查：内嵌内网或回环地址照样拦截。
+- 三个开关默认都是 `false`。
+- 也可以用环境变量设，例如 `MUGSUN_GIS_XYZ_ALLOW_NAT64`。另外两个的名字照此类推。
+- NAT64 和 6to4 放行后，地址里内嵌的 IPv4 仍按上表检查。内嵌内网或回环地址照样拦截。
+- 域名解析失败也按拦截处理。
+- 被拦截时返回 `403`，原因代码是 `blocked-address`。
+- 机器上开了 fake-ip 代理时，自定义瓦片会全部被拦截，处理办法见[排障](/pc/gis-basemap#fake-ip)。
 
-::: tip fake-ip 代理环境
-如果机器上开了 fake-ip 模式的代理（公网域名被解析成 `198.18.x.x`），自定义 XYZ 瓦片会全部返回 `403`（原因 `blocked-address`），地图上会提示底图没有加载出来。处理办法（关闭 fake-ip、瓦片域名直连，或开启 `allow-benchmark-net` 及其风险）见 [底图配置 · 排障](./gis-basemap#troubleshooting)。
-:::
+## 失败响应和日志 {#failure-responses}
 
-## 失败响应与日志 {#failure-responses}
+取图失败时，后端返回对应的状态码，并在响应头 `X-Mugsun-Tile-Error` 里写原因代码。
 
-瓦片代理取图失败时不会返回 200 加透明图，而是返回错误码和原因头 `X-Mugsun-Tile-Error`。响应正文为空，并带 `Cache-Control: no-store`：
+| 原因代码 | 状态码 | 意思 | 记 WARN 日志 |
+| --- | --- | --- | --- |
+| `upstream-status` | 502 | 服务商返回的状态码不是 200 | 是 |
+| `bad-content-type` | 502 | 返回的不是放行的图片 | 是 |
+| `too-large` | 502 | 单张超过大小上限 | 是 |
+| `upstream-unreachable` | 502 | 连不上服务商，包括 TLS 和 DNS 失败 | 是 |
+| `bad-template` | 502 | 自定义瓦片的地址不合规 | 是 |
+| `timeout` | 504 | 连接或读取超时 | 是 |
+| `blocked-address` | 403 | 域名解析到了被拦截的地址 | 是 |
+| `host-not-allowed` | 403 | 域名不在白名单里，或者地址里写了 IP | 是 |
+| `not-configured` | 404 | 没配密钥，或者白名单是空的 | 否 |
+| `disabled` | 404 | 这个底图已停用 | 否 |
+| `out-of-range` | 404 | 超出最大缩放级别，或者行列号越界 | 否 |
 
-| 原因代码 | 状态码 | 是否打 WARN |
-| --- | --- | --- |
-| `upstream-status`、`bad-content-type`、`too-large`、`upstream-unreachable`、`bad-template` | 502 | 是 |
-| `timeout` | 504 | 是 |
-| `blocked-address`、`host-not-allowed` | 403 | 是 |
-| `not-configured`、`disabled`、`out-of-range` | 404 | 否 |
+- 失败响应的响应体为空，带 `Cache-Control: no-store`。
+- 同一个域名的同一种原因，每 60 秒最多记一条 WARN 日志，并带上这段时间里没记的次数。
+- 日志只记服务商、域名和原因，还有服务商返回的状态码和缩放级别。
+- 日志不记地址、查询参数和密钥。搜 `GIS tile proxy failed` 能找到这些日志。
+- 最后三种是正常情况，不记日志。
+- 管理后台根据这些响应，在地图上提示「底图没有加载出来」，见[排障](/pc/gis-basemap#troubleshooting)。
 
-WARN 日志按「域名 + 原因」限频，每 60 秒最多一条，并带上期间被抑制的次数。日志只记服务商、域名、原因、上游状态码和缩放级别，不记 URL、查询串和密钥。管理台据此在地图上提示瓦片加载失败，见 [底图配置 · 排障](./gis-basemap#troubleshooting)。
+## 下一步
+
+<div class="ms-cards">
+
+- [底图配置与白名单](/pc/gis-basemap) 怎么配底图，白名单怎么改，地图不显示时怎么查。
+- [GIS 与地图](/pc/gis) 地图页面怎么用，按米计算有多准。
+- [内容安全策略（CSP）](/pc/csp) 页面允许加载哪些来源的资源。
+
+</div>

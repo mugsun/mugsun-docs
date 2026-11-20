@@ -123,5 +123,5 @@ as other analysis APIs.
 
 - [Analytics overview](/en/track/)
 - [Ask analytics](/en/track/ask) (intent `geo` still uses overview regions, not this page)
-- [GIS · Analytics geo](/en/pc/gis#analytics-geo)
+- [GIS · Analytics geo](/en/pc/gis#track)
 - [Install & setup](/en/track/install)
