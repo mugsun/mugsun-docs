@@ -1,53 +1,72 @@
 # Privacy
 
-This page describes what `@mugsun/track-web` actually does. If the docs and the code disagree, please open an issue on [mugsun-track](https://github.com/mugsun/mugsun-track/issues).
+This page describes what the SDK actually does: what it collects by default, what it never collects, and what gets masked. Data is sent only to the backend you deploy yourself.
 
-::: warning From 0.3.0, original text is shown and everything is reported by default
-From 0.3.0, replays record page text and input values as-is, personal data in response bodies is uploaded as-is, and every error is reported; see [Defaults](#defaults).
+::: danger Tell users first, then collect
+China's Personal Information Protection Law requires your privacy policy to tell users what is collected, what it is used for and how long it is kept. For sensitive personal information such as ID numbers, bank card numbers or location trails, separate consent is required as well.
+
+This is the responsibility of whoever integrates the SDK. The SDK collects by default, which does not mean the user has agreed. Follow your legal counsel on the details.
 :::
-
-::: danger Notice and separate consent (PIPL)
-Before turning on replay or response body capture, you must **tell users** in your privacy policy what is collected, why and for how long; for sensitive personal information (ID numbers, bank card numbers, location history, health data and so on) you must get **separate consent**.
-:::
-
-Before users agree, call `tracker.optOut()` (the state is persisted in local storage), or delay `createTracker()`, don't register `replayPlugin()` and don't turn on `apiBodyEnabled`; once they agree, call `tracker.optIn()`. The SDK starts collecting as soon as it is created, and `optIn()` only undoes an earlier `optOut()`.
-
-Tighten access and retention for replay and body data accordingly.
 
 ## Defaults
 
-| Item | Behavior |
+Since 0.3.0, replay shows original text, personal data in response bodies is uploaded as is, and every error is reported. If your pages show personal data, tighten things as described in [Turning on masking and filtering](#turning-on-masking-and-filtering).
+
+| Item | Default behavior |
 | --- | --- |
-| Do Not Track | Honored by default (`respectDnt: true`); browsers with DNT on are not tracked |
-| Global Privacy Control | `respectGpc` defaults to `false`: the SDK ignores the browser's Global Privacy Control (GPC) signal. Some jurisdictions (for example California under CCPA/CPRA) treat GPC as a valid opt-out request; if your users are in such a region, set it to `true` according to your own compliance requirements. |
-| User opt-out | `optOut()` stops collection and replay; `optIn()` resumes |
-| Input values (autocapture) | Autocaptured events such as clicks never include `input` / `textarea` values; for replay see the next rows |
-| Never recorded | `input[type="password"]`, `maskSelectors` matches, `data-track-mask` elements, card fields (`autocomplete` starting with `cc-`) and one-time-code fields (`autocomplete="one-time-code"`) are blocked entirely in replays; canvas is not recorded |
-| Session replay | Off by default. When on, **page text and input values are shown as-is by default** (`maskTextSelector` is not set, `maskAllInputs` defaults to `false`) |
-| Response bodies | Not captured by default. When capture is on, personal data is **uploaded as-is by default** (`apiBodyMaskEnabled` defaults to `false`); credential keys (`token`, `refresh_token`, `password`, `cookie`, …) are always replaced with `***`; credential endpoints are never captured |
-| Errors | **Everything is reported by default**, including `HttpError` and errors flagged `handled` / `expected` (`skipHandledErrors` defaults to `false`) |
-| Regular events | Sent as-is by default; `beforeSend` is not set |
+| Do Not Track | Respected. Nothing is collected when the browser has it on |
+| Global Privacy Control | Ignored. Set `respectGpc: true` if your users are in a region that treats it as an opt-out request |
+| User refusal | After `optOut()`, collection and replay stop and the local queue is cleared. `optIn()` resumes |
+| Typed input | Auto-captured events never carry the value of an input |
+| Session replay | Off. Once on, page text and input values are shown as they are |
+| Response bodies | Not captured. Once on, personal data fields are uploaded as is, and credential fields always become `***` |
+| Errors | All reported, including the ones already handled |
+| Custom events | Reported as they are |
+
+### Before you have consent
+
+While the user has not agreed yet, there are three ways to go:
+
+- Delay the call to `createTracker()` and initialize after consent.
+- Initialize first, call `optOut()` right away, and call `optIn()` after consent. The refusal is stored locally and survives a reload.
+- If you only want to avoid screen recording and response bodies, it is enough not to register `replayPlugin()` and to leave `apiBodyEnabled` off.
+
+### What is never collected
+
+No switch turns these on:
+
+- Password fields. Neither auto-capture nor replay touches them.
+- Elements with `data-track-mask`, and areas matched by `maskSelectors`.
+- Inputs whose `autocomplete` is `cc-*` or `one-time-code` in replay, that is, bank card and verification code fields.
+- Canvas content in replay.
+- Response bodies of credential endpoints such as login, token issuing and sending verification codes; see [Plugins](/en/track/plugins#api-monitoring) for how they are detected.
 
 ## URL redaction
 
-API monitoring URLs, the shared `referrer` property, autocaptured link `href`s, resource error `resource_url`s, JS error `filename`s, the page address in replay Meta events, and address attributes in the replay DOM all keep query strings, but values for these keys become `***`. Other parameters are kept.
+Every address the SDK reports has the values of sensitive parameters masked first, while business parameters stay:
 
-Replay DOM attributes handled: `href`, `src`, `srcset`, `imagesrcset`, `action`, `xlink:href`, `formaction`, `poster` and `data`, in any letter case. `srcset` and `imagesrcset` are parsed per the HTML spec (URLs may contain commas) and redacted one candidate at a time, keeping descriptors such as `1x` and `480w`; `data:` candidates are skipped individually.
+```text
+/api/order?id=42&token=abc      →   /api/order?id=42&token=***
+/cb#access_token=abc            →   /cb#access_token=***
+/#/login?code=abc               →   /#/login?code=***
+```
 
-Addresses in these places in the replay are **not redacted**:
+The properties below all go through this step:
 
-- CSS `url()` in inline styles and stylesheets
-- `data-*` attributes
-- `iframe` `srcdoc`
-- `meta` `content`
-- URLs that appear in page text
-- Tokens embedded in paths, such as `/reset/<token>` (not handled anywhere)
+| Source | Properties |
+| --- | --- |
+| API monitoring | `url` of `api_request` |
+| Shared properties | `referrer` |
+| Auto-capture | `href` of a link |
+| Errors | `resource_url` and `filename` |
+| Page address in replay | The address recorded with each snapshot |
+| DOM in replay | `href` `src` `srcset` `imagesrcset` `action` `xlink:href` `formaction` `poster` `data` |
 
-If any of these may carry a token or signature, add `data-track-mask` to the element so the replay skips it entirely.
+`url_path` takes only the path, so it never has a query string or hash in the first place.
 
-`data-track-mask` must be on the element when recording starts or when the element is inserted. Adding it later won't mask what's already recorded. Once it's on, later changes to the element aren't recorded.
+### Which keys are masked
 
-Credential keys, shared by URLs and response bodies:
+Credential keys are masked in both addresses and response bodies:
 
 ```text
 token  access_token  refresh_token  id_token  authorization  auth  jwt
@@ -56,79 +75,72 @@ password  passwd  pwd  cookie  set-cookie  session  session_id  jsessionid
 x-amz-signature  x-amz-security-token  x-goog-signature
 ```
 
-Keys replaced only in URLs and kept as-is in response bodies:
+The keys below are masked only in addresses. In response bodies they are often business fields, so their values are kept there:
 
 ```text
 code  sign  signature  ticket  otp
 sig  q-signature  x-oss-signature  x-oss-security-token  x-cos-security-token
 ```
 
-Matching ignores case, `_` and `-`, so `accessToken` and `Refresh-Token` count too; it is an exact match after that, so `tokenCount` and `sessionTimeout` do not. Parameters in the hash are handled the same way, which covers the OAuth implicit flow and hash routing:
+Matching ignores case as well as `_` and `-`, so `accessToken` and `Refresh-Token` both count.
 
-```text
-/api/order?id=42&token=abc123   →   /api/order?id=42&token=***
-/cb#access_token=abc&state=x    →   /cb#access_token=***&state=x
-/#/login?code=abc               →   /#/login?code=***
-```
+After ignoring those differences the key has to be exactly equal, so `tokenCount` and `sessionTimeout` are not masked.
 
-`url_path` holds the pathname only, without the query string or hash.
+### Places other than the query string
 
-Only userinfo, sensitive path parameters, the query string and the hash are changed. The scheme, host and the rest of the path are kept verbatim.
+| Place | Handling |
+| --- | --- |
+| Parameters in the hash | Handled like query parameters, which covers the OAuth implicit flow and hash routing |
+| Path parameters | `;jsessionid=…` becomes `;jsessionid=***` |
+| User name and password in the address | `user:pass` in `https://user:pass@host/` becomes `***` |
 
-- The `user:pass` in `https://user:pass@host/…` becomes `***`.
-- Userinfo is split at the last `@`.
-- `//` may be written with backslashes.
-- In http(s) and similar schemes, a backslash ends the host, like `/`.
-- Leading whitespace and control characters are stripped first.
-- TAB, LF and CR are then removed, as browsers do.
-- Extra leading `?` on query keys is ignored, before and after decoding.
-- So `/a??token=` and `/a?%3Ftoken=` are both masked.
-- Sensitive path parameters are masked: `;jsessionid=…` → `;jsessionid=***`.
-- Known gaps:
-  - In http, https, ws, wss, ftp, file and `//` URLs, userinfo (user name
-    or password) containing a literal `\` is not masked: `https://u:p\w@h`.
-  - Browsers end the host at `\`, so they don't parse it as credentials.
-  - Forms without `//` aren't masked either: `https:u:p@h`, `mailto:u:p@h`.
+The scheme, the host and the rest of the path are kept verbatim. Relative addresses are handled the same way.
 
-Relative URLs (`img/a.jpg?token=…`) and protocol-relative URLs (`//cdn.x/a?token=…`) keep their form, with only parameter values replaced.
+### What is not covered
+
+Addresses in the places below are not processed:
+
+- CSS `url()` addresses in styles.
+- `data-*` attributes.
+- `srcdoc` of an `iframe` and `content` of a `meta`.
+- Addresses that appear in page text.
+- Tokens embedded in the path, such as `/reset/<token>`.
+- Addresses with a backslash in the user name or password, and forms without `//` such as `https:u:p@h`.
+
+If these places may carry tokens or signatures, add `data-track-mask` to the element so that replay skips the whole block.
+
+`data-track-mask` has to be present when recording starts or when the element is inserted into the page. Adding it later cannot hide what was already recorded.
 
 ## Credential fields in response bodies
 
-JSON response bodies only have the **credential keys** from [URL redaction](#url-redaction) replaced; matching values are **always** replaced with `***`, regardless of `apiBodyMaskEnabled`. Matching works as in URLs: case, `_` and `-` are ignored (`accessToken` and `sessionId` count), and it is an exact match after that (`tokenCount` and `sessionTimeout` do not).
+With response body capture on, the values of credential keys in the JSON always become `***`, whether `apiBodyMaskEnabled` is on or not. Key names are matched by the same rules as in addresses.
 
-`code`, `sign`, `signature`, `ticket` and `otp` are often business fields in response bodies, so they are kept as-is, which helps you see API errors and reproduce them:
+| Category | Keys | When they are masked |
+| --- | --- | --- |
+| Credentials | The first group above, such as `token` `password` `cookie` `session` | Always |
+| Personal data | `phone` `mobile` `email` `idcard` `id_card` `bankcard` `bank_card` | When `apiBodyMaskEnabled: true` is set |
+| Business fields | `code` `sign` `signature` `ticket` `otp` | Normally not |
 
-```text
-{"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded unchanged
-```
-
-One exception: `code` and `ticket` values that look like tokens are replaced too.
-
-- JWT shape: three base64url parts starting with `eyJ`.
-- Or 16+ characters that mix letters and digits.
-- Using only letters, digits and `.` `_` `~` `+` `/` `=` `%` `-`.
-- This covers base64, hex, `4/0Ab…` codes and URL-encoded `4%2F0Ab…`.
-
-Upper-case snake codes such as `INVALID_PARAMETER_VALUE` are kept. Short codes such as `0`, `200` and `"E1001"` are kept too:
+Values of `code` and `ticket` that look like tokens are masked too. That means the shape of a JWT, or at least 16 characters with both letters and digits:
 
 ```text
-{"code":"E1001"}                    →   uploaded unchanged
-{"code":"SplxlOBeZQQYbYS6WxSbIA"}    →   {"code":"***"}
+{"code":0,"msg":"ok","data":{"sign":true,"ticket":1}}   →   uploaded as is
+{"code":"E1001"}                                         →   uploaded as is
+{"code":"INVALID_PARAMETER_VALUE"}                       →   uploaded as is
+{"code":"SplxlOBeZQQYbYS6WxSbIA"}                        →   {"code":"***"}
 ```
 
-- **Depth**: objects and arrays are checked level by level, up to 8 levels; deeper subtrees are replaced with `***` as a whole rather than uploaded as-is.
-- **Non-JSON**: only bodies with a JSON content type are captured; other types (HTML, text, binary, SSE) are never captured.
-- **Declared JSON that fails to parse**: the body is not uploaded, and the `api_request` event is marked `body_skipped: 'unparsable'`.
+| Case | Handling |
+| --- | --- |
+| Nested deeper than 8 levels | The deeper part becomes `***` as a whole and is never uploaded as is |
+| The response is not JSON | Not captured, including HTML, plain text and binary |
+| Declared as JSON but fails to parse | Not captured; the event is marked `body_skipped: 'unparsable'` |
 
-`apiBodyMaskEnabled` only controls personal-data keys (`phone`, `mobile`, `email`, `idcard`, `bankcard`), which are uploaded as-is by default.
-
-`session` is a session identifier rather than a business code, so it is a credential key and is replaced with `***` in bodies too.
-
-Tokens under key names outside the credential list (such as `sessionKey` or `userToken`, or `code` and `ticket` values in bodies that are shorter than 16 characters, all digits or all letters) are not replaced. Turn body capture off with `apiBodyEnabled: false` if that matters.
+Tokens under key names that are not on the list are not masked, for example `sessionKey` and `userToken`. If you have many such fields, turn `apiBodyEnabled` off.
 
 ## Turning on masking and filtering
 
-Nothing is masked or filtered by default. Turn each one on as needed:
+By default nothing is masked or filtered. Turn things on one by one as shown below when you need them:
 
 ```ts
 import { createTracker, defaultPlugins, apiMonitorPlugin } from '@mugsun/track-web'
@@ -137,38 +149,43 @@ import { replayPlugin } from '@mugsun/track-web/replay'
 const tracker = createTracker({
   endpoint: 'https://api.example.com',
   appKey: 'your-app-key',
-  // Response bodies: also replace personal-data keys (phone, email, idcard, ...) with *** (credential keys are replaced regardless)
+  // Phone numbers, emails and ID numbers in response bodies also become ***
   apiBodyMaskEnabled: true,
-  // Errors: skip HttpError and errors flagged handled / expected
-  skipHandledErrors: true,
-  // Regular events: rewrite or drop props before they are queued
+  // These areas are not auto-captured and not recorded in replay
+  maskSelectors: ['.user-card', '#id-number'],
+  // Rewrite or drop an event before it is queued
   beforeSend: (e) => {
     if (e.props?.phone) e.props.phone = '***'
     return e
   },
-  replayEnabled: true,
-  apiMonitorEnabled: true,
-  apiBodyEnabled: true,
   plugins: [
     ...defaultPlugins(),
-    // Replay: '*' masks all page text; you can also pass a narrower selector such as '.user-info, .order-detail';
-    // maskAllInputs records every input value as ***
+    apiMonitorPlugin(),
+    // In replay, all text shows as * and every input value is masked
     replayPlugin({ maskTextSelector: '*', maskAllInputs: true }),
-    apiMonitorPlugin()
-  ]
+  ],
 })
 ```
 
-- `maskTextSelector`: in the replay, text inside matching elements is replaced with `*`. When it is not set (the default), the original text is shown.
-- `maskAllInputs`: when `true`, every input value in the replay is recorded as `***`. It defaults to `false` (values are recorded as-is); password fields are never recorded either way.
-- `maskEnabled` is the api-body uploader's internal switch and is fed from `apiBodyMaskEnabled`, so set `apiBodyMaskEnabled`. Remote config can also turn it on with `apiBodyMaskEnabled: 1` (when not set locally; takes effect on the next start).
-- After `skipHandledErrors: true`, if you still want to count the skipped API errors, call `trackApiError` in your interceptor; see [Error filtering and API failures](/en/track/install#error-filtering-and-api-failures).
-- `beforeSend` does not see replay chunks or response body uploads. Handle those only with `maskTextSelector` / `maskSelectors` / `data-track-mask` and `apiBodyMaskEnabled`.
-- For areas you don't want recorded at all (cards or tables with personal data), add a `data-track-mask` attribute or list them in `maskSelectors`; the replay skips them entirely.
+| Goal | What to use |
+| --- | --- |
+| Mask text in replay | `maskTextSelector`. Pass `'*'` to mask everything, or a selector such as `'.user-info'` to mask only part |
+| Mask input values in replay | `maskAllInputs: true` |
+| Keep a whole area out of replay and auto-capture | Add `data-track-mask` to the element, or put its selector in `maskSelectors` |
+| Mask personal data in response bodies | `apiBodyMaskEnabled: true`, or turn on "Response body masking" in the admin console |
+| Stop reporting errors that were already handled | `skipHandledErrors: true` |
+| Rewrite or drop certain events | `beforeSend` |
+
+`beforeSend` does not reach replay or response bodies; those two only have their own options from the table. To still count the API errors you skip, see [Error filtering and API failures](/en/track/install#error-filtering-and-api-failures).
+
+```html
+<!-- This block is not recorded in replay, and clicks inside it are not collected -->
+<div data-track-mask>ID number: …</div>
+```
 
 ## Upgrading from 0.2.0 and keeping the old masking
 
-0.2.0 masked all page text and input values in replays and masked sensitive keys in response bodies by default. 0.2.0 had no `skipHandledErrors` and reported every error, so you don't need to set it. To keep 0.2.0's behavior after upgrading, add these options:
+0.2.0 masked all text and input values in replay by default, and also masked personal data fields in response bodies. To keep that after upgrading, add two settings:
 
 ```ts
 import { createTracker } from '@mugsun/track-web'
@@ -177,28 +194,44 @@ import { replayPlugin } from '@mugsun/track-web/replay'
 const tracker = createTracker({
   endpoint: 'https://api.example.com',
   appKey: 'your-app-key',
-  apiBodyMaskEnabled: true, // 0.2.0 default: also replace phone, email, ID numbers etc. with ***
+  // The 0.2.0 default: phone numbers, emails and ID numbers also become ***
+  apiBodyMaskEnabled: true,
   plugins: [
     // ...your existing plugins
-    // 0.2.0 defaults: mask all page text and every input value
-    replayPlugin({ maskTextSelector: '*', maskAllInputs: true })
-  ]
+    // The 0.2.0 default: mask all text and every input value
+    replayPlugin({ maskTextSelector: '*', maskAllInputs: true }),
+  ],
 })
 ```
 
-Check remote config too: mugsun-boot's "response body masking" switch is off by default, so `/track/config` sends `apiBodyMaskEnabled: false`, and the SDK uses that value when nothing is set locally on the next start.
+Check the admin console too. "Response body masking" in the application form is off by default, and when `apiBodyMaskEnabled` is not written in code, the SDK uses the backend value from its next start.
 
-To be sure bodies are masked, set `apiBodyMaskEnabled: true` locally (local settings win) or turn on "response body masking" in the admin UI.
+The default for error reporting has not changed; 0.2.0 reported everything as well. To skip errors that were already handled, add `skipHandledErrors: true`.
 
-A `skipHandledErrors` default of `true` was planned for 0.3.0 but never released. Add `skipHandledErrors: true` if you want to skip `HttpError` and handled errors.
+## View permissions and retention
+
+Replay and response bodies are more sensitive than ordinary events, so each has its own view permission and retention period:
+
+| Data | View permission | Retention |
+| --- | --- | --- |
+| Events | The permission of each analysis page | "Data retention period", 90 days by default |
+| Session replay | `sys:track-replay:view` | "Replay retention", 14 days by default |
+| Response bodies | `sys:track-user:view-body` | "Response body retention", 7 days by default |
+
+Retention is set per application in the application form. Viewing a replay or a response body writes an operation log entry, so you can find out who looked.
 
 ## Compliance tips
 
-- Describe what you collect in your privacy policy and give users a way to opt out (call `optOut()`).
-- Add `data-track-mask` or a `maskSelectors` entry to areas that show personal data.
-- Capture response bodies only when you need them; set `apiBodyMaskEnabled: true` when bodies may contain personal data.
-- When pages show personal data, mask those areas in replays with `maskTextSelector`; when forms contain personal data, set `maskAllInputs: true`.
-- Every error is reported by default, and `$error` messages may contain phone numbers, order numbers or backend exception text; rewrite them with `beforeSend` if needed.
-- Data lives in your own PostgreSQL; set retention and access according to your policies.
+- State what is collected in your privacy policy and give users a way to refuse that calls `optOut()`.
+- Add `data-track-mask` to areas with personal data, or put them in `maskSelectors`.
+- Decide whether you really need response body capture before turning it on. If bodies may carry personal data, turn on `apiBodyMaskEnabled`.
+- Error messages may contain phone numbers, order numbers or backend exception text. Rewrite them with `beforeSend` when needed.
+- Grant the view permissions for replay and response bodies only to the people who need them, and keep the retention as short as you can.
+- The data lives in your own database and storage. Who may see it and how long it is kept follow your company's rules.
 
-Related: [Plugins](/en/track/plugins) · [Security checklist](/en/boot/security-checklist)
+<div class="ms-cards">
+
+- [Plugins](/en/track/plugins) What each plugin collects, and how credential endpoints are detected.
+- [Security checklist](/en/boot/security-checklist) Security settings to verify one by one before going live.
+
+</div>
