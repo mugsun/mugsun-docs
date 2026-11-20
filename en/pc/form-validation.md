@@ -1,53 +1,126 @@
-# Form validation conventions
+# Form validation
 
-Create / edit dialogs in the admin console check required fields **in the browser** first. Clicking Save with an empty required field shows a red message under that field and sends no request. The backend's 400 validation stays in place as the last line of defence.
+The add and edit dialogs of the admin console check required fields in the browser first. If you save with a field left empty, a red message appears under the field and no request is sent.
+
+The backend still validates again and answers an invalid request with 400.
 
 ## Rules
 
-| Case | Presentation | Message |
+| Case | When it is checked | Message |
 | --- | --- | --- |
-| Required text input | Red text under the field, checked on blur; whitespace only counts as empty | "请输入" + field name, e.g. 「请输入名称」; in English, "Please enter Name" |
-| Required select / radio | Red text under the field, checked on change | "请选择" + field name, e.g. 「请选择类型」; in English, "Please select Type" |
-| Format check (code length, URL, …) | Red text under the field, shown only after the required check passes | Describes the expected format |
+| Required input box | When the cursor leaves the box | "Please enter" plus the field name, for example "Please enter Name" |
+| Required select or radio | When the selected value changes | "Please select" plus the field name, for example "Please select Type" |
+| Wrong format, such as the length of a code or a URL | After the required check passes | States the correct format |
 
-- An empty submit only says the field is required; it does not show the format hint first. For example, an empty region code shows "Enter the region code"; the "2 to 12 digits" hint appears only for a non-conforming value.
-- Closing and reopening a dialog clears the previous red messages.
-- When saving fails (for example a duplicate name), the backend message is shown once at the top and the dialog stays open so you can fix and save again. No uncaught error is left in the console.
-- Conditions that span several fields (for example data scope requires table, department column and user column together) still use a top message.
+- The message appears in red under the field.
+- Saving an empty form only shows the required messages. Format messages do not come first.
+- For example, an empty region code shows "Enter the region code". Only an invalid value shows "Use 2 to 12 digits for the region code".
+- Closing a dialog and opening it again clears the red messages from last time.
+- When saving fails, for example because the name already exists, the message from the backend appears once at the top of the page and the dialog stays open.
+- A condition that several fields must meet together still uses the message at the top. For example, a data scope rule needs the table, the dept column and the user column filled in together.
 
-## Pages covered
+## Two ways to write it
 
-- AI center: apps, knowledge bases, datasets, models, prompts, MCP, vector stores, data sources, channels, secrets.
-- System: top menus, API scopes, data scopes, regions, help docs (catalog and document dialogs), plus pages that already validated in-field such as users, roles, departments, serial numbers, notification templates and code generation. Chinese required-field messages all start with 「请输入」.
+| Way | Where it is used |
+| --- | --- |
+| The `requiredRule` function | Ten management pages in the AI center, such as apps, knowledge bases and models |
+| A `rules` object on the form | Pages under system management, such as users, roles and regions |
 
-## Building a new page
+- `requiredRule` is defined in `modules/ai/views/shared/formRules.ts`.
+- A `rules` object lives in the file of its own page.
+- Both ways behave the same. Pick either one for a new page.
+- Every message goes through i18n, with one entry in Chinese and one in English.
 
-The AI module can reuse `modules/ai/views/shared/formRules.ts`:
+## With requiredRule {#required-rule}
+
+<div class="ms-steps">
+
+### Import the function
 
 ```ts
 import { requiredRule } from '../shared/formRules'
 ```
 
+### Add prop and rules to the form item
+
 ```vue
 <ElForm ref="formRef" :model="form">
-  <ElFormItem :label="$t('aiForm.name')" prop="name" :rules="requiredRule($t('aiForm.name'))">
+  <ElFormItem
+    :label="$t('aiForm.name')"
+    prop="name"
+    :rules="requiredRule($t('aiForm.name'))"
+  >
     <ElInput v-model="form.name" />
   </ElFormItem>
-  <ElFormItem :label="$t('aiForm.type')" prop="type" :rules="requiredRule($t('aiForm.type'), true)">
+  <ElFormItem
+    :label="$t('aiForm.type')"
+    prop="type"
+    :rules="requiredRule($t('aiForm.type'), true)"
+  >
     <ElSelect v-model="form.type" />
   </ElFormItem>
 </ElForm>
 ```
 
-Pass the field name through i18n as well (entries live under `aiForm` in `src/locales/langs/zh.json` / `en.json`). A hard-coded Chinese name would show up in English as "Please enter 名称".
+Pass `true` as the second argument for a field the user selects. The message then starts with "Please select".
 
-Validate before saving and return on failure:
+### Validate before saving
 
 ```ts
 async function save() {
   if (!(await formRef.value?.validate().catch(() => false))) return
-  // ...call the save API
+  // call the save API
 }
 ```
 
-`<ElFormItem required>` without a `prop` only draws the asterisk and never validates. That is why empty submits in the AI center used to reach the backend.
+### Clear old messages when the dialog opens
+
+```ts
+dialogVisible.value = true
+nextTick(() => formRef.value?.clearValidate())
+```
+
+</div>
+
+- Get the field name with `$t`. The entries live under `aiForm` in `zh.json` and `en.json`.
+- If you pass a Chinese string directly, the English interface shows "Please enter" followed by the Chinese name.
+- The entries for the message itself are `formRules.requiredInput` and `formRules.requiredSelect`.
+- `requiredRule` also treats input that contains only spaces as empty.
+
+## With a rules object {#rules-object}
+
+Use a `rules` object when a format check goes together with the required check. Put the required rule first and the format rule after it.
+
+```ts
+const rules = computed<FormRules>(() => ({
+  code: [
+    {
+      required: true,
+      message: t('pages.system.region.codeRequired'),
+      trigger: 'blur'
+    },
+    {
+      pattern: /^[0-9]{2,12}$/,
+      message: t('pages.system.region.codeRule'),
+      trigger: 'blur'
+    }
+  ]
+}))
+```
+
+- This snippet comes from the Regions page. When the field is empty, only the message of the first rule shows.
+- `rules` is wrapped in `computed`, so the messages follow a language switch.
+- To treat input that contains only spaces as empty, add `whitespace: true` to the required rule.
+
+::: warning required alone does not validate
+With `<ElFormItem required>` and no `prop`, Element Plus only draws the asterisk and does not validate. An empty form goes straight to the backend.
+:::
+
+## Next steps
+
+<div class="ms-cards">
+
+- [UI self-check](/en/pc/ui-check) Checks automatically that no validation message in a dialog is covered.
+- [Empty states](/en/pc/empty-state) What a page shows when there is no data.
+
+</div>

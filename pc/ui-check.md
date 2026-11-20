@@ -1,69 +1,138 @@
 # UI 自检
 
-管理台带一套不依赖后端的 Playwright 自检，在 CI 里是必过项（check 名 `UI self-check`）。改了表单、弹窗或独立挂载的组件后，建议本地先跑一遍。
+管理后台带一套 Playwright 自检，不用启动后端就能跑。它在 CI 里是必过项，检查名是 `UI self-check`。
+
+改了表单、弹窗或者独立挂载的组件后，先在本地跑一遍。
 
 ## 检查什么
 
-| 测试 | 内容 |
+| 测试文件 | 检查什么 |
 | --- | --- |
-| `e2e-ui/form-layout.spec.ts` | 从路由自动找出所有页面，打开每个页面的「新增」「编辑」弹窗和带必填项的表单页，空着点保存。断言每条红字校验提示都完整可见：不和同一表单里任意表单项重叠（多列布局下右侧、下方、斜下方的项都会比）、不被外层 `overflow` 裁掉、完整在视口内；表单标签文字也不能溢出。 |
-| `e2e-ui/standalone-apps.spec.ts` | 扫描源码里所有单独 `createApp` 挂载的 app（例如 AI 助手抽屉），每个打开一次，控制台不能有 error，也不能有 pageerror。 |
-| `e2e-ui/ai-drawer-focus.spec.ts` | 打开 AI 助手抽屉，断言焦点落在输入框；按 Tab 到模型选择，焦点元素上有 2px 的 `:focus-visible` 描边；按 Esc 关闭后，焦点回到「AI」按钮。另外拦截抽屉 chunk 模拟加载中（不响应）和加载失败（abort），断言这两种状态下也能关闭：48px 顶栏仍在、关闭按钮可点，关闭后焦点回到「AI」按钮。 |
+| `form-layout.spec.ts` | 打开每个页面的新增和编辑弹窗，空着点保存，看红字校验提示和表单标签是否完整可见 |
+| `standalone-apps.spec.ts` | 把每个单独用 `createApp` 挂载的应用打开一次，控制台不能有报错 |
+| `ai-drawer-focus.spec.ts` | AI 助手抽屉在打开、切换和关闭时，键盘焦点落在哪里 |
+| `feedback-attachment.spec.ts` | 反馈管理页的附件列，以及点开图片附件 |
+| `flow-user-select.spec.ts` | 待办工作台和审批中心的选人框 |
 
-三项都在中文 / 英文 × 亮色 / 暗色四种组合下跑。接口全部在浏览器里 mock，不需要启动后端和数据库。
+- 测试文件都在 `e2e-ui/` 目录下。
+- 每项都在四种组合下跑，也就是中文和英文各配亮色和暗色。
+- 接口全部在浏览器里模拟，不需要后端和数据库。
+- 视口固定是 1440×900。
+- 目录里另外两个 `*-review-shots.spec.ts` 是出截图用的，也会一起跑。
+
+### 表单布局检查的细则 {#form-layout}
+
+- 页面从路由里自动找出，不用手工登记。
+- 带必填项的表单页也检查。没有必填项的查询栏不检查。
+- 每条校验提示不能和同一个表单里的其他表单项重叠。多列布局下，右边和下面的项也会比。
+- 提示不能被外层的 `overflow` 裁掉，并且要完整地出现在视口里。
+- 表单标签的文字不能溢出。
+
+### AI 抽屉焦点检查的细则 {#ai-drawer}
+
+- 打开抽屉后，焦点在输入框里。
+- 按 Tab 到模型选择时，焦点元素有 2px 的 `:focus-visible` 描边。
+- 按 Esc 关闭后，焦点回到「AI」按钮。
+- 抽屉的代码还在加载或者加载失败时，也能关闭。这时 48px 的顶栏还在，关闭按钮能点。
 
 ## 本地运行
 
 ```bash
 pnpm install
-pnpm exec playwright install chromium   # 首次运行需要
+pnpm exec playwright install chromium
 pnpm test:ui-check
 ```
 
-- 会自动在 `3092` 端口起 Vite dev server，跑完自动停掉。端口被占用时用 `UI_CHECK_PORT=3093 pnpm test:ui-check` 换一个。
-- 只跑一种组合：`pnpm test:ui-check --project en-dark`（可选 `zh-light`、`en-light`、`zh-dark`、`en-dark`）。
-- 只跑一项：`pnpm test:ui-check standalone-apps`。
-- 只查部分路由：`UI_CHECK_ONLY='^/gis' pnpm test:ui-check form-layout`。值是匹配路由路径的正则；设置后不检查弹窗数、提示数下限。
-- 在 Linux 本地跑需要先装中文字体，否则中文标签宽度不对、会误报溢出：`sudo apt-get install -y fonts-noto-cjk`（CI 已装）。macOS 不用装。
+- 第二条命令只在第一次运行前需要。
+- 测试会在 `3092` 端口启动开发服务器，跑完自动停掉。
 
-失败时终端会逐条列出问题，例如：
+| 想做什么 | 命令 |
+| --- | --- |
+| 换端口 | `UI_CHECK_PORT=3093 pnpm test:ui-check` |
+| 只跑一种组合 | `pnpm test:ui-check --project en-dark` |
+| 只跑一项 | `pnpm test:ui-check standalone-apps` |
+| 只查部分路由 | `UI_CHECK_ONLY='^/gis' pnpm test:ui-check form-layout` |
+
+- 组合有 `zh-light`、`en-light`、`zh-dark` 和 `en-dark` 四种。
+- `UI_CHECK_ONLY` 的值是匹配路由路径的正则。设了以后不检查弹窗数和提示数的下限。
+- 在 Linux 上要先装中文字体，否则中文标签的宽度不对，会误报溢出。
+- 装字体的命令是 `sudo apt-get install -y fonts-noto-cjk`。CI 已经装了，macOS 不用装。
+
+## 看结果
+
+终端会逐条列出问题和打开过的弹窗，例如：
 
 ```text
-✗ /ai/model 新增弹窗 · 「Please enter Model name」：与下一个表单项重叠 6px
+✗ /ai/model 新增弹窗 · 「Please enter Model name」：与表单项「Remark」重叠 6px
+◻ 弹窗 /gis/layer 新增「入库图层」
 ```
 
-截图和 JSON 结果在 `e2e-ui-report/`（已加入 `.gitignore`）。CI 失败时同样的内容会作为 `ui-check-report` 产物上传。
+- `✗` 开头的是问题，`◻` 开头的是打开过的弹窗。
+- 截图和 JSON 结果在 `e2e-ui-report/` 目录，这个目录不进 Git。
+- CI 失败时，同样的内容作为 `ui-check-report` 产物上传，保留 7 天。
 
-## 局限
+## 漏检也算失败 {#coverage}
 
-- 只在 1440px 宽的视口下检查。
-- 不覆盖 390px 窄屏，留到后续 PR；在那之前，窄屏要按 PR 模板里的清单手动自查。
-- 漏检会判失败：按钮点不动、点了两次弹窗还没出来、页面打不开、预热时某个路由组件加载失败，或者弹窗数、校验提示数低于下限，都会让检查失败。
+下面的情况都会让检查失败，避免弹窗没被打开却显示通过。
 
-## 下限规则
+| 情况 | 说明 |
+| --- | --- |
+| 按钮点不动 | 找到了新增或编辑按钮，但点击被挡住 |
+| 弹窗没出来 | 点了两次，弹窗仍然没有出现 |
+| 页面打不开 | 路由对应的页面没有加载出来 |
+| 预热失败 | 开始前会把所有路由组件加载一遍，有组件加载失败 |
+| 弹窗数或提示数太少 | 低于下面说的下限 |
 
-- `e2e-ui/form-layout.spec.ts` 里的 `BASELINE` 记录当前基线：每种组合打开 78 个弹窗、140 条校验提示，中英文一致。
-- 下限是基线减 2（当前 76 和 138），留出偶发抖动的余量。
-- 删除或新增弹窗、必填项时，必须在同一个 PR 里改 `BASELINE`。
-- 终端和 `summary` 附件会列出每个打开过的弹窗（`◻ 弹窗 /gis/layer 新增「入库图层」`），数目对不上时拿中英文两份清单比一下就能找到差的那个。
+- `form-layout.spec.ts` 里的 `BASELINE` 记着当前的基线。每种组合打开 78 个弹窗，出现 140 条校验提示。
+- 下限是基线减 2，现在是 76 和 138。减 2 是给偶尔的波动留余量。
+- 删除或新增弹窗和必填项时，要在同一个 PR 里改 `BASELINE`。
+- 数目对不上时，把中英文两份弹窗清单比一下，就能找到差的那个。
 
-## 不是弹窗的「新增」按钮
+## 写新页面时要注意 {#conventions}
 
-文字像「新增」但点了不打开弹窗的按钮，要在 `e2e-ui/support/session.ts` 的 `NOT_DIALOG` 里豁免。豁免规则是：路由精确匹配、按钮文字正则匹配，正则里中英文文字都要写，每条必须写明原因。当前 4 条：
+### 不打开弹窗的「新增」按钮
+
+文字像「新增」但点了不打开弹窗的按钮，要登记到 `e2e-ui/support/session.ts` 的 `NOT_DIALOG` 里。现在有 4 条。
 
 | 路由 | 按钮 | 原因 |
 | --- | --- | --- |
-| `/ai/assistant` | 新对话 / 新建对话 / New chat | 新开一个会话，不是弹窗 |
-| `/system/message-send` | 添加变量 / Add Variable | 在表单里加一行变量 |
-| `/track/funnel` | 添加步骤 / Add step | 在漏斗里加一个步骤 |
-| `/system/gen-modeling` | 手工新建 / New model | 在页内打开空白建模画布 |
+| `/ai/assistant` | 「新对话」「新建对话」和 New chat | 新开一个会话 |
+| `/system/message-send` | 「添加变量」和 Add Variable | 在表单里加一行变量 |
+| `/track/funnel` | 「添加步骤」和 Add step | 在漏斗里加一个步骤 |
+| `/system/gen-modeling` | 「手工新建」和 New model | 在页面里打开空白的建模画布 |
 
-反过来，打开弹窗的按钮如果中文不以「新增 / 添加 / 新建 / 创建」开头，要补进 `ADD_RE`，例如 `/gis/layer` 的「入库图层」。
+- 每条要写路由、按钮文字的正则和原因。路由要完全相同才算。
+- 正则里中文和英文的按钮文字都要写。
 
-## 新增独立挂载的 app
+### 文字不以「新增」开头的按钮
 
-自检通过 `createApp(` 自动发现独立 app，并从同一个文件里的 `el.id = '...'` 找挂载节点，然后点击节点里第一个可见按钮打开它。新加独立 app 时请沿用这个写法，否则测试会提示找不到挂载节点。
+- 自检靠按钮文字找新增按钮，中文认「新增」「添加」「新建」和「创建」开头的文字。
+- 英文认 Add、New 和 Create 开头的文字。
+- 打开弹窗的按钮不是这样开头时，要把文字补进 `ADD_RE`，例如 `/gis/layer` 的「入库图层」。
 
-::: tip
-独立 app 不会继承主应用装的插件。用到 `$t` / `useI18n` 时要自己 `.use(i18n)`，否则打开时会报 `Need to install with app.use function`，这正是这条冒烟测试要抓的问题。
+### 独立挂载的应用
+
+- 自检扫描 `src/` 和 `modules/` 里调用 `createApp(` 的文件，找出独立挂载的应用。
+- 它从同一个文件里形如 `el.id = '...'` 的赋值找到挂载节点，再点节点里第一个可见的按钮。
+- 新加独立应用时照这个写法写，否则测试会报找不到挂载节点。
+
+::: tip 独立应用要自己装插件
+独立应用不继承主应用装的插件。用到 `$t` 或 `useI18n` 时，要自己 `.use(i18n)`。
+
+否则打开时报 `Need to install with app.use function`。这条测试抓的就是这类问题。
 :::
+
+## 没覆盖的地方 {#limits}
+
+- 只在 1440px 宽的视口下检查。
+- 390px 的窄屏没有覆盖，要按 PR 模板里的清单手工检查。
+
+## 下一步
+
+<div class="ms-cards">
+
+- [表单校验](/pc/form-validation) 必填和格式提示怎么写。
+- [空状态](/pc/empty-state) 没有数据时页面显示什么。
+- [本地开发](/pc/development) 怎么启动和构建管理后台。
+
+</div>

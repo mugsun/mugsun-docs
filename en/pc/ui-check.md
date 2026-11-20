@@ -1,69 +1,138 @@
 # UI self-check
 
-The admin console ships a Playwright self-check that needs no backend. It is a required check in CI (check name `UI self-check`). If you change forms, dialogs or anything mounted as its own app, run it locally first.
+The admin console ships with a Playwright self-check that runs without a backend. It is a required check in CI, named `UI self-check`.
+
+Run it locally after you change a form, a dialog or a separately mounted component.
 
 ## What it checks
 
-| Test | What it does |
+| Test file | What it checks |
 | --- | --- |
-| `e2e-ui/form-layout.spec.ts` | Finds every page from the router, opens each page's Add and Edit dialogs and every page-level form with required fields, then clicks save with the form empty. Every red validation message must be fully visible: it can't overlap any other field in the same form (in multi-column layouts, fields to the right, below and diagonally below are all compared), can't be clipped by an ancestor's `overflow`, and must sit fully inside the viewport. Form labels must not overflow either. |
-| `e2e-ui/standalone-apps.spec.ts` | Scans the source for every app mounted with its own `createApp` (for example the AI assistant drawer), opens each one once, and fails on any console error or pageerror. |
-| `e2e-ui/ai-drawer-focus.spec.ts` | Opens the AI assistant drawer and checks that focus lands in the input. Tab moves to the model picker, and the focused element has a 2px `:focus-visible` outline. Esc closes the drawer and focus returns to the AI button. It also intercepts the drawer chunk to simulate loading (no response) and load failure (abort), and checks that the drawer can be closed in both states too: the 48px top bar is still there, the Close button works, and focus returns to the AI button. |
+| `form-layout.spec.ts` | Opens the add and edit dialogs on every page, saves them empty, and checks that the red validation messages and the form labels are fully visible |
+| `standalone-apps.spec.ts` | Opens every app mounted on its own with `createApp` once; the console must stay free of errors |
+| `ai-drawer-focus.spec.ts` | Where keyboard focus goes when the AI assistant drawer opens, switches and closes |
+| `feedback-attachment.spec.ts` | The attachment column on the feedback management page, and opening an image attachment |
+| `flow-user-select.spec.ts` | The user pickers in Todo Workbench and Approval Center |
 
-All three run in four combinations: Chinese / English × light / dark. All API calls are mocked in the browser, so no backend or database is needed.
+- All test files live in the `e2e-ui/` directory.
+- Each test runs in four combinations: Chinese and English, each in light and dark mode.
+- Every API call is mocked in the browser, so no backend or database is needed.
+- The viewport is fixed at 1440×900.
+- The two `*-review-shots.spec.ts` files in the same directory produce screenshots and run along with the rest.
+
+### Details of the form layout check {#form-layout}
+
+- Pages are discovered from the routes, so there is no list to maintain.
+- Form pages with required fields are checked too. Search bars without required fields are not.
+- A validation message must not overlap any other form item in the same form. In multi-column layouts, the items to the right and below are compared as well.
+- A message must not be clipped by an ancestor's `overflow`, and it must be fully inside the viewport.
+- The text of a form label must not overflow.
+
+### Details of the AI drawer focus check {#ai-drawer}
+
+- After the drawer opens, focus is in the input box.
+- When Tab reaches the model selector, the focused element shows a 2px `:focus-visible` outline.
+- After Esc closes the drawer, focus returns to the AI button.
+- The drawer can be closed while its code is still loading or has failed to load. The 48px header is still there and its close button works.
 
 ## Run it locally
 
 ```bash
 pnpm install
-pnpm exec playwright install chromium   # first run only
+pnpm exec playwright install chromium
 pnpm test:ui-check
 ```
 
-- It starts a Vite dev server on port `3092` and stops it afterwards. If the port is taken, use `UI_CHECK_PORT=3093 pnpm test:ui-check`.
-- One combination only: `pnpm test:ui-check --project en-dark` (`zh-light`, `en-light`, `zh-dark`, `en-dark`).
-- One test only: `pnpm test:ui-check standalone-apps`.
-- Some routes only: `UI_CHECK_ONLY='^/gis' pnpm test:ui-check form-layout`. The value is a regex matched against route paths; when it's set, the dialog and message floors aren't checked.
-- On Linux, install CJK fonts first, or Chinese labels measure wrong and get reported as overflowing: `sudo apt-get install -y fonts-noto-cjk` (CI already does this). macOS doesn't need it.
+- The second command is only needed before the first run.
+- The tests start a dev server on port `3092` and stop it when they finish.
 
-On failure the terminal lists each problem, for example:
+| What you want | Command |
+| --- | --- |
+| Use another port | `UI_CHECK_PORT=3093 pnpm test:ui-check` |
+| Run one combination | `pnpm test:ui-check --project en-dark` |
+| Run one test file | `pnpm test:ui-check standalone-apps` |
+| Check some routes only | `UI_CHECK_ONLY='^/gis' pnpm test:ui-check form-layout` |
+
+- The combinations are `zh-light`, `en-light`, `zh-dark` and `en-dark`.
+- `UI_CHECK_ONLY` is a regular expression matched against the route path. When it is set, the minimum dialog and message counts are not enforced.
+- On Linux, install a CJK font first. Without one, Chinese labels get the wrong width and are reported as overflowing.
+- The command is `sudo apt-get install -y fonts-noto-cjk`. CI already installs it, and macOS does not need it.
+
+## Read the results
+
+The terminal lists every problem and every dialog that was opened, for example:
 
 ```text
-✗ /ai/model 新增弹窗 · 「Please enter Model name」：与下一个表单项重叠 6px
+✗ /ai/model 新增弹窗 · 「Please enter Model name」：与表单项「Remark」重叠 6px
+◻ 弹窗 /gis/layer 新增「入库图层」
 ```
 
-Screenshots and JSON results go to `e2e-ui-report/` (git-ignored). In CI the same folder is uploaded as the `ui-check-report` artifact when the job fails.
+- Lines starting with `✗` are problems, and lines starting with `◻` are dialogs that were opened.
+- Screenshots and the JSON results are in the `e2e-ui-report/` directory, which is not tracked by Git.
+- When CI fails, the same content is uploaded as the `ui-check-report` artifact and kept for 7 days.
 
-## Limitations
+## A missed check is a failure {#coverage}
 
-- It only checks a 1440px-wide viewport.
-- It doesn't cover the 390px narrow screen yet; that's left for a later PR. Until then, check narrow screens by hand using the PR template checklist.
-- Gaps count as failures: a button that can't be clicked, a dialog that still hasn't opened after two clicks, a page that won't load, a route component that fails to load during warm-up, or dialog / validation-message counts below the floor all fail the check.
+Each of the cases below fails the check, so that a dialog that never opened cannot pass.
 
-## Floors
+| Case | Description |
+| --- | --- |
+| Button cannot be clicked | The add or edit button was found, but the click was blocked |
+| Dialog did not appear | After two clicks the dialog still has not appeared |
+| Page did not open | The page for the route did not load |
+| Warm-up failed | Every route component is loaded once before the tests start, and one of them failed to load |
+| Too few dialogs or messages | The count is below the minimum described below |
 
-- `BASELINE` in `e2e-ui/form-layout.spec.ts` records the current baseline: 78 dialogs and 140 validation messages per combination, the same in Chinese and English.
-- The floor is the baseline minus 2 (currently 76 and 138), to absorb occasional jitter.
-- If you remove or add dialogs or required fields, update `BASELINE` in the same PR.
-- The terminal and the `summary` attachment list every dialog that was opened (`◻ 弹窗 /gis/layer 新增「Add layer」`). If the counts don't match, compare the Chinese and English lists to find the missing one.
+- `BASELINE` in `form-layout.spec.ts` records the current baseline. Each combination opens 78 dialogs and shows 140 validation messages.
+- The minimum is the baseline minus 2, which is 76 and 138 today. The margin of 2 allows for occasional fluctuation.
+- When you remove or add dialogs or required fields, update `BASELINE` in the same PR.
+- When the counts do not match, compare the Chinese and English dialog lists to find the missing one.
 
-## Add buttons that aren't dialogs
+## Conventions for new pages {#conventions}
 
-Buttons that read like "Add" but don't open a dialog are exempted in `NOT_DIALOG` in `e2e-ui/support/session.ts`. An exemption matches the route exactly and the button text by regex. The regex must cover both the Chinese and English text, and must give a reason. The current 4:
+### Add buttons that do not open a dialog
+
+A button whose label looks like an add button but does not open a dialog must be registered in `NOT_DIALOG` in `e2e-ui/support/session.ts`. There are 4 entries today.
 
 | Route | Button | Reason |
 | --- | --- | --- |
-| `/ai/assistant` | 新对话 / 新建对话 / New chat | Starts a new conversation, not a dialog |
-| `/system/message-send` | 添加变量 / Add Variable | Adds a variable row to the form |
-| `/track/funnel` | 添加步骤 / Add step | Adds a step to the funnel |
-| `/system/gen-modeling` | 手工新建 / New model | Opens a blank modeling canvas in the page |
+| `/ai/assistant` | New chat | Starts a new conversation |
+| `/system/message-send` | Add Variable | Adds a variable row to the form |
+| `/track/funnel` | Add step | Adds a step to the funnel |
+| `/system/gen-modeling` | New model | Opens a blank modeling canvas in the page |
 
-The other way round, if a button that opens a dialog doesn't start with 新增 / 添加 / 新建 / 创建 in Chinese, add it to `ADD_RE`. For example, `/gis/layer`'s 「入库图层」 (Add layer).
+- Each entry needs the route, a regular expression for the button label and the reason. The route must match exactly.
+- The regular expression must cover both the Chinese and the English label.
 
-## Adding a standalone app
+### Buttons whose label does not start with an add verb
 
-The self-check finds standalone apps by `createApp(` and locates the mount node from `el.id = '...'` in the same file, then clicks the first visible button inside it. Follow that pattern for new standalone apps, or the test reports that it can't find the mount node.
+- The self-check finds add buttons by their label. In Chinese it accepts labels that start with one of the four add verbs listed in `ADD_RE`.
+- In English it accepts labels that start with Add, New or Create.
+- When a button that opens a dialog starts with something else, add its label to `ADD_RE`. One example is the Add layer button on `/gis/layer`, whose Chinese label starts with a different verb.
 
-::: tip Tip
-A standalone app doesn't inherit the main app's plugins. If it uses `$t` / `useI18n`, call `.use(i18n)` on it yourself, or opening it fails with `Need to install with app.use function`. That is exactly what this smoke test catches.
+### Separately mounted apps
+
+- The self-check scans `src/` and `modules/` for files that call `createApp(` to find the separately mounted apps.
+- It finds the mount node from an assignment such as `el.id = '...'` in the same file, and then clicks the first visible button inside that node.
+- Write new standalone apps the same way. Otherwise the test reports that it cannot find the mount node.
+
+::: tip Standalone apps install their own plugins
+A standalone app does not inherit the plugins installed on the main app. If it uses `$t` or `useI18n`, call `.use(i18n)` on it yourself.
+
+Otherwise opening it fails with `Need to install with app.use function`. This test exists to catch that kind of problem.
 :::
+
+## What it does not cover {#limits}
+
+- The check only runs at a viewport width of 1440px.
+- The 390px narrow screen is not covered. Check it by hand with the checklist in the PR template.
+
+## Next steps
+
+<div class="ms-cards">
+
+- [Form validation](/en/pc/form-validation) How to write required and format messages.
+- [Empty states](/en/pc/empty-state) What a page shows when there is no data.
+- [Local development](/en/pc/development) How to start and build the admin console.
+
+</div>
