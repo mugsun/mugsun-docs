@@ -9,6 +9,9 @@
 
 ### 变更
 
+- README 重写；新增 `public/readme/` 存放各仓库 README 用的截图
+  - 截图共 11 张，2 倍清晰度，各仓库通过 docs.mugsun.com/readme/ 引用
+  - `public/brand/banners/repos/README.md` 同步重写
 - 文档同步 AiFlow foreach/parallel P0（中英）
   - workflow：串行迭代、waitAll、截断/partial、错误码
   - 设计器：有序 bodyNodeIds、waitAll 锁定；AI 中心互链

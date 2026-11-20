@@ -1,147 +1,111 @@
-![mugsun-docs](https://raw.githubusercontent.com/mugsun/mugsun-docs/main/public/brand/banners/repos/mugsun-docs.png)
-
 # mugsun-docs
 
-[![Site](https://img.shields.io/badge/docs-docs.mugsun.com-3e63dd)](https://docs.mugsun.com/)
-[![VitePress](https://img.shields.io/badge/VitePress-1.6-5C6BC0?logo=vitepress&logoColor=white)](https://vitepress.dev/)
-[![Vue](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vuedotjs&logoColor=white)](https://vuejs.org/)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Docs CI](https://github.com/mugsun/mugsun-docs/actions/workflows/docs-ci.yml/badge.svg?branch=main)](https://github.com/mugsun/mugsun-docs/actions/workflows/docs-ci.yml)
+[![Deploy docs](https://github.com/mugsun/mugsun-docs/actions/workflows/deploy-docs.yml/badge.svg?branch=main)](https://github.com/mugsun/mugsun-docs/actions/workflows/deploy-docs.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-mugsun 官方文档站。用 [VitePress](https://vitepress.dev/) 构建，**根路径为简体中文**，英文在 `/en/`。线上地址：[https://docs.mugsun.com/](https://docs.mugsun.com/)。
+mugsun 文档站 [docs.mugsun.com](https://docs.mugsun.com/) 的源码，用 VitePress 构建。
 
-**对外状态**：boot · core · pc · track 开源（MIT）；uni-app x 组件库（包名 ms-ui，MIT 许可，源码仓库暂未公开）开放文档与 H5 演示，入口 `/uniappx/`（旧 `/ms-ui/` 自动跳转）。
-
-本仓只放文档与站点配置，不包含业务运行时。平台后端、管理台、埋点 SDK 分别在兄弟仓。
-
-## 文档范围
-
-| 路径（中文根） | 英文 | 内容 |
-| --- | --- | --- |
-| `/guide/` | `/en/guide/` | 介绍、快速开始、架构、FAQ |
-| `/boot/` | `/en/boot/` | 后端概述、配置、安全清单 |
-| `/pc/` | `/en/pc/` | 管理台概述与本地开发 |
-| `/track/` | `/en/track/` | 埋点安装、首事件、隐私 |
-| `/core/` | `/en/core/` | BOM / starter 概述 |
-| `/demo` | `/en/demo` | 演示说明；公网 Demo 见 https://demo.mugsun.com |
-| `/changelog` | `/en/changelog` | 站点与产品相关更新记录 |
-
-开源产品线（MIT）：`boot` · `core` · `pc` · `track`。`cloud`（微服务）仍在规划中，不写成已交付安装包；`uniappx-ui`（ms-ui）采用 MIT 许可，源码仓库暂未公开，组件文档与 H5 演示在本站开放。
+中文页面在根路径，英文页面在 `/en/`，两边的页面一一对应。
 
 ## 本地预览
 
-需要 **Node.js 22+**（与 GitHub Actions 一致）。本仓使用 **pnpm 11.28.2**（`packageManager` 已锁定，`corepack enable` 即可；锁文件 `pnpm-lock.yaml`）。
+需要 Node.js 22 和 pnpm 11。
 
 ```bash
-git clone https://github.com/mugsun/mugsun-docs.git
-cd mugsun-docs
+git clone https://github.com/mugsun/mugsun-docs.git && cd mugsun-docs
 pnpm install --frozen-lockfile
 pnpm run docs:dev
-# 默认 http://localhost:5173
 ```
 
-构建与本地预览产物：
+浏览器打开 <http://localhost:5173>。保存改动后页面会自动刷新。
 
-```bash
-pnpm run docs:build      # 输出 .vitepress/dist
-pnpm run docs:preview
-```
+启动时不要加 `--host`，开发服务器不应该暴露到网络上。
 
-脚本定义见根目录 `package.json`：`docs:dev` / `docs:build` / `docs:preview`。
+## 有哪些内容
 
-## `DOCS_BASE`
-
-站点 `base` 由环境变量 `DOCS_BASE` 控制（见 `.vitepress/config/shared.ts`）：
-
-| 场景 | 值 |
+| 路径 | 内容 |
 | --- | --- |
-| 自定义域根路径（当前线上） | `/`（默认） |
-| GitHub Pages 项目子路径 `username.github.io/mugsun-docs/` | `/mugsun-docs/` |
+| `guide/` | 介绍、快速开始和架构，还有常见问题和升级说明 |
+| `boot/` | 后端的配置、功能和教程 |
+| `pc/` | 管理后台的开发和部署 |
+| `track/` | 埋点 SDK 的接入、插件和隐私说明 |
+| `core/` `start/` `uniappx/` | 公共库、项目生成器和 uni-app x 组件库 |
+| `en/` | 上面所有页面的英文版，路径相同 |
+| `.vitepress/config/` | 站点配置。中文导航在 `zh.ts`，英文导航在 `en.ts` |
+| `public/` | 图片和品牌素材。`public/readme/` 是各仓库 README 用的截图 |
+| `docs/STYLE.md` | 写作规范 |
+
+## 修改文档
+
+1. 改页面前先读[写作规范](./docs/STYLE.md)。
+2. 中文页和 `en/` 下的同名页一起改，结构保持一致。
+3. 新增页面时，在 `zh.ts` 和 `en.ts` 里各加一条导航。
+4. 命令、端口和配置项要对照各仓库 `main` 分支的源码核对。
+5. 在 `CHANGELOG.md` 的 `[Unreleased]` 下加一行说明。
+
+提交前在本地构建一次。站内有死链时，构建会直接报错：
 
 ```bash
-# 子路径构建示例
-DOCS_BASE=/mugsun-docs/ pnpm run docs:build
+pnpm run docs:build
 ```
 
-自定义域 [docs.mugsun.com](https://docs.mugsun.com/) 挂在站点根时，**必须**使用 `DOCS_BASE=/`，否则资源与路由会错位。
+CI 还会检查中文段落的长度。一段不能超过 80 个字，并且要写在同一行里。
 
 ## 部署
 
-### GitHub Pages（当前）
+推送到 `main` 后，工作流 `deploy-docs.yml` 会构建站点，并发布到 GitHub Pages。
 
-推送 `main`（或手动 `workflow_dispatch`）后，工作流 [`.github/workflows/deploy-docs.yml`](.github/workflows/deploy-docs.yml) 会：
+站点的 `base` 由环境变量 `DOCS_BASE` 决定，默认是 `/`，适合挂在域名根路径的站点。
 
-1. `pnpm install --frozen-lockfile`
-2. `DOCS_BASE=/ pnpm run docs:build`
-3. 上传 `.vitepress/dist` 并部署到 GitHub Pages
+要部署到子路径，构建时改这个变量：
 
-| 项 | 值 |
-| --- | --- |
-| 生产域名 | https://docs.mugsun.com/ |
-| DNS | `docs` CNAME → `mugsun.github.io` |
-| 仓库 Pages 自定义域 | `docs.mugsun.com` |
-| Node | 22 |
-
-临时项目页地址仍可能是 `https://mugsun.github.io/mugsun-docs/`；若只走该子路径，需把工作流里的 `DOCS_BASE` 改成 `/mugsun-docs/`。
-
-### Cloudflare Pages（备选）
-
-| 项 | 值 |
-| --- | --- |
-| Build command | `pnpm run docs:build` |
-| Output | `.vitepress/dist` |
-| Root | 仓库根 |
-| `DOCS_BASE` | 域名根用 `/`；子路径用对应前缀 |
-
-## 如何贡献文档
-
-1. Fork / clone 本仓，在新分支或直接于 `main` 改 Markdown（团队约定以后文档可直接推 `main`）。
-2. **中英文成对**：根目录中文页与 `en/` 下同名路径保持平行（例如 `guide/getting-started.md` ↔ `en/guide/getting-started.md`）。
-3. 新增章节时同步改导航：
-   - 中文：`.vitepress/config/zh.ts`（`nav` / `sidebar`）
-   - 英文：`.vitepress/config/en.ts`
-   - 共享：`.vitepress/config/shared.ts`（`title`、`base`、logo、搜索等）
-   - 入口拼装：`.vitepress/config/index.ts`（`locales.root` = zh-CN，`locales.en` = en-US）
-4. 本地 `pnpm run docs:dev` 核对中英链接与侧栏。
-5. 品牌资源在 `public/`（logo、favicon、`public/brand/`）；字体许可见 `public/brand/LICENSE-Saira-OFL.txt`。勿在文案中写个体工商户全称或税号。
-
-目录约定（简化）：
-
-```text
-mugsun-docs/
-  index.md                 # 中文首页
-  guide/ boot/ pc/ track/ core/
-  en/                      # 英文镜像
-  .vitepress/config/       # shared · zh · en · index
-  public/brand/            # logo kit
-  .github/workflows/deploy-docs.yml
+```bash
+DOCS_BASE=/mugsun-docs/ pnpm run docs:build
 ```
 
-文案要求：写清「是什么 / 怎么起 / 依赖谁」；命令以各产品仓当前 README 为准；没有公网 Demo 就写本地路径，不放失效链接。
+构建结果在 `.vitepress/dist`，可以放到任何静态服务器上。
+
+`pnpm run docs:preview` 可以在本地查看构建结果。
+
+<details>
+<summary>线上站点的设置</summary>
+
+| 项 | 值 |
+| --- | --- |
+| 域名 | `docs.mugsun.com` |
+| DNS | `docs` 的 CNAME 指向 `mugsun.github.io` |
+| 构建用的 Node.js | 22 |
+| `DOCS_BASE` | `/` |
+
+换用 Cloudflare Pages 时，构建命令填 `pnpm run docs:build`，输出目录填 `.vitepress/dist`。
+
+</details>
 
 ## 相关仓库
 
 | 仓库 | 说明 |
 | --- | --- |
-| [mugsun-boot](https://github.com/mugsun/mugsun-boot) | 单体后端 |
-| [mugsun-core](https://github.com/mugsun/mugsun-core) | BOM + starter |
-| [mugsun-pc](https://github.com/mugsun/mugsun-pc) | PC 管理台 |
-| [mugsun-track](https://github.com/mugsun/mugsun-track) | Web 埋点 SDK |
-| [mugsun-app](https://github.com/mugsun/mugsun-app) | 移动端（源码尚未发布） |
+| [mugsun-boot](https://github.com/mugsun/mugsun-boot) | 后端 |
+| [mugsun-pc](https://github.com/mugsun/mugsun-pc) | 管理后台 |
+| [mugsun-track](https://github.com/mugsun/mugsun-track) | 浏览器埋点 SDK |
+| [mugsun-core](https://github.com/mugsun/mugsun-core) | 后端的公共库 |
 
-站点：[https://docs.mugsun.com/](https://docs.mugsun.com/) · 主页：[https://mugsun.com](https://mugsun.com)
+## 参与贡献
 
-## License
+提交前请读[贡献指南](./CONTRIBUTING.md)。发现文档和实际行为不一致，可以直接开 Issue。
 
-[MIT](LICENSE) · © 2026 mugsun
+## 许可
 
----
+MIT，见 [LICENSE](./LICENSE)。品牌字体的许可见 `public/brand/LICENSE-Saira-OFL.txt`。
 
-## English (short)
+## English
 
-**mugsun-docs** is the VitePress documentation site for the mugsun platform. **Default locale is Chinese** at `/`; English lives under `/en/`. Production URL: [https://docs.mugsun.com/](https://docs.mugsun.com/).
+This is the source of [docs.mugsun.com](https://docs.mugsun.com/en/), built with VitePress. Chinese pages live at the root and English pages under `en/`, one for one.
 
 ```bash
-pnpm install --frozen-lockfile && pnpm run docs:dev
+pnpm install --frozen-lockfile
+pnpm run docs:dev
 ```
 
-Build uses `DOCS_BASE` (default `/` for the custom domain). GitHub Pages deploys from `main` via `.github/workflows/deploy-docs.yml` with Node 22 and `DOCS_BASE=/`. Keep ZH/EN pages and `.vitepress/config/zh.ts` / `en.ts` in sync when contributing. Full details above.
+Pushing to `main` deploys the site to GitHub Pages. When you change a page, change its counterpart in the other language in the same commit.

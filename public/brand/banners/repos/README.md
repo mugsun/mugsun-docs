@@ -1,19 +1,21 @@
-# Repo GitHub banners
+# 仓库横幅
 
-Flat 1280×320 headers for each mugsun repository README.
+各仓库的横幅图，尺寸是 1280×320，中文和英文各一张。
 
-| File | Language | Use |
-| --- | --- | --- |
-| `mugsun-<repo>.png` | 中文 | Chinese `README.md` top image |
-| `mugsun-<repo>-en.png` | English | `README_EN.md` top image |
-| `mugsun-<repo>@2x.png` / `mugsun-<repo>-en@2x.png` | — | Optional 2× assets |
-| `mugsun-brand-zh.png` / `mugsun-brand-en.png` | 中 / EN | Org / overview |
+| 文件 | 用途 |
+| --- | --- |
+| `mugsun-<仓库>.png` | 中文横幅 |
+| `mugsun-<仓库>-en.png` | 英文横幅 |
+| `mugsun-<仓库>@2x.png` `mugsun-<仓库>-en@2x.png` | 两倍尺寸 |
+| `mugsun-brand-zh.png` `mugsun-brand-en.png` | 品牌总览 |
 
-Raw URL pattern:
+引用地址的格式：
 
 ```text
-https://raw.githubusercontent.com/mugsun/mugsun-docs/main/public/brand/banners/repos/mugsun-<repo>.png
-https://raw.githubusercontent.com/mugsun/mugsun-docs/main/public/brand/banners/repos/mugsun-<repo>-en.png
+https://docs.mugsun.com/brand/banners/repos/mugsun-<仓库>.png
+https://docs.mugsun.com/brand/banners/repos/mugsun-<仓库>-en.png
 ```
 
-Style lock: LXGW WenKai for Chinese, Saira Semi Condensed Medium for Latin; warm highlight on the core-stack line.
+中文用霞鹜文楷，英文用 Saira Semi Condensed Medium。
+
+公开仓库的 README 已经改用真实截图开头，不再引用这些横幅。截图在 `public/readme/` 目录。
