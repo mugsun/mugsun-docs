@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { taskLists } from './task-lists'
 
 /** Site root default for docs.mugsun.com; use DOCS_BASE=/mugsun-docs/ only for github.io project path. */
 const base = process.env.DOCS_BASE ?? '/'
@@ -14,6 +15,9 @@ export const shared = defineConfig({
   srcExclude: ['**/CHANGELOG.md', 'README.md', 'CONTRIBUTING.md', 'AGENTS.md', 'CLAUDE.md', 'docs/**', 'public/**'],
   lastUpdated: true,
   metaChunk: true,
+  markdown: {
+    config: (md) => taskLists(md),
+  },
   ignoreDeadLinks: [
     // Local run URLs shown as docs examples (not published routes)
     /^https?:\/\/localhost/,

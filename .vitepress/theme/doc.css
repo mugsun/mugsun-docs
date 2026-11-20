@@ -451,3 +451,17 @@
     justify-content: center;
   }
 }
+
+/* Checklists: `- [ ]` items render as checkboxes (config/task-lists.ts) */
+.vp-doc li.ms-task {
+  list-style: none;
+}
+
+.vp-doc input.ms-task-check {
+  width: 1.05em;
+  height: 1.05em;
+  margin: 0 0.5em 0 -1.55em;
+  vertical-align: -0.16em;
+  accent-color: var(--vp-c-brand-1);
+  cursor: pointer;
+}

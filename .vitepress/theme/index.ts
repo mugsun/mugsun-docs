@@ -1,21 +1,27 @@
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
-import { h } from 'vue'
+import { defineComponent, h } from 'vue'
 import ArchDiagram from './components/ArchDiagram.vue'
 import DemoPhone from './components/DemoPhone.vue'
 import HomeLanding from './components/HomeLanding.vue'
 import MsIcon from './components/MsIcon.vue'
+import { useTaskChecks } from './task-checks'
 import './custom.css'
 import './doc.css'
 import './home.css'
 
 export default {
   extends: DefaultTheme,
-  Layout() {
-    return h(DefaultTheme.Layout, null, {
-      'layout-bottom': () => h(DemoPhone),
-    })
-  },
+  Layout: defineComponent({
+    name: 'MsLayout',
+    setup() {
+      useTaskChecks()
+      return () =>
+        h(DefaultTheme.Layout, null, {
+          'layout-bottom': () => h(DemoPhone),
+        })
+    },
+  }),
   enhanceApp({ app, router }) {
     app.component('ArchDiagram', ArchDiagram)
     app.component('DemoPhone', DemoPhone)
