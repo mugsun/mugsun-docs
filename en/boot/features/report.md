@@ -2,6 +2,8 @@
 
 Reports build charts from built-in datasets. The admin console renders them with ECharts; no report engine is involved.
 
+![Report preview dialog: a pie chart of users by status and a bar chart of users per tenant](/screenshots/features/report.png)
+
 ## What it does
 
 - Create reports under Reports. One report can hold several charts.

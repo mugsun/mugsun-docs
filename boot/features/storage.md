@@ -2,6 +2,8 @@
 
 附件的存储位置在「存储配置」里设置，基于 x-file-storage，支持本地、MinIO 和阿里云 OSS。
 
+![存储配置页：三套存储配置，本地磁盘这一套已启用](/screenshots/features/storage.png)
+
 ## 能做什么
 
 - 登记多套存储配置，类型为 `local`、`minio` 或 `aliyun`。

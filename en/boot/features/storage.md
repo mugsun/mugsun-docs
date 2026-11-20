@@ -2,6 +2,8 @@
 
 Where attachments are stored is set under Storage Config. It is built on x-file-storage and supports local disk, MinIO and Aliyun OSS.
 
+![Storage Config page: three storage settings, with the local-disk one enabled](/screenshots/features/storage.png)
+
 ## What it does
 
 - Register several storage settings of type `local`, `minio` or `aliyun`.
