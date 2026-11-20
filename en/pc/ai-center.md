@@ -99,9 +99,9 @@ Open "Assistant", choose this knowledge base in "Knowledge base (optional)" at t
 </div>
 
 ::: warning Make sure the embedding model works first
-A knowledge base without an embedding model uses the default one. If none is available or the call fails, the backend generates vectors with a local algorithm instead.
+A knowledge base without an embedding model uses the default one. If no embedding model is activated, the backend generates vectors with a local algorithm and vector retrieval works poorly.
 
-"Vector status" still shows "Vectorized" in that case, but vector retrieval works poorly. Test the embedding model in "Models" until it is "Activated" first.
+If the embedding model call fails, "Vector status" shows "Failed" and the "Failure reason" column says why. Fix the model, then click "Start vectorizing (pending only)" on the "Vectorization" tab.
 :::
 
 The "Knowledge base" node in app orchestration uses the same knowledge bases; see [Designers](/en/pc/designer#ai-app-orchestration).
