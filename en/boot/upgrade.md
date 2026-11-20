@@ -1,28 +1,80 @@
 # Upgrade guide
 
-When upgrading boot from 0.1.0, two migrations can stop:
+boot has not published a release yet. This page is for projects that already run the main branch: read it before you update to a newer main.
 
-- V7: openGauss and Dameng deployments must first make sure no tenant has duplicate phone numbers. PostgreSQL and KingbaseES are not affected.
-- V11: every database must first make sure no tenant code has been reused.
+## See which changes affect you
 
-Every deployment should read [Legacy digit captcha removed](#legacy-digit-captcha-removed).
+| Change | Who is affected | What to do when upgrading |
+| --- | --- | --- |
+| [Multipart requests only on allowlisted endpoints](#multipart) | Projects that added their own upload endpoints or pass the token as a URL parameter | Add the endpoints to the allowlist and send the token in a header |
+| [Self-registration is off by default in production](#register) | Projects that allow registration in production | Turn the registration switch on explicitly |
+| [Export, import and upload permission codes](#perm-codes) | Every project | Usually nothing; roles created later need the grants by hand |
+| [Legacy digit captcha removed](#legacy-digit-captcha-removed) | Every project | Delete the old settings and switch the front end to the behavioral captcha |
+| [V7: duplicate phone numbers within a tenant](#duplicate-phone-numbers-within-a-tenant) | openGauss and Dameng | Find and resolve duplicates first, or the migration stops |
+| [V11: tenant code reused](#v11) | Every database | Find and resolve reuse first, or the migration stops |
 
-## Unreleased: anonymous multipart requests rejected up front (breaking change)
+The first four are behavior changes; the last two are database migrations that can stop. PostgreSQL and KingbaseES are not affected by V7.
 
-**Multipart requests are accepted only on whitelisted upload endpoints, and only when signed in.** See [Anonymous multipart requests](/en/boot/permissions#anonymous-multipart-requests).
+## Multipart requests only on allowlisted endpoints {#multipart}
 
-- Tokens in URL parameters are no longer accepted. Multipart requests read the token only from the `Authorization` header or a cookie of the same name; a token passed as a URL parameter gets 401.
+**Multipart requests are accepted only on allowlisted upload endpoints, and only when signed in.** This is a breaking change.
+
+The rules are in [Multipart allowlist](/en/boot/permissions#anonymous-multipart-requests). When upgrading, note:
+
+- Tokens in URL parameters are no longer accepted; a token passed that way gets 401.
+  - Multipart requests read the token only from the `Authorization` header or a cookie of the same name.
 - To add an upload endpoint, add its path to `mugsun.security.multipart.allowed-paths`, otherwise multipart requests to it get 415.
-- A YAML list replaces the default as a whole, so list the 5 default paths too, or every default upload endpoint starts returning 415.
+- A YAML list replaces the default as a whole. List the 5 default paths too, or every default upload endpoint starts returning 415.
 - The backend refuses to start if an entry is empty, doesn't start with `/`, or contains `*`, `..`, `;`, `{` or `}`.
 - Clients should make sure they are signed in before uploading. When not signed in, they may see the connection closed instead of a 401.
-- Rejected requests are never parsed or written to disk, but within `max-swallow-size` the container may still read the rest of the body and discard it. Always set a request body limit on the reverse proxy (about 21MB).
+- Rejected requests are never parsed or written to disk.
+  - Within `max-swallow-size`, though, the container may still read the rest of the body and discard it.
+  - Always set a request body limit (about 21MB) on the reverse proxy.
+
+## Self-registration is off by default in production {#register}
+
+**Registration is off by default in production. To allow it, set `mugsun.auth.register.enabled=true`.** This is a breaking change.
+
+- The main setting `mugsun.auth.register.mode` has three values:
+  - `OFF`: closed; the registration endpoint returns 404.
+  - `OPEN`: open.
+  - `APPROVAL`: review after registration. This value is reserved; setting it now stops startup.
+- `enabled=true` and `enabled=false` are shorthand for `OPEN` and `OFF`.
+- When nothing is set, production is `OFF`.
+  - It is `OPEN` only when `spring.profiles.active` names dev, test or local and does not name prod.
+- The front end reads `registerMode` from `GET /auth/captcha/config` and hides the registration entry accordingly.
+- Registration is now rate-limited by IP, account and phone number; requests over the limit get 429.
+- Behind a reverse proxy you must set `MUGSUN_OPENAPI_TRUSTED_PROXIES`.
+  - Otherwise the whole site counts as one IP and only 10 registrations per hour are possible in total.
+  - See [Configuration](/en/boot/configuration#self-registration).
+
+## Export, import and upload permission codes {#perm-codes}
+
+Migrations V13 and V14 add several permission codes and grant them to existing roles based on what those roles already had. After the upgrade, people who could do these things still can.
+
+| Action | New permission code | V13 grants it to |
+| --- | --- | --- |
+| Export users | `sys:user:export` | Roles that have `sys:user:list` |
+| Import users | `sys:user:import` | Roles that have `sys:user:add` |
+| Upload attachments | `sys:file:upload` | Every existing role |
+| Form and flow write actions | See [Permissions & attachments](/en/boot/permissions) | Each tenant's `admin` role |
+
+- V14 seeds the built-in `user` role and grants `sys:file:upload` to it and to the roles assigned at registration.
+- Roles created after the upgrade start with no permissions.
+  - To let such a role upload attachments, click Authorize in Role Manage and check the attachment upload permission.
+- A direct-upload request must carry `size`, and the signature is valid for 15 minutes; see [Direct upload from the browser](/en/boot/permissions#direct-upload-from-the-browser).
+- The cleanup queue only deletes objects under `tmp/`, or objects created in this run that were never registered.
+  - Older entries that were already queued and are not under `tmp/` are dropped; clean up those objects by hand.
 
 ## Duplicate phone numbers within a tenant
 
 The new migration V7 makes user phone numbers unique within a tenant on openGauss and Dameng, matching PostgreSQL. Users without a phone number and deleted users are not checked.
 
-If duplicates already exist, the migration reports "V7 升级中止" (V7 upgrade stopped) and halts. No index has been changed at that point.
+If duplicates already exist, the migration halts with a "V7 upgrade stopped" error. No index has been changed at that point. The log contains this text:
+
+```text
+V7 升级中止
+```
 
 ### Find duplicates
 
@@ -80,7 +132,7 @@ Running scripts with gsql does not write `flyway_schema_history`. When you switc
 
 On Dameng, DDL auto-commits, so a failed migration leaves a failed record in Flyway's history. Follow [Dameng: remove the failed record](#dameng-remove-the-failed-record) with version `7`, then restart.
 
-Once the migration no longer reports "V7 升级中止", V7 has completed.
+Once the migration no longer reports that error, V7 has completed.
 
 ## Legacy digit captcha removed
 
@@ -91,11 +143,15 @@ Once the migration no longer reports "V7 升级中止", V7 has completed.
 3. All five types are enabled by default, one picked at random per challenge. For slider only, set `mugsun.captcha.default-types: [SLIDER]`.
 4. If the backend must be upgraded before the frontend, set `mugsun.captcha.enabled=false` for now; login lockout still applies.
 
-## V11 stopped: tenant code reused
+## V11 stopped: tenant code reused {#v11}
 
 The new migration V11 makes tenant codes never reusable: a code may appear on only one row in `sys_tenant`, deleted tenants included.
 
-If a code already appears on several rows, the migration reports "V11 升级中止" (V11 upgrade stopped) and halts. No index has been changed at that point.
+If a code already appears on several rows, the migration halts with a "V11 upgrade stopped" error. No index has been changed at that point. The log contains this text:
+
+```text
+V11 升级中止
+```
 
 ### Find reused codes
 
@@ -176,3 +232,13 @@ flyway -url="jdbc:dm://<host>:5236?schema=<schema>" -user=<user> -password=<pass
 :::
 
 `flyway repair` removes every failed record from the history table.
+
+## Next steps
+
+<div class="ms-cards">
+
+- [Configuration](/en/boot/configuration) The settings and environment variables mentioned on this page.
+- [Permissions & attachments](/en/boot/permissions) Permission codes, upload limits and the multipart allowlist.
+- [Security checklist](/en/boot/security-checklist) Go through it again after upgrading, before launch.
+
+</div>
