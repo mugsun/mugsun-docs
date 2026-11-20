@@ -111,21 +111,20 @@ cp config/application-local.yml.example config/application-local.yml
 
 ### Why does startup fail with `Migration checksum mismatch for migration version 1`? {#checksum}
 
-The development database was created from an early `main` branch and holds the checksum of an old V1 script. Databases created from the 0.1.0 release are not affected.
+The database was created from an earlier `main` branch. Until boot 0.2 is released, each database has a single baseline migration script, and schema changes are made by editing it. When the baseline changes, the checksum recorded in an old database no longer matches.
+
+A database created before the migrations were merged into one baseline reports the same error, followed by several lines of `Detected applied migration not resolved locally`.
 
 | Situation | What to do |
 | --- | --- |
 | Development database, data not needed | Run `docker compose down -v` and `docker compose up -d`, then start the backend to rebuild it |
-| Data must be kept | Back up first, make sure the schema matches the current V1, then change the checksum of V1 in the migration history |
+| Data must be kept | There is no ready-made in-place upgrade. Back up first, export the data yourself, and import it after the rebuild |
 
-`down -v` deletes the development data volume, so do not run it against a shared database. The statement that changes the checksum is:
+`down -v` deletes the development data volume, so do not run it against a shared database.
 
-```bash
-docker exec mugsun-pg psql -U mugsun -d mugsun -c \
-  "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"
-```
+Do not just change the checksum in the migration history. That only makes validation pass; tables, columns and menus added to the baseline do not appear by themselves.
 
-The statement only changes the migration history and does not repair the schema. Columns and menus missing from the old V1 do not appear by themselves, so rebuilding is safer when the schema differs.
+See the [backend upgrade guide](/en/boot/upgrade#baseline) for details.
 
 ### Why does the process exit right after starting without `dev`?
 
@@ -256,7 +255,7 @@ The one-command Compose setup generates passwords with letters and digits only. 
 
 Flyway fails at startup before it runs any migration. The cause is that Flyway executes `SET ROLE`, and openGauss requires a password for that statement.
 
-On the full edition of openGauss, run the scripts in `db/migration-og` one by one in version order with gsql, see the [backend upgrade guide](/en/boot/upgrade#duplicate-phone-numbers-within-a-tenant).
+On openGauss, run the baseline `V1__baseline_0_2.sql` in `db/migration-og` with gsql, see the [backend upgrade guide](/en/boot/upgrade#baseline-opengauss).
 
 openGauss-lite cannot be used for now, because the V8 script has a syntax error on it.
 

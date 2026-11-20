@@ -143,7 +143,7 @@ mugsun:
   - 传 `null` 或 `[]` 清回平台默认（`default-types`）；
   - 没设置过的租户使用 `default-types`。
 - 设置里不含 `SLIDER` 和 `ROTATE` 时仍会保存，但响应 `data.warning` 会提示键盘用户将收到 `40015`。
-- 设置保存在 `sys_tenant.captcha_types`（迁移 `V10__tenant_captcha_types.sql`）。
+- 设置保存在 `sys_tenant.captcha_types`。
 - 发送短信验证码与租户无关，只看全局开关，并且有单手机号每天、单 IP 每小时的频控。
 - 客户端开关（`sys_client.captcha_enabled`）不参与判定，因为 clientId 由调用方填写。
 

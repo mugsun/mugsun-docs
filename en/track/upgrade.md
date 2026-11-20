@@ -1,6 +1,12 @@
 # Upgrade guide
 
-After the backend is upgraded from 0.1.0, migrations update the tracking database schema at startup, and most deployments need no manual work. This page covers the three things outside the migrations that may need your attention.
+This page is for deployments still on a main from before the baseline merge that upgrade the tracking database in place. Migrations update the schema at startup, and this page covers the three things outside the migrations that may need your attention.
+
+::: warning Existing tracking databases must be rebuilt after the baseline merge
+On a main after the baseline merge, the tracking database cannot be upgraded in place, see the [backend upgrade guide](/en/boot/upgrade#baseline).
+
+A rebuilt, empty database needs none of the three things on this page.
+:::
 
 | What to do | Who needs it |
 | --- | --- |

@@ -143,7 +143,7 @@ The same can be done with `POST /system/tenant/captcha`:
   - pass `null` or `[]` to reset to the platform default (`default-types`);
   - tenants that never set it use `default-types`.
 - A setting without `SLIDER` and `ROTATE` is still saved, but `data.warning` in the response says keyboard users will get `40015`.
-- The setting is stored in `sys_tenant.captcha_types` (migration `V10__tenant_captcha_types.sql`).
+- The setting is stored in `sys_tenant.captcha_types`.
 - The SMS code request is not tied to a tenant. It follows only the global switch, and has per-phone daily and per-IP hourly limits.
 - The client switch (`sys_client.captcha_enabled`) takes no part in the decision, because clientId is supplied by the caller.
 

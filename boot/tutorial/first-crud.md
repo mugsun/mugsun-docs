@@ -12,10 +12,10 @@
 
 数据库变更统一走 Flyway，迁移脚本放在 `mugsun-boot-core/src/main/resources/db/migration/`。
 
-版本号取目录里当前最大值加一。写这篇文档时最大是 `V22`，所以示例用 `V23`。
+版本号取当前最大值加一，Java 迁移也算。写这篇文档时最大的是 Java 迁移 `V17`，所以示例用 `V18`。
 
 ```sql
--- V23__demo_note.sql
+-- V18__demo_note.sql
 CREATE TABLE demo_note (
     id          BIGINT PRIMARY KEY,
     title       VARCHAR(100) NOT NULL,

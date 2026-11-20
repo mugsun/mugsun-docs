@@ -14,6 +14,7 @@ The changes below affect existing deployments or integrations. Check them one by
 
 | Date | Change | What to do |
 | --- | --- | --- |
+| 2026-11-21 | The backend merged its database migrations into one baseline per database | Rebuild databases created by an earlier main. See [Backend upgrade guide](/en/boot/upgrade#baseline) |
 | 2026-10-21 | The backend removed the legacy digit captcha | Switch the frontend to the behavioral captcha. See [Backend upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed) |
 | 2026-10-18 | Analytics SDK 0.3.0 no longer masks or filters by default | Integrations that relied on default masking for compliance must turn it on explicitly. See [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking) |
 | 2026-10-18 | Duplicate submissions return HTTP 400 instead of 500 | Check for 400 in the frontend. See [core 0.1.0 → 0.2.0](/en/guide/upgrade/core-0-2-0#duplicate-key) |
@@ -24,6 +25,12 @@ The changes below affect existing deployments or integrations. Check them one by
 | 2026-10-13 | The admin console keeps the session in `sessionStorage` | Everyone has to sign in again once after the upgrade |
 | 2026-10-13 | Open APIs no longer trust `X-Forwarded-For` by default | Behind a reverse proxy, list the proxy addresses in `MUGSUN_OPENAPI_TRUSTED_PROXIES` |
 | 2026-10-13 | Analytics SDK 0.2.0 changed two privacy defaults | See [Analytics SDK 0.1.0 → 0.2.0](/en/guide/upgrade/track-web-0-2-0) |
+
+## 2026-11-21
+
+| Area | Change |
+| --- | --- |
+| Backend | Database migrations are merged into one baseline per database, and databases created by an earlier main have to be rebuilt. See [Backend upgrade guide](/en/boot/upgrade#baseline) |
 
 ## 2026-11-05
 

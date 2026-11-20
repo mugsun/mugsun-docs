@@ -111,21 +111,20 @@ cp config/application-local.yml.example config/application-local.yml
 
 ### 启动报 `Migration checksum mismatch for migration version 1`？ {#checksum}
 
-这个开发库是用较早的 `main` 分支建的，库里记的是旧版 V1 脚本的校验和。用 0.1.0 正式包建的库不会遇到。
+这个库是用较早的 `main` 分支建的。boot 发布 0.2 之前，每套库的迁移只有一个基线脚本，改库就是直接改它。基线变了，旧库里记的校验和就对不上。
+
+迁移并成一个基线之前建的库也报这个错，后面还跟着几行 `Detected applied migration not resolved locally`。
 
 | 情况 | 做法 |
 | --- | --- |
 | 开发库，数据可以不要 | 执行 `docker compose down -v` 和 `docker compose up -d`，再启动后端重建 |
-| 数据要保留 | 先备份，确认表结构和现在的 V1 一致，再改迁移历史里 V1 的校验和 |
+| 数据要保留 | 没有现成的原地升级办法。先备份，数据自己导出，重建以后再导入 |
 
-`down -v` 会删掉开发数据卷，不要对共用的库执行。改校验和的语句是：
+`down -v` 会删掉开发数据卷，不要对共用的库执行。
 
-```bash
-docker exec mugsun-pg psql -U mugsun -d mugsun -c \
-  "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"
-```
+不要只改迁移历史里的校验和。那样只是让校验通过，基线里新加的表、字段和菜单不会自己出现。
 
-这条语句只改迁移历史，不补表结构。旧版 V1 缺的字段和菜单不会自己出现，结构不一致时还是重建更稳。
+详见[后端升级指南](/boot/upgrade#baseline)。
 
 ### 不带 `dev` 启动，进程直接退出？
 
@@ -256,7 +255,7 @@ hash 里的参数也一样处理。完整的参数清单见 [URL 敏感参数](/
 
 启动时 Flyway 还没开始执行迁移就失败了。原因是 Flyway 会执行 `SET ROLE`，而 openGauss 要求这条语句带密码。
 
-完整版 openGauss 用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本，见[后端升级指南](/boot/upgrade#同租户重复手机号)。
+openGauss 用 gsql 执行 `db/migration-og` 里的基线 `V1__baseline_0_2.sql`，见[后端升级指南](/boot/upgrade#baseline-opengauss)。
 
 openGauss-lite 暂时不能用，V8 脚本在它上面有语法错误。
 

@@ -12,10 +12,10 @@ Persistence uses MyBatis-Flex, and the entity extends `BaseEntity` from mugsun-c
 
 Schema changes go through Flyway. Migration scripts live in `mugsun-boot-core/src/main/resources/db/migration/`.
 
-Take the highest version in that directory and add one. At the time of writing the highest is `V22`, so the example uses `V23`.
+Take the highest version and add one; Java migrations count too. At the time of writing the highest is the Java migration `V17`, so the example uses `V18`.
 
 ```sql
--- V23__demo_note.sql
+-- V18__demo_note.sql
 CREATE TABLE demo_note (
     id          BIGINT PRIMARY KEY,
     title       VARCHAR(100) NOT NULL,

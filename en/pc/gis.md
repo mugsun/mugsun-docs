@@ -311,8 +311,8 @@ With PostGIS, features crossing 180° are found through a generated column and a
 | `gis_feature.wraps_antimeridian` | A generated boolean column that marks whether a feature crosses 180°. The database computes it and the application does not maintain it |
 | `idx_gis_feature_wrap` | A partial GiST index on `ST_ShiftLongitude(geom)` that only covers features that cross 180° and are not deleted |
 
-- Migration V16 adds the column. It is skipped entirely when PostGIS or the `gis_feature` table is absent.
-- Migration V17 builds the index with `CREATE INDEX CONCURRENTLY`, which does not run inside a transaction.
+- The statement that adds the column is in the migration baseline. It is skipped when PostGIS or the `gis_feature` table is absent.
+- The Java migration V17 builds the index with `CREATE INDEX CONCURRENTLY`, which does not run inside a transaction.
 - Flyway uses a session-level lock on the main database, which corresponds to `flyway.postgresql.transactional.lock=false`.
 - So connect to PostgreSQL directly, or use the session mode of PgBouncer. The transaction mode does not work.
 - Bbox, intersects, contains and radius queries, and nearest neighbor too, all use this index.

@@ -27,7 +27,7 @@ mugsun-track 的 CHANGELOG 里还有 0.1.1。这个版本没有发布到 npm，�
 
 boot 和管理后台还没有发布过版本，所以没有按版本的升级说明。已经部署了 boot 主干的项目，更新到新的主干时请看下面两页：
 
-- [后端升级指南](/boot/upgrade)：涉及权限码的调整、V7 和 V11 迁移、旧图形验证码的移除。
+- [后端升级指南](/boot/upgrade)：先讲迁移并成一个基线以后怎么重建库，再讲权限码的调整、V7 和 V11 迁移、旧图形验证码的移除。
 - [埋点模块升级](/track/upgrade)：涉及历史 UV 回填、用户时间线索引和旧迁移记录的清理。
 
 ## 数据库迁移
@@ -36,11 +36,15 @@ core 不带数据库迁移。
 
 boot 主库的 Flyway 迁移在 `mugsun-boot-core` 的 `db/migration` 下，openGauss 和达梦各有一套。
 
-目前的版本号是 V1 到 V3、V7 到 V11、V13 到 V22，中间空着的号没有使用。
+每套现在只有一个 SQL 基线 `V1__baseline_0_2.sql`，由原来的 V1 到 V22 按版本号顺序拼成。
 
-埋点库的迁移在 `mugsun-boot-track` 的 `db/track/migration` 下，版本号是 T1 到 T5。
+埋点库的迁移在 `mugsun-boot-track` 的 `db/track/migration` 下。
 
-PostgreSQL 上的 V17 和埋点库的 T4 是 Java 迁移，其余都是 SQL 脚本。
+埋点库的基线是 `T1__baseline_0_2.sql`，由原来的 T1 到 T5 拼成。
+
+PostgreSQL 上的 V17 和埋点库的 T4 是 Java 迁移，在基线之后单独执行。之后新增的脚本，主库从 V18 起，埋点库从 T5 起。
+
+用合并之前的主干建的库不能原地更新，要重建，见[后端升级指南](/boot/upgrade#baseline)。
 
 ## 核对版本
 

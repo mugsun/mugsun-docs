@@ -311,8 +311,8 @@ RFC 7946 把两个顶点之间的边看成经纬度平面上的直线，这里�
 | `gis_feature.wraps_antimeridian` | 布尔生成列，标记要素是否跨 180°。由数据库计算，应用不维护 |
 | `idx_gis_feature_wrap` | 部分 GiST 索引，表达式是 `ST_ShiftLongitude(geom)`，只收跨 180° 且未删除的要素 |
 
-- 迁移脚本 V16 加列。没有 PostGIS 或没有 `gis_feature` 表时，整段跳过。
-- 迁移脚本 V17 用 `CREATE INDEX CONCURRENTLY` 建索引，它不在事务里执行。
+- 加列的语句在迁移基线里。没有 PostGIS 或没有 `gis_feature` 表时，这一段跳过。
+- 索引由 Java 迁移 V17 用 `CREATE INDEX CONCURRENTLY` 建，它不在事务里执行。
 - Flyway 在主库上用会话级的锁，对应 `flyway.postgresql.transactional.lock=false`。
 - 所以要直连 PostgreSQL，或者用 PgBouncer 的 session 模式。不能用 transaction 模式。
 - 范围、相交、包含和半径查询，还有最近邻，都用到这个索引。

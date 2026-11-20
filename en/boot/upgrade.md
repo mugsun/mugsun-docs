@@ -6,14 +6,60 @@ boot has not published a release yet. This page is for projects that already run
 
 | Change | Who is affected | What to do when upgrading |
 | --- | --- | --- |
+| [Migrations merged into one baseline](#baseline) | Every deployed project | The database cannot be updated in place; rebuild it |
 | [Multipart requests only on allowlisted endpoints](#multipart) | Projects that added their own upload endpoints or pass the token as a URL parameter | Add the endpoints to the allowlist and send the token in a header |
 | [Self-registration is off by default in production](#register) | Projects that allow registration in production | Turn the registration switch on explicitly |
 | [Export, import and upload permission codes](#perm-codes) | Every project | Usually nothing; roles created later need the grants by hand |
 | [Legacy digit captcha removed](#legacy-digit-captcha-removed) | Every project | Delete the old settings and switch the front end to the behavioral captcha |
-| [V7: duplicate phone numbers within a tenant](#duplicate-phone-numbers-within-a-tenant) | openGauss and Dameng | Find and resolve duplicates first, or the migration stops |
-| [V11: tenant code reused](#v11) | Every database | Find and resolve reuse first, or the migration stops |
+| [V7: duplicate phone numbers within a tenant](#duplicate-phone-numbers-within-a-tenant) | openGauss and Dameng, databases still on a main from before the baseline merge | Find and resolve duplicates first, or the migration stops |
+| [V11: tenant code reused](#v11) | Every database still on a main from before the baseline merge | Find and resolve reuse first, or the migration stops |
 
-The first four are behavior changes; the last two are database migrations that can stop. PostgreSQL and KingbaseES are not affected by V7.
+The first one decides how the database is updated. The next four are behavior changes. The last two are migrations from before the baseline merge that can stop; PostgreSQL and KingbaseES are not affected by V7.
+
+## Migrations merged into one baseline {#baseline}
+
+**A database created by a main from before the merge cannot be updated in place and has to be rebuilt.** This is a breaking change.
+
+The main branch merged the database migrations into one baseline script per database: `V1__baseline_0_2.sql` for the main database and `T1__baseline_0_2.sql` for the tracking database.
+
+The baseline is the old scripts concatenated in version order, with no statement changed. V17 on PostgreSQL and T4 of the tracking database are Java migrations and still run separately, after the baseline.
+
+The migration history of an old database lists the old scripts one by one and does not match the baseline. Flyway validation fails at startup and the backend does not start. The log contains lines like these:
+
+```text
+Migration checksum mismatch for migration version 1
+Detected applied migration not resolved locally: 2.
+```
+
+To update:
+
+1. Drop the main database and the tracking database, then create empty ones.
+   - With `docker compose`, run `docker compose down -v` and `docker compose up -d`.
+2. Clear the cache in Redis, so nothing stale from the old database is read.
+3. Start the new backend. Flyway migrates from scratch.
+
+`down -v` deletes the data volume, so do not run it against a shared database.
+
+This update does not come with a way to keep the data. If the database holds data you need, export it yourself and import it after the rebuild.
+
+If you compiled the old code locally with Maven, run `mvn clean` once after updating. Otherwise the old scripts left in `target` make Flyway fail:
+
+```text
+Found more than one migration with version 1
+```
+
+Until boot 0.2 is released, the baseline itself can still change. Every time it does, existing databases have to be rebuilt this way.
+
+### openGauss {#baseline-opengauss}
+
+openGauss does not use Flyway. Run the baseline with gsql, in a database created with `DBCOMPATIBILITY 'PG'`:
+
+```bash
+gsql -d mugsun -U <user> -f mugsun-boot-core/src/main/resources/db/migration-og/V1__baseline_0_2.sql \
+  -1 -v ON_ERROR_STOP=1
+```
+
+openGauss keeps no migration history. A database that already ran every script in version order has executed the same statements as the baseline and does not need a rebuild.
 
 ## Multipart requests only on allowlisted endpoints {#multipart}
 
@@ -67,6 +113,12 @@ Migrations V13 and V14 add several permission codes and grant them to existing r
   - Older entries that were already queued and are not under `tmp/` are dropped; clean up those objects by hand.
 
 ## Duplicate phone numbers within a tenant
+
+::: tip Only for a main from before the baseline merge
+Since the migrations were merged into one baseline, V7 no longer runs on its own, and a newly created database never hits the stop described here.
+
+Before importing old data into a new database, still check for duplicates as described in this section, or the unique index rejects the duplicate phone numbers.
+:::
 
 The new migration V7 makes user phone numbers unique within a tenant on openGauss and Dameng, matching PostgreSQL. Users without a phone number and deleted users are not checked.
 
@@ -144,6 +196,12 @@ Once the migration no longer reports that error, V7 has completed.
 4. If the backend must be upgraded before the frontend, set `mugsun.captcha.enabled=false` for now; login lockout still applies.
 
 ## V11 stopped: tenant code reused {#v11}
+
+::: tip Only for a main from before the baseline merge
+Since the migrations were merged into one baseline, V11 no longer runs on its own, and a newly created database never hits the stop described here.
+
+Before importing old data into a new database, still check for reuse as described in this section, or the unique index rejects the reused tenant codes.
+:::
 
 The new migration V11 makes tenant codes never reusable: a code may appear on only one row in `sys_tenant`, deleted tenants included.
 
