@@ -1,140 +1,220 @@
 # 安装与初始化
 
+`@mugsun/track-web` 是浏览器端的埋点 SDK。装好后填两个参数，页面访问、点击、性能指标和前端错误就开始上报。
+
 ## 安装
 
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web@^0.3.0
+pnpm add @mugsun/track-web
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web@^0.3.0
+npm install @mugsun/track-web
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web@^0.3.0
+yarn add @mugsun/track-web
 ```
 
 :::
 
-当前 npm 最新版本为 `0.3.0`。从 0.2.x 或更早版本升级时注意隐私默认值变更，见 [更新日志](/guide/changelog) 与 [插件](/track/plugins#接口监控)。
+当前版本是 0.3.0。包里有四个入口，用到哪个引哪个：
 
-## 原生 / 任意框架
+| 入口 | 内容 | gzip 后 |
+| --- | --- | --- |
+| `@mugsun/track-web` | `createTracker`、回放以外的全部插件、接入自检 | 约 20 KB |
+| `@mugsun/track-web/vue` | Vue 3 插件和 `v-track` 指令 | 约 15 KB |
+| `@mugsun/track-web/replay` | 会话回放插件，rrweb 在回放启用后才加载 | 约 6 KB |
+| `@mugsun/track-web/core` | 只有核心逻辑，插件和自检自己挑 | 约 7 KB |
+
+## 初始化
+
+先在管理后台「埋点分析 → 接入管理」新增一个应用，拿到 AppKey。创建成功的弹窗里有一段可以直接复制的接入代码。
+
+### 任意框架
 
 ```ts
 import { createTracker } from '@mugsun/track-web'
 
-const track = createTracker({
-  endpoint: 'https://your-host',
+export const tracker = createTracker({
+  endpoint: 'https://api.example.com',
   appKey: 'your-app-key',
-  // 应用版本；建议构建注入
   release: import.meta.env.VITE_APP_VERSION,
 })
 
-track.track('button_click', { name: 'buy' })
+tracker.track('order_submit', { amount: 199, channel: 'web' })
 ```
 
-- `endpoint` 只填服务根地址，SDK 实际上报 `{endpoint}/track/collect`，不要自己再拼路径。
-- `appKey` 在管理台「埋点分析 → 接入管理」创建。
-- `release` 可选；未配置不上报该字段；错误事件会携带。
-- 可用 Vite `import.meta.env.VITE_APP_VERSION` / CI 注入；变量须应用自行注入构建。
-- 管理台 [错误问题单](/track/error-issues) 可按该字段筛选并算 `releaseFlag`。
+| 参数 | 说明 |
+| --- | --- |
+| `endpoint` | 后端服务的根地址。SDK 自己拼上 `/track/collect`，不要把路径写进来。后端挂在 `/api` 这类前缀下时带上前缀 |
+| `appKey` | 应用标识。它会出现在浏览器里，不算机密 |
+| `release` | 应用版本号，可以不填。填了以后每条事件都带上，错误问题单按它区分版本 |
 
-## Vue 3
+`endpoint` 和 `appKey` 缺一个，`createTracker` 就会抛错。
+
+自定义事件名以字母开头，只能用字母、数字和下划线，最长 64 个字符。`$` 开头的名字留给 SDK 自己的事件。
+
+### Vue 3
 
 ```ts
 import { createApp } from 'vue'
 import MugsunTrack from '@mugsun/track-web/vue'
+import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
 app.use(router)
 app.use(MugsunTrack, {
-  endpoint,
-  appKey,
+  endpoint: 'https://api.example.com',
+  appKey: 'your-app-key',
   router,
   release: import.meta.env.VITE_APP_VERSION,
 })
+app.mount('#app')
 ```
 
-传入 `router` 后，页面事件会按路由模板（如 `/order/:id`）聚合。
+传了 `router` 以后，页面访问跟着路由切换上报。`route_path` 记的是路由模板（如 `/order/:id`），同一类页面合并成一行。
 
-安装后可通过 `inject(TRACK_INJECT_KEY)` 或模板中的 `$track` 拿到实例，并使用指令：
+组件里用 `inject(TRACK_INJECT_KEY)` 或 `this.$track` 拿到实例。模板里可以直接用指令埋点：
 
 ```vue
-<button v-track:click="'buy_click'">购买</button>
-<div v-track:exposure="{ event: 'banner_view', props: { id: 3 } }">Banner</div>
+<template>
+  <button v-track:click="'buy_click'">购买</button>
+  <div v-track:exposure="{ event: 'banner_view', props: { id: 3 } }">
+    活动横幅
+  </div>
+</template>
 ```
+
+Vue 插件还会包一层 `app.config.errorHandler`，把组件里的错误报成 `$error`。原来设置的处理函数照常执行。
 
 ## 识别用户
 
+SDK 给每个浏览器生成一个匿名 ID，没登录时的行为记在它名下。登录后调用 `identify`，把匿名访客和业务用户关联起来。
+
 ```ts
-// 登录后：把匿名访客与业务用户关联
-track.identify(user.id)
+const tracker = createTracker({
+  endpoint: 'https://api.example.com',
+  appKey: 'your-app-key',
+  // 和业务接口带一样的登录令牌，后端按它认定用户
+  headers: () => {
+    const token = getAccessToken()
+    return token ? { Authorization: token } : {}
+  },
+})
 
-// 公共属性：之后每条事件都会携带
-track.registerSuperProperties({ plan: 'pro' })
+// 登录成功后
+tracker.identify(user.id)
 
-// 退出登录：清除身份，避免下一位用户继承
-track.reset()
+// 退出登录时
+tracker.reset()
 ```
+
+事件属于哪个用户，由后端按 mugsun-boot 的登录令牌认定，客户端自己报的用户 ID 不算数。
+
+没带令牌，或者令牌里的用户和 `identify` 报的不一致，这次关联会被拒绝，事件按匿名访客统计。
+
+页面关闭时用 `sendBeacon` 发出的那一批带不了请求头，也按匿名记，仍然归在同一个匿名 ID 下。
+
+`reset()` 清掉用户、换一个新的匿名 ID，并结束当前会话。多人共用一台电脑时，退出登录一定要调用它。
 
 ## 常用方法
 
-| 方法 | 说明 |
+| 方法 | 作用 |
 | --- | --- |
-| `track(event, props?)` | 上报自定义事件，返回 `event_id` |
-| `identify(userId)` / `reset()` | 关联 / 清除用户身份 |
-| `registerSuperProperties(props)` / `unregisterSuperProperty(key)` | 公共属性 |
-| `timeEvent(name)` / `cancelTimeEvent(name)` | 计时事件：下次 `track(name)` 时自动带耗时 |
-| `flush()` | 立即发送队列 |
-| `optOut()` / `optIn()` / `isOptedOut()` | 用户拒绝 / 恢复采集 |
-| `getDistinctId()` / `getSessionId()` | 读取匿名 ID 与会话 ID |
-| `destroy()` | 卸载 SDK |
-| `trackApiError({ url, method, status, bizCode, message, durationMs })` | 手动上报一次接口失败，见 [错误过滤与接口失败](#错误过滤与接口失败) |
-| `selfCheck()` | 接入自检，返回结构化报告，见 [第一个事件 · 接入自检](/track/first-event#接入自检) |
+| `track(event, props?)` | 上报一条自定义事件，返回 `event_id`。没有上报时返回 `null` |
+| `identify(userId)` / `reset()` | 关联用户 / 清除用户并更换匿名 ID |
+| `registerSuperProperties(props)` | 设置公共属性，之后每条事件都带上 |
+| `unregisterSuperProperty(key)` | 去掉一个公共属性 |
+| `timeEvent(name)` / `cancelTimeEvent(name)` | 开始计时，下一条同名事件自动带上 `duration_ms` / 取消计时 |
+| `trackExposure(el, { event, props })` | 元素露出一半并停留 1 秒后，上报一次曝光 |
+| `trackApiError(payload)` | 手动上报一次接口失败，见[错误过滤与接口失败](#错误过滤与接口失败) |
+| `flush()` | 立刻发送队列里的事件，返回的 Promise 表示是否发送成功 |
+| `optOut()` / `optIn()` / `isOptedOut()` | 用户拒绝采集 / 重新同意 / 查询当前状态 |
+| `getDistinctId()` / `getUserId()` / `getSessionId()` | 读取匿名 ID、用户 ID 和会话 ID |
+| `selfCheck()` | 检查接入是否正常，见[接入自检](/track/first-event#接入自检) |
+| `destroy()` | 停止采集并卸载插件 |
 
 ## 配置项
 
-| 选项 | 类型 | 默认 | 说明 |
-| --- | --- | --- | --- |
-| `appKey` | `string` | — | **必填**。应用标识（浏览器可见，非机密） |
-| `endpoint` | `string` | — | **必填**。服务端地址，上报 `{endpoint}/track/collect` |
-| `release` | `string` | — | 应用版本，错误事件携带；建议构建注入（Vite `VITE_APP_VERSION` / CI） |
-| `enabled` | `boolean` | `true` | 本地总开关 |
-| `sampleRate` | `number` | `100` | 采样率 0–100；远端下发优先（下次启动生效） |
-| `batchSize` | `number` | `10` | 达到条数即发送 |
-| `flushInterval` | `number` | `5000` | 定时发送间隔（ms） |
-| `maxBatchSize` | `number` | `100` | 单次请求最大事件数 |
-| `queueCapacity` | `number` | `500` | 队列上限，超出丢弃最旧 |
-| `queueMaxAge` | `number` | 24h | 队列事件超龄丢弃（ms） |
-| `retryBaseDelay` / `retryMaxDelay` | `number` | `1000` / `30000` | 补发退避基数 / 上限（ms） |
-| `respectDnt` | `boolean` | `true` | 尊重浏览器 Do Not Track |
-| `respectGpc` | `boolean` | `false` | 设 `true` 时尊重浏览器 Global Privacy Control，开启 GPC 的浏览器不采集 |
-| `maskSelectors` | `string[]` | `[]` | 自动采集屏蔽的选择器（与远端下发合并） |
-| `sessionTimeout` | `number` | 30min | 会话滑动过期（ms） |
-| `storagePrefix` | `string` | `'mst'` | 本地存储 key 前缀 |
-| `fetchRemoteConfig` | `boolean` | `true` | 启动时拉取远端配置 |
-| `headers` | `object \| () => object` | — | 额外请求头（如 `Authorization`）；`sendBeacon` 场景无法携带 |
-| `plugins` | `TrackPlugin[]` | 默认插件集 | 见 [插件](/track/plugins) |
-| `replayEnabled` / `replaySampleRate` | `boolean` / `number` | `false` / `10` | 回放开关与会话采样率 |
-| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | 关 / 关 / 关 / 1MB | 接口监控链开关（`apiBodyMaskEnabled` 默认不脱敏个人信息字段；凭证类键始终脱敏），见 [插件](/track/plugins#接口监控) |
-| `visualRules` | `VisualRule[]` | — | 圈选规则 |
-| `geoEnabled` | `boolean` | `false` | 精确位置采集 |
-| `debug` | `boolean` | `false` | 控制台输出调试日志 |
-| `beforeSend` | `(event) => event \| null \| false` | — | 事件入队前改写 `props` 或丢弃（返回 `null`/`false` 丢弃） |
-| `beforeSendOnError` | `'drop' \| 'keep'` | `'drop'` | `beforeSend` 抛错时丢弃事件，或发送钩子处理前的原事件 |
-| `ignoreErrors` | `(string \| RegExp)[] \| (error, message) => boolean` | — | 不上报的错误 |
-| `skipHandledErrors` | `boolean` | `false` | 设 `true` 时跳过 `HttpError` 与标记 `handled`/`expected` 的错误；默认全部上报 |
+只有 `endpoint` 和 `appKey` 必填，其余都有默认值。
 
-带「远端下发」说明的选项：本地显式设置优先，未设置时使用 `/track/config` 下发值，**下次启动生效**。
+### 基本
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `endpoint` | 必填 | 后端服务的根地址 |
+| `appKey` | 必填 | 应用标识 |
+| `release` | 无 | 应用版本号，每条事件都带上 |
+| `plugins` | 默认插件 | 传了就整个替换默认插件，见[插件](/track/plugins) |
+| `headers` | 无 | 附加的请求头，可以是对象，也可以是返回对象的函数 |
+| `enabled` | `true` | 设为 `false` 时整个 SDK 不工作 |
+| `debug` | `false` | 在控制台输出 SDK 的日志 |
+
+### 发送与队列
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `batchSize` | `10` | 攒够多少条就发送 |
+| `flushInterval` | `5000` | 定时发送的间隔，单位毫秒 |
+| `maxBatchSize` | `100` | 一次请求最多带多少条 |
+| `queueCapacity` | `500` | 本地队列的上限，满了丢最早的 |
+| `queueMaxAge` | 24 小时 | 队列里的事件超过这个时间就丢弃，单位毫秒 |
+| `retryBaseDelay` | `1000` | 发送失败后第一次重试前等多久，单位毫秒 |
+| `retryMaxDelay` | `30000` | 重试等待的上限。每失败一次等待时间翻倍 |
+| `sessionTimeout` | 30 分钟 | 多久没有活动算会话结束，单位毫秒 |
+| `storagePrefix` | `'mst'` | 本地存储的键名前缀 |
+| `fetchRemoteConfig` | `true` | 启动时是否拉取后台的应用配置 |
+
+### 采样与隐私
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `sampleRate` | `100` | 采样率，0 到 100。按访客采样，同一个访客要么全采，要么不采 |
+| `respectDnt` | `true` | 浏览器开了 Do Not Track 就不采集 |
+| `respectGpc` | `false` | 设为 `true` 后，浏览器开了 Global Privacy Control 就不采集 |
+| `maskSelectors` | `[]` | 这些选择器命中的区域不自动采集，也不录进回放 |
+| `beforeSend` | 无 | 事件入队前改写属性或丢弃 |
+| `beforeSendOnError` | `'drop'` | `beforeSend` 抛错时丢弃事件。设为 `'keep'` 则发送原事件 |
+| `ignoreErrors` | 无 | 不上报的错误，可以是字符串、正则或判断函数 |
+| `skipHandledErrors` | `false` | 设为 `true` 时跳过已经处理过的错误 |
+
+### 功能开关
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `replayEnabled` | `false` | 会话回放，还要注册回放插件 |
+| `replaySampleRate` | `10` | 回放的会话采样率，0 到 100 |
+| `apiMonitorEnabled` | `false` | 接口监控，还要注册 `apiMonitorPlugin` |
+| `apiBodyEnabled` | `false` | 采集 JSON 响应体 |
+| `apiBodyMaskEnabled` | `false` | 把响应体里的个人信息字段也遮掉 |
+| `apiBodyMaxBytes` | 1 MB | 超过这个大小的响应体不采集 |
+| `visualRules` | 无 | 圈选规则，一般由后台下发 |
+| `geoEnabled` | `false` | 精确位置，还要注册 `geoPlugin` |
+
+### 和后台配置的关系
+
+启动时 SDK 请求一次 `GET {endpoint}/track/config`，取回「接入管理」里这个应用的开关并存在本地。
+
+这次取回的配置下次启动才生效。同一个选项后台和代码里都设了值时，按下表处理：
+
+| 选项 | 结果 |
+| --- | --- |
+| `sampleRate` | 用后台的 |
+| `replayEnabled` | 用后台的 |
+| `replaySampleRate` | 用后台的 |
+| `enabled` | 任何一边关了就是关 |
+| `maskSelectors` | 两边合并 |
+| 接口监控的四个选项 | 用代码里的 |
+| `visualRules` | 用代码里的 |
+| `geoEnabled` | 用代码里的 |
+
+`fetchRemoteConfig: false` 只是不再去取，之前存在本地的配置照样生效。
 
 ## 错误过滤与接口失败
-
-::: tip 版本
-本节与 [接入自检](/track/first-event#接入自检) 需要 `@mugsun/track-web` 0.3.0 起。
-:::
 
 ```ts
 const tracker = createTracker({
@@ -142,35 +222,44 @@ const tracker = createTracker({
   appKey: 'your-app-key',
   beforeSend: (e) => (e.event === 'debug_only' ? null : e),
   ignoreErrors: ['ResizeObserver loop', /^AbortError/],
-  skipHandledErrors: true // 默认 false（全部上报），这里显式打开
+  skipHandledErrors: true,
 })
 ```
 
-- **`beforeSend(event)`**：每个业务事件（含 `$identify`）入队前调用；返回 `null` 或 `false` 丢弃。返回对象时只取其 `props` 合并回事件，`event_id`、`distinct_id`、事件名等不可改；非对象返回值视为不改。
-- **钩子抛错默认丢弃事件**（`beforeSendOnError: 'drop'`），避免脱敏钩子出错时把未脱敏数据发出；设为 `'keep'` 则发送钩子处理前的原事件。
-- **`beforeSend` 不覆盖**：`$session_start` / `$session_end`、会话回放块、接口响应体上传。回放用 `maskTextSelector` / `maskAllInputs` / `maskSelectors` 遮罩，响应体用 `apiBodyMaskEnabled`（默认关闭，需显式设 `true`）脱敏。
-- **`ignoreErrors`**：字符串按错误 message 子串匹配，`RegExp` 按 message 测试；也可传谓词 `(error, message) => boolean`，返回 `true` 表示忽略（谓词抛错按不忽略处理）。
-- **`skipHandledErrors`**（默认 `false`：**所有错误都上报**为 `$error`，包括 `HttpError` 和已处理的错误）：设为 `true` 时跳过 `error.name === 'HttpError'` 以及 `error.handled === true` / `error.expected === true` 的错误——通常是请求拦截器已经提示过用户的接口错误。
-- 以上过滤同时作用于 `error` 插件（`window` error、`unhandledrejection`）和 Vue 集成的 `app.config.errorHandler`；被过滤时原有 errorHandler 仍会被调用。
+| 选项 | 行为 |
+| --- | --- |
+| `beforeSend(event)` | 每条事件入队前调用。返回 `null` 或 `false` 丢弃；返回对象时只采用其中的 `props` |
+| `beforeSendOnError` | 钩子抛错时默认丢弃事件，免得没处理完的数据发出去。设为 `'keep'` 则发送原事件 |
+| `ignoreErrors` | 字符串按错误信息的子串匹配，正则按错误信息测试，函数返回 `true` 表示忽略 |
+| `skipHandledErrors` | 默认所有错误都上报。设为 `true` 后跳过 `HttpError` 和带 `handled`、`expected` 标记的错误 |
 
-跳过的接口错误如果仍想统计，在拦截器里手动上报：
+`beforeSend` 管不到三类数据：会话开始和结束事件、回放数据、接口响应体。后两类有自己的遮罩选项，见[隐私与合规](/track/privacy#开启遮罩与过滤)。
+
+这些过滤对 `error` 插件和 Vue 的 `errorHandler` 都生效。错误被过滤掉以后，原来的 `errorHandler` 仍然会执行。
+
+跳过的接口错误如果还想统计，在请求拦截器里手动报一次：
 
 ```ts
-tracker.trackApiError({ url: '/api/order', method: 'POST', status: 200, bizCode: 40001, message: '库存不足' })
+tracker.trackApiError({
+  url: '/api/order',
+  method: 'POST',
+  status: 200,
+  bizCode: 40001,
+  message: '库存不足',
+  durationMs: 132,
+})
 ```
 
-`trackApiError` 发出一条 `api_request` 事件（`success=false`、`source=manual`，带 `biz_code`、截断后的 `error_message`），与 `api-monitor` 插件同一事件名，接口分析可统一聚合。`url` 与 `api-monitor` 同口径脱敏：`token`、`access_token` 等敏感 query 的值替换为 `***`，业务参数保留。
+这条 `api_request` 事件带 `success: false` 和 `source: 'manual'`，和[接口监控](/track/plugins#接口监控)的数据一起统计。
 
-## 版本与发布
-
-SDK 由 [mugsun-track](https://github.com/mugsun/mugsun-track) 仓库的 GitHub Actions（`.github/workflows/release.yml`）通过 npm Trusted Publishing 自动发布，无需本地 npm token：
-
-1. 在 PR 中修改 `package.json` 的 `version`（同步 `src/version.ts` 的 `SDK_VERSION`），并在 `CHANGELOG.md` 写明变更（行为变更附迁移说明）。
-2. PR 合入 `main`。
-3. `main` 上 `package.json` 变化触发 release 工作流：若该版本尚未在 npm 上，则执行 `typecheck` / `test` / `build` 后 `npm publish --provenance`；已发布的版本自动跳过。
-
-详见仓库 [CONTRIBUTING.md](https://github.com/mugsun/mugsun-track/blob/main/CONTRIBUTING.md)。
+地址里的敏感参数照样会被遮掉，规则见[隐私与合规](/track/privacy#url-敏感参数)。
 
 ## 下一步
 
-[第一个事件](/track/first-event) · [插件](/track/plugins) · [隐私与合规](/track/privacy)
+<div class="ms-cards">
+
+- [第一个事件](/track/first-event) 从创建应用开始，直到在看板里看到第一条事件。
+- [插件](/track/plugins) 每个插件采集什么，回放和接口监控怎么打开。
+- [隐私与合规](/track/privacy) 默认不采集什么，哪些内容会被遮掉。
+
+</div>

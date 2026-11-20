@@ -1,140 +1,220 @@
 # Install & setup
 
+`@mugsun/track-web` is the tracking SDK for the browser. Install it, fill in two options, and page views, clicks, performance metrics and frontend errors start reporting.
+
 ## Install
 
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @mugsun/track-web@^0.3.0
+pnpm add @mugsun/track-web
 ```
 
 ```bash [npm]
-npm install @mugsun/track-web@^0.3.0
+npm install @mugsun/track-web
 ```
 
 ```bash [yarn]
-yarn add @mugsun/track-web@^0.3.0
+yarn add @mugsun/track-web
 ```
 
 :::
 
-The latest version on npm is `0.3.0`. If you are upgrading from 0.2.x or earlier, note the privacy default changes; see the [changelog](/en/guide/changelog) and [Plugins](/en/track/plugins#api-monitoring).
+The current version is 0.3.0. The package has four entry points, so import only what you use:
 
-## Vanilla JS / any framework
+| Entry | Contents | Gzipped |
+| --- | --- | --- |
+| `@mugsun/track-web` | `createTracker`, every plugin except replay, and the self-check | about 20 KB |
+| `@mugsun/track-web/vue` | The Vue 3 plugin and the `v-track` directive | about 15 KB |
+| `@mugsun/track-web/replay` | The session replay plugin; rrweb loads only once replay is on | about 6 KB |
+| `@mugsun/track-web/core` | Core logic only; you pick the plugins and the self-check | about 7 KB |
+
+## Initialize
+
+First add an application under "Tracking → Integration" in the admin console to get an AppKey. The dialog shown after creation has an integration snippet you can copy.
+
+### Any framework
 
 ```ts
 import { createTracker } from '@mugsun/track-web'
 
-const track = createTracker({
-  endpoint: 'https://your-host',
+export const tracker = createTracker({
+  endpoint: 'https://api.example.com',
   appKey: 'your-app-key',
-  // App version; inject at build time
   release: import.meta.env.VITE_APP_VERSION,
 })
 
-track.track('button_click', { name: 'buy' })
+tracker.track('order_submit', { amount: 199, channel: 'web' })
 ```
 
-- `endpoint` is the server's base URL. The SDK posts to `{endpoint}/track/collect`, so don't append the path yourself.
-- Create the `appKey` under **Analytics → Integrations** in the console.
-- `release` is optional; when omitted it is not sent; error events carry it when set.
-- Use Vite `import.meta.env.VITE_APP_VERSION` or a CI env var; the app must inject it at build time.
-- The console [Error issues](/en/track/error-issues) page can filter by it and compute a relative `releaseFlag`.
+| Option | Notes |
+| --- | --- |
+| `endpoint` | The root address of the backend. The SDK appends `/track/collect` itself, so leave the path out. Keep the prefix when the backend sits under one such as `/api` |
+| `appKey` | Identifies the application. It is visible in the browser and is not a secret |
+| `release` | The application version, optional. When set, every event carries it and error issues tell versions apart by it |
 
-## Vue 3
+`createTracker` throws if either `endpoint` or `appKey` is missing.
+
+A custom event name starts with a letter, uses only letters, digits and underscores, and is at most 64 characters. Names starting with `$` are reserved for the SDK's own events.
+
+### Vue 3
 
 ```ts
 import { createApp } from 'vue'
 import MugsunTrack from '@mugsun/track-web/vue'
+import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
 app.use(router)
 app.use(MugsunTrack, {
-  endpoint,
-  appKey,
+  endpoint: 'https://api.example.com',
+  appKey: 'your-app-key',
   router,
   release: import.meta.env.VITE_APP_VERSION,
 })
+app.mount('#app')
 ```
 
-Passing `router` groups page events by route template (for example `/order/:id`).
+With `router` passed in, page views follow route changes. `route_path` records the route template (such as `/order/:id`), so pages of the same kind are grouped into one row.
 
-After installation, get the client with `inject(TRACK_INJECT_KEY)` or `$track` in templates, and use the directive:
+Inside components, get the instance with `inject(TRACK_INJECT_KEY)` or `this.$track`. In templates you can track with the directive:
 
 ```vue
-<button v-track:click="'buy_click'">Buy</button>
-<div v-track:exposure="{ event: 'banner_view', props: { id: 3 } }">Banner</div>
+<template>
+  <button v-track:click="'buy_click'">Buy</button>
+  <div v-track:exposure="{ event: 'banner_view', props: { id: 3 } }">
+    Campaign banner
+  </div>
+</template>
 ```
+
+The Vue plugin also wraps `app.config.errorHandler` and reports component errors as `$error`. A handler you set earlier still runs.
 
 ## Identifying users
 
+The SDK creates an anonymous ID for each browser, and activity before login is recorded under it. After login, call `identify` to link the anonymous visitor to your user.
+
 ```ts
-// After sign-in: link the anonymous visitor to your user
-track.identify(user.id)
+const tracker = createTracker({
+  endpoint: 'https://api.example.com',
+  appKey: 'your-app-key',
+  // Send the same login token as your API calls; the backend decides the user from it
+  headers: () => {
+    const token = getAccessToken()
+    return token ? { Authorization: token } : {}
+  },
+})
 
-// Super properties are attached to every later event
-track.registerSuperProperties({ plan: 'pro' })
+// After a successful login
+tracker.identify(user.id)
 
-// On sign-out: clear the identity so the next person doesn't inherit it
-track.reset()
+// On logout
+tracker.reset()
 ```
+
+The backend decides which user an event belongs to from the mugsun-boot login token. A user ID reported by the client alone does not count.
+
+Without a token, or when the user in the token differs from the one passed to `identify`, the link is rejected and the events are counted as an anonymous visitor.
+
+The batch sent with `sendBeacon` when the page closes cannot carry headers, so it is also recorded as anonymous, still under the same anonymous ID.
+
+`reset()` clears the user, switches to a new anonymous ID and ends the current session. Always call it on logout when several people share one computer.
 
 ## Methods
 
-| Method | Description |
+| Method | What it does |
 | --- | --- |
-| `track(event, props?)` | Send a custom event; returns its `event_id` |
-| `identify(userId)` / `reset()` | Link / clear the user identity |
-| `registerSuperProperties(props)` / `unregisterSuperProperty(key)` | Super properties |
-| `timeEvent(name)` / `cancelTimeEvent(name)` | Timed events: the next `track(name)` carries the duration |
-| `flush()` | Send the queue now |
-| `optOut()` / `optIn()` / `isOptedOut()` | Let users opt out of and back into collection |
-| `getDistinctId()` / `getSessionId()` | Read the anonymous ID and session ID |
-| `trackApiError({ url, method, status, bizCode, message, durationMs })` | Report an API failure manually; see [Error filtering and API failures](#error-filtering-and-api-failures) |
-| `selfCheck()` | Integration self-check returning a structured report; see [Your first event · Self-check](/en/track/first-event#self-check) |
-| `destroy()` | Tear the SDK down |
+| `track(event, props?)` | Reports a custom event and returns its `event_id`. Returns `null` when nothing was reported |
+| `identify(userId)` / `reset()` | Links a user / clears the user and switches the anonymous ID |
+| `registerSuperProperties(props)` | Sets shared properties that every later event carries |
+| `unregisterSuperProperty(key)` | Removes one shared property |
+| `timeEvent(name)` / `cancelTimeEvent(name)` | Starts a timer so the next event with that name carries `duration_ms` / cancels it |
+| `trackExposure(el, { event, props })` | Reports one exposure after the element is half visible for 1 second |
+| `trackApiError(payload)` | Reports an API failure by hand, see [Error filtering and API failures](#error-filtering-and-api-failures) |
+| `flush()` | Sends the queued events now; the returned Promise tells whether sending succeeded |
+| `optOut()` / `optIn()` / `isOptedOut()` | The user refuses collection / agrees again / reads the current state |
+| `getDistinctId()` / `getUserId()` / `getSessionId()` | Read the anonymous ID, the user ID and the session ID |
+| `selfCheck()` | Checks whether the integration works, see [Self-check](/en/track/first-event#self-check) |
+| `destroy()` | Stops collection and removes the plugins |
 
 ## Options
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `appKey` | `string` | — | **Required.** App identifier (visible in the browser, not a secret) |
-| `endpoint` | `string` | — | **Required.** Server base URL; events go to `{endpoint}/track/collect` |
-| `release` | `string` | — | App version on error events; inject at build (Vite `VITE_APP_VERSION` / CI) |
-| `enabled` | `boolean` | `true` | Local master switch |
-| `sampleRate` | `number` | `100` | Sample rate 0–100; remote config wins (on next start) |
-| `batchSize` | `number` | `10` | Send once this many events are queued |
-| `flushInterval` | `number` | `5000` | Send interval (ms) |
-| `maxBatchSize` | `number` | `100` | Max events per request |
-| `queueCapacity` | `number` | `500` | Queue limit; the oldest events are dropped beyond it |
-| `queueMaxAge` | `number` | 24h | Drop queued events older than this (ms) |
-| `retryBaseDelay` / `retryMaxDelay` | `number` | `1000` / `30000` | Retry backoff base / cap (ms) |
-| `respectDnt` | `boolean` | `true` | Honor the browser's Do Not Track |
-| `respectGpc` | `boolean` | `false` | When `true`, honor the browser's Global Privacy Control and skip tracking where GPC is on |
-| `maskSelectors` | `string[]` | `[]` | Selectors excluded from autocapture (merged with remote config) |
-| `sessionTimeout` | `number` | 30min | Sliding session timeout (ms) |
-| `storagePrefix` | `string` | `'mst'` | Prefix for local storage keys |
-| `fetchRemoteConfig` | `boolean` | `true` | Fetch remote config on start |
-| `headers` | `object \| () => object` | — | Extra request headers (such as `Authorization`); not sent with `sendBeacon` |
-| `plugins` | `TrackPlugin[]` | default set | See [Plugins](/en/track/plugins) |
-| `replayEnabled` / `replaySampleRate` | `boolean` / `number` | `false` / `10` | Replay switch and per-session sample rate |
-| `apiMonitorEnabled` / `apiBodyEnabled` / `apiBodyMaskEnabled` / `apiBodyMaxBytes` | — | off / off / off / 1MB | API monitoring switches (`apiBodyMaskEnabled` is off, so personal-data fields are uploaded as-is; credential keys are always masked); see [Plugins](/en/track/plugins#api-monitoring) |
-| `visualRules` | `VisualRule[]` | — | Visual-tagging rules |
-| `geoEnabled` | `boolean` | `false` | Precise location |
-| `debug` | `boolean` | `false` | Log SDK activity to the console |
-| `beforeSend` | `(event) => event \| null \| false` | — | Rewrite `props` or drop events before queueing (`null`/`false` drops) |
-| `beforeSendOnError` | `'drop' \| 'keep'` | `'drop'` | When `beforeSend` throws, drop the event or send the original |
-| `ignoreErrors` | `(string \| RegExp)[] \| (error, message) => boolean` | — | Errors not to report |
-| `skipHandledErrors` | `boolean` | `false` | When `true`, skip `HttpError` and errors flagged `handled`/`expected`; by default everything is reported |
+Only `endpoint` and `appKey` are required. Everything else has a default.
 
-For options that can be set remotely, an explicit local value wins; otherwise the value from `/track/config` applies **from the next start**.
+### Basics
+
+| Option | Default | Notes |
+| --- | --- | --- |
+| `endpoint` | required | The root address of the backend |
+| `appKey` | required | Identifies the application |
+| `release` | none | The application version, carried by every event |
+| `plugins` | default plugins | Replaces the default plugins entirely when set, see [Plugins](/en/track/plugins) |
+| `headers` | none | Extra request headers, as an object or a function that returns one |
+| `enabled` | `true` | Set to `false` to turn the whole SDK off |
+| `debug` | `false` | Prints SDK logs to the console |
+
+### Sending and the queue
+
+| Option | Default | Notes |
+| --- | --- | --- |
+| `batchSize` | `10` | Send once this many events are queued |
+| `flushInterval` | `5000` | Interval of the timed send, in milliseconds |
+| `maxBatchSize` | `100` | The most events one request carries |
+| `queueCapacity` | `500` | Size limit of the local queue; the oldest events are dropped when it is full |
+| `queueMaxAge` | 24 hours | Queued events older than this are dropped, in milliseconds |
+| `retryBaseDelay` | `1000` | Wait before the first retry after a failed send, in milliseconds |
+| `retryMaxDelay` | `30000` | Upper limit of the retry wait. The wait doubles after each failure |
+| `sessionTimeout` | 30 minutes | Idle time after which the session ends, in milliseconds |
+| `storagePrefix` | `'mst'` | Prefix of the local storage keys |
+| `fetchRemoteConfig` | `true` | Whether to fetch the application's settings from the backend at startup |
+
+### Sampling and privacy
+
+| Option | Default | Notes |
+| --- | --- | --- |
+| `sampleRate` | `100` | Sample rate, 0 to 100. Sampling is per visitor, so a visitor is either fully collected or not at all |
+| `respectDnt` | `true` | Nothing is collected when the browser has Do Not Track on |
+| `respectGpc` | `false` | When `true`, nothing is collected if the browser has Global Privacy Control on |
+| `maskSelectors` | `[]` | Areas matched by these selectors are not auto-captured and not recorded in replay |
+| `beforeSend` | none | Rewrites the properties of an event or drops it before it is queued |
+| `beforeSendOnError` | `'drop'` | Drops the event when `beforeSend` throws. Set to `'keep'` to send the original event |
+| `ignoreErrors` | none | Errors that are not reported, as strings, regular expressions or a predicate |
+| `skipHandledErrors` | `false` | When `true`, errors that were already handled are skipped |
+
+### Feature switches
+
+| Option | Default | Notes |
+| --- | --- | --- |
+| `replayEnabled` | `false` | Session replay; the replay plugin must be registered too |
+| `replaySampleRate` | `10` | Session sample rate of replay, 0 to 100 |
+| `apiMonitorEnabled` | `false` | API monitoring; `apiMonitorPlugin` must be registered too |
+| `apiBodyEnabled` | `false` | Collects JSON response bodies |
+| `apiBodyMaskEnabled` | `false` | Also masks personal data fields in response bodies |
+| `apiBodyMaxBytes` | 1 MB | Response bodies larger than this are not collected |
+| `visualRules` | none | Visual tagging rules, normally sent by the backend |
+| `geoEnabled` | `false` | Precise location; `geoPlugin` must be registered too |
+
+### How backend settings combine with code
+
+At startup the SDK calls `GET {endpoint}/track/config` once, fetches the switches of this application from "Integration" and stores them locally.
+
+Settings fetched this time take effect at the next startup. When both the backend and your code set the same option, the table below applies:
+
+| Option | Result |
+| --- | --- |
+| `sampleRate` | The backend value |
+| `replayEnabled` | The backend value |
+| `replaySampleRate` | The backend value |
+| `enabled` | Off if either side turns it off |
+| `maskSelectors` | Both lists merged |
+| The four API monitoring options | The value in code |
+| `visualRules` | The value in code |
+| `geoEnabled` | The value in code |
+
+`fetchRemoteConfig: false` only stops fetching. Settings already stored locally still apply.
 
 ## Error filtering and API failures
-
-::: tip Version
-This section and the [self-check](/en/track/first-event#self-check) need `@mugsun/track-web` 0.3.0 or later.
-:::
 
 ```ts
 const tracker = createTracker({
@@ -142,35 +222,44 @@ const tracker = createTracker({
   appKey: 'your-app-key',
   beforeSend: (e) => (e.event === 'debug_only' ? null : e),
   ignoreErrors: ['ResizeObserver loop', /^AbortError/],
-  skipHandledErrors: true // default is false (report everything); turned on here
+  skipHandledErrors: true,
 })
 ```
 
-- **`beforeSend(event)`** runs before each business event (including `$identify`) is queued. Return `null` / `false` to drop it. When it returns an object, only its `props` are merged back; `event_id`, `distinct_id` and the event name can't be changed, and non-object return values mean "unchanged".
-- **A throwing hook drops the event by default** (`beforeSendOnError: 'drop'`) so a broken masking hook can't leak unmasked data; `'keep'` sends the original event instead.
-- **Not covered by `beforeSend`**: `$session_start` / `$session_end`, session replay chunks and API response body uploads. Mask replay with `maskTextSelector` / `maskAllInputs` / `maskSelectors` and bodies with `apiBodyMaskEnabled` (off by default; set it to `true`).
-- **`ignoreErrors`**: strings match a substring of the error message, `RegExp`s test the message, or pass a predicate `(error, message) => boolean` that returns `true` to ignore (a throwing predicate means "don't ignore").
-- **`skipHandledErrors`** (default `false`: **every error is reported** as `$error`, including `HttpError` and handled errors). Set it to `true` to skip errors with `name === 'HttpError'` or `handled === true` / `expected === true`, typically API errors your request interceptor already showed to the user.
-- These filters apply to the `error` plugin (`window` error, `unhandledrejection`) and the Vue integration's `app.config.errorHandler`; your existing errorHandler is still called.
+| Option | Behavior |
+| --- | --- |
+| `beforeSend(event)` | Called before each event is queued. Return `null` or `false` to drop it; when an object is returned only its `props` are used |
+| `beforeSendOnError` | By default the event is dropped when the hook throws, so half-processed data is never sent. Set to `'keep'` to send the original event |
+| `ignoreErrors` | Strings match as substrings of the error message, regular expressions test the message, and a function returns `true` to ignore |
+| `skipHandledErrors` | By default every error is reported. When `true`, `HttpError` and errors flagged `handled` or `expected` are skipped |
 
-To still count skipped API errors, report them from the interceptor:
+`beforeSend` does not cover three kinds of data: session start and end events, replay data and API response bodies. The last two have their own masking options, see [Privacy](/en/track/privacy#turning-on-masking-and-filtering).
+
+These filters apply to both the `error` plugin and the Vue `errorHandler`. After an error is filtered out, the original `errorHandler` still runs.
+
+If you still want to count the API errors that were skipped, report them by hand in your request interceptor:
 
 ```ts
-tracker.trackApiError({ url: '/api/order', method: 'POST', status: 200, bizCode: 40001, message: 'Out of stock' })
+tracker.trackApiError({
+  url: '/api/order',
+  method: 'POST',
+  status: 200,
+  bizCode: 40001,
+  message: 'Out of stock',
+  durationMs: 132,
+})
 ```
 
-`trackApiError` emits an `api_request` event (`success=false`, `source=manual`, with `biz_code` and a truncated `error_message`), the same event name as the `api-monitor` plugin, so API analytics aggregate both. The `url` is redacted the same way as in `api-monitor`: values of sensitive query params such as `token` and `access_token` become `***`; other params are kept.
+This `api_request` event carries `success: false` and `source: 'manual'`, and is counted together with the data from [API monitoring](/en/track/plugins#api-monitoring).
 
-## Versions and releases
-
-The SDK is published automatically from the [mugsun-track](https://github.com/mugsun/mugsun-track) repository by GitHub Actions (`.github/workflows/release.yml`) via npm Trusted Publishing; no local npm token is needed:
-
-1. In a PR, bump `version` in `package.json` (and `SDK_VERSION` in `src/version.ts`) and describe the change in `CHANGELOG.md` (with migration notes for behavior changes).
-2. Merge the PR into `main`.
-3. A `package.json` change on `main` triggers the release workflow: if that version is not on npm yet, it runs `typecheck` / `test` / `build` and then `npm publish --provenance`; versions already on npm are skipped.
-
-See the repository's [CONTRIBUTING.md](https://github.com/mugsun/mugsun-track/blob/main/CONTRIBUTING.md).
+Sensitive parameters in the address are still masked; the rules are in [Privacy](/en/track/privacy#url-redaction).
 
 ## Next
 
-[Your first event](/en/track/first-event) · [Plugins](/en/track/plugins) · [Privacy](/en/track/privacy)
+<div class="ms-cards">
+
+- [Your first event](/en/track/first-event) From creating an application to the first event on the dashboard.
+- [Plugins](/en/track/plugins) What each plugin collects, and how to turn on replay and API monitoring.
+- [Privacy](/en/track/privacy) What is not collected by default, and what gets masked.
+
+</div>
