@@ -5,18 +5,13 @@ demo: pages/demo/nav/dropdown
 
 # Dropdown 下拉
 
-`ms-dropdown` 是下拉筛选菜单，由 `menus`（菜单栏）和扁平的 `options`（通过 `menu` 下标关联到菜单）生成，不需要注册子组件。
+`ms-dropdown` 是下拉筛选菜单。`menus` 定义菜单栏，`options` 是全部选项，每个选项用 `menu` 指明属于第几个菜单。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-dropdown`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/dropdown`。
+单选菜单点选后立即关闭并更新栏上的标题，多选菜单在底部点确定后提交。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/dropdown.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-dropdown
@@ -125,29 +120,31 @@ function onColumnChange(index: number, values: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | menus | `UTSJSONObject[]` | `[]` | 菜单栏：label / multiple / columns(1-3) / disabled |
 | options | `UTSJSONObject[]` | `[]` | 扁平选项：menu(下标) / label / value / disabled / checked |
-| height | `number` | `320` | 组件占位总高（只接受数值（px）；遮罩覆盖该区域） |
+| height | `number` | `320` | 组件占用的总高度（px），下拉面板和遮罩都显示在这个范围内 |
 | showOverlay | `boolean` | `true` | 是否显示遮罩 |
-| closeOnClickOverlay | `boolean` | `true` | 点遮罩是否关闭 |
+| closeOnClickOverlay | `boolean` | `true` | 点击遮罩是否关闭 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `index: number, values: string[]` | 选中值变化时触发，`index` 是菜单下标，`values` 是该菜单已选的值 |
+| open | `index: number` | 展开某个菜单时触发 |
+| close | `index: number` | 收起菜单时触发 |
+| confirm | `index: number, values: string[]` | 多选菜单点击确定时触发 |
+| reset | `index: number` | 多选菜单点击重置时触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| change | 值变化 |
-| open | 打开 |
-| close | 关闭 |
-| confirm | 确认 |
-| reset | 重置 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-dropdown/`
-- 演示: `#/pages/demo/nav/dropdown`
+| `close()` | 收起当前展开的菜单 |
+| `getValues(index: number): string[]` | 返回指定菜单已选的值 |

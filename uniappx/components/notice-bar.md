@@ -5,18 +5,13 @@ demo: pages/demo/feedback/notice-bar
 
 # Notice Bar 通知栏
 
-`ms-notice-bar` 是顶部通知栏，支持主题色、单行省略、纵向 swiper 轮播和关闭按钮。uni-app x 在 App 平台（包括蒸汽模式（Vapor））不支持 `@keyframes`，因此组件不提供 CSS 跑马灯动画。
+`ms-notice-bar` 是通知栏。单条内容显示为一行，超出部分省略；多条内容可以纵向轮播。还可以带操作文字和关闭按钮。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-notice-bar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/notice-bar`。
+uni-app x 在 App 平台不支持 `@keyframes`，所以没有横向滚动的跑马灯效果。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/notice-bar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 主题 -->
@@ -44,32 +39,25 @@ function onNoticeClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | theme | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | 主题色 |
-| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | 方向 |
-| content | `string` | `''` | 内容文案 |
-| list | `string[]` | `[]` | 数据列表 |
+| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | 显示方式：horizontal 单行显示 / vertical 纵向轮播 |
+| content | `string` | `''` | 通知文字 |
+| list | `string[]` | `[]` | 多条通知，用于纵向轮播；为空时使用 `content` |
 | closable | `boolean` | `false` | 是否可关闭 |
-| icon | `string` | `'megaphone-line'` | 图标名（icons.uts） |
+| icon | `string` | `'megaphone-line'` | 左侧图标名 |
 | showIcon | `boolean` | `true` | 是否显示左侧图标；icon 为空时也隐藏 |
-| operation | `string` | `''` | 右侧操作文案 |
-| suffixIcon | `string` | `''` | 右侧后缀图标（如箭头）；与 closable 互斥时优先 closable |
-| interval | `number` | `3000` | 竖向轮播间隔（ms） |
+| operation | `string` | `''` | 右侧操作文字 |
+| suffixIcon | `string` | `''` | 右侧图标名，例如箭头；`closable` 为 `true` 时不显示 |
+| interval | `number` | `3000` | 纵向轮播的间隔（ms） |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-| close | 关闭 |
-| operation | operation |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-notice-bar/`
-- 演示: `#/pages/demo/feedback/notice-bar`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击通知栏时触发，点击操作文字和右侧图标时也会触发 |
+| close | — | 点击关闭按钮时触发，随后通知栏隐藏 |
+| operation | — | 点击操作文字时触发 |

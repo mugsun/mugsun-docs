@@ -5,18 +5,11 @@ demo: pages/demo/display/scroll-x
 
 # Scroll X Item
 
-`ms-scroll-x-item` is an item inside `ms-scroll-x`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-scroll-x-item`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/scroll-x`.
+`ms-scroll-x-item` is an item of [`ms-scroll-x`](./scroll-x). Its width follows its content, and the spacing follows the `gap` of `ms-scroll-x`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Basic usage -->
@@ -69,20 +62,12 @@ function onScroll() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
-No public props (slot/event driven).
+This component has no props.
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-scroll-x-item/`
-- Demo: `#/pages/demo/display/scroll-x`
-- Chinese docs: [/uniappx/components/scroll-x-item](/uniappx/components/scroll-x-item)
+| default | Item content |

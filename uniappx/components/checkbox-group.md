@@ -5,18 +5,13 @@ demo: pages/demo/form/checkbox
 
 # Checkbox Group 多选组
 
-`ms-checkbox-group` 是多选框组，`v-model` 的类型为 `string[]`，支持整组禁用、用 `max` 限制可选数量，以及横向排列并自动换行。
+`ms-checkbox-group` 是多选框组，`v-model` 绑定已选项的值，类型为 `string[]`。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-checkbox-group`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/checkbox`。
+可以整组禁用、用 `max` 限制最多选几项，也可以横向排列并自动换行。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/checkbox.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件分组 -->
@@ -64,31 +59,24 @@ function onChildChange(values: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `string[]` | `[]` | 绑定值（v-model） |
-| disabled | `boolean` | `false` | 是否禁用 |
-| max | `number` | `-1` | 最大值 |
-| horizontal | `boolean` | `false` | 是否横向 |
+| disabled | `boolean` | `false` | 是否禁用整组 |
+| max | `number` | `-1` | 最多可选数量，`-1` 表示不限制；达到上限后未选项自动禁用 |
+| horizontal | `boolean` | `false` | 是否横向排列 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| change | 值变化 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `values: string[]` | 已选项变化时触发，用于 `v-model` |
+| change | `values: string[]` | 已选项变化时触发，`values` 是当前已选项的值 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-checkbox-group/`
-- 演示: `#/pages/demo/form/checkbox`
+| default | 放置 `ms-checkbox` |

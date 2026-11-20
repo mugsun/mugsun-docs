@@ -5,18 +5,13 @@ demo: pages/demo/basic/tag
 
 # Tag 标签
 
-`ms-tag` 是分类或状态标签，支持 `theme`、`variant`、`size`、`shape`、`closable`、`disabled`、`icon`、`checkable` 和 `maxWidth`。按下时通过透明度变化反馈，不使用缩放。在标签中嵌套 ms-icon 时，需要设置 `pressable=false`。
+`ms-tag` 是标签，用来标记分类或状态，可以带图标和关闭按钮。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-tag`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/tag`。
+开启 `checkable` 后可以点击选中，适合做筛选条件，选中状态用 `v-model:checked` 绑定。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/tag.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 形态 -->
@@ -39,39 +34,32 @@ demo: pages/demo/basic/tag
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | 主题色 |
-| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | 样式变体 |
+| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | 样式：solid 实心 / light 浅色 / outline 描边 / light-outline 浅色描边 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| shape | `'square' \| 'round' \| 'mark'` | `'square'` | 外形 |
-| closable | `boolean` | `false` | 是否可关闭 |
+| shape | `'square' \| 'round' \| 'mark'` | `'square'` | 外形：square / round / mark |
+| closable | `boolean` | `false` | 是否显示关闭按钮 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| icon | `string` | `''` | 图标名（icons.uts） |
-| checkable | `boolean` | `false` | 可选中（筛选标签） |
-| checked | `boolean` | `false` | 是否选中 |
-| maxWidth | `number` | `0` | 文案最大宽度（px）；0 不限制，超出省略 |
+| icon | `string` | `''` | 图标名 |
+| checkable | `boolean` | `false` | 是否可以点击选中 |
+| checked | `boolean` | `false` | 是否选中，可用 `v-model:checked` |
+| maxWidth | `number` | `0` | 文字的最大宽度（px），超出部分省略；`0` 表示不限制 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-| close | 关闭 |
-| update:checked | v-model:checked 更新 |
-| change | 值变化 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击标签时触发，禁用时不触发 |
+| close | — | 点击关闭按钮时触发；组件不会自己消失，需要自行移除 |
+| update:checked | `value: boolean` | `checkable` 时点击触发，用于 `v-model:checked` |
+| change | `value: boolean` | `checkable` 时点击触发，`value` 是新的选中状态 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-tag/`
-- 演示: `#/pages/demo/basic/tag`
+| default | 标签文字 |

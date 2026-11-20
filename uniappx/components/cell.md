@@ -5,18 +5,13 @@ demo: pages/demo/basic/cell
 
 # Cell 单元格
 
-`ms-cell` 是列表单元格，支持 `title`、`description`、`note`、`icon`、`arrow`、`bordered`、`required`、`url` 和 `disabled`；右侧的自定义内容放在 `note` 插槽中。
+`ms-cell` 是列表单元格，左侧放图标或图片，中间是标题和描述，右侧是备注和箭头。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-cell`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/cell`。
+设置 `url` 后点击会跳转页面；右侧要放自定义内容时用 `note` 插槽。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/cell.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-cell title="单行标题" arrow />
@@ -46,8 +41,6 @@ demo: pages/demo/basic/cell
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -66,17 +59,12 @@ demo: pages/demo/basic/cell
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击单元格时触发，禁用时不触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| note | `note` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-cell/`
-- 演示: `#/pages/demo/basic/cell`
+| note | 自定义右侧内容，默认显示 `note` |

@@ -5,18 +5,13 @@ demo: pages/demo/form/form
 
 # Form 表单
 
-`ms-form` 是表单容器，把 `labelAlign`（`left/right/top`）、`labelWidth`、`colon`、`showErrorMessage` 和 `disabled` 传给其中的 `ms-form-item`。
+`ms-form` 是表单容器，统一设置其中 [`ms-form-item`](./form-item) 的标签对齐方式、标签宽度和禁用状态。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-form`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/form`。
+校验不需要调用组件方法，把 `validateTick` 加一就校验全部表单项，把 `resetTick` 加一就清空错误。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/form.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -68,8 +63,6 @@ const vNick = ref('')
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -77,27 +70,22 @@ const vNick = ref('')
 | labelAlign | `'left' \| 'right' \| 'top'` | `'right'` | 标签对齐 |
 | labelWidth | `number` | `81` | 标签宽度（px） |
 | colon | `boolean` | `false` | 标签后是否显示冒号 |
-| showErrorMessage | `boolean` | `true` | 是否显示校验错误 |
-| disabled | `boolean` | `false` | 是否禁用 |
-| validateTick | `number` | `0` | +1 触发一次全量校验（避免页面持有组件 ref 调方法） |
-| resetTick | `number` | `0` | +1 清空全部错误 |
+| showErrorMessage | `boolean` | `true` | 是否显示校验错误提示 |
+| disabled | `boolean` | `false` | 是否禁用整个表单 |
+| validateTick | `number` | `0` | 每加一触发一次全部表单项的校验 |
+| resetTick | `number` | `0` | 每加一清空一次全部错误提示 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| validate | 校验结束 |
-| submit | 提交 |
-| error | 错误 |
-| reset | 重置 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| validate | `valid: boolean` | 每次校验结束后触发，`valid` 表示是否全部通过 |
+| submit | `valid: boolean` | 校验全部通过时触发 |
+| error | `message: string` | 校验未通过时触发，`message` 是第一条错误，由字段名、冒号和错误文案组成 |
+| reset | `ok: boolean` | `resetTick` 变化、错误清空后触发，值为 `true` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-form/`
-- 演示: `#/pages/demo/form/form`
+| default | 放置 `ms-form-item` |

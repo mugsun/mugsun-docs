@@ -7,16 +7,9 @@ demo: pages/demo/form/slide-verify
 
 `ms-slide-verify` 是滑动验证，将滑块拖到终点或目标虚线框即可完成验证。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-slide-verify`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/slide-verify`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/slide-verify.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -68,30 +61,31 @@ function onLooseSuccess() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| tips | `string` | `'拖动滑块完成验证'` | 提示文案 |
-| successTips | `string` | `'验证成功'` | 验证成功文案 |
-| showTarget | `boolean` | `false` | 是否显示目标缺口位置 |
-| targetPercent | `number` | `100` | 目标位置 0~100 |
-| tolerance | `number` | `8` | 滑块与目标允许误差（px） |
+| tips | `string` | `'拖动滑块完成验证'` | 提示文字 |
+| successTips | `string` | `'验证成功'` | 验证成功后的文字 |
+| showTarget | `boolean` | `false` | 是否显示目标虚线框；不显示时需要拖到最右侧 |
+| targetPercent | `number` | `100` | 目标框的位置，范围 0–100 |
+| tolerance | `number` | `8` | 松手时滑块与目标允许的误差（px） |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| start | — | 开始拖动时触发 |
+| success | — | 验证通过时触发 |
+| fail | — | 验证未通过时触发，滑块回到起点 |
+| complete | `ok: boolean` | 松手后触发，`ok` 表示是否通过 |
+| reset | — | 调用 `reset()` 后触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| start | 开始 |
-| success | success |
-| fail | fail |
-| complete | complete |
-| reset | 重置 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-slide-verify/`
-- 演示: `#/pages/demo/form/slide-verify`
+| `reset()` | 恢复到未验证的初始状态 |

@@ -5,18 +5,13 @@ demo: pages/demo/form/switch
 
 # Switch
 
-`ms-switch` is a toggle whose track and thumb are built from views. It supports text or icons, a loading state, disabled and three sizes; the demo shows combinations such as text with large size, icon with loading, disabled with text, and small size with icon.
+`ms-switch` is a toggle bound with `v-model`. The on and off states can each show text or an icon, and there are three sizes.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-switch`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/switch`.
+While `loading` is `true` it shows a loading state and cannot be toggled.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/switch.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -55,29 +50,21 @@ const vSize = ref(true)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `boolean` | `false` | Bound value (v-model) |
 | disabled | `boolean` | `false` | Whether disabled |
-| loading | `boolean` | `false` | Whether loading |
+| loading | `boolean` | `false` | Whether to show the loading state; it cannot be toggled while loading |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size: sm / md / lg |
-| label | `string[]` | `[]` | Labels on both sides of the switch [off, on]; empty hides them |
-| activeIcon | `string` | `''` | On-state icon |
-| voidIcon | `string` | `''` | Closed-state icon |
+| label | `string[]` | `[]` | Text for the off and on states, as `[off, on]`; hidden when empty |
+| activeIcon | `string` | `''` | Icon name for the on state |
+| voidIcon | `string` | `''` | Icon name for the off state |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-switch/`
-- Demo: `#/pages/demo/form/switch`
-- Chinese docs: [/uniappx/components/switch](/uniappx/components/switch)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: boolean` | Fires when the state toggles; used by `v-model` |
+| change | `value: boolean` | Fires when the state toggles; `value` is the new state |

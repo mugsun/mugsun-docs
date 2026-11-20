@@ -7,16 +7,9 @@ demo: pages/demo/display/paragraph
 
 `ms-paragraph` 用于显示段落正文，可选次要文字颜色和按行数省略。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-paragraph`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/paragraph`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/paragraph.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -47,30 +40,23 @@ function onParaClick() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| content | `string` | `''` | 内容文案 |
-| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | 文案色调：default / secondary / success / warning / danger |
-| lines | `number` | `0` | 行数 |
+| content | `string` | `''` | 文字内容 |
+| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | 颜色：default / secondary / success / warning / danger |
+| lines | `number` | `0` | 最多显示的行数，超出部分省略；`0` 表示不限制 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击段落时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-paragraph/`
-- 演示: `#/pages/demo/display/paragraph`
+| default | 段落内容，默认显示 `content` |

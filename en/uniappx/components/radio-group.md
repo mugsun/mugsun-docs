@@ -5,18 +5,11 @@ demo: pages/demo/form/radio
 
 # Radio Group
 
-`ms-radio-group` groups radio buttons. Its `v-model` is a `string`, options are mutually exclusive, and it supports disabling the whole group and horizontal layout with wrapping.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-radio-group`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/radio`.
+`ms-radio-group` groups [`ms-radio`](./radio) options so that only one can be selected. Its `v-model` holds the `value` of the selected option.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/radio.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Groups -->
@@ -56,32 +49,24 @@ const uncheckGroup = ref('a')
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | Bound value (v-model) |
-| disabled | `boolean` | `false` | Whether disabled |
-| horizontal | `boolean` | `false` | Whether horizontal |
-| allowUncheck | `boolean` | `false` | Whether unchecking is allowed |
+| modelValue | `string` | `''` | `value` of the selected option; bind with `v-model` |
+| disabled | `boolean` | `false` | Whether to disable the whole group |
+| horizontal | `boolean` | `false` | Whether to lay options out horizontally, wrapping when needed |
+| allowUncheck | `boolean` | `false` | Whether tapping the selected option clears it |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the selection changes; used by `v-model` |
+| change | `value: string` | Fires when the selection changes; `value` is the selected option's value, or an empty string when cleared |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-radio-group/`
-- Demo: `#/pages/demo/form/radio`
-- Chinese docs: [/uniappx/components/radio-group](/uniappx/components/radio-group)
+| default | Place `ms-radio` options here |

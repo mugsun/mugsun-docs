@@ -5,18 +5,11 @@ demo: pages/demo/feedback/modal-page
 
 # Modal Page
 
-`ms-modal-page` is a full-page modal layer that covers the screen with `position: fixed` and does not depend on the x-design native `xModalPage`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-modal-page`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/modal-page`.
+`ms-modal-page` is a modal page that covers the whole screen, with a title bar and a close button, a scrollable body and an optional footer for actions.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/modal-page.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-modal-page v-model:visible="basicVisible" title="Full-page details" @open="onOpen" @close="onClose">
@@ -52,35 +45,36 @@ function onClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | title | `string` | `''` | Title |
-| showClose | `boolean` | `true` | Whether to show close |
+| showClose | `boolean` | `true` | Whether to show the close button |
 | closeOnOverlayClick | `boolean` | `false` | Whether clicking the overlay closes |
 | zIndex | `number` | `1100` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| close | Closed |
-| open | Opened |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the page opens or closes; used by `v-model:visible` |
+| close | — | Fires when the page closes |
+| open | — | Fires when the page opens |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| footer | `footer` slot |
+| default | Page content; scrolls when it overflows |
+| footer | Footer area for actions |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-modal-page/`
-- Demo: `#/pages/demo/feedback/modal-page`
-- Chinese docs: [/uniappx/components/modal-page](/uniappx/components/modal-page)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `open()` | Opens the page; requires `v-model:visible` |
+| `close()` | Closes the page; requires `v-model:visible` |

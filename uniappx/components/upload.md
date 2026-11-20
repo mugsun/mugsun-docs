@@ -5,18 +5,13 @@ demo: pages/demo/feedback/upload
 
 # Upload 上传
 
-`ms-upload` 是宫格式图片上传组件。
+`ms-upload` 用宫格展示选好的图片，可以添加、删除和预览，文件列表用 `v-model:fileList` 绑定。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-upload`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/upload`。
+组件只负责选择图片和显示状态，不会发起上传。请在 `add` 事件里自行上传，再更新对应项的 `status` 和 `percent`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/upload.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -72,34 +67,36 @@ function onPreviewClick(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| fileList | `UTSJSONObject[]` | `[]` | 受控文件列表，唯一渲染真源；项字段 url / name / status / percent |
-| max | `number` | `9` | 数量上限，0 不限 |
-| column | `number` | `4` | 每行列数 |
-| source | `string` | `'both'` | album / camera / both |
-| showName | `boolean` | `false` | 磁贴下显示文件名 |
-| addable | `boolean` | `true` | 显示添加磁贴 |
-| removable | `boolean` | `true` | 显示删除按钮 |
+| fileList | `UTSJSONObject[]` | `[]` | 文件列表，可用 `v-model:fileList`；每项可含 `url` / `name` / `status` / `percent`，`status` 取 loading / failed / done |
+| max | `number` | `9` | 最多可以选择的数量，`0` 表示不限制 |
+| column | `number` | `4` | 每行显示的数量 |
+| source | `string` | `'both'` | 图片来源：album 相册 / camera 相机 / both 两者都可以 |
+| showName | `boolean` | `false` | 是否在图片下方显示文件名 |
+| addable | `boolean` | `true` | 是否显示添加按钮 |
+| removable | `boolean` | `true` | 是否显示删除按钮；上传中的图片不能删除 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| preview | `boolean` | `true` | 点击磁贴是否调用原生预览 |
-| sizeLimit | `number` | `0` | 单文件大小上限（字节），0 不限；超限 emit oversize 且不入列 |
+| preview | `boolean` | `true` | 点击图片时是否打开预览 |
+| sizeLimit | `number` | `0` | 单个文件的大小上限（字节），`0` 表示不限制；超出的文件不会加入列表，并触发 `oversize` |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:fileList | `list: UTSJSONObject[]` | 添加或删除图片时触发，用于 `v-model:fileList` |
+| add | `picked: UTSJSONObject[]` | 选好图片后触发，`picked` 是本次新增的项，每项含 `url` 和 `status` |
+| remove | `index: number` | 点击删除按钮时触发，`index` 是被删除项的下标 |
+| click | `index: number` | 点击图片时触发，`index` 是该项的下标；禁用时不触发 |
+| oversize | — | 有文件超过 `sizeLimit` 时触发；数量已达 `max` 后调用 `choose()` 也会触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:fileList | v-model:fileList 更新 |
-| add | 新增 |
-| remove | 移除 |
-| click | 点击 |
-| oversize | 超出大小限制 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-upload/`
-- 演示: `#/pages/demo/feedback/upload`
+| `choose()` | 打开图片选择，和点击添加按钮相同 |
+| `getCount(): number` | 返回当前的文件数量 |

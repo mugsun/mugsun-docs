@@ -5,19 +5,13 @@ demo: pages/demo/media/editor
 
 # Editor
 
-`ms-editor` is a Markdown source editor made of a toolbar that inserts markup, a `textarea` for the source, and a live `ms-markdown` preview.
+`ms-editor` is a Markdown source editor made of a toolbar that inserts markup, a source input area, and a live preview rendered by [`ms-markdown`](./markdown).
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-editor/components/ms-editor`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-editor` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/editor`.
+This is an optional plugin. Install `uni_modules/ms-editor` separately; it depends on `ms-ui`, and the preview also uses the [`ms-markdown`](./markdown) plugin.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/editor.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -70,32 +64,34 @@ function onClear() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | Bound value (v-model) |
-| height | `number` | `220` | Height (px) |
-| placeholder | `string` | `'输入 Markdown…'` | Placeholder |
-| readOnly | `boolean` | `false` | Whether read-only |
+| modelValue | `string` | `''` | Markdown source; bind with `v-model` |
+| height | `number` | `220` | Height of the source area (px) |
+| placeholder | `string` | `'输入 Markdown…'` | Placeholder; the default is Chinese for "Enter Markdown…" |
+| readOnly | `boolean` | `false` | Whether read-only; the toolbar is hidden when read-only |
 | showPreview | `boolean` | `true` | Whether to show preview |
-| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | Toolbar config |
+| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | Toolbar buttons, chosen from bold / italic / strike / code / h2 / h3 / quote / list / task / link / image / table / hr / clear |
 | maxlength | `number` | `20000` | Max source length; -1 unlimited (still subject to platform textarea limits) |
 | showCount | `boolean` | `false` | Whether to show character count |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the source changes; used by `v-model` |
+| command | `payload: UTSJSONObject` | Fires when a toolbar button is tapped; `payload.name` is the button name |
+| change | `payload: UTSJSONObject` | Fires when the source changes; `payload.length` is the current character count |
+| clear | — | Fires when the content is cleared, by the toolbar clear button or the `clear()` method |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:modelValue | v-model update |
-| command | Toolbar command |
-| change | Value changed |
-| clear | Clear |
-
-## See also
-
-- Component: `uni_modules/ms-editor/components/ms-editor/`
-- Demo: `#/pages/demo/media/editor`
-- Chinese docs: [/uniappx/components/editor](/uniappx/components/editor)
+| `insertText(text: string)` | Inserts text at the cursor |
+| `getValue(): string` | Returns the current source |
+| `clear()` | Clears the content |

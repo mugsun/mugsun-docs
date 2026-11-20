@@ -5,16 +5,11 @@ demo: pages/demo/media/drag
 
 # Drag Item 拖拽项
 
-`ms-drag-item` 是 `ms-drag` 中可排序的子项。
-
-组件目录：`uni_modules/ms-ui/components/ms-drag-item`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/media/drag`。
+`ms-drag-item` 是 [`ms-drag`](./drag) 里可以拖动排序的子项。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/drag.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -109,30 +104,21 @@ function onChangeFixed(next: UTSJSONObject[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| order | `number` | `0` | 排序序号（越小越靠前） |
-| disabled | `boolean` | `false` | 是否禁用 |
+| order | `number` | `0` | 排序序号，与该项在列表中的下标保持一致 |
+| disabled | `boolean` | `false` | 是否固定在原位，不参与拖动 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击子项时触发，禁用时不触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-- 组件目录: `uni_modules/ms-ui/components/ms-drag-item/`
-- 演示: `#/pages/demo/media/drag`
+| default | 子项内容 |

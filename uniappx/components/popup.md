@@ -5,18 +5,13 @@ demo: pages/demo/feedback/popup
 
 # Popup 弹层
 
-`ms-popup` 是弹出层容器，`placement` 支持 `bottom/top/left/right/center`，可带标题栏和关闭按钮，`round` 会根据弹出位置自动设置圆角。
+`ms-popup` 是弹出层容器，可以从上下左右四个方向滑出，也可以显示在屏幕中间，可带标题栏和关闭按钮。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-popup`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/popup`。
+显示状态用 `v-model:visible` 绑定。[`ms-modal`](./modal)、[`ms-action-sheet`](./action-sheet) 和 [`ms-drawer`](./drawer) 都建立在它之上。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/popup.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-popup
@@ -124,37 +119,39 @@ function fromCloseToSelect() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
-| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | 弹出/摆放位置 |
+| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | 弹出位置 |
 | title | `string` | `''` | 标题 |
 | showOverlay | `boolean` | `true` | 是否显示遮罩 |
 | closeOnOverlayClick | `boolean` | `true` | 点击遮罩是否关闭 |
 | closeBtn | `boolean` | `false` | 是否显示关闭按钮 |
-| round | `boolean` | `true` | 是否圆角 |
+| round | `boolean` | `true` | 是否圆角，圆角的位置随弹出位置变化 |
 | zIndex | `number` | `1000` | 层级 z-index |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:visible | v-model:visible 更新 |
-| close | 关闭 |
-| overlay-click | 点击遮罩 |
-| open | 打开 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
+| close | — | 弹出层关闭时触发 |
+| overlay-click | — | 点击遮罩时触发，`closeOnOverlayClick` 为 `false` 时也会触发 |
+| open | — | 打开动画结束后触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
+| default | 弹出层内容 |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-popup/`
-- 演示: `#/pages/demo/feedback/popup`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `open()` | 打开弹出层，需配合 `v-model:visible` |
+| `close()` | 关闭弹出层，需配合 `v-model:visible` |

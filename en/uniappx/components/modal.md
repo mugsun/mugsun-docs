@@ -7,16 +7,9 @@ demo: pages/demo/feedback/modal
 
 `ms-modal` is a dialog with a centered title and body and one or two buttons at the bottom, which can be stacked vertically. Use `theme="danger"` for destructive actions.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-modal`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/modal`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/modal.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-modal
@@ -86,43 +79,35 @@ function onCancelTap() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | title | `string` | `''` | Title |
-| content | `string` | `''` | Body text; can also be overridden by slot |
-| confirmText | `string` | `'确定'` | Confirm button label |
-| cancelText | `string` | `'取消'` | Cancel button label |
+| content | `string` | `''` | Body text; use the default slot for richer content |
+| confirmText | `string` | `'确定'` | Confirm button label; the default is Chinese for "OK" |
+| cancelText | `string` | `'取消'` | Cancel button label; the default is Chinese for "Cancel" |
 | showCancel | `boolean` | `false` | Whether to show cancel button |
 | buttonLayout | `'horizontal' \| 'vertical'` | `'horizontal'` | Button layout: horizontal / vertical |
-| theme | `'default' \| 'danger'` | `'default'` | Theme color |
+| theme | `'default' \| 'danger'` | `'default'` | Confirm button style; `danger` is for destructive actions |
 | closeBtn | `boolean` | `false` | Whether to show the close button |
 | closeOnOverlayClick | `boolean` | `false` | Whether clicking the overlay closes |
-| closeOnConfirm | `boolean` | `true` | Whether to close after confirm |
-| confirmLoading | `boolean` | `false` | Whether the confirm button is loading |
+| closeOnConfirm | `boolean` | `true` | Whether to close automatically after confirm |
+| confirmLoading | `boolean` | `false` | Whether the confirm button shows a loading state; taps are ignored while loading |
 | zIndex | `number` | `1000` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| confirm | Confirm |
-| cancel | Cancel |
-| close | Closed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the dialog opens or closes; used by `v-model:visible` |
+| confirm | — | Fires when the confirm button is tapped; not fired while `confirmLoading` is `true` |
+| cancel | — | Fires when the cancel button is tapped |
+| close | — | Fires when the dialog closes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-modal/`
-- Demo: `#/pages/demo/feedback/modal`
-- Chinese docs: [/uniappx/components/modal](/uniappx/components/modal)
+| default | Custom content shown below the body text, such as an input |

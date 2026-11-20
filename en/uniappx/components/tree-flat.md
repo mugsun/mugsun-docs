@@ -7,16 +7,9 @@ demo: pages/demo/display/tree-flat
 
 `ms-tree-flat` shows data as a flat tree or mind map, drawing nodes and links on a canvas. Tap a parent node to expand or collapse it.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-tree-flat`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/tree-flat`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/tree-flat.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -63,28 +56,29 @@ function onChange(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | Data list |
+| list | `UTSJSONObject[]` | `[]` | Nodes; each has `title`, plus optional `children` and `opened` |
 | height | `number` | `320` | Height (px) |
-| direction | `string` | `'horizontal'` | Direction |
-| lineType | `string` | `'straight'` | Link style: straight / curve |
-| fontSize | `number` | `13` | Font size (px) |
-| collapsible | `boolean` | `true` | Whether collapsible |
+| direction | `string` | `'horizontal'` | Layout direction: horizontal / vertical |
+| lineType | `string` | `'straight'` | Link style: straight (angled lines) / curve |
+| fontSize | `number` | `13` | Font size of the node text (px) |
+| collapsible | `boolean` | `true` | Whether tapping a parent node expands or collapses it |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| node-click | `payload: UTSJSONObject` | Fires when a node is tapped; `payload` has `title` / `depth` / `hasChildren` / `opened`, where `opened` is the state after the tap |
+| change | `payload: UTSJSONObject` | Fires after each draw; `payload` has `visible` (nodes currently shown) and `total` (all nodes) |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| node-click | Node click |
-| change | Value changed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-tree-flat/`
-- Demo: `#/pages/demo/display/tree-flat`
-- Chinese docs: [/uniappx/components/tree-flat](/uniappx/components/tree-flat)
+| `redraw()` | Redraws the tree |
+| `toggleFirst()` | Expands or collapses the first node that has children |

@@ -5,18 +5,13 @@ demo: pages/demo/display/table
 
 # Table
 
-`ms-table` is a lightweight mobile table with horizontal scrolling, striped rows, borders, column sorting, row selection and an empty state.
+`ms-table` is a lightweight mobile table. It scrolls horizontally when there are many columns and supports striped rows, column sorting and row selection.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-table`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/table`.
+Tapping a sortable header sorts the current data inside the component. Bind the selected rows with `v-model:selectedKeys`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/table.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -142,43 +137,35 @@ function onSelectionChange(keys: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| columns | `UTSJSONObject[]` | `[]` | Column config |
-| data | `UTSJSONObject[]` | `[]` | Data source |
-| rowKey | `string` | `'id'` | Row key field name |
+| columns | `UTSJSONObject[]` | `[]` | Columns; each item has `key` and `title`, plus optional `width` and `sortable` |
+| data | `UTSJSONObject[]` | `[]` | Rows; each row is an object read by the column `key` |
+| rowKey | `string` | `'id'` | Field that uniquely identifies a row |
 | stripe | `boolean` | `false` | Whether striped |
 | bordered | `boolean` | `false` | Whether to show border |
 | showHeader | `boolean` | `true` | Whether to show the header |
-| emptyText | `string` | `'暂无数据'` | Empty-state text |
-| selectable | `boolean` | `false` | Enable row selection column |
-| selectedKeys | `string[]` | `[]` | Controlled selected row keys |
-| sortKey | `string` | `''` | Controlled sort column; empty = unsorted |
-| sortOrder | `string` | `'none'` | none \| asc \| desc |
+| emptyText | `string` | `'暂无数据'` | Text shown when there is no data; the default is Chinese for "No data" |
+| selectable | `boolean` | `false` | Whether to show the selection column |
+| selectedKeys | `string[]` | `[]` | Keys of the selected rows. Works with `v-model:selectedKeys` |
+| sortKey | `string` | `''` | Column currently sorted by; an empty string means unsorted. Works with `v-model:sortKey` |
+| sortOrder | `string` | `'none'` | Sort order: none / asc / desc. Works with `v-model:sortOrder` |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| cell-click | cell-click |
-| sort-change | sort-change |
-| selection-change | selection-change |
-| update:selectedKeys | update:selectedKeys |
-| update:sortKey | update:sortKey |
-| update:sortOrder | update:sortOrder |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| cell-click | `rowKey: string, columnKey: string` | Fires when a cell is tapped, with the row key and the column key |
+| sort-change | `key: string, order: string` | Fires when a sortable header is tapped; the order cycles through ascending, descending and none |
+| selection-change | `keys: string[]` | Fires when the selection changes; `keys` holds the keys of all selected rows |
+| update:selectedKeys | `keys: string[]` | Fires when the selection changes; used by `v-model:selectedKeys` |
+| update:sortKey | `key: string` | Fires when the sort column changes; used by `v-model:sortKey` |
+| update:sortOrder | `order: string` | Fires when the sort order changes; used by `v-model:sortOrder` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| empty | `empty` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-table/`
-- Demo: `#/pages/demo/display/table`
-- Chinese docs: [/uniappx/components/table](/uniappx/components/table)
+| empty | Custom content when there is no data; `emptyText` by default |

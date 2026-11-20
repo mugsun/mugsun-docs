@@ -7,16 +7,9 @@ demo: pages/demo/feedback/action-sheet
 
 `ms-action-sheet` 是底部动作面板。通过 `items` 传入菜单项，用户选中后组件返回所选项的下标并自动关闭。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-action-sheet`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/action-sheet`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/action-sheet.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-action-sheet
@@ -89,16 +82,14 @@ function onIconVisible(value: boolean): void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 label / description / icon / tone('default'\|'primary'\|'danger') / disabled |
-| theme | `'list' \| 'grid'` | `'list'` | 主题色 |
-| align | `'center' \| 'left'` | `'center'` | 对齐方式 |
+| items | `UTSJSONObject[]` | `[]` | 菜单项，每项含 `label`，可选 `description` / `icon` / `tone` / `disabled`；`tone` 可取 default / primary / danger |
+| theme | `'list' \| 'grid'` | `'list'` | 展示形式：`list` 为列表，`grid` 为宫格 |
+| align | `'center' \| 'left'` | `'center'` | 列表项的对齐方式 |
 | description | `string` | `''` | 描述文案 |
 | showCancel | `boolean` | `true` | 是否显示取消按钮 |
 | cancelText | `string` | `'取消'` | 取消按钮文案 |
@@ -107,14 +98,9 @@ function onIconVisible(value: boolean): void {
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:visible | v-model:visible 更新 |
-| select | select |
-| cancel | 取消 |
-| close | 关闭 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-action-sheet/`
-- 演示: `#/pages/demo/feedback/action-sheet`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
+| select | `index: number` | 点击菜单项时触发，`index` 是该项在 `items` 中的下标；禁用项不触发 |
+| cancel | — | 点击取消按钮时触发 |
+| close | — | 面板关闭时触发，选择、取消和点击遮罩都会触发 |

@@ -5,18 +5,11 @@ demo: pages/demo/basic/config-provider
 
 # Config Provider 主题配置
 
-`ms-config-provider` 是局部主题容器，把 `themeVars` 写成子元素的内联 CSS 变量，可以让一整块区域切换为暗色。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-config-provider`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/config-provider`。
+`ms-config-provider` 是局部主题容器，只影响它包住的内容。可以用 `themeVars` 覆盖其中的 CSS 变量，或把这一块切换为暗色。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/config-provider.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -74,29 +67,22 @@ function onChange(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| themeVars | `UTSJSONObject \| null` | `null` | 局部 CSS 变量（写到子树） |
-| theme | `string` | `'light'` | 主题色 |
-| block | `boolean` | `true` | 是否通栏 |
+| themeVars | `UTSJSONObject \| null` | `null` | 要覆盖的 CSS 变量；键以 `--` 开头时原样使用，否则自动加上 `--ms-` 前缀 |
+| theme | `string` | `'light'` | 主题：light / dark |
+| block | `boolean` | `true` | 是否撑满宽度 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| change | 值变化 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `payload: UTSJSONObject` | 挂载时和主题或变量变化后触发，`payload` 含 `count`（生效的变量数）和 `theme` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-config-provider/`
-- 演示: `#/pages/demo/basic/config-provider`
+| default | 主题生效的内容 |

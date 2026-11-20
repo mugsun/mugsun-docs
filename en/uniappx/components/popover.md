@@ -7,16 +7,9 @@ demo: pages/demo/feedback/popover
 
 `ms-popover` is a popover. Put the trigger element in the default slot, and set the popover content with the `content` prop or the `content` slot.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-popover`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/popover`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/popover.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -93,36 +86,37 @@ function tapCustom() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| content | `string` | `''` | Plain text; use content slot for rich content |
-| placement | `\| 'top'` | `'top'` | Popup / placement |
-| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | Theme color |
+| content | `string` | `''` | Text in the popover; use the `content` slot for richer content |
+| placement | `'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | `'top'` | Position of the popover relative to the trigger |
+| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | Color scheme |
 | showArrow | `boolean` | `true` | Whether to show arrow |
-| closeOnClickOutside | `boolean` | `true` | Whether clicking outside (transparent overlay) closes |
+| closeOnClickOutside | `boolean` | `true` | Whether tapping outside the popover closes it |
 | zIndex | `number` | `900` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| visible-change | visible-change |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the popover opens or closes; used by `v-model:visible` |
+| visible-change | `value: boolean` | Fires when the popover opens or closes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| content | `content` slot |
+| default | Trigger element; a tap shows or hides the popover |
+| content | Custom popover content; `content` by default |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-popover/`
-- Demo: `#/pages/demo/feedback/popover`
-- Chinese docs: [/uniappx/components/popover](/uniappx/components/popover)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `open()` | Shows the popover; requires `v-model:visible` |
+| `close()` | Hides the popover; requires `v-model:visible` |

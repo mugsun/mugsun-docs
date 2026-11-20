@@ -7,17 +7,11 @@ demo: pages/demo/media/svg
 
 `ms-svg` displays vector graphics by rendering SVG with the official `<image>` in a fixed-size container. It supports inline SVG source and recoloring.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-svg/components/ms-svg`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-svg` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/svg`.
+This is an optional plugin. Install `uni_modules/ms-svg` separately; it depends on `ms-ui`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/svg.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -52,29 +46,21 @@ function onError(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | Resource URL |
-| source | `string` | `''` | Source / inline content |
-| size | `number` | `24` | Size |
-| width | `number` | `0` | Width (px) |
-| height | `number` | `0` | Height (px) |
-| color | `string` | `''` | Color |
-| mode | `string` | `'aspectFit'` | Mode |
+| src | `string` | `''` | Image URL: a path under `/static/` or an http(s) URL |
+| source | `string` | `''` | Inline SVG source; takes precedence over `src` |
+| size | `number` | `24` | Side length (px) |
+| width | `number` | `0` | Width (px); overrides `size` when above 0 |
+| height | `number` | `0` | Height (px); overrides `size` when above 0 |
+| color | `string` | `''` | Color that replaces `currentColor` in the inline source |
+| mode | `string` | `'aspectFit'` | Scaling mode: scaleToFill / aspectFit / aspectFill |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| load | Load |
-| error | Error |
-
-## See also
-
-- Component: `uni_modules/ms-svg/components/ms-svg/`
-- Demo: `#/pages/demo/media/svg`
-- Chinese docs: [/uniappx/components/svg](/uniappx/components/svg)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| load | `payload: UTSJSONObject` | Fires when the image has loaded; `payload` has `width` and `height` |
+| error | `payload: UTSJSONObject` | Fires when loading fails; `payload.errMsg` is the error message |

@@ -5,18 +5,13 @@ demo: pages/demo/display/tree-select
 
 # Tree Select
 
-`ms-tree-select` is a multi-column tree selector that shows 2 or 3 columns (at most 3) based on the depth of `options`: the left column navigates, the middle column drills down, and the last column supports single or multiple selection.
+`ms-tree-select` is a multi-column tree selector. It shows 2 or 3 columns depending on the depth of `options`: the leading columns drill down level by level and the last one holds the options.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-tree-select`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/tree-select`.
+The last column supports single and multiple selection. Bind the selected path with `v-model:value`, and the checked values in multiple mode with `v-model:leafValues`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/tree-select.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -230,27 +225,19 @@ function onDisabledLeafChange(next: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | Options list |
-| value | `string[]` | `[]` | Current value |
-| leafValues | `string[]` | `[]` | Selected leaf values (v-model:leafValues) |
-| multiple | `boolean` | `false` | Whether multiple |
+| options | `UTSJSONObject[]` | `[]` | Options; each has `label` and `value`, plus optional `children` and `disabled` |
+| value | `string[]` | `[]` | Path made of the value selected in each column. Works with `v-model:value`; in single mode the last entry is the value picked in the last column |
+| leafValues | `string[]` | `[]` | Values checked in the last column in multiple mode. Works with `v-model:leafValues`; unused in single mode |
+| multiple | `boolean` | `false` | Whether the last column allows multiple selection |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:value | v-model:value update |
-| update:leafValues | update:leafValues |
-| change | Value changed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-tree-select/`
-- Demo: `#/pages/demo/display/tree-select`
-- Chinese docs: [/uniappx/components/tree-select](/uniappx/components/tree-select)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:value | `next: string[]` | Fires when the selected path changes; used by `v-model:value` |
+| update:leafValues | `next: string[]` | Fires when the checked values of the last column change in multiple mode; used by `v-model:leafValues` |
+| change | `next: string[]` | Fires when an option is tapped; `next` is the current path, including the last column's value when it is tapped in single mode. Disabled options do not fire it |

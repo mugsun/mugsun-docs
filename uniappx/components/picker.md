@@ -5,18 +5,15 @@ demo: pages/demo/form/picker
 
 # Picker 选择器
 
-`ms-picker` 是选择器。传入扁平的 `options`（用 `column` 分列，包含 `label` 和 `value`），内部使用原生 `picker-view` 和 `picker-view-column`。
+`ms-picker` 是滚轮选择器，可以有一列或多列。选项用扁平的 `options` 传入，每项用 `column` 标明所在的列。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
+默认从底部弹出，默认插槽里的内容作为触发元素；`usePopup` 设为 `false` 时直接嵌在页面里。
 
-组件目录：`uni_modules/ms-ui/components/ms-picker`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/picker`。
+`value` 是各列选中项的下标，组件不会自己修改它，需要在 `confirm` 事件里更新。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/picker.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -134,41 +131,46 @@ function onPlainConfirm(indexes: number[], label: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | 扁平选项：column（列下标）+ label + value |
-| value | `number[]` | `[]` | 各列选中项下标 |
-| visible | `boolean` | `false` | 是否显示（usePopup 时生效） |
-| title | `string` | `''` | 标题；空串则头部只留取消/确定 |
+| options | `UTSJSONObject[]` | `[]` | 选项列表，每项含 `column`（列下标）、`label` 和 `value` |
+| value | `number[]` | `[]` | 各列选中项的下标 |
+| visible | `boolean` | `false` | 是否显示，`usePopup` 为 `true` 时有效，可用 `v-model:visible` |
+| title | `string` | `''` | 标题，留空时头部只有取消和确定 |
 | cancelText | `string` | `'取消'` | 取消按钮文案 |
 | confirmText | `string` | `'确定'` | 确定按钮文案 |
 | header | `boolean` | `true` | 是否显示头部 |
-| itemHeight | `number` | `44` | 单项高度 px |
-| visibleItemCount | `number` | `5` | 可视项数 |
-| usePopup | `boolean` | `true` | 是否用弹出层包裹；false 则内嵌 |
+| itemHeight | `number` | `44` | 单项高度（px） |
+| visibleItemCount | `number` | `5` | 可见的选项数 |
+| usePopup | `boolean` | `true` | 是否从底部弹出；`false` 时嵌在页面里 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:visible | v-model:visible 更新 |
-| change | 值变化 |
-| pick | 选中项变化（未确认） |
-| confirm | 确认 |
-| cancel | 取消 |
-| close | 关闭 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
+| change | `indexes: number[], label: string` | 滚动选择时触发，参数是各列的下标和用空格连接的标签；这时还没有确认 |
+| pick | `column: number, index: number` | 滚动选择时触发，参数是发生变化的列和这一列的新下标 |
+| confirm | `indexes: number[], label: string` | 点击确定时触发，参数同 `change` |
+| cancel | — | 点击取消时触发，面板上的选择恢复为 `value` |
+| close | — | 弹出层关闭时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
+| default | 触发元素，点击后打开选择器；`usePopup` 为 `false` 时不显示 |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-picker/`
-- 演示: `#/pages/demo/form/picker`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `getLabel(): string` | 返回面板上当前选择的标签 |
+| `confirm()` | 确认当前选择，等同于点击确定 |
+| `cancel()` | 取消选择，等同于点击取消 |
+| `open()` | 打开选择器 |
+| `close()` | 关闭选择器 |

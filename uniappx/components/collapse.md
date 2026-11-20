@@ -5,18 +5,13 @@ demo: pages/demo/display/collapse
 
 # Collapse 折叠
 
-`ms-collapse` 是折叠面板，由 `items` 生成面板项，支持 `accordion`、`theme`、`expandIcon` 和 `defaultExpandAll`，也可以通过 `value` 受控。
+`ms-collapse` 是折叠面板，由 `items` 生成各个面板，支持手风琴模式和卡片样式。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-collapse`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/collapse`。
+展开状态可以交给组件自己维护，也可以用 `v-model:value` 控制。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/collapse.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-collapse
@@ -117,8 +112,6 @@ function onModelChange(values: number[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -133,13 +126,16 @@ function onModelChange(values: number[]) : void {
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `values: number[]` | 展开的面板变化时触发，`values` 是当前展开项的下标 |
+| click | `index: number` | 点击面板标题时触发，`index` 是该项的下标；禁用项不触发 |
+| update:value | `values: number[]` | 展开的面板变化时触发，用于 `v-model:value` |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| change | 值变化 |
-| click | 点击 |
-| update:value | v-model:value 更新 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-collapse/`
-- 演示: `#/pages/demo/display/collapse`
+| `getExpanded(): number[]` | 返回当前展开项的下标 |

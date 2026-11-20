@@ -5,18 +5,13 @@ demo: pages/demo/nav/sidebar
 
 # Sidebar
 
-`ms-sidebar` is a side category navigation used with `items` and a content slot; the current item binds with `v-model:value`.
+`ms-sidebar` is a side category navigation: a category list built from `items` on the left, and the default slot content on the right.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-sidebar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/sidebar`.
+Bind the index of the current item with `v-model:value`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/sidebar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-sidebar
@@ -110,32 +105,24 @@ function onDisabledChange(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | Selected item index |
-| items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled |
-| height | `number` | `320` | Sidebar total height (accepts numeric px values only; use the token value) |
+| value | `number` | `0` | Index of the selected item. Works with `v-model:value` |
+| items | `UTSJSONObject[]` | `[]` | Categories; each item has `label` and optional `icon` / `count` / `badge` / `dot` / `disabled` |
+| height | `number` | `320` | Component height (px) |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| click | Click |
-| update:value | v-model:value update |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: number` | Fires when the selection changes; `index` is the newly selected item |
+| click | `index: number` | Fires when any enabled item is tapped, the current one included |
+| update:value | `index: number` | Fires when the selection changes; used by `v-model:value` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-sidebar/`
-- Demo: `#/pages/demo/nav/sidebar`
-- Chinese docs: [/uniappx/components/sidebar](/uniappx/components/sidebar)
+| default | Content area on the right |

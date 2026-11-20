@@ -7,16 +7,9 @@ demo: pages/demo/form/stepper
 
 `ms-stepper` 是数字步进器，有填充、描边和朴素三种样式及三种尺寸，支持步长、上下限和小数位数。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-stepper`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/stepper`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/stepper.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -59,8 +52,6 @@ const vSize = ref(3)
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -69,22 +60,17 @@ const vSize = ref(3)
 | min | `number` | `0` | 最小值 |
 | max | `number` | `100` | 最大值 |
 | step | `number` | `1` | 步长 |
-| precision | `number` | `0` | 精度 |
-| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | 主题色 |
+| precision | `number` | `0` | 小数位数 |
+| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | 样式：normal 朴素 / filled 填充 / outline 描边 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| disableInput | `boolean` | `false` | 是否禁用输入 |
-| longPress | `boolean` | `true` | 长按加减钮连续步进，默认开 |
+| disableInput | `boolean` | `false` | 是否禁止在输入框里输入，加减按钮仍然可用 |
+| longPress | `boolean` | `true` | 长按加减按钮是否连续加减 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| change | 值变化 |
-| overlimit | overlimit |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-stepper/`
-- 演示: `#/pages/demo/form/stepper`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: number` | 数值变化时触发，用于 `v-model` |
+| change | `value: number` | 数值变化时触发，`value` 是新的数值 |
+| overlimit | `type: string` | 已到上限或下限时继续加减会触发，`type` 为 `minus` 或 `plus` |

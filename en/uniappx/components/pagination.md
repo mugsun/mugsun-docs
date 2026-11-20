@@ -5,18 +5,13 @@ demo: pages/demo/nav/pagination
 
 # Pagination
 
-`ms-pagination` is a pager with a full page-number mode and a simple previous/next mode. `showPrevNext` and `showJumper` control the buttons, and the current page binds with `v-model:value`.
+`ms-pagination` is a pager. It shows page-number buttons by default, and only Previous and Next in `simple` mode.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-pagination`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/pagination`.
+Bind the current page with `v-model:value`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/pagination.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -94,32 +89,24 @@ function onSizeChange(page: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `1` | Current page (1-based) |
+| value | `number` | `1` | Current page, starting from 1. Works with `v-model:value` |
 | total | `number` | `0` | Total count |
 | pageSize | `number` | `10` | Page size |
-| maxButtons | `number` | `3` | Max middle page buttons in ellipsis mode |
-| minButtons | `number` | `5` | Page-number expand threshold when total pages are few |
-| simple | `boolean` | `false` | Simple mode (prev/next only) |
+| maxButtons | `number` | `3` | Maximum number of page buttons in the middle when there are many pages |
+| minButtons | `number` | `5` | All page numbers are shown when the page count does not exceed this value |
+| simple | `boolean` | `false` | Whether to use simple mode with only Previous and Next |
 | showTotal | `boolean` | `true` | Whether to show total count |
 | disabled | `boolean` | `false` | Whether disabled |
-| showPrevNext | `boolean` | `false` | Full mode shows prev/next on both sides |
-| showJumper | `boolean` | `false` | Jump to a specific page |
+| showPrevNext | `boolean` | `false` | Whether to show Previous and Next buttons beside the page numbers |
+| showJumper | `boolean` | `false` | Whether to show the jump-to-page input |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| update:value | v-model:value update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-pagination/`
-- Demo: `#/pages/demo/nav/pagination`
-- Chinese docs: [/uniappx/components/pagination](/uniappx/components/pagination)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `page: number` | Fires when the page changes; `page` is the new page |
+| update:value | `page: number` | Fires when the page changes; used by `v-model:value` |

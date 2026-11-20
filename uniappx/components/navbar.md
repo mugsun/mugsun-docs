@@ -5,18 +5,13 @@ demo: pages/demo/nav/navbar
 
 # Navbar 顶栏
 
-`ms-navbar` 是自定义顶部导航栏，左侧为返回或首页按钮，中间为标题，右侧为操作区，提供 `left`、`title` 和 `right` 三个插槽。
+`ms-navbar` 是自定义顶部导航栏，左侧是返回和首页按钮，中间是标题，右侧是操作区。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-navbar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/navbar`。
+点击返回或首页按钮只触发事件，跳转需要在 `go-back` 和 `go-home` 里自行处理。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/navbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-navbar title="纯标题" :fixed="false" :safe-area-inset-top="false" />
@@ -73,8 +68,6 @@ function onHome() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -83,30 +76,25 @@ function onHome() : void {
 | titleAlign | `'center' \| 'left'` | `'center'` | 标题对齐：center / left |
 | titleMaxLength | `number` | `0` | 标题最大字数，超出用 … 收尾；0 表示不截断 |
 | leftArrow | `boolean` | `false` | 是否显示左侧返回箭头 |
-| leftText | `string` | `''` | 左侧返回文案；空串只显示箭头 |
-| homeIcon | `boolean` | `false` | 返回旁再放一个首页入口 |
-| theme | `'light' \| 'brand'` | `'light'` | 主题色 |
-| fixed | `boolean` | `true` | 是否固定定位 |
-| placeholder | `boolean` | `false` | fixed 时是否在文档流里占位，避免内容被压住 |
+| leftText | `string` | `''` | 返回箭头旁的文字，留空时只显示箭头 |
+| homeIcon | `boolean` | `false` | 是否在返回按钮旁显示首页按钮 |
+| theme | `'light' \| 'brand'` | `'light'` | 配色：light 浅色 / brand 品牌色 |
+| fixed | `boolean` | `true` | 是否固定在页面顶部 |
+| placeholder | `boolean` | `false` | 固定时是否在页面里留出同样的高度，避免内容被挡住 |
 | safeAreaInsetTop | `boolean` | `true` | 是否预留顶部安全区 |
 | zIndex | `number` | `500` | 层级 z-index |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| go-back | go-back |
-| go-home | go-home |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| go-back | — | 点击返回按钮时触发 |
+| go-home | — | 点击首页按钮时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| left | `left` 插槽 |
-| right | `right` 插槽 |
-| title | `title` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-navbar/`
-- 演示: `#/pages/demo/nav/navbar`
+| left | 左侧的附加内容，显示在返回和首页按钮后面 |
+| title | 自定义标题 |
+| right | 右侧操作区 |

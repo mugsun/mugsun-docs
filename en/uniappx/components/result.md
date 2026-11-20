@@ -7,16 +7,9 @@ demo: pages/demo/display/result
 
 `ms-result` is a result-page feedback block with an icon or image, a title, a description and an optional action area.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-result`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/result`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/result.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -79,29 +72,21 @@ function onPrimary() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | Theme color |
+| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | Type, which sets the default icon and color |
 | title | `string` | `''` | Title |
 | description | `string` | `''` | Description text |
-| icon | `string` | `''` | Override theme icon; 'none' hides the icon |
-| image | `string` | `''` | Image URL; takes priority over icon when set |
-| showActions | `boolean` | `false` | Whether to render the action area (default slot) |
+| icon | `string` | `''` | Icon name; empty uses the default icon of the type, and `none` hides it |
+| image | `string` | `''` | Image URL; replaces the icon when set |
+| showActions | `boolean` | `false` | Whether to show the action area, filled through the default slot |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| description | `description` slot |
-| title | `title` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-result/`
-- Demo: `#/pages/demo/display/result`
-- Chinese docs: [/uniappx/components/result](/uniappx/components/result)
+| title | Custom title; `title` by default |
+| description | Custom description; `description` by default |
+| default | Action area content, shown when `showActions` is `true` |

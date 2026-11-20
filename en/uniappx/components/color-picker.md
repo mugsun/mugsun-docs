@@ -7,16 +7,9 @@ demo: pages/demo/form/color-picker
 
 `ms-color-picker` is a color picker with preset swatches, a stepped hue bar, and sliders for saturation, brightness and opacity.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-color-picker`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/color-picker`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/color-picker.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -93,31 +86,33 @@ function onExposeChange(value: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `'#0579ff'` | Current color (hex / rgb / rgba) |
+| modelValue | `string` | `'#0579ff'` | Current color; accepts hex, rgb or rgba |
 | type | `string` | `'multiple'` | base = swatch only; multiple = swatch + sliders |
-| format | `string` | `'hex'` | Output format: hex / rgb / hsl |
+| format | `string` | `'hex'` | Output format: hex / rgb / hsl; with opacity, hex output switches to rgba |
 | enableAlpha | `boolean` | `false` | Whether to show the opacity slider |
-| swatchColors | `string[]` | `[]` | Preset colors; empty uses built-in |
+| swatchColors | `string[]` | `[]` | Preset colors; empty uses the 12 built-in ones |
 | columns | `number` | `8` | Swatch columns per row |
 | showPreview | `boolean` | `true` | Whether to show the preview swatch and value |
-| disabled | `boolean` | `false` | Disabled |
+| disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the color changes; used by `v-model` |
+| change | `value: string` | Fires when the color changes; `value` uses the format set by `format` |
+| pick | `value: string` | Fires when a preset swatch is tapped |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-| pick | Selection changed (before confirm) |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-color-picker/`
-- Demo: `#/pages/demo/form/color-picker`
-- Chinese docs: [/uniappx/components/color-picker](/uniappx/components/color-picker)
+| `getHex(): string` | Returns the current color as hex |
+| `getRgba(): string` | Returns the current color as an `rgba()` string |
+| `getAlpha(): number` | Returns the current opacity, from 0 to 1 |

@@ -5,18 +5,11 @@ demo: pages/demo/display/watermark
 
 # Watermark
 
-`ms-watermark` shows a text watermark over an area, tiled with views rather than drawn on a canvas.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-watermark`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/watermark`.
+`ms-watermark` tiles a text watermark over an area. Put the content in the default slot; the watermark sits on top of it and does not block taps.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/watermark.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -62,24 +55,16 @@ The snippets below are taken from the demo source `pages/demo/display/watermark.
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| content | `string` | `'Mugsun'` | Content text |
-| density | `string` | `'md'` | Density |
-| layout | `string` | `'rectangular'` | Layout |
+| content | `string` | `'Mugsun'` | Watermark text |
+| density | `string` | `'md'` | Density: sm (dense) / md / lg (sparse) |
+| layout | `string` | `'rectangular'` | Layout: rectangular (aligned) / stagger (every other row shifted) |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-watermark/`
-- Demo: `#/pages/demo/display/watermark`
-- Chinese docs: [/uniappx/components/watermark](/uniappx/components/watermark)
+| default | Content to watermark |

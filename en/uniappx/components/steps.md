@@ -5,18 +5,15 @@ demo: pages/demo/nav/steps
 
 # Steps
 
-`ms-steps` is a step indicator built from `items` (`title` / `content` / `icon` / `status`). No child components need to be registered.
+`ms-steps` is a step indicator built from `items`, laid out horizontally or vertically.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+Step states are derived from `current` by default: earlier steps are finished and later ones have not started. A step's own `status` takes precedence.
 
-Component directory: `uni_modules/ms-ui/components/ms-steps`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/steps`.
+Tapping a step switches to it; bind the current step with `v-model:current`, or set `readonly` to turn tapping off.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/steps.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -116,29 +113,21 @@ function onDepthChange(current: number, previous: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | Each item: title / content / icon / status |
-| current | `number` | `0` | Current step index; equals step count when all done |
-| currentStatus | `string` | `'process'` | Status of the step at current: process / error / finish / default |
+| items | `UTSJSONObject[]` | `[]` | Steps; each item has `title` and optional `content` / `icon` / `status` |
+| current | `number` | `0` | Index of the current step; equal to the step count means all done. Works with `v-model:current` |
+| currentStatus | `string` | `'process'` | State of the current step: process / error / finish / default |
 | layout | `string` | `'horizontal'` | Direction: horizontal / vertical |
-| theme | `string` | `'default'` | Style: default numbered circle / dot |
-| readonly | `boolean` | `false` | Read-only; the change event is not emitted |
+| theme | `string` | `'default'` | Style: default (numbered circles) / dot (small dots) |
+| readonly | `boolean` | `false` | Whether it is read-only; taps fire no events when it is |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| click | Click |
-| update:current | v-model:current update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-steps/`
-- Demo: `#/pages/demo/nav/steps`
-- Chinese docs: [/uniappx/components/steps](/uniappx/components/steps)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `current: number, previous: number` | Fires when the step switches, with the new and the previous index |
+| click | `index: number` | Fires when any step is tapped, the current one included |
+| update:current | `index: number` | Fires when the step switches; used by `v-model:current` |

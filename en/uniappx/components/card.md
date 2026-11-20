@@ -5,18 +5,11 @@ demo: pages/demo/display/card
 
 # Card
 
-`ms-card` is a structured content card with a cover image, title and subtitle, body text, an optional statusIcon and a footer slot.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-card`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/card`.
+`ms-card` is a content card with a fixed structure: cover image, title, subtitle and body from top to bottom, plus a `footer` slot for actions.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/card.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Basic usage -->
@@ -81,41 +74,33 @@ function onStatus() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | title | `string` | `''` | Title |
 | subtitle | `string` | `''` | Subtitle |
-| content | `string` | `''` | Content text |
-| image | `string` | `''` | Image URL |
+| content | `string` | `''` | Body text |
+| image | `string` | `''` | Cover image URL |
 | imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | Cover height tier: sm / md / lg |
-| statusIcon | `string` | `''` | Top-right status icon name |
-| radius | `'md' \| 'lg'` | `'lg'` | Border radius (px) |
+| statusIcon | `string` | `''` | Name of the status icon in the top-right corner; empty hides it |
+| radius | `'md' \| 'lg'` | `'lg'` | Corner radius size |
 | bordered | `boolean` | `false` | Whether to show border |
 | shadow | `boolean` | `false` | Whether shadowed |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-| status | Status changed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the card is tapped |
+| status | — | Fires when the status icon in the top-right corner is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| footer | `footer` slot |
-| image | `image` slot |
-| subtitle | `subtitle` slot |
-| title | `title` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-card/`
-- Demo: `#/pages/demo/display/card`
-- Chinese docs: [/uniappx/components/card](/uniappx/components/card)
+| image | Custom cover area; shows the `image` picture by default |
+| title | Custom title; shows `title` by default |
+| subtitle | Custom subtitle; shows `subtitle` by default |
+| default | Custom body; shows `content` by default |
+| footer | Bottom area of the card, usually for action buttons |

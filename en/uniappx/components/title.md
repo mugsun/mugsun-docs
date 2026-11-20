@@ -7,16 +7,9 @@ demo: pages/demo/nav/title
 
 `ms-title` is a heading with levels `h1` to `h6` and optional truncation by line count.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-title`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/title`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/title.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -43,31 +36,23 @@ function onTitleClick() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| content | `string` | `''` | Content text |
-| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | Level count |
-| lines | `number` | `0` | Row count |
+| content | `string` | `''` | Title text |
+| level | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h1'` | Heading level, `h1` to `h6` |
+| lines | `number` | `0` | Maximum number of lines before truncation; `0` for no limit |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the title is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-title/`
-- Demo: `#/pages/demo/nav/title`
-- Chinese docs: [/uniappx/components/title](/uniappx/components/title)
+| default | Title content; `content` by default |

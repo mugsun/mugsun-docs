@@ -7,16 +7,9 @@ demo: pages/demo/form/slide-verify
 
 `ms-slide-verify` is a slide verification control. Drag the handle to the end or into the dashed target box to pass.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-slide-verify`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/slide-verify`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/slide-verify.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -68,31 +61,31 @@ function onLooseSuccess() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| tips | `string` | `'拖动滑块完成验证'` | Tip text |
-| successTips | `string` | `'验证成功'` | Verification success text |
-| showTarget | `boolean` | `false` | Whether to show the target gap position |
-| targetPercent | `number` | `100` | Target position 0–100 |
-| tolerance | `number` | `8` | Allowed slider-to-target error (px) |
+| tips | `string` | `'拖动滑块完成验证'` | Hint text; the default is Chinese for "Drag the slider to verify" |
+| successTips | `string` | `'验证成功'` | Text shown after success; the default is Chinese for "Verified" |
+| showTarget | `boolean` | `false` | Whether to show the dashed target box; without it the handle must reach the far right |
+| targetPercent | `number` | `100` | Position of the target box, from 0 to 100 |
+| tolerance | `number` | `8` | Allowed distance between the handle and the target on release (px) |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| start | — | Fires when dragging starts |
+| success | — | Fires when verification passes |
+| fail | — | Fires when verification fails; the handle returns to the start |
+| complete | `ok: boolean` | Fires on release; `ok` tells whether it passed |
+| reset | — | Fires after `reset()` is called |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| start | Started |
-| success | success |
-| fail | fail |
-| complete | complete |
-| reset | Reset |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-slide-verify/`
-- Demo: `#/pages/demo/form/slide-verify`
-- Chinese docs: [/uniappx/components/slide-verify](/uniappx/components/slide-verify)
+| `reset()` | Restores the initial, unverified state |

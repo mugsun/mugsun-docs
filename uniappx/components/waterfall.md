@@ -5,18 +5,13 @@ demo: pages/demo/display/waterfall
 
 # Waterfall 瀑布流
 
-`ms-waterfall` 是瀑布流布局，根据声明的高度把各项分配到各列，可选显示封面图和空状态。
+`ms-waterfall` 是瀑布流布局，按每一项声明的高度把它们分到各列，可以带封面图。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-waterfall`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/waterfall`。
+高度需要在数据里给出，组件不会测量内容的实际高度。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/waterfall.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -148,32 +143,39 @@ function onItemClick(key: string, index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | 条目列表 |
+| items | `UTSJSONObject[]` | `[]` | 列表数据 |
 | column | `number` | `2` | 列数 |
-| balance | `boolean` | `true` | 是否尽量均分列高 |
-| itemHeight | `number` | `120` | 单项高度（px） |
+| balance | `boolean` | `true` | 是否把每一项放进当前最矮的一列，`false` 时按顺序轮流放 |
+| itemHeight | `number` | `120` | 数据里没有高度时使用的默认高度（px） |
 | titleKey | `string` | `'title'` | 标题字段名 |
 | descKey | `string` | `'desc'` | 描述字段名 |
 | heightKey | `string` | `'height'` | 高度字段名 |
-| imageKey | `string` | `'image'` | 图片字段名 |
+| imageKey | `string` | `'image'` | 封面图字段名 |
 | coverHeightKey | `string` | `'coverHeight'` | 封面高度字段名 |
-| keyField | `string` | `'id'` | 主键字段名 |
-| emptyText | `string` | `'暂无数据'` | 空态文案 |
-| coverHeight | `number` | `88` | 缺省封面高（有 image 时） |
+| keyField | `string` | `'id'` | 每一项的唯一标识字段名 |
+| emptyText | `string` | `'暂无数据'` | 没有数据时的提示文字 |
+| coverHeight | `number` | `88` | 有封面图但数据里没有封面高度时使用的默认高度（px） |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| item-click | `key: string, index: number` | 点击某一项时触发，参数是该项的 key 和下标 |
+
+## 插槽
+
+| 插槽 | 说明 |
 | --- | --- |
-| item-click | 点击菜单项 |
+| empty | 自定义没有数据时的内容，默认用 [`ms-empty`](./empty) 显示 `emptyText` |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-waterfall/`
-- 演示: `#/pages/demo/display/waterfall`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `getColumnHeights(): number[]` | 返回各列的总高度（px） |

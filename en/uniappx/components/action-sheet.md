@@ -7,16 +7,9 @@ demo: pages/demo/feedback/action-sheet
 
 `ms-action-sheet` is a bottom action sheet. Pass menu items through `items`; when the user picks one, the component emits its index and closes automatically.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-action-sheet`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/action-sheet`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/action-sheet.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-action-sheet
@@ -89,33 +82,25 @@ function onIconVisible(value: boolean): void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| items | `UTSJSONObject[]` | `[]` | Each item: label / description / icon / tone('default'\|'primary'\|'danger') / disabled | 'primary' | 'danger') / disabled |
-| theme | `'list' \| 'grid'` | `'list'` | Theme color |
-| align | `'center' \| 'left'` | `'center'` | Alignment |
+| items | `UTSJSONObject[]` | `[]` | Menu items; each item has `label` and optional `description` / `icon` / `tone` / `disabled`, with `tone` one of default / primary / danger |
+| theme | `'list' \| 'grid'` | `'list'` | Layout: `list` for rows, `grid` for a grid of icons |
+| align | `'center' \| 'left'` | `'center'` | Alignment of list items |
 | description | `string` | `''` | Description text |
 | showCancel | `boolean` | `true` | Whether to show cancel button |
-| cancelText | `string` | `'取消'` | Cancel button label |
+| cancelText | `string` | `'取消'` | Cancel button label; the default is Chinese for "Cancel" |
 | closeOnOverlayClick | `boolean` | `true` | Whether clicking the overlay closes |
 | zIndex | `number` | `1000` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| select | select |
-| cancel | Cancel |
-| close | Closed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-action-sheet/`
-- Demo: `#/pages/demo/feedback/action-sheet`
-- Chinese docs: [/uniappx/components/action-sheet](/uniappx/components/action-sheet)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the sheet opens or closes; used by `v-model:visible` |
+| select | `index: number` | Fires when an item is tapped; `index` is its position in `items`. Disabled items do not fire it |
+| cancel | — | Fires when the cancel button is tapped |
+| close | — | Fires when the sheet closes, whether by a selection, the cancel button or an overlay tap |

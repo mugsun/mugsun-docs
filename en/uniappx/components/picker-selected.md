@@ -7,16 +7,11 @@ demo: pages/demo/form/picker-selected
 
 `ms-picker-selected` is a searchable picker in a popup. It filters locally or lets the page run an asynchronous search, and supports single and multiple selection.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-picker-selected`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/picker-selected`.
+Bind the selection with `v-model:value`; it updates only after OK is tapped.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/picker-selected.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -138,49 +133,51 @@ function onSingleConfirm(ids: string[], labels: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | Options list |
-| value | `string[]` | `[]` | Current value |
+| options | `UTSJSONObject[]` | `[]` | Options; `valueKey` and `labelKey` name the value and text fields |
+| value | `string[]` | `[]` | Values of the selected options. Works with `v-model:value` |
 | visible | `boolean` | `false` | Whether visible |
-| title | `string` | `'请选择'` | Title |
-| cancelText | `string` | `'取消'` | Cancel button label |
-| confirmText | `string` | `'确定'` | Confirm button label |
-| placeholder | `string` | `'搜索'` | Placeholder |
-| emptyText | `string` | `'暂无数据'` | Empty-state text |
+| title | `string` | `'请选择'` | Title; the default is Chinese for "Please select" |
+| cancelText | `string` | `'取消'` | Cancel button label; the default is Chinese for "Cancel" |
+| confirmText | `string` | `'确定'` | Confirm button label; the default is Chinese for "OK" |
+| placeholder | `string` | `'搜索'` | Placeholder of the search box; the default is Chinese for "Search" |
+| emptyText | `string` | `'暂无数据'` | Text shown when there is no data; the default is Chinese for "No data" |
 | valueKey | `string` | `'id'` | Option value field name |
-| labelKey | `string` | `'name'` | Option label field name |
-| filterKey | `string` | `''` | Search match field name |
-| localSearch | `boolean` | `true` | Whether to filter within local options |
+| labelKey | `string` | `'name'` | Field name of the option text |
+| filterKey | `string` | `''` | Field matched by the search; `labelKey` when empty |
+| localSearch | `boolean` | `true` | Whether to filter locally; with `false`, run the search yourself in the `search` event and update `options` |
 | multiple | `boolean` | `true` | Whether multiple |
-| required | `boolean` | `false` | Whether required |
+| required | `boolean` | `false` | In single selection, whether the selected option cannot be cleared |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| update:value | v-model:value update |
-| search | search |
-| change | Value changed |
-| confirm | Confirm |
-| cancel | Cancel |
-| open | Opened |
-| close | Closed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the panel opens or closes; used by `v-model:visible` |
+| update:value | `ids: string[]` | Fires when OK is tapped; used by `v-model:value` |
+| search | `keyword: string` | Fires when the search text changes; `keyword` is an empty string when cleared |
+| change | `ids: string[], labels: string[]` | Fires when an option is selected or cleared in the panel; nothing is confirmed yet |
+| confirm | `ids: string[], labels: string[]` | Fires when OK is tapped, with the values and texts of the selected options |
+| cancel | — | Fires when Cancel is tapped; the panel returns to `value` |
+| open | — | Fires when the panel opens |
+| close | — | Fires when the panel closes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Trigger element that opens the panel on tap |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-picker-selected/`
-- Demo: `#/pages/demo/form/picker-selected`
-- Chinese docs: [/uniappx/components/picker-selected](/uniappx/components/picker-selected)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `getLabels(): string[]` | Returns the texts of the options currently selected in the panel |
+| `open()` | Opens the panel; does nothing while disabled |
+| `close()` | Closes the panel |

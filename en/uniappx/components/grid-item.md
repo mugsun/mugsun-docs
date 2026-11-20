@@ -5,18 +5,11 @@ demo: pages/demo/nav/grid
 
 # Grid Item
 
-`ms-grid-item` is an item inside `ms-grid`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-grid-item`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/grid`.
+`ms-grid-item` is an item inside [`ms-grid`](./grid), made of an icon, a text label and an optional second line.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/grid.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Columns -->
@@ -74,25 +67,17 @@ The snippets below are taken from the demo source `pages/demo/nav/grid.uvue`. On
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | icon | `string` | `'apps-line'` | Icon name (icons.uts) |
-| text | `string` | `''` | Display text |
+| text | `string` | `''` | Text below the icon |
 | description | `string` | `''` | Secondary text under the icon |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-grid-item/`
-- Demo: `#/pages/demo/nav/grid`
-- Chinese docs: [/uniappx/components/grid-item](/uniappx/components/grid-item)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the item is tapped; not fired while disabled |

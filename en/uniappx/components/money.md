@@ -5,18 +5,11 @@ demo: pages/demo/display/money
 
 # Money
 
-`ms-money` displays amounts with configurable decimal places, thousands separators, currency symbols, Chinese uppercase numerals and semantic colors.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-money`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/money`.
+`ms-money` displays an amount with configurable decimal places, thousands separator and currency symbol, and can also show the amount in Chinese uppercase numerals. `tone` sets the color.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/money.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -37,14 +30,12 @@ const moneyValue = ref(1568.3984)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | Current value |
-| digit | `number` | `2` | Digit / decimal-related |
+| value | `number` | `0` | Amount |
+| digit | `number` | `2` | Decimal places; extra digits are truncated, not rounded |
 | thousand | `boolean` | `false` | Whether to use thousands separators |
 | thousandLen | `number` | `3` | Thousands grouping size |
 | thousandUnit | `string` | `','` | Thousands separator |
@@ -52,10 +43,4 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | symbolPosition | `'left' \| 'right'` | `'left'` | Symbol position: left / right |
 | showCn | `boolean` | `false` | Whether to show Chinese uppercase amount |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | Semantic color (income/expense, etc.) |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-money/`
-- Demo: `#/pages/demo/display/money`
-- Chinese docs: [/uniappx/components/money](/uniappx/components/money)
+| tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | Color: default / primary / success / danger |

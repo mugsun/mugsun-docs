@@ -5,18 +5,13 @@ demo: pages/demo/basic/badge
 
 # Badge
 
-`ms-badge` wraps the default slot and shows a dot, a number or text in the top-right corner. `label` takes precedence over `count` and `dot`; with `standalone` the badge is shown on its own. The component has no style props such as color or fontSize.
+`ms-badge` wraps the content in its default slot and shows a dot, a number or text in the top-right corner.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-badge`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/badge`.
+When more than one is set, `label` wins over `dot`, and `dot` over `count`. With `standalone`, the badge is shown on its own.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/badge.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Dot -->
@@ -56,8 +51,6 @@ The snippets below are taken from the demo source `pages/demo/basic/badge.uvue`.
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -77,10 +70,4 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-badge/`
-- Demo: `#/pages/demo/basic/badge`
-- Chinese docs: [/uniappx/components/badge](/uniappx/components/badge)
+| default | Content the badge is attached to |

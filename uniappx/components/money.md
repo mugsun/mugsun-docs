@@ -5,18 +5,11 @@ demo: pages/demo/display/money
 
 # Money 金额
 
-`ms-money` 用于显示金额，支持小数位数、千分位、货币符号、中文大写和语义色。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-money`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/money`。
+`ms-money` 用于显示金额，可以设置小数位数、千分位和货币符号，还可以显示中文大写金额。颜色用 `tone` 设置。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/money.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -37,14 +30,12 @@ const moneyValue = ref(1568.3984)
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `0` | 当前值 |
-| digit | `number` | `2` | 是否数字 / 小数位相关 |
+| value | `number` | `0` | 金额 |
+| digit | `number` | `2` | 小数位数，多出的位数直接截断，不四舍五入 |
 | thousand | `boolean` | `false` | 是否千分位分隔 |
 | thousandLen | `number` | `3` | 千分位分组长度 |
 | thousandUnit | `string` | `','` | 千分位分隔符 |
@@ -52,9 +43,4 @@ const moneyValue = ref(1568.3984)
 | symbolPosition | `'left' \| 'right'` | `'left'` | 符号位置：left / right |
 | showCn | `boolean` | `false` | 是否显示中文大写金额 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | 语义色：收入/支出等 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-money/`
-- 演示: `#/pages/demo/display/money`
+| tone | `'default' \| 'primary' \| 'success' \| 'danger'` | `'default'` | 颜色：default / primary / success / danger |

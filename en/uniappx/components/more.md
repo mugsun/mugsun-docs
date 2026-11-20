@@ -5,18 +5,13 @@ demo: pages/demo/nav/more
 
 # More
 
-`ms-more` collapses content that exceeds a set height; tap to expand or collapse it.
+`ms-more` collapses long content to a fixed height; tap the action area below it to expand or collapse.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-more`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/more`.
+The expanded state is controlled by `opened`. The component does not toggle it by itself, so update it in the `change` event.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/more.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -99,36 +94,28 @@ function onCustomChange(opened: boolean) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | Whether expanded |
-| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | Collapsed visible height tier: sm / md / lg |
-| expandText | `string` | `'展开更多'` | Expand label |
-| collapseText | `string` | `'收起'` | Collapse label |
+| opened | `boolean` | `false` | Whether the content is expanded |
+| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | Visible height when collapsed: sm / md / lg |
+| expandText | `string` | `'展开更多'` | Expand label; the default is Chinese for "Show more" |
+| collapseText | `string` | `'收起'` | Collapse label; the default is Chinese for "Collapse" |
 | disabled | `boolean` | `false` | Whether disabled |
 | showAction | `boolean` | `true` | Whether to show expand/collapse actions |
 | showIcon | `boolean` | `true` | Whether to show expand/collapse arrow |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `opened: boolean` | Fires when the action area is tapped; `opened` is the state after the toggle. Not fired while disabled |
+| click | `opened: boolean` | Fires when the action area is tapped; `opened` is the state before the tap. Also fired while disabled |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| action | `action` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-more/`
-- Demo: `#/pages/demo/nav/more`
-- Chinese docs: [/uniappx/components/more](/uniappx/components/more)
+| default | The content to collapse |
+| action | Custom action area; the scoped value `opened` tells whether it is expanded |

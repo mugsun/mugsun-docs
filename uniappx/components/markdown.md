@@ -7,17 +7,11 @@ demo: pages/demo/media/markdown
 
 `ms-markdown` 以原生方式渲染 Markdown 的常用语法，不依赖第三方库，也不使用 webview。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-markdown/components/ms-markdown`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-可选插件：需单独安装 `uni_modules/ms-markdown`，并依赖 `ms-ui`。
-演示路由：`#/pages/demo/media/markdown`。
+这是可选插件，需要单独安装 `uni_modules/ms-markdown`，并依赖 `ms-ui`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/markdown.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -60,26 +54,19 @@ function onImage(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `string` | `''` | 当前值 |
-| fontSize | `number` | `14` | 字号（px） |
-| showCodeLang | `boolean` | `true` | 是否显示代码语言标签 |
-| selectable | `boolean` | `false` | 是否可选中文本 |
+| value | `string` | `''` | Markdown 源文本 |
+| fontSize | `number` | `14` | 正文字号（px） |
+| showCodeLang | `boolean` | `true` | 代码块是否显示语言标签 |
+| selectable | `boolean` | `false` | 正文是否可以选中 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| link | 点击链接 |
-| image | 点击图片 |
-| parsed | 解析完成 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-markdown/components/ms-markdown/`
-- 演示: `#/pages/demo/media/markdown`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| link | `payload: UTSJSONObject` | 点击链接时触发，`payload` 含 `text` 和 `href`；组件不做跳转，需要自行处理 |
+| image | `payload: UTSJSONObject` | 点击图片时触发，`payload` 含 `alt` 和 `src` |
+| parsed | `payload: UTSJSONObject` | 内容解析完成后触发，`payload.blocks` 是解析出的块数 |

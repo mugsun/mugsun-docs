@@ -7,16 +7,9 @@ demo: pages/demo/basic/overlay
 
 `ms-overlay` 是全屏半透明遮罩，是各类弹出层的基础组件。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-overlay`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/overlay`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/overlay.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-overlay
@@ -76,33 +69,35 @@ function closeLock(): void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
-| closable | `boolean` | `true` | 是否可关闭 |
+| closable | `boolean` | `true` | 点击遮罩是否关闭 |
 | zIndex | `number` | `1000` | 层级 z-index |
-| dim | `'light' \| 'normal' \| 'heavy'` | `'normal'` | 遮罩浓度：浅 / 常规 / 深（语义档，非任意颜色字符串） |
+| dim | `'light' \| 'normal' \| 'heavy'` | `'normal'` | 遮罩深浅：light 浅 / normal 常规 / heavy 深 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-| close | 关闭 |
-| open | 打开 |
-| update:visible | v-model:visible 更新 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击遮罩时触发 |
+| close | — | 遮罩关闭时触发 |
+| open | — | 淡入动画结束后触发 |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
+| default | 遮罩上居中显示的内容 |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-overlay/`
-- 演示: `#/pages/demo/basic/overlay`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `open()` | 打开遮罩，需配合 `v-model:visible` |
+| `close()` | 关闭遮罩，需配合 `v-model:visible` |

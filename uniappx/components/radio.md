@@ -7,16 +7,11 @@ demo: pages/demo/form/radio
 
 `ms-radio` 是单选项，选框有填充、描边和圆点三种样式，可以放在文字左侧或右侧。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-radio`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/radio`。
+单独使用时用 `v-model` 绑定是否选中。放在 [`ms-radio-group`](./radio-group) 里时用 `value` 标识选项，选中状态由组管理。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/radio.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -45,37 +40,30 @@ const vUncheck = ref(true)
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | 绑定值（v-model） |
-| value | `string` | `''` | 在 radio-group 中的选项值 |
-| label | `string` | `''` | 标签文案 |
-| content | `string` | `''` | 次要说明文案 |
-| contentDisabled | `boolean` | `false` | 点内容区不切换；仅点图标切换 |
+| modelValue | `boolean` | `false` | 是否选中，单独使用时用 `v-model` 绑定 |
+| value | `string` | `''` | 在 `ms-radio-group` 中的选项值 |
+| label | `string` | `''` | 标签文字 |
+| content | `string` | `''` | 标签下方的说明文字 |
+| contentDisabled | `boolean` | `false` | 点击说明文字时是否不切换 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | 图标形状 |
-| placement | `'left' \| 'right'` | `'left'` | 图标相对文案位置 |
-| block | `boolean` | `false` | 是否通栏 |
-| allowUncheck | `boolean` | `false` | 再次点击已选项是否取消选中 |
+| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | 选框样式：circle / line / dot |
+| placement | `'left' \| 'right'` | `'left'` | 选框在文字的左侧还是右侧 |
+| block | `boolean` | `false` | 是否占满整行 |
+| allowUncheck | `boolean` | `false` | 再次点击已选中的项是否取消选中 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| change | 值变化 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: boolean` | 单独使用时选中状态变化触发，用于 `v-model` |
+| change | `value: boolean` | 单独使用时选中状态变化触发；在 `ms-radio-group` 里不触发，请监听组的 `change` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-radio/`
-- 演示: `#/pages/demo/form/radio`
+| default | 自定义内容，显示在标签和说明文字下方 |

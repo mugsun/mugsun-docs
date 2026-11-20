@@ -7,17 +7,11 @@ demo: pages/demo/media/camera
 
 `ms-camera` is a controlled wrapper around the official `<camera>`, with a fixed-height viewfinder and a capture and flip toolbar. On unsupported platforms it shows a placeholder.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-camera/components/ms-camera`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-camera` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/camera`.
+This is an optional plugin. Install `uni_modules/ms-camera` separately; it depends on `ms-ui`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/camera.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -74,30 +68,30 @@ function onPositionChange(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| devicePosition | `string` | `'back'` | Camera facing |
-| flash | `string` | `'auto'` | Flash mode |
-| resolution | `string` | `'medium'` | Resolution |
-| height | `number` | `220` | Height (px) |
+| devicePosition | `string` | `'back'` | Camera facing: back / front |
+| flash | `string` | `'auto'` | Flash mode: auto / on / off / torch |
+| resolution | `string` | `'medium'` | Resolution: low / medium / high |
+| height | `number` | `220` | Viewfinder height (px) |
 | showToolbar | `boolean` | `true` | Whether to show toolbar |
-| tip | `string` | `''` | Tip text |
+| tip | `string` | `''` | Hint text below the viewfinder |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| photo | `payload: UTSJSONObject` | Fires after a photo is taken; `payload.tempFilePath` is the temporary file path |
+| error | `payload: UTSJSONObject` | Fires when capture fails, permission is denied or the camera is unavailable; `payload.errMsg` holds the message |
+| stop | `payload: UTSJSONObject` | Fires when the system interrupts the camera, for example when the app goes to the background; `payload` is empty |
+| position-change | `payload: UTSJSONObject` | Fires when the flip button is tapped; `payload.devicePosition` is the requested facing, and you update the `devicePosition` prop yourself |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| photo | Photo taken |
-| error | Error |
-| stop | Stopped |
-| position-change | Facing changed |
-
-## See also
-
-- Component: `uni_modules/ms-camera/components/ms-camera/`
-- Demo: `#/pages/demo/media/camera`
-- Chinese docs: [/uniappx/components/camera](/uniappx/components/camera)
+| `takePhoto()` | Takes a photo; the result arrives through the `photo` or `error` event |

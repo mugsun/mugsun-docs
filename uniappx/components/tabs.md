@@ -7,16 +7,11 @@ demo: pages/demo/nav/tabs
 
 `ms-tabs` 是选项卡，有 line、tag 和 card 三种样式，标签可以均分宽度或横向滚动，支持徽标和内容区。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-tabs`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/tabs`。
+选中项的下标用 `v-model:value` 绑定。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/tabs.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-tabs
@@ -137,35 +132,28 @@ function onTagChange(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `0` | 选中项下标 |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled / content |
-| theme | `'line' \| 'tag' \| 'card'` | `'line'` | 主题色 |
+| value | `number` | `0` | 选中项的下标，可用 `v-model:value` |
+| items | `UTSJSONObject[]` | `[]` | 选项卡列表，每项含 `label`，可选 `icon` / `count` / `badge` / `dot` / `disabled` / `content` |
+| theme | `'line' \| 'tag' \| 'card'` | `'line'` | 样式：line 下划线 / tag 标签 / card 卡片 |
 | size | `'md' \| 'lg'` | `'md'` | 尺寸 |
-| spaceEvenly | `boolean` | `true` | 头部是否均分；false 时按内容撑开并可横向滚动 |
-| showLine | `boolean` | `true` | line 主题是否显示底部激活条 |
-| showContent | `boolean` | `false` | 是否渲染内容区（items[].content 或默认插槽） |
+| spaceEvenly | `boolean` | `true` | 标签是否均分宽度；`false` 时按内容宽度排列，可以横向滚动 |
+| showLine | `boolean` | `true` | `line` 样式下是否显示选中项的下划线 |
+| showContent | `boolean` | `false` | 是否显示内容区，内容来自当前项的 `content` 或默认插槽 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| change | 值变化 |
-| click | 点击 |
-| update:value | v-model:value 更新 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `index: number` | 选中项变化时触发，`index` 是新选中项的下标 |
+| click | `index: number` | 点击任意未禁用的标签时触发，包括当前项 |
+| update:value | `index: number` | 选中项变化时触发，用于 `v-model:value` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-tabs/`
-- 演示: `#/pages/demo/nav/tabs`
+| default | 内容区，`showContent` 为 `true` 时显示，默认是当前项的 `content` |

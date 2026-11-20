@@ -7,16 +7,9 @@ demo: pages/demo/form/color-picker
 
 `ms-color-picker` 是颜色选择器，提供预设色板、分段色相条，以及饱和度、明度和透明度滑块。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-color-picker`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/color-picker`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/color-picker.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -93,30 +86,33 @@ function onExposeChange(value: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `'#0579ff'` | 当前色值，hex / rgb / rgba 可入 |
+| modelValue | `string` | `'#0579ff'` | 当前颜色，可传 hex、rgb 或 rgba 格式 |
 | type | `string` | `'multiple'` | base 仅色板；multiple 色板 + 滑块 |
-| format | `string` | `'hex'` | 输出格式：hex / rgb / hsl |
-| enableAlpha | `boolean` | `false` | 是否开透明度滑块 |
-| swatchColors | `string[]` | `[]` | 预设色，空则用内置 |
+| format | `string` | `'hex'` | 输出格式：hex / rgb / hsl；带透明度时 hex 会改用 rgba 输出 |
+| enableAlpha | `boolean` | `false` | 是否显示透明度滑块 |
+| swatchColors | `string[]` | `[]` | 预设颜色，留空使用内置的 12 种 |
 | columns | `number` | `8` | 色板每行格数 |
 | showPreview | `boolean` | `true` | 是否显示预览块与色值 |
-| disabled | `boolean` | `false` | 禁用 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: string` | 颜色变化时触发，用于 `v-model` |
+| change | `value: string` | 颜色变化时触发，`value` 按 `format` 指定的格式输出 |
+| pick | `value: string` | 点击预设色板中的颜色时触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:modelValue | v-model 更新 |
-| change | 值变化 |
-| pick | 选中项变化（未确认） |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-color-picker/`
-- 演示: `#/pages/demo/form/color-picker`
+| `getHex(): string` | 返回当前颜色的 hex 值 |
+| `getRgba(): string` | 返回当前颜色的 `rgba()` 字符串 |
+| `getAlpha(): number` | 返回当前透明度，范围 0–1 |

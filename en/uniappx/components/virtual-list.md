@@ -5,18 +5,13 @@ demo: pages/demo/display/virtual-list
 
 # Virtual List
 
-`ms-virtual-list` is a fixed-row-height virtual list that renders only the visible window plus buffer rows before and after it. It can show a loading bar when scrolled to the bottom, and provides an empty-state slot and a scoped slot for the visible window.
+`ms-virtual-list` is a virtual list with a fixed row height. It renders only the visible window plus a few buffer rows, which suits very long lists.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-virtual-list`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/virtual-list`.
+It fires `scrolltolower` at the bottom; together with `loading` and `finished` this gives you paged loading.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/virtual-list.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -64,46 +59,48 @@ function onRangeChange(start: number, end: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | Entries |
-| itemHeight | `number` | `56` | Item height (px) |
-| visibleCount | `number` | `5` | Approximate visible item count |
-| buffer | `number` | `3` | Overscan item count outside the viewport |
-| virtual | `boolean` | `true` | Whether virtual list is enabled |
+| items | `UTSJSONObject[]` | `[]` | List data |
+| itemHeight | `number` | `56` | Height of each row (px) |
+| visibleCount | `number` | `5` | Rows shown in the visible window; the list height is this times `itemHeight` |
+| buffer | `number` | `3` | Extra rows rendered before and after the visible window |
+| virtual | `boolean` | `true` | Whether to render only the visible window; with `false` every row is rendered |
 | titleKey | `string` | `'title'` | Title field name |
 | descKey | `string` | `'desc'` | Description field name |
-| keyField | `string` | `'id'` | Primary key field name |
-| emptyText | `string` | `'暂无数据'` | Empty-state text |
-| loading | `boolean` | `false` | Loading more; when true shows footer and suppresses repeat scrolltolower |
-| finished | `boolean` | `false` | No more data; footer shows finishedText |
-| loadingText | `string` | `'加载中…'` | Loading text |
-| finishedText | `string` | `'没有更多了'` | “No more” text |
-| lowerThreshold | `number` | `50` | Distance from bottom (px) to fire scrolltolower |
-| showLoadMore | `boolean` | `false` | Whether to render the bottom status bar |
+| keyField | `string` | `'id'` | Field that uniquely identifies a row |
+| emptyText | `string` | `'暂无数据'` | Text shown when there is no data; the default is Chinese for "No data" |
+| loading | `boolean` | `false` | Whether it is loading; `scrolltolower` does not fire while `true` |
+| finished | `boolean` | `false` | Whether everything is loaded; `scrolltolower` does not fire while `true` |
+| loadingText | `string` | `'加载中…'` | Text shown while loading; the default is Chinese for "Loading…" |
+| finishedText | `string` | `'没有更多了'` | Text shown when everything is loaded; the default is Chinese for "No more items" |
+| lowerThreshold | `number` | `50` | Distance from the bottom (px) at which `scrolltolower` fires |
+| showLoadMore | `boolean` | `false` | Whether to show the loading footer: `loadingText` while `loading`, `finishedText` once `finished` |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| item-click | Item click |
-| range-change | range-change |
-| scrolltolower | Scrolled to lower |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| item-click | `key: string, index: number` | Fires when a row is tapped, with its key and index. Not fired once rows are customized through the default slot |
+| range-change | `start: number, end: number` | Fires when the rendered range changes, with the first and last row index |
+| scrolltolower | — | Fires when scrolled to the bottom; not fired while `loading` or `finished` is `true` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| bottom | `bottom` slot |
-| empty | `empty` slot |
+| default | Custom rows; the scoped values are `data` (the rows currently rendered), `startIndex` and `endIndex` |
+| bottom | Extra content at the end of the list |
+| empty | Custom content when there is no data; `emptyText` by default |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-virtual-list/`
-- Demo: `#/pages/demo/display/virtual-list`
-- Chinese docs: [/uniappx/components/virtual-list](/uniappx/components/virtual-list)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `scrollToIndex(index: number)` | Scrolls to the row at the given index |
+| `resetScroll()` | Scrolls back to the top |
+| `getRange(): UTSJSONObject` | Returns the current rendered range as `start` and `end` |

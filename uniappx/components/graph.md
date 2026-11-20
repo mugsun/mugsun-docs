@@ -5,19 +5,13 @@ demo: pages/demo/media/graph
 
 # Graph 关系图
 
-`ms-graph` 基于原生 canvas 绘制关系图，支持树形、力导向和分层 DAG 布局。布局方式参考 F6 的常用布局，但不通过 npm 引入 `@antv/f6`。
+`ms-graph` 用原生 canvas 画关系图，提供树形、力导向和分层三种布局，不依赖第三方图形库。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-graph/components/ms-graph`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-可选插件：需单独安装 `uni_modules/ms-graph`，并依赖 `ms-ui`。
-演示路由：`#/pages/demo/media/graph`。
+这是可选插件，需要单独安装 `uni_modules/ms-graph`，并依赖 `ms-ui`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/graph.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -143,26 +137,28 @@ function onReady(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| layout | `string` | `'tree'` | 布局 |
-| nodes | `UTSJSONObject[]` | `[]` | 节点列表 |
-| edges | `UTSJSONObject[]` | `[]` | 边列表 |
-| height | `number` | `320` | 高度（px） |
-| fitView | `boolean` | `true` | 是否适配视口 |
+| layout | `string` | `'tree'` | 布局：tree 树形 / force 力导向 / dagre 分层 |
+| nodes | `UTSJSONObject[]` | `[]` | 节点列表，每项含 `id` 和 `label` |
+| edges | `UTSJSONObject[]` | `[]` | 连线列表，每项含 `source` 和 `target`，值为节点的 `id` |
+| height | `number` | `320` | 画布高度（px） |
+| fitView | `boolean` | `true` | 布局完成后是否自动缩放到能看到全部节点 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| node-click | `payload: UTSJSONObject` | 点击节点时触发，`payload` 含 `index`、`id` 和 `label` |
+| ready | `payload: UTSJSONObject` | 每次绘制完成后触发，`payload` 含节点数 `nodes` 和连线数 `edges` |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| node-click | 点击节点 |
-| ready | 就绪 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-graph/components/ms-graph/`
-- 演示: `#/pages/demo/media/graph`
+| `redraw()` | 重新绘制 |
+| `fit()` | 重新布局并复位平移和缩放 |

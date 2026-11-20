@@ -5,18 +5,13 @@ demo: pages/demo/display/skeleton
 
 # Skeleton
 
-`ms-skeleton` is a loading skeleton with `theme` presets and an optional `flashed` opacity pulse. When `loading=false`, the default slot content is shown.
+`ms-skeleton` is a loading skeleton. It shows placeholder shapes while loading, and the default slot content when `loading` is `false`.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-skeleton`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/skeleton`.
+Pick the placeholder shape with `theme`; a flashing effect is optional.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/skeleton.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Skeleton types -->
@@ -36,26 +31,18 @@ The snippets below are taken from the demo source `pages/demo/display/skeleton.u
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | loading | `boolean` | `true` | Whether loading |
-| delay | `number` | `0` | Delay (ms) |
-| theme | `'avatar' \| 'image' \| 'text' \| 'paragraph' \| 'card'` | `'text'` | Theme color |
+| delay | `number` | `0` | Delay before the skeleton appears (ms), to avoid a flash when loading is quick |
+| theme | `'avatar' \| 'image' \| 'text' \| 'paragraph' \| 'card'` | `'text'` | Placeholder shape: avatar / image / text / paragraph / card |
 | animation | `'none' \| 'flashed'` | `'none'` | Animation: none / flashed |
-| row | `number` | `0` | Paragraph/text line count (2–6) |
+| row | `number` | `0` | Number of lines for text and paragraph shapes; `0` uses the default |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-skeleton/`
-- Demo: `#/pages/demo/display/skeleton`
-- Chinese docs: [/uniappx/components/skeleton](/uniappx/components/skeleton)
+| default | Content shown once loading is done |

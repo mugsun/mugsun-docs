@@ -7,16 +7,9 @@ demo: pages/demo/feedback/animation
 
 `ms-animation` is an imperative animation container that plays a preset animation once by name. For enter and leave transitions, use `ms-transition` (controlled by `visible`).
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-animation`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/animation`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/animation.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -68,13 +61,11 @@ const playing = ref(false)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| name | `\| 'fade-in'` | `'fade-in'` | Name / field name |
+| name | `'fade-in' \| 'fade-out' \| 'zoom-in' \| 'zoom-out' \| 'left-in' \| 'left-out' \| 'right-in' \| 'right-out' \| 'up-in' \| 'up-out' \| 'down-in' \| 'down-out'` | `'fade-in'` | Animation preset name |
 | duration | `number` | `300` | Duration (ms) |
 | delay | `number` | `0` | Delay (ms) |
 | autoPlay | `boolean` | `false` | Whether to autoplay |
@@ -82,20 +73,14 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| before-play | before-play |
-| complete | complete |
-| update:playing | update:playing |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| before-play | — | Fires right before each playback starts |
+| complete | — | Fires when the animation finishes |
+| update:playing | `value: boolean` | Fires with `false` when playback ends; used by `v-model:playing` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-animation/`
-- Demo: `#/pages/demo/feedback/animation`
-- Chinese docs: [/uniappx/components/animation](/uniappx/components/animation)
+| default | Content to animate |

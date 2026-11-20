@@ -5,18 +5,11 @@ demo: pages/demo/basic/cell
 
 # Cell Group
 
-`ms-cell-group` is a container for cells. Set `theme` (default or card) and `title`, and place ms-cell items in the default slot.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-cell-group`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/cell`.
+`ms-cell-group` groups several [`ms-cell`](./cell) items, with an optional group title and a choice between full-width and card styles.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-cell-group theme="card">
@@ -34,23 +27,15 @@ The snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. 
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'card'` | `'default'` | Theme color |
-| title | `string` | `''` | Title |
+| theme | `'default' \| 'card'` | `'default'` | Style: `default` is full-width, `card` is a card |
+| title | `string` | `''` | Group title |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-cell-group/`
-- Demo: `#/pages/demo/basic/cell`
-- Chinese docs: [/uniappx/components/cell-group](/uniappx/components/cell-group)
+| default | Place `ms-cell` items here |

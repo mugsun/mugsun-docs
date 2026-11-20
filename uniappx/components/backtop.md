@@ -7,16 +7,9 @@ demo: pages/demo/nav/backtop
 
 `ms-backtop` 是返回顶部按钮，仅在 `scrollTop` 大于或等于 `visibilityHeight` 时显示。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-backtop`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/backtop`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/backtop.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 主题样式 -->
@@ -67,34 +60,27 @@ function onLocalToTop() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | scrollTop | `number` | `0` | 页面滚动距离（px） |
 | visibilityHeight | `number` | `200` | 滚动超过该距离才显示（px） |
-| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | 主题色 |
-| text | `string` | `''` | 展示文案 |
+| theme | `'round' \| 'half-round' \| 'round-dark' \| 'half-round-dark'` | `'round'` | 按钮样式 |
+| text | `string` | `''` | 按钮文字，可选 |
 | icon | `string` | `'skip-up-fill'` | 图标名（icons.uts） |
 | fixed | `boolean` | `true` | 是否固定定位 |
-| local | `boolean` | `false` | 是否相对父级定位（非 fixed） |
+| local | `boolean` | `false` | 相对父级定位；开启后点击只触发事件，需要自行滚动容器 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| to-top | to-top |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| to-top | — | 点击按钮时触发；未开启 `local` 时页面同时滚回顶部 |
+| click | — | 点击按钮时触发，紧跟在 `to-top` 之后 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-backtop/`
-- 演示: `#/pages/demo/nav/backtop`
+| default | 自定义按钮内容，默认显示图标 |

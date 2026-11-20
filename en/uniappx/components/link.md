@@ -5,18 +5,13 @@ demo: pages/demo/basic/link
 
 # Link
 
-`ms-link` is a text link with theme colors, underline, prefix and suffix icons, sizes and a disabled state. Set the text with `content` or the default slot, and optionally navigate within the app with `href` and `openType`.
+`ms-link` is a text link. Set the text with `content` or the default slot; an underline and prefix and suffix icons are optional.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-link`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/link`.
+With `href` set, a tap navigates to a page in the app using `openType`. `http(s)` URLs are not opened; handle them in the `click` event.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/link.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Themes -->
@@ -37,8 +32,6 @@ The snippets below are taken from the demo source `pages/demo/basic/link.uvue`. 
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -47,26 +40,20 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 | underline | `boolean` | `false` | Whether to show underline |
 | disabled | `boolean` | `false` | Whether disabled |
-| href | `string` | `''` | Link URL |
+| href | `string` | `''` | Path of a page in the app to navigate to on tap; `http(s)` URLs are not opened |
 | openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | Navigation mode: navigate / redirect / switchTab / reLaunch |
-| icon | `string` | `''` | Icon name (icons.uts) |
+| icon | `string` | `''` | Prefix icon name |
 | suffixIcon | `string` | `''` | Suffix icon name |
-| content | `string` | `''` | Text used when default slot is empty |
+| content | `string` | `''` | Link text, used when the default slot is empty |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires on tap, not while disabled; with `href` set it fires before navigating |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-link/`
-- Demo: `#/pages/demo/basic/link`
-- Chinese docs: [/uniappx/components/link](/uniappx/components/link)
+| default | Link text; `content` by default |

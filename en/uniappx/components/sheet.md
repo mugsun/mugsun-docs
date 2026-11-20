@@ -5,18 +5,13 @@ demo: pages/demo/basic/sheet
 
 # Sheet
 
-`ms-sheet` is a card or container surface. It supports `variant`, `radius`, `padding`, `margin`, `bordered`, `shadow`, `loading`, `url` and `pressable` (equivalent to isLink in x-sheet).
+`ms-sheet` is a card-like container with configurable background, corner radius, padding and margin, plus an optional border and shadow.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-sheet`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/sheet`.
+With `url` set, a tap navigates to that page; without it, a tap fires the `click` event.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/sheet.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-sheet radius="lg" padding="none">
@@ -44,36 +39,28 @@ The snippets below are taken from the demo source `pages/demo/basic/sheet.uvue`.
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | Style variant |
-| radius | `'md' \| 'lg'` | `'lg'` | Border radius (px) |
-| padding | `'none' \| 'md' \| 'lg'` | `'md'` | Padding (px) |
-| margin | `'none' \| 'page'` | `'none'` | Outer margin: none / page |
+| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | Background: default / muted / primary |
+| radius | `'md' \| 'lg'` | `'lg'` | Corner radius: md / lg |
+| padding | `'none' \| 'md' \| 'lg'` | `'md'` | Padding: none / md / lg |
+| margin | `'none' \| 'page'` | `'none'` | Margin: none / page (page margin) |
 | bordered | `boolean` | `false` | Whether to show border |
-| shadow | `boolean` | `false` | Whether shadowed |
-| loading | `boolean` | `false` | Whether loading |
-| url | `string` | `''` | Navigation URL |
-| pressable | `boolean` | `false` | Press feedback; treated as clickable when url is set |
+| shadow | `boolean` | `false` | Whether to show a shadow |
+| loading | `boolean` | `false` | Whether to show the loading state; taps are ignored while loading |
+| url | `string` | `''` | Page path to navigate to on tap |
+| pressable | `boolean` | `false` | Whether it has a pressed effect; always on when `url` is set |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires on tap; not fired when `url` is set or while loading |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-sheet/`
-- Demo: `#/pages/demo/basic/sheet`
-- Chinese docs: [/uniappx/components/sheet](/uniappx/components/sheet)
+| default | Container content |

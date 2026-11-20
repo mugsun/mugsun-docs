@@ -5,18 +5,11 @@ demo: pages/demo/form/search
 
 # Search
 
-`ms-search` is a search bar. It supports shape, action and leftIcon, and exposes focus, blur and clear.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-search`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/search`.
+`ms-search` is a search bar bound with `v-model`. It comes in square and round shapes, with an optional action button on the right.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/search.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -68,8 +61,6 @@ function onSearchAction() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -77,36 +68,40 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | modelValue | `string` | `''` | Bound value (v-model) |
 | placeholder | `string` | `''` | Placeholder |
 | shape | `'square' \| 'round'` | `'square'` | Shape: square / round |
-| action | `string` | `''` | Right action label; empty hides it |
-| center | `boolean` | `false` | Whether content is centered when unfocused |
-| clearable | `boolean` | `true` | Whether clearable |
+| action | `string` | `''` | Action label on the right; hidden when empty |
+| center | `boolean` | `false` | Whether the content is centered while not focused |
+| clearable | `boolean` | `true` | Whether to show the clear button |
 | disabled | `boolean` | `false` | Whether disabled |
 | readonly | `boolean` | `false` | Whether read-only |
-| maxlength | `number` | `-1` | Max input length; -1 = unlimited |
+| maxlength | `number` | `-1` | Maximum input length; `-1` for no limit |
 | leftIcon | `string` | `'search'` | Left icon name |
 | confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | Keyboard confirm-key type |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| input | Input |
-| focus | Focus |
-| blur | Blur |
-| clear | Clear |
-| confirm | Confirm |
-| action | Action button |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the content changes; used by `v-model` |
+| input | `value: string` | Fires on input; `value` is the current content |
+| focus | `e: UniInputFocusEvent` | Fires when the input gains focus |
+| blur | `e: UniInputBlurEvent` | Fires when the input loses focus |
+| clear | — | Fires when the content is cleared |
+| confirm | `value: string` | Fires when the keyboard's search key is tapped; `value` is the current content |
+| action | `value: string` | Fires when the action label is tapped; `value` is the current content |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| action | `action` slot |
-| left | `left` slot |
+| left | Custom icon on the left |
+| action | Custom action area on the right |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-search/`
-- Demo: `#/pages/demo/form/search`
-- Chinese docs: [/uniappx/components/search](/uniappx/components/search)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `focus()` | Focuses the input |
+| `blur()` | Blurs the input |
+| `clear()` | Clears the content |

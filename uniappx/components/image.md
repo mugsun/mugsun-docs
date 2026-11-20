@@ -7,16 +7,9 @@ demo: pages/demo/basic/image
 
 `ms-image` 封装原生 `<image>`，在加载中和加载失败时显示占位内容。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-image`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/image`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/image.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 裁切 -->
@@ -42,36 +35,29 @@ const demoSrc = '/static/demo-crop.png'
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | 资源地址 |
-| mode | `string` | `'aspectFill'` | 模式 |
+| src | `string` | `''` | 图片地址 |
+| mode | `string` | `'aspectFill'` | 缩放和裁剪模式，同原生 `image` 的 `mode` |
 | shape | `'square' \| 'round' \| 'circle'` | `'square'` | 外形 |
-| width | `string` | `'72px'` | 宽度（px） |
-| height | `string` | `'72px'` | 高度（px） |
+| width | `string` | `'72px'` | 宽度，带单位的字符串 |
+| height | `string` | `'72px'` | 高度，带单位的字符串 |
 | lazy | `boolean` | `false` | 是否懒加载 |
-| showMenuByLongpress | `boolean` | `false` | 长按识别小程序码菜单（微信有效，见 image.md） |
+| showMenuByLongpress | `boolean` | `false` | 长按图片是否弹出识别小程序码的菜单，仅微信小程序有效 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| load | 加载完成 |
-| error | 错误 |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| load | `e: UniImageLoadEvent` | 图片加载成功时触发 |
+| error | `e: UniImageErrorEvent` | 图片加载失败时触发 |
+| click | — | 点击图片时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| error | `error` 插槽 |
-| loading | `loading` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-image/`
-- 演示: `#/pages/demo/basic/image`
+| loading | 自定义加载中的占位内容 |
+| error | 自定义加载失败的占位内容 |

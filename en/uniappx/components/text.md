@@ -5,18 +5,11 @@ demo: pages/demo/basic/text
 
 # Text
 
-`ms-text` is semantic text. It supports `variant`, `size`, `bold`, `align`, `lines` and `selectable`, with a line height of 1.7 (matching x-text). Highlighting and regex matching are planned for a later release.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-text`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/text`.
+`ms-text` is a text component. `variant` picks a semantic color; size, weight and alignment are configurable, and long text can be truncated by line count.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/text.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Body and semantic colors -->
@@ -49,33 +42,25 @@ function onTextClick() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Style variant |
+| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Semantic color |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 | bold | `boolean` | `false` | Whether bold |
-| lines | `number` | `0` | Row count |
-| selectable | `boolean` | `false` | Whether text is selectable |
+| lines | `number` | `0` | Maximum number of lines before truncation; `0` for no limit |
+| selectable | `boolean` | `false` | Whether the text can be selected |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | Alignment |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the text is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-text/`
-- Demo: `#/pages/demo/basic/text`
-- Chinese docs: [/uniappx/components/text](/uniappx/components/text)
+| default | Text content |

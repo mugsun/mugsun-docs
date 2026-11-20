@@ -5,18 +5,13 @@ demo: pages/demo/display/tree
 
 # Tree 树
 
-`ms-tree` 是树形列表，把可见节点展开为扁平的行进行渲染（不递归使用组件），支持展开和折叠、多选勾选、父子节点联动的半选状态，以及禁用父节点的勾选框。
+`ms-tree` 是树形列表，可以展开和折叠节点，也可以用勾选框多选，父子节点的勾选可以联动。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-tree`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/tree`。
+勾选和展开的节点分别用 `v-model:value` 和 `v-model:folderIds` 绑定，组件自己不保存这两个状态。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/tree.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 基础树 -->
@@ -104,33 +99,26 @@ function onStateFolders(ids: string[]): void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | 数据列表 |
-| value | `string[]` | `[]` | 当前值 |
-| folderIds | `string[]` | `[]` | 文件夹 id 列表 |
-| checkable | `boolean` | `true` | 是否可选中 |
-| parentLink | `boolean` | `false` | 选父是否联动子；选子是否回写父 |
-| disabledParent | `boolean` | `false` | 是否禁用父级联动 |
-| disabled | `boolean` | `false` | 是否禁用 |
-| idKey | `string` | `'id'` | id 字段名 |
-| labelKey | `string` | `'text'` | 标签字段名 |
+| list | `UTSJSONObject[]` | `[]` | 节点数据，每项默认含 `id` 和 `text`，可选 `children` 和 `disabled` |
+| value | `string[]` | `[]` | 勾选节点的 id 列表，可用 `v-model:value` |
+| folderIds | `string[]` | `[]` | 展开节点的 id 列表，可用 `v-model:folderIds`；列出深层节点时会同时展开它的各级父节点 |
+| checkable | `boolean` | `true` | 是否显示勾选框 |
+| parentLink | `boolean` | `false` | 父子节点是否联动：勾选父节点会勾选或取消全部子孙节点，父节点的状态随子节点变化 |
+| disabledParent | `boolean` | `false` | 有子节点的节点是否不能勾选，仍然可以展开 |
+| disabled | `boolean` | `false` | 是否禁用全部勾选框 |
+| idKey | `string` | `'id'` | 节点 id 的字段名 |
+| labelKey | `string` | `'text'` | 节点文字的字段名 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:value | v-model:value 更新 |
-| update:folderIds | update:folderIds |
-| change | 值变化 |
-| expand-change | expand-change |
-| node-click | 点击节点 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-tree/`
-- 演示: `#/pages/demo/display/tree`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:value | `ids: string[]` | 勾选变化时触发，用于 `v-model:value` |
+| update:folderIds | `ids: string[]` | 展开或折叠节点时触发，用于 `v-model:folderIds` |
+| change | `ids: string[]` | 勾选变化时触发，`ids` 是全部勾选节点的 id |
+| expand-change | `ids: string[]` | 展开或折叠节点时触发，`ids` 是全部展开节点的 id |
+| node-click | `id: string` | 点击节点文字时触发，`id` 是该节点的 id |

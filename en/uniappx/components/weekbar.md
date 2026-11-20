@@ -7,16 +7,11 @@ demo: pages/demo/form/weekbar
 
 `ms-weekbar` is a week selector that shows seven days in a row and switches weeks with the left and right buttons.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-weekbar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/weekbar`.
+Bind the selected date with `v-model`, in `YYYY-MM-DD` format.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/weekbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -108,33 +103,34 @@ function onJumpChange(value: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | Selected date YYYY-MM-DD |
-| startDate | `string` | `''` | Selectable range start (inclusive) |
-| endDate | `string` | `''` | Selectable range end (inclusive) |
-| mode | `string` | `'rect'` | Selected style: rect / circular / none |
-| firstDay | `number` | `0` | Week start: 0 = Monday … 6 = Sunday |
-| showAction | `boolean` | `true` | Whether to show prev/next week buttons |
-| markedDates | `string[]` | `[]` | Marked dates |
-| disabledDates | `string[]` | `[]` | Disabled dates (visible but not tappable) |
-| autoSelectToday | `boolean` | `true` | When empty, whether to select today by default |
-| disabled | `boolean` | `false` | Disable the whole group |
+| modelValue | `string` | `''` | Selected date in `YYYY-MM-DD` format |
+| startDate | `string` | `''` | First selectable date, inclusive |
+| endDate | `string` | `''` | Last selectable date, inclusive |
+| mode | `string` | `'rect'` | Selected style: rect (rounded block) / circular / none (color only) |
+| firstDay | `number` | `0` | First day of the week; `0` is Monday and `6` is Sunday |
+| showAction | `boolean` | `true` | Whether to show the previous and next buttons |
+| markedDates | `string[]` | `[]` | Dates marked with a dot below |
+| disabledDates | `string[]` | `[]` | Disabled dates; still shown but not tappable |
+| autoSelectToday | `boolean` | `true` | Whether today is selected by default when `modelValue` is empty |
+| disabled | `boolean` | `false` | Whether it is disabled |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the selected date changes; used by `v-model` |
+| change | `value: string` | Fires when the selected date changes; `value` is the date in `YYYY-MM-DD` format |
+| weekchange | `dates: string[]` | Fires when the week is switched with the buttons; `dates` holds the seven dates of the new week |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-| weekchange | weekchange |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-weekbar/`
-- Demo: `#/pages/demo/form/weekbar`
-- Chinese docs: [/uniappx/components/weekbar](/uniappx/components/weekbar)
+| `getWeek(): string[]` | Returns the seven dates currently shown |
+| `toToday()` | Goes back to the current week and selects today; `change` fires as well |

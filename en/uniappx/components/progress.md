@@ -5,18 +5,11 @@ demo: pages/demo/display/progress
 
 # Progress
 
-`ms-progress` is a progress indicator in line, inner-label and circle styles, set through `percentage`, `status` and an optional `label`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-progress`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/progress`.
+`ms-progress` is a progress indicator in three styles: a line, a bar with the label inside, and a circle. At 100% it switches to the success state automatically.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/progress.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -39,21 +32,13 @@ The snippets below are taken from the demo source `pages/demo/display/progress.u
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| percentage | `number` | `0` | Progress percent 0–100 |
-| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | Style variant |
-| status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | Status |
-| strokeWidth | `number` | `6` | Track thickness (px) |
-| label | `boolean \| string` | `true` | Label text |
-| size | `'xs' \| 'md'` | `'md'` | Size |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-progress/`
-- Demo: `#/pages/demo/display/progress`
-- Chinese docs: [/uniappx/components/progress](/uniappx/components/progress)
+| percentage | `number` | `0` | Progress percentage, from 0 to 100 |
+| variant | `'line' \| 'plump' \| 'circle'` | `'line'` | Style: line / plump (label inside the bar) / circle |
+| status | `'default' \| 'success' \| 'warning' \| 'error' \| 'active'` | `'default'` | Status: default / success / warning / error / active |
+| strokeWidth | `number` | `6` | Bar thickness (px) |
+| label | `boolean \| string` | `true` | `true` shows the percentage, `false` hides it, and a string is shown as the label |
+| size | `'xs' \| 'md'` | `'md'` | Size of the circle style, `xs` being small; no effect on the other styles |

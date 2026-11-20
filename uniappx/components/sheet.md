@@ -5,18 +5,13 @@ demo: pages/demo/basic/sheet
 
 # Sheet 容器
 
-`ms-sheet` 是卡片或容器面板，支持 `variant`、`radius`、`padding`、`margin`、`bordered`、`shadow`、`loading`、`url` 和 `pressable`（对应 x-sheet 的 isLink）。
+`ms-sheet` 是卡片式的容器，可以设置底色、圆角、内外边距，以及边框和投影。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-sheet`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/sheet`。
+设置 `url` 后点击会跳转到该页面；没有 `url` 时点击触发 `click` 事件。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/sheet.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-sheet radius="lg" padding="none">
@@ -44,35 +39,28 @@ demo: pages/demo/basic/sheet
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | 样式变体 |
-| radius | `'md' \| 'lg'` | `'lg'` | 圆角（px） |
-| padding | `'none' \| 'md' \| 'lg'` | `'md'` | 内边距（px） |
-| margin | `'none' \| 'page'` | `'none'` | 外边距：none / page |
+| variant | `'default' \| 'muted' \| 'primary'` | `'default'` | 底色：default / muted / primary |
+| radius | `'md' \| 'lg'` | `'lg'` | 圆角大小：md / lg |
+| padding | `'none' \| 'md' \| 'lg'` | `'md'` | 内边距：none / md / lg |
+| margin | `'none' \| 'page'` | `'none'` | 外边距：none 无 / page 页面边距 |
 | bordered | `boolean` | `false` | 是否显示边框 |
-| shadow | `boolean` | `false` | 是否投影 |
-| loading | `boolean` | `false` | 是否加载中 |
-| url | `string` | `''` | 跳转地址 |
-| pressable | `boolean` | `false` | 可点按压反馈；有 url 时默认视为可点 |
+| shadow | `boolean` | `false` | 是否显示投影 |
+| loading | `boolean` | `false` | 是否显示加载中，加载时点击无效 |
+| url | `string` | `''` | 点击后跳转的页面路径 |
+| pressable | `boolean` | `false` | 是否带按压效果；设置了 `url` 时自动带有 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击时触发；设置了 `url` 或正在加载时不触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-sheet/`
-- 演示: `#/pages/demo/basic/sheet`
+| default | 容器内容 |

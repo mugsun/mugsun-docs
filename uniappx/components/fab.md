@@ -5,18 +5,11 @@ demo: pages/demo/feedback/fab
 
 # Fab 悬浮球
 
-`ms-fab` 是悬浮按钮，可选择预设位置，支持展开（expandable），展开状态可用 `v-model:expanded` 绑定。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-fab`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/fab`。
+`ms-fab` 是悬浮按钮，固定在页面的某个角落或底部中间。开启 `expandable` 后点击可以展开一组子操作。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/fab.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 基础用法 -->
@@ -66,8 +59,6 @@ function onMenuTap(label: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -75,27 +66,22 @@ function onMenuTap(label: string) : void {
 | icon | `string` | `'add-line'` | 图标名（icons.uts） |
 | text | `string` | `''` | 主按钮旁文案；空则仅图标 |
 | position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | 位置 |
-| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | 是否内嵌样式 |
+| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | 与屏幕边缘的间距 |
 | expandable | `boolean` | `false` | 是否可展开子操作 |
-| expanded | `boolean` | `false` | 展开态（受控，配 update:expanded） |
-| local | `boolean` | `false` | 相对父级定位；false 为 fixed 贴边 |
+| expanded | `boolean` | `false` | 是否展开，可用 `v-model:expanded` |
+| local | `boolean` | `false` | 是否相对父级定位，默认固定在屏幕上 |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-| expand-change | expand-change |
-| update:expanded | update:expanded |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击按钮时触发，禁用时不触发 |
+| expand-change | `expanded: boolean` | 展开或收起时触发 |
+| update:expanded | `value: boolean` | 展开或收起时触发，用于 `v-model:expanded` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-fab/`
-- 演示: `#/pages/demo/feedback/fab`
+| default | 展开后显示的子操作 |

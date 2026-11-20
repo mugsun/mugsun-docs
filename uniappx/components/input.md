@@ -5,18 +5,13 @@ demo: pages/demo/form/input
 
 # Input 输入
 
-`ms-input` 是单行输入框，使用 `v-model` 绑定，支持 `label`、`placeholder`、`prefixIcon`、`clearable`、`type="password"`、`status`、`tips`、`align` 和 `disabled`。
+`ms-input` 是单行输入框，用 `v-model` 绑定文本，可以带标签、前后缀图标和清空按钮。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-input`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/input`。
+`status` 显示校验状态，`tips` 是输入框下方的提示文字，`type="password"` 用于输入密码。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/input.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 基础 -->
@@ -49,8 +44,6 @@ const searchValue = ref('')
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -58,40 +51,35 @@ const searchValue = ref('')
 | modelValue | `string` | `''` | 绑定值（v-model） |
 | label | `string` | `''` | 标签文案 |
 | placeholder | `string` | `''` | 占位文案 |
-| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | 输入类型：text / number / idcard / digit / password 等 |
+| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | 输入类型：text 文本 / number 整数 / digit 带小数点的数字 / password 密码 |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | 输入区对齐：left / center / right |
 | status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态：default / success / warning / error |
-| tips | `string` | `''` | 底部提示文案 |
+| tips | `string` | `''` | 输入框下方的提示文字 |
 | prefixIcon | `string` | `''` | 前缀图标名 |
 | suffixIcon | `string` | `''` | 后缀图标名 |
-| clearable | `boolean` | `false` | 是否可清空 |
+| clearable | `boolean` | `false` | 是否显示清空按钮 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | readonly | `boolean` | `false` | 是否只读 |
-| maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
-| showCount | `boolean` | `false` | 显示字数统计（需 maxlength ≥ 0） |
+| maxlength | `number` | `-1` | 最大输入长度，`-1` 表示不限制 |
+| showCount | `boolean` | `false` | 是否显示字数统计，需要同时设置 `maxlength` |
 | bordered | `boolean` | `true` | 是否显示底边框 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| input | 输入 |
-| focus | 聚焦 |
-| blur | 失焦 |
-| clear | 清空 |
-| confirm | 确认 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: string` | 输入内容变化时触发，用于 `v-model` |
+| input | `value: string` | 输入时触发，`value` 是当前内容 |
+| focus | `e: UniInputFocusEvent` | 获得焦点时触发 |
+| blur | `e: UniInputBlurEvent` | 失去焦点时触发 |
+| clear | — | 点击清空按钮时触发 |
+| confirm | `value: string` | 点击键盘的完成键时触发，`value` 是当前内容 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| label | `label` 插槽 |
-| prefix | `prefix` 插槽 |
-| suffix | `suffix` 插槽 |
-| tips | `tips` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-input/`
-- 演示: `#/pages/demo/form/input`
+| label | 自定义标签 |
+| prefix | 自定义输入框前面的内容，默认显示前缀图标 |
+| suffix | 自定义输入框后面的内容，默认显示后缀图标 |
+| tips | 自定义底部提示区，默认显示 `tips` 和字数统计 |

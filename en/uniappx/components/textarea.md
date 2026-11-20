@@ -5,18 +5,11 @@ demo: pages/demo/form/textarea
 
 # Textarea
 
-`ms-textarea` is a multi-line input with a label, autosize, a character count, status and confirm-button type.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-textarea`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/textarea`.
+`ms-textarea` is a multi-line input bound with `v-model`. It can show a label and a character count, and its height can grow with the content.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/textarea.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -67,8 +60,6 @@ const plainValue = ref('')
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -77,38 +68,32 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | label | `string` | `''` | Label text |
 | placeholder | `string` | `''` | Placeholder |
 | status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status: default / success / warning / error |
-| tips | `string` | `''` | Tip text |
+| tips | `string` | `''` | Hint text below the field |
 | disabled | `boolean` | `false` | Whether disabled |
 | readonly | `boolean` | `false` | Whether read-only |
-| maxlength | `number` | `-1` | Max input length; -1 = unlimited |
+| maxlength | `number` | `-1` | Maximum input length; `-1` for no limit |
 | indicator | `boolean` | `false` | Whether to show character count |
-| autoHeight | `boolean` | `false` | Whether height grows with content |
-| maxHeight | `number` | `0` | Max height (px) when autoHeight; 0 = no limit |
-| height | `'sm' \| 'md' \| 'lg'` | `'md'` | Fixed height (px); minimum when autoHeight |
+| autoHeight | `boolean` | `false` | Whether the height grows with the content |
+| maxHeight | `number` | `0` | Maximum height with `autoHeight` (px); `0` for no limit |
+| height | `'sm' \| 'md' \| 'lg'` | `'md'` | Height: sm / md / lg; the minimum height with `autoHeight` |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | Text alignment |
 | bordered | `boolean` | `true` | Whether to show border |
 | confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | Keyboard confirm-key type |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| input | Input |
-| focus | Focus |
-| blur | Blur |
-| confirm | Confirm |
-| linechange | linechange |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the content changes; used by `v-model` |
+| input | `value: string` | Fires on input; `value` is the current content |
+| focus | `e: UniTextareaFocusEvent` | Fires when the field gains focus |
+| blur | `e: UniTextareaBlurEvent` | Fires when the field loses focus |
+| confirm | `value: string` | Fires when the keyboard's confirm key is tapped; `value` is the current content |
+| linechange | `e: UniTextareaLineChangeEvent` | Fires when the number of lines changes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| label | `label` slot |
-| tips | `tips` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-textarea/`
-- Demo: `#/pages/demo/form/textarea`
-- Chinese docs: [/uniappx/components/textarea](/uniappx/components/textarea)
+| label | Custom label |
+| tips | Custom hint; `tips` by default |

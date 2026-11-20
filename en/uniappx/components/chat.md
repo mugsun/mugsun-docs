@@ -5,18 +5,13 @@ demo: pages/demo/media/chat
 
 # Chat
 
-`ms-chat` is a chat message list with role-based bubbles, Markdown content, collapsible reasoning, an assistant action bar and a streaming state. It can optionally use a fixed height and scroll to the bottom automatically.
+`ms-chat` is a chat message list with role-based bubbles. Assistant messages support Markdown, collapsible reasoning and an action bar.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-chat`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/media/chat`.
+With `height` set, the list scrolls inside a fixed height and jumps to the bottom when messages change. It does not include an input area.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/chat.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -89,34 +84,34 @@ function onThink(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| messages | `UTSJSONObject[]` | `[]` | Message list |
-| layout | `string` | `'both'` | Popover layout |
-| variant | `string` | `'base'` | Style variant |
+| messages | `UTSJSONObject[]` | `[]` | Messages; each item supports role / text / format / name / avatar / datetime / status / thinking / id |
+| layout | `string` | `'both'` | Bubble layout: both / left |
+| variant | `string` | `'base'` | Bubble style: base / outline / text |
 | reverse | `boolean` | `false` | Whether to render in reverse (common when newest is at bottom) |
-| loadingText | `string` | `'正在思考…'` | Loading text |
-| errorText | `string` | `'生成失败，点击重试'` | Error text |
-| showActions | `boolean` | `true` | Whether to show message actions |
-| actions | `string` | `'copy,retry,good,bad'` | Action items |
-| height | `number` | `0` | Height (px) |
-| autoScroll | `boolean` | `true` | Whether to auto-scroll |
+| loadingText | `string` | `'正在思考…'` | Text shown while a message is `pending`; the default is Chinese for "Thinking…" |
+| errorText | `string` | `'生成失败，点击重试'` | Text shown when a message is in the `error` state; the default is Chinese for "Generation failed, tap to retry" |
+| showActions | `boolean` | `true` | Whether to show the action bar under assistant messages |
+| actions | `string` | `'copy,retry,good,bad'` | Action items, separated by commas |
+| height | `number` | `0` | List height (px); when above 0 the list scrolls inside the component |
+| autoScroll | `boolean` | `true` | Whether to scroll to the bottom when messages change |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| message-click | `payload: UTSJSONObject` | Fires when a bubble is tapped; `payload` has `index`, `role` and `text` |
+| retry | `payload: UTSJSONObject` | Fires when a failed message or the retry action is tapped; `payload.index` is the message index |
+| action | `payload: UTSJSONObject` | Fires when an action button is tapped; `payload` has `index`, `name`, `text` and `id` |
+| thinking-toggle | `payload: UTSJSONObject` | Fires when the reasoning block is expanded or collapsed; `payload` has `index` and `collapsed` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| message-click | message-click |
-| retry | retry |
-| action | Action button |
-| thinking-toggle | thinking-toggle |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-chat/`
-- Demo: `#/pages/demo/media/chat`
-- Chinese docs: [/uniappx/components/chat](/uniappx/components/chat)
+| `scrollToBottom()` | Scrolls to the bottom of the list; only works when `height` is above 0 |

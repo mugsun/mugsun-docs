@@ -5,18 +5,11 @@ demo: pages/demo/feedback/fab
 
 # Fab
 
-`ms-fab` is a floating action button with preset positions. It can be expandable, and the expanded state binds with `v-model:expanded`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-fab`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/fab`.
+`ms-fab` is a floating action button fixed to a corner or the bottom center of the page. With `expandable` on, a tap expands a group of sub-actions.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/fab.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Basic usage -->
@@ -66,8 +59,6 @@ function onMenuTap(label: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -75,28 +66,22 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | icon | `string` | `'add-line'` | Icon name (icons.uts) |
 | text | `string` | `''` | Label beside the primary button; empty = icon only |
 | position | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'bottom-center'` | `'bottom-right'` | Position |
-| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | Whether inset style |
+| inset | `'sm' \| 'md' \| 'lg'` | `'md'` | Distance from the screen edge |
 | expandable | `boolean` | `false` | Whether sub-actions can expand |
-| expanded | `boolean` | `false` | Expanded state (controlled; pairs with update:expanded) |
-| local | `boolean` | `false` | Relative to parent; false = fixed to the edge |
+| expanded | `boolean` | `false` | Whether expanded; works with `v-model:expanded` |
+| local | `boolean` | `false` | Position relative to the parent instead of fixed to the screen |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-| expand-change | expand-change |
-| update:expanded | update:expanded |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the button is tapped; not fired while disabled |
+| expand-change | `expanded: boolean` | Fires when the panel expands or collapses |
+| update:expanded | `value: boolean` | Fires when the panel expands or collapses; used by `v-model:expanded` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-fab/`
-- Demo: `#/pages/demo/feedback/fab`
-- Chinese docs: [/uniappx/components/fab](/uniappx/components/fab)
+| default | Sub-actions shown when expanded |

@@ -5,18 +5,13 @@ demo: pages/demo/basic/icon
 
 # Icon
 
-`ms-icon` provides a subset of Remix icons. `spin` uses `UniElement.animate` on the host view in App and Web, and CSS `animation` on the text or image in WeChat mini programs (matching x-icon `faceSpinIcon`; do not apply it to the host view). `rotate` sets a static rotation angle on the glyph.
+`ms-icon` is the icon component. It ships a subset of Remix icons, selected by `name`.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-icon`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/icon`.
+`spin` keeps the icon rotating, which suits loading states; `rotate` sets a fixed rotation angle. When both are set, `spin` wins.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/icon.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Common -->
@@ -38,29 +33,29 @@ The snippets below are taken from the demo source `pages/demo/basic/icon.uvue`. 
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| name | `string` | `''` | Name / field name |
+| name | `string` | `''` | Icon name |
 | size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size |
-| tone | `\| 'inherit'` | `'inherit'` | Tone (inherit / primary / secondary / danger…) |
-| spin | `boolean` | `false` | Spin loading: UniElement.animate on App/Web; CSS animation on WeChat MP |
-| spinDuration | `number` | `1500` | One spin duration in ms (default 1500) |
-| rotate | `number` | `0` | Static rotate angle (mutually exclusive with spin; spin wins) |
-| pressable | `boolean` | `true` | Built-in press state; set false inside buttons to avoid double hover |
+| tone | `'inherit' \| 'primary' \| 'secondary' \| 'danger' \| 'success' \| 'warning' \| 'inverse' \| 'on-primary' \| 'on-danger' \| 'on-success' \| 'on-warning' \| 'on-surface'` | `'inherit'` | Color; inherits the parent text color by default |
+| spin | `boolean` | `false` | Whether to spin continuously, typically for loading |
+| spinDuration | `number` | `1500` | Duration of one turn (ms) |
+| rotate | `number` | `0` | Fixed rotation angle; `spin` wins when both are set |
+| pressable | `boolean` | `true` | Whether it has a pressed effect; set to `false` inside a button |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the icon is tapped |
 
 ## Icon font subset
 
-The font in the package contains only the icons listed in `components/ms-icon/icons.uts`. An icon name that is not in that list renders blank; when `name` is an image URL, it is shown as an image.
+The font in the package contains only the icons listed in `components/ms-icon/icons.uts`.
+
+An icon name that is not in that list renders blank; when `name` is an image URL, it is shown as an image.
 
 To add an icon:
 
@@ -73,9 +68,3 @@ To add an icon:
 Android and HarmonyOS use the ttf; iOS and Web use the woff2.
 
 The mini program font file is `remixicon-mp-face.scss`. Do not edit it by hand. The mini program font may embed only the subset, and the script refuses to generate a file larger than 64KB.
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-icon/`
-- Demo: `#/pages/demo/basic/icon`
-- Chinese docs: [/uniappx/components/icon](/uniappx/components/icon)

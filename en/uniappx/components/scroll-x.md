@@ -5,18 +5,11 @@ demo: pages/demo/display/scroll-x
 
 # Scroll X
 
-`ms-scroll-x` is a horizontal scroll container (`scroll-view direction="horizontal"`) with a scroll progress indicator at the bottom.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-scroll-x`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/scroll-x`.
+`ms-scroll-x` is a horizontal scroll container with a progress bar at the bottom. Wrap each item in [`ms-scroll-x-item`](./scroll-x-item).
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/scroll-x.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Basic usage -->
@@ -69,34 +62,35 @@ function onScroll() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| indicator | `boolean` | `true` | Whether to show indicator |
-| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | Gap (px) |
-| inset | `boolean` | `false` | Whether inset style |
-| showScrollbar | `boolean` | `false` | Whether to show scrollbar |
-| scrollWithAnimation | `boolean` | `false` | Whether scrolling is animated |
+| indicator | `boolean` | `true` | Whether to show the progress bar at the bottom |
+| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | Gap between items: sm / md / lg |
+| inset | `boolean` | `false` | Whether to leave a margin before the first item and after the last |
+| showScrollbar | `boolean` | `false` | Whether to show the native scrollbar |
+| scrollWithAnimation | `boolean` | `false` | Whether `scrollTo` scrolls with animation |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| scroll | Scroll |
-| scrolltoupper | scrolltoupper |
-| scrolltolower | Scrolled to lower |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| scroll | `e: UniScrollEvent` | Fires while scrolling |
+| scrolltoupper | `e: UniScrollToUpperEvent` | Fires when scrolled to the far left |
+| scrolltolower | `e: UniScrollToLowerEvent` | Fires when scrolled to the far right |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Place `ms-scroll-x-item` children here; they are already laid out in a row |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-scroll-x/`
-- Demo: `#/pages/demo/display/scroll-x`
-- Chinese docs: [/uniappx/components/scroll-x](/uniappx/components/scroll-x)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `scrollTo(left: number)` | Scrolls to the given horizontal position (px) |
+| `getScrollLeft(): number` | Returns the current horizontal scroll position (px) |

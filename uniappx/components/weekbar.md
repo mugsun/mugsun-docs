@@ -7,16 +7,11 @@ demo: pages/demo/form/weekbar
 
 `ms-weekbar` 是周选择条，一行显示七天，通过左右按钮按周切换。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-weekbar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/weekbar`。
+选中的日期用 `v-model` 绑定，格式为 `YYYY-MM-DD`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/weekbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -108,32 +103,34 @@ function onJumpChange(value: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | 选中日期 YYYY-MM-DD |
-| startDate | `string` | `''` | 可选范围起（含） |
-| endDate | `string` | `''` | 可选范围止（含） |
-| mode | `string` | `'rect'` | 选中态：rect / circular / none |
-| firstDay | `number` | `0` | 一周起始：0 周一 … 6 周日 |
-| showAction | `boolean` | `true` | 是否显示左右切周按钮 |
-| markedDates | `string[]` | `[]` | 打点日期 |
-| disabledDates | `string[]` | `[]` | 禁用日期（仍可见，不可点） |
-| autoSelectToday | `boolean` | `true` | 空值时是否默认选中今天 |
-| disabled | `boolean` | `false` | 整体禁用 |
+| modelValue | `string` | `''` | 选中的日期，格式为 `YYYY-MM-DD` |
+| startDate | `string` | `''` | 可选范围的开始日期，包含当天 |
+| endDate | `string` | `''` | 可选范围的结束日期，包含当天 |
+| mode | `string` | `'rect'` | 选中样式：rect 圆角方块 / circular 圆形 / none 只变色 |
+| firstDay | `number` | `0` | 一周从哪天开始，`0` 是周一，`6` 是周日 |
+| showAction | `boolean` | `true` | 是否显示左右两侧的切换按钮 |
+| markedDates | `string[]` | `[]` | 需要在下方显示圆点的日期 |
+| disabledDates | `string[]` | `[]` | 禁用的日期，仍然显示但不能点击 |
+| autoSelectToday | `boolean` | `true` | `modelValue` 为空时是否默认选中今天 |
+| disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: string` | 选中的日期变化时触发，用于 `v-model` |
+| change | `value: string` | 选中的日期变化时触发，`value` 是 `YYYY-MM-DD` 格式的日期 |
+| weekchange | `dates: string[]` | 点击左右按钮切换周时触发，`dates` 是新一周的七个日期 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:modelValue | v-model 更新 |
-| change | 值变化 |
-| weekchange | weekchange |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-weekbar/`
-- 演示: `#/pages/demo/form/weekbar`
+| `getWeek(): string[]` | 返回当前显示的七个日期 |
+| `toToday()` | 回到今天所在的一周并选中今天，同时触发 `change` |

@@ -5,18 +5,15 @@ demo: pages/demo/form/calendar
 
 # Calendar
 
-`ms-calendar` is a monthly grid calendar. `type` is `single`, `multiple` or `range`; `value` is a comma-separated string of `YYYY-MM-DD` dates; `marks` sets labels above or below dates. With `switchMode=month` it pages by month; with `none` all months are laid out in sequence. It opens in an `ms-popup` by default and is embedded in the page when `usePopup=false`.
+`ms-calendar` is a month-view calendar for picking a single date, several dates or a date range.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+The selected `value` is a string of `YYYY-MM-DD` dates separated by commas.
 
-Component directory: `uni_modules/ms-ui/components/ms-calendar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/calendar`.
+It opens in a popup by default; set `usePopup` to `false` to embed it in the page.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/calendar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Usage -->
@@ -77,8 +74,6 @@ function onSelectDay(day: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -96,25 +91,32 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | readonly | `boolean` | `false` | Whether read-only |
 | allowSameDay | `boolean` | `false` | In range mode, whether start and end may be the same day |
 | showConfirm | `boolean` | `true` | Whether to show bottom confirm button |
-| confirmText | `string` | `'确定'` | Confirm button label |
+| confirmText | `string` | `'确定'` | Confirm button label; the default is Chinese for "OK" |
 | visible | `boolean` | `false` | Whether the popup is visible (when usePopup) |
 | usePopup | `boolean` | `true` | Whether displayed inside a popup |
 | autoClose | `boolean` | `true` | Whether to auto-close popup after confirm/selection |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires with `false` when the popup closes; used by `v-model:visible` |
+| select | `date: string` | Fires when a day is tapped; `date` is that day. Disabled days do not fire it |
+| change | `value: string` | Fires when the selected value changes: after confirm when the confirm button is shown, otherwise as soon as the pick is complete |
+| confirm | `value: string` | Fires when the confirm button is tapped |
+| cancel | — | Fires when the close button is tapped; unconfirmed picks are discarded |
+| close | `trigger: string` | Fires on close; `trigger` is the reason: `confirm-btn`, `close-btn`, `overlay` or `auto-close` |
+| panel-change | `month: string` | Fires when the visible month changes; `month` is formatted as `YYYY-MM` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:visible | v-model:visible update |
-| select | select |
-| change | Value changed |
-| confirm | Confirm |
-| cancel | Cancel |
-| close | Closed |
-| panel-change | panel-change |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-calendar/`
-- Demo: `#/pages/demo/form/calendar`
-- Chinese docs: [/uniappx/components/calendar](/uniappx/components/calendar)
+| `getValue(): string` | Returns the current selection in the panel, unconfirmed picks included, in the same format as `value` |
+| `confirm()` | Same as tapping the confirm button |
+| `cancel()` | Same as tapping the close button |
+| `prev()` | Goes to the previous month |
+| `next()` | Goes to the next month |
+| `reset()` | Discards unconfirmed picks and restores `value` |

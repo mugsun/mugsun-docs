@@ -5,18 +5,13 @@ demo: pages/demo/form/slider
 
 # Slider
 
-`ms-slider` is a single- or dual-handle slider with two track styles: `default` (thin) and `capsule`.
+`ms-slider` is a single- or dual-handle slider with two track styles, thin and capsule.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-slider`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/slider`.
+A single handle binds a number with `v-model`. For two handles, turn on `range` and bind `[low, high]` with `v-model:rangeValue`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/slider.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -57,36 +52,28 @@ const vStep = ref(60)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `number` | `0` | Bound value (v-model) |
-| rangeValue | `number[]` | `[]` | Controlled range [low, high] in dual-thumb mode |
-| range | `boolean` | `false` | Enable dual-thumb range mode |
+| rangeValue | `number[]` | `[]` | The `[low, high]` range in dual-handle mode. Works with `v-model:rangeValue` |
+| range | `boolean` | `false` | Whether to use two handles to select a range |
 | min | `number` | `0` | Minimum |
 | max | `number` | `100` | Maximum |
 | step | `number` | `1` | Step |
 | disabled | `boolean` | `false` | Whether disabled |
-| label | `boolean` | `false` | Label text |
+| label | `boolean` | `false` | Whether to show the current value on the right |
 | showExtremeValue | `boolean` | `false` | Whether to show min/max at both ends |
-| marks | `number[]` | `[]` | Date marker list |
-| theme | `'default' \| 'capsule'` | `'default'` | Theme color |
+| marks | `number[]` | `[]` | Values at which tick marks are drawn on the track |
+| theme | `'default' \| 'capsule'` | `'default'` | Track style: default (thin) / capsule |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| update:rangeValue | update:rangeValue |
-| change | Value changed |
-| dragstart | dragstart |
-| dragend | dragend |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-slider/`
-- Demo: `#/pages/demo/form/slider`
-- Chinese docs: [/uniappx/components/slider](/uniappx/components/slider)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: number` | Fires when the single-handle value changes; used by `v-model` |
+| update:rangeValue | `value: number[]` | Fires when the range changes; used by `v-model:rangeValue` |
+| change | `value: number \| number[]` | Fires when the value changes: a number for a single handle, `[low, high]` for two |
+| dragstart | `value: number \| number[]` | Fires when dragging starts, with the current value |
+| dragend | `value: number \| number[]` | Fires when dragging ends, with the current value |

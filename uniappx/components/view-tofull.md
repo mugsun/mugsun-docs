@@ -5,18 +5,13 @@ demo: pages/demo/media/view-tofull
 
 # View To Full 全屏
 
-`ms-view-tofull` 在点击后将区域展开为全屏，关闭后恢复到原来的位置。
+`ms-view-tofull` 在点击后把一块区域展开到全屏，关闭后回到原来的位置。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-view-tofull`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/media/view-tofull`。
+展开状态用 `v-model:opened` 绑定，可以据此在全屏时显示更多内容。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/view-tofull.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -88,33 +83,26 @@ function toggleNoClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| duration | `number` | `300` | 时长（ms） |
-| showClose | `boolean` | `true` | 全屏时是否显示关闭 |
-| opened | `boolean` | `false` | 是否全屏打开 |
+| duration | `number` | `300` | 展开和收起动画的时长（ms） |
+| showClose | `boolean` | `true` | 全屏时是否显示关闭按钮 |
+| opened | `boolean` | `false` | 是否全屏展开，可用 `v-model:opened` |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| open | 打开 |
-| close | 关闭 |
-| opened | opened |
-| closed | closed |
-| update:opened | update:opened |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| open | — | 开始展开时触发 |
+| opened | — | 展开动画结束后触发 |
+| close | — | 开始收起时触发 |
+| closed | — | 收起动画结束后触发 |
+| update:opened | `value: boolean` | 展开或收起时触发，用于 `v-model:opened` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-view-tofull/`
-- 演示: `#/pages/demo/media/view-tofull`
+| default | 要展开的内容 |

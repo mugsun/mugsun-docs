@@ -5,18 +5,11 @@ demo: pages/demo/nav/segmented
 
 # Segmented
 
-`ms-segmented` is a segmented control built from `options`. It supports block and size, and the current value binds with `v-model:value`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-segmented`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/segmented`.
+`ms-segmented` is a segmented control. `options` defines the segments, and `v-model:value` binds the index of the selected one.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/segmented.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -101,27 +94,19 @@ function onStatusChange(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | Selected item index |
-| options | `UTSJSONObject[]` | `[]` | Each item: label / icon / disabled |
-| block | `boolean` | `false` | Fill parent width and equalize items |
-| disabled | `boolean` | `false` | Disable the whole group |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Height step |
+| value | `number` | `0` | Index of the selected segment. Works with `v-model:value` |
+| options | `UTSJSONObject[]` | `[]` | Segments; each item has `label` and optional `icon` and `disabled` |
+| block | `boolean` | `false` | Whether to fill the parent width and size the segments equally |
+| disabled | `boolean` | `false` | Whether to disable the whole control |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| update:value | v-model:value update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-segmented/`
-- Demo: `#/pages/demo/nav/segmented`
-- Chinese docs: [/uniappx/components/segmented](/uniappx/components/segmented)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: number` | Fires when the selection changes; `index` is the newly selected segment |
+| update:value | `index: number` | Fires when the selection changes; used by `v-model:value` |

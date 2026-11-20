@@ -5,18 +5,11 @@ demo: pages/demo/nav/segmented
 
 # Segmented 分段
 
-`ms-segmented` 是分段控制器，由 `options` 生成选项，支持 block 和 size，当前值用 `v-model:value` 绑定。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-segmented`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/segmented`。
+`ms-segmented` 是分段控制器，选项由 `options` 生成，选中项的下标用 `v-model:value` 绑定。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/segmented.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -101,26 +94,19 @@ function onStatusChange(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `0` | 选中项下标 |
-| options | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / disabled |
-| block | `boolean` | `false` | 撑满父宽并均分每项 |
-| disabled | `boolean` | `false` | 整体禁用 |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 高度阶梯 |
+| value | `number` | `0` | 选中项的下标，可用 `v-model:value` |
+| options | `UTSJSONObject[]` | `[]` | 选项列表，每项含 `label`，可选 `icon` 和 `disabled` |
+| block | `boolean` | `false` | 是否撑满父容器的宽度并平分各项 |
+| disabled | `boolean` | `false` | 是否禁用整个组件 |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| change | 值变化 |
-| update:value | v-model:value 更新 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-segmented/`
-- 演示: `#/pages/demo/nav/segmented`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `index: number` | 选中项变化时触发，`index` 是新选中项的下标 |
+| update:value | `index: number` | 选中项变化时触发，用于 `v-model:value` |

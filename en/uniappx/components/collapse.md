@@ -5,18 +5,13 @@ demo: pages/demo/display/collapse
 
 # Collapse
 
-`ms-collapse` is a collapsible panel built from `items`. It supports `accordion`, `theme`, `expandIcon` and `defaultExpandAll`, and can be controlled through `value`.
+`ms-collapse` is a collapsible panel built from `items`, with an accordion mode and a card style.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-collapse`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/collapse`.
+The expanded state can be left to the component or controlled with `v-model:value`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/collapse.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-collapse
@@ -117,8 +112,6 @@ function onModelChange(values: number[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -133,14 +126,16 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `values: number[]` | Fires when the expanded panels change; `values` holds the indexes of the expanded items |
+| click | `index: number` | Fires when a panel header is tapped; `index` is that item's index. Disabled items do not fire it |
+| update:value | `values: number[]` | Fires when the expanded panels change; used by `v-model:value` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| change | Value changed |
-| click | Click |
-| update:value | v-model:value update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-collapse/`
-- Demo: `#/pages/demo/display/collapse`
-- Chinese docs: [/uniappx/components/collapse](/uniappx/components/collapse)
+| `getExpanded(): number[]` | Returns the indexes of the expanded items |

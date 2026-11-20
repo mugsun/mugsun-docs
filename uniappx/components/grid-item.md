@@ -5,16 +5,11 @@ demo: pages/demo/nav/grid
 
 # Grid Item 宫格项
 
-`ms-grid-item` 是 `ms-grid` 中的宫格项。
-
-组件目录：`uni_modules/ms-ui/components/ms-grid-item`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/grid`。
+`ms-grid-item` 是 [`ms-grid`](./grid) 里的宫格项，由图标、文字和可选的第二行说明组成。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/grid.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 列数 -->
@@ -72,26 +67,17 @@ demo: pages/demo/nav/grid
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | icon | `string` | `'apps-line'` | 图标名（icons.uts） |
-| text | `string` | `''` | 展示文案 |
+| text | `string` | `''` | 图标下方的文字 |
 | description | `string` | `''` | 副文案（图标下方第二行） |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-
-## 相关
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-- 组件目录: `uni_modules/ms-ui/components/ms-grid-item/`
-- 演示: `#/pages/demo/nav/grid`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击宫格项时触发，禁用时不触发 |

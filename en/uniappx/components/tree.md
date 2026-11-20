@@ -5,18 +5,13 @@ demo: pages/demo/display/tree
 
 # Tree
 
-`ms-tree` is a tree list that renders visible nodes as flat rows (without recursive components). It supports expanding and collapsing, checkbox selection, half-checked parents linked to their children, and disabling parent checkboxes.
+`ms-tree` is a tree list. Nodes expand and collapse, can be multi-selected with checkboxes, and parent and child checkboxes can be linked.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-tree`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/tree`.
+Bind the checked and expanded nodes with `v-model:value` and `v-model:folderIds`; the component keeps neither state itself.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/tree.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Basic tree -->
@@ -104,34 +99,26 @@ function onStateFolders(ids: string[]): void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | Data list |
-| value | `string[]` | `[]` | Current value |
-| folderIds | `string[]` | `[]` | Folder id list |
-| checkable | `boolean` | `true` | Whether selectable |
-| parentLink | `boolean` | `false` | Whether selecting parent links children; whether selecting child updates parent |
-| disabledParent | `boolean` | `false` | Whether to disable parent linkage |
-| disabled | `boolean` | `false` | Whether disabled |
-| idKey | `string` | `'id'` | Id field name |
-| labelKey | `string` | `'text'` | Label field name |
+| list | `UTSJSONObject[]` | `[]` | Nodes; by default each has `id` and `text`, plus optional `children` and `disabled` |
+| value | `string[]` | `[]` | Ids of the checked nodes. Works with `v-model:value` |
+| folderIds | `string[]` | `[]` | Ids of the expanded nodes. Works with `v-model:folderIds`; listing a deep node also expands its ancestors |
+| checkable | `boolean` | `true` | Whether to show checkboxes |
+| parentLink | `boolean` | `false` | Whether parents and children are linked: checking a parent checks or clears all its descendants, and a parent's state follows its children |
+| disabledParent | `boolean` | `false` | Whether nodes with children cannot be checked; they can still be expanded |
+| disabled | `boolean` | `false` | Whether to disable all checkboxes |
+| idKey | `string` | `'id'` | Field name of the node id |
+| labelKey | `string` | `'text'` | Field name of the node text |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:value | v-model:value update |
-| update:folderIds | update:folderIds |
-| change | Value changed |
-| expand-change | expand-change |
-| node-click | Node click |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-tree/`
-- Demo: `#/pages/demo/display/tree`
-- Chinese docs: [/uniappx/components/tree](/uniappx/components/tree)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:value | `ids: string[]` | Fires when the checked nodes change; used by `v-model:value` |
+| update:folderIds | `ids: string[]` | Fires when a node is expanded or collapsed; used by `v-model:folderIds` |
+| change | `ids: string[]` | Fires when the checked nodes change; `ids` lists every checked node |
+| expand-change | `ids: string[]` | Fires when a node is expanded or collapsed; `ids` lists every expanded node |
+| node-click | `id: string` | Fires when a node's text is tapped; `id` is that node's id |

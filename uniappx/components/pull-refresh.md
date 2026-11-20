@@ -5,18 +5,13 @@ demo: pages/demo/feedback/pull-refresh
 
 # Pull Refresh 下拉刷新
 
-`ms-pull-refresh` 封装 `scroll-view` 内置的 `refresher-*` 下拉刷新，不自行处理触摸事件。原因是 ms-ui 规定在 uni-app x 蒸汽模式（Vapor）下不使用基于 `translate3d` 的位移方案，而且 `refresher-max-drag-distance` 在 Web 和微信小程序上都不支持。
+`ms-pull-refresh` 是下拉刷新容器，内部是一个固定高度的 `scroll-view`，使用它自带的下拉刷新。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-pull-refresh`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/pull-refresh`。
+用 `v-model` 绑定是否正在刷新：下拉后变为 `true` 并触发 `refresh`，数据加载完把它设回 `false` 就会收起。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/pull-refresh.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -86,37 +81,40 @@ function onLargeRefresh() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | 刷新中；业务处理完置 false 收起 |
-| disabled | `boolean` | `false` | 禁用下拉 |
-| threshold | `number` | `60` | 触发阈值 px，同时作 refresher 槽固定高 |
-| height | `number` | `360` | 容器固定高 px，只接受数值（px） |
-| texts | `UTSJSONObject[]` | `[]` | 覆盖四态文案：{ status, text } |
-| successDuration | `number` | `500` | 「刷新完成」停留 ms |
+| modelValue | `boolean` | `false` | 是否正在刷新；数据加载完设回 `false` 收起 |
+| disabled | `boolean` | `false` | 是否禁用下拉刷新 |
+| threshold | `number` | `60` | 触发刷新需要下拉的距离（px），也是提示区的高度 |
+| height | `number` | `360` | 容器高度（px） |
+| texts | `UTSJSONObject[]` | `[]` | 自定义各状态的提示文字，每项含 `status` 和 `text`；`status` 可取 pulling / loosing / refreshing / done |
+| successDuration | `number` | `500` | 刷新完成的提示停留的时长（ms） |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| refresh | 刷新 |
-| pulling | pulling |
-| restore | restore |
-| scrolltolower | 触底 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: boolean` | 刷新状态变化时触发，用于 `v-model` |
+| refresh | — | 下拉到触发距离后松手时触发，调用 `start()` 时也会触发；在这里加载数据 |
+| pulling | `dy: number` | 下拉过程中触发，`dy` 是下拉距离（px） |
+| restore | — | 提示区收起后触发 |
+| scrolltolower | — | 滚动到底部时触发，可用于加载下一页 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-| refresher | `refresher` 插槽 |
+| default | 列表内容 |
+| refresher | 自定义下拉提示区，作用域参数为 `status`（当前状态）和 `dy`（下拉距离） |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-pull-refresh/`
-- 演示: `#/pages/demo/feedback/pull-refresh`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `start()` | 开始刷新，效果同用户下拉 |
+| `stop()` | 结束刷新并收起提示区 |
+| `getStatus(): string` | 返回当前状态：idle / pulling / loosing / refreshing / done |

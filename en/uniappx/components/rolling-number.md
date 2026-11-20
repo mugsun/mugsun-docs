@@ -7,16 +7,9 @@ demo: pages/demo/display/rolling-number
 
 `ms-rolling-number` displays a number with a rolling animation; when `value` changes it animates from the current value to the new one.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-rolling-number`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/rolling-number`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/rolling-number.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -49,32 +42,24 @@ const suffixVal = ref(68.5)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | Current value |
-| start | `number` | `0` | Start value |
-| duration | `number` | `400` | Duration (ms) |
-| decimals | `number` | `-1` | Decimal places |
-| grouping | `boolean` | `false` | Whether grouped |
-| prefix | `string` | `''` | Prefix |
-| suffix | `string` | `''` | Suffix |
-| animated | `boolean` | `true` | Whether animation is enabled |
+| value | `number` | `0` | Target number |
+| start | `number` | `0` | Number shown initially; after mount it rolls from this to `value` |
+| duration | `number` | `400` | Animation duration (ms) |
+| decimals | `number` | `-1` | Decimal places; `-1` follows the decimals of `value` |
+| grouping | `boolean` | `false` | Whether to show thousands separators |
+| prefix | `string` | `''` | Prefix text |
+| suffix | `string` | `''` | Suffix text |
+| animated | `boolean` | `true` | Whether to animate; `false` jumps straight to the new value |
 | size | `'md' \| 'lg'` | `'md'` | Size |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| start | Started |
-| complete | complete |
-| change | Value changed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-rolling-number/`
-- Demo: `#/pages/demo/display/rolling-number`
-- Chinese docs: [/uniappx/components/rolling-number](/uniappx/components/rolling-number)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| start | — | Fires when the animation starts |
+| complete | — | Fires when the number reaches the target, also without animation |
+| change | `value: number` | Fires on every update of the displayed number; `value` is the number currently shown |

@@ -5,18 +5,13 @@ demo: pages/demo/form/sign-board
 
 # Sign Board 签名
 
-`ms-sign-board` 是手写签名板，基于 2d `canvas` 和触摸事件，Web 端额外支持鼠标。
+`ms-sign-board` 是手写签名板，用手指在画布上书写，Web 端也可以用鼠标。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-sign-board`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/sign-board`。
+签名图片通过 `getImage()` 方法取得。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/sign-board.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -39,25 +34,29 @@ function onStrokeEnd() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| penType | `string` | `'default'` | default / pen / pencil |
-| strokeWidth | `number` | `8` | 基准笔宽 px |
+| penType | `string` | `'default'` | 笔迹样式：default / pen / pencil |
+| strokeWidth | `number` | `8` | 笔迹的基准宽度（px） |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| start | — | 开始书写一笔时触发 |
+| end | — | 一笔写完时触发 |
+| clear | — | 清空画布时触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| start | 开始 |
-| end | end |
-| clear | 清空 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-sign-board/`
-- 演示: `#/pages/demo/form/sign-board`
+| `clear()` | 清空画布 |
+| `getLineCount(): number` | 返回已写的笔画数 |
+| `isEmpty(): boolean` | 画布是否为空 |
+| `getImage(): UTSJSONObject` | 返回签名图片，含 `src`（PNG 的 data URL）、`width` 和 `height` |

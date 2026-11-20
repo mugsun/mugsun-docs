@@ -5,18 +5,11 @@ demo: pages/demo/media/drag
 
 # Drag
 
-`ms-drag` is a drag-to-sort container. Long-press an item in a list or grid to reorder it.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-drag`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/media/drag`.
+`ms-drag` is a drag-to-sort container for [`ms-drag-item`](./drag-item) children. Long-press an item and drag it to reorder; it works for lists and grids.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/drag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -111,34 +104,26 @@ function onChangeFixed(next: UTSJSONObject[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | Data list |
-| col | `number` | `1` | Column span |
-| scrollDiff | `number` | `25` | Pixels to scroll each time when dragged near an edge |
+| list | `UTSJSONObject[]` | `[]` | Data list; the reordered list is returned through `change` |
+| col | `number` | `1` | Number of columns: `1` for a list, more for a grid |
+| scrollDiff | `number` | `25` | Distance (px) requested through `move` each time the drag reaches the screen edge |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| start | Started |
-| end | end |
-| move | move |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `list: UTSJSONObject[]` | Fires on release; `list` is the reordered list |
+| start | — | Fires when a drag starts |
+| end | — | Fires when a drag ends |
+| move | `delta: number` | Fires when the drag reaches the top or bottom edge of the screen; `delta` is the suggested scroll distance in px, negative for upward |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-drag/`
-- Demo: `#/pages/demo/media/drag`
-- Chinese docs: [/uniappx/components/drag](/uniappx/components/drag)
+| default | Place `ms-drag-item` children here |

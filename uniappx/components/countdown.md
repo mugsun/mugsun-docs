@@ -5,18 +5,13 @@ demo: pages/demo/display/countdown
 
 # Countdown 倒计时
 
-`ms-countdown` 是倒计时，通过 `time`（毫秒）和 `format` 设置，支持 theme 和 size，并对外提供 `start`、`pause`、`reset` 和 `getStatus` 方法。
+`ms-countdown` 是倒计时，`time` 是总时长（毫秒），`format` 决定显示哪些时间单位。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-countdown`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/countdown`。
+默认挂载后自动开始，也可以通过方法手动开始、暂停和重置。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/countdown.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -49,30 +44,34 @@ function onFinish() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| time | `number` | `0` | 时间 |
-| format | `string` | `'HH:mm:ss'` | 格式 |
+| time | `number` | `0` | 倒计时总时长（毫秒） |
+| format | `string` | `'HH:mm:ss'` | 显示格式，可用占位符 DD / HH / mm / ss / SSS |
 | autoStart | `boolean` | `true` | 是否自动开始 |
 | millisecond | `boolean` | `false` | 是否按 100ms 刷新（显示毫秒） |
-| theme | `'default' \| 'round' \| 'square'` | `'default'` | 主题色 |
+| theme | `'default' \| 'round' \| 'square'` | `'default'` | 样式：default / round / square |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| splitWithUnit | `boolean` | `false` | 分隔处是否显示单位字（否则用 :） |
+| splitWithUnit | `boolean` | `false` | 分隔符是否改用时间单位文字，默认用冒号 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `left: number` | 剩余时间变化时触发，`left` 是剩余的毫秒数 |
+| finish | — | 倒计时结束时触发 |
+| start | — | 开始计时时触发 |
+| pause | — | 暂停时触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| change | 值变化 |
-| finish | 完成 |
-| start | 开始 |
-| pause | 暂停 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-countdown/`
-- 演示: `#/pages/demo/display/countdown`
+| `start()` | 开始或继续计时；已经结束时从头开始 |
+| `pause()` | 暂停计时 |
+| `reset()` | 重置为 `time`；`autoStart` 为 `true` 时随即重新开始 |
+| `getStatus(): string` | 返回当前状态：`initial`、`running`、`paused` 或 `finished` |

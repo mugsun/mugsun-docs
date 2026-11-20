@@ -5,18 +5,13 @@ demo: pages/demo/form/slider
 
 # Slider 滑块
 
-`ms-slider` 是滑块，支持单滑块和双滑块，轨道有 `default`（细轨）和 `capsule`（胶囊轨）两种样式。
+`ms-slider` 是滑块，支持单滑块和双滑块，轨道有细轨和胶囊轨两种样式。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-slider`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/slider`。
+单滑块用 `v-model` 绑定数值；双滑块需要开启 `range`，并用 `v-model:rangeValue` 绑定 `[小值, 大值]`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/slider.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -57,35 +52,28 @@ const vStep = ref(60)
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `number` | `0` | 绑定值（v-model） |
-| rangeValue | `number[]` | `[]` | 双游标时的受控区间 [low, high] |
-| range | `boolean` | `false` | 开启双游标区间模式 |
+| rangeValue | `number[]` | `[]` | 双滑块时的区间 `[小值, 大值]`，可用 `v-model:rangeValue` |
+| range | `boolean` | `false` | 是否使用双滑块选择区间 |
 | min | `number` | `0` | 最小值 |
 | max | `number` | `100` | 最大值 |
 | step | `number` | `1` | 步长 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| label | `boolean` | `false` | 标签文案 |
+| label | `boolean` | `false` | 是否在右侧显示当前值 |
 | showExtremeValue | `boolean` | `false` | 是否显示两端最值 |
-| marks | `number[]` | `[]` | 日期标记列表 |
-| theme | `'default' \| 'capsule'` | `'default'` | 主题色 |
+| marks | `number[]` | `[]` | 轨道上刻度标记对应的数值 |
+| theme | `'default' \| 'capsule'` | `'default'` | 轨道样式：default 细轨 / capsule 胶囊轨 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| update:rangeValue | update:rangeValue |
-| change | 值变化 |
-| dragstart | dragstart |
-| dragend | dragend |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-slider/`
-- 演示: `#/pages/demo/form/slider`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: number` | 单滑块的值变化时触发，用于 `v-model` |
+| update:rangeValue | `value: number[]` | 双滑块的区间变化时触发，用于 `v-model:rangeValue` |
+| change | `value: number \| number[]` | 值变化时触发；单滑块是数值，双滑块是 `[小值, 大值]` |
+| dragstart | `value: number \| number[]` | 开始拖动时触发，参数是当前值 |
+| dragend | `value: number \| number[]` | 结束拖动时触发，参数是当前值 |

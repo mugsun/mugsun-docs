@@ -5,18 +5,13 @@ demo: pages/demo/basic/transition
 
 # Transition
 
-`ms-transition` is an enter and leave transition container controlled by `visible`.
+`ms-transition` is an enter and leave transition container. When `visible` changes it animates the content in its slot.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-transition`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/transition`.
+Pick the effect with `name`: fade, zoom, or a slide from one of four directions.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/transition.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -84,35 +79,27 @@ function onDestroyed() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| name | `\| 'fade'` | `'fade'` | Name / field name |
-| duration | `number` | `300` | Duration (ms) |
-| appear | `boolean` | `false` | Whether to animate on appear |
-| destroyOnHide | `boolean` | `false` | Whether to destroy when hidden |
+| name | `'fade' \| 'zoom' \| 'slide-left' \| 'slide-right' \| 'slide-up' \| 'slide-down'` | `'fade'` | Effect: fade / zoom / slide-left / slide-right / slide-up / slide-down |
+| duration | `number` | `300` | Transition duration (ms) |
+| appear | `boolean` | `false` | Whether to play the enter transition on first render |
+| destroyOnHide | `boolean` | `false` | Whether to remove the slot content after it is hidden |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| before-enter | before-enter |
-| after-enter | after-enter |
-| before-leave | before-leave |
-| after-leave | after-leave |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| before-enter | — | Fires before the enter transition starts |
+| after-enter | — | Fires after the enter transition ends |
+| before-leave | — | Fires before the leave transition starts |
+| after-leave | — | Fires after the leave transition ends |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-transition/`
-- Demo: `#/pages/demo/basic/transition`
-- Chinese docs: [/uniappx/components/transition](/uniappx/components/transition)
+| default | Content to animate |

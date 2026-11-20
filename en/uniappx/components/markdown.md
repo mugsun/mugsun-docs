@@ -7,17 +7,11 @@ demo: pages/demo/media/markdown
 
 `ms-markdown` renders common Markdown syntax natively, with no third-party dependencies and no webview.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-markdown/components/ms-markdown`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-markdown` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/markdown`.
+This is an optional plugin. Install `uni_modules/ms-markdown` separately; it depends on `ms-ui`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/markdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -60,27 +54,19 @@ function onImage(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | Current value |
-| fontSize | `number` | `14` | Font size (px) |
-| showCodeLang | `boolean` | `true` | Whether to show code language tags |
-| selectable | `boolean` | `false` | Whether text is selectable |
+| value | `string` | `''` | Markdown source text |
+| fontSize | `number` | `14` | Body font size (px) |
+| showCodeLang | `boolean` | `true` | Whether code blocks show the language label |
+| selectable | `boolean` | `false` | Whether the body text can be selected |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| link | Link click |
-| image | Image click |
-| parsed | Parsed |
-
-## See also
-
-- Component: `uni_modules/ms-markdown/components/ms-markdown/`
-- Demo: `#/pages/demo/media/markdown`
-- Chinese docs: [/uniappx/components/markdown](/uniappx/components/markdown)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| link | `payload: UTSJSONObject` | Fires when a link is tapped; `payload` has `text` and `href`. The component does not navigate, so handle it yourself |
+| image | `payload: UTSJSONObject` | Fires when an image is tapped; `payload` has `alt` and `src` |
+| parsed | `payload: UTSJSONObject` | Fires after the content is parsed; `payload.blocks` is the number of blocks |

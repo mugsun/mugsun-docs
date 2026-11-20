@@ -5,18 +5,11 @@ demo: pages/demo/display/image-viewer
 
 # Image Viewer 预览
 
-`ms-image-viewer` 是全屏图片预览，使用 swiper 翻页，可选显示页码、关闭和删除按钮。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-image-viewer`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/image-viewer`。
+`ms-image-viewer` 是全屏图片预览，左右滑动翻页，可以显示页码、关闭按钮和删除按钮。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/image-viewer.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-image-viewer
@@ -66,29 +59,31 @@ function onDelete(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
 | images | `string[]` | `[]` | 图片地址列表 |
-| initialIndex | `number` | `0` | 初始索引 |
-| showIndex | `boolean` | `false` | 是否显示当前序号 |
+| initialIndex | `number` | `0` | 打开时显示第几张，从 0 开始 |
+| showIndex | `boolean` | `false` | 是否显示页码 |
 | closeBtn | `boolean` | `false` | 是否显示关闭按钮 |
 | deleteBtn | `boolean` | `false` | 是否显示删除按钮 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
+| close | — | 预览关闭时触发 |
+| change | `index: number` | 翻页时触发，`index` 是当前图片的下标 |
+| delete | `index: number` | 点击删除按钮时触发，`index` 是当前图片的下标；图片需要自行从 `images` 中移除 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:visible | v-model:visible 更新 |
-| close | 关闭 |
-| change | 值变化 |
-| delete | delete |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-image-viewer/`
-- 演示: `#/pages/demo/display/image-viewer`
+| `open()` | 打开预览，需配合 `v-model:visible` |
+| `close()` | 关闭预览，需配合 `v-model:visible` |

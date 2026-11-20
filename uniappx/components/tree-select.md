@@ -5,18 +5,13 @@ demo: pages/demo/display/tree-select
 
 # Tree Select 树选择
 
-`ms-tree-select` 是多列树形选择器，按 `options` 的实际层级显示 2 到 3 列（最多 3 列）：左列用于导航，中间列逐级展开，最后一列支持单选或多选。
+`ms-tree-select` 是多列树形选择器，按 `options` 的层级显示 2 到 3 列，前面的列逐级选择，最后一列是选项。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-tree-select`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/tree-select`。
+最后一列支持单选和多选。选中的路径用 `v-model:value` 绑定，多选时勾选的值用 `v-model:leafValues` 绑定。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/tree-select.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -230,26 +225,19 @@ function onDisabledLeafChange(next: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | 选项列表 |
-| value | `string[]` | `[]` | 当前值 |
-| leafValues | `string[]` | `[]` | 已选叶子值列表（v-model:leafValues） |
-| multiple | `boolean` | `false` | 是否多选 |
+| options | `UTSJSONObject[]` | `[]` | 选项数据，每项含 `label` 和 `value`，可选 `children` 和 `disabled` |
+| value | `string[]` | `[]` | 各列选中的值组成的路径，可用 `v-model:value`；单选时最后一位是末列选中的值 |
+| leafValues | `string[]` | `[]` | 多选时末列勾选的值，可用 `v-model:leafValues`；单选时不使用 |
+| multiple | `boolean` | `false` | 末列是否多选 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:value | v-model:value 更新 |
-| update:leafValues | update:leafValues |
-| change | 值变化 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-tree-select/`
-- 演示: `#/pages/demo/display/tree-select`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:value | `next: string[]` | 选中路径变化时触发，用于 `v-model:value` |
+| update:leafValues | `next: string[]` | 多选时末列的勾选变化时触发，用于 `v-model:leafValues` |
+| change | `next: string[]` | 点击选项时触发，`next` 是当前路径；单选时点击末列会包含末列的值，禁用的选项不触发 |

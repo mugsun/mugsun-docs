@@ -5,18 +5,13 @@ demo: pages/demo/form/rate
 
 # Rate
 
-`ms-rate` is a rating control. Tap to set a score; it supports read-only, disabled, half stars, clearing, a description and score on the right, and a brief tip above or below on tap (`placement`).
+`ms-rate` is a rating control. Tap a star to set the score, bound with `v-model`. Half stars and tap-again-to-clear are optional.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-rate`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/rate`.
+A text description or the numeric score can be shown beside the stars; with `placement` set, a brief tip appears above or below the stars on tap.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/rate.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -59,8 +54,6 @@ const vTexts = ref(3)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -70,25 +63,19 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | readonly | `boolean` | `false` | Whether read-only |
 | disabled | `boolean` | `false` | Whether disabled |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| activeIcon | `string` | `'star-fill'` | Active icon name |
-| voidIcon | `string` | `'star-line'` | Inactive icon name |
-| halfIcon | `string` | `'star-half-fill'` | Half-star icon name |
-| showText | `boolean` | `false` | Whether to show rating text |
-| showScore | `boolean` | `false` | Show numeric score |
-| allowHalf | `boolean` | `false` | Allow half stars |
-| clearable | `boolean` | `false` | Tapping the current value again clears it |
-| texts | `string[]` | `[]` | Per-level labels; empty uses built-in |
-| placement | `'top' \| 'bottom' \| ''` | `''` | Brief score popover position on tap. Empty hides it; top/bottom relative to the stars. |
+| activeIcon | `string` | `'star-fill'` | Icon name for a filled star |
+| voidIcon | `string` | `'star-line'` | Icon name for an empty star |
+| halfIcon | `string` | `'star-half-fill'` | Icon name for a half star |
+| showText | `boolean` | `false` | Whether to show the text for the current score beside the stars |
+| showScore | `boolean` | `false` | Whether to show the numeric score beside the stars; takes precedence over `showText` |
+| allowHalf | `boolean` | `false` | Whether half stars are allowed |
+| clearable | `boolean` | `false` | Whether tapping the current score again clears it |
+| texts | `string[]` | `[]` | Text for each score; empty uses the built-in texts |
+| placement | `'top' \| 'bottom' \| ''` | `''` | Where the tip appears on tap: top / bottom; empty shows no tip |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-rate/`
-- Demo: `#/pages/demo/form/rate`
-- Chinese docs: [/uniappx/components/rate](/uniappx/components/rate)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: number` | Fires when the score changes; used by `v-model` |
+| change | `value: number` | Fires when the score changes; `value` is the new score |

@@ -7,16 +7,9 @@ demo: pages/demo/form/mention
 
 `ms-mention` 在输入触发符（默认 `@`）时弹出候选面板，选中后插入 `@名字 `；按一次退格键会删除整个提及。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-mention`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/mention`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/mention.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -103,33 +96,35 @@ function onMention(keyword: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | 绑定值（v-model） |
-| options | `string[]` | `[]` | 选项列表 |
-| trigger | `string` | `'@'` | 触发时机 |
-| filterable | `boolean` | `true` | 是否可筛选 |
+| options | `string[]` | `[]` | 候选名字列表；为空时不弹面板，只触发 `mention` 事件，可以自己实现候选面板 |
+| trigger | `string` | `'@'` | 触发符，只取第一个字符 |
+| filterable | `boolean` | `true` | 是否按触发符后面输入的文字筛选候选项（前缀匹配） |
 | placeholder | `string` | `'输入 @ 提及成员'` | 占位文案 |
-| emptyText | `string` | `'无匹配成员'` | 空态文案 |
+| emptyText | `string` | `'无匹配成员'` | 没有匹配项时的提示文字 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | confirmType | `string` | `'send'` | 键盘确认键类型 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: string` | 输入内容变化时触发，用于 `v-model` |
+| change | `value: string` | 输入内容变化时触发 |
+| mention | `keyword: string` | 输入触发符以及之后的筛选文字变化时触发，`keyword` 是触发符后面的文字 |
+| select | `name: string` | 选中候选项时触发 |
+| removemention | `name: string` | 用退格键删掉一个提及时触发，`name` 是被删的名字 |
+| confirm | `value: string` | 点击键盘的确认键时触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:modelValue | v-model 更新 |
-| change | 值变化 |
-| mention | mention |
-| select | select |
-| removemention | removemention |
-| confirm | 确认 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-mention/`
-- 演示: `#/pages/demo/form/mention`
+| `getMentions(): string[]` | 返回当前文本里的全部提及名字 |
+| `closePanel()` | 关闭候选面板 |

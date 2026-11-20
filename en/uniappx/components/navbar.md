@@ -5,18 +5,13 @@ demo: pages/demo/nav/navbar
 
 # Navbar
 
-`ms-navbar` is a custom top navigation bar with back or home buttons on the left, a title in the middle and actions on the right. It provides three slots: `left`, `title` and `right`.
+`ms-navbar` is a custom top navigation bar with back and home buttons on the left, a title in the middle and actions on the right.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-navbar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/navbar`.
+Tapping the back or home button only fires an event; do the navigation yourself in `go-back` and `go-home`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/navbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-navbar title="Title only" :fixed="false" :safe-area-inset-top="false" />
@@ -73,8 +68,6 @@ function onHome() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -83,31 +76,25 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | titleAlign | `'center' \| 'left'` | `'center'` | Title align: center / left |
 | titleMaxLength | `number` | `0` | Max title length; overflow ends with …; 0 = no truncate |
 | leftArrow | `boolean` | `false` | Whether to show left back arrow |
-| leftText | `string` | `''` | Left back label; empty shows arrow only |
-| homeIcon | `boolean` | `false` | Show a home entry next to back |
-| theme | `'light' \| 'brand'` | `'light'` | Theme color |
-| fixed | `boolean` | `true` | Whether fixed positioned |
-| placeholder | `boolean` | `false` | When fixed, whether to reserve flow space so content is not covered |
+| leftText | `string` | `''` | Text next to the back arrow; empty shows the arrow only |
+| homeIcon | `boolean` | `false` | Whether to show a home button next to the back button |
+| theme | `'light' \| 'brand'` | `'light'` | Color scheme: light / brand |
+| fixed | `boolean` | `true` | Whether to fix the bar to the top of the page |
+| placeholder | `boolean` | `false` | When fixed, whether to reserve the same height in the page so content is not covered |
 | safeAreaInsetTop | `boolean` | `true` | Whether to reserve top safe area |
 | zIndex | `number` | `500` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| go-back | go-back |
-| go-home | go-home |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| go-back | — | Fires when the back button is tapped |
+| go-home | — | Fires when the home button is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| left | `left` slot |
-| right | `right` slot |
-| title | `title` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-navbar/`
-- Demo: `#/pages/demo/nav/navbar`
-- Chinese docs: [/uniappx/components/navbar](/uniappx/components/navbar)
+| left | Extra content on the left, after the back and home buttons |
+| title | Custom title |
+| right | Actions on the right |

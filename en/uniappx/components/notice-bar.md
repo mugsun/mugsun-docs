@@ -5,18 +5,13 @@ demo: pages/demo/feedback/notice-bar
 
 # Notice Bar
 
-`ms-notice-bar` is a top notice bar with theme colors, single-line truncation, vertical swiper rotation and a close button. It has no CSS marquee animation because uni-app x does not support `@keyframes` on the App platform, including uni-app x Vapor mode.
+`ms-notice-bar` is a notice bar. A single message shows on one line with an ellipsis, and several messages can rotate vertically. An action label and a close button are optional.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-notice-bar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/notice-bar`.
+There is no horizontal marquee, because uni-app x does not support `@keyframes` on the App platform.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/notice-bar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Themes -->
@@ -44,33 +39,25 @@ function onNoticeClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | theme | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | Theme color |
-| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction |
-| content | `string` | `''` | Content text |
-| list | `string[]` | `[]` | Data list |
+| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | Display: horizontal (one line) / vertical (rotating) |
+| content | `string` | `''` | Notice text |
+| list | `string[]` | `[]` | Several notices for vertical rotation; `content` is used when empty |
 | closable | `boolean` | `false` | Whether closable |
-| icon | `string` | `'megaphone-line'` | Icon name (icons.uts) |
+| icon | `string` | `'megaphone-line'` | Name of the icon on the left |
 | showIcon | `boolean` | `true` | Whether to show the left icon; also hidden when icon is empty |
-| operation | `string` | `''` | Right action label |
-| suffixIcon | `string` | `''` | Right suffix icon; closable wins if both set |
-| interval | `number` | `3000` | Vertical autoplay interval (ms) |
+| operation | `string` | `''` | Action label on the right |
+| suffixIcon | `string` | `''` | Name of the icon on the right, such as an arrow; hidden when `closable` is `true` |
+| interval | `number` | `3000` | Interval of the vertical rotation (ms) |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-| close | Closed |
-| operation | operation |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-notice-bar/`
-- Demo: `#/pages/demo/feedback/notice-bar`
-- Chinese docs: [/uniappx/components/notice-bar](/uniappx/components/notice-bar)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the bar is tapped, including taps on the action label and the icon on the right |
+| close | — | Fires when the close button is tapped; the bar then hides |
+| operation | — | Fires when the action label is tapped |

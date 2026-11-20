@@ -5,18 +5,13 @@ demo: pages/demo/nav/tabbar
 
 # Tabbar
 
-`ms-tabbar` is a bottom navigation bar with text-only, icon and badge items. The current item binds with `v-model:value`, and it supports fixed positioning with a placeholder.
+`ms-tabbar` is a bottom navigation bar. `items` defines the entries, which can have icons and badges, and `v-model:value` binds the index of the current one.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-tabbar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/tabbar`.
+It is fixed to the bottom of the page by default. Set `placeholder` to `true` to reserve the same height in the page so content is not covered.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/tabbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-tabbar
@@ -133,32 +128,24 @@ function onSplitChange(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | Selected item index |
-| items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled |
-| theme | `'normal' \| 'tag'` | `'normal'` | Theme color |
-| shape | `'normal' \| 'round'` | `'normal'` | Shape |
-| bordered | `boolean` | `true` | Top border |
-| split | `boolean` | `false` | Divider between items |
-| fixed | `boolean` | `true` | Whether fixed positioned |
-| placeholder | `boolean` | `false` | When fixed, reserve flow space so content is not covered |
+| value | `number` | `0` | Index of the selected item. Works with `v-model:value` |
+| items | `UTSJSONObject[]` | `[]` | Entries; each item has `label` and optional `icon` / `count` / `badge` / `dot` / `disabled` |
+| theme | `'normal' \| 'tag'` | `'normal'` | Selected style: normal (theme color) / tag (bold text only) |
+| shape | `'normal' \| 'round'` | `'normal'` | Shape: normal (full width) / round (floating capsule) |
+| bordered | `boolean` | `true` | Whether to show the top border |
+| split | `boolean` | `false` | Whether to show dividers between items |
+| fixed | `boolean` | `true` | Whether to fix the bar to the bottom of the page |
+| placeholder | `boolean` | `false` | When fixed, whether to reserve the same height in the page so content is not covered |
 | safeAreaInsetBottom | `boolean` | `true` | Whether to reserve bottom safe area |
 | zIndex | `number` | `400` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| update:value | v-model:value update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-tabbar/`
-- Demo: `#/pages/demo/nav/tabbar`
-- Chinese docs: [/uniappx/components/tabbar](/uniappx/components/tabbar)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: number` | Fires when the selection changes; `index` is the newly selected item |
+| update:value | `index: number` | Fires when the selection changes; used by `v-model:value` |

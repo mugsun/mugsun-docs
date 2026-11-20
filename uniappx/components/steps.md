@@ -5,18 +5,15 @@ demo: pages/demo/nav/steps
 
 # Steps 步骤
 
-`ms-steps` 是步骤条，由 `items`（`title` / `content` / `icon` / `status`）生成，不需要注册子组件。
+`ms-steps` 是步骤条，步骤由 `items` 生成，可以横向或纵向排列。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
+各步骤的状态默认按 `current` 推算：之前的已完成，之后的未开始。步骤自己的 `status` 优先。
 
-组件目录：`uni_modules/ms-ui/components/ms-steps`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/steps`。
+点击步骤可以切换，当前步骤用 `v-model:current` 绑定；不需要点击时设置 `readonly`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/steps.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -116,28 +113,21 @@ function onDepthChange(current: number, previous: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 title / content / icon / status |
-| current | `number` | `0` | 当前步骤下标；等于步骤数表示全部完成 |
-| currentStatus | `string` | `'process'` | current 指向步骤的状态：process / error / finish / default |
-| layout | `string` | `'horizontal'` | 方向：horizontal / vertical |
-| theme | `string` | `'default'` | 风格：default 序号圈 / dot 简略圆点 |
-| readonly | `boolean` | `false` | 只读，不触发 change 事件 |
+| items | `UTSJSONObject[]` | `[]` | 步骤列表，每项含 `title`，可选 `content` / `icon` / `status` |
+| current | `number` | `0` | 当前步骤的下标，等于步骤总数时表示全部完成，可用 `v-model:current` |
+| currentStatus | `string` | `'process'` | 当前步骤的状态：process / error / finish / default |
+| layout | `string` | `'horizontal'` | 排列方向：horizontal 横向 / vertical 纵向 |
+| theme | `string` | `'default'` | 样式：default 带序号的圆圈 / dot 小圆点 |
+| readonly | `boolean` | `false` | 是否只读，只读时点击不触发任何事件 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| change | 值变化 |
-| click | 点击 |
-| update:current | v-model:current 更新 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-steps/`
-- 演示: `#/pages/demo/nav/steps`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `current: number, previous: number` | 切换步骤时触发，参数是新步骤和原步骤的下标 |
+| click | `index: number` | 点击任意步骤时触发，包括当前步骤 |
+| update:current | `index: number` | 切换步骤时触发，用于 `v-model:current` |

@@ -5,18 +5,11 @@ demo: pages/demo/basic/button
 
 # Button
 
-`ms-button` is a semantic button. It supports `theme`, `variant`, `size`, `block`, `disabled`, `loading`, `loadingText`, `formType`, `ghost`, `icon` / `iconOnly`, `shape` and `haptic`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-button`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/button`.
+`ms-button` is a button with several themes, variants and sizes, plus a loading state, icons and native form submission.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/button.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Variants -->
@@ -45,8 +38,6 @@ function onThemeClick(name: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -59,26 +50,20 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | ghost | `boolean` | `false` | Ghost button (transparent fill, outlined) |
 | disabled | `boolean` | `false` | Whether disabled |
 | loading | `boolean` | `false` | Whether loading |
-| loadingText | `string` | `'加载中…'` | Loading text; empty string shows spinner only |
+| loadingText | `string` | `'加载中…'` | Loading text; empty string shows spinner only; the default is Chinese for "Loading…" |
 | icon | `string` | `''` | Left icon name; can coexist with text |
 | iconOnly | `boolean` | `false` | Icon only (square hit area) |
 | formType | `'' \| 'submit' \| 'reset'` | `''` | Native form type: submit / reset; empty = normal button |
-| haptic | `boolean` | `true` | Short haptic on App/MP click; skipped automatically on Web |
+| haptic | `boolean` | `true` | Short vibration on tap; takes effect in the app and mini programs |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | `e: UniPointerEvent` | Fires on tap; not fired while disabled |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-button/`
-- Demo: `#/pages/demo/basic/button`
-- Chinese docs: [/uniappx/components/button](/uniappx/components/button)
+| default | Button label |

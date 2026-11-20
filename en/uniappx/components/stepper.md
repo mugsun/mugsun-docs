@@ -7,16 +7,9 @@ demo: pages/demo/form/stepper
 
 `ms-stepper` is a numeric stepper with filled, outlined and plain styles in three sizes. It supports step, minimum and maximum values, and decimal places.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-stepper`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/stepper`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/stepper.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -59,8 +52,6 @@ const vSize = ref(3)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -69,23 +60,17 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | min | `number` | `0` | Minimum |
 | max | `number` | `100` | Maximum |
 | step | `number` | `1` | Step |
-| precision | `number` | `0` | Precision |
-| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | Theme color |
+| precision | `number` | `0` | Decimal places |
+| theme | `'normal' \| 'filled' \| 'outline'` | `'normal'` | Style: normal (plain) / filled / outline |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 | disabled | `boolean` | `false` | Whether disabled |
-| disableInput | `boolean` | `false` | Whether input is disabled |
-| longPress | `boolean` | `true` | Long-press +/- for continuous step (on by default) |
+| disableInput | `boolean` | `false` | Whether typing in the input is disabled; the buttons still work |
+| longPress | `boolean` | `true` | Whether holding a button keeps stepping |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-| overlimit | overlimit |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-stepper/`
-- Demo: `#/pages/demo/form/stepper`
-- Chinese docs: [/uniappx/components/stepper](/uniappx/components/stepper)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: number` | Fires when the value changes; used by `v-model` |
+| change | `value: number` | Fires when the value changes; `value` is the new value |
+| overlimit | `type: string` | Fires on an attempt to step past the minimum or maximum; `type` is `minus` or `plus` |

@@ -7,17 +7,11 @@ demo: pages/demo/media/blur
 
 `ms-blur` is a frosted overlay with a translucent tint in light and dark strengths. It is meant for functional masks on sheets, toolbars and image captions, not for decorative glassmorphism.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-blur/components/ms-blur`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-blur` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/blur`.
+This is an optional plugin. Install `uni_modules/ms-blur` separately; it does not depend on `ms-ui` and works on its own.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/blur.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -57,15 +51,13 @@ const blur = ref(12)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| blur | `number` | `12` | Blur radius (px) |
-| tint | `string` | `'light'` | Tint tier |
-| opacity | `number` | `0.85` | Opacity |
+| blur | `number` | `12` | Blur radius (px); takes effect on Web and mini programs |
+| tint | `string` | `'light'` | Tint: light / dark |
+| opacity | `number` | `0.85` | Tint opacity, from 0 to 1 |
 | radius | `number` | `0` | Border radius (px) |
 | padding | `number` | `12` | Padding (px) |
 
@@ -73,10 +65,4 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-blur/components/ms-blur/`
-- Demo: `#/pages/demo/media/blur`
-- Chinese docs: [/uniappx/components/blur](/uniappx/components/blur)
+| default | Content placed on the overlay |

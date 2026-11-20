@@ -7,16 +7,9 @@ demo: pages/demo/display/avatar
 
 `ms-avatar` displays a single avatar, which can be an image, text or an icon.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-avatar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/avatar`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/avatar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -46,8 +39,6 @@ function onAvatarError() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -55,19 +46,13 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | src | `string` | `''` | Avatar image URL |
 | text | `string` | `''` | Text when there is no image |
 | icon | `string` | `''` | Icon when there is no image and no text |
-| shape | `'circle' \| 'round'` | `'circle'` | Shape: circle / round / square |
+| shape | `'circle' \| 'round'` | `'circle'` | Shape: `circle`, or `round` for rounded corners |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size tier |
 | mode | `string` | `'aspectFill'` | Image mode (e.g. aspectFill) |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-| error | Error |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-avatar/`
-- Demo: `#/pages/demo/display/avatar`
-- Chinese docs: [/uniappx/components/avatar](/uniappx/components/avatar)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the avatar is tapped |
+| error | — | Fires when the image fails to load; the avatar then falls back to the text or the icon |

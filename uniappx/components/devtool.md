@@ -7,16 +7,9 @@ demo: pages/demo/media/devtool
 
 `ms-devtool` 是页面内的调试面板，包含记录列表、环境信息和清空按钮，可在折叠和展开两种状态间切换。记录由使用它的页面传入。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-devtool`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/media/devtool`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/devtool.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -84,28 +77,21 @@ function onEntry(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | title | `string` | `'调试面板'` | 标题 |
-| host | `string` | `''` | 宿主标识 |
-| entries | `UTSJSONObject[]` | `[]` | 条目列表 |
-| open | `boolean` | `false` | 是否打开 |
-| showEnv | `boolean` | `true` | 是否显示环境元信息 |
-| maxHeight | `number` | `220` | 面板最大高度（px） |
+| host | `string` | `''` | 请求域名，留空不显示 |
+| entries | `UTSJSONObject[]` | `[]` | 记录列表，每项支持 api / status / time / result |
+| open | `boolean` | `false` | 是否展开，可用 `v-model:open` |
+| showEnv | `boolean` | `true` | 是否显示环境信息 |
+| maxHeight | `number` | `220` | 记录区的最大高度（px） |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:open | update:open |
-| clear | 清空 |
-| entry-click | entry-click |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-devtool/`
-- 演示: `#/pages/demo/media/devtool`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:open | `value: boolean` | 点击标题栏切换展开状态时触发，用于 `v-model:open` |
+| clear | `payload: UTSJSONObject` | 点击清空按钮时触发，`payload.count` 是当前记录数；记录需要由页面自行清空 |
+| entry-click | `payload: UTSJSONObject` | 点击某条记录时触发，`payload` 含 `index`、`api` 和 `status` |

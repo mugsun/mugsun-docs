@@ -5,18 +5,13 @@ demo: pages/demo/feedback/upload
 
 # Upload
 
-`ms-upload` is a grid-style image uploader.
+`ms-upload` shows the picked images in a grid, with add, remove and preview. Bind the file list with `v-model:fileList`.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-upload`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/upload`.
+The component only picks images and shows their state; it does not upload anything. Upload in the `add` handler yourself, then update each item's `status` and `percent`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/upload.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -72,35 +67,36 @@ function onPreviewClick(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| fileList | `UTSJSONObject[]` | `[]` | Controlled file list (render source of truth); fields url/name/status/percent |
-| max | `number` | `9` | Max count; 0 = unlimited |
-| column | `number` | `4` | Columns per row |
-| source | `string` | `'both'` | album / camera / both |
-| showName | `boolean` | `false` | Show file name under the tile |
-| addable | `boolean` | `true` | Show the add tile |
-| removable | `boolean` | `true` | Show remove button |
+| fileList | `UTSJSONObject[]` | `[]` | File list. Works with `v-model:fileList`; each item can have `url` / `name` / `status` / `percent`, with `status` one of loading / failed / done |
+| max | `number` | `9` | Maximum number of files; `0` for no limit |
+| column | `number` | `4` | Number of tiles per row |
+| source | `string` | `'both'` | Image source: album / camera / both |
+| showName | `boolean` | `false` | Whether to show the file name below each image |
+| addable | `boolean` | `true` | Whether to show the add button |
+| removable | `boolean` | `true` | Whether to show the remove button; an image that is still uploading cannot be removed |
 | disabled | `boolean` | `false` | Whether disabled |
-| preview | `boolean` | `true` | Whether tapping a tile opens native preview |
-| sizeLimit | `number` | `0` | Per-file size limit (bytes); 0 = none; oversize emits and skips |
+| preview | `boolean` | `true` | Whether tapping an image opens the preview |
+| sizeLimit | `number` | `0` | Size limit per file (bytes); `0` for no limit. Files over the limit are left out and `oversize` fires |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:fileList | `list: UTSJSONObject[]` | Fires when images are added or removed; used by `v-model:fileList` |
+| add | `picked: UTSJSONObject[]` | Fires after images are picked; `picked` holds the new items, each with `url` and `status` |
+| remove | `index: number` | Fires when the remove button is tapped; `index` is the removed item |
+| click | `index: number` | Fires when an image is tapped; `index` is that item. Not fired while disabled |
+| oversize | — | Fires when a file exceeds `sizeLimit`, and also when `choose()` is called after `max` is reached |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:fileList | v-model:fileList update |
-| add | Item added |
-| remove | Item removed |
-| click | Click |
-| oversize | File over size limit |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-upload/`
-- Demo: `#/pages/demo/feedback/upload`
-- Chinese docs: [/uniappx/components/upload](/uniappx/components/upload)
+| `choose()` | Opens the image picker, same as tapping the add button |
+| `getCount(): number` | Returns the current number of files |

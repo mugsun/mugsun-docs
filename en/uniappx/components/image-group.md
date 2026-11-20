@@ -7,16 +7,9 @@ demo: pages/demo/display/image-group
 
 `ms-image-group` is an image grid for comments or detail pages. It supports multi-image layouts, optional tags, an overlay when there are more images than shown, and tap to preview.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-image-group`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/image-group`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/image-group.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Layout -->
@@ -73,34 +66,26 @@ function onClick(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | Data list |
-| columns | `number` | `3` | Column config |
-| mode | `string` | `'aspectFill'` | Mode |
-| labelMode | `string` | `'inset'` | Label mode |
-| maxCount | `number` | `-1` | Max count |
-| preview | `boolean` | `true` | Whether previewable |
+| list | `UTSJSONObject[]` | `[]` | Images; each item has `url`, plus optional `label` (tag) and `temp` (thumbnail shown in place of `url`) |
+| columns | `number` | `3` | Columns per row |
+| mode | `string` | `'aspectFill'` | Image scaling and cropping mode |
+| labelMode | `string` | `'inset'` | Tag position: `inset` inside the image, `outer` outside it |
+| maxCount | `number` | `-1` | Maximum number of images shown, `-1` for no limit; an overlay marks the rest |
+| preview | `boolean` | `true` | Whether tapping an image opens the preview |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | `payload: UTSJSONObject` | Fires when an image is tapped; `payload` has `index` and `item` (the original list entry). Not fired while disabled |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-image-group/`
-- Demo: `#/pages/demo/display/image-group`
-- Chinese docs: [/uniappx/components/image-group](/uniappx/components/image-group)
+| default | Custom content for the overlay shown when there are more images |

@@ -5,18 +5,13 @@ demo: pages/demo/nav/more
 
 # More 更多
 
-`ms-more` 在内容超过设定高度时将其收起，点击可展开或收起。
+`ms-more` 把较长的内容收起到固定高度，点击下方的操作区展开或收起。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-more`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/more`。
+展开状态由 `opened` 控制，组件不会自己切换，需要在 `change` 事件里更新它。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/more.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -99,14 +94,12 @@ function onCustomChange(opened: boolean) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | 是否已展开 |
-| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | 收起态可见高度档：sm / md / lg |
+| opened | `boolean` | `false` | 是否展开 |
+| collapsedSize | `'sm' \| 'md' \| 'lg'` | `'md'` | 收起时的可见高度：sm / md / lg |
 | expandText | `string` | `'展开更多'` | 展开文案 |
 | collapseText | `string` | `'收起'` | 收起文案 |
 | disabled | `boolean` | `false` | 是否禁用 |
@@ -115,19 +108,14 @@ function onCustomChange(opened: boolean) : void {
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| change | 值变化 |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `opened: boolean` | 点击操作区时触发，`opened` 是切换后的状态；禁用时不触发 |
+| click | `opened: boolean` | 点击操作区时触发，`opened` 是点击前的状态；禁用时也会触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-| action | `action` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-more/`
-- 演示: `#/pages/demo/nav/more`
+| default | 要收起的内容 |
+| action | 自定义操作区，作用域参数 `opened` 表示是否展开 |

@@ -7,16 +7,11 @@ demo: pages/demo/form/picker-selected
 
 `ms-picker-selected` 是弹层式搜索选择器，可以在本地过滤，也可以由使用它的页面异步搜索，支持单选和多选。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-picker-selected`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/picker-selected`。
+选中的值用 `v-model:value` 绑定，点击确定后才会更新。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/picker-selected.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -138,48 +133,51 @@ function onSingleConfirm(ids: string[], labels: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | 选项列表 |
-| value | `string[]` | `[]` | 当前值 |
+| options | `UTSJSONObject[]` | `[]` | 选项列表，值和文字的字段名由 `valueKey` 和 `labelKey` 指定 |
+| value | `string[]` | `[]` | 选中项的值，可用 `v-model:value` |
 | visible | `boolean` | `false` | 是否显示 |
 | title | `string` | `'请选择'` | 标题 |
 | cancelText | `string` | `'取消'` | 取消按钮文案 |
 | confirmText | `string` | `'确定'` | 确认按钮文案 |
-| placeholder | `string` | `'搜索'` | 占位文案 |
-| emptyText | `string` | `'暂无数据'` | 空态文案 |
+| placeholder | `string` | `'搜索'` | 搜索框占位文字 |
+| emptyText | `string` | `'暂无数据'` | 没有数据时的提示文字 |
 | valueKey | `string` | `'id'` | 选项值字段名 |
-| labelKey | `string` | `'name'` | 选项文案字段名 |
-| filterKey | `string` | `''` | 搜索匹配字段名 |
-| localSearch | `boolean` | `true` | 是否在本地 options 内筛选 |
+| labelKey | `string` | `'name'` | 选项文字的字段名 |
+| filterKey | `string` | `''` | 搜索时匹配的字段名，留空时用 `labelKey` |
+| localSearch | `boolean` | `true` | 是否在本地筛选；设为 `false` 时在 `search` 事件里自行搜索并更新 `options` |
 | multiple | `boolean` | `true` | 是否多选 |
-| required | `boolean` | `false` | 是否必填 |
+| required | `boolean` | `false` | 单选时是否禁止取消已选中的项 |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:visible | v-model:visible 更新 |
-| update:value | v-model:value 更新 |
-| search | search |
-| change | 值变化 |
-| confirm | 确认 |
-| cancel | 取消 |
-| open | 打开 |
-| close | 关闭 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
+| update:value | `ids: string[]` | 点击确定时触发，用于 `v-model:value` |
+| search | `keyword: string` | 搜索框内容变化时触发，清空时 `keyword` 为空字符串 |
+| change | `ids: string[], labels: string[]` | 在面板里选中或取消一项时触发，这时还没有确认 |
+| confirm | `ids: string[], labels: string[]` | 点击确定时触发，参数是选中项的值和文字 |
+| cancel | — | 点击取消时触发，面板上的选择恢复为 `value` |
+| open | — | 面板打开时触发 |
+| close | — | 面板关闭时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
+| default | 触发元素，点击后打开面板 |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-picker-selected/`
-- 演示: `#/pages/demo/form/picker-selected`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `getLabels(): string[]` | 返回面板上当前选中项的文字 |
+| `open()` | 打开面板，禁用时无效 |
+| `close()` | 关闭面板 |

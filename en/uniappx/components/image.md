@@ -7,16 +7,9 @@ demo: pages/demo/basic/image
 
 `ms-image` wraps the native `<image>` and shows a placeholder while loading and on failure.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-image`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/image`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/image.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Fit -->
@@ -42,37 +35,29 @@ const demoSrc = '/static/demo-crop.png'
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | Resource URL |
-| mode | `string` | `'aspectFill'` | Mode |
+| src | `string` | `''` | Image URL |
+| mode | `string` | `'aspectFill'` | Scaling and cropping mode, same as `mode` on the native `image` |
 | shape | `'square' \| 'round' \| 'circle'` | `'square'` | Shape |
-| width | `string` | `'72px'` | Width (px) |
-| height | `string` | `'72px'` | Height (px) |
+| width | `string` | `'72px'` | Width, a string with a unit |
+| height | `string` | `'72px'` | Height, a string with a unit |
 | lazy | `boolean` | `false` | Whether lazy-load |
-| showMenuByLongpress | `boolean` | `false` | Long-press MP code menu (WeChat; see image.md) |
+| showMenuByLongpress | `boolean` | `false` | Whether a long press opens the menu for recognizing mini program codes; WeChat mini program only |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| load | Load |
-| error | Error |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| load | `e: UniImageLoadEvent` | Fires when the image has loaded |
+| error | `e: UniImageErrorEvent` | Fires when the image fails to load |
+| click | — | Fires when the image is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| error | `error` slot |
-| loading | `loading` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-image/`
-- Demo: `#/pages/demo/basic/image`
-- Chinese docs: [/uniappx/components/image](/uniappx/components/image)
+| loading | Custom placeholder while loading |
+| error | Custom placeholder on failure |

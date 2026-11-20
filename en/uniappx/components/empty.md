@@ -5,18 +5,13 @@ demo: pages/demo/basic/empty
 
 # Empty
 
-`ms-empty` is an empty-state component. It can show an icon, an image and an action; `status` supports loading, error and more; and it provides an action slot.
+`ms-empty` is an empty-state component: an icon or image with a short text, plus an optional action button.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-empty`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/empty`.
+`status` also covers loading, error and no-more states.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/empty.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Icon -->
@@ -53,8 +48,6 @@ function onRetry() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -64,27 +57,21 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | description | `string` | `''` | Description text |
 | icon | `string` | `'inbox-line'` | Icon name (icons.uts) |
 | image | `string` | `''` | Image URL |
-| actionText | `string` | `''` | Action text |
-| errorText | `string` | `'加载出错了'` | Error text |
-| moreText | `string` | `'没有更多了'` | Label when variant is more |
-| loadingText | `string` | `'加载中…'` | Loading text |
+| actionText | `string` | `''` | Action button text |
+| errorText | `string` | `'加载出错了'` | Error text; the default is Chinese for "Failed to load" |
+| moreText | `string` | `'没有更多了'` | Text shown when `status` is `more`; the default is Chinese for "No more items" |
+| loadingText | `string` | `'加载中…'` | Loading text; the default is Chinese for "Loading…" |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| action | Action button |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| action | — | Fires when the action button is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| action | `action` slot |
-| description | `description` slot |
-| image | `image` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-empty/`
-- Demo: `#/pages/demo/basic/empty`
-- Chinese docs: [/uniappx/components/empty](/uniappx/components/empty)
+| image | Custom image area; shows the icon or the `image` picture by default |
+| description | Custom text area; shows the title and description by default |
+| action | Custom action area; shows the action button by default |

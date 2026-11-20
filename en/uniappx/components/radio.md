@@ -7,16 +7,11 @@ demo: pages/demo/form/radio
 
 `ms-radio` is a radio option with filled, outlined and dot styles; the control can sit to the left or right of the label.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-radio`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/radio`.
+On its own, bind the checked state with `v-model`. Inside [`ms-radio-group`](./radio-group), `value` identifies the option and the group manages the checked state.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/radio.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -45,38 +40,30 @@ const vUncheck = ref(true)
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | Bound value (v-model) |
-| value | `string` | `''` | Option value within radio-group |
+| modelValue | `boolean` | `false` | Whether it is checked; bind with `v-model` when used on its own |
+| value | `string` | `''` | Option value inside `ms-radio-group` |
 | label | `string` | `''` | Label text |
-| content | `string` | `''` | Secondary description |
-| contentDisabled | `boolean` | `false` | Tapping content does not toggle; only the icon toggles |
+| content | `string` | `''` | Description below the label |
+| contentDisabled | `boolean` | `false` | Whether tapping the description does not toggle the option |
 | disabled | `boolean` | `false` | Whether disabled |
-| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | Icon shape |
-| placement | `'left' \| 'right'` | `'left'` | Icon position relative to text |
-| block | `boolean` | `false` | Whether full-bleed / block |
-| allowUncheck | `boolean` | `false` | Whether tapping the selected item again clears it |
+| icon | `'circle' \| 'line' \| 'dot'` | `'circle'` | Control style: circle / line / dot |
+| placement | `'left' \| 'right'` | `'left'` | Whether the control sits to the left or right of the text |
+| block | `boolean` | `false` | Whether it takes the full row |
+| allowUncheck | `boolean` | `false` | Whether tapping a checked option clears it |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: boolean` | Fires when the checked state changes in standalone use; used by `v-model` |
+| change | `value: boolean` | Fires when the checked state changes in standalone use. Not fired inside `ms-radio-group`; listen to the group's `change` instead |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-radio/`
-- Demo: `#/pages/demo/form/radio`
-- Chinese docs: [/uniappx/components/radio](/uniappx/components/radio)
+| default | Custom content shown below the label and description |

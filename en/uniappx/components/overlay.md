@@ -7,16 +7,9 @@ demo: pages/demo/basic/overlay
 
 `ms-overlay` is a full-screen translucent mask and the base component for popups.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-overlay`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/overlay`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/overlay.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-overlay
@@ -76,34 +69,35 @@ function closeLock(): void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| closable | `boolean` | `true` | Whether closable |
+| closable | `boolean` | `true` | Whether tapping the mask closes it |
 | zIndex | `number` | `1000` | z-index |
-| dim | `'light' \| 'normal' \| 'heavy'` | `'normal'` | Overlay strength: light / normal / deep (semantic; not an arbitrary color) |
+| dim | `'light' \| 'normal' \| 'heavy'` | `'normal'` | Mask darkness: light / normal / heavy |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-| close | Closed |
-| open | Opened |
-| update:visible | v-model:visible update |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the mask is tapped |
+| close | — | Fires when the mask closes |
+| open | — | Fires after the fade-in finishes |
+| update:visible | `value: boolean` | Fires when the mask opens or closes; used by `v-model:visible` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Content centered on the mask |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-overlay/`
-- Demo: `#/pages/demo/basic/overlay`
-- Chinese docs: [/uniappx/components/overlay](/uniappx/components/overlay)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `open()` | Opens the mask; requires `v-model:visible` |
+| `close()` | Closes the mask; requires `v-model:visible` |

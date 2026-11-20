@@ -5,18 +5,13 @@ demo: pages/demo/nav/sticky
 
 # Sticky
 
-`ms-sticky` provides sticky positioning without CSS sticky: in uni-app x, `position: sticky` is supported only on Web and not in any App target, and the official `sticky-header` / `sticky-section` are not supported in WeChat mini programs and do not accept class or style, so they cannot be used as a base either.
+`ms-sticky` pins its content once it scrolls to the top. It does not rely on CSS `position: sticky`, which uni-app x supports only on Web.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-sticky`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/sticky`.
+Use it inside a `scroll-view` and pass `detail.scrollTop` from the scroll event to `scrollTop`; the component decides from that value whether to stick.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/sticky.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -96,34 +91,35 @@ function onDepthStuck(next: boolean) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| scrollTop | `number` | `0` | detail.scrollTop from the parent page scroll-view @scroll event |
-| offsetTop | `number` | `0` | Offset from container top when stuck (px) |
-| height | `number` | `0` | When >0, skip measurement and use this fixed height |
-| zIndex | `number` | `10` | Sticky z-index (well below overlay) |
-| disabled | `boolean` | `false` | Disable sticky; always in normal flow |
-| anchorTop | `number` | `0` | Anchor offset in scroll content; >0 skips measurement (most stable cross-end) |
+| scrollTop | `number` | `0` | Scroll offset of the surrounding `scroll-view`, taken from `detail.scrollTop` of its `@scroll` event |
+| offsetTop | `number` | `0` | Distance from the container top once stuck (px); when stacking several, use the height of the previous one |
+| height | `number` | `0` | Content height (px); when above 0 it is not measured |
+| zIndex | `number` | `10` | z-index while stuck |
+| disabled | `boolean` | `false` | Whether to disable sticking |
+| anchorTop | `number` | `0` | Initial position of the content inside the scroll area (px); when above 0 it is not measured |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| scroll | Scroll |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `stuck: boolean` | Fires when the stuck state changes; `stuck` tells whether it is stuck |
+| scroll | `payload: UTSJSONObject` | Fires when `scrollTop` changes; `payload` has `scrollTop` and `stuck` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Content to pin; the scoped value `stuck` tells whether it is stuck |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-sticky/`
-- Demo: `#/pages/demo/nav/sticky`
-- Chinese docs: [/uniappx/components/sticky](/uniappx/components/sticky)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `isStuck(): boolean` | Whether it is stuck |
+| `getOffsetTop(): number` | Returns the value of `offsetTop` |

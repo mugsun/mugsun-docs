@@ -5,24 +5,21 @@ demo: pages/demo/media/webview
 
 # Webview
 
-`ms-webview` is a controlled wrapper around the official `<web-view>`, with a fixed-height container, a navigation bar for back, forward and reload, and a one-line status text.
+`ms-webview` wraps the official `<web-view>`. It opens a page in a fixed-height container, with back, forward and reload buttons and a one-line loading status.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+It only opens addresses on the `allowHosts` allowlist. The list is empty by default, so configure it before use.
 
-Component directory: `uni_modules/ms-webview/components/ms-webview`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-webview` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/webview`.
+This is an optional plugin. Install `uni_modules/ms-webview` separately; it depends on `ms-ui`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/webview.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
   <ms-webview
     :src="src"
+    :allow-hosts="['example.com', 'example.org']"
     :height="200"
     @load="onLoad"
     @error="onError"
@@ -67,50 +64,61 @@ function onNavigate(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | Resource URL |
+| src | `string` | `''` | Page address, `http` and `https` only; shows an empty state when blank |
 | height | `number` | `260` | Height (px) |
-| showToolbar | `boolean` | `true` | Whether to show toolbar |
-| showStatus | `boolean` | `true` | Whether to show status |
-| loadingText | `string` | `'加载中…'` | Loading text |
-| allowHosts | `string[]` | `[]` | Allowed external hosts: an exact match (`example.com`) or a leading-dot suffix (`.mugsun.com`, which covers the root domain and its subdomains). It is empty by default, and an empty list rejects every non-empty external URL |
-| allowAnyHost | `boolean` | `false` | Skips the component allowlist. Non-http/https URLs are still rejected, and the WeChat business domain and `urlCheck` rules still apply |
+| showToolbar | `boolean` | `true` | Whether to show the back, forward and reload buttons |
+| showStatus | `boolean` | `true` | Whether to show the loading status |
+| loadingText | `string` | `'加载中…'` | Text shown while loading; the default is Chinese for "Loading…" |
+| allowHosts | `string[]` | `[]` | Hosts allowed to open: `example.com` matches that host only, `.mugsun.com` matches the root domain and all subdomains. Empty by default, which blocks every address |
+| allowAnyHost | `boolean` | `false` | Whether to skip the allowlist check; still `http` and `https` only, and WeChat Mini Programs still enforce their business domains |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| load | `payload: UTSJSONObject` | Fires when the page has loaded; `payload.url` is the current address |
+| error | `payload: UTSJSONObject` | Fires when loading fails; `payload.errMsg` is the error message. Also fires when the address is blocked by the allowlist, then with `url` and `reason` |
+| message | `payload: UTSJSONObject` | Fires when the page posts messages to the app; `payload.count` is the number of messages. Not fired on Web |
+| navigate | `payload: UTSJSONObject` | Fires on back, forward or reload; `payload.action` is back / forward / reload |
+| blocked | `payload: UTSJSONObject` | Fires when the address is blocked by the allowlist; `payload` has `url` and `reason` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| load | Load |
-| error | Error |
-| message | Message received |
-| navigate | Navigate action |
-| blocked | The URL was rejected by the allowlist; payload: `url`, `reason='allowHosts'` |
+| `back()` | Goes back |
+| `forward()` | Goes forward |
+| `reload()` | Reloads the current page |
 
 ## External host allowlist
 
-`src` is passed to the inner `<web-view>` only after it passes the check. When it fails, nothing is loaded, the status line shows that the address is not on the allowlist, the container shows that it was blocked, and both `blocked` and `error` fire with the payload `{ url, reason: 'allowHosts' }`.
+`src` reaches the inner `<web-view>` only after it passes the check. Otherwise the page is not loaded, and both the status line and the container say the address is not on the allowlist.
+
+Both `blocked` and `error` fire in that case, each with `{ url, reason: 'allowHosts' }`.
 
 The check works as follows:
 
-- Only `http://` and `https://` are allowed. `javascript:`, `file:`, `data:` and other schemes are always rejected, even with `allowAnyHost`.
-- URLs that contain control characters (including tabs and line breaks), or whose authority contains a backslash `\` or userinfo (`@`), are rejected.
-- Host names are compared in lower case and the port is ignored. `.mugsun.com` matches `mugsun.com` and `a.mugsun.com`, but not `evilmugsun.com`.
-- When `src` is empty, the component shows an empty state saying no URL is set. This does not count as a block.
+- Only `http://` and `https://` are allowed. Schemes such as `javascript:` and `file:` are always rejected, even with `allowAnyHost`.
+- Addresses with control characters (tabs and line breaks included) are rejected, and so are those whose host part contains a backslash `\` or userinfo (`@`).
+- Host names are compared in lower case and the port is ignored.
+- `.mugsun.com` matches `mugsun.com` and `a.mugsun.com`, but not `evilmugsun.com`.
+- An empty `src` shows an empty state saying no address is set. This does not count as a block.
 
 ```vue
 <ms-webview src="https://a.mugsun.com/" :allow-hosts="['.mugsun.com']" @blocked="onBlocked" />
 ```
 
-## WeChat Mini Program: urlCheck and business domains
+## Domain limits in WeChat Mini Programs
 
-The component allowlist is only the first layer. WeChat Mini Programs add their own platform rules:
+The allowlist is only the component's own check. WeChat Mini Programs add platform limits on top.
 
-1. Turn on domain checking in the project's `manifest.json`. The demo project already sets it to `true`:
+Turn on domain checking in the project's `manifest.json`, as the demo project does:
 
 ```json
 "mp-weixin": {
@@ -120,10 +128,6 @@ The component allowlist is only the first layer. WeChat Mini Programs add their 
 }
 ```
 
-2. Before testing on a real device or submitting for review, configure the business domains for the Mini Program on the WeChat Official Accounts Platform. `web-view` can only open configured domains, and Mini Programs registered to individuals cannot open external links with `web-view`.
+Before previewing on a real device or submitting for review, configure the business domains of the Mini Program on the WeChat Official Accounts Platform. `web-view` can only open configured domains.
 
-## See also
-
-- Component: `uni_modules/ms-webview/components/ms-webview/`
-- Demo: `#/pages/demo/media/webview`
-- Chinese docs: [/uniappx/components/webview](/uniappx/components/webview)
+Mini Programs registered to individuals cannot open external links with `web-view`.

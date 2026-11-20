@@ -5,18 +5,11 @@ demo: pages/demo/media/drag
 
 # Drag 拖拽
 
-`ms-drag` 是拖拽排序容器，在列表或宫格中长按可调整顺序。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-drag`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/media/drag`。
+`ms-drag` 是拖拽排序容器，里面放 [`ms-drag-item`](./drag-item)。长按某一项后拖动即可调整顺序，支持列表和宫格。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/drag.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -111,33 +104,26 @@ function onChangeFixed(next: UTSJSONObject[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | 数据列表 |
-| col | `number` | `1` | 占用列数 |
-| scrollDiff | `number` | `25` | 拖近边缘时每次滚动像素 |
+| list | `UTSJSONObject[]` | `[]` | 数据列表，顺序调整后通过 `change` 返回新的列表 |
+| col | `number` | `1` | 列数，`1` 为列表，大于 1 为宫格 |
+| scrollDiff | `number` | `25` | 拖到屏幕边缘时，每次通过 `move` 事件请求滚动的距离（px） |
 | disabled | `boolean` | `false` | 是否禁用 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| change | 值变化 |
-| start | 开始 |
-| end | end |
-| move | move |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `list: UTSJSONObject[]` | 松手后触发，`list` 是调整顺序后的列表 |
+| start | — | 开始拖动时触发 |
+| end | — | 拖动结束时触发 |
+| move | `delta: number` | 拖到屏幕上下边缘时触发，`delta` 是建议页面滚动的距离（px），向上为负 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-drag/`
-- 演示: `#/pages/demo/media/drag`
+| default | 放置 `ms-drag-item` |

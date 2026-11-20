@@ -7,16 +7,9 @@ demo: pages/demo/form/cascader
 
 `ms-cascader` 是级联选择器。传入扁平的 `options`（包含 value、label、parent），在弹层中逐级选择。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-cascader`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/cascader`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/cascader.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-cascader
@@ -104,8 +97,6 @@ function onLooseChange(value: string, label: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -113,24 +104,28 @@ function onLooseChange(value: string, label: string) : void {
 | options | `UTSJSONObject[]` | `[]` | 扁平节点：value + label + parent（根节点 parent 为空串） |
 | value | `string` | `''` | 选中的叶子 value |
 | visible | `boolean` | `false` | 是否显示 |
-| title | `string` | `''` | 标题 |
+| title | `string` | `''` | 弹层标题 |
 | placeholder | `string` | `'选择选项'` | 未选中时的步骤占位文案 |
 | theme | `string` | `'step'` | 展示风格：step / tab |
 | subTitles | `string[]` | `[]` | 每级次标题 |
-| checkStrictly | `boolean` | `false` | 父子不关联：任意一项可选，头部出确定 |
+| checkStrictly | `boolean` | `false` | 允许选择任意一级，开启后头部显示确定按钮 |
 | closeBtn | `boolean` | `true` | 是否显示关闭按钮 |
 | optionsHeight | `number` | `280` | 选项区高度 px |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 弹层关闭时触发，值为 `false`，用于 `v-model:visible` |
+| change | `value: string, label: string` | 选择完成时触发，`value` 是所选节点的值，`label` 是各级名称用 ` / ` 连接成的路径 |
+| pick | `value: string, label: string, level: number` | 点击某一级的选项时触发，`level` 是该级的下标；禁用项不触发 |
+| close | — | 弹层关闭时触发 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:visible | v-model:visible 更新 |
-| change | 值变化 |
-| pick | 选中项变化（未确认） |
-| close | 关闭 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-cascader/`
-- 演示: `#/pages/demo/form/cascader`
+| `getLabel(): string` | 返回当前已选路径的名称，各级用 ` / ` 连接 |
+| `confirm()` | 按当前已选路径完成选择，等同于点击确定 |

@@ -5,18 +5,13 @@ demo: pages/demo/feedback/popup
 
 # Popup
 
-`ms-popup` is a popup container. `placement` supports `bottom/top/left/right/center`; it can have a title bar and a close button, and `round` applies rounded corners based on the position.
+`ms-popup` is the popup container. It slides in from any of the four edges or appears in the center, with an optional title bar and close button.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-popup`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/popup`.
+Bind its visibility with `v-model:visible`. [`ms-modal`](./modal), [`ms-action-sheet`](./action-sheet) and [`ms-drawer`](./drawer) are built on it.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/popup.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-popup
@@ -124,38 +119,39 @@ function fromCloseToSelect() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | Popup / placement |
+| placement | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | `'bottom'` | Where the popup appears |
 | title | `string` | `''` | Title |
 | showOverlay | `boolean` | `true` | Whether to show the overlay |
 | closeOnOverlayClick | `boolean` | `true` | Whether clicking the overlay closes |
 | closeBtn | `boolean` | `false` | Whether to show the close button |
-| round | `boolean` | `true` | Whether rounded |
+| round | `boolean` | `true` | Whether corners are rounded; which corners depends on the placement |
 | zIndex | `number` | `1000` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| close | Closed |
-| overlay-click | Overlay click |
-| open | Opened |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the popup opens or closes; used by `v-model:visible` |
+| close | — | Fires when the popup closes |
+| overlay-click | — | Fires when the mask is tapped, even when `closeOnOverlayClick` is `false` |
+| open | — | Fires after the opening animation finishes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Popup content |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-popup/`
-- Demo: `#/pages/demo/feedback/popup`
-- Chinese docs: [/uniappx/components/popup](/uniappx/components/popup)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `open()` | Opens the popup; requires `v-model:visible` |
+| `close()` | Closes the popup; requires `v-model:visible` |

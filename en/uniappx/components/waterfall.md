@@ -5,18 +5,13 @@ demo: pages/demo/display/waterfall
 
 # Waterfall
 
-`ms-waterfall` is a masonry layout that assigns items to columns based on their declared heights, with optional cover images and an empty state.
+`ms-waterfall` is a masonry layout. It assigns items to columns by the height each one declares, and items can have a cover image.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-waterfall`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/waterfall`.
+Heights must come with the data; the component does not measure the rendered content.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/waterfall.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -148,33 +143,39 @@ function onItemClick(key: string, index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | Entries |
+| items | `UTSJSONObject[]` | `[]` | List data |
 | column | `number` | `2` | Column count |
-| balance | `boolean` | `true` | Whether to equalize column heights when possible |
-| itemHeight | `number` | `120` | Item height (px) |
+| balance | `boolean` | `true` | Whether to put each item into the shortest column; with `false` items go to the columns in turn |
+| itemHeight | `number` | `120` | Default height when an item declares none (px) |
 | titleKey | `string` | `'title'` | Title field name |
 | descKey | `string` | `'desc'` | Description field name |
 | heightKey | `string` | `'height'` | Height field name |
-| imageKey | `string` | `'image'` | Image field name |
+| imageKey | `string` | `'image'` | Field name of the cover image |
 | coverHeightKey | `string` | `'coverHeight'` | Cover height field name |
-| keyField | `string` | `'id'` | Primary key field name |
-| emptyText | `string` | `'暂无数据'` | Empty-state text |
-| coverHeight | `number` | `88` | Default cover height when image is set |
+| keyField | `string` | `'id'` | Field that uniquely identifies an item |
+| emptyText | `string` | `'暂无数据'` | Text shown when there is no data; the default is Chinese for "No data" |
+| coverHeight | `number` | `88` | Default cover height when an item has an image but declares no cover height (px) |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| item-click | `key: string, index: number` | Fires when an item is tapped, with its key and index |
+
+## Slots
+
+| Slot | Description |
 | --- | --- |
-| item-click | Item click |
+| empty | Custom content when there is no data; by default [`ms-empty`](./empty) with `emptyText` |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-waterfall/`
-- Demo: `#/pages/demo/display/waterfall`
-- Chinese docs: [/uniappx/components/waterfall](/uniappx/components/waterfall)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `getColumnHeights(): number[]` | Returns the total height of each column (px) |

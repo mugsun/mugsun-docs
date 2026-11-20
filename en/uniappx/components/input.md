@@ -5,18 +5,13 @@ demo: pages/demo/form/input
 
 # Input
 
-`ms-input` is a single-line input bound with `v-model`. It supports `label`, `placeholder`, `prefixIcon`, `clearable`, `type="password"`, `status`, `tips`, `align` and `disabled`.
+`ms-input` is a single-line input bound with `v-model`. It can show a label, prefix and suffix icons and a clear button.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-input`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/input`.
+`status` shows the validation state, `tips` is the hint below the field, and `type="password"` is for passwords.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/input.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Basic -->
@@ -49,8 +44,6 @@ const searchValue = ref('')
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -58,41 +51,35 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | modelValue | `string` | `''` | Bound value (v-model) |
 | label | `string` | `''` | Label text |
 | placeholder | `string` | `''` | Placeholder |
-| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | Input type: text / number / idcard / digit / password, etc. |
+| type | `'text' \| 'number' \| 'digit' \| 'password'` | `'text'` | Input type: text / number (integers) / digit (numbers with a decimal point) / password |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | Input align: left / center / right |
 | status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | Status: default / success / warning / error |
-| tips | `string` | `''` | Bottom tip text |
+| tips | `string` | `''` | Hint text below the field |
 | prefixIcon | `string` | `''` | Prefix icon name |
 | suffixIcon | `string` | `''` | Suffix icon name |
-| clearable | `boolean` | `false` | Whether clearable |
+| clearable | `boolean` | `false` | Whether to show the clear button |
 | disabled | `boolean` | `false` | Whether disabled |
 | readonly | `boolean` | `false` | Whether read-only |
-| maxlength | `number` | `-1` | Max input length; -1 = unlimited |
-| showCount | `boolean` | `false` | Show character count (requires maxlength ≥ 0) |
+| maxlength | `number` | `-1` | Maximum input length; `-1` for no limit |
+| showCount | `boolean` | `false` | Whether to show the character count; requires `maxlength` |
 | bordered | `boolean` | `true` | Whether to show bottom border |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| input | Input |
-| focus | Focus |
-| blur | Blur |
-| clear | Clear |
-| confirm | Confirm |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the content changes; used by `v-model` |
+| input | `value: string` | Fires on input; `value` is the current content |
+| focus | `e: UniInputFocusEvent` | Fires when the input gains focus |
+| blur | `e: UniInputBlurEvent` | Fires when the input loses focus |
+| clear | — | Fires when the clear button is tapped |
+| confirm | `value: string` | Fires when the keyboard's done key is tapped; `value` is the current content |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| label | `label` slot |
-| prefix | `prefix` slot |
-| suffix | `suffix` slot |
-| tips | `tips` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-input/`
-- Demo: `#/pages/demo/form/input`
-- Chinese docs: [/uniappx/components/input](/uniappx/components/input)
+| label | Custom label |
+| prefix | Custom content before the input; the prefix icon by default |
+| suffix | Custom content after the input; the suffix icon by default |
+| tips | Custom hint area; `tips` and the character count by default |

@@ -5,19 +5,15 @@ demo: pages/demo/media/chart
 
 # Chart 图表
 
-`ms-chart` 基于原生 canvas 实现常用图表：折线图、面积图、柱状图、饼图、环形图、雷达图、散点图和漏斗图，支持堆叠和多系列，点击图例可隐藏对应系列。
+`ms-chart` 用原生 canvas 画图表，不依赖第三方图表库。`type` 有八种取值，覆盖折线、柱状、饼图等常见图形。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
+折线、面积和柱状图可以再传一组对比数据，并按堆叠方式显示；点击图例可以隐藏对应的系列。
 
-组件目录：`uni_modules/ms-chart/components/ms-chart`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-可选插件：需单独安装 `uni_modules/ms-chart`，并依赖 `ms-ui`。
-演示路由：`#/pages/demo/media/chart`。
+这是可选插件，需要单独安装 `uni_modules/ms-chart`，并依赖 `ms-ui`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/chart.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -135,33 +131,34 @@ function onReady(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| type | `string` | `'line'` | 类型 |
-| list | `UTSJSONObject[]` | `[]` | 数据列表 |
-| compareList | `UTSJSONObject[]` | `[]` | 第二系列（折线/面积/柱对比）；饼图忽略 |
-| height | `number` | `220` | 高度（px） |
-| showGrid | `boolean` | `true` | 是否显示网格 |
-| showLabel | `boolean` | `true` | 是否显示标签 |
-| showLegend | `boolean` | `false` | 是否显示图例 |
-| smooth | `boolean` | `false` | 是否平滑曲线 |
-| showTip | `boolean` | `false` | 点选后在图下展示简易提示条 |
-| stack | `boolean` | `false` | 柱/面积 + compareList 时按堆叠绘制（堆叠语义） |
+| type | `string` | `'line'` | 图表类型：line / area / bar / pie / ring / radar / scatter / funnel |
+| list | `UTSJSONObject[]` | `[]` | 数据项，每项含 `label` 和 `value`；散点图可用 `x` 和 `y` |
+| compareList | `UTSJSONObject[]` | `[]` | 第二组数据，用于折线、面积和柱状图的对比；其他类型忽略 |
+| height | `number` | `220` | 画布高度（px） |
+| showGrid | `boolean` | `true` | 是否显示横向网格和刻度 |
+| showLabel | `boolean` | `true` | 是否显示数值或占比标签 |
+| showLegend | `boolean` | `false` | 是否显示图例；有两组数据时点击图例可隐藏对应系列 |
+| smooth | `boolean` | `false` | 折线图和面积图是否用平滑曲线 |
+| showTip | `boolean` | `false` | 点击数据后在图表下方显示提示条 |
+| stack | `boolean` | `false` | 柱状图和面积图传入 `compareList` 时按堆叠绘制 |
 | seriesName | `string` | `'系列一'` | 主系列图例名 |
 | compareName | `string` | `'系列二'` | 对比系列图例名 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| item-click | `payload: UTSJSONObject` | 点击数据点时触发，`payload` 含 `index`、`label` 和 `value`，有对比数据时还有 `compareValue` 和 `compareLabel` |
+| ready | `payload: UTSJSONObject` | 图表每次绘制完成后触发，`payload.points` 是数据项数量 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| item-click | 点击菜单项 |
-| ready | 就绪 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-chart/components/ms-chart/`
-- 演示: `#/pages/demo/media/chart`
+| `redraw()` | 重新绘制图表 |

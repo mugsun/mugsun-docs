@@ -5,18 +5,13 @@ demo: pages/demo/media/chat
 
 # Chat 对话
 
-`ms-chat` 是对话消息列表，支持按角色显示的消息气泡、Markdown 正文、可折叠的思考过程、助手操作栏和流式输出状态，可选固定高度并自动滚动到底部。
+`ms-chat` 是对话消息列表，按角色显示气泡，助手消息支持 Markdown、可折叠的思考过程和操作栏。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-chat`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/media/chat`。
+设置 `height` 后列表在固定高度内滚动，消息变化时自动滚到底部。组件不包含输入区。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/chat.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -89,33 +84,34 @@ function onThink(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| messages | `UTSJSONObject[]` | `[]` | 消息列表 |
-| layout | `string` | `'both'` | 气泡布局 |
-| variant | `string` | `'base'` | 样式变体 |
+| messages | `UTSJSONObject[]` | `[]` | 消息列表，每项支持 role / text / format / name / avatar / datetime / status / thinking / id |
+| layout | `string` | `'both'` | 气泡布局：both / left |
+| variant | `string` | `'base'` | 气泡样式：base / outline / text |
 | reverse | `boolean` | `false` | 是否倒序渲染（最新在下时常用） |
-| loadingText | `string` | `'正在思考…'` | 加载中文案 |
-| errorText | `string` | `'生成失败，点击重试'` | 错误文案 |
-| showActions | `boolean` | `true` | 是否显示消息操作区 |
-| actions | `string` | `'copy,retry,good,bad'` | 操作项列表 |
-| height | `number` | `0` | 高度（px） |
-| autoScroll | `boolean` | `true` | 是否自动滚动 |
+| loadingText | `string` | `'正在思考…'` | 消息处于 `pending` 状态时显示的文字 |
+| errorText | `string` | `'生成失败，点击重试'` | 消息处于 `error` 状态时显示的文字 |
+| showActions | `boolean` | `true` | 是否显示助手消息下方的操作栏 |
+| actions | `string` | `'copy,retry,good,bad'` | 操作项，用逗号分隔 |
+| height | `number` | `0` | 列表高度（px）；大于 0 时在组件内部滚动 |
+| autoScroll | `boolean` | `true` | 消息变化时是否自动滚到底部 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| message-click | `payload: UTSJSONObject` | 点击消息气泡时触发，`payload` 含 `index`、`role` 和 `text` |
+| retry | `payload: UTSJSONObject` | 点击出错的消息或操作栏里的重试时触发，`payload.index` 是消息下标 |
+| action | `payload: UTSJSONObject` | 点击操作栏按钮时触发，`payload` 含 `index`、`name`、`text` 和 `id` |
+| thinking-toggle | `payload: UTSJSONObject` | 展开或收起思考过程时触发，`payload` 含 `index` 和 `collapsed` |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| message-click | message-click |
-| retry | retry |
-| action | 操作按钮 |
-| thinking-toggle | thinking-toggle |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-chat/`
-- 演示: `#/pages/demo/media/chat`
+| `scrollToBottom()` | 滚动到列表底部，仅在 `height` 大于 0 时有效 |

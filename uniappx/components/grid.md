@@ -5,18 +5,11 @@ demo: pages/demo/nav/grid
 
 # Grid 宫格
 
-`ms-grid` 是宫格容器，子项使用 `ms-grid-item`。容器支持 `column`、`border` 和 `theme`；子项支持 `icon`、`text`、`description` 和 `disabled`。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-grid`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/grid`。
+`ms-grid` 是宫格容器，里面放 [`ms-grid-item`](./grid-item)，每行可以排 3、4 或 5 列。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/grid.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 列数 -->
@@ -74,23 +67,16 @@ demo: pages/demo/nav/grid
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| column | `3 \| 4 \| 5` | `4` | 列数 |
+| column | `3 \| 4 \| 5` | `4` | 每行列数 |
 | border | `boolean` | `false` | 是否显示边框 |
-| theme | `'default' \| 'card'` | `'default'` | 主题色 |
+| theme | `'default' \| 'card'` | `'default'` | 样式：`default` 为通栏，`card` 为卡片 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-grid/`
-- 演示: `#/pages/demo/nav/grid`
+| default | 放置 `ms-grid-item` |

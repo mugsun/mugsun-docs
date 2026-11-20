@@ -7,16 +7,9 @@ demo: pages/demo/feedback/alert
 
 `ms-alert` 是页面内的警告条，支持主题色、浅色和填充两种样式，并可关闭。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-alert`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/alert`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/alert.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 主题 -->
@@ -52,8 +45,6 @@ function onAlertClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -62,25 +53,20 @@ function onAlertClose() : void {
 | variant | `'light' \| 'solid'` | `'light'` | 样式变体 |
 | closable | `boolean` | `true` | 是否可关闭 |
 | icon | `string` | `''` | 图标名（icons.uts） |
-| showIcon | `boolean` | `true` | 不显示左侧图标 |
+| showIcon | `boolean` | `true` | 是否显示左侧图标 |
 | title | `string` | `''` | 标题（可选，与默认插槽正文并存） |
 | visible | `boolean` | `true` | 是否显示；配合 update:visible，关闭后可由父页面重新打开 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-| close | 关闭 |
-| update:visible | v-model:visible 更新 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击警告条时触发 |
+| close | — | 点击关闭按钮时触发 |
+| update:visible | `value: boolean` | 点击关闭按钮后触发，值为 `false`，用于 `v-model:visible` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-alert/`
-- 演示: `#/pages/demo/feedback/alert`
+| default | 正文内容 |

@@ -5,18 +5,13 @@ demo: pages/demo/basic/tag
 
 # Tag
 
-`ms-tag` is a category or status tag. It supports `theme`, `variant`, `size`, `shape`, `closable`, `disabled`, `icon`, `checkable` and `maxWidth`. Press feedback uses opacity, not scaling. When nesting ms-icon inside a tag, set `pressable=false` on the icon.
+`ms-tag` is a tag for marking a category or status, with an optional icon and close button.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-tag`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/tag`.
+With `checkable` on it can be toggled by tapping, which suits filters; bind the state with `v-model:checked`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/tag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Variants -->
@@ -39,40 +34,32 @@ The snippets below are taken from the demo source `pages/demo/basic/tag.uvue`. O
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | theme | `'default' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | Theme color |
-| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | Style variant |
+| variant | `'solid' \| 'light' \| 'outline' \| 'light-outline'` | `'light'` | Style: solid / light / outline / light-outline |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| shape | `'square' \| 'round' \| 'mark'` | `'square'` | Shape |
-| closable | `boolean` | `false` | Whether closable |
+| shape | `'square' \| 'round' \| 'mark'` | `'square'` | Shape: square / round / mark |
+| closable | `boolean` | `false` | Whether to show the close button |
 | disabled | `boolean` | `false` | Whether disabled |
-| icon | `string` | `''` | Icon name (icons.uts) |
-| checkable | `boolean` | `false` | Selectable (filter tag) |
-| checked | `boolean` | `false` | Whether checked |
-| maxWidth | `number` | `0` | Max text width (px); 0 = no limit; overflow ellipsis |
+| icon | `string` | `''` | Icon name |
+| checkable | `boolean` | `false` | Whether it can be toggled by tapping |
+| checked | `boolean` | `false` | Whether it is checked. Works with `v-model:checked` |
+| maxWidth | `number` | `0` | Maximum text width (px) before truncation; `0` for no limit |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-| close | Closed |
-| update:checked | v-model:checked update |
-| change | Value changed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the tag is tapped; not fired while disabled |
+| close | — | Fires when the close button is tapped; the tag does not remove itself, so remove it yourself |
+| update:checked | `value: boolean` | Fires on tap when `checkable` is on; used by `v-model:checked` |
+| change | `value: boolean` | Fires on tap when `checkable` is on; `value` is the new checked state |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-tag/`
-- Demo: `#/pages/demo/basic/tag`
-- Chinese docs: [/uniappx/components/tag](/uniappx/components/tag)
+| default | Tag text |

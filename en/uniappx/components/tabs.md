@@ -7,16 +7,11 @@ demo: pages/demo/nav/tabs
 
 `ms-tabs` provides tabs in line, tag and card styles. Tabs can share the width evenly or scroll horizontally, and support badges and a content area.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-tabs`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/tabs`.
+Bind the index of the selected tab with `v-model:value`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/tabs.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-tabs
@@ -137,36 +132,28 @@ function onTagChange(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `number` | `0` | Selected item index |
-| items | `UTSJSONObject[]` | `[]` | Each item: label / icon / count / badge / dot / disabled / content |
-| theme | `'line' \| 'tag' \| 'card'` | `'line'` | Theme color |
+| value | `number` | `0` | Index of the selected tab. Works with `v-model:value` |
+| items | `UTSJSONObject[]` | `[]` | Tabs; each item has `label` and optional `icon` / `count` / `badge` / `dot` / `disabled` / `content` |
+| theme | `'line' \| 'tag' \| 'card'` | `'line'` | Style: line / tag / card |
 | size | `'md' \| 'lg'` | `'md'` | Size |
-| spaceEvenly | `boolean` | `true` | Equal-width header; false = content width + horizontal scroll |
-| showLine | `boolean` | `true` | Whether the line theme shows the bottom active bar |
-| showContent | `boolean` | `false` | Whether to render content (items[].content or default slot) |
+| spaceEvenly | `boolean` | `true` | Whether tabs share the width evenly; with `false` they size to their content and scroll horizontally |
+| showLine | `boolean` | `true` | Whether the `line` style shows the underline of the selected tab |
+| showContent | `boolean` | `false` | Whether to show the content area, filled from the current item's `content` or the default slot |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| click | Click |
-| update:value | v-model:value update |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: number` | Fires when the selection changes; `index` is the newly selected tab |
+| click | `index: number` | Fires when any enabled tab is tapped, the current one included |
+| update:value | `index: number` | Fires when the selection changes; used by `v-model:value` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-tabs/`
-- Demo: `#/pages/demo/nav/tabs`
-- Chinese docs: [/uniappx/components/tabs](/uniappx/components/tabs)
+| default | Content area, shown when `showContent` is `true`; the current item's `content` by default |

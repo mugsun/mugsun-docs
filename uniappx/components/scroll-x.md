@@ -5,18 +5,11 @@ demo: pages/demo/display/scroll-x
 
 # Scroll X 横向滚动
 
-`ms-scroll-x` 是横向滚动容器（`scroll-view direction="horizontal"`），底部带滚动进度指示条。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-scroll-x`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/scroll-x`。
+`ms-scroll-x` 是横向滚动容器，底部带滚动进度条，里面的每一项用 [`ms-scroll-x-item`](./scroll-x-item) 包裹。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/scroll-x.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 基础用法 -->
@@ -69,33 +62,35 @@ function onScroll() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| indicator | `boolean` | `true` | 是否显示指示器 |
-| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | 间距（px） |
-| inset | `boolean` | `false` | 是否内嵌样式 |
-| showScrollbar | `boolean` | `false` | 是否显示滚动条 |
-| scrollWithAnimation | `boolean` | `false` | 滚动是否带动画 |
+| indicator | `boolean` | `true` | 是否显示底部的滚动进度条 |
+| gap | `'sm' \| 'md' \| 'lg'` | `'md'` | 子项间距：sm / md / lg |
+| inset | `boolean` | `false` | 首尾是否留出边距 |
+| showScrollbar | `boolean` | `false` | 是否显示原生滚动条 |
+| scrollWithAnimation | `boolean` | `false` | 调用 `scrollTo` 时是否带动画 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| scroll | 滚动 |
-| scrolltoupper | scrolltoupper |
-| scrolltolower | 触底 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| scroll | `e: UniScrollEvent` | 滚动时触发 |
+| scrolltoupper | `e: UniScrollToUpperEvent` | 滚动到最左侧时触发 |
+| scrolltolower | `e: UniScrollToLowerEvent` | 滚动到最右侧时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
+| default | 放置 `ms-scroll-x-item`，组件内部已经横向排列 |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-scroll-x/`
-- 演示: `#/pages/demo/display/scroll-x`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `scrollTo(left: number)` | 滚动到指定的横向位置（px） |
+| `getScrollLeft(): number` | 返回当前的横向滚动位置（px） |

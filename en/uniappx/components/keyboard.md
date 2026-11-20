@@ -5,18 +5,13 @@ demo: pages/demo/form/keyboard
 
 # Keyboard
 
-`ms-keyboard` is a custom keyboard. `type` is `number`, `password`, `idcard` or `car`, and it opens from the bottom in an `ms-popup`.
+`ms-keyboard` is a custom keyboard that slides up from the bottom. `type` switches between the number, password, ID card and license plate layouts.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-keyboard`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/keyboard`.
+Bind the input with `v-model` and the visibility with `v-model:visible`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/keyboard.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-keyboard
@@ -72,35 +67,37 @@ function onPasswordConfirm(value: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | Bound value (v-model) |
 | visible | `boolean` | `false` | Whether visible |
-| type | `string` | `'number'` | number / password / idcard / car |
-| title | `string` | `'安全键盘'` | Title |
-| maxLen | `number` | `0` | Max input length; 0 uses built-in limit for mode |
-| max | `number` | `0` | Maximum |
-| digit | `boolean` | `true` | Digit / decimal-related |
-| hold | `boolean` | `false` | Whether long-press is supported |
-| confirmText | `string` | `'确认'` | Confirm button label |
+| type | `string` | `'number'` | Keyboard type: number / password / idcard (ID card) / car (license plate) |
+| title | `string` | `'安全键盘'` | Title; the default is Chinese for "Secure keyboard" |
+| maxLen | `number` | `0` | Maximum input length; with `0`, ID cards take 18 characters, license plates 8, and other types have no limit |
+| max | `number` | `0` | Largest value the number keyboard accepts; `0` for no limit |
+| digit | `boolean` | `true` | Whether the number keyboard has the decimal point and `00` keys |
+| hold | `boolean` | `false` | Whether the keyboard stays open after confirm |
+| confirmText | `string` | `'确认'` | Confirm button label; the default is Chinese for "Confirm" |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the input changes; used by `v-model` |
+| update:visible | `value: boolean` | Fires when the keyboard opens or closes; used by `v-model:visible` |
+| change | `value: string` | Fires when the input changes |
+| confirm | `value: string, pass?: boolean` | Fires when confirm is tapped. With `type` set to `idcard` there is a second argument `pass`, telling whether the ID number is valid |
+| cancel | `value: string` | Fires when the close button is tapped; `value` is the current input |
+| close | — | Fires when the keyboard closes |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:modelValue | v-model update |
-| update:visible | v-model:visible update |
-| change | Value changed |
-| confirm | Confirm |
-| cancel | Cancel |
-| close | Closed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-keyboard/`
-- Demo: `#/pages/demo/form/keyboard`
-- Chinese docs: [/uniappx/components/keyboard](/uniappx/components/keyboard)
+| `open()` | Opens the keyboard; requires `v-model:visible` |
+| `close()` | Closes the keyboard; requires `v-model:visible` |
+| `clear()` | Clears the input |

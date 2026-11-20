@@ -7,16 +7,9 @@ demo: pages/demo/display/tree-flat
 
 `ms-tree-flat` 以平面树或思维导图的形式展示数据，用 canvas 绘制节点和连线，点击父节点可展开或收起。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-tree-flat`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/tree-flat`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/tree-flat.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -63,27 +56,29 @@ function onChange(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| list | `UTSJSONObject[]` | `[]` | 节点数据，每项含 `title`，可选 `children` 和 `opened` |
 | height | `number` | `320` | 高度（px） |
-| direction | `string` | `'horizontal'` | 方向 |
-| lineType | `string` | `'straight'` | 连线样式：straight / curve |
-| fontSize | `number` | `13` | 字号（px） |
-| collapsible | `boolean` | `true` | 是否可折叠 |
+| direction | `string` | `'horizontal'` | 展开方向：horizontal 横向 / vertical 纵向 |
+| lineType | `string` | `'straight'` | 连线样式：straight 折线 / curve 曲线 |
+| fontSize | `number` | `13` | 节点文字的字号（px） |
+| collapsible | `boolean` | `true` | 点击父节点时是否展开或收起 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| node-click | `payload: UTSJSONObject` | 点击节点时触发，`payload` 含 `title` / `depth` / `hasChildren` / `opened`，其中 `opened` 是点击后的状态 |
+| change | `payload: UTSJSONObject` | 每次绘制完成后触发，`payload` 含 `visible`（显示中的节点数）和 `total`（节点总数） |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| node-click | 点击节点 |
-| change | 值变化 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-tree-flat/`
-- 演示: `#/pages/demo/display/tree-flat`
+| `redraw()` | 重新绘制 |
+| `toggleFirst()` | 展开或收起第一个有子节点的节点 |

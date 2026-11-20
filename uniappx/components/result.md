@@ -7,16 +7,9 @@ demo: pages/demo/display/result
 
 `ms-result` 是结果页反馈，由图标或图片、标题、描述和可选的操作区组成。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-result`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/result`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/result.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -79,28 +72,21 @@ function onPrimary() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 主题色 |
+| theme | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | 类型，决定默认的图标和颜色 |
 | title | `string` | `''` | 标题 |
-| description | `string` | `''` | 描述文案 |
-| icon | `string` | `''` | 覆盖主题默认图标；'none' 表示不显示图标 |
-| image | `string` | `''` | 图片地址，有值时优先于图标 |
-| showActions | `boolean` | `false` | 是否渲染操作区（默认插槽） |
+| description | `string` | `''` | 描述文字 |
+| icon | `string` | `''` | 图标名，留空使用类型对应的默认图标，`none` 表示不显示 |
+| image | `string` | `''` | 图片地址，设置后代替图标 |
+| showActions | `boolean` | `false` | 是否显示操作区，内容放在默认插槽 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-| description | `description` 插槽 |
-| title | `title` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-result/`
-- 演示: `#/pages/demo/display/result`
+| title | 自定义标题，默认显示 `title` |
+| description | 自定义描述，默认显示 `description` |
+| default | 操作区内容，`showActions` 为 `true` 时显示 |

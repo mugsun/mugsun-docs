@@ -5,18 +5,11 @@ demo: pages/demo/display/text-cloud
 
 # Text Cloud 词云
 
-`ms-text-cloud` 是词云，按权重决定字号，权重大的词优先从中心沿椭圆螺旋向外紧凑排列，词与词互不重叠，使用 2d canvas 绘制。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-text-cloud`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/text-cloud`。
+`ms-text-cloud` 是词云，按权重决定字号，权重大的词靠近中心，词与词互不重叠，用 canvas 绘制。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/text-cloud.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -62,25 +55,26 @@ function onComplete(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | 数据列表 |
+| list | `UTSJSONObject[]` | `[]` | 词列表，每项含 `text` 和 `weight`，可选 `color` |
 | height | `number` | `180` | 高度（px） |
-| minFontSize | `number` | `12` | 词云最小字号（px） |
-| maxFontSize | `number` | `30` | 词云最大字号（px） |
-| gap | `number` | `2` | 间距（px） |
+| minFontSize | `number` | `12` | 最小字号（px） |
+| maxFontSize | `number` | `30` | 最大字号（px） |
+| gap | `number` | `2` | 词与词之间的间距（px） |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| complete | `payload: UTSJSONObject` | 绘制完成后触发，`payload` 含 `placed`（成功放下的词数）和 `total`（总词数） |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| complete | complete |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-text-cloud/`
-- 演示: `#/pages/demo/display/text-cloud`
+| `redraw()` | 重新绘制 |

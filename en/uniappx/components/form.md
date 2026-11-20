@@ -5,18 +5,13 @@ demo: pages/demo/form/form
 
 # Form
 
-`ms-form` is a form container. It passes `labelAlign` (`left/right/top`), `labelWidth`, `colon`, `showErrorMessage` and `disabled` down to its `ms-form-item` fields.
+`ms-form` is a form container that sets label alignment, label width and the disabled state for the [`ms-form-item`](./form-item) fields inside it.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-form`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/form`.
+Validation needs no method call: increment `validateTick` to validate every field, and increment `resetTick` to clear the errors.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/form.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -68,8 +63,6 @@ const vNick = ref('')
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -77,28 +70,22 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | labelAlign | `'left' \| 'right' \| 'top'` | `'right'` | Label alignment |
 | labelWidth | `number` | `81` | Label width (px) |
 | colon | `boolean` | `false` | Whether to show a colon after the label |
-| showErrorMessage | `boolean` | `true` | Whether to show validation errors |
-| disabled | `boolean` | `false` | Whether disabled |
-| validateTick | `number` | `0` | Increment to run a full validate (avoids holding a component ref) |
-| resetTick | `number` | `0` | Increment to clear all field errors |
+| showErrorMessage | `boolean` | `true` | Whether to show validation error messages |
+| disabled | `boolean` | `false` | Whether to disable the whole form |
+| validateTick | `number` | `0` | Each increment validates every field once |
+| resetTick | `number` | `0` | Each increment clears all error messages |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| validate | Validation finished |
-| submit | Submit |
-| error | Error |
-| reset | Reset |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| validate | `valid: boolean` | Fires after each validation; `valid` tells whether every field passed |
+| submit | `valid: boolean` | Fires when every field passes validation |
+| error | `message: string` | Fires when validation fails; `message` is the first error, made of the field name, a full-width colon and the error text |
+| reset | `ok: boolean` | Fires with `true` after `resetTick` changes and the errors are cleared |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-form/`
-- Demo: `#/pages/demo/form/form`
-- Chinese docs: [/uniappx/components/form](/uniappx/components/form)
+| default | Place `ms-form-item` fields here |

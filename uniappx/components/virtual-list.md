@@ -5,18 +5,13 @@ demo: pages/demo/display/virtual-list
 
 # Virtual List 虚拟列表
 
-`ms-virtual-list` 是固定行高的虚拟列表，只渲染可视区域以及前后的缓冲行；可选在滚动到底部时显示加载栏，并提供空状态插槽和可视窗口作用域插槽。
+`ms-virtual-list` 是固定行高的虚拟列表，只渲染可视区域和前后几行缓冲，适合很长的列表。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-virtual-list`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/virtual-list`。
+滚动到底部时触发 `scrolltolower`，配合 `loading` 和 `finished` 可以做分页加载。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/virtual-list.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -64,45 +59,48 @@ function onRangeChange(start: number, end: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | 条目列表 |
-| itemHeight | `number` | `56` | 单项高度（px） |
-| visibleCount | `number` | `5` | 可视区大约条数 |
-| buffer | `number` | `3` | 可视区外缓冲条数 |
-| virtual | `boolean` | `true` | 是否开启虚拟列表 |
+| items | `UTSJSONObject[]` | `[]` | 列表数据 |
+| itemHeight | `number` | `56` | 每行的高度（px） |
+| visibleCount | `number` | `5` | 可视区域显示的行数，列表的高度等于它乘以 `itemHeight` |
+| buffer | `number` | `3` | 可视区域前后各多渲染的行数 |
+| virtual | `boolean` | `true` | 是否只渲染可视区域，`false` 时渲染全部行 |
 | titleKey | `string` | `'title'` | 标题字段名 |
 | descKey | `string` | `'desc'` | 描述字段名 |
-| keyField | `string` | `'id'` | 主键字段名 |
-| emptyText | `string` | `'暂无数据'` | 空态文案 |
-| loading | `boolean` | `false` | 触底加载中；为 true 时展示底栏并抑制重复 scrolltolower |
-| finished | `boolean` | `false` | 已无更多；底栏展示 finishedText |
-| loadingText | `string` | `'加载中…'` | 加载中文案 |
-| finishedText | `string` | `'没有更多了'` | 没有更多文案 |
-| lowerThreshold | `number` | `50` | 距底多少 px 触发 scrolltolower（对齐 scroll-view lower-threshold） |
-| showLoadMore | `boolean` | `false` | 是否渲染触底状态底栏 |
+| keyField | `string` | `'id'` | 行的唯一标识字段名 |
+| emptyText | `string` | `'暂无数据'` | 没有数据时的提示文字 |
+| loading | `boolean` | `false` | 是否正在加载，为 `true` 时不触发 `scrolltolower` |
+| finished | `boolean` | `false` | 是否已经全部加载，为 `true` 时不触发 `scrolltolower` |
+| loadingText | `string` | `'加载中…'` | 加载时的文字 |
+| finishedText | `string` | `'没有更多了'` | 全部加载后的文字 |
+| lowerThreshold | `number` | `50` | 距离底部多少 px 时触发 `scrolltolower` |
+| showLoadMore | `boolean` | `false` | 是否在底部显示加载状态，`loading` 时显示 `loadingText`，`finished` 时显示 `finishedText` |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| item-click | 点击菜单项 |
-| range-change | range-change |
-| scrolltolower | 触底 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| item-click | `key: string, index: number` | 点击某一行时触发，参数是该行的 key 和下标；用默认插槽自定义行以后不再触发 |
+| range-change | `start: number, end: number` | 渲染范围变化时触发，参数是首行和末行的下标 |
+| scrolltolower | — | 滚动到底部时触发；`loading` 或 `finished` 为 `true` 时不触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-| bottom | `bottom` 插槽 |
-| empty | `empty` 插槽 |
+| default | 自定义行的内容，作用域参数是 `data`（当前渲染的数据）以及 `startIndex` 和 `endIndex` |
+| bottom | 列表末尾的附加内容 |
+| empty | 自定义没有数据时的内容，默认显示 `emptyText` |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-virtual-list/`
-- 演示: `#/pages/demo/display/virtual-list`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `scrollToIndex(index: number)` | 滚动到指定下标的行 |
+| `resetScroll()` | 滚动回顶部 |
+| `getRange(): UTSJSONObject` | 返回当前的渲染范围，含 `start` 和 `end` |

@@ -7,16 +7,9 @@ demo: pages/demo/form/mention
 
 `ms-mention` opens a suggestion panel when the trigger character (default `@`) is typed and inserts `@name ` on selection. A single Backspace removes the whole mention.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-mention`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/mention`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/mention.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -103,34 +96,35 @@ function onMention(keyword: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | Bound value (v-model) |
-| options | `string[]` | `[]` | Options list |
-| trigger | `string` | `'@'` | Trigger |
-| filterable | `boolean` | `true` | Whether filterable |
-| placeholder | `string` | `'输入 @ 提及成员'` | Placeholder |
-| emptyText | `string` | `'无匹配成员'` | Empty-state text |
+| options | `string[]` | `[]` | Candidate names. When empty, no panel opens and only `mention` fires, so you can build your own panel |
+| trigger | `string` | `'@'` | Trigger character; only the first character is used |
+| filterable | `boolean` | `true` | Whether to filter candidates by the text typed after the trigger (prefix match) |
+| placeholder | `string` | `'输入 @ 提及成员'` | Placeholder; the default is Chinese for "Type @ to mention a member" |
+| emptyText | `string` | `'无匹配成员'` | Text shown when nothing matches; the default is Chinese for "No matching members" |
 | disabled | `boolean` | `false` | Whether disabled |
 | confirmType | `string` | `'send'` | Keyboard confirm-key type |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the content changes; used by `v-model` |
+| change | `value: string` | Fires when the content changes |
+| mention | `keyword: string` | Fires when the trigger is typed and whenever the filter text after it changes; `keyword` is the text after the trigger |
+| select | `name: string` | Fires when a candidate is selected |
+| removemention | `name: string` | Fires when Backspace removes a mention; `name` is the removed name |
+| confirm | `value: string` | Fires when the keyboard's confirm key is tapped |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-| mention | mention |
-| select | select |
-| removemention | removemention |
-| confirm | Confirm |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-mention/`
-- Demo: `#/pages/demo/form/mention`
-- Chinese docs: [/uniappx/components/mention](/uniappx/components/mention)
+| `getMentions(): string[]` | Returns every name still mentioned in the text |
+| `closePanel()` | Closes the candidate panel |

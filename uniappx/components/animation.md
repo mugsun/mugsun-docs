@@ -7,16 +7,9 @@ demo: pages/demo/feedback/animation
 
 `ms-animation` 是命令式动画容器，按预设名称播放一次动画。进场和离场过渡请使用 `ms-transition`（由 `visible` 控制）。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-animation`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/animation`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/animation.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -68,13 +61,11 @@ const playing = ref(false)
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| name | `\| 'fade-in'` | `'fade-in'` | 名称 / 字段名 |
+| name | `'fade-in' \| 'fade-out' \| 'zoom-in' \| 'zoom-out' \| 'left-in' \| 'left-out' \| 'right-in' \| 'right-out' \| 'up-in' \| 'up-out' \| 'down-in' \| 'down-out'` | `'fade-in'` | 动画预设名 |
 | duration | `number` | `300` | 时长（ms） |
 | delay | `number` | `0` | 延迟（ms） |
 | autoPlay | `boolean` | `false` | 是否自动播放 |
@@ -82,19 +73,14 @@ const playing = ref(false)
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| before-play | before-play |
-| complete | complete |
-| update:playing | update:playing |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| before-play | — | 每次开始播放前触发 |
+| complete | — | 动画播放结束时触发 |
+| update:playing | `value: boolean` | 播放结束后触发，值为 `false`，用于 `v-model:playing` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-animation/`
-- 演示: `#/pages/demo/feedback/animation`
+| default | 要播放动画的内容 |

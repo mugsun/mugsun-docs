@@ -5,18 +5,11 @@ demo: pages/demo/media/drag
 
 # Drag Item
 
-`ms-drag-item` is a sortable item inside `ms-drag`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-drag-item`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/media/drag`.
+`ms-drag-item` is a sortable child of [`ms-drag`](./drag).
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/drag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -111,29 +104,21 @@ function onChangeFixed(next: UTSJSONObject[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| order | `number` | `0` | Sort order (smaller comes first) |
-| disabled | `boolean` | `false` | Whether disabled |
+| order | `number` | `0` | Sort order; keep it equal to the item's index in the list |
+| disabled | `boolean` | `false` | Whether the item stays in place and cannot be dragged |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the item is tapped; not fired while disabled |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-drag-item/`
-- Demo: `#/pages/demo/media/drag`
-- Chinese docs: [/uniappx/components/drag-item](/uniappx/components/drag-item)
+| default | Item content |

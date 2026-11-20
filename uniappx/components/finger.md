@@ -5,18 +5,11 @@ demo: pages/demo/media/finger
 
 # Finger 手势
 
-`ms-finger` 是手势识别容器，支持单击、双击、长按、滑动、捏合和旋转。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-finger`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/media/finger`。
+`ms-finger` 是手势识别容器，识别其中内容上的手势，包括单击、双击和长按，以及滑动、捏合和旋转。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/finger.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -113,8 +106,6 @@ function onTimedLong(_e: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -126,26 +117,21 @@ function onTimedLong(_e: UTSJSONObject) : void {
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| start | 开始 |
-| move | move |
-| end | end |
-| tap | tap |
-| click | 点击 |
-| doubletap | doubletap |
-| longpress | longpress |
-| swipe | swipe |
-| pinch | pinch |
-| rotate | rotate |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| start | `point: UTSJSONObject` | 手指按下时触发，`point` 含触点坐标 `x` 和 `y` |
+| move | `payload: UTSJSONObject` | 单指移动时触发，`payload` 含坐标 `x`、`y` 和相对起点的位移 `dx`、`dy` |
+| end | `point: UTSJSONObject` | 手指抬起时触发 |
+| tap | `point: UTSJSONObject` | 单击时触发 |
+| click | `point: UTSJSONObject` | 单击时触发，紧跟在 `tap` 之后 |
+| doubletap | `point: UTSJSONObject` | 在 `doubleTapInterval` 内连续点击两次时触发 |
+| longpress | `point: UTSJSONObject` | 按住不动超过 `longPressDelay` 时触发 |
+| swipe | `payload: UTSJSONObject` | 滑动距离超过 `swipeThreshold` 后抬起时触发，`payload` 含 `direction`、`dx` 和 `dy`；`direction` 为 `up`、`down`、`left` 或 `right` |
+| pinch | `payload: UTSJSONObject` | 双指捏合时触发，`payload.scale` 是相对起始距离的缩放比例 |
+| rotate | `payload: UTSJSONObject` | 双指旋转时触发，`payload.angle` 是相对起始方向转过的角度 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-finger/`
-- 演示: `#/pages/demo/media/finger`
+| default | 需要识别手势的内容 |

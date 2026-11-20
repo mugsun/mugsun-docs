@@ -5,18 +5,11 @@ demo: pages/demo/display/barcode
 
 # Barcode 条码
 
-`ms-barcode` 将文本生成一维条码，码表按标准自行实现，条纹由 view 绘制。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-barcode`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/barcode`。
+`ms-barcode` 把文本画成一维条码，支持 EAN-13、Code 128 等七种编码。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/barcode.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -38,18 +31,11 @@ demo: pages/demo/display/barcode
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `string` | `''` | 当前值 |
-| encode | `string` | `'ean13'` | 编码方式 |
-| size | `string` | `'md'` | 尺寸 |
+| value | `string` | `''` | 要编码的文本 |
+| encode | `string` | `'ean13'` | 编码方式：ean13 / ean8 / upca / code128 / code39 / itf25 / codabar |
+| size | `string` | `'md'` | 尺寸：sm / md / lg |
 | showText | `boolean` | `true` | 是否在条码下方显示可读文案 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-barcode/`
-- 演示: `#/pages/demo/display/barcode`

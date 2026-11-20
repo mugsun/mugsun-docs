@@ -5,18 +5,11 @@ demo: pages/demo/basic/config-provider
 
 # Config Provider
 
-`ms-config-provider` is a scoped theme container. It writes `themeVars` as inline CSS variables on its subtree, so a whole section can switch to dark mode.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-config-provider`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/config-provider`.
+`ms-config-provider` is a scoped theme container that only affects the content it wraps. Use `themeVars` to override CSS variables inside it, or switch that section to dark mode.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/config-provider.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -74,30 +67,22 @@ function onChange(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| themeVars | `UTSJSONObject \| null` | `null` | Local CSS variables (applied to the subtree) |
-| theme | `string` | `'light'` | Theme color |
-| block | `boolean` | `true` | Whether full-bleed / block |
+| themeVars | `UTSJSONObject \| null` | `null` | CSS variables to override; keys starting with `--` are used as is, others get the `--ms-` prefix |
+| theme | `string` | `'light'` | Theme: light / dark |
+| block | `boolean` | `true` | Whether to take the full width |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `payload: UTSJSONObject` | Fires on mount and whenever the theme or variables change; `payload` has `count` (number of applied variables) and `theme` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-config-provider/`
-- Demo: `#/pages/demo/basic/config-provider`
-- Chinese docs: [/uniappx/components/config-provider](/uniappx/components/config-provider)
+| default | Content the theme applies to |

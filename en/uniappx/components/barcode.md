@@ -5,18 +5,11 @@ demo: pages/demo/display/barcode
 
 # Barcode
 
-`ms-barcode` renders text as a one-dimensional barcode. The code tables are implemented in-house to the standard, and the bars are drawn with views.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-barcode`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/barcode`.
+`ms-barcode` renders text as a one-dimensional barcode in seven encodings, including EAN-13 and Code 128.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/barcode.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -38,19 +31,11 @@ The snippets below are taken from the demo source `pages/demo/display/barcode.uv
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | Current value |
-| encode | `string` | `'ean13'` | Encoding |
-| size | `string` | `'md'` | Size |
+| value | `string` | `''` | Text to encode |
+| encode | `string` | `'ean13'` | Encoding: ean13 / ean8 / upca / code128 / code39 / itf25 / codabar |
+| size | `string` | `'md'` | Size: sm / md / lg |
 | showText | `boolean` | `true` | Whether to show readable text under the barcode |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-barcode/`
-- Demo: `#/pages/demo/display/barcode`
-- Chinese docs: [/uniappx/components/barcode](/uniappx/components/barcode)

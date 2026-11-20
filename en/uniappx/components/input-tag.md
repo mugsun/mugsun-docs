@@ -7,16 +7,9 @@ demo: pages/demo/form/input-tag
 
 `ms-input-tag` is a tag input. Press Enter or tap the button to add a tag; tap the close icon on a tag to remove it.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-input-tag`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/input-tag`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/input-tag.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -100,33 +93,25 @@ function onExceed(max: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `string[]` | `[]` | Bound value (v-model) |
-| placeholder | `string` | `'输入后回车添加'` | Placeholder |
-| position | `string` | `'outside'` | Position |
-| showButton | `boolean` | `true` | Whether to show add button |
-| buttonText | `string` | `'添加'` | Button label |
-| maxCount | `number` | `-1` | Max count |
+| placeholder | `string` | `'输入后回车添加'` | Placeholder; the default is Chinese for "Type and press Enter to add" |
+| position | `string` | `'outside'` | Tag position: `outside` shows tags outside the input, `inside` shows them inside it |
+| showButton | `boolean` | `true` | Whether to show the add button; hidden when `position` is `inside` |
+| buttonText | `string` | `'添加'` | Button label; the default is Chinese for "Add" |
+| maxCount | `number` | `-1` | Maximum number of tags; `-1` for no limit |
 | disabled | `boolean` | `false` | Whether disabled |
 | confirmType | `string` | `'done'` | Keyboard confirm-key type |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-| add | Item added |
-| remove | Item removed |
-| exceed | exceed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-input-tag/`
-- Demo: `#/pages/demo/form/input-tag`
-- Chinese docs: [/uniappx/components/input-tag](/uniappx/components/input-tag)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string[]` | Fires when the tag list changes; used by `v-model` |
+| change | `value: string[]` | Fires when the tag list changes; `value` holds all tags |
+| add | `tag: string` | Fires after a tag is added; empty or duplicate input is not added |
+| remove | `tag: string, index: number` | Fires after a tag is removed, with the removed tag and its former index |
+| exceed | `max: number` | Fires on an attempt to add a tag once `maxCount` is reached; `max` is the limit. The component shows no message, so handle it yourself |

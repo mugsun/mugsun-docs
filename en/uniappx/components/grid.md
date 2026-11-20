@@ -5,18 +5,11 @@ demo: pages/demo/nav/grid
 
 # Grid
 
-`ms-grid` is a grid container whose items are `ms-grid-item`. The container supports `column`, `border` and `theme`; items support `icon`, `text`, `description` and `disabled`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-grid`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/grid`.
+`ms-grid` is a grid container for [`ms-grid-item`](./grid-item) children, with 3, 4 or 5 columns per row.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/grid.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Columns -->
@@ -74,24 +67,16 @@ The snippets below are taken from the demo source `pages/demo/nav/grid.uvue`. On
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| column | `3 \| 4 \| 5` | `4` | Column count |
+| column | `3 \| 4 \| 5` | `4` | Columns per row |
 | border | `boolean` | `false` | Whether to show border |
-| theme | `'default' \| 'card'` | `'default'` | Theme color |
+| theme | `'default' \| 'card'` | `'default'` | Style: `default` is full-width, `card` is a card |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-grid/`
-- Demo: `#/pages/demo/nav/grid`
-- Chinese docs: [/uniappx/components/grid](/uniappx/components/grid)
+| default | Place `ms-grid-item` children here |

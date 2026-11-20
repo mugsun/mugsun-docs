@@ -5,18 +5,13 @@ demo: pages/demo/display/qrcode
 
 # Qrcode
 
-`ms-qrcode` renders text as a QR code. The encoding matrix is implemented in-house following the Nayuki approach, and modules are drawn with views.
+`ms-qrcode` renders text as a QR code. It can show a logo in the center and an overlay for the expired, loading and scanned states.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-qrcode`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/qrcode`.
+Encoding and drawing are done by the component itself, with no canvas and no third-party library.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/qrcode.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -42,22 +37,14 @@ const demoValue = 'https://mugsun.example/qr'
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | Current value |
-| size | `string` | `'md'` | Size |
-| level | `string` | `'M'` | Error-correction level |
-| logo | `string` | `''` | Center logo image URL |
-| status | `string` | `'active'` | Status |
-| statusText | `string` | `''` | Overlay text when not active; empty uses built-in |
-| margin | `boolean` | `true` | Whether to keep a quiet zone |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-qrcode/`
-- Demo: `#/pages/demo/display/qrcode`
-- Chinese docs: [/uniappx/components/qrcode](/uniappx/components/qrcode)
+| value | `string` | `''` | Text to encode |
+| size | `string` | `'md'` | Size: sm / md / lg |
+| level | `string` | `'M'` | Error correction level: L / M / Q / H |
+| logo | `string` | `''` | Image URL of the center logo |
+| status | `string` | `'active'` | Status: active / expired / loading / scanned |
+| statusText | `string` | `''` | Text on the status overlay; empty uses the built-in text |
+| margin | `boolean` | `true` | Whether to keep the blank border around the code |

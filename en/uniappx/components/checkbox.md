@@ -5,18 +5,11 @@ demo: pages/demo/form/checkbox
 
 # Checkbox
 
-`ms-checkbox` is a checkbox. Use it on its own with `v-model`, or inside `ms-checkbox-group`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-checkbox`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/checkbox`.
+`ms-checkbox` is a checkbox. Use it on its own with `v-model`, or as part of a group inside [`ms-checkbox-group`](./checkbox-group).
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -65,8 +58,6 @@ function onParentChange(on: boolean) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -75,7 +66,7 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | value | `string` | `''` | Option value within checkbox-group |
 | label | `string` | `''` | Label text |
 | content | `string` | `''` | Secondary description |
-| contentDisabled | `boolean` | `false` | Tapping content does not toggle; only the icon toggles |
+| contentDisabled | `boolean` | `false` | Tapping the text does not toggle; only the icon does |
 | disabled | `boolean` | `false` | Whether disabled |
 | indeterminate | `boolean` | `false` | Indeterminate state |
 | icon | `'square' \| 'circle' \| 'line'` | `'square'` | Icon shape |
@@ -84,19 +75,13 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: boolean` | Fires when the checked state changes in standalone use; used by `v-model` |
+| change | `value: boolean` | Fires when the checked state changes in standalone use |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-checkbox/`
-- Demo: `#/pages/demo/form/checkbox`
-- Chinese docs: [/uniappx/components/checkbox](/uniappx/components/checkbox)
+| default | Custom content in addition to the label text |

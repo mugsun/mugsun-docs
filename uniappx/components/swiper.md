@@ -5,18 +5,13 @@ demo: pages/demo/display/swiper
 
 # Swiper 轮播
 
-`ms-swiper` 是轮播，指示器支持圆点（dots）、页码（fraction）和控制按钮（controls），当前页用 `v-model:current` 绑定。
+`ms-swiper` 是轮播，内容由 `items` 生成，每一项可以是图片，也可以是带底色的文字卡片。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-swiper`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/swiper`。
+当前项用 `v-model:current` 绑定，指示器有圆点、页码和左右按钮几种样式。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/swiper.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -90,31 +85,34 @@ function onVerticalChange(current: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 label / image / tone（brand / success / warning / muted） |
-| current | `number` | `0` | 当前项下标 |
-| height | `number` | `160` | 轮播高度（px），只接受数值（px） |
-| autoplay | `boolean` | `false` | 自动播放 |
-| interval | `number` | `3000` | 自动播放间隔 ms |
-| duration | `number` | `300` | 切换动画时长 ms |
-| loop | `boolean` | `true` | 衔接滑动 |
-| vertical | `boolean` | `false` | 纵向滑动 |
-| navigation | `string` | `'dots'` | 导航器：dots / dots-bar / fraction / controls / none |
+| items | `UTSJSONObject[]` | `[]` | 轮播项，每项可含 `label`、`image` 和 `tone`（brand / success / warning / muted） |
+| current | `number` | `0` | 当前项的下标，可用 `v-model:current` |
+| height | `number` | `160` | 高度（px） |
+| autoplay | `boolean` | `false` | 是否自动播放 |
+| interval | `number` | `3000` | 自动播放的间隔（ms） |
+| duration | `number` | `300` | 切换动画的时长（ms） |
+| loop | `boolean` | `true` | 是否循环播放 |
+| vertical | `boolean` | `false` | 是否纵向滑动 |
+| navigation | `string` | `'dots'` | 指示器样式：dots / dots-bar / fraction / controls / none |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `current: number` | 当前项变化时触发，`current` 是新的下标 |
+| click | `index: number` | 点击轮播项时触发，`index` 是被点击项的下标 |
+| update:current | `value: number` | 当前项变化时触发，用于 `v-model:current` |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| change | 值变化 |
-| click | 点击 |
-| update:current | v-model:current 更新 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-swiper/`
-- 演示: `#/pages/demo/display/swiper`
+| `getCurrent(): number` | 返回当前项的下标 |
+| `next()` | 切换到下一项 |
+| `prev()` | 切换到上一项 |

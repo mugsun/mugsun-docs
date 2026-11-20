@@ -5,18 +5,11 @@ demo: pages/demo/basic/text
 
 # Text 文本
 
-`ms-text` 是语义化文字，支持 `variant`、`size`、`bold`、`align`、`lines` 和 `selectable`，行高为 1.7（与 x-text 一致）。高亮和正则匹配将在后续版本提供。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-text`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/text`。
+`ms-text` 是文字组件，用 `variant` 选择语义颜色，可以设置字号、加粗和对齐，也可以按行数省略。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/text.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 正文与语义色 -->
@@ -49,32 +42,25 @@ function onTextClick() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | 样式变体 |
+| variant | `'default' \| 'secondary' \| 'primary' \| 'danger' \| 'success' \| 'warning'` | `'default'` | 语义颜色 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 | bold | `boolean` | `false` | 是否加粗 |
-| lines | `number` | `0` | 行数 |
-| selectable | `boolean` | `false` | 是否可选中文本 |
+| lines | `number` | `0` | 最多显示的行数，超出部分省略；`0` 表示不限制 |
+| selectable | `boolean` | `false` | 文字是否可以选中 |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | 对齐方式 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击文字时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-text/`
-- 演示: `#/pages/demo/basic/text`
+| default | 文字内容 |

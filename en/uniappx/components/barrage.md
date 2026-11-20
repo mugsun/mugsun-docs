@@ -7,16 +7,9 @@ demo: pages/demo/media/barrage
 
 `ms-barrage` is a bullet-comment layer displayed on top of the default slot content.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-barrage`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/media/barrage`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/barrage.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -70,32 +63,24 @@ function onComplete() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `string[]` | `[]` | Data list |
+| list | `string[]` | `[]` | Comment texts; assigning a new list restarts playback |
 | height | `number` | `120` | Height (px) |
-| speed | `number` | `80` | Speed |
-| rows | `number` | `3` | Row count |
+| speed | `number` | `80` | Scroll speed (px per second) |
+| rows | `number` | `3` | Number of rows |
 | paused | `boolean` | `false` | Whether barrage is paused |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| complete | complete |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| complete | — | Fires when every comment in the list has finished scrolling |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-barrage/`
-- Demo: `#/pages/demo/media/barrage`
-- Chinese docs: [/uniappx/components/barrage](/uniappx/components/barrage)
+| default | Content under the comments, such as a video or an image |

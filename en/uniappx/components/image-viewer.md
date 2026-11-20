@@ -5,18 +5,11 @@ demo: pages/demo/display/image-viewer
 
 # Image Viewer
 
-`ms-image-viewer` is a full-screen image viewer. It pages with a swiper and can show a page counter and close and delete buttons.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-image-viewer`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/image-viewer`.
+`ms-image-viewer` is a full-screen image viewer. Swipe to page through images; a page counter, a close button and a delete button are optional.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/image-viewer.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-image-viewer
@@ -66,30 +59,31 @@ function onDelete(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | images | `string[]` | `[]` | Image URL list |
-| initialIndex | `number` | `0` | Initial index |
-| showIndex | `boolean` | `false` | Whether to show current index |
+| initialIndex | `number` | `0` | Index of the image shown on open, starting from 0 |
+| showIndex | `boolean` | `false` | Whether to show the page counter |
 | closeBtn | `boolean` | `false` | Whether to show the close button |
 | deleteBtn | `boolean` | `false` | Whether to show delete button |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the viewer opens or closes; used by `v-model:visible` |
+| close | — | Fires when the viewer closes |
+| change | `index: number` | Fires when the page changes; `index` is the current image index |
+| delete | `index: number` | Fires when the delete button is tapped; `index` is the current image index. Remove the image from `images` yourself |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:visible | v-model:visible update |
-| close | Closed |
-| change | Value changed |
-| delete | delete |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-image-viewer/`
-- Demo: `#/pages/demo/display/image-viewer`
-- Chinese docs: [/uniappx/components/image-viewer](/uniappx/components/image-viewer)
+| `open()` | Opens the viewer; requires `v-model:visible` |
+| `close()` | Closes the viewer; requires `v-model:visible` |

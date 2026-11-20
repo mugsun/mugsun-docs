@@ -5,18 +5,13 @@ demo: pages/demo/feedback/guide
 
 # Guide
 
-`ms-guide` is a step-by-step tour. It highlights a target and shows a tip card with Previous, Next, Skip and Done buttons and a step counter.
+`ms-guide` is a step-by-step tour. It highlights target elements on the page one at a time and shows a tip card with navigation buttons next to each.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-guide`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/guide`.
+Bind the current step with `v-model:current`; `-1` hides the tour. Each step names its target through `targetId`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/guide.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-guide
@@ -63,15 +58,13 @@ function onSkip() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| steps | `UTSJSONObject[]` | `[]` | Guide steps (title/content/targetId, etc.) |
-| current | `number` | `-1` | Current step index; -1 = not started |
-| mode | `'popover' \| 'dialog'` | `'popover'` | Mode |
+| steps | `UTSJSONObject[]` | `[]` | Tour steps, each with `targetId`, `title` and `content` |
+| current | `number` | `-1` | Index of the current step; `-1` hides the tour. Works with `v-model:current` |
+| mode | `'popover' \| 'dialog'` | `'popover'` | Tip card placement: `popover` next to the target, `dialog` centered on screen |
 | showOverlay | `boolean` | `true` | Whether to show the overlay |
 | highlightPadding | `number` | `8` | Highlight padding relative to the target (px) |
 | hideSkip | `boolean` | `false` | Whether to hide “Skip” |
@@ -80,15 +73,9 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| skip | Skipped |
-| finish | Finished |
-| update:current | v-model:current update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-guide/`
-- Demo: `#/pages/demo/feedback/guide`
-- Chinese docs: [/uniappx/components/guide](/uniappx/components/guide)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: number` | Fires after Previous or Next is tapped; `index` is the step switched to |
+| skip | `index: number` | Fires when Skip is tapped; `index` is the step the user was on |
+| finish | — | Fires when Done is tapped on the last step |
+| update:current | `value: number` | Fires when the current step changes, with `-1` after skip or finish; used by `v-model:current` |

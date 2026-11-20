@@ -7,16 +7,9 @@ demo: pages/demo/display/rolling-number
 
 `ms-rolling-number` 以滚动动画显示数值，`value` 变化时从当前值过渡到目标值。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-rolling-number`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/rolling-number`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/rolling-number.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -49,31 +42,24 @@ const suffixVal = ref(68.5)
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `0` | 当前值 |
-| start | `number` | `0` | 起始值 |
-| duration | `number` | `400` | 时长（ms） |
-| decimals | `number` | `-1` | 小数位数 |
-| grouping | `boolean` | `false` | 是否分组 |
-| prefix | `string` | `''` | 前缀 |
-| suffix | `string` | `''` | 后缀 |
-| animated | `boolean` | `true` | 是否开启动画 |
+| value | `number` | `0` | 目标数值 |
+| start | `number` | `0` | 初始显示的数值，挂载后从它滚动到 `value` |
+| duration | `number` | `400` | 动画时长（ms） |
+| decimals | `number` | `-1` | 小数位数，`-1` 时按 `value` 的小数位数 |
+| grouping | `boolean` | `false` | 是否显示千分位分隔符 |
+| prefix | `string` | `''` | 前缀文字 |
+| suffix | `string` | `''` | 后缀文字 |
+| animated | `boolean` | `true` | 是否使用动画，`false` 时直接显示新值 |
 | size | `'md' \| 'lg'` | `'md'` | 尺寸 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| start | 开始 |
-| complete | complete |
-| change | 值变化 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-rolling-number/`
-- 演示: `#/pages/demo/display/rolling-number`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| start | — | 动画开始时触发 |
+| complete | — | 数值到达目标值时触发，不使用动画时也会触发 |
+| change | `value: number` | 显示的数值每次更新时触发，`value` 是当前显示的数值 |

@@ -5,18 +5,13 @@ demo: pages/demo/form/checkbox
 
 # Checkbox Group
 
-`ms-checkbox-group` groups checkboxes. Its `v-model` is a `string[]`; it supports disabling the whole group, limiting the selection with `max`, and horizontal layout with wrapping.
+`ms-checkbox-group` groups checkboxes. Its `v-model` holds the selected values as a `string[]`.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-checkbox-group`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/checkbox`.
+It can disable the whole group, cap the number of selections with `max`, and lay items out horizontally with wrapping.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/checkbox.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Groups -->
@@ -64,32 +59,24 @@ function onChildChange(values: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `string[]` | `[]` | Bound value (v-model) |
-| disabled | `boolean` | `false` | Whether disabled |
-| max | `number` | `-1` | Maximum |
-| horizontal | `boolean` | `false` | Whether horizontal |
+| disabled | `boolean` | `false` | Whether to disable the whole group |
+| max | `number` | `-1` | Maximum number of selections, `-1` for no limit; unselected items are disabled once the cap is reached |
+| horizontal | `boolean` | `false` | Whether to lay items out horizontally |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `values: string[]` | Fires when the selection changes; used by `v-model` |
+| change | `values: string[]` | Fires when the selection changes; `values` holds the selected values |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-checkbox-group/`
-- Demo: `#/pages/demo/form/checkbox`
-- Chinese docs: [/uniappx/components/checkbox-group](/uniappx/components/checkbox-group)
+| default | Place `ms-checkbox` items here |

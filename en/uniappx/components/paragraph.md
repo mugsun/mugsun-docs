@@ -7,16 +7,9 @@ demo: pages/demo/display/paragraph
 
 `ms-paragraph` displays body text, with an optional secondary color and truncation by line count.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-paragraph`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/paragraph`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/paragraph.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -47,31 +40,23 @@ function onParaClick() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| content | `string` | `''` | Content text |
-| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | Text tone: default / secondary / success / warning / danger |
-| lines | `number` | `0` | Row count |
+| content | `string` | `''` | Text content |
+| tone | `'default' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'default'` | Color: default / secondary / success / warning / danger |
+| lines | `number` | `0` | Maximum number of lines before truncation; `0` for no limit |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the paragraph is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-paragraph/`
-- Demo: `#/pages/demo/display/paragraph`
-- Chinese docs: [/uniappx/components/paragraph](/uniappx/components/paragraph)
+| default | Paragraph content; `content` by default |

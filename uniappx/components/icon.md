@@ -5,18 +5,13 @@ demo: pages/demo/basic/icon
 
 # Icon 图标
 
-`ms-icon` 提供 Remix 图标的子集。`spin` 旋转在 App 和 Web 上使用 `UniElement.animate`（作用于外层 view），在微信小程序上对 text 或 image 使用 CSS `animation`（与 x-icon 的 `faceSpinIcon` 一致，不要作用于外层 view）。`rotate` 设置字形的静态旋转角度。
+`ms-icon` 是图标组件，内置 Remix 图标的一个子集，用 `name` 指定图标。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-icon`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/icon`。
+`spin` 让图标持续旋转，适合表示加载中；`rotate` 设置固定的旋转角度。两者同时设置时以 `spin` 为准。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/icon.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 常用 -->
@@ -38,25 +33,23 @@ demo: pages/demo/basic/icon
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| name | `string` | `''` | 名称 / 字段名 |
+| name | `string` | `''` | 图标名 |
 | size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 尺寸 |
-| tone | `\| 'inherit'` | `'inherit'` | 色调（inherit / primary / secondary / danger…） |
-| spin | `boolean` | `false` | 旋转加载：App/Web 用 UniElement.animate；微信小程序用 text CSS animation |
-| spinDuration | `number` | `1500` | 一圈时长 ms（默认 1500） |
-| rotate | `number` | `0` | 静态旋转角度（与 spin 互斥，spin 优先） |
-| pressable | `boolean` | `true` | 是否自带按压态；嵌在 button 内时应为 false，避免双层 hover |
+| tone | `'inherit' \| 'primary' \| 'secondary' \| 'danger' \| 'success' \| 'warning' \| 'inverse' \| 'on-primary' \| 'on-danger' \| 'on-success' \| 'on-warning' \| 'on-surface'` | `'inherit'` | 颜色，默认继承父级文字颜色 |
+| spin | `boolean` | `false` | 是否持续旋转，常用于加载中 |
+| spinDuration | `number` | `1500` | 旋转一圈的时长（ms） |
+| rotate | `number` | `0` | 固定旋转角度；与 `spin` 同时设置时 `spin` 优先 |
+| pressable | `boolean` | `true` | 是否带按压效果；放在按钮里时应设为 `false` |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击图标时触发 |
 
 ## 图标字体子集
 
@@ -75,8 +68,3 @@ demo: pages/demo/basic/icon
 Android 和鸿蒙使用 ttf，iOS 和 Web 使用 woff2。
 
 小程序字体文件是 `remixicon-mp-face.scss`，不要手改。小程序字体只能内嵌子集，超过 64KB 时脚本会拒绝生成。
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-icon/`
-- 演示: `#/pages/demo/basic/icon`

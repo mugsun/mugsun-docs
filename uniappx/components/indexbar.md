@@ -5,18 +5,13 @@ demo: pages/demo/nav/indexbar
 
 # Indexbar 索引
 
-`ms-indexbar` 是索引列表，通过侧边的索引字符和 scroll-into-view 定位，当前索引可用 `v-model:current` 绑定。
+`ms-indexbar` 是带侧边索引的分组列表，点击或拖动侧边的索引字符可以跳到对应分组。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-indexbar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/indexbar`。
+当前索引用 `v-model:current` 绑定。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/indexbar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -127,29 +122,31 @@ function onControlledChange(index: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | 扁平行：{ index, label, disabled }，index 相同者归一组 |
-| current | `string` | `''` | 当前激活索引字符，空取首组 |
-| indexList | `UTSJSONObject[]` | `[]` | 侧栏字符表：{ key, label }，空则由 items 去重推导 |
-| height | `number` | `360` | 容器高 px，只接受数值（px） |
-| showTip | `boolean` | `true` | 拖动侧栏时显示大字气泡 |
-| showAnchor | `boolean` | `true` | 是否渲染分组头 |
+| items | `UTSJSONObject[]` | `[]` | 列表数据，每项含 `index`（所属索引）、`label` 和可选的 `disabled`；`index` 相同的项归为一组 |
+| current | `string` | `''` | 当前索引字符，留空时取第一组，可用 `v-model:current` |
+| indexList | `UTSJSONObject[]` | `[]` | 侧边索引表，每项含 `key` 和 `label`；留空时从 `items` 推导 |
+| height | `number` | `360` | 容器高度（px） |
+| showTip | `boolean` | `true` | 拖动侧边索引时是否显示大字提示 |
+| showAnchor | `boolean` | `true` | 是否显示分组标题 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `index: string` | 当前索引切换时触发，来源包括滚动列表、操作侧边索引和调用 `scrollToIndex` |
+| select | `index: string` | 点击或拖动侧边索引时触发，`index` 是选中的索引字符 |
+| click | `payload: UTSJSONObject` | 点击列表行时触发，`payload` 含 `index`、`label` 和 `rowIndex`；禁用的行不触发 |
+| update:current | `value: string` | 当前索引切换时触发，用于 `v-model:current` |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| change | 值变化 |
-| select | select |
-| click | 点击 |
-| update:current | v-model:current 更新 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-indexbar/`
-- 演示: `#/pages/demo/nav/indexbar`
+| `scrollToIndex(index: string)` | 滚动到指定索引的分组 |
+| `getCurrent(): string` | 返回当前索引字符 |

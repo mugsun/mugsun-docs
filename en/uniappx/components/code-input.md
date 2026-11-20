@@ -5,18 +5,13 @@ demo: pages/demo/form/code-input
 
 # Code Input
 
-`ms-code-input` is a verification-code input. A transparent `input` covers the row of cells and opens the keyboard when tapped. It supports `skin`, `placeShape`, `password` and `autoFocus`.
+`ms-code-input` is a verification-code input. Tapping any cell opens the keyboard; once every cell is filled it fires `complete` and dismisses the keyboard.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-code-input`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/code-input`.
+The cell skin, placeholder shape and password masking are configurable.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/code-input.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -61,14 +56,12 @@ function onComplete(value: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | Bound value (v-model) |
-| length | `number` | `4` | Digit count |
+| length | `number` | `4` | Number of digits |
 | skin | `'outline' \| 'fill'` | `'outline'` | Appearance: outline / fill |
 | placeShape | `'none' \| 'line' \| 'dot'` | `'dot'` | Empty-slot placeholder: none / line / dot |
 | password | `boolean` | `false` | Whether password input |
@@ -77,15 +70,19 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: string` | Fires when the value changes; used by `v-model` |
+| change | `value: string` | Fires when the value changes |
+| complete | `value: string` | Fires when every cell is filled |
+| click | `value: string` | Fires when the input is tapped; `value` is what has been entered so far. Not fired while disabled |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:modelValue | v-model update |
-| change | Value changed |
-| complete | complete |
-| click | Click |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-code-input/`
-- Demo: `#/pages/demo/form/code-input`
-- Chinese docs: [/uniappx/components/code-input](/uniappx/components/code-input)
+| `focus()` | Focuses the input and opens the keyboard; no effect while disabled |
+| `blur()` | Removes focus and dismisses the keyboard |
+| `clear()` | Clears the entered value; no effect while disabled |

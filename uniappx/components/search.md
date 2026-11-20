@@ -5,18 +5,11 @@ demo: pages/demo/form/search
 
 # Search 搜索
 
-`ms-search` 是搜索栏，支持 shape、action 和 leftIcon，并对外提供 focus、blur 和 clear 方法。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-search`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/search`。
+`ms-search` 是搜索栏，用 `v-model` 绑定关键词，有方形和圆角两种外形，右侧可以带一个操作按钮。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/search.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -68,44 +61,47 @@ function onSearchAction() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | modelValue | `string` | `''` | 绑定值（v-model） |
 | placeholder | `string` | `''` | 占位文案 |
-| shape | `'square' \| 'round'` | `'square'` | 外形：square / round |
-| action | `string` | `''` | 右侧操作文案；空则不显示 |
-| center | `boolean` | `false` | 未聚焦时内容是否居中展示 |
-| clearable | `boolean` | `true` | 是否可清空 |
+| shape | `'square' \| 'round'` | `'square'` | 外形：square 方形 / round 圆角 |
+| action | `string` | `''` | 右侧操作文字，留空不显示 |
+| center | `boolean` | `false` | 未聚焦时内容是否居中 |
+| clearable | `boolean` | `true` | 是否显示清空按钮 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | readonly | `boolean` | `false` | 是否只读 |
-| maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
+| maxlength | `number` | `-1` | 最大输入长度，`-1` 表示不限制 |
 | leftIcon | `string` | `'search'` | 左侧图标名 |
 | confirmType | `'return' \| 'search' \| 'send' \| 'next' \| 'go' \| 'done'` | `'search'` | 键盘确认键类型 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| input | 输入 |
-| focus | 聚焦 |
-| blur | 失焦 |
-| clear | 清空 |
-| confirm | 确认 |
-| action | 操作按钮 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: string` | 输入内容变化时触发，用于 `v-model` |
+| input | `value: string` | 输入时触发，`value` 是当前内容 |
+| focus | `e: UniInputFocusEvent` | 获得焦点时触发 |
+| blur | `e: UniInputBlurEvent` | 失去焦点时触发 |
+| clear | — | 清空内容时触发 |
+| confirm | `value: string` | 点击键盘的搜索键时触发，`value` 是当前内容 |
+| action | `value: string` | 点击右侧操作文字时触发，`value` 是当前内容 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| action | `action` 插槽 |
-| left | `left` 插槽 |
+| left | 自定义左侧图标 |
+| action | 自定义右侧操作区 |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-search/`
-- 演示: `#/pages/demo/form/search`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `focus()` | 让输入框获得焦点 |
+| `blur()` | 让输入框失去焦点 |
+| `clear()` | 清空内容 |

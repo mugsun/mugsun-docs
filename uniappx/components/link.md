@@ -5,18 +5,13 @@ demo: pages/demo/basic/link
 
 # Link 链接
 
-`ms-link` 是文字链接，支持主题色、下划线、前后缀图标、尺寸和禁用状态；文字通过 `content` 或默认插槽设置，也可以用 `href` 和 `openType` 跳转到应用内页面。
+`ms-link` 是文字链接，文字用 `content` 或默认插槽设置，可以带下划线和前后缀图标。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-link`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/link`。
+设置 `href` 后点击会跳转到应用内页面，方式由 `openType` 决定。`http(s)` 地址不跳转，需要在 `click` 事件里处理。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/link.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 主题 -->
@@ -37,8 +32,6 @@ demo: pages/demo/basic/link
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -47,25 +40,20 @@ demo: pages/demo/basic/link
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
 | underline | `boolean` | `false` | 是否显示下划线 |
 | disabled | `boolean` | `false` | 是否禁用 |
-| href | `string` | `''` | 链接地址 |
+| href | `string` | `''` | 应用内页面路径，点击后跳转；`http(s)` 地址不跳转 |
 | openType | `'navigate' \| 'redirect' \| 'switchTab' \| 'reLaunch'` | `'navigate'` | 跳转方式：navigate / redirect / switchTab / reLaunch |
-| icon | `string` | `''` | 图标名（icons.uts） |
+| icon | `string` | `''` | 前缀图标名 |
 | suffixIcon | `string` | `''` | 后缀图标名 |
-| content | `string` | `''` | 文案；无默认插槽内容时使用 |
+| content | `string` | `''` | 文字内容，没有默认插槽内容时使用 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击时触发，禁用时不触发；设置了 `href` 时先触发再跳转 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-link/`
-- 演示: `#/pages/demo/basic/link`
+| default | 链接文字，默认显示 `content` |

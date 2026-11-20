@@ -5,18 +5,13 @@ demo: pages/demo/feedback/pull-refresh
 
 # Pull Refresh
 
-`ms-pull-refresh` wraps the built-in `refresher-*` pull-to-refresh of `scroll-view` instead of handling touch events itself. ms-ui’s own rules rule out a `translate3d`-based approach in uni-app x Vapor mode, and `refresher-max-drag-distance` is not supported on Web or WeChat mini programs.
+`ms-pull-refresh` is a pull-to-refresh container: a fixed-height `scroll-view` that uses its built-in refresher.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-pull-refresh`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/pull-refresh`.
+Bind the refreshing state with `v-model`. Pulling down sets it to `true` and fires `refresh`; set it back to `false` once the data has loaded and the indicator collapses.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/pull-refresh.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -86,38 +81,40 @@ function onLargeRefresh() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| modelValue | `boolean` | `false` | Refreshing; set false when done to collapse |
-| disabled | `boolean` | `false` | Disable pull-to-refresh |
-| threshold | `number` | `60` | Trigger distance (px); also fixed refresher slot height |
-| height | `number` | `360` | Fixed container height (accepts numeric px values only) |
-| texts | `UTSJSONObject[]` | `[]` | Override four-state texts: { status, text } |
-| successDuration | `number` | `500` | How long (ms) to keep the “refresh done” state |
+| modelValue | `boolean` | `false` | Whether it is refreshing; set back to `false` when the data has loaded |
+| disabled | `boolean` | `false` | Whether to disable pull-to-refresh |
+| threshold | `number` | `60` | Pull distance that triggers a refresh (px); also the height of the indicator area |
+| height | `number` | `360` | Container height (px) |
+| texts | `UTSJSONObject[]` | `[]` | Custom indicator text per state; each item has `status` and `text`, with `status` one of pulling / loosing / refreshing / done |
+| successDuration | `number` | `500` | How long the done message stays (ms) |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:modelValue | v-model update |
-| refresh | Refresh |
-| pulling | pulling |
-| restore | restore |
-| scrolltolower | Scrolled to lower |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:modelValue | `value: boolean` | Fires when the refreshing state changes; used by `v-model` |
+| refresh | — | Fires on release after pulling past the threshold, and when `start()` is called; load your data here |
+| pulling | `dy: number` | Fires while pulling; `dy` is the pull distance (px) |
+| restore | — | Fires after the indicator has collapsed |
+| scrolltolower | — | Fires when scrolled to the bottom; useful for loading the next page |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| refresher | `refresher` slot |
+| default | List content |
+| refresher | Custom indicator area; scoped values are `status` (current state) and `dy` (pull distance) |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-pull-refresh/`
-- Demo: `#/pages/demo/feedback/pull-refresh`
-- Chinese docs: [/uniappx/components/pull-refresh](/uniappx/components/pull-refresh)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `start()` | Starts a refresh, as if the user had pulled down |
+| `stop()` | Ends the refresh and collapses the indicator |
+| `getStatus(): string` | Returns the current state: idle / pulling / loosing / refreshing / done |

@@ -5,18 +5,15 @@ demo: pages/demo/feedback/swipe-cell
 
 # Swipe Cell
 
-`ms-swipe-cell` is a cell with swipe actions. The action panels are absolutely positioned on both sides, and the content layer is offset with `left` to reveal them, without transforms. Swipe right to open the left panel (`#left` and `openedLeft`), and swipe left to open the right panel (`#actions` and `opened`). `translate3d` offsets are unreliable in mini programs, so ms-ui’s own rule is to use `left` everywhere.
+`ms-swipe-cell` is a cell that swipes sideways. Swipe left to reveal the action panel on the right, and swipe right to reveal the panel on the left.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+Content of the right panel goes in the `actions` slot and its state binds with `v-model:opened`; the left panel uses the `left` slot and `v-model:openedLeft`.
 
-Component directory: `uni_modules/ms-ui/components/ms-swipe-cell`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/swipe-cell`.
+The component does not collapse other open cells for you; do that in the `open` event if you need it.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/swipe-cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -88,40 +85,44 @@ function onAction(text: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| opened | `boolean` | `false` | Controlled: whether the right panel is open |
-| openedLeft | `boolean` | `false` | Controlled: whether the left panel is open |
-| disabled | `boolean` | `false` | Disable gestures |
-| threshold | `number` | `20` | Distance threshold before snapping into place |
-| bordered | `boolean` | `true` | Bottom divider |
+| opened | `boolean` | `false` | Whether the right panel is open. Works with `v-model:opened` |
+| openedLeft | `boolean` | `false` | Whether the left panel is open. Works with `v-model:openedLeft` |
+| disabled | `boolean` | `false` | Whether to disable swiping |
+| threshold | `number` | `20` | Swipe distance (px) past which the panel opens on release |
+| bordered | `boolean` | `true` | Whether to show the bottom divider |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:opened | update:opened |
-| update:openedLeft | update:openedLeft |
-| open | Opened |
-| close | Closed |
-| click | Click |
-| dragstart | dragstart |
-| dragend | dragend |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:opened | `value: boolean` | Fires when the right panel opens or closes; used by `v-model:opened` |
+| update:openedLeft | `value: boolean` | Fires when the left panel opens or closes; used by `v-model:openedLeft` |
+| open | `side: string` | Fires when a panel opens; `side` is `left` or `right` |
+| close | — | Fires when the panel closes |
+| click | `area: string` | Fires when the content is tapped while the panels are closed, with `area` set to `content`. Tapping the content while a panel is open only closes it |
+| dragstart | — | Fires when a finger touches down and swiping starts |
+| dragend | — | Fires when swiping ends |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-| actions | `actions` slot |
-| left | `left` slot |
+| default | Cell content |
+| actions | Action panel on the right |
+| left | Panel on the left |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-swipe-cell/`
-- Demo: `#/pages/demo/feedback/swipe-cell`
-- Chinese docs: [/uniappx/components/swipe-cell](/uniappx/components/swipe-cell)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `open()` | Opens the right panel |
+| `openLeft()` | Opens the left panel |
+| `close()` | Closes the panel |
+| `toggle()` | Closes the open panel, or opens the right panel when none is open |
+| `isOpened(): boolean` | Whether a panel is open |

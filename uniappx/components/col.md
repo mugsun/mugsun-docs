@@ -5,18 +5,11 @@ demo: pages/demo/nav/col
 
 # Col 栅格列
 
-`ms-col` 是栅格列，`span` 和 `offset` 决定列宽和左侧间距，`gutter` 从所在的 `ms-row` 注入。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-col`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/col`。
+`ms-col` 是栅格列，放在 [`ms-row`](./row) 里使用。一行分为 24 格，`span` 是列宽，`offset` 是左侧空出的格数。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/col.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 占比 -->
@@ -66,28 +59,21 @@ demo: pages/demo/nav/col
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| span | `number` | `24` | 栅格跨度 |
-| offset | `number` | `0` | 偏移 |
+| span | `number` | `24` | 列宽，占 24 格中的几格 |
+| offset | `number` | `0` | 左侧空出的格数 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击列时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-col/`
-- 演示: `#/pages/demo/nav/col`
+| default | 列内容 |

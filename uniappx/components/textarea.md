@@ -5,18 +5,11 @@ demo: pages/demo/form/textarea
 
 # Textarea 多行输入
 
-`ms-textarea` 是多行输入框，支持标签、自动高度（autosize）、字数统计、状态和确认按钮类型。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-textarea`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/textarea`。
+`ms-textarea` 是多行输入框，用 `v-model` 绑定文本，可以带标签和字数统计，高度可以随内容自动增加。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/textarea.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -67,8 +60,6 @@ const plainValue = ref('')
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -77,37 +68,32 @@ const plainValue = ref('')
 | label | `string` | `''` | 标签文案 |
 | placeholder | `string` | `''` | 占位文案 |
 | status | `'default' \| 'error' \| 'success' \| 'warning'` | `'default'` | 状态：default / success / warning / error |
-| tips | `string` | `''` | 提示文案 |
+| tips | `string` | `''` | 输入框下方的提示文字 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | readonly | `boolean` | `false` | 是否只读 |
-| maxlength | `number` | `-1` | 最大输入长度；-1 不限 |
+| maxlength | `number` | `-1` | 最大输入长度，`-1` 表示不限制 |
 | indicator | `boolean` | `false` | 是否显示字数统计 |
-| autoHeight | `boolean` | `false` | 是否随内容增高 |
-| maxHeight | `number` | `0` | autoHeight 时最大高度 px；0 不限制（对标 peer autosize.maxHeight） |
-| height | `'sm' \| 'md' \| 'lg'` | `'md'` | 固定高度（px）；autoHeight 时作最小高度 |
-| align | `'left' \| 'center' \| 'right'` | `'left'` | 文本对齐 |
+| autoHeight | `boolean` | `false` | 高度是否随内容增加 |
+| maxHeight | `number` | `0` | `autoHeight` 时的最大高度（px），`0` 表示不限制 |
+| height | `'sm' \| 'md' \| 'lg'` | `'md'` | 高度：sm / md / lg；`autoHeight` 时作为最小高度 |
+| align | `'left' \| 'center' \| 'right'` | `'left'` | 文字对齐 |
 | bordered | `boolean` | `true` | 是否显示边框 |
 | confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go' \| 'done'` | `'return'` | 键盘确认键类型 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| input | 输入 |
-| focus | 聚焦 |
-| blur | 失焦 |
-| confirm | 确认 |
-| linechange | linechange |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: string` | 输入内容变化时触发，用于 `v-model` |
+| input | `value: string` | 输入时触发，`value` 是当前内容 |
+| focus | `e: UniTextareaFocusEvent` | 获得焦点时触发 |
+| blur | `e: UniTextareaBlurEvent` | 失去焦点时触发 |
+| confirm | `value: string` | 点击键盘的确认键时触发，`value` 是当前内容 |
+| linechange | `e: UniTextareaLineChangeEvent` | 行数变化时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| label | `label` 插槽 |
-| tips | `tips` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-textarea/`
-- 演示: `#/pages/demo/form/textarea`
+| label | 自定义标签 |
+| tips | 自定义提示文字，默认显示 `tips` |

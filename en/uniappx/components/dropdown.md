@@ -5,18 +5,13 @@ demo: pages/demo/nav/dropdown
 
 # Dropdown
 
-`ms-dropdown` is a dropdown filter menu built from `menus` (the menu bar) and flat `options` (linked to a menu by its `menu` index). No child components need to be registered.
+`ms-dropdown` is a dropdown filter menu. `menus` defines the menu bar and `options` holds every option, each pointing to its menu through `menu`.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-dropdown`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/dropdown`.
+A single-select menu closes as soon as an option is picked and updates the bar title; a multi-select menu commits when the confirm button at the bottom is tapped.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/dropdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-dropdown
@@ -125,30 +120,31 @@ function onColumnChange(index: number, values: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | menus | `UTSJSONObject[]` | `[]` | Menus: label / multiple / columns(1-3) / disabled |
 | options | `UTSJSONObject[]` | `[]` | Flat options: menu(index) / label / value / disabled / checked |
-| height | `number` | `320` | Component height (accepts numeric px values only; the overlay covers this area) |
+| height | `number` | `320` | Total height the component occupies (px); the panel and overlay are drawn within it |
 | showOverlay | `boolean` | `true` | Whether to show the overlay |
-| closeOnClickOverlay | `boolean` | `true` | Whether clicking the overlay closes |
+| closeOnClickOverlay | `boolean` | `true` | Whether tapping the overlay closes the panel |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: number, values: string[]` | Fires when the selection changes; `index` is the menu index and `values` holds that menu's selected values |
+| open | `index: number` | Fires when a menu opens |
+| close | `index: number` | Fires when a menu closes |
+| confirm | `index: number, values: string[]` | Fires when confirm is tapped in a multi-select menu |
+| reset | `index: number` | Fires when reset is tapped in a multi-select menu |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| change | Value changed |
-| open | Opened |
-| close | Closed |
-| confirm | Confirm |
-| reset | Reset |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-dropdown/`
-- Demo: `#/pages/demo/nav/dropdown`
-- Chinese docs: [/uniappx/components/dropdown](/uniappx/components/dropdown)
+| `close()` | Closes the open menu |
+| `getValues(index: number): string[]` | Returns the selected values of the given menu |

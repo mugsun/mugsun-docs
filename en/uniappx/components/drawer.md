@@ -7,16 +7,9 @@ demo: pages/demo/feedback/drawer
 
 `ms-drawer` is a side drawer with a title, a scrollable menu list and a footer slot. It slides in from the left or right.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-drawer`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/drawer`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/drawer.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-drawer
@@ -80,14 +73,12 @@ function onIconVisible(value: boolean): void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
-| placement | `'left' \| 'right'` | `'right'` | Popup / placement |
+| placement | `'left' \| 'right'` | `'right'` | Side the drawer slides in from |
 | title | `string` | `''` | Title |
 | items | `UTSJSONObject[]` | `[]` | Each item: title / icon / disabled |
 | showOverlay | `boolean` | `true` | Whether to show the overlay |
@@ -97,22 +88,25 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| item-click | Item click |
-| overlay-click | Overlay click |
-| close | Closed |
-| open | Opened |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the drawer opens or closes; used by `v-model:visible` |
+| item-click | `index: number` | Fires when a menu item is tapped; `index` is that item's index. Disabled items do not fire it |
+| overlay-click | — | Fires when the overlay is tapped |
+| close | — | Fires when the drawer closes |
+| open | — | Fires when the drawer opens |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Footer area below the menu list |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-drawer/`
-- Demo: `#/pages/demo/feedback/drawer`
-- Chinese docs: [/uniappx/components/drawer](/uniappx/components/drawer)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `open()` | Opens the drawer; requires `v-model:visible` |
+| `close()` | Closes the drawer; requires `v-model:visible` |

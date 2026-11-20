@@ -5,18 +5,11 @@ demo: pages/demo/basic/button
 
 # Button 按钮
 
-`ms-button` 是语义化按钮，支持 `theme`、`variant`、`size`、`block`、`disabled`、`loading`、`loadingText`、`formType`、`ghost`、`icon` / `iconOnly`、`shape` 和 `haptic`。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-button`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/button`。
+`ms-button` 是按钮组件，提供多种主题色、样式和尺寸，支持加载状态、图标和原生表单提交。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/button.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 形态 -->
@@ -45,8 +38,6 @@ function onThemeClick(name: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -63,21 +54,16 @@ function onThemeClick(name: string) : void {
 | icon | `string` | `''` | 左侧图标名；与文案并存 |
 | iconOnly | `boolean` | `false` | 仅图标（正方形触控区） |
 | formType | `'' \| 'submit' \| 'reset'` | `''` | 原生表单类型：submit / reset；空为普通按钮 |
-| haptic | `boolean` | `true` | App/小程序点击短震动；Web 无能力自动跳过 |
+| haptic | `boolean` | `true` | 点击时短震动，在 App 和小程序上生效 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | `e: UniPointerEvent` | 点击按钮时触发，禁用时不触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-button/`
-- 演示: `#/pages/demo/basic/button`
+| default | 按钮文字 |

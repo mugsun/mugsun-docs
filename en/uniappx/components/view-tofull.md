@@ -7,16 +7,11 @@ demo: pages/demo/media/view-tofull
 
 `ms-view-tofull` expands an area to full screen when tapped and returns it to its original position when closed.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-view-tofull`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/media/view-tofull`.
+Bind the state with `v-model:opened`, for example to show more content while it is full screen.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/view-tofull.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -88,34 +83,26 @@ function toggleNoClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| duration | `number` | `300` | Duration (ms) |
-| showClose | `boolean` | `true` | Whether to show close when fullscreen |
-| opened | `boolean` | `false` | Whether to open fullscreen |
+| duration | `number` | `300` | Duration of the expand and collapse animation (ms) |
+| showClose | `boolean` | `true` | Whether to show the close button in full screen |
+| opened | `boolean` | `false` | Whether it is expanded to full screen. Works with `v-model:opened` |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| open | Opened |
-| close | Closed |
-| opened | opened |
-| closed | closed |
-| update:opened | update:opened |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| open | — | Fires when it starts to expand |
+| opened | — | Fires after the expand animation ends |
+| close | — | Fires when it starts to collapse |
+| closed | — | Fires after the collapse animation ends |
+| update:opened | `value: boolean` | Fires when it expands or collapses; used by `v-model:opened` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-view-tofull/`
-- Demo: `#/pages/demo/media/view-tofull`
-- Chinese docs: [/uniappx/components/view-tofull](/uniappx/components/view-tofull)
+| default | Content to expand |

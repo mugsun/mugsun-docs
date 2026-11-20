@@ -5,18 +5,13 @@ demo: pages/demo/display/countdown
 
 # Countdown
 
-`ms-countdown` is a countdown set by `time` (ms) and `format`. It supports theme and size and exposes `start`, `pause`, `reset` and `getStatus`.
+`ms-countdown` is a countdown. `time` is the total duration in milliseconds, and `format` decides which time units are shown.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-countdown`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/countdown`.
+It starts automatically on mount by default, and can also be started, paused and reset through its methods.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/countdown.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -49,31 +44,34 @@ function onFinish() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| time | `number` | `0` | Time |
-| format | `string` | `'HH:mm:ss'` | Format |
+| time | `number` | `0` | Total duration (ms) |
+| format | `string` | `'HH:mm:ss'` | Display format with the tokens DD / HH / mm / ss / SSS |
 | autoStart | `boolean` | `true` | Whether to auto-start |
 | millisecond | `boolean` | `false` | Whether to refresh every 100ms (show milliseconds) |
-| theme | `'default' \| 'round' \| 'square'` | `'default'` | Theme color |
+| theme | `'default' \| 'round' \| 'square'` | `'default'` | Style: default / round / square |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
-| splitWithUnit | `boolean` | `false` | Whether to show unit labels at separators (otherwise :) |
+| splitWithUnit | `boolean` | `false` | Whether to separate with unit words instead of colons |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `left: number` | Fires whenever the remaining time changes; `left` is the milliseconds remaining |
+| finish | — | Fires when the countdown reaches zero |
+| start | — | Fires when counting starts |
+| pause | — | Fires when counting is paused |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| change | Value changed |
-| finish | Finished |
-| start | Started |
-| pause | Paused |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-countdown/`
-- Demo: `#/pages/demo/display/countdown`
-- Chinese docs: [/uniappx/components/countdown](/uniappx/components/countdown)
+| `start()` | Starts or resumes counting; restarts from the full duration if it has finished |
+| `pause()` | Pauses counting |
+| `reset()` | Resets to `time`; starts again right away when `autoStart` is `true` |
+| `getStatus(): string` | Returns the current status: `initial`, `running`, `paused` or `finished` |

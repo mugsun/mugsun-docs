@@ -5,18 +5,13 @@ demo: pages/demo/display/table
 
 # Table 表格
 
-`ms-table` 是面向移动端的轻量表格，支持横向滚动、斑马纹、边框、列排序、行勾选和空状态。
+`ms-table` 是面向移动端的轻量表格，列多时可以横向滚动，支持斑马纹、列排序和行勾选。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-table`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/table`。
+点击可排序的表头，组件会对当前数据排序。勾选的行用 `v-model:selectedKeys` 绑定。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/table.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -142,42 +137,35 @@ function onSelectionChange(keys: string[]) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| columns | `UTSJSONObject[]` | `[]` | 列配置 |
-| data | `UTSJSONObject[]` | `[]` | 数据源 |
-| rowKey | `string` | `'id'` | 行主键字段名 |
+| columns | `UTSJSONObject[]` | `[]` | 列配置，每项含 `key` 和 `title`，可选 `width` 和 `sortable` |
+| data | `UTSJSONObject[]` | `[]` | 数据，每行是一个对象，按列的 `key` 取值 |
+| rowKey | `string` | `'id'` | 行的唯一标识字段名 |
 | stripe | `boolean` | `false` | 是否斑马纹 |
 | bordered | `boolean` | `false` | 是否显示边框 |
-| showHeader | `boolean` | `true` | 是否显示头部 |
-| emptyText | `string` | `'暂无数据'` | 空态文案 |
-| selectable | `boolean` | `false` | 开启行勾选列 |
-| selectedKeys | `string[]` | `[]` | 受控选中行 key 列表 |
-| sortKey | `string` | `''` | 受控排序列；空串表示无排序 |
-| sortOrder | `string` | `'none'` | none \| asc \| desc |
+| showHeader | `boolean` | `true` | 是否显示表头 |
+| emptyText | `string` | `'暂无数据'` | 没有数据时的提示文字 |
+| selectable | `boolean` | `false` | 是否显示勾选列 |
+| selectedKeys | `string[]` | `[]` | 勾选行的 key 列表，可用 `v-model:selectedKeys` |
+| sortKey | `string` | `''` | 当前排序的列，空字符串表示不排序，可用 `v-model:sortKey` |
+| sortOrder | `string` | `'none'` | 排序方向：none / asc / desc，可用 `v-model:sortOrder` |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| cell-click | cell-click |
-| sort-change | sort-change |
-| selection-change | selection-change |
-| update:selectedKeys | update:selectedKeys |
-| update:sortKey | update:sortKey |
-| update:sortOrder | update:sortOrder |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| cell-click | `rowKey: string, columnKey: string` | 点击单元格时触发，参数是行的 key 和列的 key |
+| sort-change | `key: string, order: string` | 点击可排序的表头时触发，排序方向依次为升序、降序和不排序 |
+| selection-change | `keys: string[]` | 勾选变化时触发，`keys` 是全部勾选行的 key |
+| update:selectedKeys | `keys: string[]` | 勾选变化时触发，用于 `v-model:selectedKeys` |
+| update:sortKey | `key: string` | 排序列变化时触发，用于 `v-model:sortKey` |
+| update:sortOrder | `order: string` | 排序方向变化时触发，用于 `v-model:sortOrder` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| empty | `empty` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-table/`
-- 演示: `#/pages/demo/display/table`
+| empty | 自定义没有数据时的内容，默认显示 `emptyText` |

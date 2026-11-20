@@ -5,18 +5,13 @@ demo: pages/demo/form/form
 
 # Form Item
 
-`ms-form-item` is a form field with a label, a content slot, help text and an error message. It can show a required asterisk and a right arrow.
+`ms-form-item` is a form field used inside [`ms-form`](./form), made of a label, the input control, help text and an error message.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-form-item`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/form`.
+Pass the current value through `value` to take part in validation, which covers required fields, built-in format rules and length limits.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/form.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -68,41 +63,33 @@ const vNick = ref('')
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | label | `string` | `''` | Label text |
-| name | `string` | `''` | Name / field name |
+| name | `string` | `''` | Field name |
 | value | `string` | `''` | Value under validation (passed in by the parent page) |
 | required | `boolean` | `false` | Whether required |
 | requiredMark | `boolean` | `true` | Whether to show a red asterisk when required |
 | rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | Built-in validation: none / phone / email / number |
-| min | `number` | `-1` | Minimum |
-| max | `number` | `-1` | Maximum |
-| message | `string` | `''` | Validation failure message |
+| min | `number` | `-1` | Minimum number of characters; `-1` for no limit |
+| max | `number` | `-1` | Maximum number of characters; `-1` for no limit |
+| message | `string` | `''` | Text shown when validation fails; empty uses the default text |
 | help | `string` | `''` | Help text |
 | arrow | `boolean` | `false` | Whether to show a right arrow |
-| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | Label alignment |
-| labelWidth | `number` | `-1` | Label width (px) |
+| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | Label alignment; empty follows `ms-form` |
+| labelWidth | `number` | `-1` | Label width (px); `-1` follows `ms-form` |
 | bordered | `boolean` | `true` | Whether to show border |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| validate | Validation finished |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| validate | `message: string` | Fires after this field is validated; `message` is the error text, and an empty string means it passed |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-form-item/`
-- Demo: `#/pages/demo/form/form`
-- Chinese docs: [/uniappx/components/form-item](/uniappx/components/form-item)
+| default | The input control |

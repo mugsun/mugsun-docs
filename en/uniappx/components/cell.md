@@ -5,18 +5,13 @@ demo: pages/demo/basic/cell
 
 # Cell
 
-`ms-cell` is a list cell. It supports `title`, `description`, `note`, `icon`, `arrow`, `bordered`, `required`, `url` and `disabled`; put custom content for the right side in the `note` slot.
+`ms-cell` is a list cell with an icon or image on the left, a title and description in the middle, and a note and arrow on the right.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-cell`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/cell`.
+With `url` set, a tap navigates to that page. Use the `note` slot for custom content on the right.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-cell title="Single-line title" arrow />
@@ -46,8 +41,6 @@ The snippets below are taken from the demo source `pages/demo/basic/cell.uvue`. 
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -66,18 +59,12 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the cell is tapped; not fired while disabled |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| note | `note` slot |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-cell/`
-- Demo: `#/pages/demo/basic/cell`
-- Chinese docs: [/uniappx/components/cell](/uniappx/components/cell)
+| note | Custom content on the right; shows `note` by default |

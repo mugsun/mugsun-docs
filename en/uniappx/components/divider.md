@@ -5,18 +5,13 @@ demo: pages/demo/basic/divider
 
 # Divider
 
-`ms-divider` is a divider line. `layout` sets horizontal or vertical, `align` places the text left, center or right, `dashed` draws a dashed line, and `text` sets the label. The default slot can replace the label; when the slot has content, the labeled layout is used.
+`ms-divider` is a divider line, horizontal or vertical, solid or dashed.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-divider`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/basic/divider`.
+It can carry text placed left, center or right, or custom content through the default slot.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/basic/divider.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Plain divider -->
@@ -36,19 +31,17 @@ The snippets below are taken from the demo source `pages/demo/basic/divider.uvue
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| layout | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout |
-| align | `'left' \| 'center' \| 'right'` | `'center'` | Alignment |
+| layout | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction: horizontal or vertical |
+| align | `'left' \| 'center' \| 'right'` | `'center'` | Text position |
 | dashed | `boolean` | `false` | Whether dashed |
-| text | `string` | `''` | Display text |
+| text | `string` | `''` | Text on the divider |
 
-## See also
+## Slots
 
-- Component: `uni_modules/ms-ui/components/ms-divider/`
-- Demo: `#/pages/demo/basic/divider`
-- Chinese docs: [/uniappx/components/divider](/uniappx/components/divider)
+| Slot | Description |
+| --- | --- |
+| default | Custom content on the divider; shows `text` by default |

@@ -5,18 +5,13 @@ demo: pages/demo/basic/transition
 
 # Transition 过渡
 
-`ms-transition` 是进场和离场过渡容器，由 `visible` 控制。
+`ms-transition` 是进场和离场的过渡容器，`visible` 变化时为插槽里的内容播放过渡动画。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-transition`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/transition`。
+效果用 `name` 选择，有淡入淡出、缩放和四个方向的滑动。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/transition.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -84,34 +79,27 @@ function onDestroyed() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
-| name | `\| 'fade'` | `'fade'` | 名称 / 字段名 |
-| duration | `number` | `300` | 时长（ms） |
-| appear | `boolean` | `false` | 是否入场动画 |
-| destroyOnHide | `boolean` | `false` | 隐藏时是否销毁 |
+| name | `'fade' \| 'zoom' \| 'slide-left' \| 'slide-right' \| 'slide-up' \| 'slide-down'` | `'fade'` | 过渡效果：fade / zoom / slide-left / slide-right / slide-up / slide-down |
+| duration | `number` | `300` | 过渡时长（ms） |
+| appear | `boolean` | `false` | 首次渲染时是否播放进场过渡 |
+| destroyOnHide | `boolean` | `false` | 隐藏后是否移除插槽里的内容 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| before-enter | before-enter |
-| after-enter | after-enter |
-| before-leave | before-leave |
-| after-leave | after-leave |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| before-enter | — | 进场过渡开始前触发 |
+| after-enter | — | 进场过渡结束后触发 |
+| before-leave | — | 离场过渡开始前触发 |
+| after-leave | — | 离场过渡结束后触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-transition/`
-- 演示: `#/pages/demo/basic/transition`
+| default | 要做过渡的内容 |

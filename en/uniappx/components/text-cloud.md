@@ -5,18 +5,11 @@ demo: pages/demo/display/text-cloud
 
 # Text Cloud
 
-`ms-text-cloud` is a word cloud. Font size follows weight; heavier words are placed first, packed outward from the center along an elliptical spiral without overlapping, and drawn on a 2d canvas.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-text-cloud`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/text-cloud`.
+`ms-text-cloud` is a word cloud drawn on a canvas. Font size follows weight, heavier words sit closer to the center, and words never overlap.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/text-cloud.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -62,26 +55,26 @@ function onComplete(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | Data list |
+| list | `UTSJSONObject[]` | `[]` | Words; each item has `text` and `weight`, plus an optional `color` |
 | height | `number` | `180` | Height (px) |
-| minFontSize | `number` | `12` | Word-cloud min font size (px) |
-| maxFontSize | `number` | `30` | Word-cloud max font size (px) |
-| gap | `number` | `2` | Gap (px) |
+| minFontSize | `number` | `12` | Minimum font size (px) |
+| maxFontSize | `number` | `30` | Maximum font size (px) |
+| gap | `number` | `2` | Gap between words (px) |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| complete | `payload: UTSJSONObject` | Fires after drawing; `payload` has `placed` (words that fit) and `total` (all words) |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| complete | complete |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-text-cloud/`
-- Demo: `#/pages/demo/display/text-cloud`
-- Chinese docs: [/uniappx/components/text-cloud](/uniappx/components/text-cloud)
+| `redraw()` | Redraws the cloud |

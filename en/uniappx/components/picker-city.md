@@ -5,18 +5,15 @@ demo: pages/demo/form/picker-city
 
 # Picker City
 
-`ms-picker-city` is a wheel picker for linked province, city and district selection. Its data uses the same flat `options` format as `ms-cascader` (`value`/`label`/`parent`). It does not bundle national region data; the data comes from the backend `sys_region` table.
+`ms-picker-city` is a wheel picker for linked province, city and district selection, down to city or district level.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+Pass the data as a flat `options` array whose items have `value`, `label` and `parent`, the same format as [`ms-cascader`](./cascader).
 
-Component directory: `uni_modules/ms-ui/components/ms-picker-city`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/picker-city`.
+No national region data is bundled; it can come from the backend `sys_region` table.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/picker-city.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -94,43 +91,47 @@ function onTwoConfirm(values: string[], label: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | Options list |
-| value | `string[]` | `[]` | Current value |
-| level | `number` | `3` | Province/city/district levels |
+| options | `UTSJSONObject[]` | `[]` | Regions; each item has `value`, `label` and `parent` |
+| value | `string[]` | `[]` | Selected `value` of each level; empty selects the first item of each level. Works with `v-model:value` |
+| level | `number` | `3` | Levels: `2` down to city, `3` down to district |
 | visible | `boolean` | `false` | Whether visible |
-| title | `string` | `'选择地区'` | Title |
-| cancelText | `string` | `'取消'` | Cancel button label |
-| confirmText | `string` | `'确定'` | Confirm button label |
-| separator | `string` | `' / '` | Separator |
+| title | `string` | `'选择地区'` | Title; the default is Chinese for "Select a region" |
+| cancelText | `string` | `'取消'` | Cancel button label; the default is Chinese for "Cancel" |
+| confirmText | `string` | `'确定'` | Confirm button label; the default is Chinese for "OK" |
+| separator | `string` | `' / '` | Separator between the labels of each level |
 | itemHeight | `number` | `44` | Item height (px) |
-| visibleItemCount | `number` | `5` | Visible items per column |
-| usePopup | `boolean` | `true` | Whether wrapped in a popup |
+| visibleItemCount | `number` | `5` | Number of visible items |
+| usePopup | `boolean` | `true` | Whether it opens from the bottom; `false` embeds it in the page |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| update:value | v-model:value update |
-| change | Value changed |
-| confirm | Confirm |
-| cancel | Cancel |
-| close | Closed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the picker opens or closes; used by `v-model:visible` |
+| update:value | `values: string[]` | Fires when OK is tapped; used by `v-model:value` |
+| change | `values: string[], label: string` | Fires while scrolling, with the `value` of each level and the labels joined by the separator; nothing is confirmed yet |
+| confirm | `values: string[], label: string` | Fires when OK is tapped, with the same arguments as `change` |
+| cancel | — | Fires when Cancel is tapped; the panel returns to `value` |
+| close | — | Fires when the popup closes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Trigger element that opens the picker on tap; not rendered when `usePopup` is `false` |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-picker-city/`
-- Demo: `#/pages/demo/form/picker-city`
-- Chinese docs: [/uniappx/components/picker-city](/uniappx/components/picker-city)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `getLabel(): string` | Returns the label of the current selection in the panel |
+| `confirm()` | Confirms the current selection, same as tapping OK |
+| `cancel()` | Cancels the selection, same as tapping Cancel |
+| `open()` | Opens the picker |
+| `close()` | Closes the picker |

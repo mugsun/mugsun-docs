@@ -5,18 +5,11 @@ demo: pages/demo/media/finger
 
 # Finger
 
-`ms-finger` is a gesture container that recognizes tap, double tap, long press, swipe, pinch and rotate.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-finger`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/media/finger`.
+`ms-finger` is a gesture container. It recognizes gestures on its content: tap, double tap and long press, as well as swipe, pinch and rotate.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/finger.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -113,8 +106,6 @@ function onTimedLong(_e: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -126,27 +117,21 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| start | Started |
-| move | move |
-| end | end |
-| tap | tap |
-| click | Click |
-| doubletap | doubletap |
-| longpress | longpress |
-| swipe | swipe |
-| pinch | pinch |
-| rotate | rotate |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| start | `point: UTSJSONObject` | Fires on touch start; `point` has the touch coordinates `x` and `y` |
+| move | `payload: UTSJSONObject` | Fires while one finger moves; `payload` has `x`, `y` and the offsets `dx` and `dy` from the start point |
+| end | `point: UTSJSONObject` | Fires on touch end |
+| tap | `point: UTSJSONObject` | Fires on a single tap |
+| click | `point: UTSJSONObject` | Fires on a single tap, right after `tap` |
+| doubletap | `point: UTSJSONObject` | Fires when two taps land within `doubleTapInterval` |
+| longpress | `point: UTSJSONObject` | Fires when the finger stays still longer than `longPressDelay` |
+| swipe | `payload: UTSJSONObject` | Fires on release after moving farther than `swipeThreshold`; `payload` has `direction`, `dx` and `dy`, where `direction` is `up`, `down`, `left` or `right` |
+| pinch | `payload: UTSJSONObject` | Fires during a two-finger pinch; `payload.scale` is the scale relative to the starting distance |
+| rotate | `payload: UTSJSONObject` | Fires during a two-finger rotation; `payload.angle` is the angle turned from the starting direction |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-finger/`
-- Demo: `#/pages/demo/media/finger`
-- Chinese docs: [/uniappx/components/finger](/uniappx/components/finger)
+| default | Content to recognize gestures on |

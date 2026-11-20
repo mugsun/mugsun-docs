@@ -7,16 +7,9 @@ demo: pages/demo/feedback/alert
 
 `ms-alert` is an in-page alert bar. It supports theme colors, light and filled styles, and can be closed.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-alert`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/alert`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/alert.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Themes -->
@@ -52,8 +45,6 @@ function onAlertClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -62,26 +53,20 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | variant | `'light' \| 'solid'` | `'light'` | Style variant |
 | closable | `boolean` | `true` | Whether closable |
 | icon | `string` | `''` | Icon name (icons.uts) |
-| showIcon | `boolean` | `true` | Hide the left icon |
+| showIcon | `boolean` | `true` | Whether to show the icon on the left |
 | title | `string` | `''` | Title (optional; can coexist with default slot body) |
 | visible | `boolean` | `true` | Whether visible; pairs with update:visible so the parent page can reopen it |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
-| close | Closed |
-| update:visible | v-model:visible update |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the alert is tapped |
+| close | — | Fires when the close button is tapped |
+| update:visible | `value: boolean` | Fires with `false` after the close button is tapped; used by `v-model:visible` |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-alert/`
-- Demo: `#/pages/demo/feedback/alert`
-- Chinese docs: [/uniappx/components/alert](/uniappx/components/alert)
+| default | Body content |

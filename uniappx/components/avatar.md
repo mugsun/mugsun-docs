@@ -7,16 +7,9 @@ demo: pages/demo/display/avatar
 
 `ms-avatar` 用于显示单个头像，内容可以是图片、文字或图标。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-avatar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/avatar`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/avatar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -46,8 +39,6 @@ function onAvatarError() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -55,18 +46,13 @@ function onAvatarError() : void {
 | src | `string` | `''` | 头像图片地址 |
 | text | `string` | `''` | 无图时展示的文字 |
 | icon | `string` | `''` | 无图无文时的图标名 |
-| shape | `'circle' \| 'round'` | `'circle'` | 外形：circle / round / square |
+| shape | `'circle' \| 'round'` | `'circle'` | 外形：`circle` 为圆形，`round` 为圆角 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸档位 |
 | mode | `string` | `'aspectFill'` | 图片 mode（如 aspectFill） |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-| error | 错误 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-avatar/`
-- 演示: `#/pages/demo/display/avatar`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击头像时触发 |
+| error | — | 图片加载失败时触发，此时改为显示文字或图标 |

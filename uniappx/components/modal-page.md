@@ -5,18 +5,11 @@ demo: pages/demo/feedback/modal-page
 
 # Modal Page 整页模态
 
-`ms-modal-page` 是整页模态层，使用 `position: fixed` 覆盖全屏，不依赖 x-design 的原生 `xModalPage`。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-modal-page`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/modal-page`。
+`ms-modal-page` 是覆盖整个屏幕的模态页面，带标题栏和关闭按钮，内容区可以滚动，底部可以放操作按钮。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/modal-page.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-modal-page v-model:visible="basicVisible" title="整页详情" @open="onOpen" @close="onClose">
@@ -52,34 +45,36 @@ function onClose() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
 | title | `string` | `''` | 标题 |
-| showClose | `boolean` | `true` | 是否显示关闭 |
+| showClose | `boolean` | `true` | 是否显示关闭按钮 |
 | closeOnOverlayClick | `boolean` | `false` | 点击遮罩是否关闭 |
 | zIndex | `number` | `1100` | 层级 z-index |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:visible | v-model:visible 更新 |
-| close | 关闭 |
-| open | 打开 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
+| close | — | 关闭时触发 |
+| open | — | 打开时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-| footer | `footer` 插槽 |
+| default | 页面内容，超出时可以滚动 |
+| footer | 底部操作区 |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-modal-page/`
-- 演示: `#/pages/demo/feedback/modal-page`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `open()` | 打开，需配合 `v-model:visible` |
+| `close()` | 关闭，需配合 `v-model:visible` |

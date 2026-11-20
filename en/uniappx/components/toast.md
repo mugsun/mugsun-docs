@@ -7,16 +7,11 @@ demo: pages/demo/feedback/toast
 
 `ms-toast` is a brief message in text, icon or loading form. It can appear at the top, middle or bottom, with an optional mask.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-toast`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/feedback/toast`.
+Bind its visibility with `v-model:visible`; it closes automatically after `duration`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/feedback/toast.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-toast
@@ -59,31 +54,23 @@ function onRowVisible(value: boolean): void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | Whether visible |
 | message | `string` | `''` | Message text |
-| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | Theme color |
-| icon | `string` | `''` | Custom icon name (icons.uts); optional when theme has a default |
-| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction |
-| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | Popup / placement |
-| duration | `number` | `2000` | Milliseconds; 0 = do not auto-close |
-| showOverlay | `boolean` | `false` | Show overlay to block click-through |
+| theme | `'default' \| 'success' \| 'warning' \| 'error' \| 'loading'` | `'default'` | Type: default (text only) / success / warning / error / loading |
+| icon | `string` | `''` | Custom icon name; optional when the type already has an icon |
+| direction | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout of icon and text: horizontal / vertical |
+| placement | `'top' \| 'middle' \| 'bottom'` | `'middle'` | Position: top / middle / bottom |
+| duration | `number` | `2000` | Time before it closes automatically (ms); `0` keeps it open |
+| showOverlay | `boolean` | `false` | Whether to show a mask that blocks taps on the content underneath |
 | zIndex | `number` | `1100` | z-index |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| close | Closed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-toast/`
-- Demo: `#/pages/demo/feedback/toast`
-- Chinese docs: [/uniappx/components/toast](/uniappx/components/toast)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when it closes automatically; used by `v-model:visible` |
+| close | — | Fires when it closes automatically |

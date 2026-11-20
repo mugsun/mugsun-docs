@@ -5,18 +5,11 @@ demo: pages/demo/nav/row
 
 # Row
 
-`ms-row` is a grid row laid out with flex. It supports `justify`, `align` and `wrap`. `gutter` is provided to `ms-col`, and the row uses negative margins so the edges stay aligned.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-row`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/row`.
+`ms-row` is a grid row that holds [`ms-col`](./col) columns. It sets the gutter between columns, the alignment and wrapping.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/row.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Basic -->
@@ -58,25 +51,17 @@ The snippets below are taken from the demo source `pages/demo/nav/row.uvue`. On 
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| gutter | `0 \| 8 \| 16 \| 24` | `0` | Grid gutter (px) |
-| justify | `'start' \| 'end' \| 'center' \| 'space-between' \| 'space-around'` | `'start'` | Main-axis alignment |
-| align | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` | Alignment |
-| wrap | `boolean` | `true` | Whether to wrap |
+| gutter | `0 \| 8 \| 16 \| 24` | `0` | Gutter between columns (px) |
+| justify | `'start' \| 'end' \| 'center' \| 'space-between' \| 'space-around'` | `'start'` | Horizontal alignment |
+| align | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` | Vertical alignment |
+| wrap | `boolean` | `true` | Whether columns wrap when they do not fit |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-row/`
-- Demo: `#/pages/demo/nav/row`
-- Chinese docs: [/uniappx/components/row](/uniappx/components/row)
+| default | Place `ms-col` columns here |

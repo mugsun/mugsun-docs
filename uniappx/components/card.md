@@ -5,18 +5,11 @@ demo: pages/demo/display/card
 
 # Card 卡片
 
-`ms-card` 是结构化内容卡片，包含头图、标题和副标题、正文、可选的 statusIcon 以及 footer 插槽。
-
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-card`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/display/card`。
+`ms-card` 是带固定结构的内容卡片，从上到下是封面图、标题、副标题和正文，底部可以用 `footer` 插槽放操作按钮。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/display/card.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 基础用法 -->
@@ -81,40 +74,33 @@ function onStatus() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | title | `string` | `''` | 标题 |
 | subtitle | `string` | `''` | 副标题 |
-| content | `string` | `''` | 内容文案 |
-| image | `string` | `''` | 图片地址 |
+| content | `string` | `''` | 正文文字 |
+| image | `string` | `''` | 封面图地址 |
 | imageHeight | `'sm' \| 'md' \| 'lg'` | `'md'` | 封面图高度档：sm / md / lg |
-| statusIcon | `string` | `''` | 右上状态图标名 |
-| radius | `'md' \| 'lg'` | `'lg'` | 圆角（px） |
+| statusIcon | `string` | `''` | 右上角状态图标的名称，留空不显示 |
+| radius | `'md' \| 'lg'` | `'lg'` | 圆角大小 |
 | bordered | `boolean` | `false` | 是否显示边框 |
 | shadow | `boolean` | `false` | 是否投影 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| click | 点击 |
-| status | 状态变化 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | — | 点击卡片时触发 |
+| status | — | 点击右上角状态图标时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-| footer | `footer` 插槽 |
-| image | `image` 插槽 |
-| subtitle | `subtitle` 插槽 |
-| title | `title` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-card/`
-- 演示: `#/pages/demo/display/card`
+| image | 自定义封面区域，默认显示 `image` 指定的图片 |
+| title | 自定义标题，默认显示 `title` |
+| subtitle | 自定义副标题，默认显示 `subtitle` |
+| default | 自定义正文，默认显示 `content` |
+| footer | 卡片底部区域，一般放操作按钮 |

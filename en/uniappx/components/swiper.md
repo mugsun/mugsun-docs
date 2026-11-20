@@ -5,18 +5,13 @@ demo: pages/demo/display/swiper
 
 # Swiper
 
-`ms-swiper` is a carousel with dots, fraction or controls indicators; the current slide binds with `v-model:current`.
+`ms-swiper` is a carousel built from `items`; each slide is an image or a colored card with a label.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-swiper`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/swiper`.
+Bind the current slide with `v-model:current`. Indicators come as dots, a page fraction or previous/next controls.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/swiper.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -90,32 +85,34 @@ function onVerticalChange(current: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | Each item: label / image / tone (brand / success / warning / muted) |
-| current | `number` | `0` | Current item index |
-| height | `number` | `160` | Swiper height (accepts numeric px values only) |
-| autoplay | `boolean` | `false` | Autoplay |
+| items | `UTSJSONObject[]` | `[]` | Slides; each item can have `label`, `image` and `tone` (brand / success / warning / muted) |
+| current | `number` | `0` | Index of the current slide. Works with `v-model:current` |
+| height | `number` | `160` | Height (px) |
+| autoplay | `boolean` | `false` | Whether to play automatically |
 | interval | `number` | `3000` | Autoplay interval (ms) |
-| duration | `number` | `300` | Switch animation duration (ms) |
-| loop | `boolean` | `true` | Circular/loop swipe |
-| vertical | `boolean` | `false` | Vertical swipe |
-| navigation | `string` | `'dots'` | Indicator: dots / dots-bar / fraction / controls / none |
+| duration | `number` | `300` | Duration of the slide animation (ms) |
+| loop | `boolean` | `true` | Whether to loop |
+| vertical | `boolean` | `false` | Whether to slide vertically |
+| navigation | `string` | `'dots'` | Indicator style: dots / dots-bar / fraction / controls / none |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `current: number` | Fires when the current slide changes; `current` is the new index |
+| click | `index: number` | Fires when a slide is tapped; `index` is the tapped slide |
+| update:current | `value: number` | Fires when the current slide changes; used by `v-model:current` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| change | Value changed |
-| click | Click |
-| update:current | v-model:current update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-swiper/`
-- Demo: `#/pages/demo/display/swiper`
-- Chinese docs: [/uniappx/components/swiper](/uniappx/components/swiper)
+| `getCurrent(): number` | Returns the index of the current slide |
+| `next()` | Goes to the next slide |
+| `prev()` | Goes to the previous slide |

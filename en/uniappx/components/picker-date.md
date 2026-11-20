@@ -5,18 +5,15 @@ demo: pages/demo/form/picker-date
 
 # Picker Date
 
-`ms-picker-date` is a date and time picker. `mode` sets the finest column shown, in the order `year`, `month`, `date`, `hour`, `minute`, `second`.
+`ms-picker-date` is a wheel picker for dates and times. `mode` sets how fine the selection goes, from year down to second.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+`value` is the leading part of `YYYY-MM-DD HH:mm:ss` cut at `mode`, for example `2026-05` when `mode="month"`.
 
-Component directory: `uni_modules/ms-ui/components/ms-picker-date`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/picker-date`.
+The component does not change `value`; update it in the `confirm` event.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/picker-date.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -110,45 +107,49 @@ function onInlineConfirm(value: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | `string` | `''` | Selected value as prefix of 'YYYY-MM-DD HH:mm:ss', truncated by mode |
-| mode | `string` | `'date'` | year / month / date / hour / minute / second |
-| startYear | `number` | `2020` | Start year |
-| endYear | `number` | `2030` | End year |
-| minuteStep | `number` | `1` | Minute step |
-| visible | `boolean` | `false` | Whether visible |
+| value | `string` | `''` | Selected value: the leading part of `YYYY-MM-DD HH:mm:ss` cut at `mode` |
+| mode | `string` | `'date'` | Finest level to pick: year / month / date / hour / minute / second |
+| startYear | `number` | `2020` | First selectable year |
+| endYear | `number` | `2030` | Last selectable year |
+| minuteStep | `number` | `1` | Step between minute values |
+| visible | `boolean` | `false` | Whether it is shown; applies when `usePopup` is `true`. Works with `v-model:visible` |
 | title | `string` | `''` | Title |
-| cancelText | `string` | `'取消'` | Cancel label |
-| confirmText | `string` | `'确定'` | Confirm label |
+| cancelText | `string` | `'取消'` | Cancel button text; the default is Chinese for "Cancel" |
+| confirmText | `string` | `'确定'` | OK button text; the default is Chinese for "OK" |
 | header | `boolean` | `true` | Whether to show the header |
 | itemHeight | `number` | `44` | Item height (px) |
-| visibleItemCount | `number` | `5` | Visible item count |
-| usePopup | `boolean` | `true` | Whether wrapped in a popup |
+| visibleItemCount | `number` | `5` | Number of visible items |
+| usePopup | `boolean` | `true` | Whether it opens from the bottom; `false` embeds it in the page |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| change | Value changed |
-| pick | Selection changed (before confirm) |
-| confirm | Confirm |
-| cancel | Cancel |
-| close | Closed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the picker opens or closes; used by `v-model:visible` |
+| change | `value: string` | Fires while scrolling; `value` is the current value in the panel, not confirmed yet |
+| pick | `value: string` | Fires together with `change`, with the same argument |
+| confirm | `value: string` | Fires when OK is tapped; `value` is the selected value |
+| cancel | — | Fires when Cancel is tapped; the panel returns to `value` |
+| close | — | Fires when the popup closes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Trigger element that opens the picker on tap; not rendered when `usePopup` is `false` |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-picker-date/`
-- Demo: `#/pages/demo/form/picker-date`
-- Chinese docs: [/uniappx/components/picker-date](/uniappx/components/picker-date)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `getValue(): string` | Returns the current value in the panel |
+| `confirm()` | Confirms the current selection, same as tapping OK |
+| `cancel()` | Cancels the selection, same as tapping Cancel |
+| `open()` | Opens the picker |
+| `close()` | Closes the picker |

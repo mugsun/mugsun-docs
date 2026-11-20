@@ -5,19 +5,15 @@ demo: pages/demo/media/webview
 
 # Webview 网页
 
-`ms-webview` 是对官方 `<web-view>` 的受控封装，提供固定高度的容器、后退、前进和刷新导航栏，以及一行状态文字。
+`ms-webview` 封装了官方的 `<web-view>`，在固定高度的容器里打开网页，带后退、前进和刷新按钮，以及一行加载状态。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
+只能打开 `allowHosts` 白名单里的地址。白名单默认为空，使用前必须先配置。
 
-组件目录：`uni_modules/ms-webview/components/ms-webview`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-可选插件：需单独安装 `uni_modules/ms-webview`，并依赖 `ms-ui`。
-演示路由：`#/pages/demo/media/webview`。
+这是可选插件，需要单独安装 `uni_modules/ms-webview`，并依赖 `ms-ui`。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/webview.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -68,50 +64,61 @@ function onNavigate(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| src | `string` | `''` | 资源地址 |
+| src | `string` | `''` | 网页地址，只支持 `http` 和 `https`；为空时显示空状态 |
 | height | `number` | `260` | 高度（px） |
-| showToolbar | `boolean` | `true` | 是否显示工具条 |
-| showStatus | `boolean` | `true` | 是否显示状态 |
-| loadingText | `string` | `'加载中…'` | 加载中文案 |
-| allowHosts | `string[]` | `[]` | 外链主机白名单：精确匹配（`example.com`）或前导点后缀（`.mugsun.com`，含根域与子域）。默认为空，此时拒绝所有非空外链 |
-| allowAnyHost | `boolean` | `false` | 跳过组件级白名单（仍拒绝非 http/https 等违规地址，且仍受微信业务域名 / `urlCheck` 约束） |
+| showToolbar | `boolean` | `true` | 是否显示后退、前进和刷新按钮 |
+| showStatus | `boolean` | `true` | 是否显示加载状态 |
+| loadingText | `string` | `'加载中…'` | 加载时的文字 |
+| allowHosts | `string[]` | `[]` | 允许打开的域名：`example.com` 只匹配这个域名，`.mugsun.com` 匹配根域名和全部子域名；默认为空，这时任何地址都打不开 |
+| allowAnyHost | `boolean` | `false` | 是否跳过白名单检查；仍然只支持 `http` 和 `https`，微信小程序里还受业务域名限制 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| load | `payload: UTSJSONObject` | 网页加载完成时触发，`payload.url` 是当前地址 |
+| error | `payload: UTSJSONObject` | 加载失败时触发，`payload.errMsg` 是错误信息；地址被白名单拦截时也会触发，这时带 `url` 和 `reason` |
+| message | `payload: UTSJSONObject` | 网页向应用发消息时触发，`payload.count` 是消息条数；Web 端不触发 |
+| navigate | `payload: UTSJSONObject` | 后退、前进或刷新时触发，`payload.action` 是 back / forward / reload |
+| blocked | `payload: UTSJSONObject` | 地址被白名单拦截时触发，`payload` 含 `url` 和 `reason` |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| load | 加载完成 |
-| error | 错误 |
-| message | 收到消息 |
-| navigate | 导航操作 |
-| blocked | 地址被白名单拦截，payload：`url`、`reason='allowHosts'` |
+| `back()` | 后退 |
+| `forward()` | 前进 |
+| `reload()` | 重新加载当前网页 |
 
 ## 外链白名单
 
-`src` 只有通过校验才会交给内部 `<web-view>`；未通过时不加载，状态行显示「地址未在白名单」，容器内显示「地址未在白名单，已拦截」，并同时触发 `blocked` 与 `error`（payload 均为 `{ url, reason: 'allowHosts' }`）。
+`src` 通过检查后才会交给内部的 `<web-view>`。没通过时不加载网页，状态行和容器里都会提示地址不在白名单。
 
-校验规则：
+这时会同时触发 `blocked` 和 `error`，两个事件的参数都是 `{ url, reason: 'allowHosts' }`。
 
-- 只放行 `http://` / `https://`；`javascript:`、`file:`、`data:` 等一律拒绝（`allowAnyHost` 也不放行）。
-- 含控制字符（含 tab、换行）、authority 含反斜杠 `\` 或 userinfo（`@`）的地址直接拒绝。
-- 主机名小写比对，忽略端口；`.mugsun.com` 匹配 `mugsun.com` 与 `a.mugsun.com`，不匹配 `evilmugsun.com`。
-- `src` 为空时显示空态「未设置网页地址」，不算拦截。
+检查规则如下：
+
+- 只允许 `http://` 和 `https://`，`javascript:`、`file:` 等协议一律拒绝，`allowAnyHost` 也不放行。
+- 地址里有控制字符（包括 tab 和换行）时拒绝，主机部分带反斜杠 `\` 或用户信息（`@`）时也拒绝。
+- 主机名按小写比较，忽略端口。
+- `.mugsun.com` 匹配 `mugsun.com` 和 `a.mugsun.com`，不匹配 `evilmugsun.com`。
+- `src` 为空时显示「未设置网页地址」，不算拦截。
 
 ```vue
 <ms-webview src="https://a.mugsun.com/" :allow-hosts="['.mugsun.com']" @blocked="onBlocked" />
 ```
 
-## 微信小程序：urlCheck 与业务域名
+## 微信小程序的域名限制
 
-组件白名单只是第一层，微信小程序另有平台约束：
+白名单只是组件自己的检查，微信小程序还有平台的限制。
 
-1. 工程 `manifest.json` 建议开启域名校验（演示工程已设为 `true`）：
+建议在工程的 `manifest.json` 里开启域名校验，演示工程已经开启：
 
 ```json
 "mp-weixin": {
@@ -121,9 +128,6 @@ function onNavigate(payload: UTSJSONObject) : void {
 }
 ```
 
-2. 真机预览与提审前，须在微信公众平台为小程序配置业务域名，`web-view` 只能打开已配置的域名；个人主体小程序不能用 `web-view` 打开外链。
+真机预览和提交审核前，要在微信公众平台为小程序配置业务域名，`web-view` 只能打开配置过的域名。
 
-## 相关
-
-- 组件目录: `uni_modules/ms-webview/components/ms-webview/`
-- 演示: `#/pages/demo/media/webview`
+个人主体的小程序不能用 `web-view` 打开外链。

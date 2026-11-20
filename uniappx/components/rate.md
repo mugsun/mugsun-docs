@@ -5,18 +5,13 @@ demo: pages/demo/form/rate
 
 # Rate 评分
 
-`ms-rate` 是评分组件，点击设置分值，支持只读、禁用、半星、清除、右侧描述和分值显示，点击时可在上方或下方短暂显示提示（`placement`）。
+`ms-rate` 是评分组件，点击星星设置分值，用 `v-model` 绑定。可以开启半星，也可以再点一次清零。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-rate`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/rate`。
+星星旁边可以显示文字说明或数字分值；设置 `placement` 后，点击时在星星上方或下方短暂显示提示。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/rate.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -59,8 +54,6 @@ const vTexts = ref(3)
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -70,24 +63,19 @@ const vTexts = ref(3)
 | readonly | `boolean` | `false` | 是否只读 |
 | disabled | `boolean` | `false` | 是否禁用 |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | 尺寸 |
-| activeIcon | `string` | `'star-fill'` | 激活态图标名 |
-| voidIcon | `string` | `'star-line'` | 未激活图标名 |
-| halfIcon | `string` | `'star-half-fill'` | 半星图标名 |
-| showText | `boolean` | `false` | 是否显示评分文案 |
-| showScore | `boolean` | `false` | 显示数字分值 |
-| allowHalf | `boolean` | `false` | 允许半星 |
-| clearable | `boolean` | `false` | 再点当前分值可清零 |
-| texts | `string[]` | `[]` | 各分档文案；空则用内置 |
-| placement | `'top' \| 'bottom' \| ''` | `''` | 点选时短暂展示评分弹层位置。 空串不展示；top / bottom 相对星排。 |
+| activeIcon | `string` | `'star-fill'` | 选中时的图标名 |
+| voidIcon | `string` | `'star-line'` | 未选中时的图标名 |
+| halfIcon | `string` | `'star-half-fill'` | 半星的图标名 |
+| showText | `boolean` | `false` | 是否在星星旁边显示分值对应的文字 |
+| showScore | `boolean` | `false` | 是否在星星旁边显示数字分值，优先于 `showText` |
+| allowHalf | `boolean` | `false` | 是否允许半星 |
+| clearable | `boolean` | `false` | 再次点击当前分值是否清零 |
+| texts | `string[]` | `[]` | 各分值对应的文字，留空使用内置文字 |
+| placement | `'top' \| 'bottom' \| ''` | `''` | 点击时提示出现的位置：top 上方 / bottom 下方，留空不显示 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:modelValue | v-model 更新 |
-| change | 值变化 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-rate/`
-- 演示: `#/pages/demo/form/rate`
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: number` | 分值变化时触发，用于 `v-model` |
+| change | `value: number` | 分值变化时触发，`value` 是新的分值 |

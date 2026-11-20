@@ -5,18 +5,15 @@ demo: pages/demo/form/picker
 
 # Picker
 
-`ms-picker` is a picker. Pass flat `options` (split into columns by `column`, each with `label` and `value`); internally it uses the native `picker-view` and `picker-view-column`.
+`ms-picker` is a wheel picker with one or more columns. Pass the choices as a flat `options` array in which each item names its column with `column`.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+By default it opens from the bottom and the default slot is the trigger; set `usePopup` to `false` to embed it in the page.
 
-Component directory: `uni_modules/ms-ui/components/ms-picker`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/picker`.
+`value` holds the selected index of each column. The component does not change it, so update it in the `confirm` event.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/picker.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -134,42 +131,46 @@ function onPlainConfirm(indexes: number[], label: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| options | `UTSJSONObject[]` | `[]` | Flat options: column (index) + label + value |
-| value | `number[]` | `[]` | Selected index per column |
-| visible | `boolean` | `false` | Whether visible (when usePopup) |
-| title | `string` | `''` | Title; empty keeps only cancel/confirm in the header |
-| cancelText | `string` | `'取消'` | Cancel button label |
-| confirmText | `string` | `'确定'` | Confirm button label |
+| options | `UTSJSONObject[]` | `[]` | Options; each item has `column` (column index), `label` and `value` |
+| value | `number[]` | `[]` | Selected index of each column |
+| visible | `boolean` | `false` | Whether it is shown; applies when `usePopup` is `true`. Works with `v-model:visible` |
+| title | `string` | `''` | Title; when empty the header only has Cancel and OK |
+| cancelText | `string` | `'取消'` | Cancel button label; the default is Chinese for "Cancel" |
+| confirmText | `string` | `'确定'` | Confirm button label; the default is Chinese for "OK" |
 | header | `boolean` | `true` | Whether to show the header |
 | itemHeight | `number` | `44` | Item height (px) |
-| visibleItemCount | `number` | `5` | Visible item count |
-| usePopup | `boolean` | `true` | Wrap in popup; false = inline |
+| visibleItemCount | `number` | `5` | Number of visible items |
+| usePopup | `boolean` | `true` | Whether it opens from the bottom; `false` embeds it in the page |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| update:visible | v-model:visible update |
-| change | Value changed |
-| pick | Selection changed (before confirm) |
-| confirm | Confirm |
-| cancel | Cancel |
-| close | Closed |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires when the picker opens or closes; used by `v-model:visible` |
+| change | `indexes: number[], label: string` | Fires while scrolling, with the index of each column and the labels joined by spaces; nothing is confirmed yet |
+| pick | `column: number, index: number` | Fires while scrolling, with the column that changed and its new index |
+| confirm | `indexes: number[], label: string` | Fires when OK is tapped, with the same arguments as `change` |
+| cancel | — | Fires when Cancel is tapped; the panel returns to `value` |
+| close | — | Fires when the popup closes |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
+| default | Trigger element that opens the picker on tap; not rendered when `usePopup` is `false` |
 
-## See also
+## Methods
 
-- Component: `uni_modules/ms-ui/components/ms-picker/`
-- Demo: `#/pages/demo/form/picker`
-- Chinese docs: [/uniappx/components/picker](/uniappx/components/picker)
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
+| --- | --- |
+| `getLabel(): string` | Returns the label of the current selection in the panel |
+| `confirm()` | Confirms the current selection, same as tapping OK |
+| `cancel()` | Cancels the selection, same as tapping Cancel |
+| `open()` | Opens the picker |
+| `close()` | Closes the picker |

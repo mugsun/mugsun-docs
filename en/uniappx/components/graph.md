@@ -5,19 +5,13 @@ demo: pages/demo/media/graph
 
 # Graph
 
-`ms-graph` draws relationship graphs on a native canvas with tree, force-directed and layered DAG layouts. The layouts follow common F6 layouts, but `@antv/f6` is not included from npm.
+`ms-graph` draws relationship graphs on a native canvas with tree, force-directed and layered layouts, without any third-party graph library.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-graph/components/ms-graph`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-graph` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/graph`.
+This is an optional plugin. Install `uni_modules/ms-graph` separately; it depends on `ms-ui`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/graph.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -143,27 +137,28 @@ function onReady(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| layout | `string` | `'tree'` | Layout |
-| nodes | `UTSJSONObject[]` | `[]` | Node list |
-| edges | `UTSJSONObject[]` | `[]` | Edge list |
-| height | `number` | `320` | Height (px) |
-| fitView | `boolean` | `true` | Whether to fit the viewport |
+| layout | `string` | `'tree'` | Layout: tree / force (force-directed) / dagre (layered) |
+| nodes | `UTSJSONObject[]` | `[]` | Nodes, each with `id` and `label` |
+| edges | `UTSJSONObject[]` | `[]` | Edges, each with `source` and `target` holding node `id` values |
+| height | `number` | `320` | Canvas height (px) |
+| fitView | `boolean` | `true` | Whether to fit all nodes into view after layout |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| node-click | `payload: UTSJSONObject` | Fires when a node is tapped; `payload` has `index`, `id` and `label` |
+| ready | `payload: UTSJSONObject` | Fires after each draw completes; `payload` has the node count `nodes` and the edge count `edges` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| node-click | Node click |
-| ready | Ready |
-
-## See also
-
-- Component: `uni_modules/ms-graph/components/ms-graph/`
-- Demo: `#/pages/demo/media/graph`
-- Chinese docs: [/uniappx/components/graph](/uniappx/components/graph)
+| `redraw()` | Redraws the graph |
+| `fit()` | Lays the graph out again and resets pan and zoom |

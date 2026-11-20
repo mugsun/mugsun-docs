@@ -5,18 +5,13 @@ demo: pages/demo/form/form
 
 # Form Item 表单项
 
-`ms-form-item` 是表单项，包含标签、内容插槽、辅助说明和错误提示，可显示必填星号和右侧箭头。
+`ms-form-item` 是表单项，放在 [`ms-form`](./form) 里使用，由标签、输入控件、帮助文字和错误提示组成。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-form-item`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/form`。
+把当前值传给 `value` 就能参与校验，支持必填、内置格式规则和字符长度限制。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/form.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -68,40 +63,33 @@ const vNick = ref('')
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | label | `string` | `''` | 标签文案 |
-| name | `string` | `''` | 名称 / 字段名 |
+| name | `string` | `''` | 字段名 |
 | value | `string` | `''` | 参与校验的当前值（由父页面传入表单数据） |
 | required | `boolean` | `false` | 是否必填 |
 | requiredMark | `boolean` | `true` | 必填时是否显示红色星号 |
 | rule | `'none' \| 'phone' \| 'email' \| 'number'` | `'none'` | 内置校验：none / phone / email / number |
-| min | `number` | `-1` | 最小值 |
-| max | `number` | `-1` | 最大值 |
-| message | `string` | `''` | 校验失败文案 |
+| min | `number` | `-1` | 最少字符数，`-1` 表示不限制 |
+| max | `number` | `-1` | 最多字符数，`-1` 表示不限制 |
+| message | `string` | `''` | 校验失败时显示的文案，留空使用默认文案 |
 | help | `string` | `''` | 帮助文案 |
 | arrow | `boolean` | `false` | 右侧是否显示箭头 |
-| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | 标签对齐 |
-| labelWidth | `number` | `-1` | 标签宽度（px） |
+| labelAlign | `'left' \| 'right' \| 'top' \| ''` | `''` | 标签对齐，留空时跟随 `ms-form` |
+| labelWidth | `number` | `-1` | 标签宽度（px），`-1` 时跟随 `ms-form` |
 | bordered | `boolean` | `true` | 是否显示边框 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| validate | 校验结束 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| validate | `message: string` | 该项校验结束后触发，`message` 是错误文案，空字符串表示通过 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-form-item/`
-- 演示: `#/pages/demo/form/form`
+| default | 输入控件 |

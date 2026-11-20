@@ -5,18 +5,13 @@ demo: pages/demo/form/sign-board
 
 # Sign Board
 
-`ms-sign-board` is a handwriting signature pad based on a 2d `canvas` and touch events, with additional mouse support on Web.
+`ms-sign-board` is a handwriting signature pad. Write on the canvas with a finger, or with the mouse on Web.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-sign-board`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/sign-board`.
+Call `getImage()` to get the signature as an image.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/sign-board.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -39,26 +34,29 @@ function onStrokeEnd() : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| penType | `string` | `'default'` | default / pen / pencil |
+| penType | `string` | `'default'` | Stroke style: default / pen / pencil |
 | strokeWidth | `number` | `8` | Base stroke width (px) |
 | disabled | `boolean` | `false` | Whether disabled |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| start | — | Fires when a stroke starts |
+| end | — | Fires when a stroke ends |
+| clear | — | Fires when the canvas is cleared |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| start | Started |
-| end | end |
-| clear | Clear |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-sign-board/`
-- Demo: `#/pages/demo/form/sign-board`
-- Chinese docs: [/uniappx/components/sign-board](/uniappx/components/sign-board)
+| `clear()` | Clears the canvas |
+| `getLineCount(): number` | Returns the number of strokes |
+| `isEmpty(): boolean` | Whether the canvas is empty |
+| `getImage(): UTSJSONObject` | Returns the signature image with `src` (a PNG data URL), `width` and `height` |

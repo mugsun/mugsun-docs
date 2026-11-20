@@ -7,16 +7,9 @@ demo: pages/demo/form/cascader
 
 `ms-cascader` is a cascading selector. Pass flat `options` (with value, label and parent) and choose level by level in a popup.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-cascader`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/form/cascader`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/form/cascader.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <ms-cascader
@@ -104,8 +97,6 @@ function onLooseChange(value: string, label: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -113,25 +104,28 @@ Components live under `uni_modules/ms-ui/components`; uni-app x easycom register
 | options | `UTSJSONObject[]` | `[]` | Flat nodes: value + label + parent (root parent = '') |
 | value | `string` | `''` | Selected leaf value |
 | visible | `boolean` | `false` | Whether visible |
-| title | `string` | `''` | Title |
-| placeholder | `string` | `'选择选项'` | Placeholder text for unselected steps |
+| title | `string` | `''` | Popup title |
+| placeholder | `string` | `'选择选项'` | Placeholder text for unselected steps; the default is Chinese for "Select an option" |
 | theme | `string` | `'step'` | Display style: step / tab |
 | subTitles | `string[]` | `[]` | Subtitle per level |
-| checkStrictly | `boolean` | `false` | Unlinked parent/child: any node selectable; header shows confirm |
+| checkStrictly | `boolean` | `false` | Allows picking any level; a confirm button appears in the header |
 | closeBtn | `boolean` | `true` | Whether to show the close button |
 | optionsHeight | `number` | `280` | Options area height (px) |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| update:visible | `value: boolean` | Fires with `false` when the popup closes; used by `v-model:visible` |
+| change | `value: string, label: string` | Fires when the selection is complete; `value` is the picked node's value and `label` is the path of level names joined with ` / ` |
+| pick | `value: string, label: string, level: number` | Fires when an option at any level is tapped; `level` is the index of that level. Disabled options do not fire it |
+| close | — | Fires when the popup closes |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| update:visible | v-model:visible update |
-| change | Value changed |
-| pick | Selection changed (before confirm) |
-| close | Closed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-cascader/`
-- Demo: `#/pages/demo/form/cascader`
-- Chinese docs: [/uniappx/components/cascader](/uniappx/components/cascader)
+| `getLabel(): string` | Returns the names along the current path, joined with ` / ` |
+| `confirm()` | Completes the selection with the current path, same as tapping confirm |

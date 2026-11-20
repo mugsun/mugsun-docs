@@ -5,18 +5,13 @@ demo: pages/demo/display/image-resizer
 
 # Image Resizer
 
-`ms-image-resizer` crops images with a fixed, centered crop frame. It supports dragging to pan, slider zoom, horizontal and vertical flips, reset, and cancel or confirm to export.
+`ms-image-resizer` crops images. The crop frame stays centered while you drag and zoom the image to choose the area, and the image can also be flipped.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-image-resizer`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/image-resizer`.
+Confirming exports the result: the `confirm` event returns the image as a data URL with its width and height.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/image-resizer.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -67,30 +62,31 @@ function onError(msg: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | `string` | `''` | Resource URL |
-| cropWidth | `number` | `240` | Crop width (px) |
-| cropHeight | `number` | `240` | Crop height (px) |
-| height | `number` | `320` | Height (px) |
+| src | `string` | `''` | Image URL |
+| cropWidth | `number` | `240` | Crop frame width (px) |
+| cropHeight | `number` | `240` | Crop frame height (px) |
+| height | `number` | `320` | Component height (px) |
 | quality | `number` | `1` | Output image quality 0–1 |
-| hideFlip | `boolean` | `false` | Whether to hide flip |
+| hideFlip | `boolean` | `false` | Whether to hide the flip buttons |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| confirm | `payload: UTSJSONObject` | Fires when the export succeeds; `payload` has `src` (a data URL), `width` and `height` |
+| cancel | — | Fires when the cancel button is tapped |
+| error | `message: string` | Fires when loading or exporting the image fails; `message` describes the error |
+| change | `payload: UTSJSONObject` | Fires after a drag, zoom or flip; `payload` has `scale`, `flipX` and `flipY` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| confirm | Confirm |
-| cancel | Cancel |
-| error | Error |
-| change | Value changed |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-image-resizer/`
-- Demo: `#/pages/demo/display/image-resizer`
-- Chinese docs: [/uniappx/components/image-resizer](/uniappx/components/image-resizer)
+| `reset()` | Restores the initial zoom, position and flip state |
+| `confirm()` | Exports the cropped image, same as tapping the confirm button |

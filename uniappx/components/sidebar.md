@@ -5,18 +5,13 @@ demo: pages/demo/nav/sidebar
 
 # Sidebar 侧栏
 
-`ms-sidebar` 是侧边分类导航，通过 `items` 和内容插槽使用，当前项用 `v-model:value` 绑定。
+`ms-sidebar` 是侧边分类导航，左侧是由 `items` 生成的分类列表，右侧是默认插槽里的内容。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-sidebar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/nav/sidebar`。
+当前项的下标用 `v-model:value` 绑定。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/nav/sidebar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <ms-sidebar
@@ -110,31 +105,24 @@ function onDisabledChange(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| value | `number` | `0` | 选中项下标 |
-| items | `UTSJSONObject[]` | `[]` | 每项支持 label / icon / count / badge / dot / disabled |
-| height | `number` | `320` | 侧栏总高，只接受数值（px），请填写 token 对应的数值 |
+| value | `number` | `0` | 选中项的下标，可用 `v-model:value` |
+| items | `UTSJSONObject[]` | `[]` | 分类列表，每项含 `label`，可选 `icon` / `count` / `badge` / `dot` / `disabled` |
+| height | `number` | `320` | 组件高度（px） |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| change | 值变化 |
-| click | 点击 |
-| update:value | v-model:value 更新 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| change | `index: number` | 选中项变化时触发，`index` 是新选中项的下标 |
+| click | `index: number` | 点击任意未禁用的项时触发，包括当前项 |
+| update:value | `index: number` | 选中项变化时触发，用于 `v-model:value` |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-sidebar/`
-- 演示: `#/pages/demo/nav/sidebar`
+| default | 右侧内容区 |

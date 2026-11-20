@@ -5,19 +5,15 @@ demo: pages/demo/media/chart
 
 # Chart
 
-`ms-chart` draws common charts on a native canvas: line, area, bar, pie, ring, radar, scatter and funnel. It supports stacking and multiple series, and clicking a legend item hides that series.
+`ms-chart` draws charts on a native canvas without any third-party chart library. `type` takes eight values that cover common shapes such as line, bar and pie.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
+Line, area and bar charts accept a second series for comparison and can stack the two; tapping a legend item hides that series.
 
-Component directory: `uni_modules/ms-chart/components/ms-chart`. ms-ui is MIT-licensed; its source repository is not yet public.
-Optional plugin: install `uni_modules/ms-chart` alongside `ms-ui`.
-Demo route: `#/pages/demo/media/chart`.
+This is an optional plugin. Install `uni_modules/ms-chart` separately; it depends on `ms-ui`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/media/chart.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -135,34 +131,34 @@ function onReady(payload: UTSJSONObject) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| type | `string` | `'line'` | Type |
-| list | `UTSJSONObject[]` | `[]` | Data list |
-| compareList | `UTSJSONObject[]` | `[]` | Second series (line/area/bar compare); ignored for pie |
-| height | `number` | `220` | Height (px) |
-| showGrid | `boolean` | `true` | Whether to show grid |
-| showLabel | `boolean` | `true` | Whether to show labels |
-| showLegend | `boolean` | `false` | Whether to show legend |
-| smooth | `boolean` | `false` | Whether smooth curve |
-| showTip | `boolean` | `false` | Show a simple tip bar under the chart after tap |
-| stack | `boolean` | `false` | Stack bars/areas when compareList is set |
-| seriesName | `string` | `'系列一'` | Primary series legend name |
-| compareName | `string` | `'系列二'` | Compare series legend name |
+| type | `string` | `'line'` | Chart type: line / area / bar / pie / ring / radar / scatter / funnel |
+| list | `UTSJSONObject[]` | `[]` | Data items, each with `label` and `value`; scatter charts may use `x` and `y` |
+| compareList | `UTSJSONObject[]` | `[]` | Second series for comparison in line, area and bar charts; ignored by other types |
+| height | `number` | `220` | Canvas height (px) |
+| showGrid | `boolean` | `true` | Whether to show horizontal grid lines and ticks |
+| showLabel | `boolean` | `true` | Whether to show value or percentage labels |
+| showLegend | `boolean` | `false` | Whether to show the legend; with two series, tapping an item hides that series |
+| smooth | `boolean` | `false` | Whether line and area charts use smooth curves |
+| showTip | `boolean` | `false` | Show a tip bar below the chart after a data point is tapped |
+| stack | `boolean` | `false` | Stack the two series when `compareList` is set on bar and area charts |
+| seriesName | `string` | `'系列一'` | Primary series legend name; the default is Chinese for "Series 1" |
+| compareName | `string` | `'系列二'` | Compare series legend name; the default is Chinese for "Series 2" |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| item-click | `payload: UTSJSONObject` | Fires when a data point is tapped; `payload` has `index`, `label` and `value`, plus `compareValue` and `compareLabel` when a second series is set |
+| ready | `payload: UTSJSONObject` | Fires after each draw completes; `payload.points` is the number of data items |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| item-click | Item click |
-| ready | Ready |
-
-## See also
-
-- Component: `uni_modules/ms-chart/components/ms-chart/`
-- Demo: `#/pages/demo/media/chart`
-- Chinese docs: [/uniappx/components/chart](/uniappx/components/chart)
+| `redraw()` | Redraws the chart |

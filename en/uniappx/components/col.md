@@ -5,18 +5,11 @@ demo: pages/demo/nav/col
 
 # Col
 
-`ms-col` is a grid column. `span` and `offset` set its width and left margin, and `gutter` is injected by the parent `ms-row`.
-
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-col`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/col`.
+`ms-col` is a grid column used inside [`ms-row`](./row). A row has 24 units: `span` is the column width and `offset` is the number of units left empty on the left.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/col.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Span -->
@@ -66,29 +59,21 @@ The snippets below are taken from the demo source `pages/demo/nav/col.uvue`. On 
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| span | `number` | `24` | Grid span |
-| offset | `number` | `0` | Offset |
+| span | `number` | `24` | Column width in units out of 24 |
+| offset | `number` | `0` | Units left empty on the left |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| click | Click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| click | — | Fires when the column is tapped |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-col/`
-- Demo: `#/pages/demo/nav/col`
-- Chinese docs: [/uniappx/components/col](/uniappx/components/col)
+| default | Column content |

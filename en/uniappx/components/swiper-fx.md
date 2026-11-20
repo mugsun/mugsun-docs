@@ -7,16 +7,11 @@ demo: pages/demo/display/swiper-fx
 
 `ms-swiper-fx` is a data-driven carousel with transition effects. Each entry in `list` supports `image`, `color` and `label`.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-swiper-fx`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/display/swiper-fx`.
+Pick the transition with `effect`, and bind the current slide with `v-model:current`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/display/swiper-fx.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -77,32 +72,24 @@ function onClick(i: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| list | `UTSJSONObject[]` | `[]` | Data list |
+| list | `UTSJSONObject[]` | `[]` | Slides; each item can have `image`, `color` and `label` |
 | effect | `'fade' \| 'slide' \| 'zoom' \| 'scale-slide'` | `'fade'` | Transition effect: fade / slide / zoom / scale-slide |
-| current | `number` | `0` | Current index |
+| current | `number` | `0` | Index of the current slide. Works with `v-model:current` |
 | height | `number` | `160` | Height (px) |
 | autoplay | `boolean` | `true` | Whether to autoplay |
-| interval | `number` | `3500` | Interval (ms) |
-| duration | `number` | `600` | Duration (ms) |
+| interval | `number` | `3500` | Autoplay interval (ms) |
+| duration | `number` | `600` | Duration of the transition (ms) |
 | loop | `boolean` | `true` | Whether to loop |
-| showDots | `boolean` | `true` | Whether to show dots |
+| showDots | `boolean` | `true` | Whether to show indicator dots; tapping a dot switches to that slide |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| change | Value changed |
-| click | Click |
-| update:current | v-model:current update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-swiper-fx/`
-- Demo: `#/pages/demo/display/swiper-fx`
-- Chinese docs: [/uniappx/components/swiper-fx](/uniappx/components/swiper-fx)
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: number` | Fires when the current slide changes; `index` is the new index |
+| click | `index: number` | Fires when a slide is tapped; `index` is the tapped slide |
+| update:current | `value: number` | Fires when the current slide changes; used by `v-model:current` |

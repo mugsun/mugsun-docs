@@ -5,19 +5,13 @@ demo: pages/demo/media/editor
 
 # Editor Markdown 编辑器
 
-`ms-editor` 是 Markdown 源码编辑器，由插入标记的工具栏、`textarea` 源码区和 `ms-markdown` 实时预览组成。
+`ms-editor` 是 Markdown 源码编辑器，由插入标记的工具栏、源码输入区和 [`ms-markdown`](./markdown) 实时预览三部分组成。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-editor/components/ms-editor`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-可选插件：需单独安装 `uni_modules/ms-editor`，并依赖 `ms-ui`。
-演示路由：`#/pages/demo/media/editor`。
+这是可选插件，需要单独安装 `uni_modules/ms-editor`。它依赖 `ms-ui`，预览还要用到 [`ms-markdown`](./markdown) 插件。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/media/editor.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -70,31 +64,34 @@ function onClear() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| modelValue | `string` | `''` | 绑定值（v-model） |
-| height | `number` | `220` | 高度（px） |
+| modelValue | `string` | `''` | Markdown 源码，用 `v-model` 绑定 |
+| height | `number` | `220` | 源码区高度（px） |
 | placeholder | `string` | `'输入 Markdown…'` | 占位文案 |
-| readOnly | `boolean` | `false` | 是否只读 |
+| readOnly | `boolean` | `false` | 是否只读；只读时隐藏工具栏 |
 | showPreview | `boolean` | `true` | 是否显示预览 |
-| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | 工具条配置 |
+| toolbar | `string[]` | `['bold', 'italic', 'strike', 'code', 'h2', 'quote', 'list', 'link']` | 工具栏按钮，可选 bold / italic / strike / code / h2 / h3 / quote / list / task / link / image / table / hr / clear |
 | maxlength | `number` | `20000` | 源码最大长度；-1 不限制（仍受平台 textarea 上限约束） |
 | showCount | `boolean` | `false` | 是否显示字数统计 |
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: string` | 源码变化时触发，用于 `v-model` |
+| command | `payload: UTSJSONObject` | 点击工具栏按钮时触发，`payload.name` 是按钮名 |
+| change | `payload: UTSJSONObject` | 源码变化时触发，`payload.length` 是当前字数 |
+| clear | — | 内容被清空时触发，来自工具栏的清空按钮或 `clear()` 方法 |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:modelValue | v-model 更新 |
-| command | 工具条命令 |
-| change | 值变化 |
-| clear | 清空 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-editor/components/ms-editor/`
-- 演示: `#/pages/demo/media/editor`
+| `insertText(text: string)` | 在光标位置插入文本 |
+| `getValue(): string` | 返回当前源码 |
+| `clear()` | 清空内容 |

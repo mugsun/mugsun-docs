@@ -5,18 +5,13 @@ demo: pages/demo/nav/indexbar
 
 # Indexbar
 
-`ms-indexbar` is an indexed list. Side index characters jump to sections with scroll-into-view, and the current index binds with `v-model:current`.
+`ms-indexbar` is a grouped list with a side index. Tap or drag across the index characters to jump to a group.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-indexbar`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/indexbar`.
+Bind the current index with `v-model:current`.
 
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/indexbar.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -127,30 +122,31 @@ function onControlledChange(index: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| items | `UTSJSONObject[]` | `[]` | Flat rows: { index, label, disabled }; same index = one group |
-| current | `string` | `''` | Active index char; empty uses the first group |
-| indexList | `UTSJSONObject[]` | `[]` | Index chars: { key, label }; empty = derived from items |
-| height | `number` | `360` | Container height (accepts numeric px values only) |
-| showTip | `boolean` | `true` | Show large bubble while dragging the index bar |
-| showAnchor | `boolean` | `true` | Whether to render group headers |
+| items | `UTSJSONObject[]` | `[]` | Rows; each item has `index` (its group), `label` and an optional `disabled`. Items with the same `index` form one group |
+| current | `string` | `''` | Current index character; empty selects the first group. Works with `v-model:current` |
+| indexList | `UTSJSONObject[]` | `[]` | Side index entries, each with `key` and `label`; derived from `items` when empty |
+| height | `number` | `360` | Container height (px) |
+| showTip | `boolean` | `true` | Whether to show the large hint bubble while dragging the side index |
+| showAnchor | `boolean` | `true` | Whether to show group headers |
 
 ## Events
 
-| Event | Description |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| change | `index: string` | Fires when the current index switches, whether by scrolling the list, using the side index or calling `scrollToIndex` |
+| select | `index: string` | Fires when the side index is tapped or dragged; `index` is the selected index character |
+| click | `payload: UTSJSONObject` | Fires when a row is tapped; `payload` has `index`, `label` and `rowIndex`. Disabled rows do not fire |
+| update:current | `value: string` | Fires when the current index switches; used by `v-model:current` |
+
+## Methods
+
+Call these through the component's `ref`. See [Calling component methods](/en/uniappx/#methods).
+
+| Method | Description |
 | --- | --- |
-| change | Value changed |
-| select | select |
-| click | Click |
-| update:current | v-model:current update |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-indexbar/`
-- Demo: `#/pages/demo/nav/indexbar`
-- Chinese docs: [/uniappx/components/indexbar](/uniappx/components/indexbar)
+| `scrollToIndex(index: string)` | Scrolls to the group of the given index |
+| `getCurrent(): string` | Returns the current index character |

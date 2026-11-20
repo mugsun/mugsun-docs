@@ -7,16 +7,9 @@ demo: pages/demo/nav/footer
 
 `ms-footer` is a page footer for copyright, links and branding. The default slot accepts custom content.
 
-This component belongs to ms-ui, the uni-app x cross-platform component library. It is not used in the PC admin console.
-
-Component directory: `uni_modules/ms-ui/components/ms-footer`. ms-ui is MIT-licensed; its source repository is not yet public.
-Demo route: `#/pages/demo/nav/footer`.
-
 ## Basic usage
 
 <!-- demo-snippets:start -->
-The snippets below are taken from the demo source `pages/demo/nav/footer.uvue`. On wide screens, the running demo appears in the phone frame on the right. On narrow screens, tap the H5 demo bar at the bottom.
-
 ```vue
 <template>
   <!-- Types -->
@@ -61,32 +54,24 @@ function onLink(index: number) : void {
 ```
 <!-- demo-snippets:end -->
 
-Components live under `uni_modules/ms-ui/components`; uni-app x easycom registers them automatically.
-
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| text | `string` | `''` | Display text |
-| links | `UTSJSONObject[]` | `[]` | Footer link list (name, etc.) |
+| text | `string` | `''` | Copyright text |
+| links | `UTSJSONObject[]` | `[]` | Links; each item has a `name` |
 | logoTitle | `string` | `''` | Title next to the logo |
 | logoIcon | `string` | `''` | Logo icon name |
 | logoWithInfo | `boolean` | `false` | In logo mode, whether to still show links and copyright |
 
 ## Events
 
-| Event | Description |
-| --- | --- |
-| link | Link click |
+| Event | Arguments | Description |
+| --- | --- | --- |
+| link | `index: number` | Fires when a link is tapped; `index` is the link's index. The component does not navigate, so handle it yourself |
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Default content |
-
-## See also
-
-- Component: `uni_modules/ms-ui/components/ms-footer/`
-- Demo: `#/pages/demo/nav/footer`
-- Chinese docs: [/uniappx/components/footer](/uniappx/components/footer)
+| default | Custom footer content that replaces the default branding, links and copyright |

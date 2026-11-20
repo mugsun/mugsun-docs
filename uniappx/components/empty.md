@@ -5,18 +5,13 @@ demo: pages/demo/basic/empty
 
 # Empty 空状态
 
-`ms-empty` 是空状态组件，可显示 icon、image 和 action，`status` 支持 loading、error 和 more，并提供 action 插槽。
+`ms-empty` 是空状态组件，用图标或图片加一段文字说明当前没有内容，还可以带一个操作按钮。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-empty`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/basic/empty`。
+`status` 还支持加载中、出错和没有更多三种状态。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/basic/empty.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 图标 -->
@@ -53,8 +48,6 @@ function onRetry() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -64,26 +57,21 @@ function onRetry() : void {
 | description | `string` | `''` | 描述文案 |
 | icon | `string` | `'inbox-line'` | 图标名（icons.uts） |
 | image | `string` | `''` | 图片地址 |
-| actionText | `string` | `''` | 操作文案 |
+| actionText | `string` | `''` | 操作按钮文字 |
 | errorText | `string` | `'加载出错了'` | 错误文案 |
-| moreText | `string` | `'没有更多了'` | variant 为 more 时的文案 |
+| moreText | `string` | `'没有更多了'` | `status` 为 `more` 时的文案 |
 | loadingText | `string` | `'加载中…'` | 加载中文案 |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| action | 操作按钮 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| action | — | 点击操作按钮时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| action | `action` 插槽 |
-| description | `description` 插槽 |
-| image | `image` 插槽 |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-empty/`
-- 演示: `#/pages/demo/basic/empty`
+| image | 自定义图片区域，默认显示图标或 `image` 指定的图片 |
+| description | 自定义文字区域，默认显示标题和描述 |
+| action | 自定义操作区域，默认显示操作按钮 |

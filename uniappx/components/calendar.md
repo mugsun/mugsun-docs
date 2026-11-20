@@ -5,18 +5,15 @@ demo: pages/demo/form/calendar
 
 # Calendar 日历
 
-`ms-calendar` 是按月显示的网格日历。`type` 可选 `single`、`multiple` 或 `range`；`value` 是以逗号分隔的 `YYYY-MM-DD` 字符串；`marks` 用于设置日期上下方的标记。`switchMode=month` 时按月翻页，`none` 时平铺显示。默认在 `ms-popup` 弹层中打开，`usePopup=false` 时内嵌在页面中。
+`ms-calendar` 是按月显示的日历，可以选单个日期、多个日期或一段日期范围。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
+选中值 `value` 是字符串，日期格式为 `YYYY-MM-DD`，多个日期之间用逗号分隔。
 
-组件目录：`uni_modules/ms-ui/components/ms-calendar`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/form/calendar`。
+日历默认在弹层里打开，把 `usePopup` 设为 `false` 后直接嵌在页面中。
 
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/form/calendar.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件用法 -->
@@ -77,8 +74,6 @@ function onSelectDay(day: string) : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
@@ -103,17 +98,25 @@ function onSelectDay(day: string) : void {
 
 ## 事件
 
-| 事件 | 说明 |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 弹层关闭时触发，值为 `false`，用于 `v-model:visible` |
+| select | `date: string` | 点击某一天时触发，`date` 是该日期；禁用的日期不触发 |
+| change | `value: string` | 选中值变化时触发。有确认按钮时点确认后触发，否则选完就触发 |
+| confirm | `value: string` | 点击确认按钮时触发 |
+| cancel | — | 点击关闭按钮时触发，未确认的选择会被丢弃 |
+| close | `trigger: string` | 关闭时触发，`trigger` 是关闭原因：`confirm-btn`、`close-btn`、`overlay` 或 `auto-close` |
+| panel-change | `month: string` | 切换月份时触发，`month` 的格式为 `YYYY-MM` |
+
+## 方法
+
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
 | --- | --- |
-| update:visible | v-model:visible 更新 |
-| select | select |
-| change | 值变化 |
-| confirm | 确认 |
-| cancel | 取消 |
-| close | 关闭 |
-| panel-change | panel-change |
-
-## 相关
-
-- 组件目录: `uni_modules/ms-ui/components/ms-calendar/`
-- 演示: `#/pages/demo/form/calendar`
+| `getValue(): string` | 返回面板上当前的选择，包括还没确认的，格式同 `value` |
+| `confirm()` | 等同于点击确认按钮 |
+| `cancel()` | 等同于点击关闭按钮 |
+| `prev()` | 翻到上一个月 |
+| `next()` | 翻到下一个月 |
+| `reset()` | 丢弃未确认的选择，恢复为 `value` |

@@ -7,16 +7,9 @@ demo: pages/demo/feedback/popover
 
 `ms-popover` 是气泡提示。触发元素放在默认插槽中，气泡内容通过 `content` 属性或 `content` 插槽设置。
 
-本组件属于 uni-app x 跨端组件库 ms-ui，不用于 PC 管理台。
-
-组件目录：`uni_modules/ms-ui/components/ms-popover`。ms-ui 采用 MIT 许可，源码仓库暂未公开。
-演示路由：`#/pages/demo/feedback/popover`。
-
 ## 基础用法
 
 <!-- demo-snippets:start -->
-以下片段摘自演示源码 `pages/demo/feedback/popover.uvue`。宽屏下可在页面右侧的手机框中查看运行效果；窄屏下请点击底栏的「打开 H5 演示」。
-
 ```vue
 <template>
   <!-- 组件类型 -->
@@ -93,35 +86,37 @@ function tapCustom() : void {
 ```
 <!-- demo-snippets:end -->
 
-组件放在 `uni_modules/ms-ui/components` 下，uni-app x 的 easycom 会自动注册，无需手动 import。
-
 ## Props
 
 | 属性 | 类型 | 默认 | 说明 |
 | --- | --- | --- | --- |
 | visible | `boolean` | `false` | 是否显示 |
-| content | `string` | `''` | 纯文本内容；复杂内容用 content 插槽 |
-| placement | `\| 'top'` | `'top'` | 弹出/摆放位置 |
-| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | 主题色 |
+| content | `string` | `''` | 气泡里的文字；更复杂的内容用 `content` 插槽 |
+| placement | `'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | `'top'` | 气泡相对触发元素的位置 |
+| theme | `'dark' \| 'light' \| 'brand' \| 'success' \| 'warning' \| 'error'` | `'dark'` | 配色 |
 | showArrow | `boolean` | `true` | 是否显示箭头 |
-| closeOnClickOutside | `boolean` | `true` | 点气泡外（透明遮罩）是否关闭 |
+| closeOnClickOutside | `boolean` | `true` | 点击气泡以外的区域是否关闭 |
 | zIndex | `number` | `900` | 层级 z-index |
 
 ## 事件
 
-| 事件 | 说明 |
-| --- | --- |
-| update:visible | v-model:visible 更新 |
-| visible-change | visible-change |
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:visible | `value: boolean` | 显示状态变化时触发，用于 `v-model:visible` |
+| visible-change | `value: boolean` | 显示状态变化时触发 |
 
 ## 插槽
 
 | 插槽 | 说明 |
 | --- | --- |
-| default | 默认内容 |
-| content | `content` 插槽 |
+| default | 触发元素，点击后显示或隐藏气泡 |
+| content | 自定义气泡内容，默认显示 `content` |
 
-## 相关
+## 方法
 
-- 组件目录: `uni_modules/ms-ui/components/ms-popover/`
-- 演示: `#/pages/demo/feedback/popover`
+通过组件的 `ref` 调用，写法见[调用组件的方法](/uniappx/#methods)。
+
+| 方法 | 说明 |
+| --- | --- |
+| `open()` | 显示气泡，需配合 `v-model:visible` |
+| `close()` | 隐藏气泡，需配合 `v-model:visible` |
