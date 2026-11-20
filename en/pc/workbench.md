@@ -1,47 +1,137 @@
-# Workbench and UI details
+# Workbench
 
-## Workbench
+The workbench is the first page after sign-in. It gathers statistics, your tasks and announcements. The AI assistant opens from the right edge of the screen.
 
-- **Users per tenant**: the x-axis shows the tenant name instead of the tenant code. The name returned by the backend API is used first; when the API only returns a code, the name is looked up from the tenant list, and the platform tenant `000000` is shown as "Platform" if it has no name. Only platform super admins or accounts that can view all data see this chart. If the tenant list cannot be loaded, the codes are shown and the chart still renders.
-- **Changelog card**:
-  - **Current version and link**: the top shows the current version, taken from the `version` in the admin console's `package.json` at build time. "View changelog ↗" at the top right opens the mugsun-pc [CHANGELOG.md](https://github.com/mugsun/mugsun-pc/blob/main/CHANGELOG.md) on GitHub in a new tab.
-  - **List**: the latest 6 records from System → Changelog, newest first. Each shows its date, type (New / Improved / Fixed; any other value shows as "Other"), version and title.
-  - **Not installed and new version available**: when a record's version is newer than the current version, the record gets a grey "Not installed" tag and "vX available" appears to the right of the current version, where vX is the highest newer version in the list. Versions may carry a `v` prefix; records whose version is not in a valid format get no tag.
-    - Wildcard versions such as `1.x`, `1.*` and `0.2.x` also count as invalid and get no tag.
-  - **Loading, empty and error states**: a skeleton is shown while loading, and with no records yet the card says "No release notes yet. New releases will appear here." If loading fails, the card shows an error message, an error ID and a "Retry" button instead of a global toast; the current version does not depend on the API and is still shown.
-  - **Error ID**: the request's `X-Trace-Id`. If the request reached the backend, you can use it to find the request in the backend logs; requests that never left the browser (for example, when offline) cannot be found.
-  - **Data source and permissions**: the data comes from `GET /system/changelog/recent`, which any signed-in user can read without a menu permission, regardless of their tenant package. Records are maintained under System → Changelog, which only super admins and admins can open.
-- **First-login settings tip**: a bubble saying "click here for theme styles and the top menu" appears once under the settings icon at the top right. It is right-aligned to the settings icon with a gap below the top bar, so it does not cover the notification or settings buttons. It closes, and does not come back, when you click "Got it", click anywhere on the page, open the settings panel, or leave it alone for 8 seconds. It is not shown on screens narrower than 640px.
+![The workbench after sign-in](/screenshots/pc-workbench.png)
 
-## AI assistant entry
+## What is on the workbench
 
-Above the "Help" tab on the right edge is a small "AI" tab that opens the AI assistant drawer. It sits against the right edge of the screen and no longer covers the pager at the bottom right of lists or the coordinate readout at the bottom right of the map.
+| Area | Content |
+| --- | --- |
+| Stat cards | Number of users, departments and roles, plus your open tasks. Click a card to open its page |
+| User Status Distribution | How many users are enabled and how many are disabled |
+| Users per Tenant | Number of users in each tenant |
+| My Todos | Workflow tasks waiting for you, up to 6 |
+| Announcements | The latest 6 announcements, with the unread count beside the title |
+| Changelog | The current version and the latest 6 release records |
+| Shortcuts | Links to frequently used pages. Each user picks their own |
 
-### AI assistant drawer
+- The stat cards and the user status chart count the current tenant only.
+- "Users per Tenant" appears only for the platform super administrator, or while viewing all tenants.
+- The horizontal axis shows tenant names. The platform tenant `000000` shows as "Platform" when it has no name.
 
-- **Width**: 560px by default. Drag the left edge to resize it between 420 and 800px; the width is remembered. When the window is 640px wide or less, the drawer fills the screen. The full screen button in the top bar also toggles full screen.
-- **Top bar**: Click the title to open your chat history, grouped into today, this week and earlier. You can search, rename, export, clear and delete chats there. On the right are New chat, Full screen and Close.
-- **Messages**: Your questions sit on a light primary-colour background; AI replies have no bubble. Code blocks show the language name and a copy button at the top, and long code scrolls sideways inside the block.
-- **Errors and retry**: When a reply fails, an error message and a Retry button appear under it, and retrying replaces that reply in place. There is no Regenerate button yet. If the reply failed partway through, the question has already been saved, so after a retry the history shows the same question twice when you reload it.
-- **Composer**: Press Enter to send and Shift+Enter for a new line. While a reply is being generated, the send button turns into a stop button. Below the input you can pick the model and knowledge base; when space is tight they move into a Settings button. If no model is configured yet, a notice appears at the top of the drawer, and accounts that can manage models see a "Configure" link.
-- **Empty state**: A new chat shows 4 example questions; click one to fill it in and send it.
-- **Keyboard**: When the drawer opens, focus is in the input. Tab moves through the title, New chat, Full screen, Close, the message list, the Copy button under each message (Retry on a failed answer), the input, model, knowledge base and Send. The Copy button on your own messages is hidden until it gets focus. Esc closes the drawer and returns focus to the AI button.
-- **Loading**: The drawer's content loads on demand. The first time you open the drawer, the top bar appears straight away. If loading takes longer than 200ms, a spinner and "Loading AI assistant…" appear below it, so there is no flash when it loads quickly. While loading, the title is a placeholder bar and New chat and Full screen can't be clicked yet.
-- **Load failure and retry (including timeouts)**: If loading fails, or takes longer than 15 seconds (a timeout counts as a failure), the drawer shows an error message and a Retry button rather than just a toast. Click Retry to load the drawer again. While in this state the top bar shows the title "AI Assistant" and hides New chat and Full screen.
-- **Automatic reload fallback**: If loading fails twice in a row (timeouts included), or the file that failed is a stylesheet or another file the drawer depends on (usually right after a new release has replaced the old files), retrying can't fix it, so the page reloads once to pick up the new version. The page reloads automatically at most once per outage: if loading still fails after the reload, the error message stays; check your network and click Retry, or reload the page yourself. The outage only counts as over once the drawer loads successfully, so a later outage can trigger one automatic reload again. Closing the drawer stops automatic reloads: any load still in progress is abandoned, so a later timeout or failure is not counted and does not reload the page, and forms you are filling in are left alone.
-- **Can always be closed**: Whether the drawer is loading, has failed to load or is working normally, the Close button sits in the same place on the right of the top bar and always works. Esc closes it too. Focus returns to the AI button afterwards. On narrow screens the Close button's tap area grows to 44×44.
+## Changelog card
 
-## Narrow screens (≤ 640px)
+The top of the card shows the current version, taken from `version` in the admin console's `package.json` at build time.
 
-- The "Help" and "AI" tabs shrink to translucent strips so they cover less of the cards.
-- The AI assistant uses a single column: the session list is hidden by default, tapping "会话" (Sessions) at the top left opens it as an overlay, and picking a session closes it again. The model and knowledge base selects each take half a row.
-- In Tracking → User lookup, the time range box takes the full row and shows minutes only, so the seconds are no longer cut off.
-- On the map page, the status bar at the bottom right drops the long usage hint and shows only coordinates and place names. It keeps clear of the zoom buttons and scale bar at the bottom left and of the AI button at the bottom right.
+Below it are the latest 6 records, newest first. Each record has a date, a type, a version and a title.
 
-## Editing changelog entries
+| What you see | Meaning |
+| --- | --- |
+| "Not installed" tag | The version of this record is newer than the current version |
+| "vX available" | The list has records newer than the current version. vX is the highest of them |
+| "View changelog ↗" | Opens `CHANGELOG.md` of the mugsun-pc repository in a new tab |
+| Error message and "Retry" | The records failed to load. The current version does not depend on the API and still shows |
 
-In System → Changelog, the body editor in the create / edit dialog is 320px tall.
+- Write versions in three parts such as `1.2.3`. A `v` prefix is allowed.
+- Forms such as `1.x` or `1.2` are not compared, and the record gets no "Not installed" tag.
+- The error ID in the message is the `X-Trace-Id` of the request. Use it to find the request in the backend log.
+- When the network is down, the request never reaches the backend, so the log has no such ID.
 
-## Request cancellation on navigation
+Records are maintained under "System Settings → Changelog", which requires the `sys:changelog:manage` permission.
 
-When you switch routes, the console cancels requests from the previous page that have not returned yet, so stale data does not land on the new page. Cancelled requests show no message and no longer appear in the console as an uncaught "请求已取消" (request cancelled) error, which used to be visible when leaving pages such as the form designer. New pages do not need a separate `catch` for cancellation.
+The card reads `GET /system/changelog/recent`. Any signed-in user can read it, regardless of menu permissions and tenant packages.
+
+## Shortcuts
+
+Click "Edit" at the top right of Shortcuts, tick the pages you want on the workbench, then click "Save".
+
+- There are 16 candidate pages. Only those the current account can open are listed.
+- Before you configure anything, the default 6 are shown.
+- The selection is stored per user on the backend, so it follows you to another browser or computer.
+
+## The settings hint on first sign-in
+
+On first sign-in, a bubble appears below the settings icon at the top right. It says you can change the theme and turn on the top menu here.
+
+- Clicking "Got it", clicking anywhere on the page, or opening the settings panel closes the bubble.
+- With no action for 8 seconds, the bubble closes by itself. Once closed, it does not appear again.
+- It does not appear when the window is 640px wide or less. It also does not appear when the account must change its password first.
+
+## AI assistant {#ai-assistant}
+
+Two small tabs sit on the right edge of the screen: "AI" on top and "Help" below. Click "AI" to open the AI assistant drawer.
+
+The AI assistant belongs to the optional AI module. Configure a model in the [AI center](/en/pc/ai-center) first.
+
+### Asking a question
+
+- Press Enter in the input box to send, and Shift+Enter for a new line. While a reply is being generated, the send button becomes a stop button.
+- Below the input box you can pick a model and a knowledge base. When the drawer is narrow, both move into the "Settings" button.
+- A new chat shows 4 example questions. Click one to fill it in and send it.
+- When no model is configured yet, the top of the drawer says so. Accounts with model management permission can click "Configure".
+- Code blocks in replies show the language name and a copy button.
+
+### When a reply fails
+
+An error message and a "Retry" button appear below the failed reply.
+
+The retried reply replaces the failed one, and your question does not appear twice in the history.
+
+### Chat history
+
+Click the title at the top of the drawer to open the chat history. Chats are grouped into "Today", "Past 7 days" and "Earlier", and can be searched.
+
+Each chat can be renamed, exported, cleared or deleted. To the right of the title are the new chat, full screen and close buttons.
+
+### Width and keyboard
+
+| Item | Description |
+| --- | --- |
+| Default width | 560px |
+| Resizing | Drag the left edge of the drawer, between 420 and 800px. The width is remembered |
+| Full screen | Click the full screen button at the top. The drawer is always full screen when the window is 640px wide or less |
+| Focus after opening | In the input box |
+| Esc | Closes the drawer and returns focus to the "AI" tab |
+| Tab | Moves through the top buttons, the message area, the input box and the send button |
+
+The copy button of a user message is hidden by default and appears when Tab reaches it.
+
+### When the drawer fails to load {#drawer-load-failed}
+
+The drawer content loads the first time you open it. Loading that takes more than 15 seconds counts as a failure.
+
+- When loading fails, the drawer shows an error message and a "Retry" button.
+- After 2 failures in a row, the page refreshes once automatically. When a stylesheet fails, it refreshes on the first failure.
+- This usually happens right after a new release, when old files have been replaced. A refresh loads the new files.
+- The page refreshes automatically at most once. If loading still fails after that, the error message stays. Check the network, then retry.
+- The page does not refresh automatically after the drawer is closed, so a form you are filling in is not affected.
+
+Whether the drawer is loading, has failed to load or is in normal use, the close button at the top right and Esc both close it.
+
+## Changes on narrow screens
+
+When the window is 640px wide or less, several parts of the UI adjust:
+
+| Where | Change |
+| --- | --- |
+| The "Help" and "AI" tabs on the right | Shrink into thin, semi-transparent strips |
+| Assistant page | Switches to a single column. The conversation list is collapsed; click "Conversations" at the top left to expand it |
+| "User Drilldown" in analytics | The time range box takes the full row and shows minutes only |
+| The status bar at the bottom right of the map page | Shows only coordinates and the place name, without operation hints |
+
+## Requests are canceled when you switch pages
+
+When you switch to another page, requests from the previous page that have not returned are canceled, so stale data never fills the new page.
+
+Canceled requests show no message and raise no error in the console. New pages do not need a separate `catch` for cancellation.
+
+## Next steps
+
+<div class="ms-cards">
+
+- [AI center](/en/pc/ai-center) Configure models and knowledge bases so the AI assistant can answer.
+- [Workflow](/en/boot/features/workflow) Where the workflow tasks in "My Todos" come from.
+- [Messages and announcements](/en/boot/features/message) How the announcements under "Announcements" are sent.
+
+</div>

@@ -1,128 +1,174 @@
-# Development
+# Local development
+
+Run the admin console on your machine against a local backend. The later sections cover common commands, tests, and a few things to know while developing.
 
 ## Prerequisites
 
-- Node.js ≥ 22.13 and pnpm ≥ 11.11 (`packageManager` pins `pnpm@11.28.2`)
-- [mugsun-boot](/en/boot/) running on `:8080`
-- Whether or not the analytics module is on, [mugsun-track](https://github.com/mugsun/mugsun-track) must be cloned next to this repository: the SDK is referenced as `file:../mugsun-track`, and the SDK repository doesn't commit `dist/`
+| You need | Notes |
+| --- | --- |
+| Node.js | 22.13 or later |
+| pnpm | 11.11 or later; `package.json` pins `pnpm@11.28.2` |
+| Backend | [mugsun-boot](/en/boot/) running on port `8080`, see [Getting started](/en/guide/getting-started) |
 
-## Start
+The analytics SDK `@mugsun/track-web` is installed from npm. You do not need to clone another repository.
+
+## Start it
+
+<div class="ms-steps">
+
+### Install dependencies
 
 ```bash
-pnpm setup:sdk
+git clone https://github.com/mugsun/mugsun-pc.git && cd mugsun-pc
 pnpm install
+```
+
+### Start the dev server
+
+```bash
 pnpm dev
 ```
 
-`pnpm setup:sdk` runs install and build in `../mugsun-track`; you can skip it with `VITE_ENABLE_TRACK=false`, but the sibling directory must still exist because `pnpm install` resolves it. The dev server runs at `http://localhost:3006` (`VITE_PORT`), and `/api/**` is proxied to `VITE_API_PROXY_URL` in `.env.development` (default `http://localhost:8080`). Sign in with your boot account.
+Your browser opens <http://localhost:3006>.
 
-## Scripts
+### Sign in
 
-| Command | Description |
+The account is `admin`. The password is the one you set with `MUGSUN_INIT_PASSWORD` when you started the backend.
+
+</div>
+
+During development, requests that start with `/api` are forwarded to the backend with the `/api` prefix removed.
+
+| To change | Edit |
 | --- | --- |
-| `pnpm dev` | Dev server |
-| `pnpm build` | Type-check with `vue-tsc --noEmit`, then `vite build` |
-| `pnpm serve` | Preview the production build |
-| `pnpm test` | Unit tests (vitest) |
-| `pnpm test:e2e` | End-to-end tests (Playwright; the e2e dev port is `3007`, so set `MUGSUN_FRONT_URL` on boot). Needs the captcha off, see below |
-| `pnpm test:e2e:captcha-on` | Needs the captcha on, see below |
+| Backend address | `VITE_API_PROXY_URL` in `.env.development`, default `http://localhost:8080` |
+| Frontend port | `VITE_PORT` in `.env`, default `3006` |
+
+If you change the frontend port, change `MUGSUN_FRONT_URL` on the backend too. CORS and the OAuth redirect both use it.
+
+## Common commands
+
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Start the dev server |
+| `pnpm build` | Type-check, then bundle into `dist/` |
+| `pnpm serve` | Preview the bundle |
+| `pnpm test` | Unit tests with Vitest |
+| `pnpm test:ui-check` | [UI self-check](/en/pc/ui-check), no backend needed |
+| `pnpm test:e2e` | End-to-end tests with Playwright, see [below](#e2e) |
 | `pnpm lint` / `pnpm fix` | ESLint check / auto-fix |
-| `pnpm gen:api` | Generate `src/types/api/openapi.d.ts` from `http://localhost:8080/v3/api-docs` (boot must be running) |
+| `pnpm gen:api` | Generate API types from the backend's OpenAPI document; the backend must be running |
 
-### E2E and the captcha
+`pnpm gen:api` reads `http://localhost:8080/v3/api-docs` and writes `src/types/api/openapi.d.ts`.
 
-The e2e tests don't solve captchas or read answers from Redis.
-So there are two suites, each for one backend setup.
+## Add a page
 
-**Main suite, `pnpm test:e2e`**
+<div class="ms-steps">
 
-- Boot must have the captcha off.
-- Option 1: `mugsun.captcha.enabled=false`.
-- Option 2: turn off the platform tenant (`000000`)
-  with `POST /system/tenant/captcha`.
-- The suite checks `/auth/captcha/config` first and fails if the captcha is on.
-- It also fails, with the HTTP status, if the config response is broken:
-  - not 2xx
-  - not JSON
-  - `code` other than 200
-  - no `data.enabled`
-- PowerJob Server (port 7700) must be reachable; the W4-3 job tests need it.
-- If 7700 is down the suite fails and does not touch any container.
+### Write the endpoint
 
-**Captcha-on suite, `pnpm test:e2e:captcha-on`**
+Implement the endpoint on the backend and declare its permission code with `@SaCheckPermission`.
 
-- Tests live in `e2e/captcha-on/`.
-- The config is `playwright.captcha-on.config.ts`.
-- Leave the captcha on (the default). PowerJob is not needed.
-- Without a `captchaToken`, these requests must be rejected:
-  - login
-  - registration
-  - the forgot-password code request
-- Rejected means HTTP 200 with `code` `40013`.
-- If the backend explicitly returns `enabled=false`,
-  the tests are skipped with the reason.
-- A broken config response fails the run instead of skipping.
-- Nothing is solved and nothing is bypassed.
+### Update the API types
 
-**`E2E_START_POWERJOB`**
+```bash
+pnpm gen:api
+```
 
-- Set it to `1` and the main suite runs `docker start` when 7700 is down.
-- It then waits for the port.
-- Name the containers with `E2E_POWERJOB_CONTAINERS`, comma-separated.
-- The default is `powerjob-mysql,powerjob-server`.
-- Example:
+### Register the menu
 
-  ```bash
-  E2E_START_POWERJOB=1 E2E_POWERJOB_CONTAINERS=my-pj-db,my-pj pnpm test:e2e
-  ```
+Add the menu and the button permission codes under Menu management. Frontend routes are delivered with the menu.
 
-## Access mode and cross-origin requests
+### Write the page
 
-Both variables are set in `.env` and take effect at build time.
+Pages live under `src/views/`. Put a self-contained optional feature in `modules/<name>/` and add a `VITE_ENABLE_<NAME>` switch for it.
 
-| Variable | Default | Purpose |
+</div>
+
+To turn off one of the three existing optional modules, see [Turn off optional modules](/en/pc/#turn-off-optional-modules).
+
+## Access mode and CORS
+
+These two variables go in `.env` and take effect at build time.
+
+| Variable | Default | Notes |
 | --- | --- | --- |
-| `VITE_ACCESS_MODE` | `backend` | Access mode. Only `backend` and `frontend` are supported |
-| `VITE_WITH_CREDENTIALS` | `false` | When `true`, requests are sent with `withCredentials` and carry cookies |
+| `VITE_ACCESS_MODE` | `backend` | Where menus and permissions come from; only `backend` or `frontend` |
+| `VITE_WITH_CREDENTIALS` | `false` | When `true`, requests carry cookies |
 
-In `backend` mode, menus and permissions come from the menu data returned by the backend API. This suits business applications.
+- `backend`: menus and permissions come from the backend API. Use this for real projects.
+- `frontend`: menus and permissions are written in the frontend route config. Good for small projects and demos.
 
-In `frontend` mode, menus and permissions come from the frontend route configuration. This suits small projects and demo environments.
+Set `VITE_WITH_CREDENTIALS` to `true` only when the admin console and the backend are on different origins and you need cookies.
 
-Set `VITE_WITH_CREDENTIALS` to `true` only when the console and the backend are on different origins and cookies must be sent. The backend must also allow credentials on cross-origin requests.
+The backend must then allow credentials across origins as well.
 
-## Adding a page
+## End-to-end tests {#e2e}
 
-1. Implement the endpoint in boot and declare its permission code (`@SaCheckPermission`).
-2. Run `pnpm gen:api` to refresh the types.
-3. Register the menu and button codes under menu management; routes follow the menus delivered by the backend.
-4. Put modular features in `modules/<name>` behind a `VITE_ENABLE_<NAME>` flag.
+The end-to-end tests talk to a real backend and do not solve captchas, so they come in two suites, one per backend setup.
 
-## Sign-in state
+| Suite | Command | Backend requirement |
+| --- | --- | --- |
+| Main suite | `pnpm test:e2e` | Captcha off, PowerJob Server reachable on port `7700` |
+| Captcha-on suite | `pnpm test:e2e:captcha-on` | Captcha left on (the default) |
 
-`accessToken`, `refreshToken` and `isLogin` are stored in `sessionStorage` (key `sys-v{version}-user-session`) and disappear when the tab closes. Language, user info and search history stay in `localStorage`. The lock-screen password isn't persisted, so the locked state doesn't survive a reload.
+For both suites, start the frontend on port `3007` first with `pnpm dev:e2e`.
 
-What this means for users ([pc#4](https://github.com/mugsun/mugsun-pc/pull/4)):
+`MUGSUN_FRONT_URL` on the backend must point to that port too.
 
-- Reloading in the same tab keeps you signed in; **opening a new tab or reopening the browser requires signing in again**.
-- The lock screen doesn't survive a reload.
-- The lock screen only hides the UI. It is not a security boundary; a reload unlocks it.
-- Unlocking is compared in the browser only. The password is kept in memory as a salted SHA-256 hash.
-- The salt is 16 random bytes per lock. Hash and salt are cleared on unlock or sign-out.
-- The fixed `VITE_LOCK_ENCRYPT_KEY` value is no longer used.
-- If setting the lock-screen password fails, the screen stays unlocked and the message "Failed to lock the screen. Please try again." appears.
-- After upgrading, tokens saved in `localStorage` by older versions are no longer read, so **everyone has to sign in once more**.
+### Main suite
+
+- There are two ways to turn the captcha off: set `mugsun.captcha.enabled=false`, or turn off the captcha switch of the platform tenant.
+- Before running, the suite requests `/auth/captcha/config`. It fails right away if the captcha is still on or the endpoint returns something unexpected.
+- The scheduled-job cases need PowerJob, and the backend must be started with `--powerjob.worker.enabled=true`.
+- If port `7700` is unreachable the suite fails right away. It does not start any container.
+
+To let the tests start the PowerJob containers for you, set `E2E_START_POWERJOB=1`:
+
+```bash
+E2E_START_POWERJOB=1 E2E_POWERJOB_CONTAINERS=my-pj-db,my-pj pnpm test:e2e
+```
+
+Container names are comma-separated. The default is `powerjob-mysql,powerjob-server`.
+
+### Captcha-on suite
+
+- The cases live in `e2e/captcha-on/` and do not need PowerJob.
+- They check that sign-in, sign-up and the forgot-password code request are all rejected without a `captchaToken`.
+- A rejection is HTTP 200 with `code` set to `40013`.
+- When the backend explicitly returns `enabled=false`, these cases are skipped with the reason stated.
+
+## Where the session is stored
+
+| What | Where | When it is lost |
+| --- | --- | --- |
+| Access token, refresh token, signed-in flag | `sessionStorage`, key `sys-v{version}-user-session` | The tab is closed |
+| Language, user info, search history | `localStorage` | Cleared by hand |
+| Lock-screen password | In memory only, as a salted SHA-256 hash | The page is reloaded |
+
+So reloading within the same tab keeps you signed in, while a new tab or a restarted browser asks you to sign in again.
+
+::: warning The lock screen is not a security boundary
+The lock screen only covers the interface. Unlocking is checked in the frontend, not by the backend, and reloading the page unlocks it.
+:::
 
 ## Profile avatar
 
-Uploading an avatar on the profile page ([pc#8](https://github.com/mugsun/mugsun-pc/pull/8)):
+The user center can upload an avatar through `POST /auth/avatar/upload`.
 
-- Only png / jpg / jpeg / gif / webp are accepted (both MIME type and extension are checked), up to 2MB; anything else is rejected with a message and not uploaded.
-- It calls `POST /auth/avatar/upload`; the backend sets the upload as your avatar, and the page and header avatar update immediately.
-- The avatar URL looks like `/auth/avatar/raw/{id}`; the console prefixes it the same way as API calls (e.g. `/api/auth/avatar/raw/{id}`). **The URL can be fetched without signing in**, so it works directly as an `<img src>`. Older `http(s)://` avatars are shown as-is; an empty avatar falls back to the default image.
+- Only png, jpg, jpeg, gif and webp are accepted, up to 2 MB.
+- A successful upload becomes your avatar at once; the page and the top bar update together.
+- The avatar address looks like `/auth/avatar/raw/{id}`. It needs no sign-in, so you can put it straight into `<img src>`.
 
-See [Permissions · Avatars](/en/boot/permissions#avatars) for endpoint details.
+For the endpoint details, see [Permissions: avatars](/en/boot/permissions#avatars).
 
-## Next
+## Next steps
 
-[Console overview](/en/pc/) · [Add analytics](/en/track/install)
+<div class="ms-cards">
+
+- [Admin console overview](/en/pc/) Which pages it has and how the code is laid out.
+- [UI self-check](/en/pc/ui-check) The interface checks to pass before you commit.
+- [Docker deployment](/en/pc/deploy-docker) Build an image and serve it with Nginx.
+- [Install the analytics SDK](/en/track/install) Add tracking to your own pages.
+
+</div>

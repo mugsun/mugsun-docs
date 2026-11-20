@@ -219,7 +219,7 @@ Each repository keeps a `CHANGELOG.md` in Keep a Changelog format, and GitHub Re
 - To opt in, set `E2E_START_POWERJOB=1`.
 - See [Development · E2E and the captcha][e2e-captcha].
 
-[e2e-captcha]: /en/pc/development#e2e-and-the-captcha
+[e2e-captcha]: /en/pc/development#e2e
 
 ## 2026-10-21 · ms-badge dot takes precedence
 

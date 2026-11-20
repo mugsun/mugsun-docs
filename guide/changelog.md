@@ -219,7 +219,7 @@
   - 用独立配置，不需要 PowerJob。
 - config 异常时两套都直接报错，不会静默跳过。
 - 主套默认不再自动 `docker start` PowerJob；要自动启动，设 `E2E_START_POWERJOB=1`。
-- 详见 [开发 · e2e 与验证码](/pc/development#e2e-与验证码)。
+- 详见 [开发 · e2e 与验证码](/pc/development#e2e)。
 
 ## 2026-10-21 · ms-badge 圆点优先
 
