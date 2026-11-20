@@ -1,116 +1,105 @@
 # Getting started
 
-## Try it with Docker
+All you need is Docker (Compose v2.17+). The whole system starts in containers, including the database and Redis.
 
-All you need is Docker. The database, Redis, backend and admin console all run in containers.
+<div class="ms-steps">
+
+### Start it
 
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
 docker compose -f docker-compose.full.yml up -d --build
+```
+
+The first run builds the backend and admin console images on your machine, so it takes a while.
+
+### Get the admin password
+
+```bash
 docker compose -f docker-compose.full.yml run --rm init show
 ```
 
-The last command prints the admin password (never written to logs).
+The password is generated at random on the first run and stored in a Docker volume.
 
-Open <http://127.0.0.1:8088> and sign in as `admin`.
+### Sign in
 
-You can also check `docker compose -f docker-compose.full.yml logs ready` for the login tip.
+Open <http://127.0.0.1:8088> and sign in as `admin` with the password from the previous step. The first sign-in asks you to change it.
 
-The database image defaults to the multi-arch GHCR pull `ghcr.io/mugsun/postgis-pgvector:16-3.4` (amd64 + arm64).
+![The workbench you see after signing in](/screenshots/pc-workbench.png)
 
-You do not need to build it locally, and you do not need `MUGSUN_PG_*`.
+</div>
 
-By default the console port is bound to `127.0.0.1` only, so it can be reached only from the same machine. To try it on a server and open it from another machine, set `MUGSUN_HTTP_BIND=0.0.0.0` before starting. The port can be changed with `MUGSUN_HTTP_PORT`.
-
-![Admin console workbench](/screenshots/pc-workbench.png)
-
-If a server in mainland China can't pull images from Docker Hub, set `registry-mirrors` in Docker's `daemon.json` and restart Docker, or give Docker a proxy.
-
-::: warning
-You are not forced to change the password after signing in, so sign in and change it in your profile. This compose file is for trying things out. For production settings, see [Boot configuration](/en/boot/configuration).
+::: warning For evaluation only
+This Compose file is for trying mugsun out. For production settings, see [Configuration](/en/boot/configuration) and the [Security checklist](/en/boot/security-checklist).
 :::
 
-## Local development
+## Change how it starts
+
+Set the variables in this table before you run `up`.
+
+| Need | What to do |
+| --- | --- |
+| Reach it from another machine | Set `MUGSUN_HTTP_BIND=0.0.0.0`. By default it only listens on this machine |
+| Use another port | Set `MUGSUN_HTTP_PORT`. The default is `8088` |
+| Use another time zone | Set `MUGSUN_TZ`. The default is `Asia/Shanghai` |
+| See the sign-in hint again | `docker compose -f docker-compose.full.yml logs ready` |
+| Wipe everything and start over | `docker compose -f docker-compose.full.yml down -v`. This deletes the data and the keys |
+
+::: details Docker Hub images fail to pull
+Add `registry-mirrors` to Docker's `daemon.json` and restart Docker, or give Docker a proxy.
+:::
+
+## Run from source {#local-development}
+
+When you want to change the code, run the backend and the admin console from source.
 
 You need JDK 21, Maven 3.9+ and Docker. The admin console also needs Node.js 22.13+ and pnpm 11.11+.
 
-### 1. Start the backend
+<div class="ms-steps">
 
-The tip depends on `mugsun-core` `0.2.0-SNAPSHOT`. Install it locally first.
+### Start the backend
+
+The `main` branch depends on a snapshot version of mugsun-core. That version is not on Maven Central, so install it locally first.
 
 ```bash
 git clone https://github.com/mugsun/mugsun-core.git
 cd mugsun-core && mvn -B clean install -DskipTests && cd ..
+
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
-docker compose up -d
+docker compose up -d    # PostgreSQL 5432, Redis 6379
 ./mvnw -pl mugsun-boot-server -am package -DskipTests
-java -jar mugsun-boot-server/target/mugsun-boot.jar
+export MUGSUN_INIT_PASSWORD='<initial password for admin>'
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
 ```
 
-This repository ships a Maven Wrapper (`./mvnw`); a system Maven 3.9+ works too.
+The backend is up when `curl http://localhost:8080/ping` gets a response.
 
+### Start the admin console {#2-start-the-admin-console}
 
-`config/application-local.yml` is an optional override (Spring `optional` import, gitignored). Create it from `config/application-local.yml.example` only when you need overrides; the example has no required fields.
-
-> **Always build from the repository root with `-am`** (or `./mvnw clean package -DskipTests`).
-
-> Building only the server (no `-am`, submodule, or IDE single-module) pulls that version from local `~/.m2` (the tip is currently `0.2.0-SNAPSHOT`).
-
-> Branches share that coordinate, so the jar may carry another branch's old code; `clean` does not help.
-
-> When in doubt, run `./mvnw -B install -DskipTests` from the root (system `mvn` works too).
-
-The backend is running when `curl http://localhost:8080/ping` returns a response.
-
-Default account: `admin`. The platform seed password comes from `mugsun.security.init-password` or `MUGSUN_INIT_PASSWORD` (platform admin bootstrap / `init show` only).
-
-If unset, non-prod profiles use a built-in default (local only); prod must inject one.
-
-Locally you may also `export MUGSUN_INIT_PASSWORD=…`. Do not commit a plaintext password.
-
-Password reset, new-tenant admins, and default passwords for imported users are random one-time passwords returned only in the create/reset API response; users must change them on first sign-in before other endpoints work. Admin UIs that still say the initial password equals the env var should show the API `initialPassword` and prompt for a change instead.
-
-Run `java -jar` from the repository root so the optional `config/application-local.yml` is picked up.
-
-::: details Port 5432 or 6379 is already in use
-Pick other host ports. Export them in the same terminal so the backend reads them too:
+Go back to the directory that contains `mugsun-boot` and run:
 
 ```bash
-export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
-docker compose up -d
+git clone https://github.com/mugsun/mugsun-pc.git && cd mugsun-pc
+pnpm install
+pnpm dev
 ```
 
-For other solutions, see the [FAQ](/en/guide/faq).
-:::
+Your browser opens <http://localhost:3006>. Sign in as `admin` with the initial password you set in the previous step.
 
-### 2. Start the admin console
+### Send your first event
 
-From the directory that contains `mugsun-boot`:
-
-```bash
-git clone https://github.com/mugsun/mugsun-pc.git
-cd mugsun-pc && pnpm install && pnpm dev
-```
-
-The analytics SDK defaults to npm `@mugsun/track-web@0.3.0`. You do not need to clone mugsun-track.
-
-To link SDK source (optional): clone it as a sibling, then `pnpm link ../mugsun-track`.
-
-Or set `@mugsun/track-web=link:../mugsun-track` in `.npmrc` and run `pnpm install` again.
-
-Open <http://localhost:3006>. Local sign-in first asks you to pass a security check. The challenge type is picked at random from five types; see [Behavior captcha](/en/pc/captcha).
-
-### 3. Report your first event
-
-In the console, create an app under Analytics → Integrations and copy its `appKey`:
+In the admin console, go to Tracking → Integration and create an app to get an `appKey`. Then install the SDK in your page:
 
 ::: code-group
+
 ```bash [pnpm]
 pnpm add @mugsun/track-web
 ```
+
 ```bash [npm]
 npm install @mugsun/track-web
 ```
+
 :::
 
 ```ts
@@ -123,12 +112,28 @@ const track = createTracker({
 track.track('hello_mugsun')
 ```
 
-Select the app under Analytics → Overview to view the reported data.
+Go to Tracking → Overview and select the app to see the event you just sent.
+
+</div>
+
+::: details Port 5432 or 6379 is already in use
+Pick other host ports. Export them in the same terminal so the backend reads them too:
+
+```bash
+export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
+docker compose up -d
+```
+
+For other problems, see the [FAQ](/en/guide/faq) and the [Error reference](/en/guide/errors).
+:::
 
 ## Next steps
 
-- [Development tutorial: your first API](/en/boot/tutorial/first-api)
-- [Architecture](/en/guide/architecture)
-- [Boot configuration](/en/boot/configuration)
-- [Pre-launch security checklist](/en/boot/security-checklist)
-- [FAQ](/en/guide/faq)
+<div class="ms-cards">
+
+- [Write your first API](/en/boot/tutorial/first-api) Add a `GET /hello` endpoint to the backend.
+- [Architecture](/en/guide/architecture) What each repository does and how to switch the optional modules.
+- [Configuration](/en/boot/configuration) Environment variables and settings for production.
+- [Security checklist](/en/boot/security-checklist) What to verify before you go live.
+
+</div>
