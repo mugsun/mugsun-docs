@@ -1,8 +1,12 @@
 # Your first scheduled job
 
-This page adds a job that counts the notes once a minute. The application class already enables `@EnableScheduling`, and built-in jobs such as log cleanup and notification retry work the same way.
+This section writes a job that counts the notes once a minute.
 
-## Create the job
+The application class already enables `@EnableScheduling`. The built-in log cleanup and notification retry jobs are written the same way.
+
+<div class="ms-steps">
+
+### Create the job
 
 ```java
 // note/NoteStatJob.java
@@ -20,27 +24,38 @@ public class NoteStatJob {
 	@Scheduled(cron = "0 * * * * *")
 	public void run() {
 		long total = noteMapper.selectCountByQuery(QueryWrapper.create());
-		log.info("笔记总数：{}", total);
+		log.info("Total notes: {}", total);
 	}
 }
 ```
 
 The cron expression has six fields: second, minute, hour, day, month and weekday. `0 * * * * *` runs at second 0 of every minute.
 
-## Notes
+### Restart and watch the log
 
-- The scheduler pool has 2 threads by default, set by `spring.task.scheduling.pool.size`. Do not block for long inside a job.
-- Jobs run on a background thread without a login session. To read a table with a tenant column, set the tenant with `TenantContext.execute`, or cross tenants explicitly with `TenantContext.ignore`.
-- With several instances, every instance runs the job. A job that must run once needs its own distributed lock.
-
-## See it work
-
-Restart the backend and wait for the next full minute. The log prints the note count:
+Rebuild and restart the backend. At the next full minute the log prints:
 
 ```text
-INFO ... com.mugsun.boot.note.NoteStatJob : 笔记总数：1
+INFO ... com.mugsun.boot.note.NoteStatJob : Total notes: 1
 ```
 
 After you create or delete a note, the number changes on the next minute.
 
-Previous: [Your first cache](./first-cache)
+</div>
+
+## Things to watch when writing a job
+
+- The scheduler pool has 2 threads by default, set by `spring.task.scheduling.pool.size`. Do not block for long inside a job.
+- Jobs run on a background thread without a sign-in session.
+- To read a table with a tenant column, set the tenant with `TenantContext.execute`, or cross tenants explicitly with `TenantContext.ignore`.
+- With several instances, every instance runs the job. A job that must run once needs its own distributed lock.
+
+## Next steps
+
+<div class="ms-cards">
+
+- [Scheduled tasks](/en/boot/features/job) Tasks you maintain, start and stop in the admin console are scheduled by PowerJob.
+- [Switch tenants in code](/en/boot/tenant/context) How to use `TenantContext` on a background thread.
+- [Features](/en/boot/features/) See what the backend ships with.
+
+</div>

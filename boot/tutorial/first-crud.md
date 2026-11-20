@@ -1,15 +1,21 @@
 # 第一个 CRUD
 
-本节做一张笔记表，提供分页、详情、新增、修改、删除五个接口。持久层用 MyBatis-Flex，实体继承 mugsun-core 的 `BaseEntity`。
+这一节做一张笔记表，写出增删改查的五个接口。
 
-## 建表
+持久层用 MyBatis-Flex，实体继承 mugsun-core 的 `BaseEntity`。代码放在[上一节](./first-api)的 `note` 包下。
 
-数据库变更统一走 Flyway。
+## 写代码
 
-迁移放在 `mugsun-boot-core/src/main/resources/db/migration/`。版本号取当前最大值加一，示例是 `V12`。
+<div class="ms-steps">
+
+### 建表
+
+数据库变更统一走 Flyway，迁移脚本放在 `mugsun-boot-core/src/main/resources/db/migration/`。
+
+版本号取目录里当前最大值加一。写这篇文档时最大是 `V22`，所以示例用 `V23`。
 
 ```sql
--- V12__demo_note.sql
+-- V23__demo_note.sql
 CREATE TABLE demo_note (
     id          BIGINT PRIMARY KEY,
     title       VARCHAR(100) NOT NULL,
@@ -20,9 +26,11 @@ CREATE TABLE demo_note (
 );
 ```
 
-后四列对应 `BaseEntity` 的字段。已发布的迁移不能修改；要支持达梦或 openGauss 时，在对应方言目录里加同号脚本。
+`id` 和最后三列对应 `BaseEntity` 的字段。已经发布的迁移脚本不能再修改。
 
-## 实体和 Mapper
+要支持达梦或 openGauss 时，在 `db/migration-dm` 和 `db/migration-og` 里加同号脚本。
+
+### 写实体和 Mapper
 
 ```java
 // note/entity/Note.java
@@ -42,11 +50,11 @@ public interface NoteMapper extends BaseMapper<Note> {
 }
 ```
 
-`BaseEntity` 提供雪花主键 `id`、创建和更新时间（由数据库 `now()` 填充），以及逻辑删除字段 `isDeleted`。
+`BaseEntity` 提供主键 `id`、两个时间字段和逻辑删除字段 `isDeleted`。创建和更新时间由数据库的 `now()` 填充。
 
-启动类已扫描 `com.mugsun.boot.**.mapper`，Mapper 不需要再注册。
+启动类已经扫描 `com.mugsun.boot.**.mapper`，Mapper 不需要再注册。
 
-## Service
+### 写 Service
 
 ```java
 // note/NoteService.java
@@ -81,7 +89,7 @@ public class NoteService {
 }
 ```
 
-## 控制器
+### 写控制器
 
 ```java
 // note/NoteController.java
@@ -143,33 +151,19 @@ public class NoteController {
 }
 ```
 
-`sanitizeForInsert()` 和 `sanitizeForUpdate()` 会清掉请求体里的时间和删除标记，这些字段只能由服务端写入。
+`sanitizeForInsert()` 和 `sanitizeForUpdate()` 会清掉请求体里的时间和删除标记。这些字段只能由服务端写入。
 
-管理员持有全部权限码。其他角色要先被授予 `demo:note:*` 这几个权限码，说明见[权限与附件](/boot/permissions)。
+</div>
 
-## 看效果
+## 授权
 
-接口需要登录。本地调试时，可以在 `config/application-local.yml` 里关掉登录验证码和国密传输，用明文密码换取令牌：
+管理员持有全部权限码，可以直接调用。
 
-```yaml
-mugsun:
-  captcha:
-    enabled: false
-  crypto:
-    gm-enabled: false
-```
+其他角色要先被授予 `demo:note:*` 这几个权限码，说明见[权限与附件](/boot/permissions)。
 
-::: warning
-这两项只用于本地调试，生产环境必须保持默认值。
-:::
+## 调用接口
 
-重启后端，然后登录并保存令牌：
-
-```bash
-TOKEN=$(curl -s -X POST http://localhost:8080/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"username":"admin","password":"123456"}' | jq -r .data.token)
-```
+重新构建并启动后端，命令和取令牌的方法都在[上一节](./first-api)。下面的命令沿用 `$TOKEN`。
 
 新增一条笔记，响应里的 `data` 是新记录的 id：
 
@@ -183,7 +177,9 @@ curl -s -X POST http://localhost:8080/demo/note \
 {"code":200,"success":true,"data":"112171937707000102","msg":"操作成功","dataType":null}
 ```
 
-雪花 id 超出 JavaScript 的安全整数范围，响应里以字符串返回，前端不会丢精度。用这个 id 查询、修改和分页：
+id 超出了 JavaScript 的安全整数范围，响应里以字符串返回，前端不会丢精度。
+
+用这个 id 查询、修改和分页：
 
 ```bash
 ID=112171937707000102
@@ -193,9 +189,11 @@ curl -s -X PUT http://localhost:8080/demo/note -H "Authorization: $TOKEN" \
 curl -s "http://localhost:8080/demo/note/page?pageNum=1&pageSize=10" -H "Authorization: $TOKEN"
 ```
 
-分页响应的 `data` 包含 `records`、`pageNumber`、`pageSize`、`totalPage` 和 `totalRow`。
+分页响应的 `data` 有五个字段：
 
-不带令牌访问时返回 `{"code":401,...,"msg":"请求未授权"}`。
+- `records`：当前页的记录
+- `pageNumber` 和 `pageSize`：页码和每页条数
+- `totalPage` 和 `totalRow`：总页数和总条数
 
 删除后再查询，返回「笔记不存在」：
 
@@ -204,4 +202,11 @@ curl -s -X DELETE http://localhost:8080/demo/note/$ID -H "Authorization: $TOKEN"
 curl -s http://localhost:8080/demo/note/$ID -H "Authorization: $TOKEN"
 ```
 
-上一节：[第一个接口](./first-api) · 下一节：[第一个缓存](./first-cache)
+## 下一步
+
+<div class="ms-cards">
+
+- [第一个缓存](./first-cache) 给笔记详情加上方法缓存。
+- [代码生成](/boot/codegen/) 这一节手写的代码，可以从表结构直接生成。
+
+</div>

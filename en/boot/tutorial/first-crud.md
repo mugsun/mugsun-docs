@@ -1,13 +1,21 @@
 # Your first CRUD
 
-This page builds a notes table with five endpoints: page, detail, create, update and delete. Persistence uses MyBatis-Flex, and the entity extends `BaseEntity` from mugsun-core.
+This section builds a notes table with the five create, read, update and delete endpoints.
 
-## Create the table
+Persistence uses MyBatis-Flex, and the entity extends `BaseEntity` from mugsun-core. The code goes in the `note` package from the [previous section](./first-api).
 
-Schema changes go through Flyway. Add a migration under `mugsun-boot-core/src/main/resources/db/migration/` and take the next version number. The example uses `V12`.
+## Write the code
+
+<div class="ms-steps">
+
+### Create the table
+
+Schema changes go through Flyway. Migration scripts live in `mugsun-boot-core/src/main/resources/db/migration/`.
+
+Take the highest version in that directory and add one. At the time of writing the highest is `V22`, so the example uses `V23`.
 
 ```sql
--- V12__demo_note.sql
+-- V23__demo_note.sql
 CREATE TABLE demo_note (
     id          BIGINT PRIMARY KEY,
     title       VARCHAR(100) NOT NULL,
@@ -18,9 +26,11 @@ CREATE TABLE demo_note (
 );
 ```
 
-The last four columns map to fields of `BaseEntity`. Released migrations must not be edited. To support Dameng or openGauss, add a script with the same version in the matching dialect directory.
+`id` and the last three columns map to fields of `BaseEntity`. Released migration scripts must not be edited.
 
-## Entity and mapper
+To support Dameng or openGauss, add a script with the same version under `db/migration-dm` and `db/migration-og`.
+
+### Write the entity and mapper
 
 ```java
 // note/entity/Note.java
@@ -40,9 +50,11 @@ public interface NoteMapper extends BaseMapper<Note> {
 }
 ```
 
-`BaseEntity` provides a snowflake `id`, create and update times filled by the database with `now()`, and the logical delete field `isDeleted`. The application class already scans `com.mugsun.boot.**.mapper`, so the mapper needs no registration.
+`BaseEntity` provides the primary key `id`, two time fields and the logical delete field `isDeleted`. The database fills the create and update times with `now()`.
 
-## Service
+The application class already scans `com.mugsun.boot.**.mapper`, so the mapper needs no registration.
+
+### Write the service
 
 ```java
 // note/NoteService.java
@@ -77,7 +89,7 @@ public class NoteService {
 }
 ```
 
-## Controller
+### Write the controller
 
 ```java
 // note/NoteController.java
@@ -105,7 +117,7 @@ public class NoteController {
 	public R<Note> detail(@PathVariable Long id) {
 		Note note = noteService.get(id);
 		if (note == null) {
-			throw new ServiceException("笔记不存在");
+			throw new ServiceException("Note not found");
 		}
 		return R.data(note);
 	}
@@ -123,79 +135,78 @@ public class NoteController {
 	@SaCheckPermission("demo:note:edit")
 	public R<Void> edit(@RequestBody Note note) {
 		if (note.getId() == null || noteService.get(note.getId()) == null) {
-			throw new ServiceException("笔记不存在");
+			throw new ServiceException("Note not found");
 		}
 		note.sanitizeForUpdate();
 		noteService.edit(note);
-		return R.success("已保存");
+		return R.success("Saved");
 	}
 
 	@DeleteMapping("/{id}")
 	@SaCheckPermission("demo:note:remove")
 	public R<Void> remove(@PathVariable Long id) {
 		noteService.remove(id);
-		return R.success("已删除");
+		return R.success("Deleted");
 	}
 }
 ```
 
 `sanitizeForInsert()` and `sanitizeForUpdate()` clear the time fields and the delete flag from the request body. Only the server writes those fields.
 
-Administrators hold every permission code. Other roles must be granted the `demo:note:*` codes first; see [Permissions & attachments](/en/boot/permissions).
+</div>
 
-## See it work
+## Grant access
 
-The endpoints require login. For local debugging, you can turn off the login captcha and SM2 transport in `config/application-local.yml`, then exchange a plain-text password for a token:
+Administrators hold every permission code and can call the endpoints right away.
 
-```yaml
-mugsun:
-  captcha:
-    enabled: false
-  crypto:
-    gm-enabled: false
-```
+Other roles must be granted the `demo:note:*` codes first; see [Permissions & attachments](/en/boot/permissions).
 
-::: warning
-Use these two settings only for local debugging. Production must keep the defaults.
-:::
+## Call the endpoints
 
-Restart the backend, then log in and keep the token:
-
-```bash
-TOKEN=$(curl -s -X POST http://localhost:8080/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"username":"admin","password":"123456"}' | jq -r .data.token)
-```
+Rebuild and restart the backend. The commands and the way to get a token are in the [previous section](./first-api). The commands below reuse `$TOKEN`.
 
 Create a note. The `data` field of the response is the new id:
 
 ```bash
 curl -s -X POST http://localhost:8080/demo/note \
   -H "Authorization: $TOKEN" -H 'Content-Type: application/json' \
-  -d '{"title":"第一条笔记","content":"hello"}'
+  -d '{"title":"My first note","content":"hello"}'
 ```
 
 ```json
 {"code":200,"success":true,"data":"112171937707000102","msg":"操作成功","dataType":null}
 ```
 
-A snowflake id exceeds the JavaScript safe integer range, so it is returned as a string and the frontend keeps full precision. Use it to read, update and page:
+The id exceeds the JavaScript safe integer range, so it is returned as a string and the frontend keeps full precision.
+
+Use the id to read, update and page:
 
 ```bash
 ID=112171937707000102
 curl -s http://localhost:8080/demo/note/$ID -H "Authorization: $TOKEN"
 curl -s -X PUT http://localhost:8080/demo/note -H "Authorization: $TOKEN" \
-  -H 'Content-Type: application/json' -d "{\"id\":\"$ID\",\"title\":\"改过的标题\"}"
+  -H 'Content-Type: application/json' -d "{\"id\":\"$ID\",\"title\":\"Edited title\"}"
 curl -s "http://localhost:8080/demo/note/page?pageNum=1&pageSize=10" -H "Authorization: $TOKEN"
 ```
 
-The `data` of the page response contains `records`, `pageNumber`, `pageSize`, `totalPage` and `totalRow`. A request without a token returns code 401.
+The `data` of the page response has five fields:
 
-After a delete, reading the note returns code 400 with a "note not found" message:
+- `records`: the records on the current page
+- `pageNumber` and `pageSize`: the page number and the page size
+- `totalPage` and `totalRow`: the total pages and the total records
+
+After a delete, reading the note returns "Note not found":
 
 ```bash
 curl -s -X DELETE http://localhost:8080/demo/note/$ID -H "Authorization: $TOKEN"
 curl -s http://localhost:8080/demo/note/$ID -H "Authorization: $TOKEN"
 ```
 
-Previous: [Your first API](./first-api) · Next: [Your first cache](./first-cache)
+## Next steps
+
+<div class="ms-cards">
+
+- [Your first cache](./first-cache) Add a method cache to the note detail.
+- [Code generation](/en/boot/codegen/) The code written by hand here can be generated from a table.
+
+</div>

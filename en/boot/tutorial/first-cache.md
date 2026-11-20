@@ -1,16 +1,22 @@
 # Your first cache
 
-This page caches the note detail. mugsun-boot uses JetCache for method caching. The application class already enables `@EnableMethodCache`, so annotating a service method is enough.
+This section adds a method cache to the note detail, then uses the log to confirm the cache works.
 
-## Add the annotations
+mugsun-boot uses JetCache for method caching. The application class already enables `@EnableMethodCache`, so annotating a service method is enough.
 
-Update `NoteService` from the previous page:
+<div class="ms-steps">
+
+### Add the annotations
+
+Update `NoteService` from the [previous section](./first-crud). Add a logger and three annotations:
 
 ```java
+private static final Logger log = LoggerFactory.getLogger(NoteService.class);
+
 @Cached(name = "demo:note:", key = "#id", cacheType = CacheType.LOCAL,
 		expire = 10, timeUnit = TimeUnit.MINUTES)
 public Note get(Long id) {
-	log.info("查询数据库 note id={}", id);
+	log.info("Query database note id={}", id);
 	return noteMapper.selectOneById(id);
 }
 
@@ -25,35 +31,21 @@ public void remove(Long id) {
 }
 ```
 
-`@Cached` caches the return value, and `@CacheInvalidate` removes the matching key after an update or delete. `name` is the cache name, and `key` reads the arguments with SpEL.
+- `@Cached` caches the return value. `name` is the cache name, and `key` reads the arguments with SpEL.
+- `@CacheInvalidate` removes the matching key after an update or delete.
+- `expire` is the expiry time. Without it, a local cache entry expires after one hour by default.
 
-Cache keys get the current tenant code as a prefix, so tenants never share entries. The globally configured `tenantKeyConvertor` does this; you do not add it to `key`.
+### Restart and create a note
 
-## Cache type
+Rebuild and restart the backend. The previous section ended by deleting the note, so create a new one and keep its id:
 
-`CacheType.LOCAL` is an in-process cache. The tutorial example uses it so you can see the effect locally.
+```bash
+ID=$(curl -s -X POST http://localhost:8080/demo/note \
+  -H "Authorization: $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"title":"Cache test","content":"hello"}' | jq -r .data)
+```
 
-The built-in dictionary and analytics caches use the same type.
-
-System parameters are not LOCAL: `ParamService` uses `CacheType.BOTH` with `syncLocal=true`.
-
-On write or delete, a Redis broadcast clears each machine's local cache so multi-server deployments stay in sync right away.
-
-That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`).
-
-If you override `jetcache.remote.default`, keep `type: redis.lettuce` at the same level.
-
-Also keep `broadcastChannel`.
-
-::: warning
-A local cache only lives in the current instance. With several instances, `@CacheInvalidate` on one instance does not clear the others, so keep the expiry short or notify the instances another way.
-
-System parameter caches already use BOTH + syncLocal, so that limit does not apply to them.
-:::
-
-## See it work
-
-Restart the backend and read the same note three times:
+### Read it three times
 
 ```bash
 for i in 1 2 3; do
@@ -61,14 +53,53 @@ for i in 1 2 3; do
 done
 ```
 
-The database log line from `get` appears only once. The other two reads hit the cache.
+The backend log shows `Query database note id=...` only once. The other two reads hit the cache.
 
-Update the note and read it again. The log line appears once more, and the response has the new title:
+### Update it and read again
 
 ```bash
 curl -s -X PUT http://localhost:8080/demo/note -H "Authorization: $TOKEN" \
-  -H 'Content-Type: application/json' -d "{\"id\":\"$ID\",\"title\":\"再改一次\"}"
+  -H 'Content-Type: application/json' -d "{\"id\":\"$ID\",\"title\":\"Edited again\"}"
 curl -s http://localhost:8080/demo/note/$ID -H "Authorization: $TOKEN"
 ```
 
-Previous: [Your first CRUD](./first-crud) · Next: [Your first scheduled job](./first-job)
+The update clears the cache, so `Query database` appears once more and the response has the new title.
+
+</div>
+
+## Cache keys are isolated by tenant
+
+Cache keys get the current tenant code as a prefix, so tenants never share entries.
+
+The globally configured `tenantKeyConvertor` does this. You do not add it to `key`.
+
+## Choose a cache type
+
+| Type | Where the data lives | Used in the platform for |
+| --- | --- | --- |
+| `CacheType.LOCAL` | Memory of the current instance | Dictionaries and analytics queries |
+| `CacheType.BOTH` | Instance memory plus a copy in Redis | System parameters |
+
+This tutorial uses `LOCAL` so you can see the effect on your machine.
+
+::: warning With several instances
+A local cache only lives in the current instance. `@CacheInvalidate` on one instance does not clear the others.
+
+In that case keep the expiry short, or notify the instances another way.
+:::
+
+System parameters do not have this limit. `ParamService` uses `CacheType.BOTH` with `syncLocal = true`.
+
+When a parameter is written or deleted, a Redis broadcast clears the local cache of every instance, so all instances agree right away. The broadcast relies on two settings:
+
+- `jetcache.remote.default.broadcastChannel` is the broadcast channel. The default is `mugsun`.
+- If you override `jetcache.remote.default`, keep both `type: redis.lettuce` and `broadcastChannel`.
+
+## Next steps
+
+<div class="ms-cards">
+
+- [Your first scheduled job](./first-job) Write a job that counts the notes once a minute.
+- [FAQ](/en/guide/faq) How to debug startup errors after overriding the cache settings.
+
+</div>
