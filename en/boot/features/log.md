@@ -43,7 +43,13 @@ All six pages are under System Settings.
 
 ### Name an operation
 
-Write requests are recorded in the operation log automatically, with the title `自动留痕`. Add `@OperationLog` to an endpoint method to use your own title; an annotated GET endpoint is recorded too:
+Write requests are recorded in the operation log automatically. Their title is this fixed string:
+
+```text
+自动留痕
+```
+
+Add `@OperationLog` to an endpoint method to use your own title; an annotated GET endpoint is recorded too:
 
 ```java
 @OperationLog("导出行政区划")
