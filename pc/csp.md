@@ -1,77 +1,166 @@
 # 内容安全策略（CSP）
 
-管理台镜像（nginx）由启动脚本 `15-mugsun-gateway.sh` 生成 CSP 响应头。用 `MUGSUN_CSP_MODE` 选择只报告还是强制拦截。
+管理后台的镜像会给页面加上 CSP 响应头。默认只报告违规，确认没有问题后再改成拦截。
 
-## 开关
+## 开启拦截
 
-| 变量 | 默认 | 说明 |
-|---|---|---|
-| `MUGSUN_CSP_MODE` | `report-only` | `report-only`：只下发 `Content-Security-Policy-Report-Only`，浏览器报告违规，但不拦截。<br>`enforce`：下发 `Content-Security-Policy`，违规直接拦截。同时附加一份更严的 `Content-Security-Policy-Report-Only`，用来观察下一轮收紧。 |
-| `MUGSUN_CSP_REPORT_URI` | 空 | 违规报告收集地址。为空时不输出 `report-uri`、`report-to` 和 `Reporting-Endpoints`。 |
-| `MUGSUN_CSP_TILE_HOSTS` | 空 | 额外放行的地图瓦片域，空格分隔。瓦片默认走同源 `/api/system/gis/tile` 代理，一般不用填。 |
-| `MUGSUN_CSP_TRACK_HOSTS` | 空 | 额外放行的埋点上报域，空格分隔。 |
+<div class="ms-steps">
 
-::: warning 公开部署必须用 enforce
-默认值 `report-only` 只报告、不拦截，没有任何 CSP 防护。演示站和所有对公网开放的部署都必须设 `MUGSUN_CSP_MODE=enforce`。`report-only` 只适合内网试运行：先跑一段时间，确认浏览器控制台没有违规，再切到 `enforce`。
-:::
+### 先用默认模式运行
 
-### 启动校验
+默认是 `report-only` 模式，浏览器只报告违规，不拦截。镜像的启动方法见 [Docker 部署](/pc/deploy-docker)。
 
-下面任一项不符合，容器都会拒绝启动（日志里有 `15-mugsun-gateway.sh:` 开头的原因）：
+把常用的页面都打开一遍，看浏览器控制台里有没有 CSP 违规。
 
-| 变量 | 规则 | 例子 |
-|---|---|---|
-| `MUGSUN_CSP_MODE` | 只能是 `report-only` 或 `enforce`。 | `enforce` ✅；`x; script-src *` ❌ |
-| `MUGSUN_CSP_TILE_HOSTS`、`MUGSUN_CSP_TRACK_HOSTS` | 只允许字母、数字、`.`、`*`、`:`、`/`、`-` 和空格。空格分隔的每一项都必须是 `https://` 或 `wss://` 加具体域名，可以带端口和路径；`*.` 只能用在域名开头，表示子域通配。单独的 `*`、只写协议（`https:`、`http:`）、`https://*`、明文 `http://` 地址都会被拒绝。 | `https://tile.example.com` ✅；`https://*.example.com` ✅；`*` ❌；`https:` ❌；`http://tile.example.com` ❌ |
-| `MUGSUN_CSP_REPORT_URI` | 只允许 `A-Z a-z 0-9 . _ ~ : / ? = & % @ + -`，不能有空格、引号、分号、逗号。而且必须是 `https://` 开头的地址，或以 `/` 开头的同源路径（不接受 `//` 开头的协议相对地址）。报告里带页面 URL，所以不能明文发送，也不能发往未加密的外域。 | `/api/csp-report` ✅；`https://csp.example.com/report` ✅；`http://csp.example.com` ❌ |
+### 改成拦截
 
 ```bash
-docker run -e MUGSUN_CSP_MODE=enforce -e MUGSUN_CSP_REPORT_URI=https://csp.example.com/report mugsun/pc
+docker run -d -p 8088:8080 \
+  -e MUGSUN_API_UPSTREAM=http://<后端地址>:8080 \
+  -e MUGSUN_CSP_MODE=enforce \
+  mugsun/pc:local
 ```
 
-## 策略
+### 确认响应头
 
-`enforce` 模式下发的强制策略（未填追加域名和报告地址时）：
-
+```bash
+curl -sI http://localhost:8088/ | grep -i '^content-security-policy'
 ```
+
+应该看到 `Content-Security-Policy` 和 `Content-Security-Policy-Report-Only` 两行。
+
+</div>
+
+::: warning 对公网开放的部署要用 enforce
+`report-only` 只报告、不拦截，起不到防护作用，只适合在内网试运行。
+:::
+
+## 四个变量
+
+| 变量 | 默认 | 说明 |
+| --- | --- | --- |
+| `MUGSUN_CSP_MODE` | `report-only` | `report-only` 只报告，`enforce` 拦截 |
+| `MUGSUN_CSP_REPORT_URI` | 空 | 违规报告的收集地址 |
+| `MUGSUN_CSP_TILE_HOSTS` | 空 | 额外放行的地图瓦片域名，空格分隔 |
+| `MUGSUN_CSP_TRACK_HOSTS` | 空 | 额外放行的埋点上报域名，空格分隔 |
+
+- 地图瓦片默认经同源的 `/api/system/gis/tile` 转发，一般不用填瓦片域名。
+- 报告地址留空时，响应里不带 `report-uri`、`report-to` 和 `Reporting-Endpoints`。
+
+### 取值规则
+
+容器启动时检查这四个变量，有一项不合格就拒绝启动。日志里以 `15-mugsun-gateway.sh:` 开头的那行写着原因。
+
+| 变量 | 可以 | 不可以 |
+| --- | --- | --- |
+| `MUGSUN_CSP_MODE` | `report-only`、`enforce` | 其他任何值 |
+| 两个域名变量 | `https://tile.example.com`<br>`https://*.example.com`<br>`wss://ws.example.com:8443` | `*`<br>`https://*`<br>`http://tile.example.com` |
+| `MUGSUN_CSP_REPORT_URI` | `/api/csp-report`<br>`https://csp.example.com/report` | `http://csp.example.com`<br>`//csp.example.com` |
+
+- 域名变量的每一项都是 `https://` 或 `wss://` 加具体域名，可以带端口和路径。
+- `*.` 只能放在域名开头，表示所有子域。
+- 报告地址只能是 `https://` 开头的地址，或 `/` 开头的同源路径。
+- 报告里带着页面网址，所以不允许用明文的 `http://` 发送。
+
+## 下发的策略
+
+`enforce` 模式下发的策略如下。这是没填额外域名和报告地址时的样子。
+
+```text
 default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
 img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self';
 worker-src 'self' blob:; child-src 'self' blob:; frame-src 'self'; media-src 'self' blob:;
 manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
 ```
 
-- 不含 `'unsafe-eval'`、`'wasm-unsafe-eval'`，也没有 `https:` 这样的通配。
-- `style-src 'unsafe-inline'`：Element Plus 运行时要写内联样式。
-- `worker-src blob:`：Cesium 要用。`media-src blob:`：视频播放器（xgplayer，MSE）要用。
-- 不再写死天地图、高德的域名，瓦片统一走同源代理。
-- 附加的 Report-Only 策略和上面相同，只是 `style-src` 去掉了 `'unsafe-inline'`。它只用来观察，不拦截。
-- `report-uri` 只在填了 `MUGSUN_CSP_REPORT_URI` 时输出。收集端要能接收匿名 POST，并做好限流。
-- 平台后端在只读演示（`prod,demo`）提供收集端 `POST /csp-report`（Nginx 即 `/api/csp-report`）。
-- 收集端会去掉 URL query、按 IP 限流、不入库；详见 boot `docker-compose.demo.yml`。
+| 指令 | 说明 |
+| --- | --- |
+| `script-src 'self'` | 不允许 `eval` 和内联脚本，也没有 `https:` 这类通配 |
+| `style-src 'unsafe-inline'` | Element Plus 运行时要写内联样式 |
+| `worker-src blob:` | 三维地图用的 Cesium 需要 |
+| `media-src blob:` | 视频播放器需要 |
+| `img-src` 和 `connect-src` | 不含地图厂商的域名，瓦片都经同源接口转发 |
 
-为配合强制模式，前端做了这些调整：
+两种模式下发的响应头不一样：
 
-- vue-i18n 用 JIT 编译（`__INTLIFY_JIT_COMPILATION__`），不再依赖 `new Function`。
-- Iconify 图标改为离线子集，运行时不请求 `api.iconify.design`。
-- 主题初始化脚本从 `index.html` 内联移到 `/theme-init.js`。
+| 模式 | 响应头 | 内容 |
+| --- | --- | --- |
+| `report-only` | `Content-Security-Policy-Report-Only` | 上面的策略 |
+| `enforce` | `Content-Security-Policy` | 上面的策略 |
+| `enforce` | `Content-Security-Policy-Report-Only` | 上面的策略去掉 `style-src` 里的 `'unsafe-inline'` |
 
-## 已知限制
+`enforce` 模式附带的那份 Report-Only 只报告、不拦截，用来观察下一步收紧 `style-src` 会影响哪些地方。
 
-| 功能 | 强制模式下的表现 | 处理 |
-|---|---|---|
-| 表单设计器 / 低代码表单（form-create） | 规则里写函数、条件、公式的表单（form-create 用 `new Function` 编译）不能执行。打开设计器页会出现 1 条 `script-src eval` 违规，页面本身可以正常使用。 | 不为此放开 `'unsafe-eval'`。需要动态逻辑时，用组件事件或后端规则代替函数串。 |
-| 图标 | 只能显示离线子集里的图标。菜单里配了子集之外的图标时，显示为空白，不会外联。 | 前端仓库新增图标后运行 `scripts/gen-offline-icons.mjs`；后端菜单种子数据里的图标写进 `scripts/offline-icons.extra.txt`。 |
-| 外链 iframe 菜单 | `frame-src 'self'`：外域页面被拦。 | 改成新窗口打开。 |
-| 会话回放 | 录制页上的外域图片、字体加载不出来，只影响画面还原。 | 不为此放开 `https:`。 |
+### 收集违规报告
 
-## 自查
+填了 `MUGSUN_CSP_REPORT_URI`，浏览器会把违规报告用 POST 发到这个地址。
 
-前端仓库带了一套强制模式检查（`playwright.csp.config.ts`），必须对 nginx 镜像运行，不能对 vite dev 或 preview 运行。它会逐菜单统计 `securitypolicyviolation`，检查响应头、中英文切换、离线图标、地图、WebSocket，并跑注入探针。
+- 收集端要能接收不带登录状态的 POST 请求，并做好限流。
+- 后端只在[只读演示模式](/demo)下自带收集端，地址是 `/api/csp-report`。
+- 其他部署方式下这个地址返回 404，要收报告就自己准备收集端。
 
-::: warning 不在 CI 里
-这套检查目前没有接进 CI（它需要真实后端和 nginx 镜像）。每次发版前，必须用 `MUGSUN_CSP_MODE=enforce` 启动 nginx 镜像，手动跑一遍：
+## 开启拦截后的限制
+
+| 功能 | 表现 | 处理办法 |
+| --- | --- | --- |
+| 表单设计器 | 规则里写的函数、条件和公式不会执行 | 改用组件事件或后端规则 |
+| 菜单图标 | 离线图标集之外的图标显示为空白 | 重新生成离线图标集，见下一节 |
+| 外链 iframe 菜单 | 其他域名的页面被 `frame-src 'self'` 拦住 | 改成在新窗口打开 |
+| 会话回放 | 被录制页面上的外域图片和字体加载不出来 | 只影响画面还原，不处理 |
+
+打开表单设计器页时，控制台会出现 1 条 `script-src` 的 eval 违规，页面本身可以正常使用。
+
+## 改前端代码时要注意 {#frontend}
+
+- 不要用 `eval` 和 `new Function`，拦截模式下不会执行。
+- 不要在 `index.html` 里写内联脚本。主题初始化脚本就放在单独的 `/theme-init.js` 里。
+- 图标从离线图标集读取，运行时不请求 `api.iconify.design`。
+
+用了新图标以后，要重新生成离线图标集并提交：
+
+- 前端源码里用到的图标会被自动扫描到。
+- 只出现在后端菜单数据里的图标，要先写进 `scripts/offline-icons.extra.txt`。
+- 生成命令见 `scripts/gen-offline-icons.mjs` 文件开头的说明。
+
+## 检查拦截模式 {#check}
+
+管理后台仓库带了一套 Playwright 检查，用一条命令运行：
 
 ```bash
-E2E_BASE_URL=http://localhost:<端口> pnpm exec playwright test -c playwright.csp.config.ts
+scripts/ci/run-csp-e2e.sh
 ```
+
+- 需要 Docker 和 OpenSSL，并且 mugsun-core、mugsun-boot 和 mugsun-pc 在同一个目录下。
+- 脚本会生成一次性的密钥，用 `enforce` 模式启动整套环境，跑完后清理掉。
+- 想在跑完后保留环境来排查问题，在命令前加 `KEEP=1`。
+- 结果和截图写在 `test-results/csp/` 目录。
+
+这套检查包括：
+
+| 检查项 | 要求 |
+| --- | --- |
+| 响应头 | 带着拦截策略，策略里没有 `unsafe-eval`、`*` 和 `https:` |
+| 逐个菜单打开 | 被拦截的违规数为 0 |
+| 中英文切换 | 显示译文 |
+| 图标 | 侧边栏图标能显示，没有发往外域的图标请求 |
+| 地图 | 二维和三维地图都能加载 |
+| WebSocket | 同源可以连接，伪造来源被拒绝 |
+| 注入测试 | 内联事件处理器被拦住，并产生违规报告 |
+| 埋点和会话回放 | 埋点上报和回放播放都没有被策略拦截 |
+| 报告收集 | 能收到报告，网址里的参数被去掉，超过限流返回 429 |
+
+::: tip 只能对镜像运行
+开发服务器和 `pnpm serve` 都不下发 CSP 响应头，对它们运行这套检查没有意义。
 :::
+
+仓库的 CI 在每次推送时也会运行同一个脚本。
+
+## 下一步
+
+<div class="ms-cards">
+
+- [Docker 部署](/pc/deploy-docker) 构建镜像，配置后端地址和前置网关。
+- [底图瓦片代理安全](/pc/gis-tile-security) 地图瓦片为什么经同源接口转发。
+- [安全清单](/boot/security-checklist) 上线前要逐项核对的其他配置。
+
+</div>
