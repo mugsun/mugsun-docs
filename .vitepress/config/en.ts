@@ -278,6 +278,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Global search', link: '/en/boot/features/search' },
             { text: 'Logs and auditing', link: '/en/boot/features/log' },
             { text: 'Dictionaries and parameters', link: '/en/boot/features/dict' },
+            { text: 'Online sessions and login clients', link: '/en/boot/features/session' },
           ],
         },
         {

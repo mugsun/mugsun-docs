@@ -35,6 +35,14 @@ The backend ships with the features below, one page each. Open the one you need 
 
 </div>
 
+## Operations
+
+<div class="ms-cards">
+
+- [Online sessions and login clients](./session) See online terminals and force one offline; set a token lifetime and an online limit per client.
+
+</div>
+
 ## Features documented in other chapters
 
 | Feature | What it does | Docs |
