@@ -1,112 +1,179 @@
 # 空间行为
 
-管理台「埋点分析 → 空间行为」按精确坐标看热力格或明细点。
+「空间行为」把带坐标的事件画到地图上。可以看哪些地方事件多，也可以点开单个事件，跳到当时的会话回放。
 
-路径：`/track/spatial`（菜单「空间行为」，图标 `ri:map-2-line`）。
+页面在「埋点分析 → 空间行为」。它用的是 SDK 上报的精确坐标，和数据概览里按 IP 判断的地域分布不是一回事，区别见 [GIS 与地图](/pc/gis#track)。
 
-读权限：`sys:track-spatial:list`（主库迁移 **V20**；已有概览读权的角色会补授）。
+## 先让事件带上坐标
 
-与数据概览里的 `/system/track/geo`（IP 属地 + 概览热力）分开。
+精确坐标默认不采集，没有坐标的事件不会出现在这一页。
 
-本页只读服务端落库的 `geo_lon` / `geo_lat` 列，不回 IP、不回 `geo_acc`。旧 `/geo` 接口不动。
+<div class="ms-steps">
 
-## 怎么带上坐标
+### 打开应用的开关
 
-1. 在「接入管理」`/track/app` 打开该应用的「精确位置」。
-2. SDK 注册 `geoPlugin()`，并保证 `geoEnabled` 为 `true`（本地或 `/track/config` 远端下发，下次启动生效）。
-3. 浏览器定位授权通过后，插件把坐标写入事件超属性；也可自行在 `props` 里带：
+在「埋点分析 → 接入管理」里编辑应用，打开「精确位置」。开关不会立刻生效：SDK 启动时取到新配置，下一次启动才用上。
 
-| 键 | 说明 |
+### 注册定位插件
+
+定位插件不在默认插件里，要自己加：
+
+```ts
+import { createTracker, defaultPlugins, geoPlugin } from '@mugsun/track-web'
+
+const tracker = createTracker({
+  endpoint: 'https://api.example.com',
+  appKey: 'your-app-key',
+  plugins: [...defaultPlugins(), geoPlugin()],
+})
+```
+
+### 用户同意定位
+
+浏览器会弹出定位授权，每次会话最多问一次。用户同意后，之后的事件都带上坐标。拒绝或定位失败时不带，也不报错。
+
+</div>
+
+::: warning 位置是敏感个人信息
+采集精确位置之前，要在隐私政策里说明用途，并取得用户的单独同意，见[隐私与合规](/track/privacy)。
+:::
+
+### 自己带坐标
+
+不用插件也可以。事件属性里有下面任意一组键，后端都认：
+
+| 经度 | 纬度 |
 | --- | --- |
-| `geo_lon` / `$geo_lon` | 经度（WGS84） |
-| `geo_lat` / `$geo_lat` | 纬度（WGS84） |
-| `geo_acc` | 精度（米，仅 props，不提升为列） |
+| `geo_lon` | `geo_lat` |
+| `$geo_lon` | `$geo_lat` |
+| `longitude` | `latitude` |
+| `lon` | `lat` |
+| `geo.lon` 或 `geo.lng` | `geo.lat` |
 
-亦接受 `longitude`/`latitude`、`lon`/`lat`，或嵌套 `geo.{lon,lng,lat}`。
+```ts
+tracker.track('store_checkin', { geo_lon: 116.3975, geo_lat: 39.9087 })
+```
 
-服务端圆整到 **4 位小数**（约 11 m）后写入列；非法或越界坐标丢列，不拒整条事件。无坐标的事件不会出现在本页。
+坐标按 WGS84 算。后端把经纬度四舍五入到 4 位小数再存，大约 11 米。
 
-详见 [安装与初始化](/track/install)（`geoEnabled`）、[插件](/track/plugins)（`geoPlugin`）。
+超出范围或者不是数字的坐标会被丢掉，事件本身照常入库。
 
-演示种子应用（`mugsun.lab.seed-fronttest=true` 时写入）：`appKey` = `ak_lab_spatial_demo`。
+## 在后台查看
 
-## 管理台怎么用
+<div class="ms-steps">
 
-1. 选应用（`appKey` 必填）与天数（今日 / 近 7 天 / 近 30 天；`days` 1–30，默认 7）。
-2. 选模式：`agg` 热力格（默认）或 `points` 明细点。
-3. 可选：按事件名筛选（逗号分隔）、视口 `bbox` / `zoom`（地图拖动会带上）。
-4. 点选明细点：优先跳会话回放（须 `sys:track-replay:view`）；否则跳用户细查。
-5. `userId` 按原字符串传递，勿转成 number（雪花会丢精度）。
-6. 无读权时页顶提示，不发请求。
+### 选应用、时间和模式
 
-默认真接口 `GET /api/system/track/spatial`。
+选应用和时间范围，再选「聚合热力」或「事件点」，点「查询」。只想看某些事件时，在事件名框里选，或者直接输入。
 
-仅同时满足 `import.meta.env.DEV` 与 `VITE_TRACK_SPATIAL_MOCK=true` 时走本地同形 mock。
+### 看热力
 
-生产构建不含 mock 分支。
+「聚合热力」把坐标相近的事件合成一格，每一格的热度按里面的事件数算。地图标题旁边显示符合条件的事件总数。
 
-漏斗相关入参（`funnelId` / `funnelSteps` / `windowHours` / `convertedOnly`）本刀保留契约形态。
+### 看单个事件
 
-但**无漏斗定义表**：`converted` 恒为 `false`；`convertedOnly=true` 直接空态。
+切到「事件点」，点地图上的一个点，右边的「选中点」显示事件名、坐标、页面和时间。
 
-转化筛选请用 `eventNames`。
+「查看回放」跳到这次会话的回放，「用户画像」跳到用户细查。
 
-## API
+### 放大看细节
 
-| 项 | 说明 |
+查询过一次以后，拖动或缩放地图会按当前视野自动重新查询。放大以后格子变小，能看到更细的分布。
+
+</div>
+
+| 界面上的提示 | 含义 |
 | --- | --- |
-| 方法 / 路径 | `GET /system/track/spatial` |
-| 网关常见前缀 | `/api/system/track/spatial` |
-| 权限 | `sys:track-spatial:list`（须登录） |
-| 限流 | 60 次/分/用户（Redis 滑窗，键前缀 `mugsun:track:rls:`） |
+| 结果已截断，请放大地图或收窄筛选后再查 | 格子超过 5000 个，或者点超过 2000 个，只显示了一部分 |
+| 暂无空间数据 | 这个范围和时间里没有带坐标的事件 |
+| 没有会话回放权限，无法跳转回放 | 缺 `sys:track-replay:view` |
 
-### 查询参数
+工具栏上的「漏斗 ID」「漏斗步骤号」和「仅转化」是预留的，目前不起筛选作用。勾上「仅转化」会得到空结果。
 
-| 参数 | 说明 |
+## 格子有多大
+
+聚合时按经纬度的小数位数分格，位数越多格子越小。页面按地图的缩放级别自动选：
+
+| 精度 | 缩放级别 | 一格大约多大 |
+| --- | --- | --- |
+| 1 | 5 及以下 | 11 公里 |
+| 2 | 6 到 8 | 1.1 公里 |
+| 3 | 9 到 11 | 110 米 |
+| 4 | 12 及以上 | 11 米 |
+
+调接口时可以用 `gridPrecision` 直接指定精度，它比 `zoom` 优先。两个都不传时按精度 2。
+
+## 权限
+
+| 权限 | 能做什么 |
 | --- | --- |
-| `appKey` | 必填 |
-| `days` | 可选 1–30，默认 7 |
-| `mode` | `agg`（默认）或 `points` |
-| `bbox` | 可选 `minLon,minLat,maxLon,maxLat`（WGS84；不支持跨 180°） |
-| `zoom` | 可选 1–20；映射网格精度见下表 |
-| `gridPrecision` | 可选 1–4；若传则优先于 `zoom` |
-| `eventNames` | 可选，逗号分隔事件名（须字符串，勿传数组） |
+| `sys:track-spatial:list` | 打开页面和查询 |
+| `sys:track-replay:view` | 从选中的点跳到会话回放 |
 
-### zoom → 网格精度 `p`
+升级时，已经有数据概览权限的角色会自动拿到 `sys:track-spatial:list`。
 
-| zoom | `p` |
-| --- | --- |
-| ≤5 | 1 |
-| 6–8 | 2 |
-| 9–11 | 3 |
-| ≥12 | 4 |
+## 接口
 
-皆缺省时 `p = 2`。聚合为 `round(geo_lon/geo_lat, p) GROUP BY`，**不依赖** track 侧 PostGIS。
+`GET /system/track/spatial`，要登录，要有 `sys:track-spatial:list`。每个用户每分钟最多请求 60 次。
 
-### 响应要点
+| 参数 | 必填 | 说明 |
+| --- | --- | --- |
+| `appKey` | 是 | 应用的 AppKey |
+| `days` | 否 | 1 到 30，默认 7 |
+| `mode` | 否 | `agg` 是热力格，`points` 是事件点。默认 `agg` |
+| `bbox` | 否 | 查询范围，写成 `minLon,minLat,maxLon,maxLat`，不能跨 180° 经线 |
+| `zoom` | 否 | 1 到 20，用来决定精度 |
+| `gridPrecision` | 否 | 1 到 4，比 `zoom` 优先 |
+| `eventNames` | 否 | 事件名，多个用逗号隔开 |
+
+热力格模式下，响应的 `data` 是这样：
+
+```json
+{
+  "mode": "agg",
+  "cells": [
+    { "lon": 116.4, "lat": 39.91, "count": 128, "weight": 128 }
+  ],
+  "geoCount": 342,
+  "truncated": false
+}
+```
 
 | 字段 | 说明 |
 | --- | --- |
-| `mode` | `agg` / `points` |
-| `cells` | agg：`[{lon, lat, count}]`，按 count 降序 |
-| `points` | points：含 `lon`/`lat`/`eventName`/`ts`/`sessionId`/`distinctId`/`userId` 等；`converted` 本刀恒 `false` |
-| `geoCount` | 窗口内带坐标事件总数（截断前） |
-| `truncated` | 是否触达硬顶后截断 |
+| `cells` | 热力格，按 `count` 从大到小，最多 5000 个 |
+| `points` | 事件点，从新到旧，最多 2000 个。只在 `points` 模式下有 |
+| `geoCount` | 符合条件的事件总数，是截断之前的数 |
+| `truncated` | 结果有没有被截断 |
 
-### 硬顶与边界
+每个点带下面这些字段。接口不返回 IP，也不返回定位精度 `geo_acc`。
 
-| 项 | 值 |
+| 字段 | 说明 |
 | --- | --- |
-| 聚合格 | ≤ **5000**（超出按 count 截断，`truncated=true`） |
-| 明细点 | ≤ **2000**（按 `received_at` 新→旧截断） |
-| 天数 | ≤ **30**（与漏斗对齐） |
-| 隐私 | 不回 IP / `geo_acc` / Web 墨卡托坐标 |
+| `lon` `lat` | 经纬度 |
+| `eventName` `eventId` `ts` | 事件名、事件 ID 和时间 |
+| `urlPath` | 事件发生的页面 |
+| `sessionId` `distinctId` | 会话和访客 |
+| `userId` | 登录用户。是字符串，前端不要转成数字，转了会丢精度 |
 
-跨租户或无权应用与分析同口径，提示应用不可见。
+时间范围按租户的看板时区算，看的是事件到达后端的时间。
 
-## 相关页面
+`funnelId` `funnelSteps` `windowHours` 是预留参数，只校验格式。`convertedOnly=true` 直接返回空结果。
 
-- [埋点概述](/track/)
-- [问数据](/track/ask)（意图里的 `geo` 仍走概览属地，不是本页）
-- [GIS · 埋点地理](/pc/gis#track)
-- [安装与初始化](/track/install)
+## 演示数据
+
+后端启动时带上 `mugsun.lab.seed-fronttest=true`，会建一个演示应用，并写入一批带坐标的事件。
+
+演示应用的 AppKey 是 `ak_lab_spatial_demo`。应用已经存在时不会重复写入。
+
+开发管理后台时，把环境变量 `VITE_TRACK_SPATIAL_MOCK` 设成 `true`，页面会改用本地的假数据。它只在开发模式下有效。
+
+## 下一步
+
+<div class="ms-cards">
+
+- [插件](/track/plugins#精确位置) 定位插件什么时候请求授权，带上哪些属性。
+- [GIS 与地图](/pc/gis#track) 埋点里三处地图各自用什么数据。
+- [隐私与合规](/track/privacy) 采集之前要告知用户并取得同意。
+
+</div>

@@ -1,79 +1,146 @@
 # Error issues
 
-The console page **Analytics → Error issues** is a fingerprint-aggregated workflow:
-list, detail, assign, resolve and reopen.
-It is separate from the Error monitor event stream and does not replace fingerprint grouping.
+Error Monitoring lists errors by fingerprint and answers which errors exist right now. Error issues add the handling on top of that: who is on it, whether it has been fixed, and whether it came back after the fix.
 
-On ingest of `$error` events the server upserts an issue by `appKey + fingerprint`.
-There is no workflow-engine auto-create.
+The page is under Tracking → Error Issues. You never create an issue by hand; the backend creates and updates them as error events arrive.
 
-## Status and release flags
+## The life of an issue
 
-| Field | Values | Meaning |
+<div class="ms-flow ms-flow--3">
+
+1. A new error fingerprint shows up for the first time, and an issue is created as Open.
+2. Someone is assigned, and the status becomes Assigned.
+3. After the fix it is marked Resolved. If the same error shows up again, the issue reopens by itself and is flagged as regressed.
+
+</div>
+
+Within one application, errors with the same fingerprint go to the same issue. See [Plugins](/en/track/plugins#errors) for how the fingerprint is computed.
+
+Each incoming error event updates the following on the issue:
+
+| What | Notes |
+| --- | --- |
+| Summary | The message of the latest error |
+| Counts | The event count is exact. Session and user counts are estimates: each event is compared with the previous one only, and a different value adds one |
+| Last seen | Time, page and stack of the latest event, plus its session and user |
+| Releases | The release it first appeared in, the latest one, and every release it has been seen in |
+
+## Status
+
+| Status | Value in the API | Meaning |
 | --- | --- | --- |
-| `status` | `OPEN` / `ASSIGNED` / `RESOLVED` | Unassigned / assigned / resolved |
-| `releaseFlag` | `NEW` / `REGRESSED` / `ONGOING` | Only when the list is filtered by `release` |
-| `regressed` | boolean | Same fingerprint returned after it was resolved |
+| Open | `OPEN` | Nobody is assigned yet |
+| Assigned | `ASSIGNED` | Assigned to someone |
+| Resolved | `RESOLVED` | Someone marked it as resolved |
 
-`releaseFlag` is relative to the filter value:
+What each action does to the status:
 
-- `NEW`: `firstRelease` equals the filter (first seen on that release)
-- `REGRESSED`: regressed, and `lastRelease` equals the filter
-- `ONGOING`: matches the filter but is neither of the above
+| Action | Status afterwards |
+| --- | --- |
+| Assign to someone | Assigned. A resolved issue is reopened by this as well |
+| Clear the assignee | Open |
+| Mark resolved | Resolved, and the time is recorded. The assignee stays |
+| Reopen | Assigned if it has an assignee, otherwise Open |
+| The same error shows up again after it was resolved | Reopened automatically and flagged as regressed |
 
-Without a `release` filter the response has no `releaseFlag`.
+Once set, the regressed flag is never removed automatically; it stays even after the issue is resolved again.
 
-If a RESOLVED issue sees the same fingerprint again: set `regressed`, reopen and clear `resolvedAt`;
-`ASSIGNED` when an assignee remains, otherwise `OPEN`.
+### Release flags
 
-## Console actions
+The list has a "New / regressed" column. When a release is entered in the filter bar, it tells how each error relates to that release:
 
-Route: `/track/error-issue` (menu **Error issues**).
+| Flag | Value in the API | Meaning |
+| --- | --- | --- |
+| New | `NEW` | The error first appeared in this release |
+| Regressed | `REGRESSED` | It was resolved and came back, and its latest occurrence is in this release |
+| Ongoing | `ONGOING` | It has been seen in this release but is neither of the above |
 
-1. Pick an app (`appKey`); optionally filter by `release` / status / assignee / regressed only.
-2. Open detail: fingerprint, release range, latest stack and related error events.
-3. With write permission: assign, mark resolved or reopen.
-4. From detail, open the latest session replay when `sys:track-replay:view` is granted and `latestSessionId` is present.
-5. Jump to **User lookup** with query params when `latestUserId` or `latestDistinctId` is present.
+Without a release, the column only shows "Regressed" for issues that have regressed.
 
-Empty `assigneeId` clears the assignee.
-Assigning a RESOLVED issue reopens it: with an assignee → `ASSIGNED`, clear → `OPEN`, and clears `resolvedAt`.
-Manual reopen: `ASSIGNED` if assigned, otherwise `OPEN`; does not clear `regressed`.
+The release comes from `release` passed when the SDK is initialized. Without it, error events carry no release and cannot be filtered by one; see [Install & setup](/en/track/install#options).
 
-Related events still use `/system/track/errors/detail`, not a new error-issues path.
+## Working in the admin console
+
+<div class="ms-steps">
+
+### Filter down to the issues you want
+
+Pick an application, optionally enter a release in the Release box, choose a status or tick "Regressed only", then click Search. The list is sorted by last seen, newest first.
+
+### Open the detail
+
+Click the view button of a row. The upper half of the detail is the issue itself, including the summary, the counts, the stack and recent releases. The lower half lists the error events of this fingerprint.
+
+### Assign, resolve, reopen
+
+Click Assign and choose a person. After the fix click "Mark resolved", and click Reopen when it needs another look. These three buttons are shown only with the write permission.
+
+### Follow the trail
+
+If the latest occurrence has a session, "Open session replay" shows what the user was doing at that time. "View business user" jumps to User Drilldown, where you can see what this person did before and after.
+
+</div>
+
+## Permissions
+
+| Permission | What it allows |
+| --- | --- |
+| `sys:track-error:list` | Viewing the list and the detail. It is the same permission as Error Monitoring |
+| `sys:track-error-issue:edit` | Assign, mark resolved, reopen |
+| `sys:track-replay:view` | Opening the session replay from the detail |
+
+In a role's menu permissions the write permission is a button under Error Monitoring. On upgrade, roles that already have the Error Monitoring permission get it automatically.
 
 ## API
 
-Prefix: `/system/track/error-issues` (console calls often go through `/api/system/track/error-issues`).
+All endpoints are under `/system/track/error-issues` and require a login.
 
-| Method | Path | Permission | Notes |
+| Method | Path | Permission | Parameters |
 | --- | --- | --- | --- |
-| GET | `/page` | `sys:track-error:list` | Page; filters appKey / release / status / assigneeId / regressedOnly |
-| GET | `/detail` | `sys:track-error:list` | Detail; see appKey rules below |
-| POST | `/assign` | `sys:track-error-issue:edit` | body: `id`, `appKey`, `assigneeId` (nullable) |
-| POST | `/resolve` | `sys:track-error-issue:edit` | body: `id`, `appKey` |
-| POST | `/reopen` | `sys:track-error-issue:edit` | body: `id`, `appKey` |
+| GET | `/page` | `sys:track-error:list` | `appKey` `release` `status` `assigneeId` `regressedOnly` `pageNum` `pageSize` |
+| GET | `/detail` | `sys:track-error:list` | `id` with `appKey`, or `appKey` with `fingerprint` |
+| POST | `/assign` | `sys:track-error-issue:edit` | `id` `appKey` `assigneeId`. An empty `assigneeId` unassigns |
+| POST | `/resolve` | `sys:track-error-issue:edit` | `id` `appKey` |
+| POST | `/reopen` | `sys:track-error-issue:edit` | `id` `appKey` |
 
-### Anti-IDOR: detail and writes require appKey
+Every parameter of `/page` is optional; `pageSize` defaults to 10 and is capped at 500.
 
-- Looking up by `id` or any write requires `appKey` as well; the server checks tenant + appKey and rejects id-only access.
-- Detail may also use `appKey + fingerprint` without `id`.
-- The console always sends the current app's `appKey` on detail / assign / resolve / reopen; it does not call without it.
+The three POST endpoints take their parameters in a JSON request body and return the updated issue on success.
 
-Read permission reuses Error monitor `sys:track-error:list`.
-Write permission is `sys:track-error-issue:edit` (main-DB migration V18; button under Error monitor, granted to roles that already had the read permission).
+Each row of the list has these fields:
 
-## Data and release linkage
+| Field | Notes |
+| --- | --- |
+| `id` `appKey` `fingerprint` | The issue, the application and the fingerprint |
+| `title` | The message of the latest error |
+| `status` | `OPEN` `ASSIGNED` `RESOLVED` |
+| `assigneeId` `assigneeName` | The assignee. The name is the nickname, or the user name when there is no nickname |
+| `firstRelease` `lastRelease` | The releases of the first and the latest occurrence |
+| `firstSeenAt` `lastSeenAt` `resolvedAt` | Timestamps in milliseconds |
+| `eventCount` `sessionCount` `userCount` | Numbers of events, sessions and users |
+| `regressed` | Whether it has ever regressed |
+| `releaseFlag` | The release flag, present only when `release` is passed |
 
-Tracking-DB migration **T5** creates `track_error_issue` (unique on `app_key + fingerprint`).
-Columns include `first_release` / `last_release` / `releases` (JSON text array), and more.
+The detail adds the information of the latest occurrence in fields that start with `latest`, plus `recentReleases` with the releases it has been seen in.
 
-Pass `options.release` when initializing the SDK so error events carry the version;
-issues associate releases and can be filtered by them.
-When omitted the field is not sent. See [Install & setup](/en/track/install#options).
+Reading the detail or performing an action by `id` requires `appKey` as well; an `id` alone finds nothing.
 
-## Related
+An issue that does not exist, belongs to another tenant or does not match the `appKey` all get the same answer, saying that the issue does not exist or you have no access.
 
-- [Install & setup](/en/track/install) (`release`)
-- [Plugins · Errors](/en/track/plugins) (fingerprint rules)
-- [Analytics overview](/en/track/)
+The error events under a fingerprint still come from the Error Monitoring endpoint: `GET /system/track/errors/detail`.
+
+## Where the data lives
+
+Issues are stored in the `track_error_issue` table of the tracking database, one row per fingerprint per application. The table is created by migration T5 of the tracking database, and the write permission is added by migration V18 of the main database.
+
+A failure to update an issue does not affect storing the event; it only leaves a warning in the backend log.
+
+## Next
+
+<div class="ms-cards">
+
+- [Plugins](/en/track/plugins#errors) How errors are collected and how the fingerprint is computed.
+- [Install & setup](/en/track/install#options) Pass `release` so that errors carry a release.
+- [Privacy](/en/track/privacy) Error messages may contain personal data; how to rewrite them.
+
+</div>

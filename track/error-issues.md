@@ -1,103 +1,146 @@
 # 错误问题单
 
-管理台「埋点分析 → 错误问题单」按错误指纹聚合工作流。
+「错误监控」按指纹列出错误，回答的是现在有哪些错。问题单在这上面加了处理过程：谁在跟，修没修好，修好后有没有再出现。
 
-支持列表、详情、指派、解决与重开。
+页面在「埋点分析 → 错误问题单」。问题单不用手工建，后端收到错误事件时自动建、自动更新。
 
-它独立于「错误监控」事件流水，不替代指纹列表。
+## 一张问题单的经过
 
-摄入 `$error` 时按 `appKey + fingerprint` upsert 问题单。
+<div class="ms-flow ms-flow--3">
 
-不做工作流引擎自动建单。
+1. 一个新的错误指纹第一次出现，自动建一张「待处理」的问题单。
+2. 指派给某个人，状态变成「处理中」。
+3. 修好后标为「已解决」。同一个错误再出现，问题单自动重开并标上复发。
 
-## 状态与 release 标记
+</div>
 
-| 字段 | 取值 | 含义 |
+同一个应用里指纹相同的错误记在同一张问题单上，指纹怎么算见[插件](/track/plugins#错误)。
+
+每来一条错误事件，问题单会更新这些内容：
+
+| 内容 | 说明 |
+| --- | --- |
+| 摘要 | 最近一条错误的消息 |
+| 次数 | 事件数是准的。会话数和用户数是估算，只和上一条比，不一样才加一 |
+| 最近发生 | 最近一条的时间、页面、堆栈，以及它的会话和用户 |
+| 版本 | 第一次出现的版本、最近出现的版本，以及出现过的全部版本 |
+
+## 状态
+
+| 状态 | 接口里的值 | 含义 |
 | --- | --- | --- |
-| `status` | `OPEN` / `ASSIGNED` / `RESOLVED` | 未指派 / 已指派 / 已解决 |
-| `releaseFlag` | `NEW` / `REGRESSED` / `ONGOING` | 仅列表筛了 `release` 时返回 |
-| `regressed` | 布尔 | 曾解决后同指纹再出现 |
+| 待处理 | `OPEN` | 还没有指派人 |
+| 处理中 | `ASSIGNED` | 已经指派给某个人 |
+| 已解决 | `RESOLVED` | 有人标成了已解决 |
 
-`releaseFlag` 相对当前筛值：
+每个操作之后状态变成什么：
 
-- `NEW`：`firstRelease` 等于筛值（该版本首次出现）
-- `REGRESSED`：已复发，且 `lastRelease` 等于筛值
-- `ONGOING`：命中筛值，但不是上述两种
+| 操作 | 之后的状态 |
+| --- | --- |
+| 指派给某个人 | 处理中。已解决的单也会因此重开 |
+| 清空指派人 | 待处理 |
+| 标为已解决 | 已解决，并记下解决时间。指派人保留 |
+| 重开 | 有指派人是处理中，没有是待处理 |
+| 已解决后同一个错误再出现 | 自动重开，并打上复发标记 |
 
-未筛 `release` 时响应不带 `releaseFlag`。
+复发标记打上以后不会自动去掉，再次解决后也还在。
 
-RESOLVED 后再摄入同指纹会置 `regressed` 并重开。
+### 版本标记
 
-同时清空 `resolvedAt`；有指派则为 `ASSIGNED`，否则 `OPEN`。
+列表里有一列「新增/复发」。筛选栏填了版本时，它说明每个错误和这个版本的关系：
 
-## 管理台操作
+| 标记 | 接口里的值 | 含义 |
+| --- | --- | --- |
+| 新增 | `NEW` | 这个错误第一次出现就是在这个版本 |
+| 复发 | `REGRESSED` | 解决过又出现，而且最近一次出现在这个版本 |
+| 持续 | `ONGOING` | 这个版本里出现过，但不属于上面两种 |
 
-路径：`/track/error-issue`（菜单「错误问题单」）。
+没填版本时，这一列只给复发过的问题单显示「复发」。
 
-1. 选应用（`appKey`），可筛 release / 状态 / 指派人 / 仅复发。
-2. 打开详情：指纹、版本区间、最近堆栈与组内错误事件。
-3. 有写权限时可指派、标已解决、重开。
-4. 详情可打开最近会话回放（需回放查看权且有会话 id）。
-5. 有最近用户 id 或访客 id 时可跳「用户细查」。
+版本来自 SDK 初始化时传的 `release`。没传的话错误事件不带版本，也就没法按版本筛，见[安装与初始化](/track/install#配置项)。
 
-指派时 `assigneeId` 为空表示取消指派。
+## 在后台处理
 
-对已解决单再指派会重开并清 `resolvedAt`。
+<div class="ms-steps">
 
-有人 → `ASSIGNED`，取消 → `OPEN`。
+### 筛出要看的问题单
 
-手动重开：有指派 → `ASSIGNED`，否则 `OPEN`；不清 `regressed`。
+选应用，按需要在 Release 框里填版本、选状态，或者勾上「仅看复发」，然后点「查询」。列表按最近发生的时间倒序排。
 
-组内事件仍走 `/system/track/errors/detail`。
+### 看详情
 
-不是 error-issues 新路径。
+点一行的查看按钮。详情上半部分是这张问题单的信息，包括摘要、次数、堆栈和近期版本。下半部分是这个指纹的错误事件。
 
-## API
+### 指派、解决、重开
 
-前缀：`/system/track/error-issues`。
+点「指派」选一个人。修好后点「标为已解决」，需要再看时点「重开」。这三个按钮要有写权限才显示。
 
-管理台经网关时常为 `/api/system/track/error-issues`。
+### 顺着线索往下查
 
-| 方法 | 路径 | 权限 | 说明 |
+最近一次出错带着会话时，可以「打开会话回放」看用户当时做了什么。「查看业务用户」跳到用户细查，看这个人前后的行为。
+
+</div>
+
+## 权限
+
+| 权限 | 能做什么 |
+| --- | --- |
+| `sys:track-error:list` | 看列表和详情。和「错误监控」是同一个权限 |
+| `sys:track-error-issue:edit` | 指派、标为已解决、重开 |
+| `sys:track-replay:view` | 从详情打开会话回放 |
+
+写权限在角色的菜单权限里叫「错误问题单管理」，挂在「错误监控」下面。升级时，已经有错误监控权限的角色会自动拿到它。
+
+## 接口
+
+接口都在 `/system/track/error-issues` 下面，要登录。
+
+| 方法 | 路径 | 权限 | 参数 |
 | --- | --- | --- | --- |
-| GET | `/page` | `sys:track-error:list` | 分页；可筛 appKey / release / status 等 |
-| GET | `/detail` | `sys:track-error:list` | 详情；见下方 appKey 规则 |
-| POST | `/assign` | `sys:track-error-issue:edit` | body：`id`、`appKey`、`assigneeId` |
-| POST | `/resolve` | `sys:track-error-issue:edit` | body：`id`、`appKey` |
-| POST | `/reopen` | `sys:track-error-issue:edit` | body：`id`、`appKey` |
+| GET | `/page` | `sys:track-error:list` | `appKey` `release` `status` `assigneeId` `regressedOnly` `pageNum` `pageSize` |
+| GET | `/detail` | `sys:track-error:list` | `id` 加 `appKey`，或者 `appKey` 加 `fingerprint` |
+| POST | `/assign` | `sys:track-error-issue:edit` | `id` `appKey` `assigneeId`。`assigneeId` 留空是取消指派 |
+| POST | `/resolve` | `sys:track-error-issue:edit` | `id` `appKey` |
+| POST | `/reopen` | `sys:track-error-issue:edit` | `id` `appKey` |
 
-### 防 IDOR：详情与写操作须带 appKey
+`/page` 的参数都可以不传，`pageSize` 默认 10，最大 500。
 
-- 按 `id` 查详情或写操作时，须同时传 `appKey`。
-- 服务端按租户 + appKey 校验，禁止只凭 id。
-- 也可用 `appKey + fingerprint` 查详情（不传 id）。
-- 管理台详情与写操作均带当前应用的 `appKey`。
-- 缺 `appKey` 时不发请求。
+三个 POST 接口的参数放在 JSON 请求体里，成功后返回更新后的问题单。
 
-读权限复用错误监控的 `sys:track-error:list`。
+列表每一行有这些字段：
 
-写权限为 `sys:track-error-issue:edit`（主库迁移 V18）。
+| 字段 | 说明 |
+| --- | --- |
+| `id` `appKey` `fingerprint` | 问题单、应用和指纹 |
+| `title` | 最近一条错误的消息 |
+| `status` | `OPEN` `ASSIGNED` `RESOLVED` |
+| `assigneeId` `assigneeName` | 指派人。名字取昵称，没有昵称取用户名 |
+| `firstRelease` `lastRelease` | 第一次和最近一次出现的版本 |
+| `firstSeenAt` `lastSeenAt` `resolvedAt` | 毫秒时间戳 |
+| `eventCount` `sessionCount` `userCount` | 事件数、会话数和用户数 |
+| `regressed` | 是否复发过 |
+| `releaseFlag` | 版本标记，只在传了 `release` 时有 |
 
-写权挂在「错误监控」下，并对已有读权角色补授。
+详情比列表多出最近一次出错的信息，字段名以 `latest` 开头，另外有 `recentReleases` 列出出现过的版本。
 
-## 数据与 release 关联
+按 `id` 查详情和做操作时必须同时带 `appKey`，只凭 `id` 查不到。
 
-埋点库迁移 **T5** 建表 `track_error_issue`。
+问题单不存在、属于别的租户、和 `appKey` 对不上，返回的是同一句「问题单不存在或无权访问」。
 
-唯一键为 `app_key + fingerprint`。
+这个指纹下的错误事件还是用错误监控的接口取：`GET /system/track/errors/detail`。
 
-字段含 `first_release` / `last_release` / `releases` 等。
+## 数据存在哪
 
-SDK 初始化传 `options.release` 后，错误事件会携带版本。
+问题单存在埋点库的 `track_error_issue` 表里，每个应用的每个指纹一行。表由埋点库的迁移 T5 建，写权限由主库的迁移 V18 加。
 
-问题单据此关联版本并可按 release 筛选。
+更新问题单失败不影响事件入库，只在后端日志里留一条警告。
 
-未配置则不上报该字段。
+## 下一步
 
-注入方式见 [安装与初始化](/track/install#配置项)。
+<div class="ms-cards">
 
-## 相关页面
+- [插件](/track/plugins#错误) 错误怎么采集，指纹怎么算。
+- [安装与初始化](/track/install#配置项) 传 `release`，让错误带上版本。
+- [隐私与合规](/track/privacy) 错误信息里可能带个人信息，怎么改写。
 
-- [安装与初始化](/track/install)（`release`）
-- [插件 · 错误](/track/plugins)（指纹口径）
-- [埋点概述](/track/)
+</div>
