@@ -1,10 +1,23 @@
 # Analytics overview
 
-The browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events. The boot track module receives and stores them, and the console's Analytics pages show the results.
+The browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events and sends them to the backend you deploy yourself. You read the results on the Tracking pages of the admin console.
 
-Collection, storage and analysis all happen inside your own deployment.
+Collection, storage and analysis all happen on your own servers. The screenshot below is session replay in the admin console.
 
-## Install
+![The Session Replay page in the admin console](/readme/track-replay-en.png)
+
+## Where to start
+
+<div class="ms-cards">
+
+- [Install & setup](/en/track/install) Install the SDK and see every method and option.
+- [Your first event](/en/track/first-event) From setup to the first event on the dashboard.
+- [Plugins](/en/track/plugins) What is collected by default, and how to register replay and API monitoring.
+- [Privacy](/en/track/privacy) The SDK's default behavior and what to confirm before you add it.
+
+</div>
+
+## Add the SDK
 
 ```bash
 pnpm add @mugsun/track-web
@@ -14,62 +27,111 @@ pnpm add @mugsun/track-web
 import { createTracker } from '@mugsun/track-web'
 
 const track = createTracker({
-  endpoint: 'https://example.com', // sends to {endpoint}/track/collect
-  appKey: 'your-app-key',          // create it under Analytics → Integrations
+  endpoint: 'https://your-host', // the backend address, without a path
+  appKey: 'your-app-key',        // create it under Tracking → Integration
 })
 
 track.track('button_click', { name: 'buy' })
 ```
 
-See [Install and initialize](/en/track/install) for the full steps.
+Once the tracker is created, page views, clicks and errors are collected automatically. Use `track.track()` to send your own events.
 
-## What it collects
+## How the data flows
 
-The default plugins collect page views, time on page, autocaptured clicks, exposures, Web Vitals and JS errors.
+<div class="ms-flow ms-flow--3">
 
-Session replay, API monitoring, visual tagging and geolocation need their plugins registered by hand. See [Plugins](/en/track/plugins).
+1. The SDK collects events in the browser, writes them to IndexedDB and sends them in batches.
+2. The backend's `/track/collect` receives the events, removes duplicates and writes them to the `mugsun_track` database.
+3. The Tracking pages in the admin console query the backend and show dashboards and replays.
 
-## Dashboards
+</div>
 
-Analytics includes overview, events, performance, errors, error issues, ask analytics, spatial behavior, session replay, user lookup, funnels and retention.
+Analytics data lives in its own `mugsun_track` database, separate from the business database.
 
-Error issues aggregate by fingerprint: filter by release, assign, resolve and reopen, and jump to replay or user lookup. See [Error issues](/en/track/error-issues).
+## What is collected
 
-Ask analytics answers natural-language questions read-only against your own track data; numbers come only from existing analysis / funnel / retention — no NL2SQL. See [Ask analytics](/en/track/ask).
+| Plugin | Default | What it collects |
+| --- | --- | --- |
+| `pageviewPlugin` | On | First load and route changes |
+| `pageleavePlugin` | On | Time spent on a page |
+| `autocapturePlugin` | On | Clicks and other interactions |
+| `exposurePlugin` | On | Element exposure |
+| `webVitalsPlugin` | On | Web Vitals performance metrics |
+| `errorPlugin` | On | JS errors, resource load errors and unhandled promise rejections |
+| `apiMonitorPlugin` | Off | Request method, URL, status code and duration |
+| `replayPlugin` | Off | Session replay, built on rrweb |
+| `visualTrack` | Off | Visual tagging: matches elements by rules sent from the admin console |
+| `geoPlugin` | Off | Precise location. Triggers the browser's location prompt |
 
-Spatial behavior plots precise coordinates as heat cells or points (`GET /system/track/spatial`); turn on Precise location and register `geoPlugin`. See [Spatial behavior](/en/track/spatial).
+Plugins that are off by default must be registered by you. See [Plugins](/en/track/plugins).
 
-"Source" is the referring page's host name, lower-cased, with `www.` kept. The web SDK only sends the full `referrer` URL, and the server takes the host from it. Direct visits have no source. In-site navigations do not count either: a referrer whose host equals the page host (the `Origin` header of the upload request, or `Referer` when there is none) is recorded as empty, and subdomains are not the same site. This applies only to events received after the upgrade; history is not backfilled ([mugsun-boot #54](https://github.com/mugsun/mugsun-boot/pull/54), [#47](https://github.com/mugsun/mugsun-boot/pull/47)).
+You can change the sampling rate under Integration in the admin console. The SDK fetches these settings at startup, so the frontend needs no new release.
 
-The console's own integration reports request errors it has already handled by default (business validation failures, network failures and other HttpErrors already shown to the user). To skip them, set the build variable `VITE_TRACK_SKIP_HANDLED_ERRORS=true` or pass `skipHandledErrors` to `setupTrack`. Canceled requests are not reported. This behavior takes effect from mugsun-track#19.
+## Read the results in the admin console
 
-![Overview (demo data)](/screenshots/track/track-overview.png)
+The Tracking menu has these pages:
 
-## Reliability
+| Purpose | Pages |
+| --- | --- |
+| Traffic | Overview, Event Analysis |
+| Conversion | Funnel Analysis, Retention Analysis |
+| Performance and errors | Performance Analysis, Error Monitoring and [Error Issues](/en/track/error-issues) |
+| Replaying what a user did | Session Replay, User Drilldown |
+| Asking in natural language | [Ask data](/en/track/ask) |
+| Viewing by location | [Spatial behavior](/en/track/spatial) |
 
-- The event queue is stored in IndexedDB and resent after a network loss or page reload.
-- Events are normally sent with `fetch`, falling back to `XHR` on a network failure. When the page is hidden or closed, `sendBeacon` is tried first.
-- Every event carries an `event_id`. The server drops duplicates by `event_id` in Redis, and the database enforces a unique `(event_id, received_at)` constraint.
+The screenshot below is the Performance Analysis page.
+
+![The Performance Analysis page](/readme/track-perf-en.png)
+
+## How the dashboards count {#dashboard-trend}
+
+- Each day starts at 00:00 in the local time zone. The default zone is `Asia/Shanghai`. Change it with `MUGSUN_TRACK_TIMEZONE`.
+- A daily trend chart shows every day in the selected range. Days without data show 0.
+- Daily UV is the number of distinct devices on that day.
+- A source is the host name of the referring page. Direct visits and navigation within the same site have no source.
+
+You can also set the time zone per tenant with `mugsun.track.timezone.tenants`.
+
+## When the network drops or the page closes
+
+- Events are written to IndexedDB first and sent again after a network failure or a reload.
+- The SDK normally sends with `fetch` and falls back to XHR when the network fails. When the page is hidden or closing, it tries `sendBeacon` first.
+- Every event carries an `event_id`. The server removes duplicates by it, so resending creates no duplicate data.
 
 ## Server endpoints
 
 | Endpoint | Purpose |
 | --- | --- |
-| <span style="white-space:nowrap">`POST /track/collect`</span> | Receive event batches |
-| <span style="white-space:nowrap">`GET /track/config`</span> | Serve remote SDK settings |
-| <span style="white-space:nowrap">`POST /track/replay`</span> | Receive replay data |
-| <span style="white-space:nowrap">`POST /track/api-body`</span> | Receive API response bodies |
-| <span style="white-space:nowrap">`POST /track/visual/draft`</span> | Save visual tagging drafts |
+| <span style="white-space:nowrap">`POST /track/collect`</span> | Receives events in batches |
+| <span style="white-space:nowrap">`GET /track/config`</span> | Serves the SDK's remote settings |
+| <span style="white-space:nowrap">`POST /track/replay`</span> | Receives replay data |
+| <span style="white-space:nowrap">`POST /track/api-body`</span> | Receives API response bodies |
+| <span style="white-space:nowrap">`POST /track/visual/draft`</span> | Saves visual tagging drafts |
 
-`/track/*` needs no login. The `appKey` is visible in the browser. It only identifies the app and is not a secret.
+`/track/*` needs no sign-in. The `appKey` is visible in the browser. It only identifies the app and must not be used as a secret.
+
+::: details The admin console's own analytics
+The admin console uses this SDK too, so the Overview page includes its own traffic.
+
+By default it reports request errors that were already shown to the user, such as failed business validation and network failures. Requests that the user cancelled are not reported.
+
+Set `VITE_TRACK_SKIP_HANDLED_ERRORS=true` at build time to stop reporting these errors.
+:::
+
+## Current limits
+
+- Browsers only.
+- It can only report to mugsun-boot. There is no hosted cloud service.
+- Replay does not record canvas.
 
 ## Next steps
 
-- [Install and initialize](/en/track/install)
-- [First event](/en/track/first-event)
-- [Plugins](/en/track/plugins)
-- [Error issues](/en/track/error-issues)
-- [Ask analytics](/en/track/ask)
-- [Spatial behavior](/en/track/spatial)
-- [Privacy](/en/track/privacy)
-- [Upgrade guide](/en/track/upgrade)
+<div class="ms-cards">
+
+- [Error issues](/en/track/error-issues) Errors grouped by fingerprint, which you can assign, resolve and reopen.
+- [Ask analytics](/en/track/ask) Query your own analytics data in natural language. Read-only.
+- [Spatial behavior](/en/track/spatial) View heat cells or individual points by precise coordinates.
+- [Upgrade guide](/en/track/upgrade) Two things to do after you upgrade the backend's analytics module.
+
+</div>

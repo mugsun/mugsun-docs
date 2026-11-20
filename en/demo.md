@@ -2,17 +2,14 @@
 
 ## Try the admin console and analytics locally
 
-Run the full backend on your machine with these commands (requires Docker and JDK 21):
+You only need Docker. The commands below start the whole system, including the database, the backend and the admin console:
 
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
-docker compose up -d
-cp config/application-local.yml.example config/application-local.yml
-mvn -pl mugsun-boot-server -am package -DskipTests
-java -jar mugsun-boot-server/target/mugsun-boot.jar
+docker compose -f docker-compose.full.yml up -d --build
 ```
 
-For the console (pc) and verification steps see [Getting started](/en/guide/getting-started). Credentials follow the [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README_EN.md)—**change the password on first login**.
+For how to get the admin password and sign in, see [Getting started](/en/guide/getting-started). You must change the password on first sign-in.
 
 ## uni-app x (ms-ui) component H5
 

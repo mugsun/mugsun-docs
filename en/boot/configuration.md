@@ -291,7 +291,7 @@ mugsun:
       max-upload-bytes: 20971520   # ≤0 falls back to 20MB
 ```
 
-Allowed extensions are `pdf` / `docx` / `pptx` (plus MIME and magic checks). Extraction uses Apache Tika; OCR is out of scope. See [AI center · document parsing](/en/pc/ai-center#knowledge-base-document-parsing-pdf--docx--pptx).
+Allowed extensions are `pdf` / `docx` / `pptx` (plus MIME and magic checks). Extraction uses Apache Tika; OCR is out of scope. See [AI center · document parsing](/en/pc/ai-center#knowledge-base-document-parsing-pdf-docx-pptx).
 
 ## AI outbound allowlist
 

@@ -1,37 +1,58 @@
-# Console overview
+# Admin console overview
 
-[mugsun-pc](https://github.com/mugsun/mugsun-pc) is the mugsun admin console. It ships with system management pages, and the GIS, analytics dashboard and AI management pages can be turned on as needed.
+[mugsun-pc](https://github.com/mugsun/mugsun-pc) is the mugsun admin console. It is written with Vue 3 and Element Plus, and every API it calls comes from the [backend](/en/boot/).
 
-## Run locally
+The system administration pages are already built. GIS, the analytics dashboards and the AI pages are three optional modules that you can turn off at build time.
 
-You need Node.js 22.13+ and pnpm 11.11+, with the [boot](/en/boot/) backend running on port 8080:
+![The Overview page under Tracking](/readme/track-overview-en.png)
+
+## Where to start
+
+<div class="ms-cards">
+
+- [Development](/en/pc/development) Start commands, common scripts and how to add a page.
+- [Workbench](/en/pc/workbench) What each card on the workbench means, plus a few interface details.
+- [GIS & maps](/en/pc/gis) The map, layers and scenes under the GIS menu.
+- [Docker deployment](/en/pc/deploy-docker) Deploy with the bundled Nginx image and forward `/api` to the backend.
+
+</div>
+
+## Start it
+
+You need Node.js 22.13+ and pnpm 11.11+. Start the [backend](/en/boot/) on port 8080 first.
 
 ```bash
-pnpm setup:sdk   # build the sibling mugsun-track repo
+git clone https://github.com/mugsun/mugsun-pc.git && cd mugsun-pc
 pnpm install
-pnpm dev         # open http://localhost:3006
+pnpm dev
 ```
 
-During development, `/api` requests are proxied to `http://localhost:8080`.
+Your browser opens <http://localhost:3006>. Sign in as `admin` with the initial password you set when starting the backend.
 
-To change the address, edit `VITE_API_PROXY_URL` in `.env.development`.
+In development, `/api` requests are forwarded to `http://localhost:8080`. To use another address, change `VITE_API_PROXY_URL` in `.env.development`.
 
-![User management (demo data)](/screenshots/pc-system-users.png)
+If you only want to look around, you do not need Node.js. The Docker command in [Getting started](/en/guide/getting-started) starts the admin console too.
 
-## Layout
+## What pages it has
 
-```text
-mugsun-pc/
-  src/             # routing, sign-in, system pages, API wrappers
-  modules/
-    gis/           # optional: layers, scenes, spatial analysis
-    track/         # optional: analytics apps and dashboards
-    ai/            # optional: models, chat, knowledge base, MCP
-```
+| Menu | Pages |
+| --- | --- |
+| System settings | Users, roles and menus; dictionaries, parameters and regions; logs and server monitoring |
+| [Workflow](/en/boot/features/workflow) | Flow designer, approval center and todo workbench |
+| [Low-code](/en/boot/codegen/) | Code generator, dynamic tables and form designer |
+| [Tenant operations](/en/boot/tenant/) | Tenants, packages and tenant datasources |
+| [Open platform](/en/boot/open-api) | API keys, OAuth clients and call logs |
+| [Tracking](/en/track/) (optional) | Overview, funnels and retention; performance, error monitoring and session replay |
+| [GIS](/en/pc/gis) (optional) | Map, layers and scenes. 2D uses OpenLayers and 3D uses Cesium |
+| [AI center](/en/pc/ai-center) (optional) | Models, knowledge bases and conversations |
+
+The interface comes in Chinese and English, with a light and a dark theme. The screenshot below is the map page under GIS.
+
+![The map page under GIS](/readme/gis-map.png)
 
 ## Turn off optional modules
 
-Set the variable to `false` in `.env`, and the build skips that module's routes:
+The three switches are in `.env` and default to `true`:
 
 ```ini
 VITE_ENABLE_GIS = true
@@ -39,78 +60,41 @@ VITE_ENABLE_TRACK = true
 VITE_ENABLE_AI = true
 ```
 
-After turning one off you can delete its `modules/` folder. With analytics off you don't need `pnpm setup:sdk`, but the sibling `mugsun-track` directory must still exist because `pnpm install` resolves it.
+Set one to `false` and rebuild. The routes and plugins of that module are no longer registered, and you can delete its directory under `modules/`.
 
-## Modules at a glance
+The backend has matching switches. See [Architecture](/en/guide/architecture#two-layers-of-module-switches).
 
-These screenshots come from boot + pc running locally against a demo database (all data is sample data), at a 1440×900 viewport.
+## Code layout
 
-### System management
+| Directory | Contents |
+| --- | --- |
+| `src/` | Sign-in, routing and the system administration pages |
+| `modules/gis/` | Optional: map, layers and spatial analysis |
+| `modules/track/` | Optional: tracking setup and analytics dashboards |
+| `modules/ai/` | Optional: pages for models, knowledge bases and conversations |
+| `e2e/` `e2e-ui/` | Playwright tests |
+| `docker/` | Nginx configuration and Compose files |
 
-Users, departments, roles and menus are managed in one place; menus and button permission codes come from the backend, and the sidebar renders from the grants.
+The frontend stores no permission data. The sidebar menus and button permissions all come from the backend's `/auth/info` endpoint.
 
-![Users](/screenshots/pc/system-users.png)
-![Departments](/screenshots/pc/system-departments.png)
-![Roles](/screenshots/pc/system-roles.png)
-![Menus](/screenshots/pc/system-menus.png)
+`pnpm gen:api` generates the API types from the backend's OpenAPI spec. The backend must be running when you run it.
 
-### Low-code
+## Current limits
 
-The form designer list holds form definitions (name, key, status). Open the designer to drag in fields; once designed, the form can be filled in online.
-
-![Form designer list](/screenshots/pc/lowcode-forms.png)
-
-### Workflow
-
-A published flow definition can be started right away. The approval center splits tasks into to-do, to-claim, started by me, done and CC'd; running instances can be suspended or terminated.
-
-![Flow definitions](/screenshots/pc/workflow-definitions.png)
-![Approval center](/screenshots/pc/workflow-approval-center.png)
-![Running instances](/screenshots/pc/workflow-running.png)
-
-### Monitoring
-
-Server monitoring shows JVM memory, CPU, threads and request stats. Online sessions can be kicked out (tokens are masked). The login log records the method, client and result of every sign-in.
-
-![Server monitoring](/screenshots/pc/monitor-server.png)
-![Online sessions](/screenshots/pc/monitor-online-sessions.png)
-![Login log](/screenshots/pc/monitor-login-log.png)
-
-### Open platform
-
-Generate API keys for third-party systems and limit the paths they may call. OAuth clients support authorization code and client credentials. Keys and client IDs in the screenshots are replaced with placeholders.
-
-![API keys](/screenshots/pc/open-platform-api-keys.png)
-![OAuth clients](/screenshots/pc/open-platform-oauth-clients.png)
-
-### Tenants
-
-Creating a tenant initializes its default department, post, role and admin in one step; the tenant package decides which menus the tenant can use.
-
-![Tenants](/screenshots/pc/tenant-list.png)
-![Tenant packages](/screenshots/pc/tenant-packages.png)
-
-## Request flow
-
-Views and hooks call `/api` through axios, and Vite proxies it to boot during development. When a request fails, the backend's business message is shown first. The console's own analytics events go to same-origin `/api/track/collect`, which also lands in boot's track module.
-
-
-## Permissions and API types
-
-Menus, button permission codes and user info all come from the backend `/api/auth/info` endpoint. The frontend keeps no separate permission data.
-
-API types are generated from the backend's OpenAPI document:
-
-```bash
-pnpm gen:api   # reads http://localhost:8080/v3/api-docs
-```
+- It only works with mugsun-boot. There is no standalone mock backend.
+- There is no public demo.
 
 ## License
 
-MIT. Parts of the UI derive from [art-design-pro](https://github.com/Daymychen/art-design-pro) (MIT). Keep the `NOTICE` file when you redistribute.
+MIT. The interface is derived from [art-design-pro](https://github.com/Daymychen/art-design-pro) (MIT). Keep the `NOTICE` file from the repository when you redistribute it.
 
 ## Next steps
 
-- [Local development](/en/pc/development)
-- [GIS and maps](/en/pc/gis)
-- [Docker deployment](/en/pc/deploy-docker)
+<div class="ms-cards">
+
+- [Designers](/en/pc/designer) How to use the AI app designer and the process definition designer.
+- [UI self-check](/en/pc/ui-check) Interface checks that need no backend. Run them locally before you commit.
+- [Content Security Policy](/en/pc/csp) How to turn CSP on, with the current policy and known limits.
+- [Your first event](/en/track/first-event) Add the analytics SDK and see the first record on the dashboard.
+
+</div>

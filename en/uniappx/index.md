@@ -1,12 +1,70 @@
 # ms-ui (uni-app x)
 
-**ms-ui** is a cross-platform component library for **uni-app x** (App / mini programs / H5), easycom prefix `ms-`. It is **not** the PC admin console (see [Admin / pc](/en/pc/)).
+ms-ui is the mugsun component library for uni-app x. It targets apps, mini programs and H5. Components are written in vapor mode and UTS, and every tag starts with `ms-`.
 
-ms-ui is MIT-licensed and its source repository is not yet public; this site is the reference for usage. In a project the module lives at `uni_modules/ms-ui`.
+The core library has 111 components, and there are 8 optional plugins. Each component has its own page that lists props, events and slots.
 
-Component pages with a demo let you try it live: in the phone frame on the right on wide screens, or via the H5 demo bar at the bottom on phones.
+![Four pages of the demo project](/readme/uniappx-demo.png)
 
-**119** components documented (including optional plugins), each with props, events and slots.
+From left to right, the screenshot shows the home, button, chart and settings pages of the demo project. The home page uses the dark theme.
+
+## Where to start
+
+<div class="ms-cards">
+
+- [Button](/en/uniappx/components/button) Start with the most common component. Its demo runs in the phone frame on the right of the page.
+- [Form](/en/uniappx/components/form) The form container, used together with `ms-form-item`.
+- [Config Provider](/en/uniappx/components/config-provider) Give a whole area its own theme, for example switch it to dark.
+- [Chart](/en/uniappx/components/chart) An optional plugin that draws eight chart types on canvas, such as line, bar and pie.
+
+</div>
+
+## Try the demos
+
+Component pages with a demo are interactive. On wide screens the demo runs in the phone frame on the right of the page. On narrow screens, tap the H5 demo bar at the bottom.
+
+You can also open the <a href="/demo/index.html" target="_blank">full demo project</a> in a new tab. Its home page lists every demo page by group.
+
+## Use it in a project
+
+The components live in the `uni_modules/ms-ui` directory of your project. easycom registers them automatically, so you write the tags directly without any import:
+
+```vue
+<template>
+  <ms-button theme="primary" @click="save">Save</ms-button>
+  <ms-button variant="outline" size="sm">Cancel</ms-button>
+</template>
+
+<script setup lang="uts">
+function save() : void {
+  console.log('save')
+}
+</script>
+```
+
+Import the theme and the icon font in the styles of `App.uvue`:
+
+```scss
+@import '@/uni_modules/ms-ui/styles/theme.scss';
+@import '@/uni_modules/ms-ui/styles/remixicon-mp-face.scss';
+```
+
+The second line is the icon font for WeChat mini programs. You can leave it out if you only run on Web and App.
+
+::: info The source repository is not public yet
+ms-ui is released under the MIT License, and its source repository is not public yet. It is not published to npm or listed on the DCloud plugin market.
+:::
+
+## Platforms and versions
+
+| Item | Description |
+| --- | --- |
+| HBuilderX | 5.23 or later |
+| Runtime mode | uni-app x vapor mode |
+| Verified platforms | Web, WeChat mini programs and iOS |
+| Not verified yet | Android and HarmonyOS |
+
+The tables below list every component by group.
 
 ## Basic
 

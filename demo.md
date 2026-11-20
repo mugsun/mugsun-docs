@@ -1,18 +1,15 @@
 # 在线演示
 
-## 本地体验管理台与埋点
+## 在本机试用管理后台和埋点
 
-在本机按以下命令跑起完整后端（需 Docker 与 JDK 21）：
+只需要安装 Docker。下面的命令会启动整套系统，包括数据库、后端和管理后台：
 
 ```bash
 git clone https://github.com/mugsun/mugsun-boot.git && cd mugsun-boot
-docker compose up -d
-cp config/application-local.yml.example config/application-local.yml
-mvn -pl mugsun-boot-server -am package -DskipTests
-java -jar mugsun-boot-server/target/mugsun-boot.jar
+docker compose -f docker-compose.full.yml up -d --build
 ```
 
-管理台（pc）与验收步骤见 [快速开始](/guide/getting-started)。账号以 [boot README](https://github.com/mugsun/mugsun-boot/blob/main/README.md) 为准，**首次登录请改密**。
+查看管理员口令和登录的步骤见[快速开始](/guide/getting-started)。第一次登录要先修改口令。
 
 ## uni-app x（ms-ui） 组件 H5
 

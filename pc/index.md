@@ -1,37 +1,58 @@
-# 管理台概述
+# 管理后台概述
 
-[mugsun-pc](https://github.com/mugsun/mugsun-pc) 是 mugsun 的管理后台，自带系统管理页面，GIS、埋点看板和 AI 管理页可以按需开启。
+[mugsun-pc](https://github.com/mugsun/mugsun-pc) 是 mugsun 的管理后台，用 Vue 3 和 Element Plus 编写，接口都来自[后端](/boot/)。
 
-## 本地启动
+系统管理的页面都已经做好。GIS、埋点看板和 AI 管理页是三个可选模块，构建时可以关掉。
 
-需要 Node.js 22.13 以上和 pnpm 11.11 以上，后端 [boot](/boot/) 先在 8080 端口启动：
+![埋点分析里的数据概览页](/readme/track-overview.png)
+
+## 从哪里开始
+
+<div class="ms-cards">
+
+- [本地开发](/pc/development) 启动命令、常用脚本和新增页面的流程。
+- [工作台](/pc/workbench) 工作台上各张卡片的含义，以及几处界面细节。
+- [GIS 与地图](/pc/gis) 「地理信息」菜单下的地图、图层和场景。
+- [Docker 部署](/pc/deploy-docker) 用自带的 Nginx 镜像部署，并把 `/api` 转发到后端。
+
+</div>
+
+## 启动
+
+需要 Node.js 22.13+ 和 pnpm 11.11+。[后端](/boot/)要先在 8080 端口启动。
 
 ```bash
-pnpm setup:sdk   # 构建同级目录的 mugsun-track
+git clone https://github.com/mugsun/mugsun-pc.git && cd mugsun-pc
 pnpm install
-pnpm dev         # 打开 http://localhost:3006
+pnpm dev
 ```
 
-开发时 `/api` 请求转发到 `http://localhost:8080`。
+浏览器会自动打开 <http://localhost:3006>。用 `admin` 和启动后端时设置的初始口令登录。
 
-要改这个地址，编辑 `.env.development` 里的 `VITE_API_PROXY_URL`。
+开发时 `/api` 请求转发到 `http://localhost:8080`。要换地址，改 `.env.development` 里的 `VITE_API_PROXY_URL`。
 
-![用户管理（示例数据）](/screenshots/pc-system-users.png)
+只想看效果时不需要安装 Node.js，[快速开始](/guide/getting-started)里的 Docker 命令会把管理后台一起启动。
 
-## 目录
+## 有哪些页面
 
-```text
-mugsun-pc/
-  src/             # 路由、登录鉴权、系统管理页面、接口封装
-  modules/
-    gis/           # 可选：图层、场景、空间分析
-    track/         # 可选：埋点接入管理与分析看板
-    ai/            # 可选：模型、对话、知识库、MCP 管理
-```
+| 菜单 | 页面 |
+| --- | --- |
+| 系统管理 | 用户、角色和菜单，字典、参数和行政区划，各类日志和服务监控 |
+| [工作流](/boot/features/workflow) | 流程设计、审批中心和待办工作台 |
+| [低代码](/boot/codegen/) | 代码生成、动态建表和表单设计 |
+| [租户运营](/boot/tenant/) | 租户、套餐和租户数据源 |
+| [开放平台](/boot/open-api) | API 密钥、OAuth 客户端和调用日志 |
+| [埋点分析](/track/)（可选） | 数据概览、漏斗和留存，性能分析、错误监控和会话回放 |
+| [地理信息](/pc/gis)（可选） | 地图、图层和场景。二维用 OpenLayers，三维用 Cesium |
+| [AI 中心](/pc/ai-center)（可选） | 大模型配置、知识库和对话记录 |
+
+界面有中文和英文，有亮色和暗色两套主题。下图是地理信息里的地图页。
+
+![地理信息的地图页](/readme/gis-map.png)
 
 ## 关闭可选模块
 
-在 `.env` 里把对应变量改成 `false`，构建时就不注册这个模块的路由：
+三个开关在 `.env` 里，默认都是 `true`：
 
 ```ini
 VITE_ENABLE_GIS = true
@@ -39,77 +60,41 @@ VITE_ENABLE_TRACK = true
 VITE_ENABLE_AI = true
 ```
 
-关闭后可以删掉对应的 `modules/` 目录。关闭埋点后不需要运行 `pnpm setup:sdk`，但同级的 `mugsun-track` 目录仍须存在，`pnpm install` 要解析它。
+改成 `false` 后重新构建，这个模块的路由和插件就不再注册，`modules/` 下对应的目录也可以删掉。
 
-## 功能模块一览
+后端也有对应的开关，见[架构](/guide/architecture#模块装配-两层开关)。
 
-以下截图来自本地实际运行的 boot + pc（演示库，数据均为示例），视口 1440×900。
+## 代码结构
 
-### 系统管理
+| 目录 | 内容 |
+| --- | --- |
+| `src/` | 登录鉴权、路由和系统管理页面 |
+| `modules/gis/` | 可选，地图、图层和空间分析 |
+| `modules/track/` | 可选，埋点接入管理和分析看板 |
+| `modules/ai/` | 可选，模型、知识库和对话等管理页 |
+| `e2e/` `e2e-ui/` | Playwright 测试 |
+| `docker/` | Nginx 配置和 Compose 文件 |
 
-用户、部门、角色与菜单统一维护；菜单与按钮权限码由后端下发，前端按授权渲染侧边栏。
+前端不保存权限数据。侧边栏菜单和按钮权限都由后端的 `/auth/info` 接口返回。
 
-![用户管理](/screenshots/pc/system-users.png)
-![部门管理](/screenshots/pc/system-departments.png)
-![角色管理](/screenshots/pc/system-roles.png)
-![菜单管理](/screenshots/pc/system-menus.png)
+接口类型用 `pnpm gen:api` 按后端的 OpenAPI 文档生成，执行时后端要在运行。
 
-### 低代码
+## 目前的限制
 
-「表单设计」维护表单定义（名称、标识、状态），可进入设计器拖拽字段，设计完成后即可在线填报。
-
-![表单设计](/screenshots/pc/lowcode-forms.png)
-
-### 工作流
-
-流程定义发布后即可发起；审批中心按待办 / 待签 / 我发起 / 已办 / 抄送分栏，运行中的流程可挂起或终止。
-
-![流程定义](/screenshots/pc/workflow-definitions.png)
-![审批中心](/screenshots/pc/workflow-approval-center.png)
-![运行中的流程](/screenshots/pc/workflow-running.png)
-
-### 监控
-
-服务监控展示 JVM 内存、CPU、线程与请求统计；在线会话支持强制下线（令牌仅显示掩码）；登录日志记录每次登录的方式、终端与结果。
-
-![服务监控](/screenshots/pc/monitor-server.png)
-![在线会话](/screenshots/pc/monitor-online-sessions.png)
-![登录日志](/screenshots/pc/monitor-login-log.png)
-
-### 开放平台
-
-为第三方系统生成 API 密钥并限定可调用路径；OAuth 客户端支持授权码与客户端凭证两种授权方式。截图中的密钥与客户端编号已替换为占位符。
-
-![API 密钥](/screenshots/pc/open-platform-api-keys.png)
-![OAuth 客户端](/screenshots/pc/open-platform-oauth-clients.png)
-
-### 租户
-
-新建租户时一键初始化默认部门、岗位、角色与管理员；租户套餐决定租户可用的功能菜单。
-
-![租户管理](/screenshots/pc/tenant-list.png)
-![租户套餐](/screenshots/pc/tenant-packages.png)
-
-## 请求链路
-
-视图与 hooks 经 axios 访问 `/api`，开发期由 Vite 代理至 boot。接口出错时优先展示后端返回的业务消息。管理台自身的埋点经同源 `/api/track/collect` 上报，同样进入 boot 的 track 模块。
-
-## 权限和接口类型
-
-菜单、按钮权限码和用户信息都来自后端 `/api/auth/info` 接口，前端不另存权限数据。
-
-接口类型从后端 OpenAPI 文档生成：
-
-```bash
-pnpm gen:api   # 读取 http://localhost:8080/v3/api-docs
-```
+- 必须配合 mugsun-boot 使用，没有独立的 mock 后端。
+- 没有公网演示环境。
 
 ## 许可
 
-MIT。界面部分衍生自 [art-design-pro](https://github.com/Daymychen/art-design-pro)（MIT），分发时需要保留 `NOTICE` 文件。
+MIT。界面在 [art-design-pro](https://github.com/Daymychen/art-design-pro)（MIT）的基础上修改，分发时要保留仓库里的 `NOTICE` 文件。
 
 ## 下一步
 
-- [本地开发](/pc/development)
-- [GIS 与地图](/pc/gis)
-- [Docker 部署](/pc/deploy-docker)
+<div class="ms-cards">
+
+- [设计器](/pc/designer) AI 应用编排和流程定义两种设计器的操作方式。
+- [UI 自检](/pc/ui-check) 不依赖后端的界面检查，提交前可以先在本地执行。
+- [内容安全策略（CSP）](/pc/csp) 怎样开启 CSP，以及当前的策略和已知限制。
+- [第一个事件](/track/first-event) 接入埋点 SDK，在看板里看到第一条数据。
+
+</div>

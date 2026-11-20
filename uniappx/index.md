@@ -1,12 +1,70 @@
 # ms-ui（uni-app x）
 
-**ms-ui** 是面向 **uni-app x** 的跨端组件库（App / 小程序 / H5），easycom 前缀 `ms-`。**不是** PC 管理台（管理台见 [pc](/pc/)）。
+ms-ui 是 mugsun 的 uni-app x 组件库，用于 App、小程序和 H5。组件用蒸汽模式和 UTS 编写，标签以 `ms-` 开头。
 
-ms-ui 采用 MIT 许可，源码仓库暂未公开，使用方式以本站文档为准；组件在工程中的模块路径为 `uni_modules/ms-ui`。
+核心库有 111 个组件，另有 8 个可选插件。每个组件一页，列出属性、事件和插槽。
 
-带演示的组件页可直接体验 H5：宽屏在页面右侧手机框中查看，窄屏下请点击底栏的「打开 H5 演示」。
+![演示工程的四个页面](/readme/uniappx-demo.png)
 
-当前已收录 **119** 个组件（含可选插件），每页列出 Props、事件与插槽。
+上图从左到右是演示工程的首页、按钮、图表和设置页，首页用的是深色主题。
+
+## 从哪里开始
+
+<div class="ms-cards">
+
+- [Button 按钮](/uniappx/components/button) 从最常用的组件看起，演示就在页面右侧的手机框里。
+- [Form 表单](/uniappx/components/form) 表单容器，和 `ms-form-item` 一起使用。
+- [Config Provider 主题配置](/uniappx/components/config-provider) 让一整块区域换一套主题，比如切换为暗色。
+- [Chart 图表](/uniappx/components/chart) 可选插件，用 canvas 画折线图、柱状图和饼图等八种图表。
+
+</div>
+
+## 查看演示
+
+带演示的组件页可以直接操作。宽屏时演示在页面右侧的手机框里，窄屏时点击底栏的「打开 H5 演示」。
+
+也可以在新标签页里打开<a href="/demo/index.html" target="_blank">完整的演示工程</a>，首页按分组列出所有演示页。
+
+## 在工程里使用
+
+组件放在工程的 `uni_modules/ms-ui` 目录下。easycom 会自动注册，页面里直接写标签，不需要 import：
+
+```vue
+<template>
+  <ms-button theme="primary" @click="save">保存</ms-button>
+  <ms-button variant="outline" size="sm">取消</ms-button>
+</template>
+
+<script setup lang="uts">
+function save() : void {
+  console.log('save')
+}
+</script>
+```
+
+主题和图标字体在 `App.uvue` 的样式里引入：
+
+```scss
+@import '@/uni_modules/ms-ui/styles/theme.scss';
+@import '@/uni_modules/ms-ui/styles/remixicon-mp-face.scss';
+```
+
+第二行是给微信小程序用的图标字体，只在 Web 和 App 上运行时可以不引入。
+
+::: info 源码仓库暂未公开
+ms-ui 采用 MIT 许可，源码仓库暂未公开。它还没有发布到 npm，也没有上架 DCloud 插件市场。
+:::
+
+## 平台和版本
+
+| 项目 | 说明 |
+| --- | --- |
+| HBuilderX | 5.23 或更高 |
+| 运行模式 | uni-app x 蒸汽模式 |
+| 已验证的平台 | Web、微信小程序和 iOS |
+| 还没验证的平台 | Android 和鸿蒙 |
+
+下面按分组列出全部组件。
 
 ## 基础
 
