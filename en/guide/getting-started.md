@@ -105,11 +105,11 @@ npm install @mugsun/track-web
 ```ts
 import { createTracker } from '@mugsun/track-web'
 
-const track = createTracker({
+const tracker = createTracker({
   endpoint: 'http://localhost:8080',
   appKey: '<your appKey>',
 })
-track.track('hello_mugsun')
+tracker.track('hello_mugsun')
 ```
 
 Go to Tracking → Overview and select the app to see the event you just sent.

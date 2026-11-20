@@ -1,6 +1,6 @@
 # Install & setup
 
-`@mugsun/track-web` is the tracking SDK for the browser. Install it, fill in two options, and page views, clicks, performance metrics and frontend errors start reporting.
+`@mugsun/track-web` is the analytics SDK for the browser. Install it, fill in two options, and page views, clicks, performance metrics and frontend errors start reporting.
 
 ## Install
 

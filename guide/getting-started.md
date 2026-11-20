@@ -105,11 +105,11 @@ npm install @mugsun/track-web
 ```ts
 import { createTracker } from '@mugsun/track-web'
 
-const track = createTracker({
+const tracker = createTracker({
   endpoint: 'http://localhost:8080',
   appKey: '<你的 appKey>',
 })
-track.track('hello_mugsun')
+tracker.track('hello_mugsun')
 ```
 
 到「埋点分析 → 数据概览」选中这个应用，就能看到刚上报的数据。
