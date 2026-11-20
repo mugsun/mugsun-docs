@@ -2,7 +2,7 @@
 
 Code generation turns a table structure into a backend entity, mapper and controller, plus an admin list page, API files and menu SQL.
 
-![Code generation page](/screenshots/codegen/gen-list.png)
+![The code generation page: the data source and the import form on top, imported tables below](/screenshots/codegen/gen-list.png)
 
 Sign in to the admin console as an administrator and open System Settings → Code Generator. You see the table picker and the list of imported table configurations.
 

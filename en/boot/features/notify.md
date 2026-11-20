@@ -2,7 +2,7 @@
 
 SMS and mail each have their own settings page. Business code sends through one notification API to several channels at once: in-app messages, mail and SMS.
 
-![Notify templates](/screenshots/features/notify.png)
+![The notification template list: one row per template with its code, subject, channels and status](/screenshots/features/notify.png)
 
 ## What it does
 

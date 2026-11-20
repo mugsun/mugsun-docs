@@ -31,7 +31,7 @@
 
 新增一个数据范围为「仅本人数据」的角色，把它授给用户 `zhangsan`，并在「菜单授权」里勾选「用户管理」。
 
-![角色的数据范围](/screenshots/datascope/role-data-scope.png)
+![新增角色弹窗，「数据范围」下拉框展开，有五个选项](/screenshots/datascope/role-data-scope.png)
 
 用下面的语句核对用户、角色和数据范围：
 

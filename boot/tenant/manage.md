@@ -2,7 +2,7 @@
 
 租户和套餐都由平台超管在管理后台的「租户运营」菜单里维护。
 
-![租户列表](/screenshots/tenant/tenant-list.png)
+![租户管理页：每个租户一行，列出套餐、账号上限、状态和过期时间](/screenshots/tenant/tenant-list.png)
 
 ## 新建租户
 
@@ -41,7 +41,7 @@
 
 在管理后台修改套餐或租户后立即生效。没有选择套餐的租户不受限制。
 
-![租户套餐列表](/screenshots/tenant/tenant-package.png)
+![租户套餐页：每个套餐一行，列出功能菜单数、状态和备注](/screenshots/tenant/tenant-package.png)
 
 ## 平台级接口
 

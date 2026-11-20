@@ -2,7 +2,7 @@
 
 短信和邮件有各自的配置页，业务代码通过统一的通知接口，一次发到站内信、邮件和短信多个渠道。
 
-![通知模板](/screenshots/features/notify.png)
+![通知模板页：每个模板一行，列出编码、主题、渠道和状态](/screenshots/features/notify.png)
 
 ## 能做什么
 

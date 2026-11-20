@@ -2,7 +2,7 @@
 
 Serial number rules generate business numbers such as order and contract numbers from a format, and can restart counting each year, month or day.
 
-![Serial numbers](/screenshots/features/serial-number.png)
+![The serial number rule list: one row per rule with its format, period and current sequence](/screenshots/features/serial-number.png)
 
 ## What it does
 

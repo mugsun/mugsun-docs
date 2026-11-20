@@ -25,7 +25,7 @@
 
 列表上方的「当前生效」会显示 `sys_user · 本部门`。
 
-![数据权限规则](/screenshots/datascope/data-scope-rules.png)
+![数据权限页：规则列表上方的「当前生效」显示 sys_user · 本部门](/screenshots/datascope/data-scope-rules.png)
 
 用下面的语句核对启用中的规则：
 

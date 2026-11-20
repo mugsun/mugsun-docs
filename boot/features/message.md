@@ -2,7 +2,7 @@
 
 站内信发给指定用户，公告发给全体或指定范围。两者都通过 WebSocket 实时推送给在线用户。
 
-![我的消息](/screenshots/features/message.png)
+![我的消息页：每条消息一行，列出类型、状态和发送时间](/screenshots/features/message.png)
 
 ## 能做什么
 

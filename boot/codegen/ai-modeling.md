@@ -12,7 +12,7 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 
 把这段描述粘贴到「规则建模」里，点「生成候选」，得到一份可以逐项修改的候选：
 
-![规则建模生成的候选](/screenshots/codegen/gen-modeling-draft.png)
+![规则建模页签：上面是描述，下面是按描述生成的候选字段](/screenshots/codegen/gen-modeling-draft.png)
 
 类型词决定 Java 类型和表单控件：
 
@@ -77,7 +77,7 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 
 点「确认并建表」后切到「动态表管理」，`product_comment` 出现在列表里。
 
-![动态表管理](/screenshots/codegen/gen-modeling-manage.png)
+![动态表管理页签：每张表一行，右侧是字段配置、预览 DDL 和建表等操作](/screenshots/codegen/gen-modeling-manage.png)
 
 也可以直接调接口。`/system/gen/ai/draft` 只返回候选，不写库：
 

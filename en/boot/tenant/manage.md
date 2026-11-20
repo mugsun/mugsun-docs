@@ -2,7 +2,7 @@
 
 The platform super admin maintains tenants and plans under the Tenant Operations menu of the admin console.
 
-![Tenant list](/screenshots/tenant/tenant-list.png)
+![The tenant list: one row per tenant with its plan, account limit, status and expiry](/screenshots/tenant/tenant-list.png)
 
 ## Create a tenant
 
@@ -41,7 +41,7 @@ When a tenant calls an endpoint outside its plan, the response is 403 with a mes
 
 Changes to a plan or tenant made in the admin console take effect immediately. A tenant without a plan is not restricted.
 
-![Plan list](/screenshots/tenant/tenant-package.png)
+![The plan list: one row per plan with its number of menus, status and remark](/screenshots/tenant/tenant-package.png)
 
 ## Platform endpoints
 

@@ -29,7 +29,7 @@ Only the platform super admin can set "all data" or a custom statement. A custom
 
 Add a role whose data scope is "Own Data Only", grant it to the user `zhangsan`, and select User Manage in its menu permissions.
 
-![Data scope of a role](/screenshots/datascope/role-data-scope.png)
+![The new role dialog with the data scope dropdown open, showing five options](/screenshots/datascope/role-data-scope.png)
 
 Check users, roles and data scopes with this query:
 

@@ -2,7 +2,7 @@
 
 单号规则按格式生成订单号、合同号这类业务编号，可以按年、月或日重新计数。
 
-![单号规则](/screenshots/features/serial-number.png)
+![单号规则页：每条规则一行，列出格式、周期和当前序号](/screenshots/features/serial-number.png)
 
 ## 能做什么
 

@@ -12,7 +12,7 @@ product_comment 商品评论；content 评论内容 文本，score 评分 整数
 
 Paste this description into Rule Modeling and click Generate Draft. You get a candidate you can edit item by item:
 
-![Candidate from rule modeling](/screenshots/codegen/gen-modeling-draft.png)
+![The Rule Modeling tab: the description on top, the candidate columns generated from it below](/screenshots/codegen/gen-modeling-draft.png)
 
 The type word sets the Java type and the form control:
 
@@ -73,7 +73,7 @@ Change the type and label in the table as needed.
 
 Click Confirm & Create, then switch to the Dynamic Tables tab. `product_comment` appears in the list.
 
-![Dynamic table management](/screenshots/codegen/gen-modeling-manage.png)
+![The Dynamic Tables tab: one row per table, with column settings, DDL preview, table creation and other actions on the right](/screenshots/codegen/gen-modeling-manage.png)
 
 You can also call the API directly. `/system/gen/ai/draft` only returns a candidate and writes nothing:
 

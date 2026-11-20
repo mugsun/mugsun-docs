@@ -2,7 +2,7 @@
 
 表配置调好后，在「系统管理 → 代码生成」里点「预览」查看生成的代码，点「下载」得到 zip。
 
-![代码预览](/screenshots/codegen/gen-preview.png)
+![代码预览弹窗：每个生成的文件一个页签，当前显示实体类](/screenshots/codegen/gen-preview.png)
 
 ## 产物清单
 

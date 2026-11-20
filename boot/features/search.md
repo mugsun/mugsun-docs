@@ -2,7 +2,7 @@
 
 顶栏的搜索框除了按菜单名称联想，还会联想用户、部门、角色和通知公告。
 
-![全局搜索](/screenshots/features/search.png)
+![搜索「财务」的联想结果，部门、角色和通知各一条](/screenshots/features/search.png)
 
 ## 能做什么
 

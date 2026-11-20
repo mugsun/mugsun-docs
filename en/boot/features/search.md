@@ -2,7 +2,7 @@
 
 Besides suggesting menus by name, the search box in the top bar suggests users, departments, roles and announcements.
 
-![Global search](/screenshots/features/search.png)
+![Suggestions for one keyword: a department, a role and an announcement](/screenshots/features/search.png)
 
 ## What it does
 

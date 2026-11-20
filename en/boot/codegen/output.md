@@ -2,7 +2,7 @@
 
 When the table configuration is ready, click Preview in System Settings → Code Generator to view the generated code, or Download to get a zip.
 
-![Code preview](/screenshots/codegen/gen-preview.png)
+![The code preview dialog: one tab per generated file, showing the entity class](/screenshots/codegen/gen-preview.png)
 
 ## What is generated
 

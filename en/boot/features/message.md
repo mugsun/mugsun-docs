@@ -2,7 +2,7 @@
 
 In-app messages go to selected users; announcements go to everyone or to a chosen scope. Both are pushed to online users over WebSocket.
 
-![My messages](/screenshots/features/message.png)
+![The message list: one row per message with its type, read status and send time](/screenshots/features/message.png)
 
 ## What it does
 

@@ -27,7 +27,7 @@
 - 模板：单表、树表（需要指定父字段）、主子表（需要指定子表和外键列）。
 - 字段：Java 类型、注释、控件、字典码，以及是否出现在列表、表单和查询条件里。
 
-![字段配置](/screenshots/codegen/gen-config.png)
+![字段配置弹窗：每个字段一行，可以改注释、控件和字典，右边三列是开关](/screenshots/codegen/gen-config.png)
 
 ## 验证
 

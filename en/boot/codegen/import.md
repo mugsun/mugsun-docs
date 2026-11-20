@@ -27,7 +27,7 @@ Click Config in the list to change the template and each column:
 - Template: Single, Tree (needs a parent column) or Master-Sub (needs a child table and a foreign key column).
 - Columns: Java type, comment, control, dictionary code, and whether the column appears in the list, the form and the query conditions.
 
-![Column settings](/screenshots/codegen/gen-config.png)
+![The column settings dialog: one row per column with its comment, control and dictionary, and three switches on the right](/screenshots/codegen/gen-config.png)
 
 ## Verify
 
