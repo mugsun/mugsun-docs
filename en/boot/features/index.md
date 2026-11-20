@@ -21,6 +21,7 @@ The backend ships with the features below, one page each. Open the one you need 
 - [Object storage](./storage) Local disk, MinIO or Aliyun OSS, switched in the admin console.
 - [Serial numbers](./serial-number) Generate dated business numbers from rules.
 - [Logs and auditing](./log) Six kinds of logs recorded automatically; operation logs reveal deleted or altered records.
+- [Dictionaries and parameters](./dict) Keep fixed options in dictionaries; a parameter changed in the admin console takes effect at once.
 
 </div>
 

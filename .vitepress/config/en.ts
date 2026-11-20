@@ -277,6 +277,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Serial numbers', link: '/en/boot/features/serial-number' },
             { text: 'Global search', link: '/en/boot/features/search' },
             { text: 'Logs and auditing', link: '/en/boot/features/log' },
+            { text: 'Dictionaries and parameters', link: '/en/boot/features/dict' },
           ],
         },
         {
