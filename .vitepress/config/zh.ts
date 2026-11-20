@@ -116,6 +116,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: '密钥与加密', link: '/boot/crypto-keys' },
             { text: '行为验证码', link: '/boot/captcha' },
             { text: '安全清单', link: '/boot/security-checklist' },
+            { text: '只读演示模式', link: '/boot/demo-mode' },
             { text: '升级指南', link: '/boot/upgrade' },
           ],
         },

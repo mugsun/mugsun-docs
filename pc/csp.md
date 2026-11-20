@@ -96,7 +96,7 @@ manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; fra
 填了 `MUGSUN_CSP_REPORT_URI`，浏览器会把违规报告用 POST 发到这个地址。
 
 - 收集端要能接收不带登录状态的 POST 请求，并做好限流。
-- 后端只在[只读演示模式](/demo)下自带收集端，地址是 `/api/csp-report`。
+- 后端只在[只读演示模式](/boot/demo-mode)下自带收集端，地址是 `/api/csp-report`。
 - 其他部署方式下这个地址返回 404，要收报告就自己准备收集端。
 
 ## 开启拦截后的限制

@@ -285,6 +285,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Keys and encryption', link: '/en/boot/crypto-keys' },
             { text: 'Behavioral captcha', link: '/en/boot/captcha' },
             { text: 'Security checklist', link: '/en/boot/security-checklist' },
+            { text: 'Read-only demo mode', link: '/en/boot/demo-mode' },
             { text: 'Upgrade guide', link: '/en/boot/upgrade' },
           ],
         },

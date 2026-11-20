@@ -96,7 +96,7 @@ The extra Report-Only header in `enforce` mode reports and blocks nothing. It sh
 With `MUGSUN_CSP_REPORT_URI` set, the browser sends violation reports to that address with POST.
 
 - The collector must accept POST requests that carry no sign-in state, and must rate-limit them.
-- The backend ships a collector only in [read-only demo mode](/en/demo), at `/api/csp-report`.
+- The backend ships a collector only in [read-only demo mode](/en/boot/demo-mode), at `/api/csp-report`.
 - In any other deployment that address returns 404. To collect reports, bring your own collector.
 
 ## Limits once blocking is on

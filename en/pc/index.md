@@ -82,7 +82,7 @@ The frontend stores no permission data. The sidebar menus and button permissions
 ## Current limits
 
 - It only works with mugsun-boot. There is no standalone mock backend.
-- There is no public demo.
+- There is no public demo site. To try it, run it on your machine, see [Live demo](/en/demo).
 
 ## License
 
