@@ -36,6 +36,14 @@
   white-space: nowrap;
 }
 
+/*
+ * Pages whose tables start with a short label column (dates, areas, names)
+ * set `pageClass: ms-first-col-nowrap` in the frontmatter to keep it on one line.
+ */
+.ms-first-col-nowrap .vp-doc td:first-child {
+  white-space: nowrap;
+}
+
 /* ---------- link cards ---------- */
 
 .vp-doc .ms-cards > ul {
