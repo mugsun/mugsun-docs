@@ -1,8 +1,8 @@
 ---
 layout: home
 markdownStyles: false
-title: 部署在自己服务器上的中后台
-description: mugsun 是一套部署在自己服务器上的中后台系统，包含后端、管理后台和埋点分析，另有一套移动端组件库。
+title: 开源免费的中后台系统
+description: mugsun 是一套开源免费的中后台系统，包含后端、管理后台和埋点分析，另有一套移动端组件库。
 landing:
   copyLabel: 复制命令
   hero:
@@ -10,9 +10,9 @@ landing:
       text: MIT 许可，源码在 GitHub
       link: https://github.com/mugsun
     title:
-      - 部署在自己服务器上的
+      - 开源免费的
       - 中后台系统
-    lead: 包含后端、管理后台和埋点分析，另有一套移动端组件库。多租户、工作流和代码生成已经做好，数据保存在你自己的数据库里。
+    lead: 包含后端、管理后台和埋点分析，另有一套移动端组件库。多租户、工作流和代码生成已经做好，可以直接在上面写业务。
     actions:
       - text: 快速开始
         link: /guide/getting-started
@@ -232,7 +232,7 @@ landing:
       - icon: activity
         name: "@mugsun/track-web"
         role: 埋点 SDK
-        text: 在浏览器里采集页面浏览、点击和错误，上报到你自己部署的后端。
+        text: 在浏览器里采集页面浏览、点击和错误，上报到 mugsun-boot 后端。
         tags: [TypeScript, npm, rrweb]
         link: /track/
         repo: https://github.com/mugsun/mugsun-track

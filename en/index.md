@@ -1,8 +1,8 @@
 ---
 layout: home
 markdownStyles: false
-title: An admin platform you run on your own servers
-description: mugsun is an admin platform you deploy on your own servers. The backend, the admin console, product analytics and a mobile component library ship together.
+title: A free, open-source admin platform
+description: mugsun is a free, open-source admin platform. The backend, the admin console, product analytics and a mobile component library ship together.
 landing:
   copyLabel: Copy commands
   hero:
@@ -10,9 +10,9 @@ landing:
       text: MIT licensed, source on GitHub
       link: https://github.com/mugsun
     title:
-      - A self-hosted
+      - A free, open-source
       - admin platform
-    lead: The backend, the admin console, product analytics and a mobile component library ship together. Multi-tenancy, permissions, workflows and code generation are already built, and your data stays in your own database.
+    lead: The backend, the admin console, product analytics and a mobile component library ship together. Multi-tenancy, permissions, workflows and code generation are already built, so you can write your business logic on top right away.
     actions:
       - text: Get started
         link: /en/guide/getting-started
@@ -232,7 +232,7 @@ landing:
       - icon: activity
         name: "@mugsun/track-web"
         role: Analytics SDK
-        text: Collects page views, clicks, performance and errors in the browser and reports them to the backend you host.
+        text: Collects page views, clicks, performance and errors in the browser and reports them to the mugsun-boot backend.
         tags: [TypeScript, npm, rrweb]
         link: /en/track/
         repo: https://github.com/mugsun/mugsun-track

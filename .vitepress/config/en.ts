@@ -2,7 +2,7 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
 export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
   description:
-    'A self-hosted admin platform: backend, admin console, product analytics and a mobile component library that ship together. GIS and AI are optional.',
+    'A free, open-source admin platform: backend, admin console, product analytics and a mobile component library that ship together. GIS and AI are optional.',
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/en/guide/introduction', activeMatch: '/en/guide/' },
