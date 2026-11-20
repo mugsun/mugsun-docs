@@ -8,13 +8,13 @@ Where attachments are stored is set under Storage Config. It is built on x-file-
 - Enable one of them; new attachments are stored there. Each tenant can have only one enabled setting.
 - Use Check to verify a setting: local storage does a test write, and remote storage confirms that the endpoint is reachable.
 
-## How to turn it on
+## Enable it
 
 With no setting enabled, attachments go to a local directory configured under `dromara.x-file-storage` in `application.yml`. The default directory is `/tmp/mugsun-files/`.
 
 Local storage serves downloads under `/file/**`. With several instances, every instance must use the same `MUGSUN_FILE_SIGN_SECRET` of at least 32 characters.
 
-## How to use it
+## Use it
 
 1. Open System Settings → Storage Config and add a setting with its type, endpoint, AccessKey, SecretKey and bucket.
 2. Click Check to confirm it can connect.
@@ -28,7 +28,7 @@ For uploading, downloading and attachment permissions, see [Permissions and atta
 - Private attachments on local storage need a short-lived signature to download. Signatures expire after 300 seconds by default.
 - The Storage Config page is open only to the platform super admin.
 
-## See it work
+## Verify
 
 After enabling a setting, check which storage is in use:
 
@@ -40,4 +40,11 @@ WHERE is_deleted = 0 AND status = 1;
 
 Each tenant has at most one row. Attachments uploaded afterwards appear in that bucket or directory.
 
-Previous: [Reports](./report) · Next: [SMS and mail](./notify)
+## Next steps
+
+<div class="ms-cards">
+
+- [Permissions & attachments](/en/boot/permissions) Upload limits, download rules and permission codes for attachments.
+- [Security checklist](/en/boot/security-checklist) Check keys, network and attachment settings before you go live.
+
+</div>

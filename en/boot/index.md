@@ -36,15 +36,15 @@ Run the build and the JAR from the repository root, and build with `-am`.
 
 | Feature | Description |
 | --- | --- |
-| [Accounts and permissions](/en/boot/permissions) | Users, roles and departments. Menu and button permissions are configured in the console |
+| [Accounts and permissions](/en/boot/permissions) | Users, roles and departments. Menu and button permissions are configured in the admin console |
 | [Data permissions](/en/boot/datascope/) | Limit which rows a role can see |
 | [Multi-tenancy](/en/boot/tenant/) | One database and one set of tables serve many tenants. Business tables are isolated by `tenant_id` automatically |
-| [Workflow](/en/boot/features/workflow) | Built on Warm-Flow. Draw processes in the console, with conditions, parallel branches and countersigning |
+| [Workflow](/en/boot/features/workflow) | Built on Warm-Flow. Draw processes in the admin console, with conditions, parallel branches and countersigning |
 | [Code generation](/en/boot/codegen/) | Turn a table into backend code, admin console pages and menu SQL |
 | [Open API](/en/boot/open-api) | Two ways to connect: OAuth2 (with PKCE) and API keys |
 | [Object storage](/en/boot/features/storage) | Store attachments locally, in MinIO or in Alibaba Cloud OSS |
 | [Scheduled tasks](/en/boot/features/job) | Built on PowerJob. You deploy the PowerJob Server separately |
-| [SM cryptography](/en/boot/configuration) | `MUGSUN_GM_ENABLED` switches SM2 and SM3. `MUGSUN_SM4_KEY` sets the SM4 key |
+| [SM cryptography](/en/boot/configuration#security-and-keys) | `MUGSUN_GM_ENABLED` switches SM2 and SM3. `MUGSUN_SM4_KEY` sets the SM4 key |
 
 For the rest, see the [feature overview](/en/boot/features/).
 

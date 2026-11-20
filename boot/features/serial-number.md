@@ -2,7 +2,9 @@
 
 单号规则按格式生成订单号、合同号这类业务编号，可以按年、月或日重新计数。
 
-## 能干什么
+![单号规则](/screenshots/features/serial-number.png)
+
+## 能做什么
 
 - 格式里用 `[yyyy]`、`[mm]`、`[dd]` 表示年月日，用 `[nnnnn]` 表示序号，`n` 的个数就是序号位数。
 - 周期规则可选不重置、按年、按月或按日重置。
@@ -11,7 +13,7 @@
 
 内置两条规则：`ORDER`（格式 `DK[yyyy][mm][dd]NO[nnnnn]`，按日重置）和 `CONTRACT`（格式 `HT[yyyy][nnnnnn]`，按年重置）。
 
-## 怎么开
+## 启用
 
 单号规则随后端一起启动。序号默认用 Redis 自增，也可以改为数据库行锁：
 
@@ -21,18 +23,18 @@ mugsun:
     provider: db
 ```
 
-## 怎么用
+## 使用
 
 1. 打开「系统管理 → 单号规则」，新增规则，填写编码、名称、格式和周期。
 2. 业务代码注入 `SerialNumberService`，调用 `generate("ORDER")` 取一个单号。
 3. 调用 `generate("ORDER", 10)` 可以一次取多个。
 
-## 注意点
+## 注意事项
 
 - 一次最多生成 1000 个单号。
 - 生成接口 `POST /system/serial-number/generate` 需要 `sys:serial:generate`。
 
-## 看效果
+## 验证
 
 用内置规则生成两个订单号：
 
@@ -55,6 +57,11 @@ WHERE is_deleted = 0
 ORDER BY create_time DESC;
 ```
 
-![单号规则](/screenshots/features/serial-number.png)
+## 下一步
 
-上一节：[站内信与公告](./message) · 下一节：[全局搜索](./search)
+<div class="ms-cards">
+
+- [配置参考](/boot/configuration) 序号生成方式等配置项的完整说明。
+- [全局搜索](./search) 顶栏的搜索框能搜到哪些内容。
+
+</div>

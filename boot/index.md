@@ -44,7 +44,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
 | [开放平台](/boot/open-api) | OAuth2（含 PKCE）和 API Key 两种接入方式 |
 | [对象存储](/boot/features/storage) | 附件可以存本地、MinIO 或阿里云 OSS |
 | [定时任务](/boot/features/job) | 基于 PowerJob，需要另外部署 PowerJob Server |
-| [国密](/boot/configuration) | SM2 和 SM3 由 `MUGSUN_GM_ENABLED` 开关，SM4 的密钥用 `MUGSUN_SM4_KEY` 配置 |
+| [国密](/boot/configuration#安全与密钥) | SM2 和 SM3 由 `MUGSUN_GM_ENABLED` 开关，SM4 的密钥用 `MUGSUN_SM4_KEY` 配置 |
 
 其余功能见[功能概览](/boot/features/)。
 

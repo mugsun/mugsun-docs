@@ -2,6 +2,8 @@
 
 In-app messages go to selected users; announcements go to everyone or to a chosen scope. Both are pushed to online users over WebSocket.
 
+![My messages](/screenshots/features/message.png)
+
 ## What it does
 
 - Send Message lets you pick recipients and write a title and body, or use a Message Template.
@@ -9,7 +11,7 @@ In-app messages go to selected users; announcements go to everyone or to a chose
 - Announcements can be pinned, limited to chosen users or departments, and record who read them and how many times.
 - Users read the announcements visible to them in My Notifications.
 
-## How to turn it on
+## Enable it
 
 Messages and announcements start with the backend. The WebSocket address is `/ws/message`, and the handshake carries the login token as a query parameter:
 
@@ -19,9 +21,9 @@ ws://localhost:8080/ws/message?token=<login token>
 
 With several instances, keep the default `mugsun.websocket.sender-type: redis` so that messages are relayed to every instance through Redis publish/subscribe. Use `local` only for single-machine debugging.
 
-## How to use it
+## Use it
 
-The console is already connected to the WebSocket and needs no extra work. To send an in-app message from the backend, call `POST /system/message/send`, or use the in-app channel of `NotifySendApi` described in [SMS and mail](./notify).
+The admin console is already connected to the WebSocket and needs no extra work. To send an in-app message from the backend, call `POST /system/message/send`, or use the in-app channel of `NotifySendApi` described in [SMS and mail](./notify).
 
 Pushed frames have the types `message.new` (new message), `notice.new` (new announcement) and `force.offline` (forced sign-out).
 
@@ -31,7 +33,7 @@ Pushed frames have the types `message.new` (new message), `notice.new` (new anno
 - A handshake with an invalid token is rejected.
 - Users cannot see announcements outside their scope; opening one by id is treated as not found.
 
-## See it work
+## Verify
 
 Send yourself a message:
 
@@ -43,12 +45,17 @@ curl -s -X POST http://localhost:8080/system/message/send \
 
 The response says it was sent to 1 person, the unread count on the bell goes up by one, and the message appears in My Messages.
 
-![My messages](/screenshots/features/message.png)
-
 The unread count matches this query:
 
 ```sql
 SELECT count(*) FROM sys_message_user WHERE user_id = <your user id> AND is_read = 0 AND is_deleted = 0;
 ```
 
-Previous: [SMS and mail](./notify) · Next: [Serial numbers](./serial-number)
+## Next steps
+
+<div class="ms-cards">
+
+- [SMS and mail](./notify) Send one notification to in-app messages, mail and SMS with a single call.
+- [Admin console overview](/en/pc/) What the admin console contains and how to run it locally.
+
+</div>

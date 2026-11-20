@@ -2,252 +2,314 @@
 
 Workflow is built on the Warm-Flow engine and handles multi-level approvals such as leave requests and expense claims.
 
-You can insert an **AI pre-check node** (`type=ai`): when the node is created, an enabled AI app runs, writes agreed variables back, then hands off to a human node.
+A flow can include an AI pre-check node: an AI app reviews the request first, then a person approves it.
+
+![Flow Definitions page: one row per flow, with a Start button on the right](/screenshots/pc/workflow-definitions.png)
 
 ## What it does
 
-- Draw flows in Flow Designer, with approval nodes, conditional branches, parallel branches, countersigning, and **AI pre-check**.
-- Publish, suspend, copy to a new version and delete flows in Flow Definitions.
-- Users start flows in Approval Center and handle tasks in Todo Workbench.
+- Draw flows in Flow Designer, with approval, condition, parallel, countersign and AI pre-check nodes.
+- Suspend, activate and delete flows in Flow Designer, or copy one as a new version.
+- Browse flows in Flow Definitions and click Start to submit a request.
+- Handle to-dos in Approval Center, and see the flows you started, handled or were copied on.
 - A task can be approved, returned, withdrawn, transferred, delegated, given extra or fewer signers, voided or copied to others.
 - A flow node can be bound to a [form](./form), with each field set to read-only, writable or hidden on that node.
 
-## How to turn it on
+## Enable it
 
 Workflow starts with the backend and needs no extra configuration. Its tables are created by Flyway migrations.
 
-AI pre-check needs the AI module enabled and a tenant-local AiApp with `status==1` and type `workflow` or `chatflow`.
+The AI pre-check node has two more requirements:
 
-## How to use it
+- The AI module is enabled.
+- The tenant has an enabled AI app of type `workflow` or `chatflow`.
 
-1. The platform super admin opens System Settings → Flow Designer, creates a flow, sets its code, name and the approver role of each node, then saves and publishes it.
-2. A user opens Approval Center, picks the flow and starts it.
-3. The approver sees the task in Todo Workbench, opens it and handles it.
-4. Running Flows lists unfinished instances. Users with `sys:flow:running:terminate` can terminate an instance.
+## Use it
+
+<div class="ms-steps">
+
+### Design and publish a flow
+
+The platform super admin opens System Settings → Flow Designer, creates a flow, sets its code, name and the approver role of each node, then publishes it.
+
+### Start a flow
+
+A user opens Flow Definitions and clicks Start on the row of the flow to use.
+
+### Handle the task
+
+The approver sees the task in the to-do tab of Approval Center, opens it and handles it. Todo Workbench works too.
+
+![To-do list in Approval Center, with a Handle button on each task](/screenshots/pc/workflow-approval-center.png)
+
+### Watch running flows
+
+Running Flows lists the flows that have not finished. Users with `sys:flow:running:terminate` can terminate one.
+
+</div>
 
 To start a flow from backend code, call `POST /system/flow/start-by/{flowCode}/{businessId}`.
 
-## AI pre-check node (AI × approval) {#ai-approval}
+Who approves each node is decided by the flow design alone. The request cannot name approvers.
 
-Designer node type is `ai`. On publish it becomes a Warm-Flow **BETWEEN** node with a `create` listener
-`com.mugsun.boot.ai.flow.AiApprovalNodeListener`.
+## AI pre-check node {#ai-approval}
 
-On create it validates and runs the bound AiApp, then `skip PASS` on success, or follows `onFailure` on failure.
+When a flow reaches an AI pre-check node, it runs the AI app bound to the node and writes the verdict into flow variables.
 
-**Out of scope for this cut**: AI starting an approval, formal AiApp publish/version, new permission codes, issue #59.
+- On success, the node passes by itself and the flow moves to the next node.
+- On failure, the node follows its [failure strategy](#ai-approval-failure).
+
+The next approver opens the task and sees the AI summary, whether it suggests approval, and the reason.
 
 ### Bind an app
 
-| Item | Detail |
+The node names one AI app with `aiFlowId`. The app must meet every condition below, or the node fails.
+
+| Condition | Failure code when not met |
 | --- | --- |
-| Config key | `aiFlowId` (AiApp primary key) |
-| Allowed types | `workflow` and `chatflow` only |
-| Status | Same-tenant `status==1` (enabled) only |
-| Cross-tenant | Rejected (`AI_TENANT_DENIED`) |
-| App missing tenant | Fail-closed, also rejected |
+| The app exists | `AI_APP_MISSING` |
+| The app and the flow belong to the same tenant | `AI_TENANT_DENIED` |
+| The app is enabled | `AI_APP_DISABLED` |
+| The app type is `workflow` or `chatflow` | `AI_APP_TYPE_DENIED` |
+| The app contains no [forbidden node](#ai-approval-forbidden) | `AI_CAPABILITY_DENIED` |
 
-The designer dropdown lists only those apps. Real API by default; local mock only when DEV and `VITE_FLOW_AI_MOCK=true`.
+An app or a flow instance without tenant information also fails with `AI_TENANT_DENIED`.
 
-### Input `inputMap` (required)
+The dropdown in the designer lists only enabled apps of these two types in the current tenant.
 
-The field **must be present**. An empty object `{}` means **explicit zero injection** (no flow variables are passed into the AI).
+When you develop the admin console locally, set `VITE_FLOW_AI_MOCK` to `true` to fill the dropdown with local sample data. The switch works in development mode only.
 
-There is no “omit map → shallow-copy all flow variables”. Missing field fails designer validation; runtime empty map also injects nothing.
+### Input: `inputMap`
 
-Mapping: `flowVar → aiInputName` (blank value keeps the same name).
+`inputMap` decides which flow variables are passed to the AI. The designer requires it.
 
-Only keys declared in the map and present in flow variables are copied. `inputSummary` redacts keys whose names look like password / token / secret.
+Each entry maps a flow variable name to an AI input name. A blank input name means the same name as the flow variable.
 
-### Output `outputMap` (allow-listed write-back)
+- Only keys that are listed in the map and present in the flow variables are passed.
+- An empty object `{}` passes nothing.
+- Without a map, the flow variables are not passed to the AI as a whole.
 
-`from → to`: `key` is the AI output source; `value` is the flow **target key** (allow-list applies to the value).
+The approval history keeps a summary of the input. Values of keys whose names contain words like `password`, `token` or `secret` are shown as `***`.
 
-| Agreed target | Meaning |
+### Output: `outputMap`
+
+`outputMap` decides which AI outputs are written back to flow variables. Each entry maps an AI output name to a flow variable name.
+
+Only these flow variable names are allowed:
+
+| Flow variable | Meaning |
 | --- | --- |
 | `ai_summary` | Summary |
-| `ai_pass` | Suggested pass (boolean) |
+| `ai_pass` | Whether the AI suggests approval, a boolean |
 | `ai_reason` | Reason |
-| `ai_run_id` | AiAppRun id (also set by the listener on success) |
+| `ai_run_id` | The id of this run. The system writes it on success |
+| Keys starting with `ai_ext_` | Custom extensions. Only letters, digits and underscores may follow the prefix |
 
-Also allowed: `ai_ext_[A-Za-z0-9_]+`. Illegal targets: blocked in the designer before publish; dropped silently at runtime.
+A name outside the list is rejected when you publish the flow, and is not written back at runtime either. This keeps AI output from changing other variables in the flow.
 
-With no `outputMap`, runtime copies the three agreed keys if present in AI output, and always adds `ai_run_id`.
+Without `outputMap`, `ai_summary`, `ai_pass` and `ai_reason` in the AI output are written back under the same names.
 
-### Timeout and failure policy
+If there is still no `ai_summary` after that, the value of the app variable `output` is used as the summary.
 
-| Item | Detail |
+### Timeout and failure strategy {#ai-approval-failure}
+
+| Setting | Default | Notes |
+| --- | --- | --- |
+| `timeoutMs` | `120000` | Timeout of the AI run in milliseconds, at most `300000` |
+| `onFailure` | `rejectLast` | What to do on failure. Values are listed below |
+
+| `onFailure` value | Effect |
 | --- | --- |
-| `timeoutMs` | Default `120000`; hard cap `≤300000` (designer and runtime) |
-| `onFailure` | Default `rejectLast` (reject to previous node) |
-| Other values | `stay` (leave todo for initiator); `transfer:role:<roleCode>` (transfer to that role; empty roster falls back to rejectLast) |
+| `rejectLast` | Return to the previous node |
+| `stay` | Keep the task at the AI node. The initiator handles it by hand from the to-do list |
+| `transfer:role:<role code>` | Transfer to the people in that role. If the role has nobody, return to the previous node |
 
-Failures also set flow vars `ai_error_code` / `ai_error_msg` (and optional `ai_run_id`).
+On failure, the system writes the failure code to the flow variable `ai_error_code` and the reason to `ai_error_msg`.
 
-Common codes:
-
-| Code | Meaning |
+| Failure code | Cause |
 | --- | --- |
-| `AI_APP_MISSING` | Not bound / missing |
-| `AI_APP_DISABLED` | Not enabled |
-| `AI_APP_TYPE_DENIED` | Not workflow/chatflow |
-| `AI_TENANT_DENIED` | Cross-tenant or missing tenant |
-| `AI_CAPABILITY_DENIED` | DSL hits hard blocklist |
-| `AI_TIMEOUT` | Timed out |
-| `AI_EXECUTE_ERROR` | Run or write-back failed |
+| `AI_APP_MISSING` | The node has no app bound, or the app does not exist |
+| `AI_APP_DISABLED` | The app is not enabled |
+| `AI_APP_TYPE_DENIED` | The app type is not `workflow` or `chatflow` |
+| `AI_TENANT_DENIED` | The app belongs to another tenant, or tenant information is missing |
+| `AI_CAPABILITY_DENIED` | The app contains a forbidden node |
+| `AI_TIMEOUT` | The run timed out |
+| `AI_EXECUTE_ERROR` | The run failed, or writing the result back to the flow failed |
 
-### Hard-blocked DSL capabilities
+### Forbidden nodes {#ai-approval-forbidden}
 
-If the bound AiApp DSL contains any of these node types (lowercase and synonyms), embedded run is denied (`AI_CAPABILITY_DENIED`):
+An AI app bound to an approval flow must not contain nodes of the types below. If it contains any of them, the node fails with `AI_CAPABILITY_DENIED`.
 
-| Category | Types (incl. synonyms) |
+| Category | Node types |
 | --- | --- |
-| Database | `db` / `sql` / `jdbc` |
-| Outbound HTTP | `http` / `https` / `rest` / `fetch` / `webhook` |
-| Tools | `mcp` / `tool` |
-| Scripts | `code` / `js` / `javascript` / `groovy` / `script` |
-| Notice | `notice` / `notify` / `notification` / `channel` / `webhook_notice` |
+| Database | `db`, `sql`, `jdbc` |
+| Outbound HTTP | `http`, `https`, `rest`, `fetch`, `webhook` |
+| Tools | `mcp`, `tool` |
+| Scripts | `code`, `js`, `javascript`, `groovy`, `script` |
+| Notifications | `notice`, `notify`, `notification`, `channel`, `webhook_notice` |
 
-Embedded approval allows safe orchestration only (for example updateVar).
+In other words, an AI app inside an approval flow cannot reach the database, call external APIs, call tools, run scripts or send notifications.
 
-No DB, outbound HTTP, MCP, scripts, or notice channels.
+Nodes such as LLM (`llm`), knowledge base retrieval (`rag`) and variable assignment (`updateVar`) are not affected.
 
-### Instance trace `history.aiTrace`
+### Run record: `aiTrace`
 
-Each AI node completion (success or failure) writes JSON into the history task extension (`hisTaskExt`).
-
-The console instance drawer can show `aiTrace` and the written-back `ai_summary` / `ai_pass` / `ai_reason`.
-
-Typical fields:
+Whenever the AI node passes, returns or transfers the task by itself, it leaves an `aiTrace` in the approval history. Open the history of the flow in Approval Center to see it.
 
 | Field | Meaning |
 | --- | --- |
-| `aiFlowId` | Bound app id |
-| `runId` | Run id |
-| `inputSummary` | Input summary (redacted) |
-| `output` | Written-back summary/pass/reason |
-| `errorCode` / `errorMsg` | Set on failure |
-| `durationMs` | Duration |
+| `aiFlowId` | Id of the bound app |
+| `runId` | Id of this run |
+| `inputSummary` | Input summary, with sensitive values hidden |
+| `output` | The `ai_summary`, `ai_pass` and `ai_reason` written back |
+| `errorCode`, `errorMsg` | Failure code and cause, empty on success |
+| `durationMs` | Duration in milliseconds |
 
-### Demo seed (lab)
+With the `stay` strategy the task is not finished yet, so read the flow variables `ai_error_code` and `ai_error_msg` instead.
 
-With `mugsun.lab.seed-fronttest=true` (same as fronttest; keep off in production), an idempotent seed creates:
+### Demo data for the pre-check
 
-- AiApp named “AI预审演示” (`workflow`; DSL only updateVar for the three keys; no LLM)
-- Flow code **`ai-preaudit`**: start → AI pre-check → human review → end; published for Approval Center
+Start the backend with `mugsun.lab.seed-fronttest` set to `true` and it writes a set of demo data. The switch is for local trials only. Keep it off in production.
 
+- An AI app named “AI预审演示”, of type `workflow`.
+- The flow `ai-preaudit`: start → AI pre-check → human review → end.
 
-## AiFlow control nodes (foreach / parallel) {#ai-flow-control}
+The demo app calls no LLM. It only uses variable assignment to produce the summary, the verdict and the reason.
 
-`foreach` / `parallel` are scheduled by the **AiFlow graph engine**, not Warm-Flow approval gateways.
+After startup, start `ai-preaudit` in Flow Definitions to walk through the whole process.
 
-There is **no** `loop` alias; node types are only `foreach` | `parallel`.
+### Limits of the pre-check node
 
-They can combine with [AI pre-check](#ai-approval): the app DSL may contain control nodes; approval still reads `ai_pass`.
+- An AI app cannot start an approval flow the other way round.
+- AI apps have no publishing or versioning yet. After an app changes, the next pre-check runs the new content.
 
-### Node overview
+## Array iteration and parallel branches {#ai-flow-control}
 
-| type | Role |
-| --- | --- |
-| `foreach` | Walk an array **serially** over `bodyNodeIds`, then continue on the main edge |
-| `parallel` | Same-layer branches with **waitAll**; failures `continue` and do not cancel others |
+AI app orchestration has two control nodes: `foreach` handles the elements of an array one by one, and `parallel` runs several branches at the same time.
 
-### foreach config (`data`)
+They are scheduled by the AI app's own execution engine and are unrelated to the parallel node of approval flows. For how to use them in the designer, see [Designers](/en/pc/designer#ai-flow-control).
 
-| Field | Default / hard cap | Notes |
+| Node type | Name in the designer | What it does |
 | --- | --- | --- |
-| `inputPath` | **required** | vars key or dotted path; value must be an **array** |
-| `itemVar` | `item` | current element written into vars |
-| `indexVar` | `index` | current index (from 0) |
-| `maxIterations` | default 20; hard cap 100 | runtime clamps; oversize arrays below |
-| `timeoutMs` | default 120000; hard cap 300000 | wall clock for the whole node |
-| `aggregate` | `array` | also `last` / `none` |
-| `outputVar` | `foreachResults` | aggregated result in vars |
-| `onItemFailure` | `continue` | or `abort` (stop on item error) |
-| `bodyMode` | `nodeIds` | fixed in P0 |
-| `bodyNodeIds` | ordered id list | linear body in the same graph; **no nested** foreach/parallel |
+| `foreach` | Array iteration | Runs the loop body once for each element of an array, in order |
+| `parallel` | Parallel branches | Runs several branches at the same time and continues after all of them end |
 
-Semantics:
+All fields below go in the node's `data`.
 
-- **P0 serial**: for each element, run `bodyNodeIds` in order, then the next element.
-- Array longer than `maxIterations`: node still **success** with `truncated=true`; only the first N items run.
-- Outer path counts 1 step; hard cap 50 body steps per round.
-- Vars are **not** deep-isolated between rounds (`item`/`index` overwrite; other keys accumulate).
-- Body is attached via `bodyNodeIds` (edges optional); designer does not treat those nodes as loose.
+### Array iteration: `foreach`
 
-### parallel config (`data`)
-
-| Field | Default / hard cap | Notes |
+| Field | Default | Notes |
 | --- | --- | --- |
-| `waitAll` | always `true` | only join mode in P0; panel locked on |
-| `onBranchFailure` | `continue` | does not cancel other branches; panel locked |
-| `maxBranches` | default 8; hard cap 16 | config and branch-count ceiling |
-| `timeoutMs` | default 120000; hard cap 300000 | wall clock for the whole node |
-| `branches[]` | at least 2 | at most `maxBranches` (≤16) |
-| `branches[].id` | required, unique in the node | branch id |
-| `branches[].bodyNodeIds` | required | no nested foreach/parallel |
-| `branches[].outputVar` | `branch_{id}` | successful branch output written here |
+| `inputPath` | None, required | Variable name or dotted path of the array. The value must be an array |
+| `bodyNodeIds` | None, required | The loop body: ids of the nodes to run in each round, in order |
+| `itemVar` | `item` | The current element is written to this variable |
+| `indexVar` | `index` | The current index is written to this variable, starting from 0 |
+| `maxIterations` | `20` | Maximum number of rounds, capped at `100` |
+| `timeoutMs` | `120000` | Timeout of the whole node in milliseconds, capped at `300000` |
+| `aggregate` | `array` | How results are aggregated. Values are listed below |
+| `outputVar` | `foreachResults` | The aggregated result is written to this variable |
+| `onItemFailure` | `continue` | What to do when a round fails. Values are listed below |
 
-Semantics:
+Values of `aggregate`:
 
-- Branches run on a bounded pool with `TenantContext` carrying the tenant.
-- Any failed/timed-out branch → node still **success** with `partial=true`.
-- Aggregate into `parallelResults` (by branch id) and each `outputVar`.
-- If wall clock is exhausted and a branch is still `timeout` → raise `AI_PARALLEL_TIMEOUT`.
+- `array`: collect the output of every round into an array. Failed rounds are left out.
+- `last`: keep only the output of the last round.
+- `none`: write no aggregated result.
 
-### Designer P0 (app orchestration)
+Values of `onItemFailure`:
 
-- Palette includes **Array iteration** and **Parallel branches**.
-- Property panel picks ordered **nodeId** lists for body; **no** canvas sub-frame.
-- Body candidates exclude self and other foreach/parallel nodes.
-- Save validation aligns with boot error codes; `waitAll` / `onBranchFailure` locked.
-- Run detail shows `iterations[]` / `branches[]`, `truncated` / `partial`.
+- `continue`: record the error of this round and go on with the next one.
+- `abort`: fail the whole node with `AI_FOREACH_ITEM_ERROR`.
 
-See [Designers](/en/pc/designer#ai-flow-control) for UI behavior.
+How it runs:
+
+- Rounds run one after another. The next round starts after the previous one ends.
+- When the array is longer than `maxIterations`, only the leading elements are handled. The node still succeeds, with `truncated` set to `true` in the result.
+- All rounds share one set of variables. `item` and `index` are overwritten every round, and changes to other variables carry over to the next round.
+- The loop body holds at most 50 nodes and cannot contain another `foreach` or `parallel`.
+- Body nodes are attached through `bodyNodeIds` and need no edges on the canvas.
+- The whole node counts as one step in the app's total step count.
+
+The designer also saves `bodyMode: nodeIds`. This is the only value for now.
+
+### Parallel branches: `parallel`
+
+| Field | Default | Notes |
+| --- | --- | --- |
+| `branches` | None, required | The list of branches: at least 2, at most `maxBranches` |
+| `branches[].id` | None, required | Branch id, unique within the node |
+| `branches[].bodyNodeIds` | None, required | Ids of the nodes this branch runs, in order |
+| `branches[].outputVar` | `branch_<branch id>` | When the branch succeeds, its output is written to this variable |
+| `maxBranches` | `8` | Upper limit of branches, at most `16` |
+| `timeoutMs` | `120000` | Timeout of the whole node in milliseconds, capped at `300000` |
+
+How it runs:
+
+- Branches run at the same time. The node ends after all of them end.
+- Each branch gets a copy of the variables as they were on entering the node, so branches do not affect each other.
+- A failed branch does not cancel the others. The node still succeeds, with `partial` set to `true` in the result.
+- The status and output of every branch are collected in the variable `parallelResults`, keyed by branch id.
+- If a branch is still running when the timeout is reached, the node fails with `AI_PARALLEL_TIMEOUT`.
+- A branch cannot contain another `foreach` or `parallel`.
+- Every branch runs under the tenant of the current run.
+
+The designer also saves `waitAll: true` and `onBranchFailure: continue`. These are the only values for now, and the panel locks them.
+
+### Read the result in the run detail
+
+In the run detail of an app, these two nodes carry a few more items:
+
+- A `foreach` node: the record of every round in `iterations`, and whether the array was cut short in `truncated`.
+- A `parallel` node: the record of every branch in `branches`, and whether only some branches succeeded in `partial`.
 
 ### Error codes
 
-| Code | When |
+| Error code | When it appears |
 | --- | --- |
-| `AI_FOREACH_INPUT_NOT_ARRAY` | missing `inputPath` or value not an array |
-| `AI_FOREACH_MAX_ITERATIONS` | designer: config above hard cap 100 |
-| `AI_FOREACH_TIMEOUT` | foreach wall-clock timeout |
-| `AI_FOREACH_BODY_INVALID` | empty/missing/nested body, or >50 steps/round |
-| `AI_FOREACH_ITEM_ERROR` | item failed under `onItemFailure=abort` |
-| `AI_PARALLEL_BRANCH_INVALID` | illegal branch count / id / body |
-| `AI_PARALLEL_TIMEOUT` | parallel wall clock or escalated branch timeout |
-| `AI_PARALLEL_BRANCH_FAILED` | one branch failed (recorded; node may still success+partial) |
-| `EXECUTE_ERROR` | unclassified execute error |
+| `AI_FOREACH_INPUT_NOT_ARRAY` | `inputPath` is missing, or the value is not an array |
+| `AI_FOREACH_MAX_ITERATIONS` | `maxIterations` is set above 100 in the designer |
+| `AI_FOREACH_TIMEOUT` | The `foreach` node timed out |
+| `AI_FOREACH_BODY_INVALID` | The loop body is empty, names a missing node, is nested, or holds more than 50 nodes |
+| `AI_FOREACH_ITEM_ERROR` | A round failed |
+| `AI_PARALLEL_BRANCH_INVALID` | The branch count, a branch id or a branch body is invalid |
+| `AI_PARALLEL_TIMEOUT` | The `parallel` node or one of its branches timed out |
+| `AI_PARALLEL_BRANCH_FAILED` | A branch failed. Recorded only in the result of that branch |
+| `EXECUTE_ERROR` | Any other unclassified run error |
 
-### With approval
+### Use them with the AI pre-check
 
-- **`FORBIDDEN_NODE_TYPES` is unchanged**.
-- Whole-graph scan of `nodes[]`: body nodes in the graph are covered; do not put db/http/mcp/code/notice (etc.) in body.
-- foreach / parallel **themselves** may appear in embedded approval DSL.
-- Approval still reads written-back `ai_pass` (and `ai_summary` / `ai_reason`).
-- Combine with `type=ai` pre-check: the bound app DSL may include control nodes.
+The app bound to an [AI pre-check node](#ai-approval) can use `foreach` and `parallel`.
 
-### Lab seeds
+- The list of [forbidden nodes](#ai-approval-forbidden) still applies, and the nodes in loop bodies and branches are checked too.
+- The approver still sees the `ai_pass`, `ai_summary` and `ai_reason` written back.
 
-With `mugsun.lab.seed-fronttest=true` (keep off in production), an idempotent seed creates:
+### Demo data for control nodes
 
-| Name | Purpose |
+With `mugsun.lab.seed-fronttest` on (keep it off in production), three more demo apps are written:
+
+| App | Content |
 | --- | --- |
-| Array iteration demo | direct foreach + text |
-| Two-way parallel demo | direct parallel with two branches |
-| Iteration pre-check demo | approval flow `ai-foreach-preaudit`: foreach → write three keys |
+| Array iteration demo | Runs directly: `foreach` plus a text node |
+| Two-way parallel demo | Runs directly: `parallel` with two branches |
+| Iteration pre-check demo | Works with the approval flow `ai-foreach-preaudit`: iterate first, then produce the summary, the verdict and the reason |
 
-### Out of scope for this cut
+### Limits of control nodes
 
-Tenant concurrency Redis gate, per-element parallel inside foreach, `failFast`, `loop` alias, canvas sub-frame nesting UI.
+- A loop body or a branch can only be a chain of nodes that run in order. Nesting is not supported.
+- The rounds of `foreach` only run one after another. Handling several elements at the same time is not supported.
+- `parallel` cannot end as soon as one branch fails (`failFast`).
+- There is no per-tenant limit on how many run at the same time.
+- The node types are only `foreach` and `parallel`. There is no `loop` alias.
+- The canvas does not draw frames around loop bodies and branches. Configure them with the node list in the property panel.
 
 ## Notes
 
-- Only the platform super admin can design, publish and manage flow definitions. Starting and handling flows is open to everyone.
-- A published flow cannot be edited directly. Copy it to a new version, edit that, and publish it.
-- AI nodes default the candidate to the initiator placeholder so `onFailure=stay` can surface in Todo.
-- For how to use the designer, see [Designers](/en/pc/designer).
+- Only the platform super admin can design, publish and manage flow definitions.
+- Starting a flow needs no permission code. Only the assigned approvers can handle a task.
+- A published flow cannot be edited directly. Copy it as a new version, edit that, and publish it.
+- The handler of an AI pre-check node defaults to the initiator of the flow. With the `stay` strategy, the task shows up in the initiator's to-do list.
 
-## See it work
+## Verify
 
 After starting a flow, look at its instance and pending tasks:
 
@@ -258,4 +320,11 @@ SELECT id, instance_id, node_name, create_time FROM flow_task ORDER BY create_ti
 
 The tasks an approver sees in Todo Workbench match the rows in `flow_task` one to one.
 
-Previous: [Features](./) · Next: [Forms](./form)
+## Next steps
+
+<div class="ms-cards">
+
+- [Forms](./form) Bind a form to a flow node and control field access per node.
+- [Designers](/en/pc/designer) How to use the flow designer and AI app orchestration.
+
+</div>

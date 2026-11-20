@@ -2,261 +2,314 @@
 
 工作流基于 Warm-Flow 引擎，用来做请假、报销这类多级审批。
 
-可在流程里插入 **AI 预审节点**（`type=ai`）：节点创建时自动跑已启用的 AI 应用，写回约定变量，再交给人工节点。
+流程里可以插入 AI 预审节点：先让 AI 应用看一遍申请，再交给人审批。
 
-## 能干什么
+![流程定义页：每个流程一行，右侧是发起按钮](/screenshots/pc/workflow-definitions.png)
 
-- 在「流程设计」里画流程，支持审批、条件、并行、会签和 **AI 预审**。
-- 在「流程定义」里发布、停用、复制新版本和删除流程。
-- 用户在「审批中心」发起流程，在「待办工作台」办理任务。
+## 能做什么
+
+- 在「流程设计」里画流程，支持审批、条件、并行、会签和 AI 预审节点。
+- 在「流程设计」里停用、启用和删除流程，或者复制出一个新版本。
+- 在「流程定义」里查看流程，点「发起」提交申请。
+- 在「审批中心」办理待办，查看自己发起的、已办的和抄送给自己的流程。
 - 办理时可以通过、退回、撤回、转办、委派、加签、减签、作废和抄送。
 - 流程节点可以绑定[表单](./form)，并按节点设置字段只读、可写或隐藏。
 
-## 怎么开
+## 启用
 
 工作流随后端一起启动，不需要额外配置。流程表由 Flyway 迁移创建。
 
-AI 预审依赖 AI 模块已启用，且本租户有 `status==1` 的 workflow / chatflow 应用。
+AI 预审节点另有两个前提：
 
-## 怎么用
+- AI 模块已启用。
+- 本租户有已启用的 AI 应用，类型是 `workflow` 或 `chatflow`。
 
-1. 平台超管打开「系统管理 → 流程设计」，新建流程，设置编码、名称与审批角色，保存后发布。
-2. 用户打开「审批中心」，选择这个流程发起。
-3. 审批人在「待办工作台」看到任务，打开后办理。
-4. 「运行中的流程」列出未结束实例；有 `sys:flow:running:terminate` 可终止。
+## 使用
+
+<div class="ms-steps">
+
+### 设计并发布流程
+
+平台超管打开「系统管理 → 流程设计」，新建流程，设置编码、名称和各节点的审批角色，然后发布。
+
+### 发起流程
+
+用户打开「流程定义」，在要用的流程那一行点「发起」。
+
+### 办理任务
+
+审批人在「审批中心」的「待办」里看到任务，打开后办理。「待办工作台」里也能办理。
+
+![审批中心的待办列表，每条任务右侧是办理按钮](/screenshots/pc/workflow-approval-center.png)
+
+### 查看运行中的流程
+
+「运行中的流程」列出还没结束的流程。有 `sys:flow:running:terminate` 权限的人可以终止流程。
+
+</div>
 
 后端代码里发起流程，调用 `POST /system/flow/start-by/{flowCode}/{businessId}`。
 
-## AI 预审节点（AI×审批流） {#ai-approval}
+各节点由谁审批只按流程设计决定，请求里不能指定审批人。
 
-设计器节点类型为 `ai`。发布时落成 warm-flow **BETWEEN** 节点。
+## AI 预审节点 {#ai-approval}
 
-并挂 `create` 监听器 `com.mugsun.boot.ai.flow.AiApprovalNodeListener`。
+流程走到 AI 预审节点时，会自动运行节点绑定的 AI 应用，把结论写进流程变量。
 
-节点创建即触发：校验并执行绑定的 AiApp；成功后 `skip PASS`；失败按 `onFailure`。
+- 运行成功：节点自动通过，流程进入下一个节点。
+- 运行失败：按节点上配置的[失败策略](#ai-approval-failure)处理。
 
-本刀**不做**：AI 反向发起审批、正式 AiApp publish/version、新权限字、issue #59。
+后面的审批人打开任务，能看到 AI 给出的摘要、是否建议通过和理由。
 
 ### 绑定应用
 
-| 项 | 说明 |
+节点用 `aiFlowId` 指定一个 AI 应用。应用要同时满足下面的条件，否则节点失败。
+
+| 条件 | 不满足时的失败码 |
 | --- | --- |
-| 配置键 | `aiFlowId`（AiApp 主键） |
-| 可选类型 | 仅 `workflow`、`chatflow` |
-| 状态 | 仅本租户 `status==1`（已启用） |
-| 跨租户 | 拒绝（`AI_TENANT_DENIED`） |
-| 应用缺租户 | fail-closed，同样拒绝 |
+| 应用存在 | `AI_APP_MISSING` |
+| 应用和流程属于同一个租户 | `AI_TENANT_DENIED` |
+| 状态是已启用 | `AI_APP_DISABLED` |
+| 类型是 `workflow` 或 `chatflow` | `AI_APP_TYPE_DENIED` |
+| 应用里没有[不允许的节点](#ai-approval-forbidden) | `AI_CAPABILITY_DENIED` |
 
-设计器下拉只展示上述应用。默认真 API。
+应用或流程实例上没有租户信息时，也按 `AI_TENANT_DENIED` 处理。
 
-仅 DEV 且 `VITE_FLOW_AI_MOCK=true` 时用本地 mock。
+设计器的下拉框只列出本租户已启用的这两类应用。
 
-### 入参 `inputMap`（必填）
+本地开发管理后台时，把 `VITE_FLOW_AI_MOCK` 设为 `true`，下拉框改用本地示例数据。这个开关只在开发模式下生效。
 
-字段**必须存在**。空对象 `{}` 表示**显式零注入**（不向 AI 灌流程变量）。
+### 入参 `inputMap`
 
-禁止「缺省则浅拷贝全量流程变量」。
+`inputMap` 决定把哪些流程变量传给 AI，在设计器里必须填写。
 
-缺字段时设计器校验失败；运行期空 map 也只注入零输入。
+写法是「流程变量名 → AI 入参名」，入参名留空时与流程变量名相同。
 
-映射：`流程变量名 → AI 入参名`（value 空则同名）。
+- 只传映射里写了、并且流程变量里已有的键。
+- 填空对象 `{}` 表示什么都不传。
+- 没有映射时，不会把全部流程变量传给 AI。
 
-只拷贝 map 里声明且流程变量里已有的键。
+审批记录里会留一份入参摘要。键名里带 `password`、`token`、`secret` 这类字样的，值显示为 `***`。
 
-`inputSummary` 对 password / token / secret 等键名脱敏。
+### 出参 `outputMap`
 
-### 出参 `outputMap`（白名单写回）
+`outputMap` 决定把 AI 的哪些输出写回流程变量，写法是「AI 输出名 → 流程变量名」。
 
-`from → to`：`key` 为 AI 输出源，`value` 为写回目标键（白名单在 value）。
+流程变量名只能用下面这些：
 
-| 约定目标键 | 含义 |
+| 流程变量 | 含义 |
 | --- | --- |
 | `ai_summary` | 摘要 |
-| `ai_pass` | 是否建议通过（布尔） |
+| `ai_pass` | 是否建议通过，布尔值 |
 | `ai_reason` | 理由 |
-| `ai_run_id` | 本次 AiAppRun id（成功时监听器也会写入） |
+| `ai_run_id` | 这次运行的编号。运行成功时系统会自动写入 |
+| `ai_ext_` 开头的键 | 自定义扩展，前缀后面只能用字母、数字和下划线 |
 
-另允许 `ai_ext_[A-Za-z0-9_]+`。非法目标键：发布前拦截；运行期静默丢弃。
+用了名单外的流程变量名，发布流程时会报错；运行时遇到也不会写回。这样 AI 的输出改不了流程里的其他变量。
 
-未配 `outputMap` 时，若 AI 输出已有约定三键则同名拷贝，并补 `ai_run_id`。
+不填 `outputMap` 时，AI 输出里的 `ai_summary`、`ai_pass` 和 `ai_reason` 会按同名写回。
 
-### 超时与失败策略
+写回后仍没有 `ai_summary` 时，用应用变量 `output` 的值作摘要。
 
-| 项 | 说明 |
+### 超时和失败策略 {#ai-approval-failure}
+
+| 配置项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `timeoutMs` | `120000` | AI 运行的超时时间，单位毫秒，最大 `300000` |
+| `onFailure` | `rejectLast` | 失败后怎么处理，取值见下表 |
+
+| `onFailure` 取值 | 效果 |
 | --- | --- |
-| `timeoutMs` | 默认 `120000`；硬顶 `≤300000` |
-| `onFailure` | 默认 `rejectLast`（退回上一节点） |
-| 其它取值 | `stay`；`transfer:role:<角色码>`（无人则回落 rejectLast） |
+| `rejectLast` | 退回上一个节点 |
+| `stay` | 任务留在 AI 节点，由发起人在待办里手工处理 |
+| `transfer:role:<角色码>` | 转给这个角色下的人处理。角色下没有人时退回上一个节点 |
 
-失败写入 `ai_error_code` / `ai_error_msg`（及可选 `ai_run_id`）。
+失败时，系统把失败码写入流程变量 `ai_error_code`，把原因写入 `ai_error_msg`。
 
-常见失败码见下表。
-
-| 失败码 | 含义（摘要） |
+| 失败码 | 原因 |
 | --- | --- |
-| `AI_APP_MISSING` | 未绑定或不存在 |
-| `AI_APP_DISABLED` | 未启用 |
-| `AI_APP_TYPE_DENIED` | 非 workflow/chatflow |
-| `AI_TENANT_DENIED` | 跨租户或缺租户 |
-| `AI_CAPABILITY_DENIED` | DSL 命中硬禁 |
-| `AI_TIMEOUT` | 超时 |
-| `AI_EXECUTE_ERROR` | 执行或写回失败 |
+| `AI_APP_MISSING` | 节点没有绑定应用，或者应用不存在 |
+| `AI_APP_DISABLED` | 应用没有启用 |
+| `AI_APP_TYPE_DENIED` | 应用类型不是 `workflow` 或 `chatflow` |
+| `AI_TENANT_DENIED` | 应用属于其他租户，或者缺少租户信息 |
+| `AI_CAPABILITY_DENIED` | 应用里有不允许的节点 |
+| `AI_TIMEOUT` | 运行超时 |
+| `AI_EXECUTE_ERROR` | 运行出错，或者结果写回流程失败 |
 
-### 硬禁 DSL 能力面
+### 不允许的节点 {#ai-approval-forbidden}
 
-绑定 AiApp 的 DSL 若含下列节点 type（小写及同义），内嵌拒绝（`AI_CAPABILITY_DENIED`）：
+绑定到审批流的 AI 应用，不能包含下面这些类型的节点。包含任何一个，节点以 `AI_CAPABILITY_DENIED` 失败。
 
-| 类别 | type（含同义） |
+| 类别 | 节点类型 |
 | --- | --- |
-| 数据库 | `db` / `sql` / `jdbc` |
-| 出站 HTTP | `http` / `https` / `rest` / `fetch` / `webhook` |
-| 工具 | `mcp` / `tool` |
-| 脚本 | `code` / `js` / `javascript` / `groovy` / `script` |
-| 通知 | `notice` / `notify` / `notification` / `channel` / `webhook_notice` |
+| 数据库 | `db`、`sql`、`jdbc` |
+| 外部 HTTP 请求 | `http`、`https`、`rest`、`fetch`、`webhook` |
+| 工具 | `mcp`、`tool` |
+| 脚本 | `code`、`js`、`javascript`、`groovy`、`script` |
+| 通知 | `notice`、`notify`、`notification`、`channel`、`webhook_notice` |
 
-审批内嵌只允许安全编排（如 updateVar）。
+也就是说，审批流里的 AI 应用不能直接访问数据库、调外部接口、调用工具、执行脚本或发通知。
 
-禁止直连库、出站 HTTP、MCP、脚本与通知渠道。
+大模型（`llm`）、知识库检索（`rag`）和变量赋值（`updateVar`）这些节点不受影响。
 
-### 实例痕迹 `history.aiTrace`
+### 运行记录 `aiTrace`
 
-每次 AI 节点办结（成功或失败）把 JSON 写入历史任务扩展（`hisTaskExt`）。
-
-管理台实例抽屉可读 `aiTrace`，并展示写回的 `ai_summary` 等。
-
-典型字段见下表。
+AI 节点自动通过、退回或转办时，都会在审批记录里留一份 `aiTrace`。在「审批中心」打开流程的审批记录就能看到。
 
 | 字段 | 说明 |
 | --- | --- |
-| `aiFlowId` | 绑定的应用 id |
-| `runId` | 运行 id |
-| `inputSummary` | 入参摘要（已脱敏） |
-| `output` | 写回摘要/pass/reason |
-| `errorCode` / `errorMsg` | 失败时有值 |
-| `durationMs` | 耗时 |
+| `aiFlowId` | 绑定的应用编号 |
+| `runId` | 这次运行的编号 |
+| `inputSummary` | 入参摘要，敏感键的值已隐去 |
+| `output` | 写回的 `ai_summary`、`ai_pass` 和 `ai_reason` |
+| `errorCode`、`errorMsg` | 失败码和原因，成功时为空 |
+| `durationMs` | 耗时，单位毫秒 |
 
-### 演示种子（实验室）
+失败策略是 `stay` 时任务还没办结，这时看流程变量 `ai_error_code` 和 `ai_error_msg`。
 
-开启 `mugsun.lab.seed-fronttest=true`（同 fronttest，生产勿开）时幂等播种：
+### 预审演示数据
 
-- AiApp「AI预审演示」（`workflow`；DSL 仅 updateVar 写出三键，无 LLM）
-- 流程编码 **`ai-preaudit`**：开始 → AI预审 → 人工复核 → 结束
+把 `mugsun.lab.seed-fronttest` 设为 `true` 后启动后端，会自动写入一套演示数据。这个开关只用于本地体验，生产环境不要打开。
 
-发布后可在审批中心发起。
+- AI 应用「AI预审演示」，类型 `workflow`。
+- 流程 `ai-preaudit`：开始 → AI预审 → 人工复核 → 结束。
 
+这个演示应用不调用大模型，只用变量赋值写出摘要、是否通过和理由。
 
-## AiFlow 控制节点（foreach / parallel） {#ai-flow-control}
+启动后在「流程定义」里发起 `ai-preaudit`，就能走一遍完整过程。
 
-AiFlow **自有图引擎**调度 `foreach` / `parallel`，不是 Warm-Flow 审批网关。
+### 预审节点的限制
 
-无 `loop` 别名；节点 type 仅 `foreach` | `parallel`。
+- AI 应用不能反过来发起审批流程。
+- AI 应用还没有发布和版本管理。应用改动后，下一次预审就按新内容运行。
 
-可与 [AI 预审](#ai-approval) 联用：应用 DSL 含控制节点，审批仍看 `ai_pass`。
+## 数组迭代和并行分支 {#ai-flow-control}
 
-### 节点一览
+AI 应用的编排里有两个控制节点：`foreach` 按数组逐个处理，`parallel` 同时运行几条分支。
 
-| type | 作用 |
-| --- | --- |
-| `foreach` | 按数组**串行**跑 `bodyNodeIds`，汇合后走主边 |
-| `parallel` | 同层多分支 **waitAll**；失败 continue，不取消其余 |
+它们由 AI 应用自己的执行引擎调度，和审批流里的「并行」节点没有关系。在设计器里的操作见[设计器](/pc/designer#ai-flow-control)。
 
-### foreach 配置（`data`）
-
-| 字段 | 默认 / 硬顶 | 说明 |
+| 节点类型 | 设计器里的名字 | 作用 |
 | --- | --- | --- |
-| `inputPath` | **必填** | vars 键或点路径，值须为**数组** |
-| `itemVar` | `item` | 当前元素写入 vars |
-| `indexVar` | `index` | 当前下标（从 0） |
-| `maxIterations` | 默认 20；硬顶 100 | 运行期 clamp；超长数组见下 |
-| `timeoutMs` | 默认 120000；硬顶 300000 | 整节点墙钟 |
-| `aggregate` | `array` | 另可选 `last` / `none` |
-| `outputVar` | `foreachResults` | 汇合结果写入 vars |
-| `onItemFailure` | `continue` | 另可选 `abort`（遇错中止） |
-| `bodyMode` | `nodeIds` | P0 固定 |
-| `bodyNodeIds` | 有序 id 列表 | 同图线性 body；**禁嵌套** foreach/parallel |
+| `foreach` | 数组迭代 | 对数组里的每个元素，依次运行一遍循环体 |
+| `parallel` | 并行分支 | 同时运行多条分支，全部结束后再往下走 |
 
-执行语义：
+下面的字段都写在节点的 `data` 里。
 
-- **P0 串行**：按 `bodyNodeIds` 顺序，逐元素跑完再下一元素。
-- 数组长度 > `maxIterations`：节点仍 **success**，`truncated=true`；只跑前 N 条。
-- 外层主路径 steps 计 1；单轮 body 步硬顶 50。
-- 轮间 vars **不深隔离**（`item`/`index` 覆盖，其它键累积）。
-- body 靠 `bodyNodeIds` 挂接，画布可不画边；校验不算孤立。
+### 数组迭代 `foreach`
 
-### parallel 配置（`data`）
-
-| 字段 | 默认 / 硬顶 | 说明 |
+| 字段 | 默认值 | 说明 |
 | --- | --- | --- |
-| `waitAll` | 恒 `true` | P0 唯一汇合；面板锁定不可关 |
-| `onBranchFailure` | `continue` | 不取消其余分支；面板锁定 |
-| `maxBranches` | 默认 8；硬顶 16 | 配置与分支数上限 |
-| `timeoutMs` | 默认 120000；硬顶 300000 | 整节点墙钟 |
-| `branches[]` | 至少 2 | 至多 `maxBranches`（≤16） |
-| `branches[].id` | 必填、同节点内唯一 | 分支标识 |
-| `branches[].bodyNodeIds` | 必填 | 禁嵌套 foreach/parallel |
-| `branches[].outputVar` | `branch_{id}` | 成功时写入该分支输出 |
+| `inputPath` | 无，必填 | 取数组的变量名或点分路径。取到的值必须是数组 |
+| `bodyNodeIds` | 无，必填 | 循环体：按顺序列出每一轮要运行的节点编号 |
+| `itemVar` | `item` | 当前元素写入这个变量 |
+| `indexVar` | `index` | 当前下标写入这个变量，从 0 开始 |
+| `maxIterations` | `20` | 最多运行多少轮，上限 `100` |
+| `timeoutMs` | `120000` | 整个节点的超时时间，单位毫秒，上限 `300000` |
+| `aggregate` | `array` | 结果怎么汇总，取值见下文 |
+| `outputVar` | `foreachResults` | 汇总结果写入这个变量 |
+| `onItemFailure` | `continue` | 某一轮失败后怎么办，取值见下文 |
 
-执行语义：
+`aggregate` 的取值：
 
-- 各分支有界线程池并行；`TenantContext` 带租户。
-- 有失败或超时支 → 节点仍 **success**，`partial=true`。
-- 汇总写入 `parallelResults`（按 branch id）及各 `outputVar`。
-- 整节点墙钟耗尽且仍有 timeout 支 → 抛 `AI_PARALLEL_TIMEOUT`。
+- `array`：把每一轮的输出收集成数组，失败的轮不计入。
+- `last`：只保留最后一轮的输出。
+- `none`：不写汇总结果。
 
-### 设计器 P0（应用编排）
+`onItemFailure` 的取值：
 
-- 左侧 palette 可拖入 **数组迭代** / **并行分支**。
-- 属性面板用多选有序 **nodeId** 配 body；**不做**画布子框。
-- body 候选排除自身与其它 foreach/parallel。
-- 保存前校验对齐 boot 错误码；`waitAll` / `onBranchFailure` 锁定。
-- 实例详情可读 `iterations[]` / `branches[]`、`truncated` / `partial`。
+- `continue`：记下这一轮的错误，继续下一轮。
+- `abort`：整个节点以 `AI_FOREACH_ITEM_ERROR` 失败。
 
-完整操作见[设计器](/pc/designer#ai-flow-control)。
+运行规则：
+
+- 各轮依次运行，前一轮结束才开始下一轮。
+- 数组比 `maxIterations` 长时，只处理前面的元素。节点仍算成功，结果里 `truncated` 为 `true`。
+- 各轮共用同一组变量。`item` 和 `index` 每轮覆盖，其他变量的改动会带到下一轮。
+- 循环体最多 50 个节点，里面不能再放 `foreach` 或 `parallel`。
+- 循环体里的节点靠 `bodyNodeIds` 关联，不用在画布上连线。
+- 整个节点在应用的总步数里只算一步。
+
+设计器保存时还会写入 `bodyMode: nodeIds`，目前只有这一种取值。
+
+### 并行分支 `parallel`
+
+| 字段 | 默认值 | 说明 |
+| --- | --- | --- |
+| `branches` | 无，必填 | 分支列表，至少 2 条，最多 `maxBranches` 条 |
+| `branches[].id` | 无，必填 | 分支编号，同一个节点里不能重复 |
+| `branches[].bodyNodeIds` | 无，必填 | 这条分支要依次运行的节点编号 |
+| `branches[].outputVar` | `branch_<分支编号>` | 分支成功后，输出写入这个变量 |
+| `maxBranches` | `8` | 分支数上限，最大 `16` |
+| `timeoutMs` | `120000` | 整个节点的超时时间，单位毫秒，上限 `300000` |
+
+运行规则：
+
+- 各分支同时运行，全部结束后节点才结束。
+- 每条分支拿到的是进入节点时变量的一份副本，分支之间互不影响。
+- 某条分支失败不会取消其他分支。节点仍算成功，结果里 `partial` 为 `true`。
+- 所有分支的状态和输出，按分支编号汇总到变量 `parallelResults`。
+- 到了超时时间还有分支没结束，节点以 `AI_PARALLEL_TIMEOUT` 失败。
+- 分支里不能再放 `foreach` 或 `parallel`。
+- 各分支都在这次运行所属的租户下执行。
+
+设计器保存时还会写入 `waitAll: true` 和 `onBranchFailure: continue`。目前只有这一种取值，面板上是锁定的。
+
+### 在运行详情里看结果
+
+应用的运行详情里，这两种节点会多出几项内容：
+
+- `foreach` 节点：每一轮的记录 `iterations`，以及是否被截断 `truncated`。
+- `parallel` 节点：每条分支的记录 `branches`，以及是否只有部分成功 `partial`。
 
 ### 错误码
 
-| 码 | 何时 |
+| 错误码 | 什么时候出现 |
 | --- | --- |
-| `AI_FOREACH_INPUT_NOT_ARRAY` | 缺 `inputPath` 或值非数组 |
-| `AI_FOREACH_MAX_ITERATIONS` | 设计器：配置 > 硬顶 100 |
-| `AI_FOREACH_TIMEOUT` | foreach 墙钟超时 |
-| `AI_FOREACH_BODY_INVALID` | body 空/缺失/嵌套/单轮步超 50 |
-| `AI_FOREACH_ITEM_ERROR` | `onItemFailure=abort` 时单项失败 |
-| `AI_PARALLEL_BRANCH_INVALID` | 分支数/ id / body 非法 |
-| `AI_PARALLEL_TIMEOUT` | parallel 墙钟或分支超时升级 |
-| `AI_PARALLEL_BRANCH_FAILED` | 单支失败（写入支结果；整节点可仍 success+partial） |
-| `EXECUTE_ERROR` | 未分类执行错误 |
+| `AI_FOREACH_INPUT_NOT_ARRAY` | 没填 `inputPath`，或者取到的值不是数组 |
+| `AI_FOREACH_MAX_ITERATIONS` | 在设计器里把 `maxIterations` 填得超过 100 |
+| `AI_FOREACH_TIMEOUT` | `foreach` 节点超时 |
+| `AI_FOREACH_BODY_INVALID` | 循环体为空、节点不存在、有嵌套，或者超过 50 个节点 |
+| `AI_FOREACH_ITEM_ERROR` | 某一轮失败 |
+| `AI_PARALLEL_BRANCH_INVALID` | 分支数、分支编号或分支内容不合规 |
+| `AI_PARALLEL_TIMEOUT` | `parallel` 节点或某条分支超时 |
+| `AI_PARALLEL_BRANCH_FAILED` | 某条分支失败，只记在这条分支的结果里 |
+| `EXECUTE_ERROR` | 其他没有归类的运行错误 |
 
-### 与审批联用
+### 和 AI 预审一起用
 
-- **不改** `FORBIDDEN_NODE_TYPES` 名单。
-- 整图扫描 `nodes[]`：body 在图内即覆盖；body 勿含 db/http/mcp/code/notice 等禁节点。
-- foreach / parallel **本身**可出现在审批内嵌 DSL。
-- 审批办理仍看写回的 `ai_pass`（及 `ai_summary` / `ai_reason`）。
-- 可与 `type=ai` 预审节点联用：预审绑定的应用 DSL 可含控制节点。
+[AI 预审节点](#ai-approval)绑定的应用里可以用 `foreach` 和 `parallel`。
 
-### 实验室种子
+- [不允许的节点](#ai-approval-forbidden)名单照常生效，循环体和分支里的节点也在检查范围内。
+- 审批人看到的仍然是写回的 `ai_pass`、`ai_summary` 和 `ai_reason`。
 
-开启 `mugsun.lab.seed-fronttest=true`（生产勿开）时幂等播种：
+### 控制节点演示数据
 
-| 名称 | 用途 |
+打开 `mugsun.lab.seed-fronttest`（生产环境不要打开）后，还会写入三个演示应用：
+
+| 应用 | 内容 |
 | --- | --- |
-| 数组迭代演示 | 直跑 foreach + text |
-| 两路并行演示 | 直跑 parallel 两路 |
-| 迭代预审演示 | 审批流 `ai-foreach-preaudit`：foreach → 写三键 |
+| 数组迭代演示 | 可以直接运行：`foreach` 加文本节点 |
+| 两路并行演示 | 可以直接运行：`parallel` 两条分支 |
+| 迭代预审演示 | 配合审批流 `ai-foreach-preaudit`：先迭代，再写出摘要、是否通过和理由 |
 
-### 本刀不做
+### 控制节点的限制
 
-租户并发 Redis 闸、元素级并行、`failFast`、`loop` 别名、画布子框嵌套可视化。
+- 循环体和分支只能是一串顺序执行的节点，不能嵌套。
+- `foreach` 的各轮只能依次运行，不支持同时处理多个元素。
+- `parallel` 不支持「一条分支失败就立刻结束」（`failFast`）。
+- 没有按租户限制同时运行的数量。
+- 节点类型只有 `foreach` 和 `parallel`，没有 `loop` 这个别名。
+- 画布上不显示循环体和分支的嵌套框，在属性面板里用节点列表配置。
 
-## 注意点
+## 注意事项
 
-- 流程设计、发布和定义管理只有平台超管能操作。发起和办理不受限制。
+- 流程设计、发布和定义管理只有平台超管能操作。
+- 发起流程不需要权限码。办理任务只有被指派的审批人能做。
 - 已发布的流程不能直接修改。要改时先复制为新版本，改完再发布。
-- AI 节点候选人默认为发起人占位，便于 `onFailure=stay` 后人工处理。
-- 设计器的操作说明见[设计器](/pc/designer)。
+- AI 预审节点的办理人默认是流程发起人。失败策略是 `stay` 时，任务会出现在发起人的待办里。
 
-## 看效果
+## 验证
 
 发起一个流程后，查看实例和待办任务：
 
@@ -267,4 +320,11 @@ SELECT id, instance_id, node_name, create_time FROM flow_task ORDER BY create_ti
 
 审批人在「待办工作台」看到的任务，与 `flow_task` 里的记录一一对应。
 
-上一节：[功能特性](./) · 下一节：[表单](./form)
+## 下一步
+
+<div class="ms-cards">
+
+- [表单](./form) 给流程节点绑定表单，按节点控制字段读写。
+- [设计器](/pc/designer) 流程设计器和 AI 应用编排的操作说明。
+
+</div>

@@ -2,6 +2,8 @@
 
 SMS and mail each have their own settings page. Business code sends through one notification API to several channels at once: in-app messages, mail and SMS.
 
+![Notify templates](/screenshots/features/notify.png)
+
 ## What it does
 
 - SMS Config registers SMS providers, Aliyun (`alibaba`) or Tencent Cloud (`tencent`). Each tenant enables one, and you can send a test message to a phone number.
@@ -10,11 +12,11 @@ SMS and mail each have their own settings page. Business code sends through one 
 - Notify Templates use `${key}` placeholders and set the default channels.
 - Every send is recorded per channel and recipient, and failed sends are retried on a schedule.
 
-## How to turn it on
+## Enable it
 
 SMS is based on sms4j and mail on SMTP. Enable an SMS provider under SMS Config, and fill in the mail server and enable the mail channel under Notify Channels.
 
-## How to use it
+## Use it
 
 Inject `NotifySendApi` into your code:
 
@@ -33,11 +35,9 @@ Without channel arguments, the template's default channels are used. You can als
 - SMS keys and mail passwords are not shown again after saving.
 - These settings pages are open only to the platform super admin.
 
-## See it work
+## Verify
 
 Open System Settings → Notify Templates and you will see the built-in welcome template.
-
-![Notify templates](/screenshots/features/notify.png)
 
 After sending, look at the send records:
 
@@ -50,4 +50,11 @@ LIMIT 10;
 
 There is one row per channel and recipient. Failed records have `status` set to `FAILURE` and the reason in `error_msg`.
 
-Previous: [Object storage](./storage) · Next: [Messages and announcements](./message)
+## Next steps
+
+<div class="ms-cards">
+
+- [Messages and announcements](./message) How in-app messages reach online users in real time.
+- [Features](./) Back to the list of built-in features.
+
+</div>

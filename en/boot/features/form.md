@@ -2,17 +2,19 @@
 
 mugsun has two kinds of forms. Form Designer builds forms by drag and drop and stores the submitted data separately. Online Forms read and write a business table directly without generating code.
 
+![Form Designer page: design each form, fill it in and view its records](/screenshots/pc/lowcode-forms.png)
+
 ## What it does
 
 - Form Designer is based on the form-create designer. Drag in fields, set validation, and save the result as a form definition.
 - A form definition can be filled in on its own or bound to a [workflow](./workflow) node.
 - Online Forms read the table settings imported in code generation and render the list, filters and edit form from them. Inserts, updates and deletes go straight to the business table.
 
-## How to turn it on
+## Enable it
 
 Both kinds of forms start with the backend. For Online Forms, first import the business table in [code generation](/en/boot/codegen/import).
 
-## How to use it
+## Use it
 
 Form Designer:
 
@@ -32,7 +34,7 @@ Online Forms:
 - After you change the column settings in code generation, Online Forms render with the new settings immediately, without a restart.
 - Regular users see only their own submissions in the submission list.
 
-## See it work
+## Verify
 
 After saving a form, look at the form definitions:
 
@@ -46,4 +48,11 @@ The tables listed in Online Forms are the tables imported in code generation:
 SELECT table_name, table_comment FROM gen_table WHERE is_deleted = 0;
 ```
 
-Previous: [Workflow](./workflow) · Next: [Rule chains](./rule)
+## Next steps
+
+<div class="ms-cards">
+
+- [Workflow](./workflow) Bind a form to an approval node and control field access per node.
+- [Import an existing table](/en/boot/codegen/import) Import and adjust the table settings that online forms read.
+
+</div>

@@ -2,6 +2,8 @@
 
 Serial number rules generate business numbers such as order and contract numbers from a format, and can restart counting each year, month or day.
 
+![Serial numbers](/screenshots/features/serial-number.png)
+
 ## What it does
 
 - In the format, `[yyyy]`, `[mm]` and `[dd]` stand for year, month and day, and `[nnnnn]` for the sequence; the number of `n` sets its width.
@@ -11,7 +13,7 @@ Serial number rules generate business numbers such as order and contract numbers
 
 Two rules are built in: `ORDER` (format `DK[yyyy][mm][dd]NO[nnnnn]`, reset daily) and `CONTRACT` (format `HT[yyyy][nnnnnn]`, reset yearly).
 
-## How to turn it on
+## Enable it
 
 Serial numbers start with the backend. Sequences use a Redis counter by default; you can switch to database row locks:
 
@@ -21,7 +23,7 @@ mugsun:
     provider: db
 ```
 
-## How to use it
+## Use it
 
 1. Open System Settings → Serial Numbers and add a rule with its code, name, format and reset period.
 2. Inject `SerialNumberService` and call `generate("ORDER")` for one number.
@@ -32,7 +34,7 @@ mugsun:
 - At most 1000 numbers can be generated in one call.
 - The endpoint `POST /system/serial-number/generate` needs `sys:serial:generate`.
 
-## See it work
+## Verify
 
 Generate two order numbers from the built-in rule:
 
@@ -53,6 +55,11 @@ WHERE is_deleted = 0
 ORDER BY create_time DESC;
 ```
 
-![Serial numbers](/screenshots/features/serial-number.png)
+## Next steps
 
-Previous: [Messages and announcements](./message) · Next: [Global search](./search)
+<div class="ms-cards">
+
+- [Configuration](/en/boot/configuration) The full reference for settings such as the sequence provider.
+- [Global search](./search) What the search box in the top bar can find.
+
+</div>

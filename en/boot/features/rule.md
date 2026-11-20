@@ -8,11 +8,11 @@ Rule chains are built on LiteFlow. Several steps are written as one chain and ru
 - A chain is defined with a LiteFlow EL expression; for example, `THEN(a, b, c)` runs three components in order.
 - The backend ships with a sample chain, `tenantInitChain`, which runs three components in order: create role, create department and create admin.
 
-## How to turn it on
+## Enable it
 
 Rule chains start with the backend. Chain definitions are read from `classpath:flow/*.el.xml`, as set by `liteflow.rule-source` in `application.yml`.
 
-## How to use it
+## Use it
 
 1. Write a component: extend LiteFlow's `NodeComponent` and add `@LiteflowComponent("componentName")`.
 2. Add an `.el.xml` file under `src/main/resources/flow/` and define the chain:
@@ -29,10 +29,10 @@ Rule chains start with the backend. Chain definitions are read from `classpath:f
 
 ## Notes
 
-- The console has no page for rule chains. Chain definitions are released together with the code.
+- The admin console has no page for rule chains. Chain definitions are released together with the code.
 - When a chain fails, `LiteflowResponse.isSuccess()` returns false. Check it and handle the failure.
 
-## See it work
+## Verify
 
 Call the endpoint of the sample chain:
 
@@ -50,4 +50,11 @@ curl -s -X POST http://localhost:8080/system/rule/tenant-init -H "Authorization:
 SELECT count(*) FROM sys_role WHERE is_deleted = 0;
 ```
 
-Previous: [Forms](./form) · Next: [Scheduled tasks](./job)
+## Next steps
+
+<div class="ms-cards">
+
+- [Workflow](./workflow) Use workflow for multi-level processes that need human approval.
+- [Features](./) Back to the list of built-in features.
+
+</div>

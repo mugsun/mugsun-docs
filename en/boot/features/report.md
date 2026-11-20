@@ -1,6 +1,6 @@
 # Reports
 
-Reports build charts from built-in datasets. The console renders them with ECharts; no report engine is involved.
+Reports build charts from built-in datasets. The admin console renders them with ECharts; no report engine is involved.
 
 ## What it does
 
@@ -10,11 +10,11 @@ Reports build charts from built-in datasets. The console renders them with EChar
 
 There are two built-in datasets: `user_status` (users by status) and `tenant_user` (users per tenant).
 
-## How to turn it on
+## Enable it
 
 Reports start with the backend and need no extra configuration.
 
-## How to use it
+## Use it
 
 1. Open System Settings → Reports, click New and enter a report name.
 2. Add charts, pick a dataset and a chart type for each, and save.
@@ -27,7 +27,7 @@ To add a dataset, add a dataset key and its aggregate SQL in `SysReportControlle
 - Datasets are an allowlist. A report definition can only reference existing dataset keys and cannot contain arbitrary SQL.
 - The Reports page is open only to the platform super admin.
 
-## See it work
+## Verify
 
 Fetch the users-by-status dataset:
 
@@ -45,4 +45,11 @@ Each `value` matches the result of this query:
 SELECT status, count(*) FROM sys_user WHERE is_deleted = 0 GROUP BY status;
 ```
 
-Previous: [Scheduled tasks](./job) · Next: [Object storage](./storage)
+## Next steps
+
+<div class="ms-cards">
+
+- [Permissions & attachments](/en/boot/permissions) How endpoint permissions are checked, and who the platform super admin is.
+- [Features](./) Back to the list of built-in features.
+
+</div>
