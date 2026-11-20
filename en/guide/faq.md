@@ -1,209 +1,269 @@
 # FAQ
 
+The questions are grouped into five topics. When you have the exact error text at hand, [Error reference](/en/guide/errors) is the faster place to look.
+
 ## Product and licensing
 
 ### What kind of project is mugsun for?
 
-Admin systems that must be deployed on-premises and also need product analytics. It is neither a drag-and-drop low-code tool nor a hosted analytics service. See the [Introduction](/en/guide/introduction).
+Projects that are deployed on premises and need both an admin console and user behavior analytics.
 
-### What are the licenses?
+It is neither a drag-and-drop low-code platform nor a hosted analytics service. For what each part is and whether it works on its own, see [Introduction](/en/guide/introduction).
 
-boot, core, pc, track and ms-ui are all MIT-licensed. The console's UI foundation is derived from art-design-pro (MIT), so keep the repository's `NOTICE` when you redistribute it. Each repository's `LICENSE` is authoritative.
+### What is the license?
+
+The backend, the admin console, the analytics SDK and ms-ui are all under the MIT license. The `LICENSE` file of each repository is authoritative.
+
+The interface of the admin console is derived from art-design-pro (MIT). Keep the `NOTICE` file from the repository when you redistribute it.
 
 ### Is there a live demo?
 
-ms-ui has a [live H5 demo](/en/demo). There is no public environment for the console and analytics yet; run them locally with [Getting started](/en/guide/getting-started).
+ms-ui has one, see [Live demo](/en/demo#ms-ui).
 
-### When will cloud and the ms-ui source be released?
+The admin console and the tracking dashboards have no public demo site yet. Start them on your machine with [Getting started](/en/guide/getting-started).
 
-cloud is still planned, so this site has no install guide for it. The ms-ui docs and H5 demo are open to everyone; its source repository is not yet public.
+### When will the microservice edition and the ms-ui source be released?
+
+The microservice edition (cloud) is still being planned, and there is no version you can install.
+
+The ms-ui documentation and H5 demo are open. Its source repository is not public yet.
 
 ## Startup and build
 
-### Do I still need to `mvn install` mugsun-core?
+### Do I have to compile anything when I start with Docker?
 
-Yes. The tip depends on `mugsun-core` `0.2.0-SNAPSHOT`, which is not on Maven Central.
+No. `docker-compose.full.yml` from [Getting started](/en/guide/getting-started) builds and starts the whole system in containers.
 
-Clone core as a sibling and run `mvn -B clean install -DskipTests`.
+The remaining questions in this group only come up when you start from source.
 
-Central `0.1.0` is a legacy release. Do not treat it as the tip or as aligned with the current boot tip.
+### Why do I have to install mugsun-core before starting from source?
 
-### Does `docker compose up -d` start the application too?
+The `main` branch depends on the snapshot version `0.2.0-SNAPSHOT` of mugsun-core, which is not on Maven Central.
 
-No. Compose starts PostgreSQL (5432) and Redis (6379) only. Package the app and run it with `java -jar mugsun-boot-server/target/mugsun-boot.jar`.
+Clone mugsun-core next to the backend repository and run `mvn -B clean install -DskipTests` to install it into your local repository.
 
+`0.1.0` on Maven Central is the previous release and does not match the current `main` branch.
 
-### Ports 5432 / 6379 are already in use
+### Does `docker compose up -d` start the backend too?
 
-Compose and the backend read the same environment variables, so one change covers both and no yml edit is needed:
+That depends on the file you use:
+
+| Command | What it starts |
+| --- | --- |
+| `docker compose up -d` | Only PostgreSQL (5432) and Redis (6379). You package and run the backend yourself |
+| `docker compose -f docker-compose.full.yml up -d` | The whole system, including the backend and the admin console |
+
+### What if port 5432 or 6379 is already in use on my machine?
+
+Compose and the backend read the same environment variables. Change the ports once and both sides follow, without touching any yml:
 
 ```bash
 export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
 docker compose up -d
-java -jar mugsun-boot-server/target/mugsun-boot.jar
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
 ```
 
-The backend also reads `MUGSUN_DB_HOST`, `MUGSUN_DB_NAME`, `MUGSUN_DB_USERNAME`, `MUGSUN_DB_PASSWORD`, `MUGSUN_REDIS_HOST`, or a full `MUGSUN_DB_URL`. The track database `mugsun_track` resolves its URL in this order: `TRACK_JDBC_URL` → `MUGSUN_DB_URL` → `MUGSUN_DB_HOST`/`MUGSUN_DB_PORT`. When it uses `MUGSUN_DB_URL`, it keeps that URL's host, port and parameters and only swaps the database name for `mugsun_track`. Under `prod` the business database reads only `JDBC_URL`, but the track database follows the same order, so without `TRACK_JDBC_URL` it reads `MUGSUN_DB_*`; see [Configuration](/en/boot/configuration). The `MUGSUN_DB_URL` step requires [mugsun-boot #38](https://github.com/mugsun/mugsun-boot/pull/38); earlier versions only use the host and port.
+When the database and Redis are not on your machine, point to them with these variables:
 
-### The first `docker compose up -d` is slow on Apple Silicon
+| Variable | Purpose |
+| --- | --- |
+| `MUGSUN_DB_HOST` `MUGSUN_DB_PORT` `MUGSUN_DB_NAME` | Host, port and database name of the business database |
+| `MUGSUN_DB_USERNAME` `MUGSUN_DB_PASSWORD` | Account of the business database |
+| `MUGSUN_DB_URL` | The whole JDBC URL. Once set, the three address variables above no longer apply |
+| `MUGSUN_REDIS_HOST` `MUGSUN_REDIS_PORT` | Host and port of Redis |
 
-By default Compose pulls the multi-arch GHCR image `ghcr.io/mugsun/postgis-pgvector:16-3.4` (including arm64).
+The address of the tracking database `mugsun_track` is the first of these that has a value:
 
-You do not need to build it locally, and you do not need `MUGSUN_PG_*`.
+1. `TRACK_JDBC_URL`.
+2. `MUGSUN_DB_URL`. Its host, port and parameters are kept, and only the database name is replaced with `mugsun_track`.
+3. `MUGSUN_DB_HOST` and `MUGSUN_DB_PORT`.
 
-If it is still slow, it is usually the first image pull; make sure you are not forcing a local build via `MUGSUN_PG_*`.
+Under `prod` the business database only reads `JDBC_URL`, but the tracking database still follows this order. Without `TRACK_JDBC_URL` it reads `MUGSUN_DB_*`.
 
-Only build locally with `docker compose build postgres` after changing `docker/postgres/Dockerfile`.
+### Why is the first `docker compose up -d` slow on Apple Silicon?
 
-### `spring-boot:run` fails with `Unable to find a suitable main class`
+Most likely because the images are pulled for the first time.
 
-In older versions, running `mvn -pl mugsun-boot-server -am spring-boot:run` from the repository root also applied the plugin to the parent POM. [mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) fixed this; pull the latest code and retry from the repository root. The recommended path is still `mvn -pl mugsun-boot-server -am package -DskipTests` followed by `java -jar mugsun-boot-server/target/mugsun-boot.jar` from the repository root.
+The default PostgreSQL image `ghcr.io/mugsun/postgis-pgvector:16-3.4` includes arm64, so nothing has to be built on your machine.
 
-### The local config file isn't picked up
+You only need `docker compose build postgres` after you change `docker/postgres/Dockerfile`.
 
-The path is `optional:file:./config/application-local.yml`, so the working directory must be the boot repository root. Create it with `cp config/application-local.yml.example config/application-local.yml`.
+### Why does `spring-boot:run` fail with `Unable to find a suitable main class`?
 
+Older versions fail this way when you run `mvn -pl mugsun-boot-server -am spring-boot:run` in the repository root. Pull the latest code.
 
-### Startup fails with `Migration checksum mismatch for version 1`
+Packaging first and then running the jar is the better way:
 
-The released 0.1.0 `V1__baseline_0_1.sql` is now identical on main (since [mugsun-boot #15](https://github.com/mugsun/mugsun-boot/pull/15); CI checks it against `db/RELEASED.sha256`, so it won't change again). This error means your dev database was created from main before 0.1.0 was released, or from main between #11 and #15, so it recorded an older V1 checksum.
+```bash
+./mvnw -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
+```
 
-- **Dev database, data not needed (recommended):** `docker compose down -v && docker compose up -d`, then start the backend to rebuild from the current migrations. This deletes the dev data volume only; never run it against a shared database.
-- **Keep the data:** back up first, check the schema matches the current V1, then record the released V1 checksum (what `flyway repair` would do for V1): `docker exec mugsun-pg psql -U mugsun -d mugsun -c "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"`. This only updates the history table; it doesn't add columns or menus the older V1 lacked, so rebuilding is safer when the schema differs.
+### Why is my local configuration not picked up at startup?
 
-Databases created from the 0.1.0 release are not affected and upgrade normally.
+The local configuration file is `config/application-local.yml`, loaded by relative path. The working directory at startup must be the root of the backend repository.
 
-### The app exits immediately with the `prod` profile
+You create the file yourself from the example:
 
-`prod` refuses to start without an injected initial password (`MUGSUN_INIT_PASSWORD`). This is a deliberate safety default.
+```bash
+cp config/application-local.yml.example config/application-local.yml
+```
 
-### I only want the core backend, without GIS or AI
+### Why does startup fail with `Migration checksum mismatch for migration version 1`? {#checksum}
 
-Package with `-Pbasic,'!full'`, or keep `full` and set `MUGSUN_GIS_ENABLED=false` / `MUGSUN_AI_ENABLED=false` at runtime. See [Architecture](/en/guide/architecture#two-layers-of-module-switches).
+The development database was created from an early `main` branch and holds the checksum of an old V1 script. Databases created from the 0.1.0 release are not affected.
 
-## Console
+| Situation | What to do |
+| --- | --- |
+| Development database, data not needed | Run `docker compose down -v` and `docker compose up -d`, then start the backend to rebuild it |
+| Data must be kept | Back up first, make sure the schema matches the current V1, then change the checksum of V1 in the migration history |
+
+`down -v` deletes the development data volume, so do not run it against a shared database. The statement that changes the checksum is:
+
+```bash
+docker exec mugsun-pg psql -U mugsun -d mugsun -c \
+  "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"
+```
+
+The statement only changes the migration history and does not repair the schema. Columns and menus missing from the old V1 do not appear by themselves, so rebuilding is safer when the schema differs.
+
+### Why does the process exit right after starting without `dev`?
+
+Without a development profile such as `dev`, the backend treats the environment as production. For the rules, see [Configuration](/en/boot/configuration#what-counts-as-production).
+
+In production it refuses to start when the initial password or the field encryption key is missing. For local testing add `--spring.profiles.active=dev`. For how to fix each error, see [Error reference](/en/guide/errors#startup).
+
+### How do I get only the basic backend, without GIS and AI?
+
+There are two ways:
+
+- Package with `-Pbasic,'!full'`, and the artifact does not contain these two modules.
+- Keep the full package and set `MUGSUN_GIS_ENABLED=false` and `MUGSUN_AI_ENABLED=false` at runtime.
+
+For the difference between the two, see [Architecture](/en/guide/architecture#two-layers-of-module-switches).
+
+## Admin console
 
 ### Why do I have to sign in again in a new tab?
 
-Since 0.1.0, tokens live in `sessionStorage` (per tab) instead of `localStorage`, which limits what an XSS bug could steal. Non-sensitive data such as language and user info stays in `localStorage`.
+The sign-in tokens are stored in `sessionStorage`, which only lives in the current tab and is cleared when the tab closes. This lowers the risk of a token being abused for a long time after an XSS attack.
 
-### `pnpm install` can't find `@mugsun/track-web`
+Non-sensitive content such as the language and the user profile stays in `localStorage`, see [Where the session is stored](/en/pc/development#where-the-session-is-stored).
 
-The console depends on npm `@mugsun/track-web@0.3.0` by default. A plain `pnpm install` is enough; you do not need to clone mugsun-track.
+### Why does `pnpm install` say it cannot find `@mugsun/track-web`?
 
-If your registry cannot fetch the package, check the network / npm mirror, or temporarily set `VITE_ENABLE_TRACK=false` to skip the analytics module build.
+The admin console depends on `@mugsun/track-web` from npm. Normally `pnpm install` just works, and you do not need to clone mugsun-track.
 
-To link SDK source, clone it as a sibling and use `pnpm link` or a `.npmrc` `link:` — see [Getting started · Start the admin console](/en/guide/getting-started#2-start-the-admin-console).
+When the package cannot be installed, check your network and npm mirror first.
 
-## Analytics
+To debug the SDK source, clone mugsun-track next to the console repository, add one line to `.npmrc`, then run `pnpm install`:
 
-### Does the SDK record what users type?
+```ini
+@mugsun/track-web=link:../mugsun-track
+```
 
-Autocaptured events such as clicks never include `input` / `textarea` values. From 0.3.0, session replays show input values and page text as-is by default; password fields, `maskSelectors` and `data-track-mask` areas, card fields and one-time-code fields are never recorded. To mask them, pass `maskAllInputs: true` and `maskTextSelector`; see [Privacy · Turning on masking and filtering](/en/track/privacy#turning-on-masking-and-filtering).
+## Tracking
+
+### Does tracking record what users type into inputs?
+
+Automatically captured events such as clicks never carry the value of an input.
+
+Session replay is off by default. Once it is on, page text and input values are shown as they are, and password inputs, bank card fields and one-time code fields are never recorded.
+
+To mask what users type, pass `maskAllInputs: true` to the replay plugin, see [Turning on masking and filtering](/en/track/privacy#turning-on-masking-and-filtering).
 
 ### Are tokens in URLs sent to the server?
 
-Not as-is. In API monitoring URLs, `referrer`, link `href`s, resource error URLs and page addresses in replays, the values of sensitive parameters such as `token`, `access_token`, `code`, `ticket` and `otp` become `***`, including parameters in the hash. See [Privacy · URL redaction](/en/track/privacy#url-redaction) for the full list.
+Not as they are. In the URLs the SDK reports, the values of sensitive parameters such as `token`, `access_token` and `code` are replaced with `***`.
+
+Parameters in the hash are handled the same way. For the full list of parameters, see [URL redaction](/en/track/privacy#url-redaction).
 
 ### What if my `appKey` leaks?
 
-It's visible in the browser by design and isn't a secret. The server relies on existence checks, rate limiting, back-pressure and event validation.
+The `appKey` is written in the page code where anyone can see it. It is not a secret.
+
+The backend rate-limits per IP, caps the size of a single request and validates the format of every event. Rejected requests are listed under [Integration health](/en/track/first-event#integration-health).
 
 ## Deployment and operation
 
-Each answer below follows the order symptom, cause, fix. If you have the exact error text, you can also check the [error reference](/en/guide/errors) first.
+### After an upgrade, why can the old frontend no longer sign in and gets 40013?
 
-### After upgrading, the old frontend can't sign in and gets 40013
+Sign-in, registration and sending verification codes all return `40013` with a message that asks to complete the security check first.
 
-Sign-in, sign-up and sending verification codes all return `40013`, asking you to complete the security check first.
+The backend removed the legacy digit captcha. While the captcha is on, requests must carry a `captchaToken`.
 
-The backend removed the old numeric image captcha `GET /auth/captcha`. When the captcha is on, requests must carry a `captchaToken`.
+Upgrade the frontend to the behavioral captcha flow, see the [backend upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed).
 
-Upgrade the frontend to the new behavioral captcha flow. See the [backend upgrade guide](/en/boot/upgrade).
+### After the backend restarts, why do encrypted APIs fail to decrypt? {#transport-key}
 
-### After a restart, encrypted APIs all fail with an invalid ciphertext error
+The backend changed its API transport key when it restarted. Pages that are already open still use the old key, so the backend cannot decrypt their requests.
 
-During local development, pages that were already open fail on every encrypted API call after the backend restarts.
+Without `MUGSUN_API_KEY` the key is saved to `~/.mugsun/api-transport.key` and reused after a restart, so normally the problem does not occur.
 
-Without `MUGSUN_API_KEY`, the key is now persisted to `~/.mugsun/api-transport.key` and reused on restart, so this normally no longer happens.
+When it does, the key file was usually deleted, `MUGSUN_HOME` changed, or Docker has no volume mounted for that directory.
 
-If it does, the key file was usually deleted, `MUGSUN_HOME` changed, or Docker has no volume for that directory.
+Refresh the page to recover. The admin console then fetches the key again. With Docker or several instances, set `MUGSUN_API_KEY` or mount a shared volume.
 
-Reload the page and sign in again; the frontend fetches the key again. For Docker and multiple instances, set `MUGSUN_API_KEY` or mount a shared volume.
+### Why does the Scheduled Tasks page say the service cannot be reached?
 
-### The Scheduled Tasks page says the task service cannot be reached
+The default Docker setup has no PowerJob Server, so the backend cannot reach the scheduling service and the list stays empty.
 
-The Scheduled Tasks page says the task service cannot be reached, and the list is empty.
+To use the page, deploy PowerJob Server yourself and set `POWERJOB_ENABLED` and the related environment variables, see [Scheduled tasks](/en/boot/features/job).
 
-The PowerJob Server is not part of the default Docker setup, so the backend cannot reach the scheduler.
+For simple single-node jobs you can use Spring's `@Scheduled` directly.
 
-Deploy a PowerJob Server yourself and set `POWERJOB_ENABLED` and the related environment variables. See [Scheduled tasks](/en/boot/features/job). For simple single-process jobs, use Spring `@Scheduled` instead.
+### With several instances, why do some users miss in-app message pushes?
 
-### With several instances, some users don't get message pushes
+The message is already in the database, but users connected to another instance do not get the real-time push.
 
-The message is in the database, but users connected to another instance don't get the real-time push.
+The cause is that `mugsun.websocket.sender-type` was changed to `local`, so pushes only go to connections on the same instance.
 
-`mugsun.websocket.sender-type` was changed to `local`, so pushes only reach connections on the same machine.
+Keep the default `redis`, and pushes are forwarded to every instance through Redis publish/subscribe.
 
-Keep the default `redis`, so pushes are relayed to every instance through Redis publish/subscribe.
+### With several instances, why do attachment download links work only sometimes?
 
-### With several instances, attachment links work only sometimes
+The same download link opens on one instance and fails on another.
 
-The same download link opens on one instance but not on another.
+The cause is that `MUGSUN_FILE_SIGN_SECRET` is not set, so every instance generated its own random signing key. Old links also stop working after a restart.
 
-`MUGSUN_FILE_SIGN_SECRET` is not set, so each instance generated its own random signing key. Old links also break after a restart.
+Give all instances the same `MUGSUN_FILE_SIGN_SECRET`, at least 32 characters long.
 
-Set the same `MUGSUN_FILE_SIGN_SECRET` of at least 32 characters on every instance.
+### After I turn off GIS or AI on one instance, how long until the others follow?
 
-### After turning off GIS or AI, other machines still have it
+Right away. After a system parameter changes, a Redis broadcast tells every instance to clear its local cache.
 
-**Fixed** ([mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90)).
+The broadcast depends on `jetcache.remote.default.broadcastChannel`, which defaults to `mugsun`. Do not lose it when you override this block.
 
-Older builds cached system parameters locally on each machine.
+You can also turn the modules off at startup with the environment variables `MUGSUN_GIS_ENABLED=false` and `MUGSUN_AI_ENABLED=false`.
 
-After you changed a module switch, other machines in a multi-server deployment kept the old value for up to an hour.
+### What should I watch out for when overriding the JetCache settings?
 
-`ParamService` now uses `CacheType.BOTH` with `syncLocal=true`.
+Normally you do not need to touch them. Neither `prod` nor `demo` overrides `jetcache.remote.default`, and the Redis address is built from the `REDIS_*` variables.
 
-On write or delete, `@CacheInvalidate` clears each machine's local cache through a Redis broadcast, so all machines stay in sync right away.
+If you must override it, mind three things:
 
-That needs `jetcache.remote.default.broadcastChannel` (default `mugsun`).
+- Keep `type: redis.lettuce` and `broadcastChannel` at the same level.
+- Do not leave an empty `jetcache.remote.default:`, or startup fails with `StringIndexOutOfBoundsException`.
+- Avoid writing `uri` by hand. A hand-written `uri` is not overridden, but it is checked against `spring.data.redis` at startup, and a mismatch makes the backend refuse to start.
 
-JetCache 2.7.9 silently skips the broadcast manager when the channel is empty.
+### Do I have to encode special characters in the Redis password?
 
-`demo` / `prod` do not override `jetcache.remote.default` by default.
+No. When the JetCache address is built, `@` `:` `/` `?` `#` `%` in the password are percent-encoded automatically.
 
-If you must override it, keep `type: redis.lettuce` and `broadcastChannel` at the same level.
+The one-command Compose setup generates passwords with letters and digits only. Passwords you set yourself may contain special characters.
 
-You can also turn modules off at startup with `MUGSUN_GIS_ENABLED=false` or `MUGSUN_AI_ENABLED=false`.
+### Why do migrations not run on openGauss?
 
-### Redis can't connect when the password has special characters
+Flyway fails at startup before it runs any migration. The cause is that Flyway executes `SET ROLE`, and openGauss requires a password for that statement.
 
-**Fixed** ([mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70)).
+On the full edition of openGauss, run the scripts in `db/migration-og` one by one in version order with gsql, see the [backend upgrade guide](/en/boot/upgrade#duplicate-phone-numbers-within-a-tenant).
 
-Older `prod` / `demo` builds put the Redis password raw into the JetCache URI, so passwords with `@`, `:`, `/`, `?`, `#` or `%` connected to the wrong host.
-
-`JetCacheRedisUriEnvironmentPostProcessor` now builds the uri from `spring.data.redis` (or `REDIS_*`), percent-encodes the password, and round-trip checks it; a mismatch refuses startup. One-shot compose `gen-secrets` still uses alphanumeric passwords; self-managed passwords may include special characters without hand-encoding.
-
-If you set `jetcache.remote.default.uri` explicitly (command line / env / system properties), the EPP **does not override** it, but still round-trip checks it against `spring.data.redis` and refuses startup on an unencoded or mismatched uri. Prefer field-based Redis settings over a hand-written uri.
-
-### Startup fails with StringIndexOutOfBounds after overriding `jetcache.remote.default`?
-
-JetCache condition matching crashes with `StringIndexOutOfBoundsException` (range `[0, -1)`).
-
-An empty `jetcache.remote.default:` map (or a bare `jetcache.remote.default=` key) flattens over the inherited `type` from `application.yml`. JetCacheCondition then calls `substring(0, indexOf('.'))` on a key with no dot.
-
-Do not leave an empty map. If you must override `remote.default`, **keep `type: redis.lettuce` at the same level** (plus encoders you need). `prod` / `demo` no longer override that block; the uri is synthesized by the EPP.
-
-### Migrations don't run on openGauss
-
-On openGauss, Flyway fails before running any migration.
-
-Flyway runs `SET ROLE`, which openGauss rejects because it requires a password. openGauss-lite also has a syntax error in V8, see [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102).
-
-For the full openGauss, run the scripts in `db/migration-og` one by one with gsql. See the [backend upgrade guide](/en/boot/upgrade).
+openGauss-lite cannot be used for now, because the V8 script has a syntax error on it.
 
 ## Before you ask
 
-Check the [error reference](/en/guide/errors) and this page first. If you are still stuck, open an [issue](https://github.com/mugsun) on the relevant repository with the steps to reproduce, the version and your system. The version can be a Maven or npm version or a commit SHA.
+Check [Error reference](/en/guide/errors) and this page first.
 
+If that does not solve it, open an [Issue](https://github.com/mugsun) in the matching repository and describe the steps to reproduce, the version and the operating system.
+
+For the version, give the Maven or npm version number or the commit SHA.

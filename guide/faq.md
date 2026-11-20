@@ -1,232 +1,269 @@
 # 常见问题
 
+问题按主题分成五组。手里有具体的报错原文时，先查[报错速查](/guide/errors)更快。
+
 ## 产品与许可
 
 ### mugsun 适合什么项目？
 
-需要私有化交付、同时要后台管理与产品行为分析的中后台项目。它不是拖拽式低代码平台，也不是公有云埋点 SaaS。详见 [介绍](/guide/introduction)。
+适合要私有化部署、同时需要管理后台和用户行为分析的项目。
 
-### 许可证是什么？
+它不是拖拽式的低代码平台，也不是公有云上的埋点服务。各部分是什么、能不能单独使用，见[介绍](/guide/introduction)。
 
-boot、core、pc、track、ms-ui 均为 MIT。pc 的 UI 基座衍生自 art-design-pro（MIT），对外分发须保留仓内 `NOTICE`。以各仓 `LICENSE` 为准。
+### 用的是什么许可？
+
+后端、管理后台、埋点 SDK 和 ms-ui 都是 MIT 许可，以各仓库的 `LICENSE` 文件为准。
+
+管理后台的界面在 art-design-pro（MIT）的基础上修改，分发时要保留仓库里的 `NOTICE` 文件。
 
 ### 有在线演示吗？
 
-ms-ui 组件有 [H5 在线演示](/demo)。管理台与埋点全链路目前没有公网演示环境，请按 [快速开始](/guide/getting-started) 本地拉起。
+ms-ui 有，见[在线演示](/demo#ms-ui)。
 
-### cloud 微服务版和 ms-ui 源码什么时候开放？
+管理后台和埋点看板还没有公网演示站，按[快速开始](/guide/getting-started)在本机启动。
 
-cloud 仍在规划中，本站不提供安装教程。ms-ui 的组件文档与 H5 演示已开放，源码仓库暂未公开。
+### 微服务版和 ms-ui 的源码什么时候开放？
+
+微服务版（cloud）还在规划，没有可以安装的版本。
+
+ms-ui 的文档和 H5 演示已经开放，源码仓库暂时没有公开。
 
 ## 启动与构建
 
-### 还需要先 `mvn install` mugsun-core 吗？
+### 用 Docker 启动，还要自己编译吗？
 
-需要。当前 tip 依赖 `mugsun-core` `0.2.0-SNAPSHOT`，Maven Central 上没有。
+不用。[快速开始](/guide/getting-started)里的 `docker-compose.full.yml` 会在容器里构建并启动整套系统。
 
-请同级克隆 core，并执行 `mvn -B clean install -DskipTests`。
+这一组里剩下的问题，都是从源码启动时才会遇到的。
 
-Central 上的 `0.1.0` 是旧发布，不要当作 tip，也不要拿来跟当前 boot tip 对齐。
+### 从源码启动，为什么要先安装 mugsun-core？
 
-### `docker compose up -d` 会把应用也起起来吗？
+`main` 分支依赖 mugsun-core 的快照版本 `0.2.0-SNAPSHOT`，Maven Central 上没有这个版本。
 
-不会。compose 只启动 PostgreSQL（5432）与 Redis（6379），应用打包后用 `java -jar mugsun-boot-server/target/mugsun-boot.jar` 运行。
+把 mugsun-core 克隆到同级目录，执行 `mvn -B clean install -DskipTests` 装到本地仓库。
 
+Maven Central 上的 `0.1.0` 是上一个发布版本，和现在的 `main` 分支不配套。
 
-### 本机 5432 / 6379 已被占用？
+### `docker compose up -d` 会把后端也启动吗？
 
-compose 与后端读同一组环境变量，换端口后一起生效，不用改 yml：
+要看用的是哪个文件：
+
+| 命令 | 启动什么 |
+| --- | --- |
+| `docker compose up -d` | 只有 PostgreSQL（5432）和 Redis（6379），后端要自己打包运行 |
+| `docker compose -f docker-compose.full.yml up -d` | 整套系统，包括后端和管理后台 |
+
+### 本机的 5432 或 6379 端口被占用了怎么办？
+
+Compose 和后端读同一组环境变量。换了端口两边一起生效，不用改 yml：
 
 ```bash
 export MUGSUN_DB_PORT=55432 MUGSUN_REDIS_PORT=56379
 docker compose up -d
-java -jar mugsun-boot-server/target/mugsun-boot.jar
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
 ```
 
-后端还认 `MUGSUN_DB_HOST`、`MUGSUN_DB_NAME`、`MUGSUN_DB_USERNAME`、`MUGSUN_DB_PASSWORD`、`MUGSUN_REDIS_HOST`，或整条 `MUGSUN_DB_URL`。埋点库 `mugsun_track` 的地址按 `TRACK_JDBC_URL` → `MUGSUN_DB_URL` → `MUGSUN_DB_HOST`/`MUGSUN_DB_PORT` 的顺序回落：走 `MUGSUN_DB_URL` 时沿用它的主机、端口和参数，只把库名换成 `mugsun_track`。`prod` 的业务库只读 `JDBC_URL`，但埋点库同样按上面的顺序回落，所以 prod 没设 `TRACK_JDBC_URL` 时会读 `MUGSUN_DB_*`，见 [配置](/boot/configuration)。`MUGSUN_DB_URL` 这一级回落需要 [mugsun-boot #38](https://github.com/mugsun/mugsun-boot/pull/38)，之前的版本只认主机和端口。
+数据库和 Redis 不在本机时，用下面的变量指过去：
 
-### Apple Silicon 上首次 `docker compose up -d` 很慢？
+| 变量 | 作用 |
+| --- | --- |
+| `MUGSUN_DB_HOST` `MUGSUN_DB_PORT` `MUGSUN_DB_NAME` | 业务库的主机、端口和库名 |
+| `MUGSUN_DB_USERNAME` `MUGSUN_DB_PASSWORD` | 业务库的账号 |
+| `MUGSUN_DB_URL` | 整条 JDBC 地址。设了以后，上面三个地址变量不再起作用 |
+| `MUGSUN_REDIS_HOST` `MUGSUN_REDIS_PORT` | Redis 的主机和端口 |
 
-默认已从 GHCR 拉多架构 `ghcr.io/mugsun/postgis-pgvector:16-3.4`（含 arm64）。
+埋点库 `mugsun_track` 的地址，按下面的顺序取第一个有值的：
 
-不必本机构建，也不必设 `MUGSUN_PG_*`。
+1. `TRACK_JDBC_URL`。
+2. `MUGSUN_DB_URL`。沿用它的主机、端口和参数，只把库名换成 `mugsun_track`。
+3. `MUGSUN_DB_HOST` 和 `MUGSUN_DB_PORT`。
 
-若仍慢，多半是首次拉镜像；确认未改 `MUGSUN_PG_*` 强制本机构建。
+`prod` 下业务库只读 `JDBC_URL`，埋点库仍然按这个顺序取。没设 `TRACK_JDBC_URL` 时，它会去读 `MUGSUN_DB_*`。
 
-仅改了 `docker/postgres/Dockerfile` 时才需本机 `docker compose build postgres`。
+### Apple Silicon 上第一次 `docker compose up -d` 很慢？
+
+慢多半是因为第一次要拉镜像。
+
+默认的 PostgreSQL 镜像 `ghcr.io/mugsun/postgis-pgvector:16-3.4` 带 arm64 架构，不需要在本机构建。
+
+只有改了 `docker/postgres/Dockerfile`，才需要执行 `docker compose build postgres`。
 
 ### `spring-boot:run` 报 `Unable to find a suitable main class`？
 
-旧版本在仓库根目录执行 `mvn -pl mugsun-boot-server -am spring-boot:run` 时，插件也会作用于父工程而报错。[mugsun-boot #13](https://github.com/mugsun/mugsun-boot/pull/13) 已修复，请拉取最新代码后在仓库根目录重试。推荐方式仍是先 `mvn -pl mugsun-boot-server -am package -DskipTests`，再在仓库根目录 `java -jar mugsun-boot-server/target/mugsun-boot.jar`。
+旧版本在仓库根目录执行 `mvn -pl mugsun-boot-server -am spring-boot:run` 会报这个错，拉取最新代码即可。
+
+更推荐先打包再运行：
+
+```bash
+./mvnw -pl mugsun-boot-server -am package -DskipTests
+java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
+```
 
 ### 启动时读不到本地配置？
 
-本地配置路径是 `optional:file:./config/application-local.yml`，工作目录必须是 boot 仓库根目录。先 `cp config/application-local.yml.example config/application-local.yml`。
+本地配置文件是 `config/application-local.yml`，按相对路径加载。启动时的工作目录必须是后端仓库的根目录。
 
+这个文件要自己从示例复制：
 
-### 启动报 `Migration checksum mismatch for version 1`？
+```bash
+cp config/application-local.yml.example config/application-local.yml
+```
 
-0.1.0 发布的 `V1__baseline_0_1.sql` 现在与 main 完全一致（[mugsun-boot #15](https://github.com/mugsun/mugsun-boot/pull/15) 起，CI 用 `db/RELEASED.sha256` 校验，不会再改）。报这个错说明开发库是用 0.1.0 发布前的 main，或 #11 到 #15 之间的 main 建的，库里记的是旧版 V1 的校验和。
+### 启动报 `Migration checksum mismatch for migration version 1`？ {#checksum}
 
-- **开发库，数据不要了（推荐）：** `docker compose down -v && docker compose up -d`，再启动后端，按当前迁移重建。只删开发数据卷，别对共享库执行。
-- **数据要保留：** 先备份，确认库结构和当前 V1 一致后，再改记 V1 的校验和（等同 `flyway repair` 对 V1 的效果）：`docker exec mugsun-pg psql -U mugsun -d mugsun -c "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"`。这只改历史表记录，不补表结构；旧 V1 少的字段或菜单不会自动出现，所以结构不一致时还是重建更稳。
+这个开发库是用较早的 `main` 分支建的，库里记的是旧版 V1 脚本的校验和。用 0.1.0 正式包建的库不会遇到。
 
-用 0.1.0 正式包建的库不受影响，直接升级即可。
+| 情况 | 做法 |
+| --- | --- |
+| 开发库，数据可以不要 | 执行 `docker compose down -v` 和 `docker compose up -d`，再启动后端重建 |
+| 数据要保留 | 先备份，确认表结构和现在的 V1 一致，再改迁移历史里 V1 的校验和 |
 
-### `prod` 启动直接退出？
+`down -v` 会删掉开发数据卷，不要对共用的库执行。改校验和的语句是：
 
-`prod` 未注入初始口令（`MUGSUN_INIT_PASSWORD`）时会拒绝启动，这是有意的安全默认值。
+```bash
+docker exec mugsun-pg psql -U mugsun -d mugsun -c \
+  "UPDATE flyway_schema_history SET checksum = 1472764584 WHERE version = '1';"
+```
 
-### 只想要后端核心，不要 GIS / AI？
+这条语句只改迁移历史，不补表结构。旧版 V1 缺的字段和菜单不会自己出现，结构不一致时还是重建更稳。
 
-构建时用 `-Pbasic,'!full'`，或保留 full 并在运行时设置 `MUGSUN_GIS_ENABLED=false` / `MUGSUN_AI_ENABLED=false`。见 [架构全景 · 模块装配](/guide/architecture#模块装配-两层开关)。
+### 不带 `dev` 启动，进程直接退出？
 
-## 管理台
+启动时没有带 `dev` 这类开发 profile，后端就按生产环境处理，判定规则见[配置参考](/boot/configuration#怎么判定是不是生产)。
 
-### 为什么新开标签页要重新登录？
+生产环境缺少初始口令或字段加密密钥时拒绝启动。本地自测请加上 `--spring.profiles.active=dev`，报错的处理办法见[报错速查](/guide/errors#startup)。
 
-0.1.0 起 token 存在 `sessionStorage`（仅当前标签页），不再写入 `localStorage`，降低 XSS 后长期凭证被窃取的风险。语言、用户信息等非敏感字段仍保存在 `localStorage`。
+### 只想要后端的基础部分，不要 GIS 和 AI？
 
-### `pnpm install` 报找不到 `@mugsun/track-web`？
+有两种办法：
 
-管理台默认依赖 npm `@mugsun/track-web@0.3.0`，一般直接 `pnpm install` 即可，不必克隆 mugsun-track。
+- 打包时加 `-Pbasic,'!full'`，产物里就没有这两个模块。
+- 保留完整的包，运行时设 `MUGSUN_GIS_ENABLED=false` 和 `MUGSUN_AI_ENABLED=false`。
 
-若本机 registry 拉不到该包，检查网络 / npm 镜像，或临时设 `VITE_ENABLE_TRACK=false` 跳过埋点模块构建。
+两种办法的区别见[架构](/guide/architecture#模块装配-两层开关)。
 
-联调 SDK 源码时再平级克隆并用 `pnpm link` / `.npmrc` `link:`。
+## 管理后台
 
-见 [快速开始 · 启动管理台](/guide/getting-started#2-启动管理台)。
+### 为什么新开一个标签页要重新登录？
+
+登录令牌存在 `sessionStorage` 里，只在当前标签页有效，关掉标签页就清除。这样可以降低令牌被 XSS 长期盗用的风险。
+
+语言和用户信息这类不敏感的内容仍然存在 `localStorage` 里，见[登录状态存在哪里](/pc/development#登录状态存在哪里)。
+
+### `pnpm install` 提示找不到 `@mugsun/track-web`？
+
+管理后台依赖 npm 上的 `@mugsun/track-web`，正常情况下直接 `pnpm install` 就行，不需要克隆 mugsun-track。
+
+装不上时，先检查网络和 npm 镜像。
+
+要调试 SDK 的源码时，把 mugsun-track 克隆到同级目录，在 `.npmrc` 里加一行，再执行 `pnpm install`：
+
+```ini
+@mugsun/track-web=link:../mugsun-track
+```
 
 ## 埋点
 
-### 埋点会采集输入框内容吗？
+### 埋点会采集输入框里的内容吗？
 
-自动采集的点击等事件不带 `input` / `textarea` 的值。会话回放从 0.3.0 起默认显示输入框的值和页面文本原文；密码框、`maskSelectors` 与 `data-track-mask` 区域、银行卡和一次性验证码字段始终不录。需要遮罩时传 `maskAllInputs: true` 和 `maskTextSelector`，见 [隐私与合规 · 开启遮罩与过滤](/track/privacy#开启遮罩与过滤)。
+自动采集的点击等事件从不带输入框的值。
 
-### URL 里的 token 会被上报吗？
+会话回放默认是关的。打开以后，页面文字和输入框的值按原文显示，密码框、银行卡和验证码字段始终不录。
 
-不会原文上报。接口监控的 URL、`referrer`、链接 `href`、资源错误地址和回放里的页面地址中，`token`、`access_token`、`code`、`ticket`、`otp` 等敏感参数的值替换为 `***`，hash 里的参数也处理。完整清单见 [隐私与合规 · URL 敏感参数](/track/privacy#url-敏感参数)。
+要遮掉输入内容，给回放插件传 `maskAllInputs: true`，见[开启遮罩与过滤](/track/privacy#开启遮罩与过滤)。
+
+### 地址里的 token 会被上报吗？
+
+不会按原文上报。SDK 上报的地址里，`token`、`access_token` 和 `code` 这类敏感参数的值会换成 `***`。
+
+hash 里的参数也一样处理。完整的参数清单见 [URL 敏感参数](/track/privacy#url-敏感参数)。
 
 ### `appKey` 泄露了怎么办？
 
-`appKey` 本来就在浏览器里可见，不是密钥。服务端靠存在性校验、限流、队列背压与事件校验防护。
+`appKey` 本来就写在页面代码里，谁都能看到，它不是密钥。
+
+后端按 IP 限流，限制单次上报的大小，并校验每条事件的格式。被拒绝的上报记在[接入健康](/track/first-event#接入健康)里。
 
 ## 部署与运行
 
-本节按现象、原因、解决的顺序写。看到具体报错原文时，也可以先查[报错速查](/guide/errors)。
+### 升级后旧的前端登录不了，返回 40013？
 
-### 升级后旧前端登录不了，返回 40013？
+登录、注册和发送验证码都返回 `40013`，提示「请先完成安全验证」。
 
-现象是登录、注册或发送验证码时都返回 `40013`，提示「请先完成安全验证」。
+原因是后端移除了旧的数字图形验证码。验证码开启时，请求必须带 `captchaToken`。
 
-原因是后端移除了旧的数字图形验证码 `GET /auth/captcha`，验证码开启时请求必须带 `captchaToken`。
+把前端升级到行为验证码的流程，见[后端升级指南](/boot/upgrade#移除旧的数字图形验证码)。
 
-解决办法是把前端升级到新的行为验证码流程，见[后端升级指南](/boot/upgrade#移除旧的数字图形验证码)。
+### 后端重启后，加密接口报「加密报文解密失败」？ {#transport-key}
 
-### 重启后接口都报「接口密文无效」？
+后端重启时换了接口传输密钥，已经打开的页面还在用旧密钥，所以加密接口都解不开。
 
-现象是本地开发时，后端重启后已经打开的页面调用加密接口都失败。
+没有配置 `MUGSUN_API_KEY` 时，密钥保存在 `~/.mugsun/api-transport.key`，重启后继续用，正常不会出这个问题。
 
-现在没配 `MUGSUN_API_KEY` 时密钥会持久化到 `~/.mugsun/api-transport.key`，重启复用，正常不会再出现。
+出现了，通常是密钥文件被删、`MUGSUN_HOME` 变了，或者 Docker 没有给这个目录挂卷。
 
-仍出现时，通常是密钥文件被删了、`MUGSUN_HOME` 变了，或 Docker 没给该目录挂卷。
-
-解决办法是刷新页面重新登录，前端会重新取密钥。Docker 和多实例部署请配置 `MUGSUN_API_KEY` 或挂共享卷。
+刷新页面就能恢复，管理后台会重新取一次密钥。用 Docker 或多实例部署时，要配置 `MUGSUN_API_KEY`，或者挂一个共享卷。
 
 ### 「定时任务」页提示服务暂时连不上？
 
-现象是打开「定时任务」页时提示定时任务服务暂时连不上，列表为空。
+默认的 Docker 环境里没有 PowerJob Server，后端连不上调度服务，所以列表是空的。
 
-原因是 PowerJob Server 不在默认的 Docker 环境里，后端连不上调度服务。
+要用这个页面，自己部署 PowerJob Server，再配置 `POWERJOB_ENABLED` 等环境变量，见[定时任务](/boot/features/job)。
 
-解决办法是自行部署 PowerJob Server，并配置 `POWERJOB_ENABLED` 等环境变量，见[定时任务](/boot/features/job)。
+只需要简单的单机定时任务时，可以直接用 Spring 的 `@Scheduled`。
 
-只需要简单的单机定时任务时，可以改用 Spring 的 `@Scheduled`。
+### 多实例部署时，部分用户收不到站内信的推送？
 
-### 多实例部署时，部分用户收不到站内信推送？
+消息已经写进库里，但连在另一个实例上的用户收不到实时推送。
 
-现象是消息已经写入库里，但连在另一台实例上的用户没有收到实时推送。
+原因是 `mugsun.websocket.sender-type` 被改成了 `local`，推送只发给本实例上的连接。
 
-原因是 `mugsun.websocket.sender-type` 被改成了 `local`，推送只发给本机的连接。
+保持默认值 `redis`，推送会经 Redis 的发布订阅转发到每个实例。
 
-解决办法是保持默认值 `redis`，让推送经 Redis 发布订阅转发到每个实例。
+### 多实例部署时，附件的下载链接时好时坏？
 
-### 多实例部署时，附件下载链接时好时坏？
+同一个下载链接在一个实例上能打开，在另一个实例上打不开。
 
-现象是同一个下载链接在一台实例上能打开，在另一台上打不开。
+原因是没有配置 `MUGSUN_FILE_SIGN_SECRET`，每个实例各自随机生成了签名密钥。重启以后旧链接也会失效。
 
-原因是没有配置 `MUGSUN_FILE_SIGN_SECRET`，每台实例各自随机生成了签名密钥。重启后旧链接也会失效。
+给所有实例配置同一个 `MUGSUN_FILE_SIGN_SECRET`，长度不少于 32 个字符。
 
-解决办法是给所有实例配置同一个不少于 32 个字符的 `MUGSUN_FILE_SIGN_SECRET`。
+### 在一个实例上关掉 GIS 或 AI，其他实例多久生效？
 
-### 关闭 GIS 或 AI 模块后，其他机器还能用？
+立即生效。系统参数改动以后，会经 Redis 广播通知每个实例清掉本地缓存。
 
-**已修**（[mugsun-boot#90](https://github.com/mugsun/mugsun-boot/issues/90)）。
+广播依赖 `jetcache.remote.default.broadcastChannel`，默认值是 `mugsun`。覆盖这段配置时不要把它丢掉。
 
-旧版把系统参数缓存在每台机器的本地。
+也可以在启动时用环境变量 `MUGSUN_GIS_ENABLED=false` 和 `MUGSUN_AI_ENABLED=false` 关闭。
 
-多机部署里改模块开关后，其他机器最长一小时内仍按旧值运行。
+### 覆盖 JetCache 的配置要注意什么？
 
-现在 `ParamService` 使用 `CacheType.BOTH` 且 `syncLocal=true`。
+一般不用动这段配置。`prod` 和 `demo` 都不覆盖它，Redis 地址由 `REDIS_*` 变量自动合成。
 
-写或删参数时 `@CacheInvalidate` 会经 Redis 广播清掉各机本地缓存，多机立即一致。
+一定要覆盖时，注意三点：
 
-这依赖 `jetcache.remote.default.broadcastChannel`（默认 `mugsun`）。
+- 在同一级保留 `type: redis.lettuce` 和 `broadcastChannel`。
+- 不要留空的 `jetcache.remote.default:`，否则启动报 `StringIndexOutOfBoundsException`。
+- 尽量不要手写 `uri`。手写的不会被覆盖，但启动时要和 `spring.data.redis` 核对，对不上就拒绝启动。
 
-JetCache 2.7.9 在 channel 为空时会静默不装广播。
+### Redis 口令里有特殊字符，要自己编码吗？
 
-`demo` / `prod` 默认不覆盖 `jetcache.remote.default`。
+不用。合成 JetCache 的地址时，口令里的 `@` `:` `/` `?` `#` `%` 会自动做百分号编码。
 
-若必须覆盖，须同级保留 `type: redis.lettuce` 与 `broadcastChannel`。
+一键启动的 Compose 生成的口令只有字母和数字。自己设的口令可以带特殊字符。
 
-也可以用环境变量 `MUGSUN_GIS_ENABLED=false`、`MUGSUN_AI_ENABLED=false` 在启动时关闭。
+### openGauss 上迁移执行不了？
 
-### Redis 口令含特殊字符时连不上？
+启动时 Flyway 还没开始执行迁移就失败了。原因是 Flyway 会执行 `SET ROLE`，而 openGauss 要求这条语句带密码。
 
-**已修**（[mugsun-boot#70](https://github.com/mugsun/mugsun-boot/issues/70)）。
+完整版 openGauss 用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本，见[后端升级指南](/boot/upgrade#同租户重复手机号)。
 
-旧版 `prod` / `demo` 曾把 Redis 口令裸拼进 JetCache URI，口令含 `@`、`:`、`/`、`?`、`#`、`%` 时会连错。
-
-现在由 `JetCacheRedisUriEnvironmentPostProcessor` 合成 JetCache 的 uri。
-
-它读取 `spring.data.redis`（或 `REDIS_*`），口令做百分号编码并回解析核对；不一致则拒绝启动。
-
-一键 compose 的 `gen-secrets` 仍只用字母数字；自建口令可含特殊字符，不必再手工编码。
-
-若你显式设置了 `jetcache.remote.default.uri`（命令行 / 环境变量 / 系统属性），EPP **不会覆盖**它。
-
-但仍会按 `spring.data.redis` 回解析核对，未编码或与分字段不一致时同样拒绝启动。
-
-优先用分字段配置，少手写 uri。
-
-### 覆盖 `jetcache.remote.default` 后启动报 StringIndexOutOfBounds？
-
-现象是启动时 JetCache 条件装配崩溃，栈里出现 `StringIndexOutOfBoundsException`（Range `[0, -1)`）。
-
-原因是 YAML 里写了空的 `jetcache.remote.default:`（或环境里出现裸键 `jetcache.remote.default=`）。
-
-SnakeYAML 扁平化后冲掉继承自 `application.yml` 的 `type`。
-
-JetCacheCondition 对无点号键做 `substring(0, indexOf('.'))` 失败。
-
-解决办法：不要留空 map。
-
-若必须覆盖 `remote.default`，**同级保留** `type: redis.lettuce`（以及你需要的 encoder 等）。
-
-`prod` / `demo` 已不再覆盖该块，uri 交给 EPP 合成。
-
-### openGauss 上迁移跑不起来？
-
-现象是在 openGauss 上启动时，Flyway 在执行任何迁移之前就失败了。
-
-原因是 Flyway 会执行 `SET ROLE`，openGauss 要求带密码而拒绝执行。
-
-openGauss-lite 上 V8 还有语法错误，见 [mugsun-boot#102](https://github.com/mugsun/mugsun-boot/issues/102)。
-
-解决办法是完整版 openGauss 用 gsql 按版本号逐个执行 `db/migration-og` 里的脚本，步骤见[后端升级指南](/boot/upgrade)。
+openGauss-lite 暂时不能用，V8 脚本在它上面有语法错误。
 
 ## 提问之前
 
-先查[报错速查](/guide/errors)和本页。
+先查[报错速查](/guide/errors)和这一页。
 
-还是解决不了，就到对应仓库提 [Issue](https://github.com/mugsun)，写清楚重现步骤、版本和系统。版本可以写 Maven 或 npm 的版本号，也可以写 commit SHA。
+还是解决不了，就到对应的仓库提 [Issue](https://github.com/mugsun)，写清楚重现步骤、版本和操作系统。
+
+版本可以写 Maven 或 npm 的版本号，也可以写提交的 SHA。
