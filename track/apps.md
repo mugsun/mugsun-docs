@@ -176,7 +176,9 @@ Release 要和 SDK 初始化时的 `release` 完全一样，错误事件靠它�
 | `POST /visual/rule/submit` | `sys:track-visual:edit` | 改事件名、路由、匹配文本和状态 |
 | `POST /visual/rule/remove` | `sys:track-visual:edit` | 请求体带 `id` |
 
-`/app/submit` 新增时要 `sys:track-app:add`，编辑时要 `sys:track-app:edit`。新增成功返回完整的应用，里面有生成的 `appKey`。
+`/app/submit` 新增时要 `sys:track-app:add`，编辑时要 `sys:track-app:edit`。
+
+新增成功返回完整的应用，里面有生成的 `appKey`。
 
 分页接口都接受 `pageNum` 和 `pageSize`，`pageSize` 默认 10。
 

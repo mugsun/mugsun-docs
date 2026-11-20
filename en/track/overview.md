@@ -46,9 +46,12 @@ See [How the dashboards count](/en/track/#dashboard-trend) for how days are cut 
 
 ### Regions and the heatmap
 
-Regions needs IP location lookup turned on in the backend; see [IP location](/en/boot/configuration#ip-location). While it is off, all events fall into one row named `未知` (unknown).
+Regions needs IP location lookup turned on in the backend; see [IP location](/en/boot/configuration#ip-location). While it is off, all events fall into a single row.
 
-Once it is on, private network addresses go to a row named `内网` (intranet), and addresses whose province cannot be resolved stay under `未知`. Both names come from the backend as they are.
+Two row names come from the backend as they are, in Chinese:
+
+- `未知` (unknown): the province cannot be resolved, or the lookup is off.
+- `内网` (intranet): a private network address, once the lookup is on.
 
 The Visit heatmap needs all three of the following:
 

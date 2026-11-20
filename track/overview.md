@@ -147,7 +147,9 @@ Top 页面的路径优先用路由模板，比如 `/order/:id`，同一类页面
 | `/events/page` | 每行有 `eventName` `eventCount` `sessionCount` `uv` `lastTime` |
 | `/events/realtime` | 每项有 `id` `eventId` `eventName` `ts` `distinctId` `sessionId` `userId` `urlPath` |
 
-`cards` 里的字段是 `pv` `uv` `sessionCount` `eventCount` `avgSessionDurationMs` `bounceRate` 和 `settledSessionCount`。
+`cards` 里有 `pv` `uv` `sessionCount` `eventCount` 四个计数。
+
+另外三项是 `avgSessionDurationMs` `bounceRate` 和 `settledSessionCount`。
 
 `bounceRate` 是 0 到 1 的比例。`settledSessionCount` 是已经结束的会话数，是 0 时时长和跳出率还没有值。
 

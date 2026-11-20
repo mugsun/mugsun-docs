@@ -166,7 +166,9 @@
 | `/replay/events` | 打点条用的事件，每项有 `eventName` `ts` `urlPath`，最多 500 项 |
 | `/replay/data` | 一块录制的内容，是一个 JSON 数组。每次调用写一条操作日志 |
 
-会话信息里常用的字段是 `sessionId` `distinctId` `userId` `startTime` `durationMs` `pageCount` `rrwebEvents` `sizeBytes` `hasError` 和 `entryPath`。
+会话信息里有 `sessionId` `distinctId` `userId` `startTime` 和 `entryPath`。
+
+另有 `durationMs` `pageCount` `rrwebEvents` `sizeBytes` 和 `hasError`。
 
 用户细查的两个接口：
 
@@ -181,7 +183,9 @@
 
 按 `userId` 查时还返回 `deviceCount` 和 `devicesTruncated`，含义见[升级说明](/track/upgrade#用户时间线的设备上限)。
 
-每条记录的字段是 `eventId` `eventName` `ts` `clientTs` `urlPath` `routePath` `durationMs` `sessionId` `props` `hasReplay` 和 `hasApiBody`。
+每条记录有 `eventId` `eventName` `ts` `clientTs` `urlPath` 和 `routePath`。
+
+另有 `durationMs` `sessionId` `props` `hasReplay` 和 `hasApiBody`。
 
 `props` 是 JSON 字符串。`/user/api-body` 成功时直接返回采到的响应体原文，取不到时返回 HTTP 400。
 

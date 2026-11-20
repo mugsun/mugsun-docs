@@ -44,7 +44,9 @@ Besides the replay list, three other places open the same player drawer:
 - The timeline in User Drilldown, where sessions with a recording have a Replay button.
 - Links with the `sessionId` and `appKey` parameters, such as the session links given by [Ask analytics](/en/track/ask).
 
-Replays are sensitive data. During playback, every recording block that is read makes the backend write an operation log entry titled `查看会话回放` (view session replay).
+Replays are sensitive data. During playback, every recording block that is read makes the backend write an operation log entry.
+
+The entry is titled `查看会话回放` (view session replay).
 
 When pages contain personal data, turn on masking as described in [Privacy](/en/track/privacy#turning-on-masking-and-filtering) before recording.
 
@@ -129,7 +131,9 @@ API events exist only when the application has API monitoring turned on, and res
 
 Response bodies are kept for 7 days by default and 30 at most, changed with Response body retention in the application form. The limit for a single response body defaults to 1 MB.
 
-Each time a response body is viewed, the backend writes an operation log entry titled `查看接口响应体` (view API response body).
+Each time a response body is viewed, the backend writes an operation log entry.
+
+The entry is titled `查看接口响应体` (view API response body).
 
 ## Permissions
 

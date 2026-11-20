@@ -120,7 +120,9 @@ The Alert threshold accepts 1 to 1000 and defaults to 10. The switch and the thr
 
 The two rules are checked independently. With a threshold of 1, the first error of a new fingerprint sends two messages.
 
-The message is titled `埋点错误告警` (tracking error alert). The body names the application, the error fingerprint and the rule that fired, and links to Error Monitoring. Times in the body are in UTC.
+The message is titled `埋点错误告警` (tracking error alert).
+
+The body names the application, the error fingerprint and the rule that fired, and links to Error Monitoring. Times in the body are in UTC.
 
 The recipients are the users with a normal status under the role whose code is `admin`, in the tenant that owns the application. Without such users nothing is sent.
 
