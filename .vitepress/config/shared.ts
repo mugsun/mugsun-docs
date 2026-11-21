@@ -36,6 +36,8 @@ export const shared = defineConfig({
     ['meta', { property: 'og:image', content: 'https://docs.mugsun.com/brand/banners/github-og-1200x630.png' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'theme-color', content: '#111111' }],
+    // The home page hides what scrolls into view later; it must know before the first paint that scripts run.
+    ['script', {}, "document.documentElement.classList.add('js')"],
   ],
   themeConfig: {
     // Logo already ships MS mark + MUGSUN wordmark; hide duplicate <span>mugsun</span>
