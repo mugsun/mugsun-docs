@@ -1,8 +1,8 @@
 ---
 layout: home
 markdownStyles: false
-title: 开源免费的中后台系统
-description: mugsun 是一套开源免费的中后台系统，包含后端、管理后台和埋点分析，另有一套移动端组件库。
+title: 自带埋点、GIS 和 AI 的开源中后台系统
+description: mugsun 是一套开源的中后台系统，后端和管理后台配套提供，自带埋点分析、GIS 和 AI 三个可选模块。
 landing:
   copyLabel: 复制命令
   hero:
@@ -10,9 +10,9 @@ landing:
       text: MIT 许可，源码在 GitHub
       link: https://github.com/mugsun
     title:
-      - 开源免费的
-      - 中后台系统
-    lead: 包含后端、管理后台和埋点分析，另有一套移动端组件库。多租户、工作流和代码生成已经做好，可以直接在上面写业务。
+      - 自带埋点、GIS 和 AI 的
+      - 开源中后台系统
+    lead: 后端和管理后台配套提供，多租户、工作流和代码生成已经做好。埋点分析、GIS 和 AI 是三个可选模块，用不到的可以不带。
     actions:
       - text: 快速开始
         link: /guide/getting-started

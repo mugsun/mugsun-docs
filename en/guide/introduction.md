@@ -1,6 +1,6 @@
 # Introduction
 
-mugsun is a free, open-source admin platform. It comes with a backend, an admin console and product analytics.
+mugsun is an open-source admin platform. The backend and the admin console ship together, and product analytics, GIS and AI come as three optional modules.
 
 Multi-tenancy, workflow and code generation are already built, and you write your own business logic on top.
 

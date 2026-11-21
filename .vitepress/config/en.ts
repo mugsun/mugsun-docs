@@ -2,7 +2,7 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
 export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
   description:
-    'A free, open-source admin platform: backend, admin console, product analytics and a mobile component library that ship together. GIS and AI are optional.',
+    'mugsun is an open-source admin platform. The backend and the admin console ship together, and product analytics, GIS and AI come as three optional modules.',
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/en/guide/introduction', activeMatch: '/en/guide/' },

@@ -6,7 +6,7 @@ The questions are grouped into five topics. When you have the exact error text a
 
 ### What kind of project is mugsun for?
 
-Admin projects that need both an admin console and user behavior analytics.
+Admin projects that need common features such as multi-tenancy and workflow. Product analytics, GIS and AI can be enabled as you need them.
 
 It is neither a drag-and-drop low-code platform nor a hosted analytics service. For what each part is and whether it works on its own, see [Introduction](/en/guide/introduction).
 

@@ -2,7 +2,7 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
 export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
   description:
-    'mugsun 是一套开源免费的中后台系统，包含后端、管理后台和埋点分析，GIS 和 AI 按需启用。',
+    'mugsun 是一套开源的中后台系统，后端和管理后台配套提供，自带埋点分析、GIS 和 AI 三个可选模块。',
   themeConfig: {
     nav: [
       { text: '指南', link: '/guide/introduction', activeMatch: '/guide/' },

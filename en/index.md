@@ -1,8 +1,8 @@
 ---
 layout: home
 markdownStyles: false
-title: A free, open-source admin platform
-description: mugsun is a free, open-source admin platform. The backend, the admin console, product analytics and a mobile component library ship together.
+title: An open-source admin platform with analytics, GIS and AI
+description: mugsun is an open-source admin platform. The backend and the admin console ship together, and product analytics, GIS and AI come as three optional modules.
 landing:
   copyLabel: Copy commands
   hero:
@@ -10,9 +10,9 @@ landing:
       text: MIT licensed, source on GitHub
       link: https://github.com/mugsun
     title:
-      - A free, open-source
-      - admin platform
-    lead: The backend, the admin console, product analytics and a mobile component library ship together. Multi-tenancy, permissions, workflows and code generation are already built, so you can write your business logic on top right away.
+      - Open-source admin platform
+      - with analytics, GIS and AI
+    lead: The backend and the admin console ship together, with multi-tenancy, workflows and code generation already built. Product analytics, GIS and AI are three optional modules, and you can leave out the ones you don't need.
     actions:
       - text: Get started
         link: /en/guide/getting-started
