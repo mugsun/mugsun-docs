@@ -29,7 +29,7 @@ landing:
     - value: 119 components
       label: ms-ui, a uni-app x component library for apps, mini programs and H5.
     - value: MIT
-      label: boot, core, pc, track and ms-ui are all released under the MIT License.
+      label: The source of the backend, admin console and analytics SDK is on GitHub.
   showcase:
     title: See what it looks like
     lead: Real screenshots from a local run with demo data. A few of them show the Chinese UI.
