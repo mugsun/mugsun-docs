@@ -21,14 +21,6 @@ landing:
         link: /en/guide/introduction
         theme: alt
     note: All you need to try it is Docker. Three commands open the admin console on your machine.
-    shot:
-      src: /readme/track-overview-en.png
-      alt: The analytics overview page in the admin console
-      label: 127.0.0.1:8088
-    shot2:
-      src: /screenshots/gis/gis-workspace.png
-      alt: The map workspace
-      label: Map workspace
   facts:
     - value: 1 JAR
       label: The backend builds into one executable JAR. At runtime it needs only PostgreSQL and Redis.
@@ -38,6 +30,54 @@ landing:
       label: ms-ui, a uni-app x component library for apps, mini programs and H5.
     - value: MIT
       label: boot, core, pc, track and ms-ui are all released under the MIT License.
+  showcase:
+    title: See what it looks like
+    lead: Real screenshots from a local run with demo data. A few of them show the Chinese UI.
+    more: Read the docs
+    items:
+      - title: Overview
+        text: Traffic trends, sources, devices and top pages on one page.
+        src: /readme/track-overview-en.png
+        alt: The analytics overview page
+        label: Analytics / Overview
+        link: /en/track/
+      - title: Map workspace
+        text: Draw points, lines and polygons, save them as a scene, and overlay layers for spatial analysis.
+        src: /screenshots/gis/gis-workspace.png
+        alt: The GIS map workspace
+        label: GIS / Map
+        link: /en/pc/gis
+      - title: AI app orchestration
+        text: Connect models and knowledge bases into an AI app on a canvas.
+        src: /screenshots/pc/ai-app-orchestration.png
+        alt: The app orchestration canvas with node properties on the right
+        label: AI Center / App orchestration
+        link: /en/pc/designer#ai-app-orchestration
+      - title: Session replay
+        text: Watch what a user did, session by session. Password fields are never recorded.
+        src: /readme/track-replay-en.png
+        alt: The session replay player
+        label: Analytics / Session replay
+        link: /en/track/plugins
+      - title: Menus and permissions
+        text: Menus and button permissions are maintained here. The frontend renders what the backend returns.
+        src: /readme/system-menu.png
+        alt: The menu management page under System
+        label: System / Menus
+        link: /en/boot/permissions
+      - title: Code generation
+        text: Preview every file before you generate, then download.
+        src: /screenshots/codegen/gen-preview.png
+        alt: The code generation preview dialog
+        label: System / Code generation
+        link: /en/boot/codegen/
+      - title: Mobile components
+        text: The ms-ui component demo. You can try it right on the docs pages.
+        src: /readme/uniappx-demo.png
+        alt: The ms-ui component demo
+        label: ms-ui demo
+        link: /en/uniappx/
+        fit: contain
   paths:
     eyebrow: Docs
     title: Start from what you want to do
@@ -103,54 +143,10 @@ landing:
             link: /en/guide/faq
           - text: Upgrade guide
             link: /en/guide/upgrade/
-  showcase:
-    eyebrow: Screens
-    title: See what it looks like
-    lead: Real screenshots from a local run with demo data. A few of them show the Chinese UI.
-    more: Read the docs
-    items:
-      - title: Overview
-        text: Traffic trends, sources, devices and top pages on one page.
-        src: /readme/track-overview-en.png
-        alt: The analytics overview page
-        label: Analytics / Overview
-        link: /en/track/
-      - title: Session replay
-        text: Watch what a user did, session by session. Password fields are never recorded.
-        src: /readme/track-replay-en.png
-        alt: The session replay player
-        label: Analytics / Session replay
-        link: /en/track/plugins
-      - title: Menus and permissions
-        text: Menus and button permissions are maintained here. The frontend renders what the backend returns.
-        src: /readme/system-menu.png
-        alt: The menu management page under System
-        label: System / Menus
-        link: /en/boot/permissions
-      - title: Code generation
-        text: Preview every file before you generate, then download.
-        src: /screenshots/codegen/gen-preview.png
-        alt: The code generation preview dialog
-        label: System / Code generation
-        link: /en/boot/codegen/
-      - title: Map workspace
-        text: Draw points, lines and polygons, save them as a scene, and overlay layers for spatial analysis.
-        src: /screenshots/gis/gis-workspace.png
-        alt: The GIS map workspace
-        label: GIS / Map
-        link: /en/pc/gis
-      - title: Mobile components
-        text: The ms-ui component demo. You can try it right on the docs pages.
-        src: /readme/uniappx-demo.png
-        alt: The ms-ui component demo
-        label: ms-ui demo
-        link: /en/uniappx/
-        fit: contain
   features:
     eyebrow: Features
     title: The usual admin features, already built
     lead: They all live in one codebase and work as soon as you sign in to the admin console. Each has its own page in the docs.
-    more: Read the docs
     items:
       - icon: users
         title: Users and permissions
@@ -215,43 +211,37 @@ landing:
     lead: mugsun is made of several independent repositories. Each one has its own section in these docs.
     docs: Read the docs
     items:
-      - icon: server
-        name: mugsun-boot
+      - name: mugsun-boot
         role: Backend
         text: Authentication, system management, tenants and workflows are in this JAR. GIS, analytics and AI are optional modules.
         tags: [JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token]
         link: /en/boot/
         repo: https://github.com/mugsun/mugsun-boot
-      - icon: layout
-        name: mugsun-pc
+      - name: mugsun-pc
         role: Admin console
         text: Ships with pages for system management, workflows, tenants and the open platform. Menus and button permissions come from the backend.
         tags: [Vue 3, Vite 7, Element Plus, Pinia]
         link: /en/pc/
         repo: https://github.com/mugsun/mugsun-pc
-      - icon: activity
-        name: "@mugsun/track-web"
+      - name: "@mugsun/track-web"
         role: Analytics SDK
         text: Collects page views, clicks, performance and errors in the browser and reports them to the mugsun-boot backend.
         tags: [TypeScript, npm, rrweb]
         link: /en/track/
         repo: https://github.com/mugsun/mugsun-track
-      - icon: phone
-        name: ms-ui
+      - name: ms-ui
         role: Mobile component library
         text: A component library for uni-app x. Every component page lists props, events and slots, and the ones with a demo can be tried in place.
         tags: [uni-app x, uvue, uts]
         link: /en/uniappx/
         note: Source repository not public yet
-      - icon: box
-        name: mugsun-core
+      - name: mugsun-core
         role: Shared library
         text: The unified response body, global exception handling, API encryption and entity base classes. The backend depends on it, and you can use it on its own.
         tags: [BOM, Spring Boot Starter]
         link: /en/core/
         repo: https://github.com/mugsun/mugsun-core
-      - icon: wand
-        name: mugsun-start
+      - name: mugsun-start
         role: Project generator
         text: Pick a project type and optional modules, then download the project as a zip. The mugsun templates are not wired in yet.
         tags: [Spring Initializr, In development]

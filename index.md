@@ -21,14 +21,6 @@ landing:
         link: /guide/introduction
         theme: alt
     note: 试用只需要 Docker，三条命令就能在本机打开管理后台。
-    shot:
-      src: /readme/track-overview.png
-      alt: 管理后台里的埋点数据概览页
-      label: 127.0.0.1:8088
-    shot2:
-      src: /screenshots/gis/gis-workspace.png
-      alt: 地图工作台
-      label: 地图工作台
   facts:
     - value: 1 个 JAR
       label: 后端打成一个可执行 JAR，运行时只需要 PostgreSQL 和 Redis
@@ -38,6 +30,54 @@ landing:
       label: uni-app x 组件库 ms-ui，App、小程序和 H5 通用
     - value: MIT
       label: 后端、管理后台和埋点 SDK 的源码都在 GitHub 上
+  showcase:
+    title: 先看看它长什么样
+    lead: 这些都是本地运行时的真实截图，数据是演示数据。
+    more: 查看文档
+    items:
+      - title: 数据概览
+        text: 访问趋势、流量来源和热门页面放在同一个页面里。
+        src: /readme/track-overview.png
+        alt: 埋点分析的数据概览页
+        label: 埋点分析 / 数据概览
+        link: /track/
+      - title: 地图工作台
+        text: 在地图上画点、线、面，保存为场景，叠加图层做空间分析。
+        src: /screenshots/gis/gis-workspace.png
+        alt: GIS 地图工作台
+        label: 地理信息 / 地图
+        link: /pc/gis
+      - title: AI 应用编排
+        text: 在画布上把大模型和知识库连成一个 AI 应用。
+        src: /screenshots/pc/ai-app-orchestration.png
+        alt: 应用编排的画布和右侧的节点属性
+        label: AI 中心 / 应用编排
+        link: /pc/designer#ai-应用编排
+      - title: 会话回放
+        text: 按会话回看用户的操作过程，密码框始终不录。
+        src: /readme/track-replay.png
+        alt: 会话回放播放器
+        label: 埋点分析 / 会话回放
+        link: /track/plugins
+      - title: 菜单与权限
+        text: 菜单和按钮权限在这里维护，前端按后端返回的结果渲染。
+        src: /readme/system-menu.png
+        alt: 系统管理的菜单管理页
+        label: 系统管理 / 菜单管理
+        link: /boot/permissions
+      - title: 代码生成
+        text: 生成前先预览每个文件，确认后再下载。
+        src: /screenshots/codegen/gen-preview.png
+        alt: 代码生成的预览窗口
+        label: 系统管理 / 代码生成
+        link: /boot/codegen/
+      - title: 移动端组件
+        text: ms-ui 的组件演示，在文档页里可以直接操作。
+        src: /readme/uniappx-demo.png
+        alt: ms-ui 组件演示
+        label: ms-ui 演示
+        link: /uniappx/
+        fit: contain
   paths:
     eyebrow: 文档
     title: 按你要做的事开始读
@@ -103,54 +143,10 @@ landing:
             link: /guide/faq
           - text: 升级指南
             link: /guide/upgrade/
-  showcase:
-    eyebrow: 界面
-    title: 先看看它长什么样
-    lead: 下面都是本地运行时的真实截图，数据是演示数据。
-    more: 查看文档
-    items:
-      - title: 数据概览
-        text: 访问趋势、流量来源和热门页面放在同一个页面里。
-        src: /readme/track-overview.png
-        alt: 埋点分析的数据概览页
-        label: 埋点分析 / 数据概览
-        link: /track/
-      - title: 会话回放
-        text: 按会话回看用户的操作过程，密码框始终不录。
-        src: /readme/track-replay.png
-        alt: 会话回放播放器
-        label: 埋点分析 / 会话回放
-        link: /track/plugins
-      - title: 菜单与权限
-        text: 菜单和按钮权限在这里维护，前端按后端返回的结果渲染。
-        src: /readme/system-menu.png
-        alt: 系统管理的菜单管理页
-        label: 系统管理 / 菜单管理
-        link: /boot/permissions
-      - title: 代码生成
-        text: 生成前先预览每个文件，确认后再下载。
-        src: /screenshots/codegen/gen-preview.png
-        alt: 代码生成的预览窗口
-        label: 系统管理 / 代码生成
-        link: /boot/codegen/
-      - title: 地图工作台
-        text: 在地图上画点、线、面，保存为场景，叠加图层做空间分析。
-        src: /screenshots/gis/gis-workspace.png
-        alt: GIS 地图工作台
-        label: 地理信息 / 地图
-        link: /pc/gis
-      - title: 移动端组件
-        text: ms-ui 的组件演示，在文档页里可以直接操作。
-        src: /readme/uniappx-demo.png
-        alt: ms-ui 组件演示
-        label: ms-ui 演示
-        link: /uniappx/
-        fit: contain
   features:
     eyebrow: 功能
     title: 中后台常用的功能，已经做好了
     lead: 这些功能都在同一套代码里，登录管理后台就能用。每一项都有单独的文档。
-    more: 查看文档
     items:
       - icon: users
         title: 用户与权限
@@ -215,43 +211,37 @@ landing:
     lead: mugsun 由几个独立的仓库组成，每个仓库在这里都有自己的文档。
     docs: 阅读文档
     items:
-      - icon: server
-        name: mugsun-boot
+      - name: mugsun-boot
         role: 后端
         text: 账号权限、租户和工作流都在这个 JAR 里，GIS、埋点和 AI 是可选模块。
         tags: [JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token]
         link: /boot/
         repo: https://github.com/mugsun/mugsun-boot
-      - icon: layout
-        name: mugsun-pc
+      - name: mugsun-pc
         role: 管理后台
         text: 自带系统管理、工作流和租户运营的页面，菜单和按钮权限由后端返回。
         tags: [Vue 3, Vite 7, Element Plus, Pinia]
         link: /pc/
         repo: https://github.com/mugsun/mugsun-pc
-      - icon: activity
-        name: "@mugsun/track-web"
+      - name: "@mugsun/track-web"
         role: 埋点 SDK
         text: 在浏览器里采集页面浏览、点击和错误，上报到 mugsun-boot 后端。
         tags: [TypeScript, npm, rrweb]
         link: /track/
         repo: https://github.com/mugsun/mugsun-track
-      - icon: phone
-        name: ms-ui
+      - name: ms-ui
         role: 移动端组件库
         text: 面向 uni-app x 的组件库，每个组件页列出属性、事件和插槽，带演示的可以直接操作。
         tags: [uni-app x, uvue, uts]
         link: /uniappx/
         note: 源码仓库暂未公开
-      - icon: box
-        name: mugsun-core
+      - name: mugsun-core
         role: 公共库
         text: 统一响应体、全局异常处理和接口加解密，后端依赖它，也可以单独引入。
         tags: [BOM, Spring Boot Starter]
         link: /core/
         repo: https://github.com/mugsun/mugsun-core
-      - icon: wand
-        name: mugsun-start
+      - name: mugsun-start
         role: 项目生成器
         text: 选择工程类型和可选模块后生成工程压缩包，目前还没有接入 mugsun 模板。
         tags: [Spring Initializr, 开发中]

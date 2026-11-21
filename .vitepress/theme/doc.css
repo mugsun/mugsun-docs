@@ -17,17 +17,10 @@
   color: var(--vp-c-text-2);
 }
 
-/* Screenshots: an image alone in its paragraph */
+/* Screenshots: an image alone in its paragraph. Flat, like the home page: a hairline and no shadow. */
 .vp-doc p > img:only-child:not([width]) {
   border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 14px 32px -14px rgba(0, 0, 0, 0.16);
-}
-
-.dark .vp-doc p > img:only-child:not([width]) {
-  box-shadow: none;
+  border-radius: 6px;
 }
 
 /* Tables: header cells and first-column links stay on one line */
@@ -70,19 +63,15 @@
   margin: 0;
   padding: 16px 18px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
+  border-radius: 6px;
   font-size: 14px;
   line-height: 22px;
   color: var(--vp-c-text-2);
-  transition:
-    border-color 0.2s,
-    background-color 0.2s;
+  transition: border-color 0.15s;
 }
 
 .vp-doc .ms-cards > ul > li:hover {
   border-color: var(--vp-c-brand-1);
-  background: var(--vp-c-bg);
 }
 
 .vp-doc .ms-cards > ul > li > a:first-child {
@@ -100,7 +89,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 .vp-doc .ms-cards > ul > li > a:first-child::after {
@@ -161,7 +150,7 @@
   border-radius: 50%;
   background: var(--vp-c-bg);
   box-shadow: 0 0 0 5px var(--vp-c-bg);
-  color: var(--vp-c-brand-1);
+  color: var(--vp-c-text-1);
   font-size: 14px;
   font-weight: 600;
   line-height: 29px;
@@ -201,10 +190,9 @@
 .vp-doc .ms-flow > ol > li {
   position: relative;
   margin: 0;
-  padding: 46px 16px 16px;
+  padding: 42px 16px 16px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
+  border-radius: 6px;
   font-size: 14px;
   line-height: 22px;
   color: var(--vp-c-text-2);
@@ -216,15 +204,10 @@
   position: absolute;
   top: 14px;
   left: 16px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-1);
+  font-family: var(--vp-font-family-mono);
   font-size: 12px;
-  font-weight: 700;
   line-height: 22px;
-  text-align: center;
+  color: var(--vp-c-text-2);
 }
 
 .vp-doc .ms-flow > ol > li + li::after {
@@ -268,10 +251,8 @@
   margin: 28px 0;
   padding: 20px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
+  border-radius: 6px;
   background-color: var(--vp-c-bg-soft);
-  background-image: radial-gradient(var(--vp-c-divider) 1px, transparent 1px);
-  background-size: 18px 18px;
   font-size: 13px;
   line-height: 20px;
 }
@@ -288,7 +269,7 @@
   min-width: 0;
   padding: 12px 14px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
+  border-radius: 6px;
   background: var(--vp-c-bg);
 }
 
@@ -309,7 +290,7 @@
 
 .ms-arch__tag {
   padding: 0 7px;
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--vp-c-default-soft);
   color: var(--vp-c-text-2);
   font-size: 11px;
@@ -327,7 +308,7 @@
   margin-top: 6px;
   padding: 0 8px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--vp-c-bg-soft);
   color: var(--vp-c-text-2);
   font-family: var(--vp-font-family-mono);
@@ -373,7 +354,7 @@
   margin-top: -6px;
   padding: 0 9px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-2);
   font-family: var(--vp-font-family-mono);
@@ -388,10 +369,9 @@
 
 .ms-arch__boot {
   padding: 14px;
-  border: 1.5px solid var(--vp-c-brand-1);
-  border-radius: 12px;
+  border: 1.5px solid var(--vp-c-text-1);
+  border-radius: 6px;
   background: var(--vp-c-bg);
-  box-shadow: 0 0 0 4px var(--vp-c-brand-soft);
 }
 
 .ms-arch__boot-head {
