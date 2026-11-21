@@ -12,6 +12,7 @@ landing:
     title:
       - Open-source admin platform
       - with analytics, GIS and AI
+    accentLine: 2
     lead: The backend and the admin console ship together, with multi-tenancy, workflows and code generation already built. Product analytics, GIS and AI are three optional modules, and you can leave out the ones you don't need.
     actions:
       - text: Get started

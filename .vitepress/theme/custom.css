@@ -21,6 +21,14 @@
   --vp-button-brand-bg: var(--vp-c-brand-2);
   --vp-button-brand-hover-bg: var(--vp-c-brand-3);
   --vp-button-brand-active-bg: #8a3c16;
+  /* A deeper ground than the VitePress default, shared by the home page and the docs. */
+  --vp-c-bg: #0d0d10;
+  --vp-c-bg-alt: #09090b;
+  --vp-c-bg-elv: #17171b;
+  --vp-c-bg-soft: #17171b;
+  --vp-c-divider: #26262c;
+  --vp-c-border: #36363e;
+  --vp-code-block-bg: #131317;
 }
 
 .VPNavBarTitle .logo {

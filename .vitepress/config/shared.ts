@@ -11,6 +11,8 @@ export const shared = defineConfig({
   titleTemplate: ':title · mugsun',
   base,
   cleanUrls: true,
+  // Dark is the default look. The switch in the nav bar still offers light.
+  appearance: 'dark',
   // Repo-level Keep a Changelog; site page is changelog.md (case collision on Linux)
   srcExclude: ['**/CHANGELOG.md', 'README.md', 'CONTRIBUTING.md', 'AGENTS.md', 'CLAUDE.md', 'docs/**', 'public/**'],
   lastUpdated: true,

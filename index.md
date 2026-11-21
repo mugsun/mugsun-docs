@@ -12,6 +12,7 @@ landing:
     title:
       - 自带埋点、GIS 和 AI 的
       - 开源中后台系统
+    accentLine: 1
     lead: 后端和管理后台配套提供，多租户、工作流和代码生成已经做好。埋点分析、GIS 和 AI 是三个可选模块，用不到的可以不带。
     actions:
       - text: 快速开始

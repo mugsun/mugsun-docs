@@ -7,7 +7,25 @@
  *   <div class="ms-flow">    an ordered list  -> left-to-right pipeline
  *
  * Leave a blank line after the opening tag and before the closing tag.
+ *
+ * The blocks share the look of the home page: hairline panels, mono numbers and an orange edge on
+ * hover. They read these tokens, so light and dark differ only here.
  */
+
+:root {
+  /* rgb triplet of the glow colour, used as rgba(var(--ms-glow), alpha) */
+  --ms-glow: 204, 96, 36;
+  --ms-panel: var(--vp-c-bg);
+  --ms-panel-line: var(--vp-c-divider);
+  --ms-grid: rgba(23, 19, 15, 0.05);
+}
+
+.dark {
+  --ms-glow: 255, 128, 48;
+  --ms-panel: rgba(255, 255, 255, 0.03);
+  --ms-panel-line: rgba(255, 255, 255, 0.1);
+  --ms-grid: rgba(255, 255, 255, 0.04);
+}
 
 /* Lead paragraph under the page title */
 .vp-doc h1 + p {
@@ -17,10 +35,16 @@
   color: var(--vp-c-text-2);
 }
 
-/* Screenshots: an image alone in its paragraph. Flat, like the home page: a hairline and no shadow. */
+/* Screenshots: an image alone in its paragraph gets a hairline frame. */
 .vp-doc p > img:only-child:not([width]) {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
+  border: 1px solid var(--ms-panel-line);
+  border-radius: 10px;
+}
+
+/* On the dark ground a code block needs an edge to stand apart from the page. */
+.dark .vp-doc div[class*='language-'] {
+  outline: 1px solid var(--vp-c-divider);
+  outline-offset: -1px;
 }
 
 /* Tables: header cells and first-column links stay on one line */
@@ -62,16 +86,20 @@
   position: relative;
   margin: 0;
   padding: 16px 18px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
+  border: 1px solid var(--ms-panel-line);
+  border-radius: 10px;
+  background: var(--ms-panel);
   font-size: 14px;
   line-height: 22px;
   color: var(--vp-c-text-2);
-  transition: border-color 0.15s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .vp-doc .ms-cards > ul > li:hover {
-  border-color: var(--vp-c-brand-1);
+  border-color: rgba(var(--ms-glow), 0.55);
+  box-shadow: 0 12px 32px -20px rgba(var(--ms-glow), 0.6);
 }
 
 .vp-doc .ms-cards > ul > li > a:first-child {
@@ -89,7 +117,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 .vp-doc .ms-cards > ul > li > a:first-child::after {
@@ -146,12 +174,13 @@
   left: -48px;
   width: 31px;
   height: 31px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 50%;
+  border: 1px solid rgba(var(--ms-glow), 0.5);
+  border-radius: 8px;
   background: var(--vp-c-bg);
   box-shadow: 0 0 0 5px var(--vp-c-bg);
-  color: var(--vp-c-text-1);
-  font-size: 14px;
+  color: var(--vp-c-brand-1);
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
   font-weight: 600;
   line-height: 29px;
   text-align: center;
@@ -170,7 +199,7 @@
     left: -40px;
     width: 27px;
     height: 27px;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 25px;
   }
 }
@@ -191,8 +220,9 @@
   position: relative;
   margin: 0;
   padding: 42px 16px 16px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
+  border: 1px solid var(--ms-panel-line);
+  border-radius: 10px;
+  background: var(--ms-panel);
   font-size: 14px;
   line-height: 22px;
   color: var(--vp-c-text-2);
@@ -200,14 +230,14 @@
 }
 
 .vp-doc .ms-flow > ol > li::before {
-  content: counter(ms-flow);
+  content: counter(ms-flow, decimal-leading-zero);
   position: absolute;
   top: 14px;
   left: 16px;
   font-family: var(--vp-font-family-mono);
   font-size: 12px;
   line-height: 22px;
-  color: var(--vp-c-text-2);
+  color: var(--vp-c-brand-1);
 }
 
 .vp-doc .ms-flow > ol > li + li::after {
@@ -250,9 +280,14 @@
   --ms-arch-line: var(--vp-c-text-3);
   margin: 28px 0;
   padding: 20px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
+  border: 1px solid var(--ms-panel-line);
+  border-radius: 12px;
   background-color: var(--vp-c-bg-soft);
+  background-image:
+    linear-gradient(to right, var(--ms-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ms-grid) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size: 28px 28px;
   font-size: 13px;
   line-height: 20px;
 }
@@ -269,7 +304,7 @@
   min-width: 0;
   padding: 12px 14px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--vp-c-bg);
 }
 
@@ -369,9 +404,10 @@
 
 .ms-arch__boot {
   padding: 14px;
-  border: 1.5px solid var(--vp-c-text-1);
-  border-radius: 6px;
+  border: 1px solid rgba(var(--ms-glow), 0.6);
+  border-radius: 10px;
   background: var(--vp-c-bg);
+  box-shadow: 0 20px 50px -30px rgba(var(--ms-glow), 0.7);
 }
 
 .ms-arch__boot-head {

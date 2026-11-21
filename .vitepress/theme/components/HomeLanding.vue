@@ -14,6 +14,7 @@ const external = (link?: string) => !!link && /^(https?:)?\/\//.test(link)
 const href = (link?: string) => (!link ? undefined : external(link) ? link : withBase(link))
 const target = (link?: string) => (external(link) ? '_blank' : undefined)
 const rel = (link?: string) => (external(link) ? 'noopener' : undefined)
+const pad = (n: number) => String(n).padStart(2, '0')
 
 const shots = computed<any[]>(() => d.value.showcase?.items ?? [])
 const shown = computed(() => shots.value[active.value])
@@ -35,6 +36,15 @@ function onTabKey(e: KeyboardEvent) {
   const tab = tablist.value?.children[next] as HTMLElement | undefined
   tab?.focus()
   tab?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+}
+
+// Panels marked .mh-spot light up under the pointer; the CSS reads --mx and --my.
+function onSpot(e: MouseEvent) {
+  const el = (e.target as HTMLElement | null)?.closest<HTMLElement>('.mh-spot')
+  if (!el) return
+  const r = el.getBoundingClientRect()
+  el.style.setProperty('--mx', `${e.clientX - r.left}px`)
+  el.style.setProperty('--my', `${e.clientY - r.top}px`)
 }
 
 async function copyScript() {
@@ -61,98 +71,115 @@ async function copyScript() {
 </script>
 
 <template>
-  <div class="ms-home">
+  <div class="ms-home" @mousemove.passive="onSpot">
     <section v-if="d.hero" class="mh-hero">
-      <div class="mh-wrap mh-hero__grid">
-        <div class="mh-hero__text">
-          <component
-            :is="d.hero.badge.link ? 'a' : 'p'"
-            v-if="d.hero.badge"
-            class="mh-kicker"
-            :href="href(d.hero.badge.link)"
-            :target="target(d.hero.badge.link)"
-            :rel="rel(d.hero.badge.link)"
-          >
-            {{ d.hero.badge.text }}
-            <MsIcon v-if="d.hero.badge.link" name="external" :size="14" />
-          </component>
-          <h1 class="mh-title">
-            <span v-for="(line, i) in d.hero.title" :key="i">{{ line }}</span>
-          </h1>
-          <p class="mh-lead">{{ d.hero.lead }}</p>
-          <div class="mh-actions">
-            <a
-              v-for="a in d.hero.actions"
-              :key="a.text"
-              class="mh-btn"
-              :class="`mh-btn--${a.theme || 'alt'}`"
-              :href="href(a.link)"
-              :target="target(a.link)"
-              :rel="rel(a.link)"
-            >
-              {{ a.text }}
-              <MsIcon v-if="a.theme === 'brand'" name="arrow" :size="16" />
-            </a>
-          </div>
-          <p v-if="d.hero.note" class="mh-note">{{ d.hero.note }}</p>
-        </div>
+      <div class="mh-hero__bg" aria-hidden="true">
+        <span class="mh-beam mh-beam--a"></span>
+        <span class="mh-beam mh-beam--b"></span>
+        <span class="mh-beam mh-beam--c"></span>
+      </div>
 
-        <dl v-if="d.facts" class="mh-facts">
+      <div class="mh-wrap mh-hero__text">
+        <component
+          :is="d.hero.badge.link ? 'a' : 'p'"
+          v-if="d.hero.badge"
+          class="mh-chip"
+          :href="href(d.hero.badge.link)"
+          :target="target(d.hero.badge.link)"
+          :rel="rel(d.hero.badge.link)"
+        >
+          <span class="mh-chip__dot" aria-hidden="true"></span>
+          {{ d.hero.badge.text }}
+          <MsIcon v-if="d.hero.badge.link" name="external" :size="13" />
+        </component>
+        <h1 class="mh-title">
+          <span
+            v-for="(line, i) in d.hero.title"
+            :key="i"
+            :class="{ 'mh-title__accent': i + 1 === d.hero.accentLine }"
+            >{{ line }}</span
+          >
+        </h1>
+        <p class="mh-lead">{{ d.hero.lead }}</p>
+        <div class="mh-actions">
+          <a
+            v-for="a in d.hero.actions"
+            :key="a.text"
+            class="mh-btn"
+            :class="`mh-btn--${a.theme || 'alt'}`"
+            :href="href(a.link)"
+            :target="target(a.link)"
+            :rel="rel(a.link)"
+          >
+            {{ a.text }}
+            <MsIcon v-if="a.theme === 'brand'" name="arrow" :size="16" />
+          </a>
+        </div>
+        <p v-if="d.hero.note" class="mh-note">{{ d.hero.note }}</p>
+      </div>
+
+      <div v-if="shown" class="mh-wrap mh-show">
+        <h2 class="visually-hidden">{{ d.showcase.title }}</h2>
+        <div class="mh-win">
+          <div class="mh-win__bar">
+            <div
+              ref="tablist"
+              class="mh-tabs"
+              role="tablist"
+              :aria-label="d.showcase.title"
+              @keydown="onTabKey"
+            >
+              <button
+                v-for="(s, i) in shots"
+                :id="`mh-tab-${i}`"
+                :key="s.title"
+                type="button"
+                role="tab"
+                aria-controls="mh-shot"
+                :aria-selected="i === active"
+                :tabindex="i === active ? 0 : -1"
+                :class="{ active: i === active }"
+                @click="active = i"
+              >
+                {{ s.title }}
+              </button>
+            </div>
+            <span class="mh-win__path">{{ shown.label }}</span>
+          </div>
+          <div id="mh-shot" role="tabpanel" :aria-labelledby="`mh-tab-${active}`">
+            <figure class="mh-shot">
+              <div class="mh-shot__img">
+                <img
+                  v-for="(s, i) in shots"
+                  v-show="i === active"
+                  :key="s.src"
+                  :class="{ contain: s.fit === 'contain' }"
+                  :src="withBase(s.src)"
+                  :alt="s.alt"
+                  :loading="i === 0 ? 'eager' : 'lazy'"
+                  :fetchpriority="i === 0 ? 'high' : undefined"
+                />
+              </div>
+              <figcaption class="mh-shot__cap">
+                <strong>{{ shown.label }}</strong>
+                <span>{{ shown.text }}</span>
+                <a v-if="shown.link" :href="href(shown.link)">
+                  {{ d.showcase.more }}<MsIcon name="arrow" :size="14" />
+                </a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+        <p v-if="d.showcase.lead" class="mh-show__note">{{ d.showcase.lead }}</p>
+      </div>
+
+      <div v-if="d.facts" class="mh-wrap">
+        <dl class="mh-facts">
           <div v-for="f in d.facts" :key="f.value" class="mh-fact">
             <dt>{{ f.value }}</dt>
             <dd>{{ f.label }}</dd>
           </div>
         </dl>
-      </div>
-
-      <div v-if="shown" class="mh-wrap mh-show">
-        <h2 class="visually-hidden">{{ d.showcase.title }}</h2>
-        <div
-          ref="tablist"
-          class="mh-tabs"
-          role="tablist"
-          :aria-label="d.showcase.title"
-          @keydown="onTabKey"
-        >
-          <button
-            v-for="(s, i) in shots"
-            :id="`mh-tab-${i}`"
-            :key="s.title"
-            type="button"
-            role="tab"
-            aria-controls="mh-shot"
-            :aria-selected="i === active"
-            :tabindex="i === active ? 0 : -1"
-            :class="{ active: i === active }"
-            @click="active = i"
-          >
-            {{ s.title }}
-          </button>
-        </div>
-        <div id="mh-shot" role="tabpanel" :aria-labelledby="`mh-tab-${active}`">
-          <figure class="mh-shot">
-            <div class="mh-shot__img">
-              <img
-                v-for="(s, i) in shots"
-                v-show="i === active"
-                :key="s.src"
-                :class="{ contain: s.fit === 'contain' }"
-                :src="withBase(s.src)"
-                :alt="s.alt"
-                :loading="i === 0 ? 'eager' : 'lazy'"
-                :fetchpriority="i === 0 ? 'high' : undefined"
-              />
-            </div>
-            <figcaption class="mh-shot__cap">
-              <strong>{{ shown.label }}</strong>
-              <span>{{ shown.text }}</span>
-              <a v-if="shown.link" :href="href(shown.link)">
-                {{ d.showcase.more }}<MsIcon name="arrow" :size="14" />
-              </a>
-            </figcaption>
-          </figure>
-        </div>
-        <p v-if="d.showcase.lead" class="mh-show__note">{{ d.showcase.lead }}</p>
       </div>
     </section>
 
@@ -164,13 +191,13 @@ async function copyScript() {
           <p class="mh-sub">{{ d.paths.lead }}</p>
         </header>
         <div class="mh-paths">
-          <article v-for="p in d.paths.items" :key="p.title" class="mh-path">
+          <article v-for="p in d.paths.items" :key="p.title" class="mh-path mh-spot">
             <h3><MsIcon :name="p.icon" :size="18" />{{ p.title }}</h3>
             <p>{{ p.text }}</p>
             <ol>
               <li v-for="(l, i) in p.links" :key="l.link">
                 <a :href="href(l.link)">
-                  <span class="mh-path__n">{{ i + 1 }}</span>
+                  <span class="mh-path__n">{{ pad(i + 1) }}</span>
                   <span class="mh-path__t">{{ l.text }}</span>
                   <MsIcon name="arrow" :size="14" />
                 </a>
@@ -189,8 +216,13 @@ async function copyScript() {
           <p class="mh-sub">{{ d.features.lead }}</p>
         </header>
         <div class="mh-features">
-          <a v-for="f in d.features.items" :key="f.title" class="mh-feature" :href="href(f.link)">
-            <MsIcon class="mh-feature__icon" :name="f.icon" :size="22" />
+          <a
+            v-for="f in d.features.items"
+            :key="f.title"
+            class="mh-feature mh-spot"
+            :href="href(f.link)"
+          >
+            <MsIcon class="mh-feature__icon" :name="f.icon" :size="20" />
             <MsIcon class="mh-feature__go" name="external" :size="16" />
             <h3>{{ f.title }}</h3>
             <p>{{ f.text }}</p>
@@ -212,7 +244,8 @@ async function copyScript() {
           </div>
           <div class="mh-term">
             <div class="mh-term__bar">
-              <span>bash</span>
+              <span class="mh-term__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="mh-term__name">bash</span>
               <button
                 class="mh-copy"
                 type="button"
@@ -269,10 +302,8 @@ async function copyScript() {
     <section v-if="d.cta" class="mh-section mh-section--cta">
       <div class="mh-wrap">
         <div class="mh-cta">
-          <div>
-            <h2>{{ d.cta.title }}</h2>
-            <p>{{ d.cta.text }}</p>
-          </div>
+          <h2>{{ d.cta.title }}</h2>
+          <p>{{ d.cta.text }}</p>
           <div class="mh-actions">
             <a
               v-for="a in d.cta.actions"
