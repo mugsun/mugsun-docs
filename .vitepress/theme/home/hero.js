@@ -107,6 +107,11 @@ export function mountHero(root, opts) {
     console.error(err)
   }
   hero.classList.toggle('no-gl', !globe)
+  if (!globe) {
+    // a picture stands in for the globe: it cannot be turned, and its layers cannot be switched
+    anchor.removeAttribute('title')
+    $$('.sw[data-layer]').forEach((sw) => (sw.disabled = true))
+  }
 
   let off = { x: 0, y: 0 }
   function layout() {

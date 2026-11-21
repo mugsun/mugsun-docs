@@ -485,12 +485,21 @@
   display: none;
 }
 
+/* Without WebGL the disc holds a picture of the globe at rest: land and graticule, nothing drawn on it. */
 .ms-home .no-gl .globe-anchor {
   cursor: default;
-  background: radial-gradient(circle at 30% 20%, #2b1a09 0, #0c0b0b 44%, #080808 70%);
+  background:
+    url('./home/globe-still.webp') center / cover no-repeat,
+    radial-gradient(circle at 30% 20%, #2b1a09 0, #0c0b0b 44%, #080808 70%);
   box-shadow:
     inset 0 0 0 1px rgba(var(--pale), 0.22),
     -14px -20px 90px -34px rgba(249, 144, 31, 0.7);
+}
+
+/* what only a live globe can keep: the labels placed around it, the hint to click it */
+.ms-home .no-gl .node,
+.ms-home .no-gl .stream .pane-h em {
+  display: none;
 }
 
 .ms-home .hud {
@@ -1004,6 +1013,11 @@ html:not(.dark) .ms-home .hud-pos {
 .ms-home .sw[aria-pressed='true']::after {
   background: var(--knob-on);
   transform: translateX(14px);
+}
+
+.ms-home .sw:disabled {
+  cursor: default;
+  opacity: 0.5;
 }
 
 .ms-home .facts-dl {
