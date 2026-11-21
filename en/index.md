@@ -300,6 +300,12 @@ landing:
         tags: [JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token]
         link: /en/boot/
         repo: https://github.com/mugsun/mugsun-boot
+      - name: mugsun-cloud
+        role: Microservice backend
+        text: The same business code as mugsun-boot, split into a gateway and several services, with the same API paths.
+        tags: [JDK 21, Spring Cloud Gateway, Nacos]
+        link: /en/cloud/
+        repo: https://github.com/mugsun/mugsun-cloud
       - name: mugsun-pc
         role: Admin console
         text: Ships with pages for system management, workflows and tenant operations, and menus and button permissions come from the backend.
@@ -308,7 +314,7 @@ landing:
         repo: https://github.com/mugsun/mugsun-pc
       - name: "@mugsun/track-web"
         role: Analytics SDK
-        text: Collects page views, clicks and errors in the browser and reports them to the mugsun-boot backend.
+        text: Collects page views, clicks and errors in the browser and reports them to the mugsun backend.
         tags: [TypeScript, npm, rrweb]
         link: /en/track/
         repo: https://github.com/mugsun/mugsun-track
@@ -437,6 +443,9 @@ landing:
           - text: mugsun-boot
             note: Backend
             link: /en/boot/
+          - text: mugsun-cloud
+            note: Microservice backend
+            link: /en/cloud/
           - text: mugsun-pc
             note: Admin console
             link: /en/pc/

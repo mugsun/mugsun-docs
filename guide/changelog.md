@@ -30,6 +30,7 @@ pageClass: ms-first-col-nowrap
 
 | 范围 | 变更 |
 | --- | --- |
+| 后端 | 新增微服务版 mugsun-cloud，业务代码和 mugsun-boot 是同一份，见[微服务版概述](/cloud/) |
 | 后端 | 数据库迁移并成每套库一个基线，用之前的主干建的库要重建，见[后端升级指南](/boot/upgrade#baseline) |
 
 ## 2026-11-05
@@ -128,6 +129,7 @@ pageClass: ms-first-col-nowrap
 | 仓库 | 链接 |
 | --- | --- |
 | mugsun-boot | [Releases](https://github.com/mugsun/mugsun-boot/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-boot/blob/main/CHANGELOG.md) |
+| mugsun-cloud | [Releases](https://github.com/mugsun/mugsun-cloud/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-cloud/blob/main/CHANGELOG.md) |
 | mugsun-core | [Releases](https://github.com/mugsun/mugsun-core/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-core/blob/main/CHANGELOG.md) |
 | mugsun-pc | [Releases](https://github.com/mugsun/mugsun-pc/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-pc/blob/main/CHANGELOG.md) |
 | mugsun-track | [Releases](https://github.com/mugsun/mugsun-track/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md) |

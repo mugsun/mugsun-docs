@@ -4,6 +4,8 @@
 
 账号权限、多租户和工作流这些常用功能已经做好。GIS、埋点分析和 AI 是三个可选模块，用不到的可以不打进包。
 
+要把这几个模块拆成单独的服务部署，见[微服务版](/cloud/)，业务代码是同一份。
+
 ![系统管理里的菜单管理页](/readme/system-menu.png)
 
 ## 从哪里开始
@@ -79,7 +81,6 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
 
 ## 目前的限制
 
-- 只有单体版本，没有微服务版本。
 - 内置的 MCP Server 暂时下线，加上鉴权后恢复。
 - 定时任务需要另外部署 PowerJob Server，并设置 `POWERJOB_ENABLED=true`。
 

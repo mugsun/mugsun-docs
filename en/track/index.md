@@ -1,6 +1,6 @@
 # Analytics overview
 
-The browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events and sends them to the mugsun-boot backend. You read the results on the Tracking pages of the admin console.
+The browser SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) collects events and sends them to the mugsun backend. You read the results on the Tracking pages of the admin console.
 
 The data is stored in the backend's tracking database and does not pass through any third-party service. The screenshot below is session replay in the admin console.
 
@@ -35,6 +35,8 @@ tracker.track('button_click', { name: 'buy' })
 ```
 
 Once the tracker is created, page views, clicks and errors are collected automatically. Use `tracker.track()` to send your own events.
+
+When the backend is the [microservice edition](/en/cloud/), set `endpoint` to the address of the gateway.
 
 ## How the data flows
 
@@ -123,7 +125,7 @@ Set `VITE_TRACK_SKIP_HANDLED_ERRORS=true` at build time to stop reporting these 
 ## Current limits
 
 - Browsers only.
-- It can only report to mugsun-boot. There is no hosted cloud service.
+- It can only report to a mugsun backend. There is no hosted cloud service.
 - Replay does not record canvas.
 
 ## Next steps

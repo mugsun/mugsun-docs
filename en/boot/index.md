@@ -4,6 +4,8 @@
 
 Common features such as accounts and permissions, multi-tenancy and workflow are already built. GIS, analytics and AI are three optional modules that you can leave out of the package.
 
+To deploy these modules as separate services, see the [microservice edition](/en/cloud/), which runs the same business code.
+
 ![The menu management page under System Settings](/readme/system-menu.png)
 
 ## Where to start
@@ -79,7 +81,6 @@ To use a Kingbase or Dameng database, add `-Pkingbase` or `-Pdameng` when you pa
 
 ## Current limits
 
-- There is only a monolith. There is no microservice edition.
 - The built-in MCP Server is offline for now and will return once it has authentication.
 - Scheduled tasks need a separately deployed PowerJob Server and `POWERJOB_ENABLED=true`.
 

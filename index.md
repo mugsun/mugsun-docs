@@ -299,6 +299,12 @@ landing:
         tags: [JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token]
         link: /boot/
         repo: https://github.com/mugsun/mugsun-boot
+      - name: mugsun-cloud
+        role: 后端微服务版
+        text: 和 mugsun-boot 用同一份业务代码，拆成一个网关和几个服务，接口路径不变。
+        tags: [JDK 21, Spring Cloud Gateway, Nacos]
+        link: /cloud/
+        repo: https://github.com/mugsun/mugsun-cloud
       - name: mugsun-pc
         role: 管理后台
         text: 自带系统管理、工作流和租户运营的页面，菜单和按钮权限由后端返回。
@@ -307,7 +313,7 @@ landing:
         repo: https://github.com/mugsun/mugsun-pc
       - name: "@mugsun/track-web"
         role: 埋点 SDK
-        text: 在浏览器里采集页面浏览、点击和错误，上报到 mugsun-boot 后端。
+        text: 在浏览器里采集页面浏览、点击和错误，上报到 mugsun 的后端。
         tags: [TypeScript, npm, rrweb]
         link: /track/
         repo: https://github.com/mugsun/mugsun-track
@@ -436,6 +442,9 @@ landing:
           - text: mugsun-boot
             note: 后端
             link: /boot/
+          - text: mugsun-cloud
+            note: 后端微服务版
+            link: /cloud/
           - text: mugsun-pc
             note: 管理后台
             link: /pc/

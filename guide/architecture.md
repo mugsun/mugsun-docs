@@ -1,6 +1,6 @@
 # 架构
 
-mugsun 的后端是一个单体应用。管理后台、埋点 SDK 和第三方系统都通过 HTTP 访问它。
+mugsun 的后端有单体版和微服务版，本页讲单体版。管理后台、埋点 SDK 和第三方系统都通过 HTTP 访问它。
 
 <ArchDiagram />
 
@@ -9,12 +9,13 @@ mugsun 的后端是一个单体应用。管理后台、埋点 SDK 和第三方�
 | 仓库 | 负责什么 | 对外提供 |
 | --- | --- | --- |
 | [boot](/boot/) | 业务功能和三个可选模块，表结构由 Flyway 管理 | HTTP 接口，默认端口 `8080` |
+| [cloud](/cloud/) | 后端的微服务版，业务代码和 boot 相同，拆成一个网关和四个服务 | HTTP 接口，网关默认端口 `8080` |
 | [pc](/pc/) | 管理后台的界面，菜单和按钮权限由 boot 返回 | 浏览器页面，开发时端口 `3006` |
 | [track](/track/) | 浏览器埋点 SDK | npm 包 `@mugsun/track-web` |
 | [core](/core/) | 后端的公共依赖，包括统一响应体、全局异常处理和接口加解密 | Maven 坐标 |
 | [ms-ui](/uniappx/) | uni-app x 组件库，不依赖后端和管理后台 | `uni_modules` 目录 |
 
-boot 依赖 core，管理后台不直接依赖 core。
+boot 和 cloud 依赖 core，管理后台不直接依赖 core。
 
 ## 后端的模块
 

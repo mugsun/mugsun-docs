@@ -11,6 +11,7 @@ Multi-tenancy, workflow and code generation are already built, and you write you
 | Part | What it is | Stack |
 | --- | --- | --- |
 | [mugsun-boot](/en/boot/) | The backend, packaged as one executable JAR | JDK 21, Spring Boot 3, MyBatis-Flex |
+| [mugsun-cloud](/en/cloud/) | The microservice edition of the backend, made of one gateway and four services | Spring Cloud Gateway, Nacos |
 | [mugsun-pc](/en/pc/) | The admin console. Menus and button permissions come from the backend | Vue 3, Vite 7, Element Plus |
 | [@mugsun/track-web](/en/track/) | The browser analytics SDK, published on npm | TypeScript, session replay built on rrweb |
 | [ms-ui](/en/uniappx/) | A uni-app x component library with 119 components | uvue, uts |
@@ -25,7 +26,7 @@ The ms-ui source repository is not public yet. Its docs and H5 demo are open to 
 
 <ArchDiagram />
 
-- The backend is one JAR. At runtime it needs PostgreSQL and Redis.
+- The backend is one JAR. At runtime it needs PostgreSQL and Redis. To deploy it as several services, use the [microservice edition](/en/cloud/).
 - The admin console is a single-page app that sends every request to the backend. Menus and button permissions come from the backend's `/auth/info` endpoint.
 - GIS, analytics and AI are three optional modules. Leave them out at build time, or switch them off with environment variables at startup.
 - Analytics data lives in its own `mugsun_track` database, separate from the business database.
@@ -53,7 +54,7 @@ For the rest, see the [feature overview](/en/boot/features/).
 | --- | --- |
 | Admin systems whose data cannot leave the internal network | Projects that want to drag and drop pages together without writing any code |
 | Teams that need both an admin console and behavior analytics, without adding a hosted analytics service | Projects that only need a frontend template and no backend |
-| Projects that must run on Kingbase or Dameng databases, or use the SM cryptographic algorithms | Projects that need to be split into microservices right now |
+| Projects that must run on Kingbase or Dameng databases, or use the SM cryptographic algorithms | Projects that want a hosted analytics service |
 
 ## See it in action
 

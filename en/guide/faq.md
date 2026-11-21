@@ -22,9 +22,13 @@ ms-ui has one, see [Live demo](/en/demo#ms-ui).
 
 The admin console and the tracking dashboards have no public demo site yet. Start them on your machine with [Getting started](/en/guide/getting-started).
 
-### When will the microservice edition and the ms-ui source be released?
+### Is there a microservice edition?
 
-The microservice edition (cloud) is still being planned, and there is no version you can install.
+Yes. [mugsun-cloud](/en/cloud/) is the microservice edition of the backend. It runs the same business code as mugsun-boot, and its source is public.
+
+No version has been released yet, and there is no Docker image. For what differs from the monolith, see [Current limits](/en/cloud/#current-limits).
+
+### When will the ms-ui source be released?
 
 The ms-ui documentation and H5 demo are open. Its source repository is not public yet.
 

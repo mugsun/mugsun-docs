@@ -13,6 +13,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
       {
         text: 'More',
         items: [
+          { text: 'Microservice edition', link: '/en/cloud/', activeMatch: '/en/cloud/' },
           { text: 'Core libraries', link: '/en/core/', activeMatch: '/en/core/' },
           { text: 'Project generator', link: '/en/start/', activeMatch: '/en/start/' },
           { text: 'Live demo', link: '/en/demo' },
@@ -367,6 +368,12 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
         {
           text: 'Upgrading',
           items: [{ text: 'Upgrade guide', link: '/en/track/upgrade' }],
+        },
+      ],
+      '/en/cloud/': [
+        {
+          text: 'Microservice edition',
+          items: [{ text: 'Overview', link: '/en/cloud/' }],
         },
       ],
       '/en/core/': [

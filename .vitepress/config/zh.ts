@@ -13,6 +13,7 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
       {
         text: '更多',
         items: [
+          { text: '微服务版', link: '/cloud/', activeMatch: '/cloud/' },
           { text: 'Core 公共库', link: '/core/', activeMatch: '/core/' },
           { text: '项目生成器', link: '/start/', activeMatch: '/start/' },
           { text: '在线演示', link: '/demo' },
@@ -198,6 +199,12 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> = {
         {
           text: '升级',
           items: [{ text: '升级指南', link: '/track/upgrade' }],
+        },
+      ],
+      '/cloud/': [
+        {
+          text: '微服务版',
+          items: [{ text: '概述', link: '/cloud/' }],
         },
       ],
       '/core/': [

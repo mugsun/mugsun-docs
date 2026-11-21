@@ -8,13 +8,14 @@ pageClass: ms-first-col-nowrap
 
 ## 各仓的版本情况
 
-下表是 2026-11-20 核对的结果。
+下表是 2026-11-21 核对的结果。
 
 | 仓库 | 已发布版本 | git tag | 主干版本 |
 | --- | --- | --- | --- |
 | mugsun-core | 0.1.0（Maven Central，2026-10-12） | `v0.1.0` | `0.2.0-SNAPSHOT`，未发布 |
 | mugsun-track | 0.1.0（2026-08-19）、0.2.0（2026-10-13）、0.3.0（2026-10-22），均在 npm | `v0.1.0` `v0.2.0` `v0.3.0` | `0.3.0`，已发布 |
 | mugsun-boot | 无 | 无 | `0.2.0-SNAPSHOT`，CHANGELOG 中 0.1.0 标为开发中 |
+| mugsun-cloud | 无 | 无 | `0.2.0-SNAPSHOT`，CHANGELOG 只有 Unreleased |
 | mugsun-pc | 无 | 无 | CHANGELOG 只有 Unreleased |
 
 mugsun-track 的 CHANGELOG 里还有 0.1.1。这个版本没有发布到 npm，也没有 tag，可以直接从 0.1.0 升到 0.2.0。
@@ -25,7 +26,7 @@ mugsun-track 的 CHANGELOG 里还有 0.1.1。这个版本没有发布到 npm，�
 - [埋点 SDK 0.1.0 → 0.2.0](./track-web-0-2-0)：npm 上最早的两个版本之间的升级。
 - [埋点 SDK 0.2.0 → 0.3.0](/track/privacy#从-0-2-0-升级、保留原来的遮罩)：0.3.0 改了隐私相关的默认值，升级前先看这一节。
 
-boot 和管理后台还没有发布过版本，所以没有按版本的升级说明。已经部署了 boot 主干的项目，更新到新的主干时请看下面两页：
+boot、cloud 和管理后台还没有发布过版本，所以没有按版本的升级说明。已经部署了 boot 主干的项目，更新到新的主干时请看下面两页：
 
 - [后端升级指南](/boot/upgrade)：先讲迁移并成一个基线以后怎么重建库，再讲权限码的调整、V7 和 V11 迁移、旧图形验证码的移除。
 - [埋点模块升级](/track/upgrade)：涉及历史 UV 回填、用户时间线索引和旧迁移记录的清理。
@@ -33,6 +34,8 @@ boot 和管理后台还没有发布过版本，所以没有按版本的升级说
 ## 数据库迁移
 
 core 不带数据库迁移。
+
+cloud 用 boot 的同一份迁移脚本，主库的由 system 服务执行，埋点库的由 track 服务执行。
 
 boot 主库的 Flyway 迁移在 `mugsun-boot-core` 的 `db/migration` 下，openGauss 和达梦各有一套。
 

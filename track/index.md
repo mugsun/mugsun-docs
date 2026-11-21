@@ -1,6 +1,6 @@
 # 埋点概述
 
-浏览器 SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) 采集事件，上报到 mugsun-boot 后端，在管理后台的「埋点分析」里查看结果。
+浏览器 SDK [`@mugsun/track-web`](https://www.npmjs.com/package/@mugsun/track-web) 采集事件，上报到 mugsun 的后端，在管理后台的「埋点分析」里查看结果。
 
 数据存在后端的埋点库里，不经过第三方服务。下图是管理后台里的会话回放。
 
@@ -35,6 +35,8 @@ tracker.track('button_click', { name: 'buy' })
 ```
 
 创建之后，页面浏览、点击和错误会自动采集。`tracker.track()` 用来上报自己定义的事件。
+
+后端用[微服务版](/cloud/)时，`endpoint` 填网关的地址。
 
 ## 数据怎么流动
 
@@ -123,7 +125,7 @@ tracker.track('button_click', { name: 'buy' })
 ## 目前的限制
 
 - 只支持浏览器。
-- 只能上报到 mugsun-boot，没有托管的云服务。
+- 只能上报到 mugsun 的后端，没有托管的云服务。
 - 回放不录 canvas。
 
 ## 下一步

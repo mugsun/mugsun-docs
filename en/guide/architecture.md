@@ -1,6 +1,6 @@
 # Architecture
 
-The mugsun backend is a single application. The admin console, the analytics SDK and third-party systems all reach it over HTTP.
+The mugsun backend comes as a monolith and as a microservice edition, and this page covers the monolith. The admin console, the analytics SDK and third-party systems all reach it over HTTP.
 
 <ArchDiagram />
 
@@ -9,12 +9,13 @@ The mugsun backend is a single application. The admin console, the analytics SDK
 | Repository | What it does | What it exposes |
 | --- | --- | --- |
 | [boot](/en/boot/) | Business features and three optional modules. Flyway manages the schema | HTTP API, port `8080` by default |
+| [cloud](/en/cloud/) | The microservice edition of the backend. The same business code as boot, split into one gateway and four services | HTTP API, port `8080` of the gateway by default |
 | [pc](/en/pc/) | The admin console UI. Menus and button permissions come from boot | Browser pages, port `3006` in development |
 | [track](/en/track/) | The browser analytics SDK | The npm package `@mugsun/track-web` |
 | [core](/en/core/) | Shared backend libraries: the unified response body, global exception handling and API encryption | Maven coordinates |
 | [ms-ui](/en/uniappx/) | A uni-app x component library. It does not depend on the backend or the admin console | A `uni_modules` directory |
 
-boot depends on core. The admin console does not depend on core directly.
+boot and cloud depend on core. The admin console does not depend on core directly.
 
 ## Backend modules
 

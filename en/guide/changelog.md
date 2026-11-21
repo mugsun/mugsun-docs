@@ -30,6 +30,7 @@ The changes below affect existing deployments or integrations. Check them one by
 
 | Area | Change |
 | --- | --- |
+| Backend | New microservice edition, mugsun-cloud, which runs the same business code as mugsun-boot. See [Microservice edition overview](/en/cloud/) |
 | Backend | Database migrations are merged into one baseline per database, and databases created by an earlier main have to be rebuilt. See [Backend upgrade guide](/en/boot/upgrade#baseline) |
 
 ## 2026-11-05
@@ -128,6 +129,7 @@ The first public release. The backend, the admin console and the docs site becam
 | Repository | Links |
 | --- | --- |
 | mugsun-boot | [Releases](https://github.com/mugsun/mugsun-boot/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-boot/blob/main/CHANGELOG.md) |
+| mugsun-cloud | [Releases](https://github.com/mugsun/mugsun-cloud/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-cloud/blob/main/CHANGELOG.md) |
 | mugsun-core | [Releases](https://github.com/mugsun/mugsun-core/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-core/blob/main/CHANGELOG.md) |
 | mugsun-pc | [Releases](https://github.com/mugsun/mugsun-pc/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-pc/blob/main/CHANGELOG.md) |
 | mugsun-track | [Releases](https://github.com/mugsun/mugsun-track/releases) · [CHANGELOG](https://github.com/mugsun/mugsun-track/blob/main/CHANGELOG.md) |
