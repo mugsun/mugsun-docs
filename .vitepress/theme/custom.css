@@ -30,6 +30,32 @@
   margin-right: 0;
 }
 
+/*
+ * The English nav labels are wider than the Chinese ones. From 768px, where the links appear, up to
+ * 960px the bar was wider than the screen and the whole page scrolled sideways. In that range the
+ * search box shrinks to its icon and the links sit closer together.
+ */
+@media (min-width: 768px) and (max-width: 959px) {
+  html:lang(en) .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Placeholder,
+  html:lang(en) .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Keys {
+    display: none;
+  }
+
+  html:lang(en) .VPNavBar .VPNavBarSearch {
+    padding-left: 12px;
+  }
+
+  html:lang(en) .VPNavBarSearch .DocSearch-Button {
+    width: auto;
+    padding: 0 12px;
+  }
+
+  html:lang(en) .VPNavBarMenu .VPNavBarMenuLink,
+  html:lang(en) .VPNavBarMenu .VPFlyout .text {
+    padding: 0 6px;
+  }
+}
+
 /* Right-floating phone preview for uni-app x component demos */
 .ms-demo-phone {
   position: fixed;
