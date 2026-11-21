@@ -18,7 +18,6 @@ const href = (link?: string) => (!link ? undefined : external(link) ? link : wit
 const target = (link?: string) => (external(link) ? '_blank' : undefined)
 const rel = (link?: string) => (external(link) ? 'noopener' : undefined)
 const pad = (n: number) => String(n).padStart(2, '0')
-const latin = (s: string) => /^[\x20-\x7e]+$/.test(s)
 const lines = (v: string | string[]) => (Array.isArray(v) ? v : [v])
 
 // "自带{track}、{gis} 和 {ai} 的" -> plain text and the three words that switch the globe
@@ -166,7 +165,6 @@ onBeforeUnmount(() => {
                       v-if="part.key"
                       type="button"
                       class="kw"
-                      :class="{ lat: latin(d.hero.words[part.key]) }"
                       :data-mod="part.key"
                     >
                       {{ d.hero.words[part.key] }}</button
@@ -210,16 +208,16 @@ onBeforeUnmount(() => {
 
           <div class="hud hud-pos" aria-hidden="true">
             <div class="hud-live">
-              <i></i><span class="lat">LIVE</span><em>{{ d.ui.demo }}</em>
+              <i></i><span>LIVE</span><em>{{ d.ui.demo }}</em>
             </div>
-            <div class="hud-coord lat"><b id="hud-lat">39.9087°N</b><b id="hud-lon">116.3975°E</b></div>
-            <div class="hud-sub lat"><span id="hud-src">EVENT</span> · WGS84</div>
+            <div class="hud-coord"><b id="hud-lat">39.9087°N</b><b id="hud-lon">116.3975°E</b></div>
+            <div class="hud-sub"><span id="hud-src">EVENT</span> · WGS84</div>
           </div>
 
           <!-- labels that follow points on the globe; placed by hero.js -->
           <div id="pin" class="pin tone-dark" aria-hidden="true">
             <i></i>
-            <div><b></b><span class="lat"></span></div>
+            <div><b></b><span></span></div>
           </div>
           <div
             v-for="(s, i) in g.ai.steps"
@@ -242,7 +240,7 @@ onBeforeUnmount(() => {
                 :data-mod="m"
                 :aria-selected="i === 0"
               >
-                <span class="no lat">{{ pad(i + 1) }}</span>{{ g[m].tab }}<i></i>
+                <span class="no">{{ pad(i + 1) }}</span>{{ g[m].tab }}<i></i>
               </button>
               <span class="con-demo">{{ d.ui.demo }}</span>
             </div>
@@ -250,7 +248,7 @@ onBeforeUnmount(() => {
               <div class="con-pane" data-mod="track" role="tabpanel">
                 <div class="kpis">
                   <div v-for="k in g.track.kpis" :key="k.id">
-                    <b :id="`k-${k.id}`" class="lat">{{ k.value }}</b><span>{{ k.label }}</span>
+                    <b :id="`k-${k.id}`">{{ k.value }}</b><span>{{ k.label }}</span>
                   </div>
                 </div>
                 <div class="stream">
@@ -280,7 +278,7 @@ onBeforeUnmount(() => {
                   </div>
                   <div>
                     <dt>{{ g.gis.areaLabel }}</dt>
-                    <dd id="gis-area" class="lat">—</dd>
+                    <dd id="gis-area">—</dd>
                   </div>
                   <div>
                     <dt>{{ g.gis.view }}</dt>
@@ -288,7 +286,7 @@ onBeforeUnmount(() => {
                   </div>
                   <div>
                     <dt>{{ g.gis.store }}</dt>
-                    <dd class="lat">{{ g.gis.storeText }}</dd>
+                    <dd>{{ g.gis.storeText }}</dd>
                   </div>
                 </dl>
               </div>
@@ -300,7 +298,7 @@ onBeforeUnmount(() => {
                   </div>
                   <ol id="chain" class="chain">
                     <li v-for="(s, i) in g.ai.steps" :key="s.name" :data-i="i" :data-name="s.name">
-                      <small class="lat">{{ s.kind }}</small>{{ s.name }}
+                      <small>{{ s.kind }}</small>{{ s.name }}
                     </li>
                   </ol>
                 </div>
@@ -337,8 +335,8 @@ onBeforeUnmount(() => {
         <ul id="facts" class="facts-row">
           <li v-for="f in facts" :key="f.label">
             <p class="fact-v">
-              <b v-if="f.num" class="lat" :data-to="f.num">{{ f.num }}</b>
-              <b v-else class="lat mit"
+              <b v-if="f.num" :data-to="f.num">{{ f.num }}</b>
+              <b v-else class="mit"
                 ><i v-for="(ch, i) in f.word" :key="i">{{ ch }}</i></b
               >
               <span>{{ f.unit }}</span>
@@ -364,7 +362,7 @@ onBeforeUnmount(() => {
                 :aria-selected="i === 0"
                 :tabindex="i === 0 ? 0 : -1"
               >
-                <span class="no lat">{{ pad(i + 1) }}</span>
+                <span class="no">{{ pad(i + 1) }}</span>
                 <b>{{ s.title }}</b>
                 <span class="tx"
                   ><span>{{ s.text }}</span></span
@@ -438,8 +436,8 @@ onBeforeUnmount(() => {
               <span>{{ d.modules.jar }}</span><em id="jar-note">{{ d.modules.notes.all }}</em>
             </div>
             <div id="jar" class="jar" aria-hidden="true">
-              <span class="jar-seg is-core lat">core</span>
-              <span v-for="m in d.modules.items" :key="m.key" class="jar-seg lat" :data-mod="m.key">{{ m.key }}</span>
+              <span class="jar-seg is-core">core</span>
+              <span v-for="m in d.modules.items" :key="m.key" class="jar-seg" :data-mod="m.key">{{ m.key }}</span>
             </div>
           </div>
           <div class="out-block">
@@ -447,7 +445,7 @@ onBeforeUnmount(() => {
               <span>{{ d.modules.menu }}</span><em>{{ d.modules.menuHint }}</em>
             </div>
             <div id="menu-mock" class="menu-mock" aria-hidden="true">
-              <span class="mm-brand lat">MUGSUN</span>
+              <span class="mm-brand">MUGSUN</span>
               <span
                 v-for="item in d.modules.menuItems"
                 :key="item.text"
@@ -550,7 +548,7 @@ onBeforeUnmount(() => {
                 <!-- three algorithms at work, and the databases it runs on -->
                 <template v-else-if="f.kind === 'gm'">
                   <p v-for="r in f.demo.rows" :key="r.algo" class="fx-enc">
-                    <b class="lat">{{ r.algo }}</b><span>{{ r.use }}</span><code data-hex="24" data-group="4">7b25 f08d 04a1 9c3e 51d6 e2a0</code>
+                    <b>{{ r.algo }}</b><span>{{ r.use }}</span><code data-hex="24" data-group="4">7b25 f08d 04a1 9c3e 51d6 e2a0</code>
                   </p>
                   <div class="fx-db">
                     <span v-for="(n, i) in f.demo.db" :key="n" :style="{ '--i': i }">{{ n }}</span>
@@ -563,9 +561,9 @@ onBeforeUnmount(() => {
                   <p class="fx-hd"><span>X-Timestamp</span><code data-hex="time">1795228800000</code></p>
                   <p class="fx-hd"><span>X-Nonce</span><code data-hex="16">9f2c41d07ab3e85d</code></p>
                   <p class="fx-hd"><span>X-Sign</span><code data-hex="24">e7f20d5c81b4a6390f1d2c7a</code></p>
-                  <p class="fx-res r1"><b class="lat">200</b></p>
+                  <p class="fx-res r1"><b>200</b></p>
                   <p class="fx-res r2">
-                    <span>{{ f.demo.again }}</span><b class="lat">401</b><span>{{ f.demo.replay }}</span>
+                    <span>{{ f.demo.again }}</span><b>401</b><span>{{ f.demo.replay }}</span>
                   </p>
                 </template>
               </div>
@@ -589,7 +587,7 @@ onBeforeUnmount(() => {
         <ul class="repo-list">
           <li v-for="p in d.products.items" :key="p.name" class="repo" data-rv>
             <div class="repo-id">
-              <a class="repo-name lat" :href="href(p.link)">{{ p.name }}</a>
+              <a class="repo-name" :href="href(p.link)">{{ p.name }}</a>
               <span class="repo-role">{{ p.role }}</span>
             </div>
             <p class="repo-text">{{ p.text }}</p>
@@ -618,7 +616,7 @@ onBeforeUnmount(() => {
           <p class="sec-lead" data-rv>{{ d.start.lead }}</p>
           <ol id="steps" class="steps" data-rv>
             <li v-for="(s, i) in d.start.steps" :key="s.title">
-              <span class="lat">{{ i + 1 }}</span>
+              <span>{{ i + 1 }}</span>
               <div>
                 <b>{{ s.title }}</b>
                 <p>{{ s.text }}</p>
@@ -633,7 +631,7 @@ onBeforeUnmount(() => {
         <div id="term" class="term tone-dark" data-rv>
           <div class="term-bar">
             <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="term-title lat">mugsun-boot</span>
+            <span class="term-title">mugsun-boot</span>
             <button id="term-replay" type="button" class="mini">{{ d.ui.replay }}</button>
           </div>
           <div id="term-body" class="term-body"></div>
@@ -679,7 +677,7 @@ onBeforeUnmount(() => {
             <ol class="route-line">
               <li v-for="(l, k) in p.links" :key="l.link" :style="{ '--i': k }">
                 <a class="stop" :href="href(l.link)">
-                  <span class="no lat">{{ pad(k + 1) }}</span>
+                  <span class="no">{{ pad(k + 1) }}</span>
                   <b>{{ l.text }}<i aria-hidden="true">→</i></b>
                   <code>{{ l.link }}</code>
                 </a>
@@ -741,7 +739,7 @@ onBeforeUnmount(() => {
       <div v-if="theme.footer" class="sec-in foot-legal">
         <span v-html="theme.footer.message"></span><span v-html="theme.footer.copyright"></span>
       </div>
-      <div class="foot-mark lat" aria-hidden="true">MUGSUN</div>
+      <div class="foot-mark" aria-hidden="true">MUGSUN</div>
     </footer>
   </div>
 </template>

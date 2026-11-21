@@ -2,7 +2,8 @@
  * The home page: index.md and en/index.md, rendered by components/HomeLanding.vue.
  *
  * Three colours: black, white, and the amber of the sunrise in the logo. Amber means light or
- * "live"; actions are ink-coloured. Latin text and numerals use the brand typeface Saira.
+ * "live"; actions are ink-coloured. Text is in the docs' own typeface; the brand typeface Saira is
+ * kept for the wordmark.
  *
  * Every rule is scoped under .ms-home. Colours come from the variables below: .ms-home carries the
  * light set and `.dark .ms-home` the dark one. A subtree marked .tone-dark keeps the dark set in
@@ -10,17 +11,18 @@
  * the opposite.
  */
 
-/* Saira, the typeface of the wordmark (SIL Open Font License, see public/brand). Latin only. */
+/*
+ * Saira, the typeface of the wordmark (SIL Open Font License, see public/brand). The file holds the
+ * five letters of MUGSUN at weight 600 and nothing else.
+ */
 @font-face {
   font-family: 'Saira';
   font-style: normal;
-  font-weight: 300 700;
-  font-stretch: 75% 125%;
+  font-weight: 600;
+  font-stretch: 100% 110%;
   font-display: swap;
-  src: url('./home/saira-latin.woff2') format('woff2');
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url('./home/saira-mark.woff2') format('woff2');
+  unicode-range: U+47, U+4D-4E, U+53, U+55;
 }
 
 @property --sx {
@@ -92,8 +94,8 @@
   /* drop shadows follow the page, not the tone of the thing that casts them */
   --page-shade: rgba(40, 26, 10, 0.3);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --zh: 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
-  --lat: 'Saira', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --sans: var(--vp-font-family-base);
+  --mark: 'Saira', var(--vp-font-family-base);
   --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
   --pad: 72px;
   --hero-h: clamp(720px, 100vh, 980px);
@@ -103,7 +105,7 @@
   /* the first screen runs up under the nav bar */
   margin-top: calc(var(--vp-nav-height) * -1);
   overflow-x: clip;
-  font-family: var(--zh);
+  font-family: var(--sans);
   font-size: 15px;
   line-height: 1.6;
   color: var(--ink);
@@ -213,10 +215,6 @@
   border-radius: 4px;
 }
 
-.ms-home .lat {
-  font-family: var(--lat);
-}
-
 /* ---------- first screen ---------- */
 
 .ms-home .hero {
@@ -293,7 +291,7 @@
   font-weight: 600;
   line-height: 1.18;
   letter-spacing: 0.01em;
-  word-spacing: -0.1em;
+  word-spacing: -0.03em;
 }
 
 .ms-home h1 .ln {
@@ -331,11 +329,6 @@
   cursor: pointer;
   background: none;
   transition: color 0.3s;
-}
-
-.ms-home .kw.lat {
-  font-stretch: 106%;
-  letter-spacing: 0.02em;
 }
 
 .ms-home .kw::before,
@@ -448,7 +441,16 @@
   font-size: 13px;
   line-height: 20px;
   color: var(--faint);
+  text-wrap: balance;
   animation: mh-rise 0.9s var(--ease) 0.54s both;
+}
+
+@media (min-width: 1181px) {
+  /* On a narrow or short screen the last line of the copy is level with the panel. It wraps before
+     the panel's left edge: the panel is at most 584px wide and sits 64px from the right. */
+  .ms-home .note {
+    max-width: calc(100vw - var(--pad) - 680px);
+  }
 }
 
 .ms-home .lic {
@@ -548,7 +550,7 @@ html:not(.dark) .ms-home .hud-pos {
 .ms-home .hud-live em {
   padding-left: 8px;
   border-left: 1px solid var(--line-2);
-  font-family: var(--zh);
+  font-family: var(--sans);
   font-size: 12px;
   font-style: normal;
   letter-spacing: 0.04em;
@@ -561,7 +563,7 @@ html:not(.dark) .ms-home .hud-pos {
   font-weight: 500;
   line-height: 21px;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
 }
 
 .ms-home .hud-coord b {
@@ -897,7 +899,7 @@ html:not(.dark) .ms-home .hud-pos {
   font-weight: 600;
   line-height: 30px;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   transition: color 0.6s;
 }
 
@@ -1041,12 +1043,6 @@ html:not(.dark) .ms-home .hud-pos {
   gap: 10px;
   align-items: center;
   white-space: nowrap;
-}
-
-.ms-home .facts-dl dd.lat {
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.03em;
 }
 
 .ms-home .mini {
@@ -1193,7 +1189,6 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .answer b {
-  font-family: var(--lat);
   font-size: 13px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -1523,10 +1518,9 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .fact-v b {
-  font: 500 60px/64px var(--lat);
-  font-stretch: 104%;
+  font: 500 60px/64px var(--sans);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 
 .ms-home .fact-v span {
@@ -1609,7 +1603,7 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .win-tab .no {
-  font: 500 12px/26px var(--lat);
+  font: 500 12px/26px var(--sans);
   letter-spacing: 0.06em;
   color: var(--faint);
   transition: color 0.25s;
@@ -2075,6 +2069,7 @@ html:not(.dark) .ms-home .hud-pos {
 
 .ms-home .mm-brand {
   margin-right: 14px;
+  font-family: var(--mark);
   font-weight: 600;
   letter-spacing: 0.08em;
 }
@@ -2486,6 +2481,7 @@ html:not(.dark) .ms-home .hud-pos {
 
 .ms-home .foot-mark {
   margin: 40px 0 -0.19em;
+  font-family: var(--mark);
   font-size: min(19.6vw, 282px);
   font-weight: 600;
   font-stretch: 110%;
@@ -2710,7 +2706,7 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .feat h3 .arr {
-  font: 400 17px/1 var(--lat);
+  font: 400 17px/1 var(--sans);
   color: var(--sun-pale);
   opacity: 0;
   transform: translateX(-6px);
@@ -2779,7 +2775,7 @@ html:not(.dark) .ms-home .hud-pos {
   padding: 2px;
   border: 1px solid var(--line-2);
   border-radius: 8px;
-  font-family: var(--zh);
+  font-family: var(--sans);
 }
 
 .ms-home .fx-seg span {
@@ -2851,7 +2847,7 @@ html:not(.dark) .ms-home .hud-pos {
   display: flex;
   gap: 12px;
   margin-top: 10px;
-  font-family: var(--zh);
+  font-family: var(--sans);
 }
 
 .ms-home .fx-kv b {
@@ -2885,7 +2881,7 @@ html:not(.dark) .ms-home .hud-pos {
   padding: 0 6px;
   border: 1px solid var(--line-2);
   border-radius: 4px;
-  font: 11px/16px var(--zh);
+  font: 11px/16px var(--sans);
   color: var(--faint);
 }
 
@@ -2929,7 +2925,7 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .fx-flow text {
-  font: 11px var(--zh);
+  font: 11px var(--sans);
   fill: var(--ink);
   text-anchor: middle;
 }
@@ -3025,6 +3021,7 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .fx-enc b {
+  font-family: var(--sans);
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -3032,7 +3029,7 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .fx-enc span {
-  font-family: var(--zh);
+  font-family: var(--sans);
 }
 
 .ms-home .fx-enc code {
@@ -3050,7 +3047,7 @@ html:not(.dark) .ms-home .hud-pos {
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 14px;
-  font-family: var(--zh);
+  font-family: var(--sans);
 }
 
 .ms-home .fx-db span {
@@ -3095,7 +3092,7 @@ html:not(.dark) .ms-home .hud-pos {
   display: flex;
   gap: 8px;
   align-items: baseline;
-  font-family: var(--zh);
+  font-family: var(--sans);
   white-space: nowrap;
 }
 
@@ -3241,9 +3238,8 @@ html:not(.dark) .ms-home .hud-pos {
   display: block;
   font-size: 23px;
   font-weight: 500;
-  font-stretch: 104%;
   line-height: 32px;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
 }
 
 /* the whole row opens the docs */
@@ -3301,7 +3297,6 @@ html:not(.dark) .ms-home .hud-pos {
 .ms-home .repo-go i {
   display: inline-block;
   margin-left: 6px;
-  font-family: var(--lat);
   font-style: normal;
   transition: transform 0.35s var(--ease);
 }
@@ -3469,7 +3464,7 @@ html:not(.dark) .ms-home .hud-pos {
 }
 
 .ms-home .stop b i {
-  font: 400 0.8em/1 var(--lat);
+  font: 400 0.8em/1 var(--sans);
   color: var(--sun-pale);
   opacity: 0;
   transform: translateX(-8px);
@@ -3634,21 +3629,24 @@ html:not(.dark) .ms-home .hud-pos {
 
 /* ---------- English ---------- */
 
-/* Latin text takes the docs' own text face. Headings stay in Saira. */
 .ms-home:lang(en) {
-  --zh: var(--vp-font-family-base);
   /* the menu names are longer */
   --mm-max: 150px;
   --mm-pad: 8px;
 }
 
 .ms-home:lang(en) h1 {
-  letter-spacing: 0;
+  letter-spacing: -0.025em;
   word-spacing: 0;
 }
 
 .ms-home:lang(en) h1 .ln > span {
   text-wrap: balance;
+}
+
+.ms-home:lang(en) .sec h2,
+.ms-home:lang(en) .cta-band h2 {
+  letter-spacing: -0.02em;
 }
 
 .ms-home:lang(en) .sec h2 {
@@ -3657,7 +3655,7 @@ html:not(.dark) .ms-home .hud-pos {
 
 @media (min-width: 1181px) {
   .ms-home:lang(en) h1 {
-    font-size: clamp(36px, 3.75vw, 54px);
+    font-size: clamp(38px, 4.03vw, 58px);
   }
 }
 
