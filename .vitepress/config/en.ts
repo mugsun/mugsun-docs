@@ -359,6 +359,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           items: [
             { text: 'Overview & events', link: '/en/track/overview' },
             { text: 'Funnels & retention', link: '/en/track/funnel-retention' },
+            { text: 'Path analysis', link: '/en/track/journey' },
             { text: 'Performance & errors', link: '/en/track/perf-errors' },
             { text: 'Error issues', link: '/en/track/error-issues' },
             { text: 'Replay & user drilldown', link: '/en/track/replay' },

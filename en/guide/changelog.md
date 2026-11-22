@@ -34,6 +34,7 @@ The changes below affect existing deployments or integrations. Check them one by
 | Backend | The main branches of core, the monolith and the microservice edition moved to Spring Boot 4.1. See [Upgrading to Spring Boot 4](/en/guide/upgrade/spring-boot-4) |
 | Backend | JSON still uses Jackson 2, so API responses keep their format; no setting was renamed either |
 | core | The main branch version is now `0.3.0-SNAPSHOT`; 0.2 still runs on Spring Boot 3.5, on the `release/0.2.0` branch |
+| Tracking | New [Path analysis](/en/track/journey) page: pick a starting page and follow, step by step, where those sessions went next |
 
 ## 2026-11-21
 

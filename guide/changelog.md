@@ -34,6 +34,7 @@ pageClass: ms-first-col-nowrap
 | 后端 | core、单体版和微服务版的主干升级到 Spring Boot 4.1，见[升级到 Spring Boot 4](/guide/upgrade/spring-boot-4) |
 | 后端 | JSON 仍用 Jackson 2，接口返回的格式不变；配置项的名字也没有变 |
 | core | 主干版本改为 `0.3.0-SNAPSHOT`；0.2 版仍基于 Spring Boot 3.5，在 `release/0.2.0` 分支 |
+| 埋点分析 | 新增[访问路径](/track/journey)，选一个页面当起点，一步一步看这些会话接下来去了哪个页面 |
 
 ## 2026-11-21
 

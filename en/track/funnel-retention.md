@@ -143,6 +143,7 @@ Parameters of `/funnel`:
 <div class="ms-cards">
 
 - [Overview and event analysis](/en/track/overview) Start with the overall traffic and the count of each event.
+- [Path analysis](/en/track/journey) When you do not yet know how people move around, see where sessions actually went from a page.
 - [Replay and user drilldown](/en/track/replay) Look up the timeline of a user or a visitor to see what one person did.
 - [Integration](/en/track/apps) Manage event definitions and disable events you no longer need.
 

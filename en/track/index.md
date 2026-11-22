@@ -77,6 +77,7 @@ The Tracking menu has these pages:
 | --- | --- |
 | Traffic | [Overview, Event Analysis](/en/track/overview) |
 | Conversion | [Funnel Analysis, Retention Analysis](/en/track/funnel-retention) |
+| Paths | [Path Analysis](/en/track/journey) |
 | Performance and errors | [Performance Analysis, Error Monitoring](/en/track/perf-errors) and [Error Issues](/en/track/error-issues) |
 | Replaying what a user did | [Session Replay, User Drilldown](/en/track/replay) |
 | Asking in natural language | [Ask data](/en/track/ask) |

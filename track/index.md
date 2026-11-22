@@ -77,6 +77,7 @@ tracker.track('button_click', { name: 'buy' })
 | --- | --- |
 | 看流量 | [数据概览、事件分析](/track/overview) |
 | 看转化 | [漏斗分析、留存分析](/track/funnel-retention) |
+| 看去向 | [访问路径](/track/journey) |
 | 查性能和错误 | [性能分析、错误监控](/track/perf-errors)和[错误问题单](/track/error-issues) |
 | 还原用户的操作 | [会话回放、用户细查](/track/replay) |
 | 用自然语言提问 | [问数据](/track/ask) |
