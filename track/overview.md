@@ -178,7 +178,9 @@
 
 `bounceRate` 是 0 到 1 的比例。`settledSessionCount` 是已经结束的会话数，是 0 时时长和跳出率还没有值。
 
-`/pages` 里的 `bounceRate` 和 `exitRate` 也是 0 到 1 的比例，保留 4 位小数。`entry` 和 `exit` 的结果按 `sessions` 从多到少排。
+`/pages` 里的 `bounceRate` 和 `exitRate` 也是 0 到 1 的比例，保留 4 位小数。
+
+`entry` 和 `exit` 的结果按 `sessions` 从多到少排。
 
 时间都是毫秒时间戳，`date` 是当地时区的日期。Redis 连不上时，`/online` 返回 0，`/events/realtime` 返回空数组。
 
