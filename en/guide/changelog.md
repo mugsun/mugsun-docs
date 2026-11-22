@@ -27,6 +27,12 @@ The changes below affect existing deployments or integrations. Check them one by
 | 2026-10-13 | Open APIs no longer trust `X-Forwarded-For` by default | Behind a reverse proxy, list the proxy addresses in `MUGSUN_OPENAPI_TRUSTED_PROXIES` |
 | 2026-10-13 | Analytics SDK 0.2.0 changed two privacy defaults | See [Analytics SDK 0.1.0 → 0.2.0](/en/guide/upgrade/track-web-0-2-0) |
 
+## 2026-11-23
+
+| Area | Change |
+| --- | --- |
+| Tracking | Top pages on the Overview page is now Pages. It can switch to Entry pages and Exit pages, with bounce rate and exit rate. See [Pages](/en/track/overview#pages) |
+
 ## 2026-11-22
 
 | Area | Change |

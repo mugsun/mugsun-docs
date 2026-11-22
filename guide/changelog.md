@@ -27,6 +27,12 @@ pageClass: ms-first-col-nowrap
 | 2026-10-13 | 开放接口默认不信任 `X-Forwarded-For` | 部署在反向代理后面时，把代理地址写进 `MUGSUN_OPENAPI_TRUSTED_PROXIES` |
 | 2026-10-13 | 埋点 SDK 0.2.0 改了两个隐私默认值 | 见[埋点 SDK 0.1.0 → 0.2.0](/guide/upgrade/track-web-0-2-0) |
 
+## 2026-11-23
+
+| 范围 | 变更 |
+| --- | --- |
+| 埋点分析 | 数据概览的「Top 页面」改成「页面排行」，可以切换看入口页和退出页，带跳出率和退出率，见[页面排行](/track/overview#页面排行) |
+
 ## 2026-11-22
 
 | 范围 | 变更 |

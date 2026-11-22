@@ -6,7 +6,7 @@
 
 选中的应用和时间范围记在浏览器里，「埋点分析」下的其他页面会沿用。
 
-![数据概览页，上面是六张指标卡，中间是访问趋势和当前在线，下面是 Top 页面和三张分布图](/readme/track-overview.png)
+![数据概览页，上面是六张指标卡，中间是访问趋势和当前在线，下面是页面排行和三张分布图](/readme/track-overview.png)
 
 ## 指标卡
 
@@ -31,18 +31,42 @@
 | 卡片 | 内容 |
 | --- | --- |
 | 访问趋势 | 选「今天」时每 5 分钟一个点，画 PV、会话数和事件数。选 7 天或 30 天时每天一个点，多画一条 UV |
-| Top 页面 | PV 最高的 10 个页面，每个页面有 PV、UV 和平均停留 |
+| 页面排行 | 访问最多、入口页、退出页三种排行，各取前 10 个页面，见[页面排行](#页面排行) |
 | 来源分布 | 按来源页面的主机名统计 PV，取前 10。没有来源的记成 `direct` |
 | 设备分布 | 按设备类型统计 PV，取前 10。识别不出的记成 `unknown` |
 | 浏览器 Top | 按浏览器统计 PV，取前 10。识别不出的记成 `unknown` |
 | 地域分布 | 按 IP 所在的省份列出 PV、UV 和事件数，按事件数排，最多 50 行 |
 | 访问热力 | 把最近 2000 条带坐标的事件画在地图上 |
 
-Top 页面的路径优先用路由模板，比如 `/order/:id`，同一类页面合成一行。没有路由模板时用实际路径。
+按天的趋势怎么切天、没有数据的日子怎么画，见[看板怎么统计](/track/#看板趋势)。
+
+### 页面排行
+
+卡片右上角切换三种排行，各取前 10 个页面：
+
+| 排行 | 列的是什么 | 每行有什么 |
+| --- | --- | --- |
+| 访问最多 | PV 最高的页面 | PV、UV、平均停留 |
+| 入口页 | 每次会话看的第一个页面 | 进入次数、跳出次数、跳出率 |
+| 退出页 | 每次会话看的最后一个页面 | 退出次数、PV、退出率 |
+
+![页面排行卡片切到入口页，每行是进入次数、跳出次数和跳出率](/screenshots/track/track-page-rank-entry.png)
+
+页面的路径优先用路由模板，比如 `/order/:id`，同一类页面合成一行。没有路由模板时用实际路径。
 
 平均停留是 `$pageleave` 事件上报的停留时长的平均值。
 
-按天的趋势怎么切天、没有数据的日子怎么画，见[看板怎么统计](/track/#看板趋势)。
+入口页和退出页按会话算：把一次会话的页面浏览按发生时间排好，第一个是入口页，最后一个是退出页。
+
+- 进入次数是从这个页面进来的会话数，退出次数是在这个页面结束的会话数。一次会话只有一个入口页、一个退出页。
+- 跳出是这次会话只有一次页面浏览。刷新算两次浏览，不算跳出。跳出率 = 跳出次数 ÷ 进入次数。
+- 退出率 = 退出次数 ÷ 这个页面的 PV，意思是每看这个页面 100 次，有多少次是最后一页。
+- 没有页面地址的浏览不算。只看了一页的会话，这一页既是入口页也是退出页。
+- 会话跨过时间范围的起点时，只看得到范围内的那一段，范围内的第一个页面算入口页。
+
+这里的跳出率算的是时间范围内全部的会话，指标卡上的跳出率只算已经结束的会话，两个数可能差一点。
+
+想看用户从入口页进来以后怎么走，用[访问路径](/track/journey)。
 
 ### 地域和热力
 
@@ -88,7 +112,7 @@ Top 页面的路径优先用路由模板，比如 `/order/:id`，同一类页面
 
 | 内容 | 更新方式 |
 | --- | --- |
-| 指标卡、三张分布图、访问趋势、Top 页面 | 结果在后端缓存 45 秒，点「刷新」也要等缓存过期 |
+| 指标卡、三张分布图、访问趋势、页面排行 | 结果在后端缓存 45 秒，点「刷新」也要等缓存过期 |
 | 地域分布、访问热力、事件列表 | 每次都查库，不缓存 |
 | 当前在线、实时事件流 | 读 Redis，页面每 5 秒取一次 |
 
@@ -118,7 +142,7 @@ Top 页面的路径优先用路由模板，比如 `/order/:id`，同一类页面
 | --- | --- | --- |
 | `/overview` | `sys:track-overview:list` | `appKey` `days` |
 | `/trend` | `sys:track-overview:list` | `appKey` `days` `dimType` `dimKey` |
-| `/pages` | `sys:track-overview:list` | `appKey` `days` `limit` |
+| `/pages` | `sys:track-overview:list` | `appKey` `days` `limit` `type` |
 | `/online` | `sys:track-overview:list` | `appKey` |
 | `/geo` | `sys:track-overview:list` | `appKey` `days` |
 | `/events/page` | `sys:track-event:list` | `appKey` `days` `eventName` `pageNum` `pageSize` |
@@ -133,6 +157,7 @@ Top 页面的路径优先用路由模板，比如 `/order/:id`，同一类页面
 | `dimType` | `overview` `event` `page` `referrer` `device` 之一，默认 `overview` |
 | `dimKey` | 这个维度下的一个取值，比如 `dimType=event` 时填事件名 |
 | `limit` | `/pages` 默认 10，`/events/realtime` 默认 100，最大都是 500 |
+| `type` | `/pages` 的排行：`top` 访问最多、`entry` 入口页、`exit` 退出页，默认 `top`。`entry` 和 `exit` 的 `days` 只能取 1 到 30 |
 | `pageSize` | 默认 10，最大 500 |
 
 返回的内容：
@@ -141,7 +166,7 @@ Top 页面的路径优先用路由模板，比如 `/order/:id`，同一类页面
 | --- | --- |
 | `/overview` | `cards` 是指标卡，`referrerDist` `deviceDist` `browserTop` 是三张分布图，每项有 `name` 和 `value` |
 | `/trend` | `days` 不超过 2 时每项有 `time` `pv` `eventCount` `sessionCount`，其余每项有 `date` `pv` `uv` `sessionCount` `bounceCount` `eventCount` |
-| `/pages` | 每项有 `pagePath` `pv` `uv` `avgDurationMs` |
+| `/pages` | `top` 每项有 `pagePath` `pv` `uv` `avgDurationMs`，`entry` 每项有 `pagePath` `sessions` `bounces` `bounceRate`，`exit` 每项有 `pagePath` `sessions` `pv` `exitRate` |
 | `/online` | `online` 是会话数，`windowSeconds` 是 300 |
 | `/geo` | `regions` 是地域分布，`points` 是坐标点，`geoCount` 是带坐标的事件总数 |
 | `/events/page` | 每行有 `eventName` `eventCount` `sessionCount` `uv` `lastTime` |
@@ -152,6 +177,8 @@ Top 页面的路径优先用路由模板，比如 `/order/:id`，同一类页面
 另外三项是 `avgSessionDurationMs` `bounceRate` 和 `settledSessionCount`。
 
 `bounceRate` 是 0 到 1 的比例。`settledSessionCount` 是已经结束的会话数，是 0 时时长和跳出率还没有值。
+
+`/pages` 里的 `bounceRate` 和 `exitRate` 也是 0 到 1 的比例，保留 4 位小数。`entry` 和 `exit` 的结果按 `sessions` 从多到少排。
 
 时间都是毫秒时间戳，`date` 是当地时区的日期。Redis 连不上时，`/online` 返回 0，`/events/realtime` 返回空数组。
 

@@ -6,7 +6,7 @@ Both pages are under the Tracking menu. Pick an application first, then a time r
 
 The selected application and time range are remembered in the browser, and the other Tracking pages reuse them.
 
-![The Overview page: six metric cards at the top, the visit trend and Online now in the middle, Top pages and three distribution charts below](/readme/track-overview-en.png)
+![The Overview page: six metric cards at the top, the visit trend and Online now in the middle, Pages and three distribution charts below](/readme/track-overview-en.png)
 
 ## Metric cards
 
@@ -31,18 +31,42 @@ When no session in the time range has ended yet, Avg. session duration and Bounc
 | Card | Content |
 | --- | --- |
 | Visit trend | With Today, one point every 5 minutes for PV, sessions and events. With 7 or 30 days, one point per day and an extra line for UV |
-| Top pages | The 10 pages with the most page views, each with PV, UV and average time |
+| Pages | Three rankings, each with the top 10 pages: Most visited, Entry pages and Exit pages. See [Pages](#pages) |
 | Traffic sources | PV by the host name of the referring page, top 10. Visits without a referrer are recorded as `direct` |
 | Devices | PV by device type, top 10. Unrecognized ones are recorded as `unknown` |
 | Top browsers | PV by browser, top 10. Unrecognized ones are recorded as `unknown` |
 | Regions | PV, UV and events by the province of the IP address, sorted by events, at most 50 rows |
 | Visit heatmap | The latest 2000 events that carry coordinates, drawn on a map |
 
-The path in Top pages prefers the route template, such as `/order/:id`, so pages of the same kind share one row. Without a route template the actual path is used.
+See [How the dashboards count](/en/track/#dashboard-trend) for how days are cut in the daily trend and how days without data are drawn.
+
+### Pages
+
+Switch between three rankings at the top right of the card. Each shows the top 10 pages:
+
+| Ranking | What it lists | Each row has |
+| --- | --- | --- |
+| Most visited | The pages with the most page views | PV, UV and average time |
+| Entry pages | The first page of each session | Entries, bounces and bounce rate |
+| Exit pages | The last page of each session | Exits, PV and exit rate |
+
+![The Pages card switched to Entry pages, with entries, bounces and bounce rate in each row](/screenshots/track/track-page-rank-entry-en.png)
+
+The page path prefers the route template, such as `/order/:id`, so pages of the same kind share one row. Without a route template the actual path is used.
 
 Average time is the mean of the time on page reported by `$pageleave` events.
 
-See [How the dashboards count](/en/track/#dashboard-trend) for how days are cut in the daily trend and how days without data are drawn.
+Entry pages and Exit pages are counted per session: the page views of a session are put in the order they happened, the first one is the entry page and the last one is the exit page.
+
+- Entries is the number of sessions that came in through this page. Exits is the number of sessions that ended on this page. A session has exactly one entry page and one exit page.
+- A bounce is a session with only one page view. A refresh counts as two page views, so it is not a bounce. Bounce rate = bounces ÷ entries.
+- Exit rate = exits ÷ the PV of this page. It tells you how many of every 100 views of this page were the last page of a session.
+- Page views without a page address are not counted. For a session that viewed only one page, that page is both its entry page and its exit page.
+- When a session crosses the start of the time range, only the part inside the range is visible, and the first page inside the range counts as the entry page.
+
+The bounce rate here covers all sessions in the time range, while the Bounce rate metric card only covers sessions that have ended, so the two numbers can differ slightly.
+
+To see where users go after they come in through an entry page, use [Path analysis](/en/track/journey).
 
 ### Regions and the heatmap
 
@@ -91,7 +115,7 @@ Only about the latest 1000 events per application are kept for this view. For ol
 
 | Content | How it updates |
 | --- | --- |
-| Metric cards, the three distribution charts, Visit trend, Top pages | The result is cached in the backend for 45 seconds. Clicking Refresh still waits for the cache to expire |
+| Metric cards, the three distribution charts, Visit trend, Pages | The result is cached in the backend for 45 seconds. Clicking Refresh still waits for the cache to expire |
 | Regions, Visit heatmap, the event list | Queried from the database every time, not cached |
 | Online now, Real-time event stream | Read from Redis. The page fetches every 5 seconds |
 
@@ -121,7 +145,7 @@ All endpoints are under `/system/track`, use GET and require a login.
 | --- | --- | --- |
 | `/overview` | `sys:track-overview:list` | `appKey` `days` |
 | `/trend` | `sys:track-overview:list` | `appKey` `days` `dimType` `dimKey` |
-| `/pages` | `sys:track-overview:list` | `appKey` `days` `limit` |
+| `/pages` | `sys:track-overview:list` | `appKey` `days` `limit` `type` |
 | `/online` | `sys:track-overview:list` | `appKey` |
 | `/geo` | `sys:track-overview:list` | `appKey` `days` |
 | `/events/page` | `sys:track-event:list` | `appKey` `days` `eventName` `pageNum` `pageSize` |
@@ -136,6 +160,7 @@ Parameter values:
 | `dimType` | One of `overview` `event` `page` `referrer` `device`. Defaults to `overview` |
 | `dimKey` | One value of that dimension, for example the event name when `dimType=event` |
 | `limit` | Defaults to 10 for `/pages` and 100 for `/events/realtime`. Capped at 500 for both |
+| `type` | The ranking of `/pages`: `top` for most visited, `entry` for entry pages, `exit` for exit pages. Defaults to `top`. With `entry` and `exit`, `days` only accepts 1 to 30 |
 | `pageSize` | Defaults to 10, capped at 500 |
 
 What comes back:
@@ -144,7 +169,7 @@ What comes back:
 | --- | --- |
 | `/overview` | `cards` holds the metric cards. `referrerDist` `deviceDist` `browserTop` are the three distribution charts, each item with `name` and `value` |
 | `/trend` | With `days` up to 2, each item has `time` `pv` `eventCount` `sessionCount`. Otherwise each item has `date` `pv` `uv` `sessionCount` `bounceCount` `eventCount` |
-| `/pages` | Each item has `pagePath` `pv` `uv` `avgDurationMs` |
+| `/pages` | With `top`, each item has `pagePath` `pv` `uv` `avgDurationMs`. With `entry`, each item has `pagePath` `sessions` `bounces` `bounceRate`. With `exit`, each item has `pagePath` `sessions` `pv` `exitRate` |
 | `/online` | `online` is the number of sessions and `windowSeconds` is 300 |
 | `/geo` | `regions` is the region table, `points` are the coordinates and `geoCount` is the total count of events with coordinates |
 | `/events/page` | Each row has `eventName` `eventCount` `sessionCount` `uv` `lastTime` |
@@ -153,6 +178,8 @@ What comes back:
 The fields in `cards` are `pv` `uv` `sessionCount` `eventCount` `avgSessionDurationMs` `bounceRate` and `settledSessionCount`.
 
 `bounceRate` is a ratio from 0 to 1. `settledSessionCount` is the number of ended sessions; while it is 0, the duration and the bounce rate have no value yet.
+
+In `/pages`, `bounceRate` and `exitRate` are also ratios from 0 to 1, kept to 4 decimal places. The results of `entry` and `exit` are sorted by `sessions`, largest first.
 
 Times are timestamps in milliseconds, and `date` is a date in the local time zone. When Redis is unreachable, `/online` returns 0 and `/events/realtime` returns an empty array.
 
