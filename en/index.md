@@ -297,7 +297,7 @@ landing:
       - name: mugsun-boot
         role: Backend
         text: Accounts, permissions, tenants and workflows are in this JAR, with GIS, analytics and AI as optional modules.
-        tags: [JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token]
+        tags: [JDK 21, Spring Boot 4, MyBatis-Flex, Sa-Token]
         link: /en/boot/
         repo: https://github.com/mugsun/mugsun-boot
       - name: mugsun-cloud

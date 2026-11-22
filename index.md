@@ -296,7 +296,7 @@ landing:
       - name: mugsun-boot
         role: 后端
         text: 账号权限、租户和工作流都在这个 JAR 里，GIS、埋点和 AI 是可选模块。
-        tags: [JDK 21, Spring Boot 3, MyBatis-Flex, Sa-Token]
+        tags: [JDK 21, Spring Boot 4, MyBatis-Flex, Sa-Token]
         link: /boot/
         repo: https://github.com/mugsun/mugsun-boot
       - name: mugsun-cloud

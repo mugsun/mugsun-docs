@@ -212,6 +212,7 @@ export const en: LocaleSpecificConfig<DefaultTheme.Config> = {
           text: 'Upgrading',
           items: [
             { text: 'Versions', link: '/en/guide/upgrade/' },
+            { text: 'Upgrading to Spring Boot 4', link: '/en/guide/upgrade/spring-boot-4' },
             { text: 'core 0.1.0 → 0.2.0', link: '/en/guide/upgrade/core-0-2-0' },
             { text: 'Analytics SDK 0.1.0 → 0.2.0', link: '/en/guide/upgrade/track-web-0-2-0' },
             { text: 'Changelog', link: '/en/guide/changelog' },

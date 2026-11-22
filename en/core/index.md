@@ -23,7 +23,7 @@ Then import the BOM in your own project and declare the starters you need:
     <dependency>
       <groupId>com.mugsun</groupId>
       <artifactId>mugsun-bom</artifactId>
-      <version>0.2.0-SNAPSHOT</version>
+      <version>0.3.0-SNAPSHOT</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -158,7 +158,7 @@ The application starts without a configured key and generates one on first start
 ## Current limits
 
 - The main-branch version is not on Maven Central. You can only install it locally.
-- It needs Spring Boot 3 and JDK 21. Earlier versions are not supported.
+- It needs Spring Boot 4 and JDK 21. If your project is still on Spring Boot 3, see [Upgrading to Spring Boot 4](/en/guide/upgrade/spring-boot-4#stay-on-3).
 - It supports Spring MVC only, not WebFlux.
 
 ## Next steps

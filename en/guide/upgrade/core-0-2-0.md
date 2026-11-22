@@ -6,7 +6,7 @@ As of 2026-11-20, Maven Central and the git tags have only 0.1.0, and the main b
 This page follows the Unreleased section of the CHANGELOG on the main branch and may change before release.
 :::
 
-The boot main branch already depends on core `0.2.0-SNAPSHOT`, so projects on boot main already have these changes.
+The core that boot main depends on already includes these changes, so projects on boot main already have them.
 
 ## See which changes affect you
 

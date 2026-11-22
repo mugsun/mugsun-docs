@@ -10,7 +10,7 @@ mugsun 是一套开源的中后台系统，后端和管理后台配套提供，�
 
 | 部分 | 是什么 | 技术栈 |
 | --- | --- | --- |
-| [mugsun-boot](/boot/) | 后端，打包后是一个可执行 JAR | JDK 21、Spring Boot 3 和 MyBatis-Flex |
+| [mugsun-boot](/boot/) | 后端，打包后是一个可执行 JAR | JDK 21、Spring Boot 4 和 MyBatis-Flex |
 | [mugsun-cloud](/cloud/) | 后端的微服务版，由一个网关和四个服务组成 | Spring Cloud Gateway 和 Nacos |
 | [mugsun-pc](/pc/) | 管理后台，菜单和按钮权限由后端返回 | Vue 3、Vite 7 和 Element Plus |
 | [@mugsun/track-web](/track/) | 浏览器埋点 SDK，发布在 npm 上 | TypeScript，会话回放基于 rrweb |

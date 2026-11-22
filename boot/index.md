@@ -74,7 +74,7 @@ java -jar mugsun-boot-server/target/mugsun-boot.jar --spring.profiles.active=dev
 
 | 项 | 说明 |
 | --- | --- |
-| 框架 | Spring Boot 3、MyBatis-Flex 和 Sa-Token |
+| 框架 | Spring Boot 4、MyBatis-Flex 和 Sa-Token |
 | 缓存 | JetCache，远程缓存用 Redis 7 |
 | AI 模块 | 模型调用和向量检索由模块自己实现，没有引入 Spring AI |
 | 许可 | MIT |

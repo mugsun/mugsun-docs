@@ -42,11 +42,11 @@ The remaining questions in this group only come up when you start from source.
 
 ### Why do I have to install mugsun-core before starting from source?
 
-The `main` branch depends on the snapshot version `0.2.0-SNAPSHOT` of mugsun-core, which is not on Maven Central.
+The `main` branch depends on the snapshot version `0.3.0-SNAPSHOT` of mugsun-core, which is not on Maven Central.
 
 Clone mugsun-core next to the backend repository and run `mvn -B clean install -DskipTests` to install it into your local repository.
 
-`0.1.0` on Maven Central is the previous release and does not match the current `main` branch.
+The versions released on Maven Central run on Spring Boot 3 and do not match the current `main` branch.
 
 ### Does `docker compose up -d` start the backend too?
 

@@ -14,6 +14,7 @@ pageClass: ms-first-col-nowrap
 
 | 日期 | 变更 | 要做什么 |
 | --- | --- | --- |
+| 2026-11-22 | 后端升级到 Spring Boot 4 | 二次开发的工程要跟着改构件和 import，见[升级到 Spring Boot 4](/guide/upgrade/spring-boot-4) |
 | 2026-11-21 | 后端的数据库迁移并成每套库一个基线 | 用之前的主干建的库要重建，见[后端升级指南](/boot/upgrade#baseline) |
 | 2026-10-21 | 后端移除了旧的数字图形验证码 | 前端改用行为验证码，见[后端升级指南](/boot/upgrade#移除旧的数字图形验证码) |
 | 2026-10-18 | 埋点 SDK 0.3.0 默认不再遮罩和过滤 | 靠默认遮罩满足合规的接入要显式打开，见[隐私与合规](/track/privacy#从-0-2-0-升级、保留原来的遮罩) |
@@ -25,6 +26,14 @@ pageClass: ms-first-col-nowrap
 | 2026-10-13 | 管理后台的登录状态改存 `sessionStorage` | 升级后所有人要重新登录一次 |
 | 2026-10-13 | 开放接口默认不信任 `X-Forwarded-For` | 部署在反向代理后面时，把代理地址写进 `MUGSUN_OPENAPI_TRUSTED_PROXIES` |
 | 2026-10-13 | 埋点 SDK 0.2.0 改了两个隐私默认值 | 见[埋点 SDK 0.1.0 → 0.2.0](/guide/upgrade/track-web-0-2-0) |
+
+## 2026-11-22
+
+| 范围 | 变更 |
+| --- | --- |
+| 后端 | core、单体版和微服务版的主干升级到 Spring Boot 4.1，见[升级到 Spring Boot 4](/guide/upgrade/spring-boot-4) |
+| 后端 | JSON 仍用 Jackson 2，接口返回的格式不变；配置项的名字也没有变 |
+| core | 主干版本改为 `0.3.0-SNAPSHOT`；0.2 版仍基于 Spring Boot 3.5，在 `release/0.2.0` 分支 |
 
 ## 2026-11-21
 

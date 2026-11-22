@@ -23,7 +23,7 @@ mvn -B clean install -DskipTests
     <dependency>
       <groupId>com.mugsun</groupId>
       <artifactId>mugsun-bom</artifactId>
-      <version>0.2.0-SNAPSHOT</version>
+      <version>0.3.0-SNAPSHOT</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -158,7 +158,7 @@ public R<LoginVO> login(@RequestBody LoginDTO dto) {
 ## 目前的限制
 
 - 主干版本没有发布到 Maven Central，只能本地安装。
-- 需要 Spring Boot 3 和 JDK 21，不支持更早的版本。
+- 需要 Spring Boot 4 和 JDK 21。还在用 Spring Boot 3 的工程见[升级到 Spring Boot 4](/guide/upgrade/spring-boot-4#stay-on-3)。
 - 只支持 Spring MVC，不支持 WebFlux。
 
 ## 下一步

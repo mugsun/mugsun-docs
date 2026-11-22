@@ -12,16 +12,19 @@ pageClass: ms-first-col-nowrap
 
 | 仓库 | 已发布版本 | git tag | 主干版本 |
 | --- | --- | --- | --- |
-| mugsun-core | 0.1.0（Maven Central，2026-10-12） | `v0.1.0` | `0.2.0-SNAPSHOT`，未发布 |
+| mugsun-core | 0.1.0（Maven Central，2026-10-12） | `v0.1.0` | `0.3.0-SNAPSHOT`，未发布 |
 | mugsun-track | 0.1.0（2026-08-19）、0.2.0（2026-10-13）、0.3.0（2026-10-22），均在 npm | `v0.1.0` `v0.2.0` `v0.3.0` | `0.3.0`，已发布 |
 | mugsun-boot | 无 | 无 | `0.2.0-SNAPSHOT`，CHANGELOG 中 0.1.0 标为开发中 |
 | mugsun-cloud | 无 | 无 | `0.2.0-SNAPSHOT`，CHANGELOG 只有 Unreleased |
 | mugsun-pc | 无 | 无 | CHANGELOG 只有 Unreleased |
 
+2026-11-22 主干升到 Spring Boot 4，mugsun-core 的主干版本改为 `0.3.0-SNAPSHOT`。
+
 mugsun-track 的 CHANGELOG 里还有 0.1.1。这个版本没有发布到 npm，也没有 tag，可以直接从 0.1.0 升到 0.2.0。
 
 ## 各版本的升级说明
 
+- [升级到 Spring Boot 4](./spring-boot-4)：core、单体版和微服务版的主干一起升级，二次开发的工程要跟着改。
 - [core 0.1.0 → 0.2.0](./core-0-2-0)：0.2.0 还没有发布，本篇依据主干的 CHANGELOG，发布前可能还会变化。
 - [埋点 SDK 0.1.0 → 0.2.0](./track-web-0-2-0)：npm 上最早的两个版本之间的升级。
 - [埋点 SDK 0.2.0 → 0.3.0](/track/privacy#从-0-2-0-升级、保留原来的遮罩)：0.3.0 改了隐私相关的默认值，升级前先看这一节。

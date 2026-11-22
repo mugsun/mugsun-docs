@@ -6,7 +6,7 @@
 本篇依据主干 CHANGELOG 的 Unreleased 一节，正式发布前内容可能还会变化。
 :::
 
-boot 主干已经依赖 core `0.2.0-SNAPSHOT`，用 boot 主干的项目已经在用这些变更。
+boot 主干依赖的 core 已经带着这些变更，用 boot 主干的项目已经在用。
 
 ## 先看哪些变更影响你
 

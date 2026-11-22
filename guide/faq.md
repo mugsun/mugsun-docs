@@ -42,11 +42,11 @@ ms-ui 的文档和 H5 演示已经开放，源码仓库暂时没有公开。
 
 ### 从源码启动，为什么要先安装 mugsun-core？
 
-`main` 分支依赖 mugsun-core 的快照版本 `0.2.0-SNAPSHOT`，Maven Central 上没有这个版本。
+`main` 分支依赖 mugsun-core 的快照版本 `0.3.0-SNAPSHOT`，Maven Central 上没有这个版本。
 
 把 mugsun-core 克隆到同级目录，执行 `mvn -B clean install -DskipTests` 装到本地仓库。
 
-Maven Central 上的 `0.1.0` 是上一个发布版本，和现在的 `main` 分支不配套。
+Maven Central 上已发布的版本基于 Spring Boot 3，和现在的 `main` 分支不配套。
 
 ### `docker compose up -d` 会把后端也启动吗？
 

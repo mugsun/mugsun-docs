@@ -10,7 +10,7 @@ Multi-tenancy, workflow and code generation are already built, and you write you
 
 | Part | What it is | Stack |
 | --- | --- | --- |
-| [mugsun-boot](/en/boot/) | The backend, packaged as one executable JAR | JDK 21, Spring Boot 3, MyBatis-Flex |
+| [mugsun-boot](/en/boot/) | The backend, packaged as one executable JAR | JDK 21, Spring Boot 4, MyBatis-Flex |
 | [mugsun-cloud](/en/cloud/) | The microservice edition of the backend, made of one gateway and four services | Spring Cloud Gateway, Nacos |
 | [mugsun-pc](/en/pc/) | The admin console. Menus and button permissions come from the backend | Vue 3, Vite 7, Element Plus |
 | [@mugsun/track-web](/en/track/) | The browser analytics SDK, published on npm | TypeScript, session replay built on rrweb |

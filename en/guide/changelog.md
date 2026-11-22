@@ -14,6 +14,7 @@ The changes below affect existing deployments or integrations. Check them one by
 
 | Date | Change | What to do |
 | --- | --- | --- |
+| 2026-11-22 | The backend moved to Spring Boot 4 | Projects built on it have to change artifacts and imports. See [Upgrading to Spring Boot 4](/en/guide/upgrade/spring-boot-4) |
 | 2026-11-21 | The backend merged its database migrations into one baseline per database | Rebuild databases created by an earlier main. See [Backend upgrade guide](/en/boot/upgrade#baseline) |
 | 2026-10-21 | The backend removed the legacy digit captcha | Switch the frontend to the behavioral captcha. See [Backend upgrade guide](/en/boot/upgrade#legacy-digit-captcha-removed) |
 | 2026-10-18 | Analytics SDK 0.3.0 no longer masks or filters by default | Integrations that relied on default masking for compliance must turn it on explicitly. See [Privacy](/en/track/privacy#upgrading-from-0-2-0-and-keeping-the-old-masking) |
@@ -25,6 +26,14 @@ The changes below affect existing deployments or integrations. Check them one by
 | 2026-10-13 | The admin console keeps the session in `sessionStorage` | Everyone has to sign in again once after the upgrade |
 | 2026-10-13 | Open APIs no longer trust `X-Forwarded-For` by default | Behind a reverse proxy, list the proxy addresses in `MUGSUN_OPENAPI_TRUSTED_PROXIES` |
 | 2026-10-13 | Analytics SDK 0.2.0 changed two privacy defaults | See [Analytics SDK 0.1.0 → 0.2.0](/en/guide/upgrade/track-web-0-2-0) |
+
+## 2026-11-22
+
+| Area | Change |
+| --- | --- |
+| Backend | The main branches of core, the monolith and the microservice edition moved to Spring Boot 4.1. See [Upgrading to Spring Boot 4](/en/guide/upgrade/spring-boot-4) |
+| Backend | JSON still uses Jackson 2, so API responses keep their format; no setting was renamed either |
+| core | The main branch version is now `0.3.0-SNAPSHOT`; 0.2 still runs on Spring Boot 3.5, on the `release/0.2.0` branch |
 
 ## 2026-11-21
 

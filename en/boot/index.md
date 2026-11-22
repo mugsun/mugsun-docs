@@ -74,7 +74,7 @@ To use a Kingbase or Dameng database, add `-Pkingbase` or `-Pdameng` when you pa
 
 | Item | Description |
 | --- | --- |
-| Frameworks | Spring Boot 3, MyBatis-Flex and Sa-Token |
+| Frameworks | Spring Boot 4, MyBatis-Flex and Sa-Token |
 | Cache | JetCache, with Redis 7 as the remote cache |
 | AI module | Implements model calls and vector retrieval itself, without Spring AI |
 | License | MIT |
